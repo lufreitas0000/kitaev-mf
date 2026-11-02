@@ -1,0 +1,61 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing and typing
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Data storage (Raw simulation outputs)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+*.h5
+*.hdf5
+*.zarr
+*.npz
+
+# LaTeX compilation outputs
+doc/notes/*.aux
+doc/notes/*.bbl
+doc/notes/*.bcf
+doc/notes/*.blg
+doc/notes/*.fdb_latexmk
+doc/notes/*.fls
+doc/notes/*.log
+doc/notes/*.out
+doc/notes/*.run.xml
+doc/notes/*.synctex.gz
+doc/notes/*.toc

@@ -1,0 +1,35 @@
+project_name: "kitaev-mf"
+version: "0.1.0"
+active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
+current_sprint: "M1.1: CAR Algebra and Gauge Projection Setup"
+
+repository_status:
+  git_branch: "dev"
+  clean_working_tree: true
+  ci_status: "configured"
+
+active_milestone:
+  id: "M1.1"
+  description: "CAR Algebra, SO(4) Parton Representation, and Exact Constraint Identity"
+  dod: "Document algebraic proofs in doc/notes/note_01_algebra_and_decoupling.tex and unit test domain operators"
+  status: "in_progress"
+
+hardware_targets:
+  local:
+    cpu: "Intel Core i5-13500 (14 cores, 20 threads)"
+    ram: "64 GB DDR5"
+    gpu: "NVIDIA GeForce RTX 3050 6GB VRAM (WSL2)"
+  cloud:
+    target: "Google Colab Pro (NVIDIA L4 22.5GB / A100 40GB, 53GB System RAM)"
+
+verified_physics_invariants:
+  - id: "K-001"
+    name: "Clifford algebra generators"
+    equation: "{c_i^mu, c_j^nu} = 2 * delta_ij * delta_munu * I"
+    status: "verified"
+  - id: "K-002"
+    name: "Gauge Casimir vs Parity"
+    equation: "T_i^2 = (3/8) * (I - D_i)"
+    status: "verified_analytical"
+
+open_blockers: []
