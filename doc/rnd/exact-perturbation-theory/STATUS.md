@@ -12,7 +12,7 @@ been implemented.
   $H_K=-K\sum_{\langle ij\rangle_\alpha}
   \sigma_i^\alpha\sigma_j^\alpha$, with $K>0$.
 - Perturbation:
-  $V=-\sum_{i,\alpha}h_\alpha\sigma_i^\alpha$.
+  $V=-\sum_i\sum_\alpha h_\alpha\sigma_i^\alpha$.
 - Energies are reported in units of $K$.
 - Each oriented $A\to B$ bond is counted once.
 - Physical states satisfy $D_i=+1$ at every site.
@@ -21,13 +21,49 @@ been implemented.
 
 | ID | Task | Status |
 |---|---|---|
-| M0.1 | Derive and verify the flux-free matter dispersion and one-particle upper edge | pending |
-| M0.2 | Verify the thermodynamic matter vacuum energy per unit cell | pending |
-| M0.3 | Distinguish one-particle band range from extensive many-body width | pending |
+| M0.1 | Derive and verify the flux-free matter dispersion and one-particle upper edge | analytically complete; numerical implementation pending |
+| M0.2 | Derive the thermodynamic matter-vacuum energy per unit cell | analytically complete; independent quadrature pending |
+| M0.3 | Distinguish one-particle band range from extensive many-body width | documented; finite-size numerical check pending |
 | M0.4 | Compute adjacent-pair energy from one link flip | pending |
 | M0.5 | Compute separated-pair energies and finite-size convergence | pending |
 | M0.6 | Derive physical matter parity and check against spin-space ED | pending |
 | M0.7 | Establish the Feshbach resolvent domain and perturbative conditions | pending |
+
+## M0.1 result
+
+In the vortex-free translational gauge, the Bloch matrix has eigenvalues
+$\pm\epsilon(\mathbf q)$, with
+$$
+\epsilon(\mathbf q)=2K\left|
+1+e^{i\theta_1}+e^{i\theta_2}
+\right|,
+\qquad \theta_a=\mathbf q\cdot\mathbf n_a.
+$$
+The triangle inequality proves $0\leq\epsilon(\mathbf q)\leq6K$,
+with equality at $\theta_1=\theta_2=0$. The periodic finite-torus
+maximum is exactly $6K$ because the zero-momentum point is always
+allowed. This is the one-particle matter-band edge, not a many-body
+bandwidth. The two Dirac points occur at
+$(\theta_1,\theta_2)=(\pm2\pi/3,\mp2\pi/3)$ modulo $2\pi$.
+
+## M0.2 result
+
+The thermodynamic Gaussian vacuum energy per two-site unit cell is
+$$
+e_{\mathrm{vac}}
+=-\frac{K}{4\pi^2}
+\int_{-\pi}^{\pi}\!\!d\theta_1
+\int_{-\pi}^{\pi}\!\!d\theta_2\,
+\sqrt{3+2\cos\theta_1+2\cos\theta_2
++2\cos(\theta_1-\theta_2)}
+\simeq -1.5746K.
+$$
+This is the value reported in Kitaev (2006), Appendix A. It is
+$-0.7873K$ per spin in the present Pauli convention. For
+$H=-J\sum S_i^\alpha S_j^\alpha$ with $S^\alpha=\sigma^\alpha/2$,
+the equivalent value is $-0.3936J$ per two-site unit cell, since
+$K=J/4$. The analytic integral and normalization are established;
+an independent numerical quadrature remains part of the solver tests.
 
 ## Important distinctions
 
@@ -48,8 +84,10 @@ been implemented.
 
 ## Numerical status
 
-No numerical results have been generated in this research track. Values
-quoted in the notes are reference targets from Kitaev's Appendix A.
+No numerical results have been generated in this research track.
+The values quoted above are analytical consequences or reference values
+reported by Kitaev (2006), Appendix A; they are not outputs of the
+project's numerical implementation.
 
 ## Open issues
 
