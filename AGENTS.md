@@ -13,27 +13,17 @@ All human and AI contributors must strictly adhere to the modular rule sets in `
 ## 1. Core Engineering & Architectural Principles
 1. **Zero-Shot Coding is Prohibited:** Formulate the mathematical contracts, agree on the Hexagonal ports/adapters design, and write failing tests before implementing services.
 2. **Hexagonal Architecture (Ports & Adapters):**
-   - `src/kitaev_mf/domain/`: Pure mathematical entities (`UnitCell`, `Bond`, `ModelParameters`, `MeanFieldState`), algebraic constants, and Port protocols.
-   - `src/kitaev_mf/services/`: Pure physics functions operating on `domain/` entities and Port interfaces.
+   - `src/kitaev_mf/domain/`: Pure mathematical entities (`UnitCell`, `Bond`, `ModelParameters`, `MeanFieldState`), algebraic constants, and Port protocols (`LinalgBackendPort`, `HamiltonianBuilderPort`). Zero dependencies on `services/` or `infra/`.
+   - `src/kitaev_mf/services/`: Pure physics algorithms operating on `domain/` entities and Port interfaces.
    - `src/kitaev_mf/infra/`: Concrete hardware and storage adapters (`TorchBackend`, HDF5 writers).
-3. **Hardware Backend Discipline:** Linear algebra operations must pass through the `LinalgBackend` protocol supporting both CPU and CUDA (`complex128` / `float64`) without tensor allocation leakage.
+3. **Hardware Backend Discipline:** Linear algebra operations pass through the `LinalgBackendPort` protocol supporting both CPU and CUDA (`complex128` / `float64`) without tensor allocation leakage.
 
 ---
 
-## 2. Agent Handoff & Context Snapshot Protocol
-At the beginning of any session:
-1. Run `make snapshot` to generate an up-to-date, uncomitted `REPO_SNAPSHOT.md` containing the repository tree, `PROJECT_STATE.yaml`, ADRs, R&D notes, and source code for AI context ingestion.
-2. Review `PROJECT_STATE.yaml` and `doc/adr/` to identify active milestones and verified invariants.
-
-At the end of any session:
-1. Run `make lint` and `make test` to ensure 100% test and type-checking compliance.
-2. Update `PROJECT_STATE.yaml` and remove any temporary snapshot files (`make clean`).
-
----
-
-## 3. Canonical Mathematical Notation Summary
-* **Lattice Graph:** $\Lambda = (\mathcal{V}, \mathcal{E})$ with vertices $i, j, k, l \in \mathcal{V}$ and directed bonds $\langle ij \rangle_\gamma \in \mathcal{E}$ ($\gamma \in \{1, 2, 3\} \equiv \{x, y, z\}$). Primitive lattice constant $a = \vert{}\mathbf{a}_1\vert{} = \vert{}\mathbf{a}_2\vert{} = 1$ ($d_{\mathrm{NN}} = 1/\sqrt{3}$).
+## 2. Canonical Mathematical & Lattice Conventions
+* **Lattice Graph:** $\Lambda = (\mathcal{V}, \mathcal{E})$ with vertices $i, j \in \mathcal{V}$ and directed bonds $\langle ij \rangle_\gamma \in \mathcal{E}$ oriented from sublattice $A$ to sublattice $B$. Primitive lattice constant $a = 1$ ($d_{\mathrm{NN}} = 1/\sqrt{3}$).
 * **Majorana CAR Algebra:** $\{c_i^\mu, c_j^\nu\} = 2\delta_{ij}\delta^{\mu\nu}\mathbb{1}$ with $\mu, \nu \in \{0, 1, 2, 3\}$.
 * **Fixed Kitaev Spin Representation:** $\sigma_i^\gamma = \frac{i}{2} c_i^T \mathrm{N}^\gamma c_i = i c_i^0 c_i^\gamma$, where $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$.
-* **Gauge Constraint Generators:** $T_i^\gamma = \frac{i}{4} c_i^T \mathrm{G}^\gamma c_i = 0$ on $\mathcal{H}_{\mathrm{phys}}$ ($D_i = c_i^0 c_i^1 c_i^2 c_i^3 = +1$).
-* **Ultralocal Mean-Field State:** Bond correlators $\mathrm{U}_{ij}^{\mu\nu} = \langle i c_i^\mu c_j^\nu \rangle$ (`shape: (N_bonds, 4, 4)`), on-site correlators $\mathrm{V}_i^{\mu\nu} = \langle i c_i^\mu c_i^\nu \rangle$ (`shape: (N_sites, 4, 4)`), and Lagrange multipliers $\lambda_i^\gamma$ (`shape: (N_sites, 3)`).
+* **Gauge Link Convention:** On directed bonds $i \in A \to j \in B$, the canonical zero-flux pure Kitaev state sets $\mathrm{U}_{\langle ij \rangle_\gamma}^{\gamma\gamma} = \langle i c_i^\gamma c_j^\gamma \rangle = +1.0$.
+* **Momentum Phase Factors:** For fractional coordinates $(k_1, k_2) \in [0, 1)^2$ and bond cell offset $(n_1, n_2) \in \mathbb{Z}^2$, the Bloch phase is explicitly $\exp(i 2\pi (k_1 n_1 + k_2 n_2))$.
+* **Bloch-Majorana Prefactor:** $\mathcal{H}(\mathbf{k}) = \frac{i}{4}\mathcal{M}(\mathbf{k})$, reproducing exact matter dispersion $E(\mathbf{k}) = \pm \frac{|K|}{2}|1 + e^{-i 2\pi k_1} + e^{-i 2\pi k_2}|$ ($E(\mathbf{0}) = 1.5|K|$) and flat gauge bands $\pm \frac{|K|}{2}|u_{\mathrm{matter}}|$.

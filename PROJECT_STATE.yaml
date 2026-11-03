@@ -4,15 +4,15 @@ active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
 current_sprint: "M1.2: Generalized Decoupling & Momentum-Space Bloch Matrices"
 
 repository_status:
-  git_branch: "dev"
+  git_branch: "main"
   clean_working_tree: true
   ci_status: "passing"
 
 active_milestone:
   id: "M1.2"
   description: "Implement Bloch-Majorana Hamiltonian builders for 2-site and 4-site unit cells"
-  dod: "Pass TDD parity checks between 2-site folded and 4-site rectangular dispersions in the pure Kitaev limit"
-  status: "in_progress"
+  dod: "Pass TDD parity checks between 2-site folded and 4-site rectangular dispersions in the pure Kitaev limit to < 1e-14"
+  status: "completed"
 
 hardware_targets:
   local:
@@ -34,6 +34,14 @@ verified_physics_invariants:
   - id: "K-003"
     name: "SO(4) Lie algebra commutation relations"
     equation: "[G^a, G^b] = -2*eps_{abc}*G^c and [M^a, M^b] = 2*eps_{abc}*M^c and [M^a, G^b] = 0"
+    status: "verified_pytest"
+  - id: "K-004"
+    name: "Exact Pure Kitaev Analytical Dispersion & Flat Gauge Bands"
+    equation: "E_c0(k) = +/- (|K| / 2) * |1 + exp(-i*2pi*k1) + exp(-i*2pi*k2)| and E_cg(k) = +/- (|K| / 2) * |u_matter|"
+    status: "verified_pytest"
+  - id: "K-005"
+    name: "Supercell Brillouin-Zone Folding Parity"
+    equation: "spec(H_4(K)) = spec(H_2(k_a)) U spec(H_2(k_b)) to < 1e-14"
     status: "verified_pytest"
 
 open_blockers: []

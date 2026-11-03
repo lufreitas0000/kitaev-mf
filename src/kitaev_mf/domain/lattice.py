@@ -71,6 +71,19 @@ class UnitCell:
         r_j = self.basis_positions[bond.sublattice_j] + n1 * self.a1 + n2 * self.a2
         return cast(np.ndarray, r_j - r_i)
 
+    def make_k_grid(self, n1: int, n2: int) -> np.ndarray:
+        """Generate a regular (n1 * n2, 2) grid of fractional reciprocal coordinates in [0, 1)^2."""
+        m1 = np.arange(n1, dtype=np.float64) / float(n1)
+        m2 = np.arange(n2, dtype=np.float64) / float(n2)
+        grid_1, grid_2 = np.meshgrid(m1, m2, indexing="ij")
+        return np.column_stack([grid_1.ravel(), grid_2.ravel()])
+
+    def fractional_to_cartesian_k(self, k_frac: np.ndarray) -> np.ndarray:
+        """Convert fractional coordinates (..., 2) to physical Cartesian momenta k = k1*b1 + k2*b2."""
+        b1, b2 = self.reciprocal_vectors
+        b_mat = np.column_stack([b1, b2])
+        return np.asarray(k_frac @ b_mat.T, dtype=np.float64)
+
 
 def make_honeycomb_2site(d_nn: float = DEFAULT_D_NN) -> UnitCell:
     """Standard 2-sublattice primitive honeycomb unit cell with unit lattice spacing a = sqrt(3)*d_nn = 1.
