@@ -29,8 +29,12 @@ def build_on_site_matrices(
     b_tensors = torch.zeros((num_sub, 4, 4), dtype=torch.float64, device=device)
 
     # Pre-convert algebraic matrices to target device
-    n_torch = {a: torch.from_numpy(N_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)}
-    g_torch = {a: torch.from_numpy(G_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)}
+    n_torch = {
+        a: torch.from_numpy(N_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)
+    }
+    g_torch = {
+        a: torch.from_numpy(G_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)
+    }
 
     v_torch = torch.from_numpy(state.V).to(device=device, dtype=torch.float64)
     lam_torch = torch.from_numpy(state.lambdas).to(device=device, dtype=torch.float64)
@@ -92,7 +96,9 @@ def build_bond_hopping_matrices(
     num_bonds = len(cell.bonds)
     a_tensors = torch.zeros((num_bonds, 4, 4), dtype=torch.float64, device=device)
 
-    n_torch = {a: torch.from_numpy(N_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)}
+    n_torch = {
+        a: torch.from_numpy(N_MATRICES[a]).to(device=device, dtype=torch.float64) for a in (1, 2, 3)
+    }
     u_torch = torch.from_numpy(state.U).to(device=device, dtype=torch.float64)
 
     for b_idx, bond in enumerate(cell.bonds):
@@ -181,7 +187,9 @@ def build_bloch_hamiltonian(
         h_bloch[:, 4 * s_i : 4 * s_i + 4, 4 * s_j : 4 * s_j + 4] += 0.25j * a_complex * exp_phase
 
         # Block (s_j, s_i): -(i / 4) * A_b^T * exp(-i * phi_b)
-        h_bloch[:, 4 * s_j : 4 * s_j + 4, 4 * s_i : 4 * s_i + 4] -= 0.25j * a_complex.T * exp_phase_conj
+        h_bloch[:, 4 * s_j : 4 * s_j + 4, 4 * s_i : 4 * s_i + 4] -= (
+            0.25j * a_complex.T * exp_phase_conj
+        )
 
     return h_bloch.squeeze(0) if single_k else h_bloch
 

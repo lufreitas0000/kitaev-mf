@@ -19,9 +19,7 @@ class TorchBackend(LinalgBackendPort):
     def device(self) -> torch.device:
         return self._device
 
-    def to_tensor(
-        self, array: np.ndarray, dtype: torch.dtype = torch.complex128
-    ) -> torch.Tensor:
+    def to_tensor(self, array: np.ndarray, dtype: torch.dtype = torch.complex128) -> torch.Tensor:
         return torch.tensor(array, dtype=dtype, device=self._device)
 
     def to_numpy(self, tensor: torch.Tensor) -> np.ndarray:

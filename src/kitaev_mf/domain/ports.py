@@ -15,9 +15,7 @@ class LinalgBackendPort(Protocol):
         """Target execution device (CPU or CUDA)."""
         ...
 
-    def to_tensor(
-        self, array: np.ndarray, dtype: torch.dtype = torch.complex128
-    ) -> torch.Tensor:
+    def to_tensor(self, array: np.ndarray, dtype: torch.dtype = torch.complex128) -> torch.Tensor:
         """Convert a NumPy array to a PyTorch tensor on the target hardware device."""
         ...
 

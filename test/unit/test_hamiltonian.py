@@ -58,7 +58,9 @@ def test_hermiticity_arbitrary_couplings(cpu_backend: TorchBackend) -> None:
 def test_particle_hole_skew_symmetry(cpu_backend: TorchBackend) -> None:
     """Verify Majorana basis particle-hole condition H(-k) = -H^*(k)."""
     cell = make_honeycomb_2site()
-    params = ModelParameters(J=0.12, K=-1.0, Gamma=0.18, Gamma_prime=0.04, D=0.02, h=(0.04, 0.04, 0.04))
+    params = ModelParameters(
+        J=0.12, K=-1.0, Gamma=0.18, Gamma_prime=0.04, D=0.02, h=(0.04, 0.04, 0.04)
+    )
     state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0, u_matter=0.3)
 
     rng = np.random.default_rng(123)
@@ -105,7 +107,6 @@ def test_pure_kitaev_analytical_dispersion(cpu_backend: TorchBackend) -> None:
 
     for i in range(len(k_grid)):
         vals = np.sort(e_np[i])
-        # Outer bands are matter fermions (or flat gauge if matter dispersion drops below)
         expected_spectrum = np.array(
             [
                 -e_matter_expected[i],
@@ -131,18 +132,21 @@ def test_brillouin_zone_folding_parity_pure_kitaev(cpu_backend: TorchBackend) ->
     state_2 = MeanFieldState.from_pure_kitaev(cell_2, u_gauge=1.0, u_matter=0.35)
     state_4 = MeanFieldState.from_pure_kitaev(cell_4, u_gauge=1.0, u_matter=0.35)
 
-    # Test random sampling of rectangular BZ momenta (K1, K2)
     rng = np.random.default_rng(777)
     k4_pts = rng.uniform(0.0, 1.0, size=(10, 2))
 
-    for K1, K2 in k4_pts:
+    for k1_rect, k2_rect in k4_pts:
         # Folding relations:
-        # k1 = (K1 + K2) / 2, k2 = (K2 - K1) / 2
+        # k1 = (k1_rect + k2_rect) / 2, k2 = (k2_rect - k1_rect) / 2
         # Second folded point is shifted by (1/2, 1/2)
-        k2_pt_a = np.array([(K1 + K2) / 2.0 % 1.0, (K2 - K1) / 2.0 % 1.0])
-        k2_pt_b = np.array([(K1 + K2 + 1.0) / 2.0 % 1.0, (K2 - K1 + 1.0) / 2.0 % 1.0])
+        k2_pt_a = np.array([(k1_rect + k2_rect) / 2.0 % 1.0, (k2_rect - k1_rect) / 2.0 % 1.0])
+        k2_pt_b = np.array(
+            [(k1_rect + k2_rect + 1.0) / 2.0 % 1.0, (k2_rect - k1_rect + 1.0) / 2.0 % 1.0]
+        )
 
-        h4 = build_bloch_hamiltonian_4site(np.array([K1, K2]), params, state_4, cpu_backend)
+        h4 = build_bloch_hamiltonian_4site(
+            np.array([k1_rect, k2_rect]), params, state_4, cpu_backend
+        )
         h2_a = build_bloch_hamiltonian_2site(k2_pt_a, params, state_2, cpu_backend)
         h2_b = build_bloch_hamiltonian_2site(k2_pt_b, params, state_2, cpu_backend)
 
@@ -151,7 +155,9 @@ def test_brillouin_zone_folding_parity_pure_kitaev(cpu_backend: TorchBackend) ->
         e2_b, _ = cpu_backend.eigh(h2_b)
 
         vals_4 = np.sort(cpu_backend.to_numpy(e4))
-        vals_2_folded = np.sort(np.concatenate([cpu_backend.to_numpy(e2_a), cpu_backend.to_numpy(e2_b)]))
+        vals_2_folded = np.sort(
+            np.concatenate([cpu_backend.to_numpy(e2_a), cpu_backend.to_numpy(e2_b)])
+        )
 
         assert np.allclose(vals_4, vals_2_folded, atol=1e-14)
 
@@ -169,18 +175,21 @@ def test_brillouin_zone_folding_parity_general_couplings(cpu_backend: TorchBacke
     cell_2 = make_honeycomb_2site()
     cell_4 = make_honeycomb_4site_rectangular()
 
-    # Use uniform states across cells
     state_2 = MeanFieldState.from_pure_kitaev(cell_2, u_gauge=1.0, u_matter=0.2)
     state_4 = MeanFieldState.from_pure_kitaev(cell_4, u_gauge=1.0, u_matter=0.2)
 
     rng = np.random.default_rng(888)
     k4_pts = rng.uniform(0.0, 1.0, size=(5, 2))
 
-    for K1, K2 in k4_pts:
-        k2_pt_a = np.array([(K1 + K2) / 2.0 % 1.0, (K2 - K1) / 2.0 % 1.0])
-        k2_pt_b = np.array([(K1 + K2 + 1.0) / 2.0 % 1.0, (K2 - K1 + 1.0) / 2.0 % 1.0])
+    for k1_rect, k2_rect in k4_pts:
+        k2_pt_a = np.array([(k1_rect + k2_rect) / 2.0 % 1.0, (k2_rect - k1_rect) / 2.0 % 1.0])
+        k2_pt_b = np.array(
+            [(k1_rect + k2_rect + 1.0) / 2.0 % 1.0, (k2_rect - k1_rect + 1.0) / 2.0 % 1.0]
+        )
 
-        h4 = build_bloch_hamiltonian_4site(np.array([K1, K2]), params, state_4, cpu_backend)
+        h4 = build_bloch_hamiltonian_4site(
+            np.array([k1_rect, k2_rect]), params, state_4, cpu_backend
+        )
         h2_a = build_bloch_hamiltonian_2site(k2_pt_a, params, state_2, cpu_backend)
         h2_b = build_bloch_hamiltonian_2site(k2_pt_b, params, state_2, cpu_backend)
 
@@ -189,7 +198,9 @@ def test_brillouin_zone_folding_parity_general_couplings(cpu_backend: TorchBacke
         e2_b, _ = cpu_backend.eigh(h2_b)
 
         vals_4 = np.sort(cpu_backend.to_numpy(e4))
-        vals_2_folded = np.sort(np.concatenate([cpu_backend.to_numpy(e2_a), cpu_backend.to_numpy(e2_b)]))
+        vals_2_folded = np.sort(
+            np.concatenate([cpu_backend.to_numpy(e2_a), cpu_backend.to_numpy(e2_b)])
+        )
 
         assert np.allclose(vals_4, vals_2_folded, atol=1e-14)
 
@@ -197,13 +208,11 @@ def test_brillouin_zone_folding_parity_general_couplings(cpu_backend: TorchBacke
 def test_on_site_b_matrix_hartree_and_dm_transposition() -> None:
     """Verify on-site B_i matrix correctly transposes J_{ji} = J_{ij}^T on reverse bonds."""
     cell = make_honeycomb_2site()
-    # Pure Dzyaloshinskii-Moriya coupling makes exchange matrix purely antisymmetric off-diagonal
     params = ModelParameters(J=0.0, K=0.0, Gamma=0.0, D=0.5, h=(0.1, -0.2, 0.3))
 
     num_sub = 2
     v_arr = np.zeros((num_sub, 4, 4), dtype=np.float64)
     # Give site B (index 1) an unpolarized magnetization in the z-direction: sigma^3 = i c^0 c^3
-    # N^3 element (0, 3) = 1, (3, 0) = -1
     v_arr[1, 0, 3] = 0.5
     v_arr[1, 3, 0] = -0.5
 
