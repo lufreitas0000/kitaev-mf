@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 VENV := .venv
-PYTHON := $(VENV)/bin/python
+PYTHON := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PIP := $(VENV)/bin/pip
 PIP_COMPILE := $(VENV)/bin/pip-compile
 PIP_SYNC := $(VENV)/bin/pip-sync
@@ -46,45 +46,16 @@ test:
 	@$(PYTEST) --cov=kitaev_mf --cov-report=term-missing test/
 
 format:
-	@$(RUFF) check --fix src test
-	@$(RUFF) format src test
+	@$(RUFF) check --fix src test scripts
+	@$(RUFF) format src test scripts
 
 lint:
-	@$(RUFF) check src test
-	@$(RUFF) format --check src test
-	@$(MYPY) src test
+	@$(RUFF) check src test scripts
+	@$(RUFF) format --check src test scripts
+	@$(MYPY) src test scripts
 
 snapshot:
-	@echo "Generating $(SNAPSHOT_FILE)..."
-	@echo "# Repository Context Snapshot: kitaev-mf" > $(SNAPSHOT_FILE)
-	@echo "" >> $(SNAPSHOT_FILE) @echo "- **Generated:** $$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $(SNAPSHOT_FILE) @echo "- **Git Branch:** $$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'unknown')" >> $(SNAPSHOT_FILE) @echo "- **Git Commit:** $$(git rev-parse --short HEAD 2>/dev/null \vert{}\vert{} echo 'unknown')" >> $(SNAPSHOT_FILE)
-	@echo "" >> $(SNAPSHOT_FILE)
-	@echo "## 1. Directory Tree" >> $(SNAPSHOT_FILE)
-	@echo '```text' >> $(SNAPSHOT_FILE)
-	@find . -maxdepth 4 \
-		-not -path '*/.*' \
-		-not -path './.venv*' \
-		-not -path './doc/reference*' \
-		-not -path '*__pycache__*' \
-		-not -path './*.egg-info*' \
-		| sort >> $(SNAPSHOT_FILE)
-	@echo '```' >> $(SNAPSHOT_FILE)
-	@echo "" >> $(SNAPSHOT_FILE)
-	@echo "## 2. Governance, State & Documentation" >> $(SNAPSHOT_FILE) @for f in AGENTS.md PROJECT_STATE.yaml pyproject.toml Makefile .agents/rules/*.md doc/adr/*.md doc/rnd/*.md; do \ 	if [ -f "$$f" ]; then \ 		echo "### File: \`$$f\`" >> $(SNAPSHOT_FILE); \
-			echo '```markdown' >> $(SNAPSHOT_FILE); \
-			cat "$$f" >> $(SNAPSHOT_FILE); \
-			echo "" >> $(SNAPSHOT_FILE); \
-			echo '```' >> $(SNAPSHOT_FILE); \
-			echo "" >> $(SNAPSHOT_FILE); \
-		fi; \
-	done
-	@echo "## 3. Source Code & Tests" >> $(SNAPSHOT_FILE) @for f in $$(find src test -name "*.py" \vert{} sort); do \ 	echo "### File: \`$$f\`" >> $(SNAPSHOT_FILE); \
-		echo '```python' >> $(SNAPSHOT_FILE); \ 	cat "$$f" >> $(SNAPSHOT_FILE); \
-		echo "" >> $(SNAPSHOT_FILE); \
-		echo '```' >> $(SNAPSHOT_FILE); \
-		echo "" >> $(SNAPSHOT_FILE); \
-	done
-	@echo "Snapshot written to $(SNAPSHOT_FILE) ($$(wc -l < $(SNAPSHOT_FILE)) lines)."
+	@$(PYTHON) scripts/make_snapshot.py
 
 clean:
 	@rm -rf build/ dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/ $(SNAPSHOT_FILE) repo_snapshot.txt
