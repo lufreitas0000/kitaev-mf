@@ -23,6 +23,19 @@ Analytical reference targets:
 - Pair energies approach the approximate targets in note 02 after
   parity and finite-size effects are handled.
 
+
+- Unprojected finite-torus Fock width:
+  $W_{\mathrm{Fock}}=\sum_n\epsilon_n$, exactly.
+- Fixed-parity width for a gauge representative with required parity
+  $p\in\{0,1\}$:
+  $W_p=\sum_n\epsilon_n-
+  [p+\mathbf 1_{N\bmod2\ne p}]\epsilon_{\min}$.
+- Thermodynamic width density:
+  $W_{\mathrm{Fock}}/N\to3.14919448K$ per two-site unit cell,
+  equal to minus twice the vacuum energy density.
+- Confirm numerically that the parity correction is controlled by
+  $\epsilon_{\min}$ and vanishes per unit cell in the gapless limit.
+
 The thermodynamic vacuum-energy quadrature to implement independently is
 $$
 -\frac{K}{4\pi^2}
