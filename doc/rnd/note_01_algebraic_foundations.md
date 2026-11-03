@@ -1,6 +1,6 @@
 # Note 01: Algebraic Foundations of the Majorana Parton Representation, $\mathfrak{so}(4)$ Gauge Structure, and Mean-Field Decoupling
 
-> **Status of this revision.** All statements below were re-derived and cross-checked numerically with `scripts/verify_notes_01_03.py` (exact diagonalization on one and two sites, Jordan–Wigner representation). Notation introduced in §0 is shared across Notes 01–03.
+> **Status of this revision.** All statements below were re-derived and cross-checked numerically with exact diagonalization on one and two sites (Jordan–Wigner representation). Notation introduced in §0 is shared across Notes 01–03.
 
 ---
 
@@ -31,7 +31,7 @@
 ## 1. Lattice Graph and the Self-Dual CAR Algebra
 
 **Definition (Lattice Graph)** <!-- claim: CLM-M1-ALG-001 -->
-Let $\Lambda=(\mathcal{V},\mathcal{E})$ be a finite or periodic honeycomb graph with vertex set $\mathcal{V}$, $N_{\mathrm{sites}}=|\mathcal{V}|$[cite: 2]. $\mathcal{V}=\mathcal{V}_A\sqcup\mathcal{V}_B$ is bipartite. The edge set $\mathcal{E}$ consists of *directed* nearest-neighbor bonds $\langle ij\rangle_\gamma$ with $i\in\mathcal{V}_A$, $j\in\mathcal{V}_B$, of type $\gamma\in\{1,2,3\}$; every vertex belongs to exactly one bond of each type (periodic case)[cite: 2]. $\mathcal{V}_i:=\{j:\langle ij\rangle_\gamma\in\mathcal{E}\ \text{or}\ \langle ji\rangle_\gamma\in\mathcal{E}\}$ is the set of the three nearest neighbors of $i$[cite: 2]. Sums $\sum_{i}\sum_{j\in\mathcal{V}_i}$ run over **ordered** pairs, i.e. every bond is visited twice (once in each orientation)[cite: 4].
+Let $\Lambda=(\mathcal{V},\mathcal{E})$ be a finite or periodic honeycomb graph with vertex set $\mathcal{V}$, $N_{\mathrm{sites}}=\vert{}\mathcal{V}\vert{}$. $\mathcal{V}=\mathcal{V}_A\sqcup\mathcal{V}_B$ is bipartite. The edge set $\mathcal{E}$ consists of *directed* nearest-neighbor bonds $\langle ij\rangle_\gamma$ with $i\in\mathcal{V}_A$, $j\in\mathcal{V}_B$, of type $\gamma\in\{1,2,3\}$; every vertex belongs to exactly one bond of each type (periodic case)[cite: 2]. $\mathcal{V}_i:=\{j:\langle ij\rangle_\gamma\in\mathcal{E}\ \text{or}\ \langle ji\rangle_\gamma\in\mathcal{E}\}$ is the set of the three nearest neighbors of $i$[cite: 2]. Sums $\sum_{i}\sum_{j\in\mathcal{V}_i}$ run over **ordered** pairs, i.e. every bond is visited twice (once in each orientation)[cite: 4].
 
 **Definition (Self-Dual CAR Algebra)** <!-- claim: CLM-M1-ALG-002 -->
 To each vertex $i$ we assign four Hermitian generators $c_i=(c_i^0,c_i^1,c_i^2,c_i^3)^T$ of the unital algebra $\mathcal{A}_{\mathrm{CAR}}$ with:
@@ -53,7 +53,9 @@ For $A,B\in\mathfrak{so}(4)$,
 $$[\mathcal{O}_i[A],\mathcal{O}_i[B]]=\mathrm{i}\,\mathcal{O}_i\big[[A,B]\big].$$
 
 *Proof.*
-From $\{c^\mu,c^\nu\}=2\delta^{\mu\nu}$ direct contraction gives $[c^TAc,c^TBc]=4\,c^T[A,B]c$. Hence:
+From $\{c^\mu,c^\nu\}=2\delta^{\mu\nu}$, the product of bilinears expands as:
+$$[c^a c^b, c^c c^d] = 2\big(\delta^{bc}c^a c^d - \delta^{ac}c^b c^d + \delta^{bd}c^c c^a - \delta^{ad}c^c c^b\big),$$
+which contracts to $[c^TAc,c^TBc]=4\,c^T[A,B]c$. Hence:
 $$[\mathcal{O}[A],\mathcal{O}[B]]=\left(\frac{\mathrm{i}}{4}\right)^2 \cdot 4\,c^T[A,B]c = -\frac{1}{4}c^T[A,B]c = \mathrm{i}\cdot\frac{\mathrm{i}}{4}c^T[A,B]c = \mathrm{i}\,\mathcal{O}\big[[A,B]\big].\quad\square$$
 
 **Definition (Basis of $\mathfrak{so}(4)$)** <!-- claim: CLM-M1-ALG-004 -->
@@ -86,9 +88,9 @@ $$(T^1)^2=-\frac{1}{16}\big[(c^0c^1)^2+(c^2c^3)^2+2\,c^0c^1c^2c^3\big]=\frac{1}{
 Summing over cyclic permutations yields $\mathbf{T}^2 = \frac{3}{8}(\mathbb{1}-\mathcal{Z})$. $\square$
 
 **Corollary (Physical Projection $\Leftrightarrow$ Gauge Neutrality)** <!-- claim: CLM-M1-ALG-007 -->
-For $|\psi\rangle\in\mathcal{F}$:
-$$\mathcal{Z}_i|\psi\rangle=+|\psi\rangle\iff \mathbf{T}_i^2|\psi\rangle=0\iff T_i^\gamma|\psi\rangle=0\ \ \forall\gamma\iff c_i^T\mathrm{G}^\gamma c_i|\psi\rangle=0\ \ \forall\gamma.$$
-Each single condition $T_i^\gamma|\psi\rangle=0$ separately implies $\mathcal{Z}_i|\psi\rangle=+|\psi\rangle$.
+For $\vert{}\psi\rangle\in\mathcal{F}$:
+$$\mathcal{Z}_i\vert{}\psi\rangle=+\vert{}\psi\rangle\iff \mathbf{T}_i^2\vert{}\psi\rangle=0\iff T_i^\gamma\vert{}\psi\rangle=0\ \ \forall\gamma\iff c_i^T\mathrm{G}^\gamma c_i\vert{}\psi\rangle=0\ \ \forall\gamma.$$
+Each single condition $T_i^\gamma\vert{}\psi\rangle=0$ separately implies $\mathcal{Z}_i\vert{}\psi\rangle=+\vert{}\psi\rangle$.
 
 **Proposition (Pauli Algebra Holds Modulo Gauge Generators)** <!-- claim: CLM-M1-ALG-008 -->
 For $\sigma_i^\gamma:=\mathrm{i}c_i^0c_i^\gamma$ and $(\alpha,\beta,\gamma)$ cyclic:

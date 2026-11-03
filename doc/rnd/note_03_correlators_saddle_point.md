@@ -48,19 +48,30 @@ $$\mathrm{U}_b^{\mu\nu} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( \ope
 $$\mathrm{V}_s^{\mu\nu} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}\!\left[ P_{s\mu, s\nu}(\mathbf{k}) \right].$$
 
 *Proof.*
-Expanding the real-space operators via inverse Fourier transform:
-$$c_{s_i,\mathbf{0}}^\mu = \frac{1}{\sqrt{N_{\mathbf{k}}}} \sum_{\mathbf{k}} c_{s_i,\mathbf{k}}^\mu, \qquad c_{s_j,\Delta\mathbf{R}_b}^\nu = \frac{1}{\sqrt{N_{\mathbf{k}}}} \sum_{\mathbf{k}'} c_{s_j,\mathbf{k}'}^\nu e^{i \mathbf{k}' \cdot \Delta\mathbf{R}_b}.$$
-Using the involution $c_{s_j,\mathbf{k}'}^\nu = (c_{s_j,-\mathbf{k}'}^\nu)^\dagger$ and the CAR algebra, the expectation value becomes:
-$$\langle c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \langle c_{s_i,\mathbf{k}}^\mu (c_{s_j,\mathbf{k}}^\nu)^\dagger \rangle e^{-i \mathbf{k} \cdot \Delta\mathbf{R}_b} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})}.$$
+In reciprocal space, $P_{s_i\mu, s_j\nu}(\mathbf{k}) = \langle c_{s_i,\mathbf{k}}^\mu (c_{s_j,\mathbf{k}}^\nu)^\dagger \rangle = \langle c_{s_i,\mathbf{k}}^\mu c_{s_j,-\mathbf{k}}^\nu \rangle$.
+By the CAR anticommutation relation $\{c_{s_i,\mathbf{0}}^\mu, c_{s_j,\Delta\mathbf{R}_b}^\nu\} = 2\delta_{s_i s_j}\delta^{\mu\nu}\delta_{\Delta\mathbf{R}_b,\mathbf{0}}\mathbb{1}$, the real-space operator ordering is related to its reverse by:
+$$\langle c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = 2\delta_{s_i s_j}\delta^{\mu\nu}\delta_{\Delta\mathbf{R}_b,\mathbf{0}} - \langle c_{s_j,\Delta\mathbf{R}_b}^\nu c_{s_i,\mathbf{0}}^\mu \rangle.$$
+Expanding the second term via the Fourier transform yields:
+$$\langle c_{s_j,\Delta\mathbf{R}_b}^\nu c_{s_i,\mathbf{0}}^\mu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k},\mathbf{k}'} \langle c_{s_j,\mathbf{k}'}^\nu c_{s_i,\mathbf{k}}^\mu \rangle e^{i \mathbf{k}' \cdot \Delta\mathbf{R}_b} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \langle c_{s_j,-\mathbf{k}}^\nu c_{s_i,\mathbf{k}}^\mu \rangle e^{-i \mathbf{k} \cdot \Delta\mathbf{R}_b} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})}.$$
+Therefore, the general two-point expectation value is:
+$$\langle c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = 2\delta_{s_i s_j}\delta^{\mu\nu}\delta_{\Delta\mathbf{R}_b,\mathbf{0}} - \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})}.$$
+For distinct sites on directed bonds ($s_i \neq s_j$), the Kronecker delta vanishes:
+$$\langle c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = - \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})}.$$
+Multiplying by $i$ and taking the real part:
+$$\mathrm{U}_b^{\mu\nu} = \operatorname{Re}\!\langle i c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = \operatorname{Re}\!\left[ -\frac{i}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})} \right] = \operatorname{Im}\!\left[ \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-i \phi_b(\mathbf{k})} \right].$$
+Expanding $P = \operatorname{Re}[P] + i \operatorname{Im}[P]$ and $e^{-i\phi_b} = \cos\phi_b - i\sin\phi_b$:
+$$\operatorname{Im}\left[ (\operatorname{Re}[P] + i\operatorname{Im}[P])(\cos\phi_b - i\sin\phi_b) \right] = \operatorname{Im}[P]\cos\phi_b - \operatorname{Re}[P]\sin\phi_b,$$
+which yields the bond correlator formula:
+$$\mathrm{U}_b^{\mu\nu} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( \operatorname{Im}\!\left[ P_{s_i\mu, s_j\nu}(\mathbf{k}) \right] \cos(\phi_b(\mathbf{k})) - \operatorname{Re}\!\left[ P_{s_i\mu, s_j\nu}(\mathbf{k}) \right] \sin(\phi_b(\mathbf{k})) \right).$$
+For on-site correlators ($\Delta\mathbf{R} = \mathbf{0}, s_i = s_j = s$), $\phi(\mathbf{k}) = 0$ and the Kronecker delta is retained:
+$$\langle c_s^\mu c_s^\nu \rangle = 2\delta^{\mu\nu} - \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s\mu, s\nu}(\mathbf{k}).$$
 Multiplying by $i$:
-$$\langle i c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} i \left( \operatorname{Re}[P] + i \operatorname{Im}[P] \right) \left( \cos\phi_b - i \sin\phi_b \right).$$
-Taking the real part yields:
-$$\operatorname{Re}\!\langle i c_{s_i,\mathbf{0}}^\mu c_{s_j,\Delta\mathbf{R}_b}^\nu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( \operatorname{Im}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \cos\phi_b(\mathbf{k}) - \operatorname{Re}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \sin\phi_b(\mathbf{k}) \right).$$
-For on-site correlators at $\Delta\mathbf{R} = \mathbf{0}$, $\phi(\mathbf{k}) = 0$, giving:
-$$\langle i c_s^\mu c_s^\nu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( i \operatorname{Re}[P_{s\mu, s\nu}(\mathbf{k})] - \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] \right).$$
-By Proposition CLM-M1-COR-003, $\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Re}[P_{s\mu, s\nu}(\mathbf{k})] = \delta^{\mu\nu}$. Subtracting $i\delta^{\mu\nu}$ yields:
+$$\langle i c_s^\mu c_s^\nu \rangle = 2i\delta^{\mu\nu} - \frac{i}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( \operatorname{Re}[P_{s\mu, s\nu}(\mathbf{k})] + i \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] \right).$$
+By Proposition CLM-M1-COR-003, $\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Re}[P_{s\mu, s\nu}(\mathbf{k})] = \delta^{\mu\nu}$. Substituting this trace identity gives:
+$$\langle i c_s^\mu c_s^\nu \rangle = 2i\delta^{\mu\nu} - i\delta^{\mu\nu} + \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] = i\delta^{\mu\nu} + \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})].$$
+Subtracting $i\delta^{\mu\nu}$ yields:
 $$\mathrm{V}_s^{\mu\nu} = \langle i c_s^\mu c_s^\nu \rangle - i\delta^{\mu\nu} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}\!\left[ P_{s\mu, s\nu}(\mathbf{k}) \right].$$
-Because $P(\mathbf{k})$ is Hermitian, $P_{s\mu, s\nu}^*(\mathbf{k}) = P_{s\nu, s\mu}(\mathbf{k})$, which implies $\operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] = -\operatorname{Im}[P_{s\nu, s\mu}(\mathbf{k})]$. Thus, $\mathrm{V}_s^T = -\mathrm{V}_s$ is strictly real skew-symmetric. $\square$
+Because $P(\mathbf{k})$ is Hermitian, $P_{s\mu, s\nu}^*(\mathbf{k}) = P_{s\nu, s\mu}(\mathbf{k})$, which implies $\operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] = -\operatorname{Im}[P_{s\nu, s\mu}(\mathbf{k})]$. Thus, $\mathrm{V}_s^T = -\mathrm{V}_s$ is strictly real and skew-symmetric. $\square$
 
 **Corollary (Exact Gauge Neutrality for Flat Zero-Modes)** <!-- claim: CLM-M1-COR-005 -->
 When $u_{\mathrm{matter}} = 0$ in the pure Kitaev state, all six gauge Majorana bands reside at zero energy ($\mathcal{E}_{c^\gamma}(\mathbf{k}) = 0$). Under the particle-hole symmetric assignment $\Theta(0) = \frac{1}{2}$, the spectral projector satisfies:

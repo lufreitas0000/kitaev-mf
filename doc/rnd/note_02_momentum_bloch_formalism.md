@@ -47,7 +47,7 @@ For all $\mathbf{k} \in \mathbb{R}^2$, the Bloch matrix $\mathcal{H}(\mathbf{k})
    $$\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k}) = -\mathcal{H}^T(\mathbf{k}).$$
    Consequently, if $\mathbf{w}_n(\mathbf{k})$ is an eigenvector of $\mathcal{H}(\mathbf{k})$ with Bloch eigenvalue $\mathcal{E}_n(\mathbf{k})$, then $\mathbf{w}_n^*(-\mathbf{k})$ is an eigenvector of $\mathcal{H}(-\mathbf{k})$ with eigenvalue $-\mathcal{E}_n(\mathbf{k})$.
 
-*Proof:*
+*Proof.*
 (1) Because $\mathrm{B}_s^T = -\mathrm{B}_s$, the diagonal blocks satisfy $(\frac{i}{4}\mathrm{B}_s)^\dagger = -\frac{i}{4}\mathrm{B}_s^T = \frac{i}{4}\mathrm{B}_s$. For off-diagonal blocks connecting $s_i \to s_j$ with phase $\phi_b = 2\pi(k_1 n_{1,b} + k_2 n_{2,b})$:
 $$\left( \frac{i}{4}\mathrm{A}_b e^{i \phi_b} \right)^\dagger = -\frac{i}{4} \mathrm{A}_b^T e^{-i \phi_b} = \mathcal{H}_{s_j, s_i}(\mathbf{k}).$$
 Thus, $\mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k})$.
@@ -57,7 +57,7 @@ Thus, $\mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k})$.
 Let $\mathcal{E}_n(\mathbf{k})$ denote the eigenvalues of the Bloch matrix $\mathcal{H}(\mathbf{k})$. The physical Bogoliubov quasiparticle excitation energies $\varepsilon_n(\mathbf{k})$ entering thermodynamics and many-body spectra satisfy:
 $$\varepsilon_n(\mathbf{k}) = 4 \mathcal{E}_n(\mathbf{k}).$$
 
-*Proof:*
+*Proof.*
 In terms of the real-space skew-symmetric Hamiltonian matrix $M_{\mathrm{real}}$ where $H_{\mathrm{MF}} = \frac{i}{4} \mathbf{c}^T M_{\mathrm{real}} \mathbf{c}$, standard canonical transformation into complex fermions yields ground-state energy $E_{\mathrm{GS}} = -\frac{1}{2}\sum_{\lambda_m > 0} \lambda_m$, where $\lambda_m$ are the positive eigenvalues of $i M_{\mathrm{real}}$. Because $\mathcal{H}(\mathbf{k}) = \frac{i}{4} \mathcal{M}(\mathbf{k})$, the eigenvalues of $i \mathcal{M}(\mathbf{k})$ are $4\mathcal{E}_n(\mathbf{k})$. Hence $\lambda_m = 4\mathcal{E}_n(\mathbf{k}) \equiv \varepsilon_n(\mathbf{k})$. $\square$
 
 ---
@@ -73,7 +73,7 @@ In the 2-sublattice primitive cell ($N_{\mathrm{sub}}=2$) with isotropic ferroma
    $$\mathcal{E}_{c^\gamma}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}u_{\mathrm{matter}}\vert{}.$$
    When $u_{\mathrm{matter}} = 0$, all six gauge bands reside at zero energy ($\mathcal{E} = 0$).
 
-*Proof:*
+*Proof.*
 Evaluating $(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{\mu\nu}$ with $(\mathrm{N}^\gamma)_{\mu\nu} = \delta_{\mu 0}\delta_{\nu\gamma} - \delta_{\nu 0}\delta_{\mu\gamma}$:
 $$(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{00} = (\mathrm{N}^\gamma)_{0\gamma} \mathrm{U}_b^{\gamma\gamma} (\mathrm{N}^\gamma)_{\gamma 0} = (+1)(u_{\mathrm{gauge}})(-1) = -u_{\mathrm{gauge}} = -1.0,$$
 $$(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{\gamma\gamma} = (\mathrm{N}^\gamma)_{\gamma 0} \mathrm{U}_b^{00} (\mathrm{N}^\gamma)_{0\gamma} = (-1)(u_{\mathrm{matter}})(+1) = -u_{\mathrm{matter}}.$$
@@ -103,10 +103,10 @@ The unitary transformation matrix $W \in \mathbb{C}^{16 \times 16}$ has explicit
 $$W_{(r,s,\mu), (\kappa,s',\mu')} = \delta_{ss'} \delta_{\mu\mu'} \frac{e^{i 2\pi \mathbf{k}^{(\kappa)} \cdot \mathbf{r}^{(r)}}}{\sqrt{2}},$$
 where $\kappa \in \{1, 2\}$ labels the folded primitive momentum, $s, s' \in \{0, 1\}$ label the sublattices, $\mu, \mu' \in \{0, 1, 2, 3\}$ label Majorana flavors, and $\mathbf{r}^{(r)}$ are the two primitive cell positions within the supercell: $\mathbf{r}^{(0)} = (0, 0)$ and $\mathbf{r}^{(1)} = (1, 0)$.
 
-*Proof:*
+*Proof.*
 Because $\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2$ and $\mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$, the reciprocal lattice basis vectors satisfy $\mathbf{B}_1 = \frac{1}{2}(\mathbf{b}_1 - \mathbf{b}_2)$ and $\mathbf{B}_2 = \frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2)$. An arbitrary crystal wavevector $\mathbf{q} = q_1 \mathbf{B}_1 + q_2 \mathbf{B}_2$ expands in primitive coordinates as:
 $$\mathbf{q} = \frac{q_1 + q_2}{2}\mathbf{b}_1 + \frac{q_2 - q_1}{2}\mathbf{b}_2 = \mathbf{k}^{(1)}.$$
-The supercell Brillouin zone has half the volume of the primitive zone; the reciprocal lattice point $\mathbf{B}_1 + \mathbf{B}_2 = \mathbf{b}_1$ generates the second folded momentum $\mathbf{k}^{(2)} = \mathbf{k}^{(1)} + \frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2)$.
+The supercell Brillouin zone has half the volume of the primitive zone; the second folded momentum is displaced by the half-reciprocal vector $\frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2) = \mathbf{B}_2$, which is a supercell reciprocal lattice vector but not a primitive one: $\mathbf{k}^{(2)} = \mathbf{k}^{(1)} + \frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2)$.
 Expanding the real-space operators in the supercell basis, $c_{(r,s),\mathbf{q}}^\mu = \frac{1}{\sqrt{2}}\sum_{\kappa=1}^2 e^{i 2\pi \mathbf{k}^{(\kappa)} \cdot \mathbf{r}^{(r)}} c_{s,\mathbf{k}^{(\kappa)}}^\mu$, diagonalizes the inter-cell translation operator into blocks $\mathcal{H}_2(\mathbf{k}^{(1)})$ and $\mathcal{H}_2(\mathbf{k}^{(2)})$. Unitarity $W W^\dagger = \mathbb{1}_{16}$ follows from $\sum_{r=0}^1 e^{i 2\pi (\mathbf{k}^{(\kappa)} - \mathbf{k}^{(\kappa')}) \cdot \mathbf{r}^{(r)}} = 2\delta_{\kappa\kappa'}$. Direct similarity transformation verifies $\mathcal{H}_4(\mathbf{q}) = W (\mathcal{H}_2 \oplus \mathcal{H}_2) W^\dagger$ to machine precision ($< 10^{-14}$). $\square$
 
 ---
