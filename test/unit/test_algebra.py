@@ -13,17 +13,20 @@ def test_antisymmetry():
 def test_orthogonality_and_normalization():
     for a in (1, 2, 3):
         for b in (1, 2, 3):
+            # M^a and G^b are orthogonal Lie subalgebras: Tr(M^a^T G^b) = 0
             trace_mg = np.trace(M_MATRICES[a].T @ G_MATRICES[b])
             assert np.isclose(trace_mg, 0.0)
+
+            # Overlap Tr(N^a^T G^b) = Tr(N^a^T (N^b - N_tilde^b)) = 2 * delta_ab
             trace_ng = np.trace(N_MATRICES[a].T @ G_MATRICES[b])
-            # Tr(N^a G^b) = Tr((M^a - G^a) G^b) = - Tr(G^a G^b) = -4 delta_ab
-            expected_ng = -4.0 if a == b else 0.0
+            expected_ng = 2.0 if a == b else 0.0
             assert np.isclose(trace_ng, expected_ng)
 
+    # Trace norms
     for a in (1, 2, 3):
+        assert np.isclose(np.trace(N_MATRICES[a].T @ N_MATRICES[a]), 2.0)
         assert np.isclose(np.trace(G_MATRICES[a].T @ G_MATRICES[a]), 4.0)
         assert np.isclose(np.trace(M_MATRICES[a].T @ M_MATRICES[a]), 4.0)
-        assert np.isclose(np.trace(N_MATRICES[a].T @ N_MATRICES[a]), 4.0)
 
 
 def test_so4_lie_algebra_commutations():
@@ -33,16 +36,16 @@ def test_so4_lie_algebra_commutations():
 
     for a in (1, 2, 3):
         for b in (1, 2, 3):
-            # [G^a, G^b] = -2 * sum_c eps_{abc} G^c
+            # Gauge algebra: [G^a, G^b] = -2 * sum_c eps_{abc} G^c
             comm_g = G_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ G_MATRICES[a]
             expected_g = -2.0 * sum(eps[a, b, c] * G_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_g, expected_g)
 
-            # [M^a, M^b] = +2 * sum_c eps_{abc} M^c
+            # Chiral spin algebra: [M^a, M^b] = +2 * sum_c eps_{abc} M^c
             comm_m = M_MATRICES[a] @ M_MATRICES[b] - M_MATRICES[b] @ M_MATRICES[a]
             expected_m = 2.0 * sum(eps[a, b, c] * M_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_m, expected_m)
 
-            # [M^a, G^b] = 0
+            # Commuting subalgebras: [M^a, G^b] = 0
             comm_mg = M_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ M_MATRICES[a]
             assert np.allclose(comm_mg, 0.0)
