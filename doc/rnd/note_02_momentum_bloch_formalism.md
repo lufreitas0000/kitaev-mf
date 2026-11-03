@@ -4,10 +4,10 @@
 
 Let $\Lambda = (\mathcal{V}, \mathcal{E})$ denote a periodic honeycomb lattice graph where $\mathcal{V}$ is partitioned into $N_{\mathrm{sub}}$ sublattices per unit cell ($s \in \{0, \dots, N_{\mathrm{sub}}-1\}$), and $\mathcal{E}$ is the set of directed nearest-neighbor bonds $b = \langle ij \rangle_\gamma$ oriented from sublattice $s_i \in \mathcal{V}_A$ to sublattice $s_j \in \mathcal{V}_B$ with Bravais cell translation $\Delta\mathbf{R}_b = n_{1,b} \mathbf{a}_1 + n_{2,b} \mathbf{a}_2$ ($n_{1,b}, n_{2,b} \in \mathbb{Z}$) and bond direction $\gamma \in \{1, 2, 3\} \equiv \{x, y, z\}$ (Kitaev, 2006; Freitas et al., 2024).
 
-**Definition 2.1 (Reciprocal Majorana Fields):**
+**Definition (Reciprocal Majorana Fields)** <!-- claim: CLM-M1-BLO-001 -->
 The Hermitian four-component Majorana operator at sublattice $s$ in unit cell $\mathbf{R}$ satisfies the self-dual CAR algebra (Burnell and Nayak, 2011; Seifert et al., 2018):
 $$\{ c_{s,\mathbf{R}}^\mu, c_{s',\mathbf{R}'}^\nu \} = 2 \delta_{ss'} \delta_{\mathbf{R}\mathbf{R}'} \delta^{\mu\nu} \mathbb{1}, \qquad (c_{s,\mathbf{R}}^\mu)^\dagger = c_{s,\mathbf{R}}^\mu.$$
-On a periodic lattice of $N_{\mathrm{cell}}$ unit cells, the discrete Fourier transform is:
+On a periodic lattice of $N_{\mathrm{cell}}$ unit cells, the discrete Fourier transform is defined by:
 $$c_{s,\mathbf{R}} = \frac{1}{\sqrt{N_{\mathrm{cell}}}} \sum_{\mathbf{k} \in \mathrm{BZ}} c_{s,\mathbf{k}} e^{i \mathbf{k} \cdot \mathbf{R}}, \qquad c_{s,\mathbf{k}} = \frac{1}{\sqrt{N_{\mathrm{cell}}}} \sum_{\mathbf{R}} c_{s,\mathbf{R}} e^{-i \mathbf{k} \cdot \mathbf{R}}.$$
 The Fourier-transformed Majorana operators satisfy the involution and anticommutation relations:
 $$c_{s,\mathbf{k}}^\dagger = c_{s,-\mathbf{k}}, \qquad \{ c_{s,\mathbf{k}}^\mu, (c_{s',\mathbf{k}'}^\nu)^\dagger \} = 2 \delta_{ss'} \delta^{\mu\nu} \delta_{\mathbf{k}\mathbf{k}'} \mathbb{1}.$$
@@ -19,8 +19,8 @@ $$c_{s,\mathbf{k}}^\dagger = c_{s,-\mathbf{k}}, \qquad \{ c_{s,\mathbf{k}}^\mu, 
 Crystal momenta are parameterized in dimensionless fractional coordinates $(k_1, k_2) \in [0, 1)^2$ dual to the primitive Bravais vectors $(\mathbf{a}_1, \mathbf{a}_2)$. Using the reciprocal lattice vectors $(\mathbf{b}_1, \mathbf{b}_2)$ defined by $\mathbf{a}_m \cdot \mathbf{b}_n = 2\pi \delta_{mn}$, the physical Cartesian wavevector is $\mathbf{k} = k_1 \mathbf{b}_1 + k_2 \mathbf{b}_2$. For any directed bond $b = \langle ij \rangle_\gamma$ with Bravais offset $(n_{1,b}, n_{2,b})$, the phase factor simplifies analytically:
 $$\mathbf{k} \cdot \Delta\mathbf{R}_b = (k_1 \mathbf{b}_1 + k_2 \mathbf{b}_2) \cdot (n_{1,b} \mathbf{a}_1 + n_{2,b} \mathbf{a}_2) = 2\pi (k_1 n_{1,b} + k_2 n_{2,b}).$$
 
-**Definition 2.2 (Bloch-Majorana Hamiltonian Matrix):**
-Following Proposition 1.12 of Note 01 (Freitas et al., 2024), the quadratic mean-field Hamiltonian is expressed in reciprocal space as:
+**Definition (Bloch-Majorana Hamiltonian Matrix)** <!-- claim: CLM-M1-BLO-002 -->
+Following Note 01 (Freitas et al., 2024), the quadratic mean-field Hamiltonian is expressed in reciprocal space as:
 $$H_{\mathrm{MF}} = \frac{1}{2} \sum_{\mathbf{k} \in \mathrm{BZ}} \boldsymbol{\Psi}_{\mathbf{k}}^\dagger \mathcal{H}(\mathbf{k}) \boldsymbol{\Psi}_{\mathbf{k}} - \mathrm{C},$$
 where $\boldsymbol{\Psi}_{\mathbf{k}} = (c_{0,\mathbf{k}}^T, c_{1,\mathbf{k}}^T, \dots, c_{N_{\mathrm{sub}}-1,\mathbf{k}}^T)^T$ is the $4N_{\mathrm{sub}}$-component Majorana Nambu spinor, and the single-particle Bloch matrix is:
 $$\mathcal{H}(\mathbf{k}) = \frac{i}{4} \mathcal{M}(\mathbf{k}) \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}}.$$
@@ -30,8 +30,8 @@ where the real inter-site hopping matrices $\mathrm{A}_b$ and real skew-symmetri
 $$\mathrm{A}_b = 2 \sum_{a,b=1}^3 \mathbf{J}_b^{ab} \mathrm{N}^a \mathrm{U}_b \mathrm{N}^b,$$
 $$\mathrm{B}_s = \sum_{b \in \mathcal{E}_{s \to \mathrm{out}}} \sum_{a,b=1}^3 \mathbf{J}_b^{ab} \mathrm{N}^a \operatorname{tr}\!\left(\mathrm{V}_{s_j(b)}^T \mathrm{N}^b\right) + \sum_{b \in \mathcal{E}_{\mathrm{in} \to s}} \sum_{a,b=1}^3 \mathbf{J}_b^{ba} \mathrm{N}^a \operatorname{tr}\!\left(\mathrm{V}_{s_i(b)}^T \mathrm{N}^b\right) + \sum_{\gamma=1}^3 \left( \lambda_s^\gamma \mathrm{G}^\gamma - 2 h^\gamma \mathrm{N}^\gamma \right).$$
 
-**Remark 2.3 (Dzyaloshinskii–Moriya Transposition on Ingoing Bonds):**
-For bonds oriented into site $s$ ($b \in \mathcal{E}_{\mathrm{in} \to s}$), the exchange matrix appears with transposed indices $\mathbf{J}_b^{ba} = (\mathbf{J}_b^T)^{ab}$. By Definition 1.8 of Note 01, the Dzyaloshinskii–Moriya exchange tensor on directed bond $\langle ij \rangle_\gamma$ is proportional to $D_\gamma (\delta^{a\gamma^+}\delta^{b\gamma^-} - \delta^{a\gamma^-}\delta^{b\gamma^+})$, which is skew-symmetric under $a \leftrightarrow b$. Transposing the indices swaps the source and target sites, reversing the sign of the DM interaction:
+**Remark (Dzyaloshinskii–Moriya Transposition on Ingoing Bonds)** <!-- claim: CLM-M1-BLO-003 -->
+For bonds oriented into site $s$ ($b \in \mathcal{E}_{\mathrm{in} \to s}$), the exchange matrix appears with transposed indices $\mathbf{J}_b^{ba} = (\mathbf{J}_b^T)^{ab}$. By Note 01, the Dzyaloshinskii–Moriya exchange tensor on directed bond $\langle ij \rangle_\gamma$ is proportional to $D_\gamma (\delta^{a\gamma^+}\delta^{b\gamma^-} - \delta^{a\gamma^-}\delta^{b\gamma^+})$, which is skew-symmetric under $a \leftrightarrow b$. Transposing the indices swaps the source and target sites, reversing the sign of the DM interaction:
 $$D_\gamma \left( \sigma_i^{\gamma^+} \sigma_j^{\gamma^-} - \sigma_i^{\gamma^-} \sigma_j^{\gamma^+} \right) = -D_\gamma \left( \sigma_j^{\gamma^+} \sigma_i^{\gamma^-} - \sigma_j^{\gamma^-} \sigma_i^{\gamma^+} \right).$$
 This index transposition preserves exact angular momentum balance and guarantees that $\mathrm{B}_s^T = -\mathrm{B}_s$ remains strictly real skew-symmetric for all $D_\gamma \neq 0$.
 
@@ -39,7 +39,7 @@ This index transposition preserves exact angular momentum balance and guarantees
 
 ## 3. Symmetries and Spectral Properties
 
-**Proposition 2.4 (Hermiticity and Particle-Hole Skew Symmetry):**
+**Proposition (Hermiticity and Particle-Hole Skew Symmetry)** <!-- claim: CLM-M1-BLO-004 -->
 For all $\mathbf{k} \in \mathbb{R}^2$, the Bloch matrix $\mathcal{H}(\mathbf{k}) = \frac{i}{4}\mathcal{M}(\mathbf{k})$ satisfies:
 1. *Hermiticity:*
    $$\mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k}).$$
@@ -53,7 +53,7 @@ $$\left( \frac{i}{4}\mathrm{A}_b e^{i \phi_b} \right)^\dagger = -\frac{i}{4} \ma
 Thus, $\mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k})$.
 (2) Taking the complex conjugate: $\mathcal{H}^*(\mathbf{k}) = -\frac{i}{4}\mathcal{M}^*(\mathbf{k})$. Since $\mathrm{A}_b$ and $\mathrm{B}_s$ are real matrices, complex conjugation inverts the phases $e^{\pm i \phi_b} \to e^{\mp i \phi_b} = e^{\pm i \phi_b(-\mathbf{k})}$, yielding $\mathcal{M}^*(\mathbf{k}) = \mathcal{M}(-\mathbf{k})$. Therefore, $\mathcal{H}^*(-\mathbf{k}) = -\frac{i}{4}\mathcal{M}(-\mathbf{k}) = -\mathcal{H}(\mathbf{k})$. $\square$
 
-**Proposition 2.5 (Physical Quasiparticle Excitation Energies):**
+**Proposition (Physical Quasiparticle Excitation Energies)** <!-- claim: CLM-M1-BLO-005 -->
 Let $\mathcal{E}_n(\mathbf{k})$ denote the eigenvalues of the Bloch matrix $\mathcal{H}(\mathbf{k})$. The physical Bogoliubov quasiparticle excitation energies $\varepsilon_n(\mathbf{k})$ entering thermodynamics and many-body spectra satisfy:
 $$\varepsilon_n(\mathbf{k}) = 4 \mathcal{E}_n(\mathbf{k}).$$
 
@@ -64,7 +64,7 @@ In terms of the real-space skew-symmetric Hamiltonian matrix $M_{\mathrm{real}}$
 
 ## 4. Analytical Pure-Kitaev Dispersion and Flat Gauge Bands
 
-**Theorem 2.6 (Exact Dispersion in the Pure Kitaev Limit):**
+**Theorem (Exact Dispersion in the Pure Kitaev Limit)** <!-- claim: CLM-M1-BLO-006 -->
 In the 2-sublattice primitive cell ($N_{\mathrm{sub}}=2$) with isotropic ferromagnetic Kitaev coupling $K < 0$, $J = \Gamma = \Gamma' = D = \mathbf{h} = \boldsymbol{\lambda} = \mathbf{0}$, directed gauge link variables $\mathrm{U}_b^{\gamma\gamma} = u_{\mathrm{gauge}} = +1.0$, and uniform matter correlator $\mathrm{U}_b^{00} = u_{\mathrm{matter}}$:
 1. The two itinerant matter Majorana bands ($c^0$) possess the exact dispersion:
    $$\mathcal{E}_{c^0}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}1 + e^{-i 2\pi k_1} + e^{-i 2\pi k_2}\vert{} = \pm \frac{\vert{}K\vert{}}{2} \sqrt{3 + 2\cos(2\pi k_1) + 2\cos(2\pi k_2) + 2\cos(2\pi(k_1 - k_2))}.$$
@@ -93,7 +93,7 @@ For each gauge flavor $\gamma$, hopping occurs exclusively along the single bond
 
 ## 5. Supercell Brillouin-Zone Unitary Equivalence
 
-**Theorem 2.7 (Exact Unitary Folding Equivalence):**
+**Theorem (Exact Unitary Folding Equivalence)** <!-- claim: CLM-M1-BLO-007 -->
 Let $\mathbf{q} = (q_1, q_2) \in [0, 1)^2$ denote fractional reciprocal coordinates in the 4-sublattice rectangular cell with supercell vectors $\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2$ and $\mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$. The $16 \times 16$ Bloch Hamiltonian $\mathcal{H}_4(\mathbf{q})$ is unitarily equivalent to the direct sum of two folded $8 \times 8$ primitive Hamiltonians:
 $$\mathcal{H}_4(\mathbf{q}) = W(\mathbf{q}) \left[ \mathcal{H}_2(\mathbf{k}^{(1)}) \oplus \mathcal{H}_2(\mathbf{k}^{(2)}) \right] W^\dagger(\mathbf{q}),$$
 where the two folded primitive crystal wavevectors are:
