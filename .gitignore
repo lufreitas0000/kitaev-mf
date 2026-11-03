@@ -71,3 +71,7 @@ doc/reference/thesis/*.synctex.gz
 *.jpg
 *.png
 
+
+# Ephemeral AI context snapshots
+REPO_SNAPSHOT.md
+repo_snapshot.txt

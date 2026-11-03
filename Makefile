@@ -7,8 +7,9 @@ PIP_SYNC := $(VENV)/bin/pip-sync
 PYTEST := $(VENV)/bin/pytest
 RUFF := $(VENV)/bin/ruff
 MYPY := $(VENV)/bin/mypy
+SNAPSHOT_FILE := REPO_SNAPSHOT.md
 
-.PHONY: help venv lock sync install test lint clean
+.PHONY: help venv lock sync install test lint snapshot clean
 
 help:
 	@echo "kitaev-mf development targets:"
@@ -18,7 +19,8 @@ help:
 	@echo "  make install  - Editable install of kitaev-mf in venv"
 	@echo "  make test     - Run pytest suite with coverage"
 	@echo "  make lint     - Run ruff format/lint checks and mypy"
-	@echo "  make clean    - Remove build and test caches"
+	@echo "  make snapshot - Generate uncommitted $(SNAPSHOT_FILE) for AI context ingestion"
+	@echo "  make clean    - Remove build, test caches, and temporary snapshots"
 
 venv:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -44,8 +46,50 @@ test:
 
 lint:
 	@$(RUFF) check src test
+	@$(RUFF) format --check src test
 	@$(MYPY) src test
 
+snapshot:
+	@echo "Generating $(SNAPSHOT_FILE)..."
+	@echo "# Repository Context Snapshot: kitaev-mf" > $(SNAPSHOT_FILE)
+	@echo "" >> $(SNAPSHOT_FILE)
+	@echo "- **Generated:** $$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $(SNAPSHOT_FILE)
+	@echo "- **Git Branch:** $$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'unknown')" >> $(SNAPSHOT_FILE)
+	@echo "- **Git Commit:** $$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')" >> $(SNAPSHOT_FILE)
+	@echo "" >> $(SNAPSHOT_FILE)
+	@echo "## 1. Directory Tree" >> $(SNAPSHOT_FILE)
+	@echo '```text' >> $(SNAPSHOT_FILE)
+	@find . -maxdepth 4 \
+		-not -path '*/.*' \
+		-not -path './.venv*' \
+		-not -path './doc/reference*' \
+		-not -path '*__pycache__*' \
+		-not -path './*.egg-info*' \
+		| sort >> $(SNAPSHOT_FILE)
+	@echo '```' >> $(SNAPSHOT_FILE)
+	@echo "" >> $(SNAPSHOT_FILE)
+	@echo "## 2. Governance, State & Documentation" >> $(SNAPSHOT_FILE)
+	@for f in AGENTS.md PROJECT_STATE.yaml pyproject.toml Makefile .agents/rules/*.md doc/adr/*.md doc/rnd/*.md; do \
+		if [ -f "$$f" ]; then \
+			echo "### File: \`$$f\`" >> $(SNAPSHOT_FILE); \
+			echo '```markdown' >> $(SNAPSHOT_FILE); \
+			cat "$$f" >> $(SNAPSHOT_FILE); \
+			echo "" >> $(SNAPSHOT_FILE); \
+			echo '```' >> $(SNAPSHOT_FILE); \
+			echo "" >> $(SNAPSHOT_FILE); \
+		fi; \
+	done
+	@echo "## 3. Source Code & Tests" >> $(SNAPSHOT_FILE)
+	@for f in $$(find src test -name "*.py" | sort); do \
+		echo "### File: \`$$f\`" >> $(SNAPSHOT_FILE); \
+		echo '```python' >> $(SNAPSHOT_FILE); \
+		cat "$$f" >> $(SNAPSHOT_FILE); \
+		echo "" >> $(SNAPSHOT_FILE); \
+		echo '```' >> $(SNAPSHOT_FILE); \
+		echo "" >> $(SNAPSHOT_FILE); \
+	done
+	@echo "Snapshot written to $(SNAPSHOT_FILE) ($$(wc -l < $(SNAPSHOT_FILE)) lines)."
+
 clean:
-	@rm -rf build/ dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/
+	@rm -rf build/ dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/ $(SNAPSHOT_FILE) repo_snapshot.txt
 	@find . -type d -name "__pycache__" -exec rm -rf {} +

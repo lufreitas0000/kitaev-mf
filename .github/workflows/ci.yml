@@ -1,36 +1,46 @@
-name: CI Suite
+name: CI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: ["main", "dev", "feat/**", "fix/**", "doc/**"]
   pull_request:
-    branches: [ main ]
+    branches: ["main"]
 
 jobs:
-  test:
+  verify:
+    name: Lockfile, Lint, Typecheck & Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
           cache: "pip"
 
-      - name: Install dependencies
+      - name: Install pip-tools and dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install .[dev]
+          python -m pip install --upgrade pip setuptools wheel pip-tools
+          pip-sync requirements.txt requirements-dev.txt
+          pip install -e . --no-deps
 
-      - name: Code formatting and linting (ruff)
+      - name: Verify lockfiles are in sync with .in specifications
         run: |
-          ruff check .
+          pip-compile --resolver=backtracking --quiet -o requirements.txt requirements.in
+          pip-compile --resolver=backtracking --quiet -o requirements-dev.txt requirements-dev.in
+          git diff --exit-code requirements.txt requirements-dev.txt
 
-      - name: Type checking (mypy)
+      - name: Run Ruff linter and format check
+        run: |
+          ruff check src test
+          ruff format --check src test
+
+      - name: Run Mypy strict static type checking
         run: |
           mypy src test
 
-      - name: Run unit test suite
+      - name: Run Pytest suite with coverage
         run: |
-          pytest --cov=src --cov-report=term-missing
+          pytest --cov=kitaev_mf --cov-report=term-missing test/
