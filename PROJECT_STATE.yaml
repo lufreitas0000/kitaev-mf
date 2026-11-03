@@ -37,5 +37,5 @@ open_blockers: []
 research_tracks:
   exact_kitaev_perturbation:
     branch: "research/pure-kitaev-exact-perturbation-20261102"
-    status: "M0.1-M0.2 analytically complete; independent numerical validation and M0.3-M0.7 pending"
+    status: "M0.1-M0.3 analytically complete; independent numerical validation and M0.4-M0.7 pending"
     status_file: "doc/rnd/exact-perturbation-theory/STATUS.md"
