@@ -67,7 +67,14 @@ an independent numerical quadrature remains part of the solver tests.
 
 ## M0.3 result
 
-The unprojected matter Fock-space width is exactly $W_{\\mathrm{Fock}}(N)=\\sum_n\\epsilon_n$. Its thermodynamic density is $-2e_{\\mathrm{vac}}\\simeq3.14919448K$ per two-site unit cell. In a fixed gauge representative, physical projection retains one matter-parity sector; the finite-size width differs from the unprojected width by at most two times the smallest matter-mode energy. Since the isotropic model is gapless and $\\epsilon_{\\min}\\to0$ along regular thermodynamic sequences, this does not change the width per unit cell.
+The unprojected matter Fock-space width is exactly
+$W_{\mathrm{Fock}}(N)=\sum_n\epsilon_n$. Its thermodynamic density is
+$-2e_{\mathrm{vac}}\simeq3.14919448K$ per two-site unit cell. In a fixed
+gauge representative, physical projection retains one matter-parity
+sector; the finite-size width differs from the unprojected width by at
+most two times the smallest matter-mode energy. Since the isotropic model
+is gapless and $\epsilon_{\min}\to0$ along regular thermodynamic
+sequences, this does not change the width per unit cell.
 
 ## Important distinctions
 
