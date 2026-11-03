@@ -1,6 +1,6 @@
 """Test exact operator relations for SO(4) Majorana and gauge matrices."""
 import numpy as np
-from src.domain.constants import G_MATRICES, M_MATRICES, N_MATRICES
+from kitaev_mf.domain.constants import G_MATRICES, M_MATRICES, N_MATRICES
 
 
 def test_antisymmetry():

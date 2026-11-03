@@ -1,0 +1,6 @@
+-c requirements.txt
+pip-tools>=7.3.0
+pytest>=8.0.0
+pytest-cov>=4.1.0
+ruff>=0.3.0
+mypy>=1.9.0

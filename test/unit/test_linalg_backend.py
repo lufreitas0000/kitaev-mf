@@ -1,6 +1,6 @@
 """Test hardware backend linear algebra operations."""
 import torch
-from src.infra.linalg_backend import TorchBackend
+from kitaev_mf.infra.linalg_backend import TorchBackend
 
 def test_eigh_diagonalization(cpu_backend: TorchBackend):
     # Construct a simple 4x4 Hermitian test matrix

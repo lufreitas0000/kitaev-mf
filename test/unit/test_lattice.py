@@ -1,6 +1,6 @@
 """Test honeycomb lattice and unit cell geometries."""
 import numpy as np
-from src.domain.lattice import make_honeycomb_2site, make_honeycomb_4site_rectangular
+from kitaev_mf.domain.lattice import make_honeycomb_2site, make_honeycomb_4site_rectangular
 
 
 def test_2site_lattice_geometry():

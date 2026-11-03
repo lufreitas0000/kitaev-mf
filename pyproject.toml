@@ -1,11 +1,11 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitaev-mf"
 version = "0.1.0"
-description = "High-precision Majorana parton mean-field solver for the extended Kitaev model on honeycomb lattices"
+description = "Majorana parton mean-field solver for extended Kitaev models on honeycomb lattices"
 authors = [{ name = "Lucas Freitas", email = "lu.rodrigues.freitas@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -18,16 +18,8 @@ dependencies = [
     "click>=8.1.0",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.3.0",
-    "mypy>=1.9.0",
-]
-gpu = [
-    # PyTorch with CUDA is managed via wheel or Colab runtime
-]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.ruff]
 line-length = 100
