@@ -1,4 +1,5 @@
 """Fundamental mathematical matrices and algebraic constants for SO(4) Majorana representation."""
+
 import numpy as np
 
 # 2x2 Pauli matrices
@@ -12,7 +13,7 @@ I_2 = np.eye(2, dtype=np.float64)
 S_X = np.array([[0.0, 1.0], [1.0, 0.0]], dtype=np.float64)
 S_Z = np.array([[1.0, 0.0], [0.0, -1.0]], dtype=np.float64)
 EPSILON = np.array([[0.0, 1.0], [-1.0, 0.0]], dtype=np.float64)  # i * sigma_y
-PI_PLUS = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)   # (I + S_Z) / 2
+PI_PLUS = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)  # (I + S_Z) / 2
 
 # 4x4 SO(4) gauge constraint matrices G^gamma (anti-self-dual 't Hooft symbols)
 # Algebraic formulation:
@@ -44,6 +45,4 @@ M_MATRICES = {
 #   N^2 = EPSILON (x) PI_PLUS
 #   N^3 = (S_X (x) EPSILON + EPSILON (x) S_X) / 2
 # Property: sigma_i^gamma = (i / 2) c_i^T N^gamma c_i = i c_i^0 c_i^gamma
-N_MATRICES = {
-    gamma: 0.5 * (M_MATRICES[gamma] + G_MATRICES[gamma]) for gamma in (1, 2, 3)
-}
+N_MATRICES = {gamma: 0.5 * (M_MATRICES[gamma] + G_MATRICES[gamma]) for gamma in (1, 2, 3)}

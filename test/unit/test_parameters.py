@@ -1,5 +1,7 @@
 """Test ModelParameters and bond-directional exchange matrices J_{<ij>_gamma}."""
+
 import numpy as np
+
 from kitaev_mf.domain.parameters import ModelParameters
 
 
@@ -25,7 +27,6 @@ def test_exchange_matrix_cyclic_permutation() -> None:
     j_y = params.exchange_matrix(2)
     j_z = params.exchange_matrix(3)
 
-    # Cyclic shift operator P: (x, y, z) -> (y, z, x)
     p_cyc = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0]], dtype=np.float64)
     assert np.allclose(j_x, p_cyc.T @ j_z @ p_cyc, atol=1e-15)
     assert np.allclose(j_y, p_cyc @ j_z @ p_cyc.T, atol=1e-15)

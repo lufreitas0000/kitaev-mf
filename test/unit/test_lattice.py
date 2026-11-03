@@ -1,5 +1,7 @@
 """Test honeycomb lattice graph Lambda = (V, E) and unit cell geometries."""
+
 import numpy as np
+
 from kitaev_mf.domain.lattice import (
     DEFAULT_D_NN,
     make_honeycomb_2site,
@@ -47,8 +49,7 @@ def test_4site_rectangular_lattice_geometry_and_scale_parity() -> None:
     assert np.allclose(cell_4.a1, cell_2.a1 - cell_2.a2, atol=1e-15)
     assert np.allclose(cell_4.a2, cell_2.a1 + cell_2.a2, atol=1e-15)
 
-    # Every bond of type gamma in the 4-site cell must have the exact same physical vector delta_gamma
-    # as the bond of type gamma in the 2-site cell
+    # Every bond of type gamma in the 4-site cell must match the 2-site bond vector
     vec_by_type_2 = {b.bond_type: cell_2.bond_vector(b) for b in cell_2.edges}
     for bond in cell_4.edges:
         vec_4 = cell_4.bond_vector(bond)

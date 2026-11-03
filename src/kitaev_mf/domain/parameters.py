@@ -1,10 +1,10 @@
 """Immutable parameter dataclasses and bond exchange tensors for the extended Kitaev model."""
+
 from dataclasses import dataclass
-from typing import Tuple, Union
 
 import numpy as np
 
-BondCoupling = Union[float, Tuple[float, float, float]]
+BondCoupling = float | tuple[float, float, float]
 
 
 def _resolve_bond_coupling(val: BondCoupling, bond_type: int) -> float:
@@ -29,7 +29,7 @@ class ModelParameters:
     Gamma: BondCoupling = 0.0
     Gamma_prime: BondCoupling = 0.0
     D: BondCoupling = 0.0
-    h: Tuple[float, float, float] = (0.0, 0.0, 0.0)
+    h: tuple[float, float, float] = (0.0, 0.0, 0.0)
     V0: float = 0.0
 
     @property

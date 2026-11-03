@@ -1,5 +1,7 @@
 """Test exact operator relations for SO(4) Majorana and gauge matrices."""
+
 import numpy as np
+
 from kitaev_mf.domain.constants import (
     EPSILON,
     G_MATRICES,
@@ -12,14 +14,14 @@ from kitaev_mf.domain.constants import (
 )
 
 
-def test_antisymmetry():
+def test_antisymmetry() -> None:
     for gamma in (1, 2, 3):
         assert np.allclose(N_MATRICES[gamma], -N_MATRICES[gamma].T)
         assert np.allclose(G_MATRICES[gamma], -G_MATRICES[gamma].T)
         assert np.allclose(M_MATRICES[gamma], -M_MATRICES[gamma].T)
 
 
-def test_pauli_kronecker_construction():
+def test_pauli_kronecker_construction() -> None:
     """Verify algebraic Kronecker definitions against analytical targets."""
     # Gauge matrices G^gamma
     assert np.allclose(G_MATRICES[1], np.kron(I_2, EPSILON))
@@ -38,7 +40,7 @@ def test_pauli_kronecker_construction():
     assert np.allclose(N_MATRICES[3], n3_expected)
 
 
-def test_orthogonality_and_normalization():
+def test_orthogonality_and_normalization() -> None:
     for a in (1, 2, 3):
         for b in (1, 2, 3):
             # M and G are orthogonal Lie subalgebras
@@ -56,7 +58,7 @@ def test_orthogonality_and_normalization():
         assert np.isclose(np.trace(M_MATRICES[a].T @ M_MATRICES[a]), 4.0)
 
 
-def test_so4_lie_algebra_commutations():
+def test_so4_lie_algebra_commutations() -> None:
     eps = np.zeros((4, 4, 4))
     eps[1, 2, 3] = eps[2, 3, 1] = eps[3, 1, 2] = 1.0
     eps[1, 3, 2] = eps[3, 2, 1] = eps[2, 1, 3] = -1.0
