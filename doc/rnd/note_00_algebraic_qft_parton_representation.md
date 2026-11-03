@@ -6,7 +6,7 @@
 - Greek indices $\alpha,\beta,\gamma \in \{1,2,3\} \equiv \{x,y,z\}$ label Cartesian spin and bond directions.
 - For bond type $\gamma$, $(\gamma^+,\gamma^-) := (\gamma+1,\gamma+2) \bmod 3$ denotes the cyclic pair in $\{1,2,3\}$.
 - Local fermion parity is denoted by $\mathcal{D}_i \equiv c_i^0 c_i^1 c_i^2 c_i^3$, resolving the collision with the Dzyaloshinskii–Moriya coupling $D_\gamma$.
-- The $2 \times 2$ projector is $\Pi_0 := \operatorname{diag}(1, 0) = \frac{1}{2}(I_2 + \sigma_z)$.
+- The $2 \times 2$ projector is $\sigma_{+} := \operatorname{diag}(1, 0) = \frac{1}{2}(I_2 + \sigma_z)$. Replacing $\Pi_0$.
 - Quasiparticle Bogoliubov excitations are denoted by $\eta_{n,\mathbf{k}}$.
 - Exchange matrices $\mathbf{J}$ are in units where the Kitaev interaction is $H_K = K \sum \sigma_i^\gamma \sigma_j^\gamma$, with $K < 0$ ferromagnetic.
 
