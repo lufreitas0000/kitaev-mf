@@ -121,6 +121,101 @@ That correction is subextensive and does not alter the thermodynamic
 energy per unit cell. The vortex-free sector is the ground-state flux
 sector; see Lieb's theorem as discussed in Kitaev (2006), Section 6.
 
+
+## M0.3 — One-particle band range versus many-body spectral width
+
+Let the $N$ nonnegative matter-mode energies be
+$\epsilon_1,\ldots,\epsilon_N$. After diagonalization, the unprojected
+matter Hamiltonian is a sum of $N$ independent fermionic modes,
+$
+H_{\mathrm{matter}}
+=\sum_{n=1}^{N}\epsilon_n
+\left(a_n^\dagger a_n-\frac12\right),
+\qquad \epsilon_n\geq0.
+$
+Every occupation vector $(n_1,\ldots,n_N)\in\{0,1\}^N$ is allowed in
+the unprojected Fock space. Its minimum and maximum energies are
+$
+E_{\min}^{\mathrm{Fock}}=-\frac12\sum_n\epsilon_n,
+\qquad
+E_{\max}^{\mathrm{Fock}}=+\frac12\sum_n\epsilon_n.
+$
+Therefore the exact unprojected many-body spectral width is
+$
+W_{\mathrm{Fock}}(N)
+=E_{\max}^{\mathrm{Fock}}-E_{\min}^{\mathrm{Fock}}
+=\sum_{n=1}^{N}\epsilon_n.
+$
+It is not bounded by the one-particle upper edge $6K$: it grows
+proportionally to the number of unit cells.
+
+For the isotropic vortex-free model,
+$
+\lim_{N\to\infty}\frac{W_{\mathrm{Fock}}(N)}{N}
+=\frac{1}{(2\pi)^2}
+\int_{-\pi}^{\pi}d\theta_1
+\int_{-\pi}^{\pi}d\theta_2\,\epsilon(\theta_1,\theta_2)
+=-2e_{\mathrm{vac}}
+\simeq3.14919448K
+$
+per two-site unit cell. The identity with $-2e_{\mathrm{vac}}$ follows
+directly from the particle-hole-symmetric form of the quadratic
+Majorana spectrum, not from an independent bandwidth estimate.
+
+### Effect of the physical parity restriction
+
+The unprojected Fock space is larger than the physical matter space in a
+fixed gauge representative. The local constraints select one matter
+fermion-parity sector. Let its required parity be $p\in\{0,1\}$, where
+$p=0$ denotes even occupation parity, and let
+$\epsilon_{\min}=\min_n\epsilon_n$. For a nonzero $\epsilon_{\min}$,
+the minimum-energy allowed occupation has energy
+$
+E_{\min}^{(p)}
+=E_{\mathrm{vac}}+p\,\epsilon_{\min}.
+$
+The maximum-energy allowed occupation is the fully occupied state if
+$N\bmod2=p$; otherwise one must leave the least costly mode empty:
+$
+E_{\max}^{(p)}
+=E_{\mathrm{vac}}+\sum_n\epsilon_n
+-\mathbf 1_{\,N\bmod2\ne p}\epsilon_{\min}.
+$
+Consequently, within this fixed-parity Fock sector,
+$
+W_p(N)=\sum_n\epsilon_n
+-\left[p+\mathbf 1_{\,N\bmod2\ne p}\right]\epsilon_{\min}.
+$
+If zero modes occur, the same expression remains valid with
+$\epsilon_{\min}=0$; the zero mode can change parity without changing
+energy. This formula concerns the matter parity constraint for one
+fixed gauge representative. The allowed parity can depend on the gauge
+configuration, boundary conditions, and ordering convention, so it must
+not be assigned globally without deriving the projection rule.
+
+In the isotropic gapless model, $\epsilon_{\min}\to0$ as the torus grows
+(for regular sequences of sizes and twists). Thus the parity correction
+is subextensive and
+$
+\lim_{N\to\infty}\frac{W_p(N)}{N}
+=\lim_{N\to\infty}\frac{W_{\mathrm{Fock}}(N)}{N}
+\simeq3.14919448K.
+$
+This does not mean the finite-size physical and unprojected spectra are
+identical: their endpoints can differ by the lowest matter-mode energy.
+
+The three scales must therefore be kept separate:
+
+- $6K$: upper edge of the positive one-particle matter band;
+- $W_{\mathrm{Fock}}(N)=\sum_n\epsilon_n$: unprojected many-body width,
+  extensive in the number of unit cells;
+- $\Delta_{\mathrm{flux}}$: energy to reach the lowest physical
+  nonzero-flux sector, an $O(K)$ defect scale in the thermodynamic limit.
+
+In particular, neither $6K$ nor the extensive Fock-space width is a
+vortex gap or a denominator that can be substituted for the flux-sector
+threshold in a Feshbach resolvent.
+
 ## Flux sectors
 
 A single link flip changes the fluxes of the two plaquettes sharing that
