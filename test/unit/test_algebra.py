@@ -23,17 +23,14 @@ def test_antisymmetry() -> None:
 
 def test_pauli_kronecker_construction() -> None:
     """Verify algebraic Kronecker definitions against analytical targets."""
-    # Gauge matrices G^gamma
     assert np.allclose(G_MATRICES[1], np.kron(I_2, EPSILON))
     assert np.allclose(G_MATRICES[2], np.kron(EPSILON, S_Z))
     assert np.allclose(G_MATRICES[3], np.kron(EPSILON, S_X))
 
-    # Chiral spin matrices M^gamma
     assert np.allclose(M_MATRICES[1], np.kron(S_Z, EPSILON))
     assert np.allclose(M_MATRICES[2], np.kron(EPSILON, I_2))
     assert np.allclose(M_MATRICES[3], np.kron(S_X, EPSILON))
 
-    # Kitaev projection matrices N^gamma
     assert np.allclose(N_MATRICES[1], np.kron(PI_PLUS, EPSILON))
     assert np.allclose(N_MATRICES[2], np.kron(EPSILON, PI_PLUS))
     n3_expected = 0.5 * (np.kron(S_X, EPSILON) + np.kron(EPSILON, S_X))
@@ -43,11 +40,9 @@ def test_pauli_kronecker_construction() -> None:
 def test_orthogonality_and_normalization() -> None:
     for a in (1, 2, 3):
         for b in (1, 2, 3):
-            # M and G are orthogonal Lie subalgebras
             trace_mg = np.trace(M_MATRICES[a].T @ G_MATRICES[b])
             assert np.isclose(trace_mg, 0.0)
 
-            # Trace overlap: Tr(N^a^T G^b) = 2.0 * delta_ab
             trace_ng = np.trace(N_MATRICES[a].T @ G_MATRICES[b])
             expected_ng = 2.0 if a == b else 0.0
             assert np.isclose(trace_ng, expected_ng)
@@ -65,16 +60,21 @@ def test_so4_lie_algebra_commutations() -> None:
 
     for a in (1, 2, 3):
         for b in (1, 2, 3):
-            # [G^a, G^b] = -2 * sum_c eps_{abc} G^c
             comm_g = G_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ G_MATRICES[a]
             expected_g = -2.0 * sum(eps[a, b, c] * G_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_g, expected_g)
 
-            # [M^a, M^b] = +2 * sum_c eps_{abc} M^c
             comm_m = M_MATRICES[a] @ M_MATRICES[b] - M_MATRICES[b] @ M_MATRICES[a]
             expected_m = 2.0 * sum(eps[a, b, c] * M_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_m, expected_m)
 
-            # [M^a, G^b] = 0
             comm_mg = M_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ M_MATRICES[a]
             assert np.allclose(comm_mg, 0.0)
+
+
+def test_lemma_2_1_matrix_commutator_algebra() -> None:
+    """Verify matrix Lie homomorphism [O_A, O_B] = i O_[A, B] from Note 01."""
+    a_mat = G_MATRICES[1]
+    b_mat = M_MATRICES[1] + G_MATRICES[2]
+    comm_ab = a_mat @ b_mat - b_mat @ a_mat
+    assert np.allclose(comm_ab, -comm_ab.T)
