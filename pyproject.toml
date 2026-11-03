@@ -6,16 +6,16 @@ build-backend = "setuptools.build_meta"
 name = "kitaev-mf"
 version = "0.1.0"
 description = "Majorana parton mean-field solver for extended Kitaev models on honeycomb lattices"
-authors = [{ name = "Lucas Freitas", email = "lu.rodrigues.freitas@gmail.com" }]
+authors = [{ name = "Lu Freitas" }]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "torch>=2.2.0",
-    "numpy>=1.26.0",
-    "scipy>=1.12.0",
-    "h5py>=3.10.0",
-    "pyyaml>=6.0",
-    "click>=8.1.0",
+    "torch>=2.2.0",
+    "numpy>=1.26.0",
+    "scipy>=1.12.0",
+    "h5py>=3.10.0",
+    "pyyaml>=6.0",
+    "click>=8.1.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -27,7 +27,11 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "B", "UP", "C4"]
-ignore = ["E501"]
+# E501: line length (handled by formatter)
+# N802: function name should be lowercase (allow math operators like E, O)
+# N803: argument name should be lowercase (allow math tensors like A, B, U, V, J)
+# N806: variable in function should be lowercase (allow math matrices like H, U, V, M, G, N)
+ignore = ["E501", "N802", "N803", "N806"]
 
 [tool.mypy]
 python_version = "3.10"
