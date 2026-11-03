@@ -1,0 +1,133 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+
+\usetikzlibrary{decorations.pathmorphing, patterns,shapes}
+
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{000000}
+\definecolor{darkred}{HTML}{000000}
+\definecolor{darkgreen}{HTML}{000000}
+\definecolor{darkpink}{HTML}{000000}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \h { 0.57735026918}  % 1/\sqrt(3)
+\def \d { 0.28867513459} % 1/2\sqrt(3)
+\def \c { 0.5}          
+\def \v { 0.86602540378 }  % \sqrt(3)/2
+
+\def \ax {0.5 cm}
+\def \ay {0.86602540378 cm} % \sqrt(3)/2
+\def \ez {0.57735026918 cm} % 1/\sqrt(3)
+
+\def \mar {0.2 cm}     % margin for the clip
+\def \lx {5}       
+\def \ly {5}       
+
+
+\begin{tikzpicture}[>=latex]
+
+
+
+
+
+\pgfdeclarepatternformonly{zigzag}{\pgfpointorigin}{\pgfpoint{2cm}{2cm}}{\pgfpoint{0.35cm}{0.15cm}};
+
+
+\clip (-\mar-4*\ax, -\mar+2.3cm) rectangle (\mar+4*\ax, \mar+8*\ay+\ez-2.3cm);
+
+
+%% draw hexagonal plaquette
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] (1*\ax-2*\ax,1*\ay+2*\ay+\ez)--(2*\ax-2*\ax,2*\ay+2*\ay)--(2*\ax-2*\ax,2*\ay+2*\ay+\ez)--(2*\ax-3*\ax,2*\ay+3*\ay)--(1*\ax-3*\ax,1*\ay+3*\ay+\ez)--(1*\ax-3*\ax,1*\ay+3*\ay)--cycle;
+
+
+\draw[decoration = {zigzag,segment length = 3mm, amplitude = 1mm},decorate] (1*\ax-2*\ax,1*\ay+2*\ay+2*\ez) -- +(5cm,0);
+
+\node[circle, fill=lightpink, inner sep=4, minimum size=3] at (1*\ax-2*\ax,1*\ay+2*\ay+2*\ez) {};
+
+
+%\node (w1) at (2*\ax-1*\ax,2*\ay+1*\ay+2*\ez) {\small $\!\pi$};
+\node (w2) at (1*\ax-2*\ax,1*\ay+2*\ay+2*\ez) {\Large $\pi$};
+%\node (i) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay-0.3 cm) {\small $i$};
+%\node (j) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay+\ez+0.3 cm) {\small $j$};
+
+\node[above = 2pt] at (2*\ax-2*\ax,2*\ay+2*\ay+\ez) { \small \textcolor{lightblue}{$\!-1$} };
+\node[above = 2pt] at (2*\ax,2*\ay+2*\ay+\ez) { \small \textcolor{lightblue}{$\!-1$} };
+\node[above = 2pt] at (4*\ax,2*\ay+2*\ay+\ez) { \small \textcolor{lightblue}{$\!-1$} };
+
+
+%% draw edges 
+\foreach \m in {-1,0,...,\lx}{
+    \foreach \n in {-1,0,...,\ly}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkblue,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
+        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkgreen,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
+    }
+}
+
+%% draw edges for periodic b.c.
+\foreach \m in {5}{
+    \foreach \n in {0,...,\ly}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+    }
+}
+\foreach \m in {0,...,\lx}{
+    \foreach \n in {5}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \draw[draw=darkgreen,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
+    }
+}
+
+
+
+
+
+
+\foreach \x in {0, 2, 4, 6}{
+    \foreach \y in {4}{
+        \draw[draw=lightblue,line width=0.60mm,opacity=1] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
+    }
+}
+
+
+%% draw vertices
+\foreach \m in {-1,0,...,\lx}{
+    \foreach \n in {-1,0,...,\ly}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1.56, minimum size=1.56] (B\m\n) at (\x*\ax,\y*\ay) {};
+        \node[circle, fill=white, draw=black, line width=0.20mm, inner sep=1.56, minimum size=1.56] (W\m\n) at (\x*\ax,\y*\ay+\ez) {};
+    }
+}
+
+\end{tikzpicture}
+\end{document}
+
+

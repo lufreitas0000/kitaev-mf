@@ -59,3 +59,15 @@ doc/notes/*.out
 doc/notes/*.run.xml
 doc/notes/*.synctex.gz
 doc/notes/*.toc
+
+# Thesis reference build artifacts
+doc/reference/thesis/*.aux
+doc/reference/thesis/*.log
+doc/reference/thesis/*.out
+doc/reference/thesis/*.toc
+doc/reference/thesis/*.synctex.gz
+*.pdf
+*.jpeg
+*.jpg
+*.png
+

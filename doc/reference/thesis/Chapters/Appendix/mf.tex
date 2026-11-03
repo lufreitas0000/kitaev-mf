@@ -1,0 +1,635 @@
+
+
+
+
+The generic spin Hamiltonian  with the applied magnetic field is
+\begin{equation}
+\begin{split}
+    H   &=\frac{1}{2}\sum_{ ij }  \bm{\sigma}_i \cdot \mathbf{J}_{ij} \cdot \bm{\sigma}_j  - \sum_i \mathbf{h}_i \cdot \bm{\sigma}_i    \; ,\\
+         &=\frac{1}{2}\sum_{ ij } \mathbf{J}_{ij}^{\alpha\beta}    \sigma_i^\alpha  \sigma_j^\beta  - \sum_{i\alpha} h_i^\alpha \sigma_i^\alpha    \; ,      
+\end{split}
+\end{equation}
+Using the Majorana Parton representation for the spin, 
+\begin{equation}
+    \sigma_i^\alpha = \im c_i^0 c_i^\alpha =  \frac12 \im c_i^{\T} \rmN^\alpha  c_i \; , 
+\end{equation}, 
+together with a Lagrange multiplier leads to the Hamiltonian
+\begin{equation}
+    H   =\frac{1}{2^3}\sum_{ ij } 
+         \im c_i^{\T} \rmN^\alpha  c_i  \,  \mathbf{J}_{ij}^{\alpha\beta} \,  \im c_j^{\T} \rmN^\beta  c_j  
+         -\sum_{i\gamma} \Big( h_i^\gamma  \frac{\im}{2} c_i^{\T} \rmN^\gamma  c_i - \lambda_i^\gamma \frac{\im}{4} c_i^{\T} \rmG^\gamma  c_i  \Big)    \; . \label{B:H-full}
+\end{equation}
+We will consider a general mean-field decoupling for this generic Hamiltonian to show how the Majorana mean-field approximation can be used. 
+
+\section{Mean field approximation}
+
+In the mean-field approximation, we decompose the quartic terms in Majorana in bilinear using  
+\begin{equation}
+\begin{split}
+        \im c_i^\mu c_i^\nu \, 
+        \im c_j^ \mup  c_j^\nup 
+        &\approx \im c_i^\mu c_i^\nu  \rmV_{j}^{ \mup \nup} \!\!\! +   \im  c_j^ \mup   c_j^\nup  \rmV_{i}^{\mu\nu} \!\!\! - \rmV_{i}^{\mu\nu} \rmV_{j}^{ \mup \nup}   , \\
+        &- \im c_i^\mu c_j^ \mup    \rmU_{i j }^{\nu\nup} \! - \im  c_i^\nu  c_j^\nup \rmU_{ij}^{\mu \mup }  \! + \rmU_{ij}^{\mu \mup }   \rmU_{i j }^{\nu\nup} , \\
+        &+ \im c_i^\mu c_j^\nup   \rmU_{ij}^{\nu \mup } \! +  \im  c_i^\nu  c_j^ \mup  \rmU_{ij}^{\mu\nup} \!   -  \rmU_{ij}^{\mu\nup}  \rmU_{ij}^{\nu \mup } .  \label{eq:MF_decouple}
+\end{split}
+\end{equation}
+with two types of mean-field parameters: $\rmV_i$ the product of two Majorana fermions at the same site, and $\rmU_{ij}$ at different sites, %Which generalizes the expectations value for the polarized and for the Kitaev spin liquid phases 
+\begin{align}
+        \rmV_{i}^{\mu\nu} &= \braket{\im c_i^\mu c_i^\nu } , \quad 
+        \rmU_{ij}^{\mu\nu} = \braket{\im c_i^\mu c_j^\nu } . \label{eq:MF_parameters}
+\end{align}
+Where $\rmU^{\mu\nu}$ generalizes the $\mathbb{Z}_2$ gauge field $u_{\braket{ij}^\alpha}=\braket{\im c^\alpha_i c^\alpha_j}$ as the mean-field order parameter for the Kitaev spin liquid phase, and $\rmV_i$ for the polarized phase where $\braket{\sigma^\alpha}\neq 0$.
+
+Then
+\begin{align}
+\begin{split}
+        \im c_i^\mu \rmN^\alpha_{\mu\nu} c_i^\nu \, &
+        \im c_j^ \mup \rmN^\beta_{\mup\nup}   c_j^\nup 
+        \approx \\[8pt]
+        &\;\im c_i^\mu \rmN^\alpha_{\mu\nu} c_i^\nu  \rmV_{j}^{ \mup \nup}\rmN^\beta_{\mup\nup}  \!\!\! 
+        +   \im  c_j^ \mup  \rmN^\beta_{\mup\nup}  c_j^\nup  \rmV_{i}^{\mu\nu}\rmN^\alpha_{\mu\nu}  \!\!\! 
+        - \rmV_{i}^{\mu\nu}  \rmN^\alpha_{\mu\nu}  \rmV_{j}^{ \mup \nup}  \rmN^\beta_{\mup\nup}  \\[8pt]
+        &- \im c_i^\mu \rmN^\alpha_{\mu\nu} \rmU_{i j }^{\nu\nup}  \rmN^\beta_{\mup\nup} c_j^\mup    \! 
+        - \im  c_i^\nu \rmN^\alpha_{\mu\nu}   \rmU_{ij}^{\mu \mup } \rmN^\beta_{\mup\nup} c_j^\nup \! 
+        + \rmU_{ij}^{\mu \mup }\rmN^\alpha_{\mu\nu}  \rmU_{i j }^{\nu\nup}  \rmN^\beta_{\mup\nup}   
+        \\[8pt]
+        &+ \im c_i^\mu \rmN^\alpha_{\mu\nu} \rmU_{ij}^{\nu \mup }\rmN^\beta_{\mup\nup}  c_j^\nup    \!
+        +  \im  c_i^\nu \rmN^\alpha_{\mu\nu}   \rmU_{ij}^{\mu\nup}\rmN^\beta_{\mup\nup}  c_j^ \mup  \!   
+        -  \rmU_{ij}^{\mu\nup} \rmN^\alpha_{\mu\nu}  \rmU_{ij}^{\nu \mup }\rmN^\beta_{\mup\nup}  
+\end{split}\\[6pt]
+\begin{split}
+        &= 
+        \im c_i \rmN^\alpha  c_i  \; ( \rmV_{j} , \rmN^\beta )
+        + \im c_j \rmN^\beta  c_j  \; ( \rmV_{i} , \rmN^\alpha ) 
+        - ( \rmV_{i} , \rmN^\alpha )\;( \rmV_{j} , \rmN^\beta )   \\[3pt]
+        &- \im c_i ( \rmN^\alpha \rmU_{ij} \rmN^{\beta \, \T} ) c_j   \!
+        -  \im c_i ( \rmN^{\alpha\, \T} \rmU_{ij} \rmN^{\beta } ) c_j  \!   
+        + (  \rmU_{ij}  , \rmN^\alpha \rmU_{ij} \rmN^{\beta\, \T} )  
+        \\[3pt]
+        &+ \im c_i ( \rmN^\alpha \rmU_{ij} \rmN^\beta ) c_j   \!
+        +  \im c_i ( \rmN^{\alpha\, \T} \rmU_{ij} \rmN^{\beta \, \T} ) c_j  \!   
+        - (  \rmU_{ij}  , \rmN^\alpha \rmU_{ij} \rmN^\beta )  
+\end{split}\\[6pt]
+\begin{split}
+        &= 
+        \im c_i \rmN^\alpha  c_i  \; ( \rmV_{j} , \rmN^\beta )
+        + \im c_j \rmN^\beta  c_j  \; ( \rmV_{i} , \rmN^\alpha ) 
+        + 4 \im c_i ( \rmN^\alpha \rmU_{ij} \rmN^\beta ) c_j  \\[3pt]
+        &- ( \rmV_{i} , \rmN^\alpha )\;( \rmV_{j} , \rmN^\beta )   
+        - 2(  \rmU_{ij}  , \rmN^\alpha \rmU_{ij} \rmN^\beta )  \; . 
+\end{split}
+\end{align}
+with matrix inner product $(\rmA , \rmB) = \sum_{\mu\nu} \rmA^{\mu\nu} \rmB^{\mu\nu} = \tr (\rmA^\T \rmB)$ and using that $\rmN^{\alpha\, \T} = - \rmN^\alpha$. Also, from the fully symmetry of $\mathbf{J}_{ij}^{\alpha\beta}$ follows 
+\begin{equation}
+  \frac{1}{2} \sum_{ ij } 
+         \mathbf{J}_{ij}^{\alpha\beta}    c_i  \; ( \rmV_{j} , \rmN^\beta )
+        + \im c_j \rmN^\beta  c_j  \; ( \rmV_{i} , \rmN^\alpha )  = 
+       \sum_{ ij } 
+         \mathbf{J}_{ij}^{\alpha\beta}  \im c_i \rmN^\alpha  c_i  \; ( \rmV_{j} , \rmN^\beta ) \; .
+\end{equation}
+Applying this decoupling into the Hamiltonian resumes into equation \eqref{eq:HMF}.
+
+\begin{comment}
+    
+To compute the mean-field parameters auto-consistently one needs to diagonalize the mean-field Hamiltonian. We do it by the unitary transformation $\mathbb{U}$ where we first pair up the Majorana fermions into complex fermions and then unitary diagonalize the complex fermionic Hamiltonian, 
+\begin{equation}
+    c = \sqrt{2} \mathbb{U} \, \left( \begin{array}{c}  d^{\phantom{\dagger}} \\ d^\dagger \end{array} \right)  , \quad 
+    \mathbb{U} = \Big( \begin{array}{cc} \mathbb{U}_{<} & \mathbb{U}_{>} 
+    \end{array}\Big)\; .
+\end{equation}
+Where the columns of $\mathbb{U}_{<(>)}$ are the negative (positive) eigenvectors of the mean-field Hamiltonian. The mean-field ground state is the state annihilated by all $d_\lambda$ operators, from which follows 
+\begin{equation}
+\begin{split}
+        \braket{ \,  \im   c_\I \,  c_\J  \, }  
+        &=\im  \sum_{\varepsilon_\lambda \geq 0 } \big( \mathbb{U}^{\dagger} \big)_{\lambda,\I} \, \big( \mathbb{U}\, \big)_{\J,\lambda} 
+         = \im \big(\mathbb{U}_{>}^\pd  \mathbb{U}_{>}^\dagger  \big)_{\J\I}         
+        \\&=\im  \sum_{\varepsilon_\lambda \leq 0 } \big( \mathbb{U}\, \big)_{\I,\lambda} \, \big( \mathbb{U}^{\dagger} \big)_{\lambda,\J} \, 
+         = \im \big(\mathbb{U}_{<}^{\pd}  \mathbb{U}_{<}^\dagger  \big)_{\I\J}
+         \; , \label{eq:MF_eq}
+\end{split}
+\end{equation}
+where we used the multi-index for site and fermionic flavor $\I=(i\mu)$, $\J=(j\nu)$. Restricting $j$ to be either equal or nearest-neighbor to $i$ we find the mean-field parameters in .
+
+
+The energy expectation value  
+\begin{equation}
+\begin{split}    
+    \braket{H_{\mathrm{MF}}  } &= %\rmC
+    \frac{1}{8}\!\sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[ \tr\!\left( \rmV_{i}^\T \rmN^\alpha \right)\tr\!\left( \rmV_{j}^\T \rmN^\beta \right)+2\tr\!\left( \rmU_{ij}^\T \rmN^\alpha   \rmU_{ij} \rmN^\beta \right)   \Big] \\
+    &+\frac{1}{4}\!\sum_{i, \gamma}  \!\Big[  -  2  h_i^\gamma  \tr\!\left( \rmV_{i}^\T \rmN^\gamma \right)  + \lambda_i^\gamma \tr\!\left( \rmV_{i}^\T \rmG^\gamma  \right) \Big]  , 
+\end{split}
+\end{equation}
+
+\end{comment}
+\begin{comment}
+    
+It is convenient to define
+\begin{equation}
+    \tilde{\lambda}_i^\gamma = \lambda_i^\gamma + h_i^\gamma 
+\end{equation}
+so that
+\begin{equation}
+\begin{split}    
+    \braket{H_{\mathrm{MF}}  } &= %\rmC
+    \frac{1}{8}\!\sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[ \tr\!\left( \rmV_{i}^\T \rmN^\alpha \right)\tr\!\left( \rmV_{j}^\T \rmN^\beta \right)+2\tr\!\left( \rmU_{ij}^\T \rmN^\alpha   \rmU_{ij} \rmN^\beta \right)   \Big] \\
+    &+\frac{1}{4}\!\sum_{i, \gamma}  \!\Big[  -    h_i^\gamma  \tr\!\left( \rmV_{i}^\T \rmN^\gamma \right)  + \tilde{\lambda}_i^\gamma \tr\!\left( \rmV_{i}^\T \rmG^\gamma  \right) \Big]  , 
+\end{split}
+\end{equation}
+
+Since the matrices $\rmV$  are $2\im \mathbb{1}_4$ plus an antissimetric matrix them can be expanded as
+\begin{equation}
+    \rmV_{j}(\lambda) = 2\im \mathbb{1}_4 + \sum_\gamma w^\gamma_j(\lambda)  \rmN^\gamma + \sum_\gamma \tilde{w}^\gamma_j(\lambda) \rmG^\gamma
+\end{equation}
+where the projection onto physical states implies that  $\tilde{w}^\gamma_j\vert_{\lambda_c} = 0$.
+
+Using the inner product  $\left(\rmA,\rmB\right):=\tr\!\left( \rmA^\T \rmB \right) $ for the spin, isospin  and $\rmN=(\rmN-\rmG)/2 $ matrices
+\begin{align}
+    \left( \rmN^\alpha , \rmN^\beta \right) &= 4 \delta^{\alpha\beta}, \quad 
+    \left( \rmG^\alpha , \rmG^\beta \right) = 4 \delta^{\alpha\beta}, \quad 
+    \left( \rmN^\alpha , \rmG^\beta \right) = 0 \; , \\    
+    \left( \rmN^\alpha , \rmN^\beta \right) &= 2 \delta^{\alpha\beta}, \quad 
+    \left( \rmN^\alpha , \rmG^\beta \right) = -2 \delta^{\alpha\beta} .
+\end{align}
+We have 
+\begin{equation}
+    \left( \rmV_{j} , \rmN^\gamma  \right) = 4 w^\gamma_j, \quad 
+    \left( \rmV_{j} , \rmN^\gamma  \right) = 2\big( w^\gamma_j- \tilde{w}^\gamma_j\big) , \quad 
+    \left( \rmV_{j} , \rmG^\gamma  \right) = 4 \tilde{w}^\gamma_j .   
+\end{equation}
+Then
+\begin{equation}
+\begin{split}    
+    \braket{H_{\mathrm{MF}}  } &= %\rmC
+    \!\sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[ \frac{1}{2}\big( w^\alpha_i- \tilde{w}^\alpha_i\big)\big( w^\beta_j- \tilde{w}^\beta_j\big)+\frac{1}{4}\tr\!\left( \rmU_{ij}^\T \rmN^\alpha   \rmU_{ij} \rmN^\beta \right)   \Big] \\
+    &+\!\sum_{i, \gamma}  \!\Big[  -  h_i^\gamma  w^\gamma_i + \tilde{\lambda}_i^\gamma \tilde{w}^\gamma_i \Big]  , 
+\end{split}
+\end{equation}
+
+Idea: take the expansion in power of $\tilde{w}^\gamma_i \sim \delta\lambda = (\lambda - \lambda_c)$. The first order term contains $\lambda_c$. Equivalently, take the derivative with 
+$\delta\lambda$
+
+
+$\;$
+
+\vspace{15mm}
+
+
+Note that 
+\begin{equation}
+    \frac{\partial \braket{H_{\mathrm{MF}}  }}{\partial \rmV_{i}} = 
+    \frac{1}{4}\sum_\gamma \Big[   \mathbf{J}_{\braket{ij}_\gamma }^{\alpha\beta} 
+    \rmN^\alpha \tr\!\left( \rmV_{j}^\T \rmN^\beta \right) -    2 h_i^\gamma  \rmN^\gamma   + \lambda_i^\gamma  \rmG^\gamma   \Big]
+\end{equation}
+we find projecting on $\rmG^\gamma$ that
+\begin{align}
+    -2\sum_{\beta}\mathbf{J}_{\braket{ij}_\gamma }^{\gamma \beta} 
+      \tr\!\left( \rmV_{j}^\T \rmN^\beta \right) +   4 h_i^\gamma     + 4 \lambda_i^\gamma   &= 0
+\end{align}
+and writing $(\mathbb{J}_i)^{\gamma\beta}=\mathbf{J}_{\braket{ij}_\gamma }^{\gamma\beta}$ ,
+\begin{equation}
+    \mathbb{J}=\left(
+\begin{array}{ccc}
+ J_x+K_x & 0 & 0 \\
+ 0 & J_y+K_y & 0 \\
+ 0 & 0 & J_z+K_z \\
+\end{array}
+\right),   
+\end{equation}
+makes clear that only the term with $\beta=\gamma$ is non-zero (at least for $\Gamma^\prime=0$) and then
+\begin{equation}
+    \lambda_i^\gamma = -  h_i^\gamma + \frac{1}{2} \mathbf{J}_{\braket{ij}_\gamma }^{\gamma \gamma} 
+     \tr\!\left( \rmV_{j}^\T \rmN^\gamma \right) \; ,
+\end{equation}
+where $j$ is such that it is in a $\braket{ij}_\gamma$ bond with respect to $i$.
+
+
+\end{comment}
+
+\clearpage
+\section{Fourier transform}
+
+Assuming a translational invariant mean-field ground state, we can simplify the mean-field Hamiltonian and the self-consistent equation.
+Let us first rewrite the Hamiltonian as a sum over unit cells 
+\begin{equation}
+    H_{\mathrm{MF}}=
+    \frac{\im}{4} \sum_{r,\gamma}   c_{r,A}^{\T}  2 \rmA_{rA,r_\gamma B}  c_{r_\gamma,B} +
+    \frac{\im}{4}  \sum_{r}\Big[ c_{r,A}^{\T}\rmB_{r,A}c_{r,A}+c_{r,B}^{\T}\rmB_{r,B}c_{r,B}\Big] -
+    \rmC ,  
+\end{equation}
+where the matrices in the Hamiltonian are
+\begin{align}
+\begin{split}
+    \rmC&=\frac{1}{16}\sum_{r\gamma }   \mathbf{J}_{rA,r_{\gamma} B}^{\alpha\beta} \Big[ 
+     \tr\!\left( \rmV_{rA}^\T \rmN^\alpha \right)\tr\!\left( \rmV_{r_\gamma B}^\T \rmN^\beta \right)         
+    + 2 \,  \tr\!\left( \rmU_{rA,r_\gamma B}^\T \rmN^\alpha   \rmU_{rA,r_\gamma B} \rmN^\beta \right)   \Big]   
+    \; ,  
+\end{split}    \\
+\begin{split}
+    \rmB_{rA}&= \sum_{\gamma}\!\Big[  \frac{1}{4}  \mathbf{J}_{rA,r_{\gamma} B}^{\alpha\beta} 
+    \rmN^\alpha \tr\!\left( \rmV_{r_{\gamma} B}^\T \rmN^\beta \right) -    h_{rA}^\gamma  \rmN^\gamma  + \lambda_{rA}^\gamma  \rmG^\gamma \Big]   
+    \; , 
+\end{split} \\
+\begin{split}
+    \rmB_{rB}&= \sum_{\gamma}\!\Big[  \frac{1}{4} \mathbf{J}_{rB,r_{-\gamma} A}^{\alpha\beta} 
+    \rmN^\alpha \tr\!\left( \rmV_{r_{-\gamma} A}^\T \rmN^\beta \right) -    h_{rB}^\gamma  \rmN^\gamma  + \lambda_{rB}^\gamma  \rmG^\gamma \Big]   
+    \; , 
+\end{split} \\
+\rmA_{rA,r_\gamma B} &= \frac{1}{2} \mathbf{J}_{rA,r_{\gamma} B}^{\alpha\beta}   \rmN^\alpha \rmU_{rA,r_{\gamma} B} \rmN^\beta \; .
+\end{align}
+The Fourier transformed modes are
+\begin{align}    
+    c_{\mathbf{k},\sigma}^\mu &= \frac{1}{\sqrt{2N}} \sum_{r} \; c_{r,\sigma}^\mu e^{-\im \mathbf{k}\cdot\mathbf{R}_r} \; , \\
+    c_{r,\sigma}^\mu &= \sqrt{\frac{2}{N}} \sum_{\mathbf{k}}^{\prime}  \; \Big[  
+    c_{\mathbf{k},\sigma}^{\mu\pd\!} e^{\im \mathbf{k}\cdot\mathbf{R}_r}+c_{\mathbf{k},\sigma}^{\mu\dagger} e^{-\im \mathbf{k}\cdot\mathbf{R}_r} 
+    \Big]\; . 
+\end{align}
+Under the translation invariance assumption, the Hamiltonian reduces to 
+\begin{align}
+    \!\!H_{\mathrm{MF}}
+    &=\!\!
+    \frac{1}{2}\sum_{\mathbf{k}} \!\!  c_{\mathbf{k},A}^{\dagger}  \sum_{\gamma} \Big[2\im \rmA_{\gamma} e^{\im \mathbf{k}\cdot \bm{n}_\gamma} \Big]  c_{\mathbf{k},B}  +\frac{1}{2}
+    \!\sum_{\mathbf{k}}\im\Big[ c_{\mathbf{k},A}^{\dagger}\rmB_{A} c_{\mathbf{k},A}^\pd
+    +c_{\mathbf{k},B}^{\dagger}  \rmB_{B} c_{\mathbf{k},B}^\pd \Big] -  
+    \rmC ,  \\    
+    &=-      \rmC  + \frac{1}{2}
+    \sum_{\mathbf{k}}   
+    \left(\begin{array}{c} c_{\mathbf{k},A} \\ c_{\mathbf{k},B}           
+    \end{array}\right)^{\dagger}  \!
+    \left(\begin{array}{cc}
+         \im \rmB_{A} & \im \sum_{\gamma} \rmA_{\gamma} e^{\im \mathbf{k}\cdot \bm{n}_\gamma}  \\
+         -\im \sum_{\gamma} \rmA_{\gamma}^{\T} e^{-\im \mathbf{k}\cdot \bm{n}_\gamma} & \im \rmB_{B}
+    \end{array}\right)\!
+    \left(\begin{array}{c} c_{\mathbf{k},A} \\ c_{\mathbf{k},B}           
+    \end{array}\right) \\    
+    &=-      \rmC  + \frac{1}{2} \!
+    \sum_{\mathbf{k}}   
+    \left(\begin{array}{c} \bar{d}_{\mathbf{k}} \\ d_{\mathbf{k}}           
+    \end{array}\right)^{\T}  \!
+    \left(\begin{array}{cc}
+         \text{diag}\big(\varepsilon_n(\mathbf{k}) \big) & 0\\
+         0& \text{diag}\big(-\varepsilon_n(\mathbf{k}) \big) 
+    \end{array}\right)\!
+    \left(\begin{array}{c} d_{\mathbf{k}} \\ \bar{d}_{\mathbf{k}}           
+    \end{array}\right)\\
+    &= -\rmC + \sum_{n, \mathbf{k}} \varepsilon_n(\mathbf{k}) d_{\mathbf{k}}^\dagger d_{\mathbf{k}}^\pd -\frac{1}{2}\!   \sum_{n, \mathbf{k}} \varepsilon_n(\mathbf{k}) \; .
+\end{align}
+where 
+\begin{align}
+\begin{split}
+    \rmC&= \frac{N}{16} \sum_{\gamma }   \mathbf{J}_{\gamma}^{\alpha\beta} \Big[ 
+      \tr\!\left( \rmV_{A}^\T \rmN^\alpha \right)\tr\!\left( \rmV_{B}^\T \rmN^\beta \right)         
+    + 2 \,  \tr\!\left( \rmU_{\gamma}^\T \rmN^\alpha   \rmU_{\gamma} \rmN^\beta \right)   \Big]   
+    \; ,  
+\end{split}    \\
+\begin{split}
+    \rmB_{A}&= \sum_{\gamma}\!\Big[ \frac{1}{4} \mathbf{J}_{\gamma}^{\alpha\beta} 
+    \rmN^\alpha \tr\!\left( \rmV_{B}^\T \rmN^\beta \right) -    h_{A}^\gamma  \rmN^\gamma  + \lambda_{A}^\gamma  \rmG^\gamma \Big]   
+    \; , 
+\end{split} \\
+\begin{split}
+    \rmB_{B}&= \sum_{\gamma}\!\Big[  \frac{1}{4}  \mathbf{J}_{\gamma}^{\alpha\beta} 
+    \rmN^\alpha \tr\!\left( \rmV_{A}^\T \rmN^\beta \right) -    h_{B}^\gamma  \rmN^\gamma  + \lambda_{B}^\gamma  \rmG^\gamma \Big]   
+    \; , 
+\end{split} \\
+\rmA_{\gamma} &= \frac{1}{2}\mathbf{J}_{\gamma}^{\alpha\beta}   \rmN^\alpha \rmU_{\gamma} \rmN^\beta
+\end{align}
+
+We can define complex fermions such that 
+\begin{align}
+    c_{\mathbf{k}}^\pd &= \mathbb{U}_{<}^\pd(\mathbf{k}) \, d_\mathbf{k}^\pd +  \mathbb{U}_{>}^\pd(\mathbf{k}) \, \bar{d}_\mathbf{k}\; , \\[4pt]
+    c_{\mathbf{k}}^\dagger &=  d_\mathbf{k}^\T \mathbb{U}_{>}^\dagger(\mathbf{k}) +   d_\mathbf{k}^\dagger \mathbb{U}_{<}^\dagger(\mathbf{k}) \; ,
+    \end{align}
+using overline on $d$ to represent the column vector\footnote{We reserve $d_{\mb k}^\dagger$ for the row vector obtained from Hermitean conjugation of the column vector $d_{\mb k}$.} with entries $(\bar{d}_{\mb k})_\rho =(d_{\mb k}^\dagger)_\rho $.
+The unitary transformation is split with half of the columns in $\mathbb{U}_{<}$ and the other half in $\mathbb{U}_{>}$, such that $\mathbb{U}_{<} = \left( \mathbb{U}_{<} \; \mathbb{U}_{>} \right)$.
+These matrices are related by charge conjugation symmetry due to the Majorana fermion setup which satisfies $c_{-\mathbf{k}}= (c_{\mathbf{k}}^\dagger)^\T = \mathbb{U}_{>}^\ast(\mathbf{k}) \, d_\mathbf{k}^\pd +  \mathbb{U}_{<}^\ast(\mathbf{k}) \, \bar{d}_\mathbf{k} $, forcing us to define $\mathbb{U}_{</>}(-\mathbf{k})=\mathbb{U}_{>/<}^\ast(\mathbf{k})$.
+The unitary transformation diagonalizes the Hamiltonian 
+    \begin{align}
+    \mathbb{U}^\dagger
+    \left(\begin{array}{cc}
+         \im \rmB_{A} & \im \sum_{\gamma} \rmA_{\gamma} e^{\im \mathbf{k}\cdot \bm{n}_\gamma}\!\!\!  \\
+         \!\!-\im \sum_{\gamma} \!\rmA_{\gamma}^{\T} e^{-\im \mathbf{k}\cdot \bm{n}_\gamma} & \im \rmB_{B}
+    \end{array}\right)\! \mathbb{U} &=
+    \left(\begin{array}{cc}
+         \bm{\varepsilon} & 0\\
+         0& -\bm{\varepsilon} 
+    \end{array}\right) , 
+\end{align} 
+where $\bm{\varepsilon}$ is the $8\times 8$ diagonal matrix $\text{diag}\big(\varepsilon_n(\mathbf{k}) \big)$.
+
+Using the unitary transformations $\mathbb{U}(\mb{k})$, we can find the mean-field parameters (for unit cells $\mathbf{R}'=\mathbf{R}+\mathbf{n}_\gamma$) 
+\begin{align}
+    \braket{ \im c_{r} c_{r_\gamma }^{T} } 
+    &= \frac{1}{N}\sum_r \braket{ \im c_{r} c_{r_\gamma }^{T} } \\
+    &= \frac{2}{N^2}\sum_{r,\mathbf{k},\mathbf{k}'} \braket{ \im c_{\mathbf{k}}^\pd  c_{\mathbf{k}' }^\dagger } e^{\im \mathbf{R}_{r}\cdot(\mathbf{k}-\mathbf{k}')} e^{-\im \mathbf{k}'\cdot \mathbf{n}_\gamma}  \\    
+    &= \frac{2}{N}\sum_{\mathbf{k} } \braket{ \im c_{\mathbf{k}}^\pd  c_{\mathbf{k} }^\dagger } e^{-\im \mathbf{k} \cdot \mathbf{n}_\gamma}  \\ 
+    &= \frac{2}{N}\sum_{\mathbf{k} } \im \mathbb{U}_{<}^\pd(\mathbf{k}) \mathbb{U}_{<}^\dagger(\mathbf{k})  e^{-\im \mathbf{k} \cdot \mathbf{n}_\gamma}   \; , 
+    %\\    &= \frac{1}{N}\sum_{\mathbf{k}  } \im \Big(     \mathbb{U}_{>}^\ast(\mathbf{k}) \mathbb{U}_{>}^\T(\mathbf{k})  e^{\im \mathbf{k} \cdot \mathbf{n}_\gamma}  +    \mathbb{U}_{<}^\pd(\mathbf{k}) \mathbb{U}_{<}^\dagger(\mathbf{k})  e^{-\im \mathbf{k} \cdot \mathbf{n}_\gamma}      \Big) .
+\end{align}
+where $\braket{ \im c_{r} c_{r_\gamma }^{T} }$ is an $8\times8$ matrix with entries $\braket{ \im c_{r,\sigma}^\mu  c_{r_\gamma,\sigma' }^\nu}$. 
+We use for Majorana fermions $c_r^T=c_r^\dagger$.
+This expression allows us to compute the mean-field parameters in the translational invariant case.
+The algorithm to solve the self-consistent equation is the same as described in the main text, sec.~\ref{sec:4-algorithm}, for the problem in the real lattice. 
+
+As is evidenced by the number of mean-field parameters, the problem with translational symmetry is much simpler and less computationally costly than the one in the real lattice.  
+This allows us (in more reasonable time) to test the limits of convergence for many more parameters $J, K, \Gamma, \bm{h}$, system size $Lx,Ly$, and ways to enforce the constraints with the Lagrange multiplier $\lambda$. Some of this benchmark is shown in the appendix \ref{App-translational}.
+
+
+
+
+
+
+
+
+
+
+\section{Lagrange Multiplier}
+
+The mean-field Hamiltonian is  
+\begin{align}
+    H_{\mathrm{MF}} &=\frac{\im}{4} \sum_{ij}  c_i^{\T}   \rmA_{ij}  c_j + \frac{\im}{4} \sum_i  c_i^{\T}   \rmB_{i}  c_i- \rmC \; , \\ 
+    \rmC &= \frac{1}{8} \sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[ 
+       \braket{ \rmV_{i} \, , \,  \rmN^\alpha } \braket{ \rmV_{j} \, , \,  \rmN^\beta }    
+       +2\braket{ \rmU_{ij} \, , \,  \rmN^\alpha   \rmU_{ij} \rmN^\beta }   \Big]   \; ,  \label{eq:C} \\
+    \rmB_{i}&=\! \sum_{j}  \mathbf{J}_{ij}^{\alpha\beta} 
+    \rmN^\alpha \braket{ \rmV_{j} \, , \,  \rmN^\beta }
+    -\sum_{\gamma}\!\Big( 2h_i^\gamma  \rmN^\gamma  - \lambda_i^\gamma  \rmG^\gamma \Big)   
+    \; , \label{eq:B} \\
+    \rmA_{ij} \!&= 2 \mathbf{J}_{ij}^{\alpha\beta}  \rmN^\alpha \rmU_{ij} \rmN^\beta     \; ,  \label{eq:A}
+\end{align}
+where  $\rmN^\gamma=(\rmN^\gamma-\rmG^\gamma) $ and $\gamma = 1,2,3$ for $\{\rmN^\gamma\}$ and $\{\rmG^\gamma\}$ being two linear independent real representations of the $\mathfrak{su}(2)$ algebra inside the fundamental representation of $\mathfrak{so}(4)=\mathfrak{su}(2)\times\mathfrak{su}(2)$. Thus, the span of $\{ \rmN^\gamma, \rmG^\gamma \}$ is the $6$-dimensional set of $4\times 4$ antissimetric matrices.
+The matrix representation of $\rmN^\gamma, \rmG^\gamma $ is given in appendix \ref{App-Parton}, see eq.~\eqref{A:MG}. 
+These matrices are orthogonal with respect to the inner product $\braket{\rmA \, , \,  \rmB} :=\tr\!\left( \rmA^\T \rmB \right) $ :
+\begin{align}
+    \braket{\rmN^\alpha , \rmN^\beta} &=  \delta^{\alpha\beta}, \quad 
+    \braket{ \rmG^\alpha , \rmG^\beta } =  \delta^{\alpha\beta}, \quad 
+    \braket{ \rmN^\alpha , \rmG^\beta } = 0 \; , \\    
+    \braket{ \rmN^\alpha , \rmN^\beta } &=  \delta^{\alpha\beta}, \quad 
+    \braket{ \rmN^\alpha , \rmG^\beta } = - \delta^{\alpha\beta} .
+\end{align}
+
+Since the matrices $\rmV$  are $2\im \mathbb{1}_4$ plus an antissimetric matrix they can be expanded as
+\begin{equation}
+    \rmV_{j}(\lambda) = 2\im \mathbb{1}_4 + \sum_\gamma \mathrm{v}^\gamma_j(\lambda)  \rmN^\gamma + \sum_\gamma \bar{\mathrm{v}}^\gamma_j(\lambda) \rmG^\gamma\;,
+\end{equation}
+with coefficients given by the inner-products
+\begin{equation}
+    \braket{ \rmV_{j} , \rmN^\gamma } =  \mathrm{v}^\gamma_j, \quad 
+    \braket{ \rmV_{j} , \rmN^\gamma } = \big( \mathrm{v}^\gamma_j - \bar{\mathrm{v}}^\gamma_j\big) , \quad 
+    \braket{ \rmV_{j} , \rmG^\gamma } =  \bar{\mathrm{v}}^\gamma_j .   
+\end{equation}
+Using these expression, the energy functional is   %\reminder{check factors of 2 and 4}
+\begin{align}
+\begin{split}    
+    \braket{H_{\mathrm{MF}}  } &= %\rmC
+    \frac{1}{8}\!\sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[
+    \braket{ \rmV_{i} \, , \,  \rmN^\alpha } \braket{ \rmV_{j} \, , \,  \rmN^\beta }    
+       +2\braket{ \rmU_{ij} \, , \,  \rmN^\alpha   \rmU_{ij} \rmN^\beta }    \Big] \\ &
+    +\frac{1}{4}\!\sum_{i, \gamma}  \!\Big[  -  2  h_i^\gamma \braket{ \rmV_{i} \, , \,  \rmN^\gamma }  + \lambda_i^\gamma \braket{ \rmV_{i} \, , \,  \rmG^\gamma } \Big]  , 
+\end{split}\\
+\begin{split}    
+     &= 
+   \frac{1}{8}\!\sum_{ij}  \mathbf{J}_{ij}^{\alpha\beta} \Big[  \big( \mathrm{v}^\alpha_i- \bar{\mathrm{v}}^\alpha_i\big)\big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big)+2\braket{ \rmU_{ij} \, , \,  \rmN^\alpha   \rmU_{ij} \rmN^\beta }     \Big] \\
+    &+\frac{1}{4}\!\sum_{i, \alpha}  \!\Big[ -2h_i^\alpha  \big( \mathrm{v}^\alpha_i - \bar{\mathrm{v}}^\alpha_i \big) + \lambda_i^\alpha \bar{\mathrm{v}}^\alpha_i \Big]   \; ,
+\end{split}\\
+\begin{split}    
+     &= 
+   \frac{1}{4}\!\sum_{ij}\mathbf{J}_{ij}^{\alpha\beta}  \braket{ \rmU_{ij} \, , \,  \rmN^\alpha   \rmU_{ij} \rmN^\beta }     +\frac{1}{4}\!\sum_{i, \alpha}  \!\Big[ -2{h}_i^\alpha  \big( \mathrm{v}^\alpha_i - \bar{\mathrm{v}}^\alpha_i \big) + \lambda_i^\alpha \bar{\mathrm{v}}^\alpha_i \Big]  ,  \\
+   &+
+   \frac{1}{8}\!\sum_{i}  \big( \mathrm{v}^\alpha_i- \bar{\mathrm{v}}^\alpha_i\big) \sum_{j}  \mathbf{J}_{ij}^{\alpha\beta}\big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big).
+\end{split}
+\end{align}
+The matrix element $\mathbf{J}_{ij}^{\alpha\beta}$ is only non-zero for $j$ in a bond with $i$, so it restricts to the three terms in the sum over $\gamma$ in $\braket{ij}_\gamma$, as  $i$ can be in either sublattice here (to not confusing with) the notation where $\braket{ij}$ forces $i/j\in A/B$  I will write this sum as a sum of nearest neighbors $\sum_{j\in V_i}$.
+From this, we can identify the effective magnetic field 
+\begin{align}
+        \braket{H_{\mathrm{MF}}  }  
+     &= 
+   \frac{1}{4}\!\sum_{ij}\mathbf{J}_{ij}^{\alpha\beta}  \braket{ \rmU_{ij} \, , \,  \rmN^\alpha   \rmU_{ij} \rmN^\beta }     +\frac{1}{4}\!\sum_{i, \alpha}  \!\Big[ -2\tilde{h}_i^\alpha  \big( \mathrm{v}^\alpha_i - \bar{\mathrm{v}}^\alpha_i \big) + \lambda_i^\alpha \bar{\mathrm{v}}^\alpha_i \Big]  ,  \\
+   \tilde{h}_i^\alpha &= h_i^\alpha - \frac{1}{2}
+   \!\sum_{j \in V_i} \! J^{\alpha\beta}_{ij}  \big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big)
+   \; . \label{B:effective-field}
+\end{align}
+
+
+
+\section{Partially polarized phase}
+We can solve the mean-field equation in the phase where all generalized Kitaev type parameters are zero $U_{ij}^{\alpha\beta}=0$.  
+Let us consider first the uniform case 
+\begin{equation}
+     \mathrm{v}^\gamma_i=\mathrm{v}^\gamma \; , \quad 
+     \bar{\mathrm{v}}^\gamma_i=\bar{\mathrm{v}}^\gamma \;.
+\end{equation}
+The energy density $F = \braket{H_{\mathrm{MF}}  }/2N$  is 
+\begin{align}
+\begin{split}    
+    F     &= 
+   \!\sum_{\gamma}  \Big[ \; \mathbf{J}_{\gamma}^{\alpha\beta}\frac{1}{2}\big( \mathrm{v}^\alpha-\bar{\mathrm{v}}^\alpha\big)\big( \mathrm{v}^\beta-\bar{\mathrm{v}}^\beta\big)  -  h^\gamma  \big( \mathrm{v}^\gamma - \bar{\mathrm{v}}^\gamma \big)  + \lambda^\gamma \bar{\mathrm{v}}^\gamma \Big]  , 
+\end{split}
+\end{align}
+where $\mathbf{J}_{\gamma}^{\alpha\beta} \equiv  \mathbf{J}_{\braket{ij}_\gamma}^{\alpha\beta} $ and $\sum_\gamma \equiv \sum_{j \in V_i }$ for the set $V_i=\{i+\delta_x,i+\delta_y,i+\delta_z\}$ of N.N. of $i$.
+Instead of directly imposing the minimization of $F$ w.r.t to $\lambda$ that enforces $\bar{\mathrm{v}}=0$, let us vary $F$ w.r.t. $\bar{\mathrm{v}}$ and find the critical value for the Lagrange multiplier 
+\begin{align}
+\begin{split}    
+    \frac{\partial F}{\partial \bar{\mathrm{v}}^\beta}      &= 
+   \! -\Big(\sum_{\gamma}  \mathbf{J}_{\gamma}^{\alpha\beta} \Big)\big( \mathrm{v}^\alpha-\bar{\mathrm{v}}^\alpha\big) +  h^\beta    + \lambda^\beta   \Rightarrow \boxed{\;\lambda^\alpha = -h^\alpha + \mathbb{J}^{\alpha\beta}\big( \mathrm{v}^\beta-\bar{\mathrm{v}}^\beta\big)  \, } \, , 
+\end{split}
+\end{align}
+where 
+\begin{equation}
+    \mathbb{J}^{\alpha\beta} = \frac{\partial^2 F}{\partial \bar{\mathrm{v}}^\alpha \partial \bar{\mathrm{v}}^\beta} = 
+    \sum_{\gamma}  \mathbf{J}_{\gamma}^{\alpha\beta} =
+    \left(\begin{array}{ccc}
+       3J + K& \Gamma & \Gamma \\
+       \Gamma & 3J + K  & \Gamma \\
+       \Gamma &\Gamma &3J + K 
+    \end{array}\right)^{\alpha\beta} \; .
+\end{equation}
+Note that $\det \left(\mathbb{J}^{\alpha\beta}\right) = (-\Gamma +3 J+K)^2 (2 \Gamma +3 J+K)$ is negative close to the pure FM Kitaev limit $K<0$ so the energy is a minimum.
+
+This minimization procedure implies that the Lagrange multiplier is equal to $\lambda = h-2 \tilde{h}$.
+Plugging this value for the Lagrange multiplier in the energy density 
+\begin{align}
+\begin{split}    
+    F     &= 
+    \frac{1}{2} \mathbb{J}^{\alpha\beta}  \big( \mathrm{v}^\alpha-\bar{\mathrm{v}}^\alpha\big)\big( \mathrm{v}^\beta-\bar{\mathrm{v}}^\beta\big)  -  h^\alpha   \mathrm{v}^\alpha +\mathbb{J}^{\alpha\beta}\bar{\mathrm{v}}^\alpha \big( \mathrm{v}^\beta-\bar{\mathrm{v}}^\beta\big) , 
+\end{split}\\
+\begin{split}    
+         &= 
+    \frac{1}{2} \mathbb{J}^{\alpha\beta}  \big( \mathrm{v}^\alpha\mathrm{v}^\beta-\bar{\mathrm{v}}^\alpha\bar{\mathrm{v}}^\beta\big)   -  h^\alpha   \mathrm{v}^\alpha  .
+\end{split}
+\end{align}
+From that, we immediately see that if $\det \left(\mathbb{J}^{\alpha\beta}\right)<0$  the energy is minimized for $\bar{\mathrm{v}}=0$. Minimizing the energy w.r.t. $\mathrm{v}^\alpha$ we find 
+\begin{align}
+\begin{split}    
+    \frac{\partial F}{\partial \mathrm{v}^\alpha}      &= 
+   \mathbb{J}^{\alpha\beta}  \mathrm{v}^\beta 
+   -  h^\alpha
+   \Rightarrow 
+   \boxed{\;\mathrm{v}^\alpha = \big(\mathbb{J}^{-1}\big)^{\alpha\beta} \; h^\beta   \, } \, , 
+\end{split}
+\end{align}
+and the classical polarized energy is 
+$F=-\frac{1}{2} \big(\mathbb{J}^{-1}\big)^{\alpha\beta} \; h^\alpha h^\beta$. Note however that this solution breaks down in the region where $\det \left(\mathbb{J}^{\alpha\beta}\right)>0$, i.e. $\Gamma > -\frac{K}{2}-\frac{3J}{2}$, which gives a explanation for the transition at $\Gamma/(-K)=0.5$ in the $h\Gamma$ phase  diagram for $J=0$. 
+
+In the inhomogeneous case, the Lagrange multiplier is 
+\begin{equation}
+    \lambda_i^\alpha = - h^\alpha_i + \frac{1}{2} \!\! \sum_{j \in V_i} J^{\alpha\beta}_{ij}
+    \big( \mathrm{v}^\beta_j-\bar{\mathrm{v}}^\beta_j\big)  \; ,
+\end{equation}
+which gives the free energy 
+\begin{align}
+\begin{split}    
+    2N \, F    
+    %&=      \!\sum_{i} \Big[  -  h_i^\gamma    \mathrm{v}^\gamma_i \!+\!\! \sum_{j(\gamma) \in V_i}\!\!J^{\alpha\beta}_{\braket{ij}_\gamma} \frac{1}{2}\Big(        \big( \mathrm{v}^\alpha_i- \bar{\mathrm{v}}^\alpha_i\big)\big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big)     +     \bar{\mathrm{v}}^\alpha_i\big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big)    \Big)\Big], \end{split}\\
+%\begin{split}    &=  \!\sum_{i} \Big[  -  h_i^\gamma    \mathrm{v}^\gamma_i \!+\frac{1}{2}\!\! \sum_{j(\gamma) \in V_i}\!\!J^{\alpha\beta}_{\braket{ij}_\gamma} \big( \mathrm{v}^\alpha_i+    \bar{\mathrm{v}}^\alpha_i\big) \big( \mathrm{v}^\beta_j- \bar{\mathrm{v}}^\beta_j\big)  \Big],\end{split} \\ \begin{split} 
+   &=  \!-\sum_{i}  h_i^\gamma    \mathrm{v}^\gamma_i \!+\frac{1}{2} \sum_{ij}J^{\alpha\beta}_{\braket{ij}} \big( \mathrm{v}^\alpha_i \mathrm{v}^\beta_j- 
+    \bar{\mathrm{v}}^\alpha_i  \bar{\mathrm{v}}^\beta_j\big)  \,  .
+\end{split}
+\end{align}
+
+
+
+
+\section{Kitaev spin liquid phase}\label{sec:B-lag}
+Treating the mean-field parameters $\rmU, \rmV$ as independent variables, the minimization procedure for $\rmV$ gives the same expression for the Lagrange multiplier. Allowing a correction, I will write the Lagrange multiplier as 
+\begin{equation}
+    \lambda_i^\alpha = - h^\alpha_i + \frac{1}{2}  \sum_{j \in V_i} J^{\alpha\beta}_{ij}
+    \big( \mathrm{v}^\beta_j-\bar{\mathrm{v}}^\beta_j\big) + \delta \lambda_i  \; , \label{B:lagrange-multiplier}
+\end{equation}
+where $\delta h_i$ is such that the solution of the self-consistent equation satisfies the constraint $\braket{ \rmV_{i} \, , \,  \rmG^\gamma } =0$. As there is no way to solve the self-consistent equations in the general case, then one cannot compute $ \delta \lambda_i$.   A not elegant solution for this is: for each fixed value of $\{\delta \lambda_i\}$ one test if it solves the self-consistent equations and computes the value of $\braket{ \rmV_{i} \, , \,  \rmG^\gamma }$, iterating this process one can find the solution by sampling a set of values one. 
+
+In the homogeneous case, one can solve it by brute force. Define functions $\alpha_1, \alpha_2, \alpha_3$
+\begin{equation}
+    \delta \bm{\lambda} = \alpha_1 \mathbf{a}  + \alpha_2 \mathbf{b} + \alpha_3 \mathbf{c} \; ,
+\end{equation}
+These are functions of the field and the couplings.  
+From trial and error, I found that $\delta \bm{\lambda}$ is small and scales linearly with $\mathbf{h}$. The problem reduces to find $\alpha$ such that 
+\begin{equation}
+    \delta \bm{\lambda} = \alpha \mathbf{h} \; 
+\end{equation} 
+implies in the constraint fulfillment 
+\begin{equation}
+    \braket{\im c_i^T \rmG^\alpha  c_i }
+=
+\tr ( \rmV_i^T \rmG^\alpha)
+= \frac{
+\rmV_i^{0\alpha}-\rmV_i^{\beta \gamma } }{2}
+    =\frac{
+    \braket{\im c_i^0 c^\alpha_i }  - \braket{ \im c^\beta_i c^\gamma_i}}{2} = 0 \; .
+\end{equation}
+We need to find $\bm{\lambda} = -\mb{h}_{\text{eff}} + \delta \bm{\lambda}$ such that the mean-field solution satisfies the these constraints.
+
+To measure the violation from $\tr ( \rmV_i^T \rmG^\alpha)=0$ we define
+\begin{equation}
+    \Delta \rmV_i(\alpha) := \frac{1}{\sqrt{3} }||~\bar{\mathrm{v}}_i~||
+    = \sqrt{\;  \frac{1}{3}\sum_{\gamma = 1}^{3} \;\braket{\rmV_i\,,\,\rmG^\gamma }^2 \; } 
+\end{equation}
+Where the inner product is $\braket{\rmV_i\,,\,\rmG^\gamma }=\tr ( \rmV_i^T \rmG^\alpha)$. 
+This violation is zero states that are physical as satisfies $\tr ( \rmV_i^T \rmG^\alpha)=0$.
+The normalization is chosen so that the maximal value is one, with the factor $1/3$ due to three terms in the $\gamma$ sum.  %, normalization of $\rmG: \braket{ \rmV, \rmG^\gamma } =  \bar{\mathrm{v}}^\gamma$).
+
+
+
+\begin{figure}
+    \centering    \includegraphics[width=.7\textwidth]{Chapters/Appendix/Figures/mf/cv-lambda.pdf}
+    %\includegraphics[width=.7\textwidth]{Chapters/Appendix/Figures/mf/en-lambda.pdf}
+    \caption{The optimal value for the Lagrange multiplier is $\delta \lambda = -0.11 \mathbf{h}$. }
+    \label{fig-delta-v}
+\end{figure}
+
+
+
+The constraint violation for %$\rmV = 2 \im  \mathbb{1}_4 + \sum_\gamma \mathrm{v}^\gamma  \rmN^\gamma + \bar{\mathrm{v}}^\gamma \rmG^\gamma $ is 
+$\rmV^{\mu\nu}=\left<ic^\mu c^{\nu}\right>$ is
+\begin{equation}
+ (\Delta \rmV)^2 %:= \frac{1}{3} \sum_\gamma (\bar{\mathrm{v}}^\gamma)^2
+ =\dfrac{     
+ \left(\dfrac{\left<ic^0c^{{x}}\right>+\left<ic^{{y}}c^{{z}}\right>}{2}\right)^2+
+ \left(\dfrac{\left<ic^0c^{{y}}\right>+\left<ic^{{z}}c^{{x}}\right>}{2}\right)^2+
+ \left(\dfrac{\left<ic^0c^{{z}}\right>+\left<ic^{{x}}c^{{y}}\right>}{2}\right)^2
+ }{3\; }\;.
+\end{equation}
+In the isotropic case, this quantity reduces to the expected expression $\Delta \rmV = \frac{1}{2}\left|\left<ic^0c^{{\gamma}}\right>+\left<ic^{{\alpha}}c^{{\beta}}\right>\right|$ with normalization $ \frac{1}{2}$.
+%From numerical evidence, I found the maximal value for $|\bar{\mathrm{v}}_i|$ to be one so that the constraint violation is bound to 
+
+
+The bound for the constraint violation is 
+\begin{align*}
+    &0\leq || \bar{\mathrm{v}}_i||^2 
+\leq 
+ || {\mathrm{v}}_i||^2 + || \bar{\mathrm{v}}_i||^2
+=
+\frac{1}{4^2}\sum_\gamma  \big(  
+\braket{\rmV_i\,,\,\rmN^\gamma }^2 +\braket{\rmV_i\,,\,\rmG^\gamma }^2 \big)
+\\& =
+\frac{1}{2} \Big( 
+\braket{\im c^0 c^1 }^2+
+\braket{\im c^0 c^2 }^2+
+\braket{\im c^0 c^3 }^2+
+\braket{\im c^1 c^2 }^2+
+\braket{\im c^2 c^3 }^2+
+\braket{\im c^3 c^1 }^2
+\Big)
+\\& \leq
+\frac{1}{2} \Big( \!
+\braket{(\im c^0 c^1)^2 }+
+\braket{(\im c^0 c^2)^2 }+
+\braket{(\im c^0 c^3)^2 }+
+\braket{(\im c^1 c^2)^2 }+
+\braket{(\im c^2 c^3)^2 }+
+\braket{(\im c^3 c^1)^2 }\!
+\Big)
+\\&
+%=\frac{1}{2} \Big( \braket{ \bm{\sigma}^2 } + \braket{ \bm{\tau}^2 }\Big)  
+= 3 \;   \\[3pt]
+& \Rightarrow \quad 0 \leq \Delta \rmV \leq 1 \; .
+\end{align*}
+%where the spin $\frac{1}{2}\bm{\sigma}$ and the pseudo spin $\frac{1}{2}\bm{\tau}$ squared are $\frac{3}{2}$ 
+%8 (w[2, 1]^2 + w[3, 1]^2 + w[3, 2]^2 + w[4, 1]^2 + w[4, 2]^2 +    w[4, 3]^2)
+%The same equation holds for the magnetization 
+
+Now let us turn to analyze how much the constraint is violated for some values of $\delta \lambda$ or $\alpha$.
+Numerically $\alpha=0$ already gives a small constraint violation in the KSL region
+\begin{equation}
+    \alpha = 0 \quad \Rightarrow \quad  \Delta \rmV_i(\alpha)  \lesssim 10^{-2} \; .
+\end{equation}
+For a more precise solution, one can try different values for $\alpha$ such that $\Delta V$ is minimized.
+Here I will consider the homogeneous case with the same $\alpha$ in both sublattices.
+For example, for  $\Gamma=0.1$  one can take  $ \alpha \approx -0.11$ to get $ \Delta \rmV < 10^{-5}$ for any value of $h$ as shown in Fig. \ref{fig-delta-v}.  
+
+The optimum value for the Lagrange multiplier  is found by fixing all the parameters of the model and varying the Lagrange multiplier indexed by $\alpha$. For each value of the Lagrange multiplier, we independently solve the mean-field self-consistent equation and found the corresponding  constraint violation $\Delta V$.  The value for $\alpha$ is determined a posteriori by finding which minimizes the constraint $\Delta V$. \textit{This solution is \textit{not} elegant}, since we need many trials to determine the value for the Lagrange multiplier in contrast to a self-consistent solution also for the Lagrange multiplier (we tried, but did not found such solution that produced tigher contraints). Fortunetly, for the translation invariant configuration, by this procedure give a almost constant value for the parameter $\alpha$. As we change the value of $\Gamma$, the mean-field parameter $\alpha$ can be well approximated by the affine function  $\alpha(\Gamma)=-0.2+1.13 \Gamma$.  In Fig.~\ref{fig-CV-Gamma}, we show the value of the constraint violation $\Delta V(\alpha)$ for some values of $\Gamma$ and shown that it is minimal for the value $\alpha = \alpha(\Gamma)$. This approximation is surprisingly good, and it is enough for the parameter region that we are interested in. 
+
+\begin{figure}
+    \centering\hspace*{-10mm}\includegraphics[width=.7\textwidth]{Chapters/Appendix/Figures/mf/lag-m-h.01_.3.pdf}\\
+    \includegraphics[width=.8\textwidth]{Chapters/Appendix/Figures/mf/constraint-violation-Gamma-rescaled.pdf}
+    \caption{(a) $\alpha(\Gamma)$ for two values of the magnetic field. The dependence in the magnetic field is very weak and in the KSL phase a good approximation is $\alpha(\Gamma)=-0.2 + 1.1 \, \Gamma $.
+    (b) Constraint violation vs Lagrange multiplier for different values of $\Gamma$. 
+    Numerical fit gives linear dependence in $\Gamma$ for the linear coefficient  $\alpha(\Gamma)=-0.2+1.13 \Gamma$.}
+    \label{fig-CV-Gamma}
+\end{figure}
+
+
+ 
+
+%\pagebreak 
+
+%\section{Phase diagram}
+
+%\begin{figure}
+%    \centering    \includegraphics{sections/figures_new/Fig3_Wp.pdf}
+%    \centering    \includegraphics{sections/figures_new/Magnetization_out_of_plane.pdf}
+%    \centering    \includegraphics{sections/figures_new/DeltaW.pdf}
+%    \centering    \includegraphics{sections/figures_new/DeltaW_Real.pdf}
+%\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+

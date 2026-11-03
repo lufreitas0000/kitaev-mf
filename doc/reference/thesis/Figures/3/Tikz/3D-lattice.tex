@@ -1,0 +1,302 @@
+\documentclass{standalone}  
+\usepackage{tikz,tikz-3dplot}
+\usetikzlibrary{matrix}
+%\usepackage[active,tightpage]{preview}
+%\PreviewEnvironment{tikzpicture}
+%\setlength\PreviewBorder{1pt}
+\usetikzlibrary{arrows}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+%\usepackage{amsmath, amssymb}
+
+%\tikzstyle{axis} = [draw=black, line width=\bond , ->]
+%\tikzstyle{line} = [draw=black, line width=\edge]
+\begin{document}
+\def\r{4}
+\def\R{2}
+\def\onerootsix{0.40824829046}
+\def\roottwo{1.41421356237}
+\def\bond{6mm}
+\def\axis{3mm}
+\def\edge{0.35mm}
+\def\edgeopacity{.3}
+\def\verOP{.7}
+
+\def \ax {0.5 cm}
+\def \ay {0.86602540378 cm} % \sqrt(3)/2
+\def \ez {0.57735026918 cm} % 1/\sqrt(3)
+
+\def \ru {18mm}
+\def \cl {13mm} 
+
+
+\def\xvec{ {0.1666 cm, -0.2887 cm, 0.2357 cm} }
+
+\def \mar {0.6 cm}     % margin for the clip
+\def \l {3}       % linear length
+
+% Set view angles for 3D plot
+
+\tdplotsetmaincoords{60}{85}  %{60}{80}  %{72}{118}  
+%\tdplotsetmaincoords{45}{90}
+
+
+\begin{tikzpicture}[>=latex,tdplot_main_coords]%,x={(8mm,5mm)},z={(0mm,5mm)}, y={(10mm,10mm)}]    
+\clip (-1.1cm,-2.38cm,-1.3cm) rectangle (.8cm,.4cm,1.5cm);
+
+%\tikzstyle{every node}=[font=\Huge]
+
+
+%% draw edges 
+\foreach \m in {-\l,...,\l}{
+    \foreach \n in {-\l,...,\l}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkblue,line width=\bond] (\x*\ax,\y*\ay,0)--(\x*\ax,\y*\ay+\ez,0);
+        \draw[draw=darkred,line width=\bond] (\x*\ax,\y*\ay,0)--(\x*\ax-\ax,\y*\ay-\ay+\ez,0);        
+        \draw[draw=darkgreen,line width=\bond] (\x*\ax,\y*\ay,0)--(\x*\ax+\ax,\y*\ay-\ay+\ez,0);
+    }
+}
+
+%% draw vertices honeycomb
+\foreach \m in {-\l,...,\l}{
+    \foreach \n in {-\l,...,\l}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \node[circle, fill=black, draw=black, line width=2mm, inner sep=14mm, minimum size=10mm] (B\m\n) at (\x*\ax,\y*\ay,0) {};
+        \shade[ball color=black]  (B\m\n)  circle (\ru); 
+        \node[circle, fill=white, draw=black, line width=3mm, inner sep=12mm, minimum size=10mm] (W\m\n) at (\x*\ax,\y*\ay+\ez,0) {};
+        \shade[ball color=white]  (W\m\n)  circle (\ru);   
+    }
+}      
+
+
+
+%% draw octahedrons for A sites with z plane highlited
+\foreach \m in {-2}{
+    \foreach \n in {0}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm, -0.2357 cm) {};
+    
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (1\m\n)--(2\m\n) (1\m\n)--(3\m\n) (1\m\n)--(4\m\n) (1\m\n)--(5\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (6\m\n)--(2\m\n) (6\m\n)--(3\m\n) (6\m\n)--(4\m\n) (6\m\n)--(5\m\n);
+    \draw[draw=darkpink, line width=2mm,opacity=\edgeopacity] (2\m\n)--(3\m\n)--(4\m\n)--(5\m\n)--(2\m\n);   
+
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}  
+
+
+%% draw octahedrons for B sites  
+%  z plane highlighted
+\foreach \m in {-2}{
+    \foreach \n in {0}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm+\ez, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm+\ez, -0.2357 cm) {};
+    
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (1\m\n)--(2\m\n) (1\m\n)--(3\m\n) (1\m\n)--(4\m\n) (1\m\n)--(5\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (6\m\n)--(2\m\n) (6\m\n)--(3\m\n) (6\m\n)--(4\m\n) (6\m\n)--(5\m\n);
+    \draw[draw=darkpink, line width=2mm,opacity=\edgeopacity]  (2\m\n)--(3\m\n)--(4\m\n)--(5\m\n);  
+
+    
+    
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}     
+
+
+
+
+
+%% draw octahedrons for A sites
+%% nothing highlited
+\foreach \m in {-1}{
+    \foreach \n in {0}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm, -0.2357 cm) {};
+    
+       
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (2\m\n)--(3\m\n) (2\m\n)--(6\m\n) (2\m\n)--(5\m\n) (2\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (4\m\n)--(3\m\n) (4\m\n)--(6\m\n) (4\m\n)--(5\m\n) (4\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted]  (1\m\n)--(3\m\n)--(6\m\n)--(5\m\n)--(1\m\n);
+    
+
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}     
+
+%% draw octahedrons for B sites
+%% x plane highlighted 
+\foreach \m in {-1}{
+    \foreach \n in {0}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm+\ez, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm+\ez, -0.2357 cm) {};
+    
+%    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (1\m\n)--(2\m\n) (1\m\n)--(3\m\n) (1\m\n)--(4\m\n) (1\m\n)--(5\m\n);
+%    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (6\m\n)--(2\m\n) (6\m\n)--(3\m\n) (6\m\n)--(4\m\n) (6\m\n)--(5\m\n);
+%    \draw[draw=darkpink, line width=2mm,opacity=\edgeopacity]  (2\m\n)--(3\m\n)--(4\m\n)--(5\m\n);  
+
+    
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (2\m\n)--(3\m\n) (2\m\n)--(6\m\n) (2\m\n)--(5\m\n) (2\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (4\m\n)--(3\m\n) (4\m\n)--(6\m\n) (4\m\n)--(5\m\n) (4\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=2mm,opacity=\edgeopacity] (3\m\n)--(6\m\n)--(5\m\n)--(1\m\n);
+    
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}     
+
+
+%% draw octahedrons for A sites
+%% x plane  highlighted
+\foreach \m in {0}{
+    \foreach \n in {0}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm, -0.2357 cm) {};
+    
+%    \draw[draw=darkpink, line width=\edge,opacity=\edgeopacity] (1\m\n)--(2\m\n) (1\m\n)--(3\m\n) (1\m\n)--(4\m\n) (1\m\n)--(5\m\n);
+%    \draw[draw=darkpink, line width=\edge,opacity=\edgeopacity] (6\m\n)--(2\m\n) (6\m\n)--(3\m\n) (6\m\n)--(4\m\n) (6\m\n)--(5\m\n);
+    %\draw[draw=darkpink, line width=\edge,opacity=\edgeopacity] (2\m\n)--(3\m\n)--(4\m\n)--(5\m\n)--(2\m\n);
+    
+       
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (2\m\n)--(3\m\n) (2\m\n)--(6\m\n) (2\m\n)--(5\m\n) (2\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (4\m\n)--(3\m\n) (4\m\n)--(6\m\n) (4\m\n)--(5\m\n) (4\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=2mm,opacity=\edgeopacity] (1\m\n)--(3\m\n)--(6\m\n)--(5\m\n)--(1\m\n);
+    
+
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}     
+
+
+
+
+
+
+%% draw octahedrons for B sites
+%% nothing highlited
+\foreach \m in {-2}{
+    \foreach \n in {-1}{
+    \pgfmathsetlengthmacro {\x}{(\m-\n)};
+    \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        
+    \node  (2\m\n) at (\x*\ax+0.1666 cm, \y*\ay-0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (4\m\n) at (\x*\ax-0.1666 cm, \y*\ay+0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (3\m\n) at (\x*\ax+0.1666 cm, \y*\ay+0.2887 cm+\ez, 0.2357 cm) {};
+    \node  (5\m\n) at (\x*\ax-0.1666 cm,\y*\ay-0.2887 cm+\ez, -0.2357 cm) {};
+    \node  (6\m\n) at (\x*\ax-0.3333 cm,\y*\ay+ 0. cm+\ez, 0.2357 cm) {};
+    \node  (1\m\n) at (\x*\ax+0.3333 cm, \y*\ay+0. cm+\ez, -0.2357 cm) {};
+    
+       
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (2\m\n)--(3\m\n) (2\m\n)--(6\m\n) (2\m\n)--(5\m\n) (2\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted] (4\m\n)--(3\m\n) (4\m\n)--(6\m\n) (4\m\n)--(5\m\n) (4\m\n)--(1\m\n);
+    \draw[draw=darkpink, line width=0.83mm,opacity=\edgeopacity, dotted]  (1\m\n)--(3\m\n)--(6\m\n)--(5\m\n)--(1\m\n);
+    
+
+    \shade[ball color=darkpink,opacity=\verOP]  (1\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (2\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (3\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (4\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (5\m\n)  circle (\cl); 
+    \shade[ball color=darkpink,opacity=\verOP]  (6\m\n)  circle (\cl); 
+    }
+}     
+
+
+
+
+%%% draw  basis vectors
+\coordinate (Oabc) at (-1*\ax+1*\ax,-1*\ay-1*\ay+\ez,0);
+    \draw[draw=black!80, line width=\axis , ->] (Oabc) -- ++(.3cm,0,0) node[scale=10] { $\mathbf{a}\;\;\;$};
+    \draw[draw=black!80, line width=\axis , ->] (Oabc) -- ++(0,.3cm,0) node[scale=10] {$\;\;\mathbf{b}$};
+    \draw[draw=black!80, line width=\axis , ->] (Oabc) -- ++(0,0,.3cm) node[scale=10] {$\;\;\;\mathbf{c}$};
+
+\coordinate (Oxyz) at (-1*\ax+1*\ax,-1*\ay-1*\ay,0);
+    \draw[draw=black, line width=\axis , ->]  (Oxyz) -- ++(0.1666 cm, -0.2887 cm, 0.2357 cm) node[scale=10] {$\hat{\mathbf{x}}\;\;$};
+    \draw[draw=black, line width=\axis , ->]  (Oxyz) -- ++(0.1666 cm, 0.2887 cm, 0.2357 cm) node[scale=10] {$\;\,\hat{\mathbf{y}}$};
+    \draw[draw=black, line width=\axis , ->]  (Oxyz) -- ++(-0.3333 cm, 0., 0.2357 cm) node[scale=10] {$\hat{\mathbf{z}}\;\;\;$};
+
+\end{tikzpicture} 
+\end{document}
+
+
+
+
+
+
+\begin{comment}
+    
+\draw[draw=darkpink, line width=\edge,opacity=\edgeopacity]  (1\m\n) -- (4\m\n) -- (3\m\n) -- cycle;
+\draw[draw=darkpink, line width=\edge,opacity=\edgeopacity]  (2\m\n) -- (1\m\n) -- (3\m\n) -- cycle;
+\draw[draw=darkpink, line width=\edge,opacity=\edgeopacity]  (1\m\n) -- (4\m\n) -- (5\m\n) -- cycle;
+\draw[draw=darkpink, line width=\edge,opacity=\edgeopacity]  (2\m\n) -- (1\m\n) -- (5\m\n) -- cycle;
+
+\draw [draw=darkpink, line width=\edge,opacity=\edgeopacity,fill opacity=0.7,fill=darkpink] (4\m\n) -- (6\m\n) -- (3\m\n) -- cycle;
+\draw [draw=darkpink, line width=\edge,opacity=\edgeopacity,fill opacity=0.7,fill=orange] (6\m\n) -- (2\m\n) -- (3\m\n) -- cycle;
+\draw [draw=darkpink, line width=\edge,opacity=\edgeopacity,fill opacity=0.7,fill=green] (4\m\n) -- (6\m\n) -- (5\m\n) -- cycle;
+\draw [draw=darkpink, line width=\edge,opacity=\edgeopacity,fill opacity=0.7,fill=purple] (6\m\n) -- (2\m\n) -- (5\m\n) -- cycle;
+
+\end{comment}

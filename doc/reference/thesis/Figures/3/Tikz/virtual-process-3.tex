@@ -1,0 +1,96 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\usetikzlibrary{decorations.pathreplacing}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \h {.65}   
+\def \hh {.5} 
+\def \d {.075}  
+\def \x {1}
+\def \y {.4}
+\def \l {1.25} 
+\def \mar {.2}
+
+\def \bond {0.5mm}
+
+\begin{tikzpicture}[>=latex,x=1.8cm,y=1.8cm]
+
+
+\clip (-\mar+\l, -\mar-5*\d-\h) rectangle (\mar+3*\l+\x, \mar+\y-.4*\h);
+
+
+%%%%%       i 
+    %       lines
+\draw[draw=black, line width=\bond] (\l,-.4*\h-5*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (\l,-.4*\h-3*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (\l,-.4*\h-1*\d)--++(\x,0);
+\node at  (\l+.5*\x, -.4*\h-\d+\y) {$j$};
+
+
+    %       nodes
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.5*\x,-.4*\h-5*\d) {};
+
+
+\node at (\x+1.5*\l,\d) {$T_{ij}^{ab}$};
+
+%%% 
+%       nodes
+%\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (2*\l+1.5*\x,-.4*\h-3*\d-.666*\hh) {};
+
+
+
+%%%%%       j
+    %       lines
+\draw[draw=black, line width=\bond] (2*\l+\x,-.4*\h-5*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (2*\l+\x,-.4*\h-3*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (2*\l+\x,-.4*\h-1*\d)--++(\x,0);
+\node at  (2*\l+\x+.5*\x, -.4*\h-\d+\y) {$i$};
+
+    %       nodes
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (2*\l+1.5*\x,-.4*\h-5*\d) {};
+
+
+ 
+%%%%    hopping line
+\draw[draw=black,opacity=.5, line width=.2mm, <-] 
+(\l+\x+.2,-.4*\h-3*\d)--(2*\l+\x-.2,-.4*\h-3*\d);
+
+
+
+%\node at  (2*\l+2*\x,-.4*\h-3*\d-.666*\hh+.5*\y) {$j_{1/2}$};
+
+
+
+  
+\end{tikzpicture}
+\end{document}
+
+

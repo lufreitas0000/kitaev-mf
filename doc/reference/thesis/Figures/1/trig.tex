@@ -1,0 +1,84 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \d {1.2 cm} % 1/2\sqrt(3)
+\def \sqrtt {1.73205} % 1/\sqrt(3)
+\def \h {0.8 cm} 
+\def \mar {0.3 cm}     % margin for the clip
+\def \l {1.5 cm}       % linear length
+\def \rad {6mm}
+
+
+\begin{tikzpicture}[>=latex]
+
+
+
+
+
+\clip (-\mar-\d-2*\l, -\mar) rectangle (\mar+\d+2*\l, \mar+\sqrtt*\l+\h);
+
+
+        
+\draw[draw=darkblue,line width=0.40mm,dotted] (\d,0)--(\d+2*\l,0)--(\d+\l,\sqrtt*\l)--(\d,0);
+
+\draw[draw=darkblue,line width=0.40mm,dotted] (-\d,0)--(-\d-2*\l,0)--(-\d-\l,\sqrtt*\l)--(-\d,0);
+
+\node at (-\d-2*\l,\sqrtt*\l) {$(a)$};
+\node at (\d,\sqrtt*\l) {$(b)$};
+\node at (-\d-\l,\sqrtt*\l+\h) {$\mathrm{FM }\quad J<0$};
+\node at (\d+\l,\sqrtt*\l+\h) {$\mathrm{AFM }\quad J>0$};
+\node at (0,\sqrtt*\l*0.5) {$J\sum\limits_{ij}\mathbf{S}_i\cdot \mathbf{S}_j$};
+
+
+\node[circle, fill=lightpink, inner sep=2pt, minimum size=\rad] at (\d,0) {};
+\node at  (\d,0) {$\bm{\uparrow}$};
+\node[circle, fill=gray!50!white, inner sep=2pt, minimum size=\rad] at (\d+2*\l,0) {};
+\node at  (\d+2*\l,0) {$\bm{?}$};
+\node[circle, fill=lightblue, inner sep=2pt, minimum size=\rad] at (\d+\l,\sqrtt*\l) {};
+\node at  (\d+\l,\sqrtt*\l) {$\bm{\downarrow}$};
+
+
+\node[circle, fill=lightpink, inner sep=2pt, minimum size=\rad] at (-\d,0) {};
+\node at  (-\d,0) {$\bm{\uparrow}$};
+\node[circle, fill=lightpink, inner sep=2pt, minimum size=\rad] at (-\d-2*\l,0) {};
+\node at  (-\d-2*\l,0) {$\bm{\uparrow}$};
+\node[circle, fill=lightpink, inner sep=2pt, minimum size=\rad] at (-\d-\l,\sqrtt*\l) {};
+\node at  (-\d-\l,\sqrtt*\l) {$\bm{\uparrow}$};
+
+    
+
+
+
+\end{tikzpicture}
+\end{document}
+
+

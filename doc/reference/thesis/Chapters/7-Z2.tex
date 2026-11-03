@@ -1,0 +1,322 @@
+
+The $\mathbb{Z}_2$ vortices are created in the Kitaev model by flipping the sign of the gauge field $u_{\braket{ij}_\alpha}=\im c_i^\alpha c_j^\alpha$ along of a string of bonds on top of the gauge configuration with no vortices. This process creates a pair of vortices at the corresponding plaquettes at the end of the string, with static $\pi$-fluxes $W_p=-1$.
+
+In the extended Kitaev model, the gauge field $u_{\braket{ij}_\alpha}$ and fluxes $W_p=\prod\limits_{\braket{ij}\in\partial p} u_{\braket{ij}_\alpha}$ are no longer conserved. The integrability breaking perturbation $J,K,\mathbf{h}$ leads the vortices to be well-defined dynamical excitations with a finite lifetime  \cite{Zhang2021,Joy_2022}. 
+However, we will focus on the limit of zero temperature and low vortex density, with well-separated vortices, where the lifetime of these particles is arbitrarily large and the mobility is low.  For this initial configuration and with small perturbations, the mean-field approximation leads to vortices in fixed position iteration after iteration allowing us to treat the vortices as static excitations. 
+%we manually fix the position of these particles in our mean field, which only leads to consistent results for not-too-large perturbations. 
+
+
+\section{Vortex charge density profile}
+
+
+
+The charge density in the mean-field state is 
+\begin{equation}
+\braket{\delta n_{l}}  = \sum_{(jk)}
+\sum_{\alpha\beta} \Big(  \mathcal{C}_{jkl}^{\alpha 0 \beta } \braket{\sigma_j^\alpha \sigma_l^\beta} \!+\mathcal{C}_{jkl}^{ 0 \alpha\beta } \braket{\sigma_k^\alpha \sigma_l^\beta\!} +  
+\mathcal{C}_{jkl}^{   \alpha\beta 0 } \braket{\sigma_j^\alpha \sigma_k^\beta}\Big), \label{eq:Z2-ch}
+\end{equation}
+and the correlations are given by
+\begin{equation}
+    \braket{\sigma_i^\alpha\sigma_j^\beta} = \braket{\im c_i^\alpha c_i^0 } \, \braket{ \im c_j^\beta c_j^0} - \braket{\im c_i^\alpha  c_j^\beta} \, \braket{\im c_i^0 c_j^0} + \braket{\im c_i^\alpha c_j^0 } \, \braket{ \im c_i^0  c_j^\beta} \; .
+\end{equation}
+We find no charge imbalance $\braket{\delta n_{l}} = 0$ in the vortex-free configuration. 
+
+To determine the charge due to a single vortex, we examine a configuration with four equally spaced vortices, as depicted in Fig.~\ref{fig:Z2-vortices}.
+This four-vortex configuration preserves $\mathrm{C}_3$ rotational symmetries and minimizes finite-size effects compared to a two-vortex configuration for small lattice sizes $L$.
+To create vortices, we initialize the mean-field parameters in a configuration where we flip the sign of $\rmU_{ij}^{\gamma\gamma}$ on bonds intersected by strings that separate the vortices. This can be achieved, for instance, by using the solution of the pure Kitaev model for this gauge configuration ($\rmU$ are diagonal, and $\rmV$ are all zero), or by using the convergent solution for other values of the couplings $J,\Gamma,\mathbf{h}$. 
+
+For the charge density, we will only show results for zero applied electric potential, as, otherwise, the induced charge would dominate over the charge distribution of the vortex, see appendix~ \ref{sec:micro-2nd}. 
+
+
+\vfill
+
+
+%marginfigure
+\begin{figure}[hb!]
+    \centering\hspace*{-6mm}
+    \includegraphics[width=.46\linewidth]{Figures/7/4-vortex-geometry.pdf}
+    \raisebox{.16\height}{\includegraphics[width=.54\linewidth]{Figures/7/vortex-at-the-center3.pdf}}
+    \caption{Gauge configuration used for $4$ vortices equally spaced in a lattice with $L=L_1=L_2=8$. Bonds $\braket{ij}_\gamma$ in cyan corresponds to $\rmU_{ij}^{\gamma\gamma} < 0$. Due to the periodic boundary condition, the vortices are distributed in a triangular lattice with lattice spacing $L$ (the vortex unit cell in yellow), and each vortex has $6$ nearest-neighboring vortices. We assume $L$ to be a multiple of $4$ to fit $4$ equally spaced vortices in our geometry. %For the charge density Vertices color represents the charge imbalance, see Fig.~\ref{fig:4npj}.
+    }
+    \label{fig:Z2-vortices}
+\end{figure}
+\clearpage 
+
+The charge imbalance oscillates between positive and negative values and decays exponentially with the distance from the center of the vortex, in the plaquette where $W_p<0$, as shown in Fig.~\ref{fig:4npj}.
+The values of $\delta n_l$ are in units of $|t_2^2 t_2^\prime/U^3| \approx 8.739 \times 10^{-5}$ where we use the parameters of the Hubbard-Kanamori model $t_1=13$ meV, $ t_2=160$ meV, $t_3=-33$ meV, $t_2^\prime=-60$ meV, $U = 2.6$ eV, and $J_{\mathrm H} = 300$ meV. 
+Our mean-field results for the extended Kitaev model show the same qualitative behavior obtained for the exactly solvable model.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.7\textwidth]{Figures/npj/fig4.pdf}
+    \caption{Charge imbalance $\langle \delta n_l\rangle$ in a state with a vortex in the central hexagon. The solid line marks the zigzag path considered in Fig.~\ref{fig:5npj}.  }
+    \label{fig:4npj}
+\end{figure}
+
+The dependence in the charge distribution for weak $J$ and $\Gamma$ is minor, indicating that the profile for the ideal charge imbalance profile found in the pure 
+Kitaev limit \cite{Pereira2020} remains qualitative valid. As shown in the inset of Fig.~\ref{fig:5npj}(a),  even for not small perturbations  $\Gamma = 0.35 |K|$, the charge profile remains qualitatively the same. 
+The dependence on $J$ is even less noticeable. % and in the experimental interest region $|J|<0.1|K|$ is small. 
+For even large $\Gamma$, the mean-field does not converge for a phase with Kitaev spin liquid parameters (i.e. $U^{\gamma\gamma}_{\gamma}\to0$), which goes beyond the scope of this work. 
+
+\clearpage
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=1.2\textwidth]{Figures/npj/fig5.pdf}
+    \caption{Magnitude of the charge imbalance as a function of the position $R_1$ along the zigzag path represented by the black line in Fig.~\ref{fig:4npj}.  
+    We set  $|\mathbf{h}|=0.3|K|$, $\Gamma/|K|=0.2$ and consider two field directions: (a) $\mathbf{h}\parallel \hat{\mb c}$, and (b) $\mathbf h\parallel \hat{\mathbf{z}}$.   For comparison, dashed lines represent the corresponding mean-field results for $\Gamma=0$.  The inset in (a) shows the corresponding case with larger  $\Gamma/|K|=0.35$ (filled circles), compared with the results in the main plot (empty circles).    }
+    \label{fig:5npj}
+\end{figure*}
+
+The dependence on the magnetic field is more relevant. The dependence on the magnitude changes the decay rate of the charge distribution. More importantly, changing the magnetic field direction away from the out of plane  $\hat{\mathbf{c}}$ direction can introduce anisotropy in the charge density.
+%In the next section, we will quantify this anisotropy by the multipoles of the distribution.
+
+
+The charge profile around the vortices shows the isotropic distribution for the magnetic field along the $\hat{\mb c}$ direction, as shown in Fig.~\ref{fig:5npj}(a). The charge profile becomes anisotropic as we change the direction of the magnetic field. Tilting in the $\hat{\mb a}$ direction (perpendicular to the $z$ bonds) makes the charge distribution more anisotropic in favor of the direction ($\hat{\mb b}$) perpendicular to the field.  The effect of applying a magnetic field in the $ac$ plane can be seen in Fig.~\ref{fig:5npj}(b). %, for which, in comparison to Fig.~\ref{fig5}(a) for magnetic field in the $\hat{\mb c}$ direction, 
+
+
+%The comparison with the result for $\Gamma=0$ (dashed lines in Fig.~\ref{fig:5npj}) reveals  that weak $\Gamma$ and/or $J$ interactions have only a minor effect on the ideal charge imbalance profile found in the pure  Kitaev limit \cite{Pereira2020}. However, changing the magnetic field direction away from  the $\hat{\mathbf{c}}$ direction can  induce more pronounced charge oscillations,  cf.~Fig.~\ref{fig:4npj}(b), and thus has a more substantial effect.  
+
+%Since the mean-field approach allows us to treat the Zeeman term nonperturbatively, we can go beyond the results of Ref.~\cite{Pereira2020} and analyze the dependence of the charge redistribution on the field direction. 
+
+%For a field along the $\hat{\mb c}$ direction, the charge imbalance profile is isotropic around the position of the vortex, up to small variations due to the finite distance between vortices in the finite-size system. As we tilt the magnetic field on the $ac$ plane (perpendicular to the $z$ bonds), a small anisotropy develops in a way that the charge imbalance is enhanced in the direction perpendicular to the field. This effect can be seen in Fig.~\ref{fig5}(b) as the difference between $\langle \delta n_l\rangle$ for the sites that belong to the hexagon that contains the vortex (three blue dots in the center, cf.~Fig.~\ref{fig4}).
+
+
+
+ 
+
+\section{Quadrupole}
+
+The anisotropy in the charge distribution can be quantified by computing the electric multipole moments. 
+The monopole and dipole moment vanishes to the numerical precision 
+\begin{eqnarray}
+    q= \sum_{l}^\prime \langle \delta n_l\rangle \; , \quad 
+    d_\alpha =  \sum_{l}^\prime \langle \delta n_l\rangle \, {R}_{l\alpha} \;  ,
+\end{eqnarray}
+where $\alpha\in \{1,2,3\}$, $\mb R_l= R_{l1}\hat{\mb a}+R_{l2}\hat{\mb b}$ is the position of site $l$, and the sum $\sum_{l}^\prime$ is over the sites $l$ within a disk around the vortex. This radius is taken to be slightly smaller than half the distance between vortices, which gives a good approximation for the vortex unit cell in Fig.~\ref{fig:Z2-vortices}.
+It does not matter which vortex we choose, all four vortices display the same charge distribution. 
+We can understand the vanishing of the monopole moment due to the overall charge neutrality, and the electric dipole moment vanishes because the system is invariant under spatial inversion about the vortex center.
+
+The first nontrivial multipole moment is the traceless quadrupole tensor, with components  
+ \begin{equation}
+Q_{\alpha\beta}=\sum_{l}^\prime \langle \delta n_l\rangle (3R_{l\alpha}R_{l\beta}-|\mb R_l|^2\delta_{\alpha\beta}).
+\end{equation} 
+Since the position vector is in the plane, $\mathbf{R}_l=(R_{l1},R_{l2},0)$, the components $Q_{13}$ and $Q_{23}$ vanishes and the quadrupole tensors is 
+\begin{equation}
+    \mathrm{Q} = 
+     \left(\begin{array}{ccc}
+         Q_{11} & Q_{12} & 0  \\
+         Q_{12} & Q_{22} & 0  \\
+         0 & 0  & Q_{33}
+    \end{array}\right)
+    = \left(\begin{array}{ccc}
+         Q_{11} & Q_{12} & 0  \\
+         Q_{12} & Q_{22} & 0  \\
+         0 & 0 & - Q_{11} - Q_{22}
+    \end{array}\right)
+\end{equation}
+in the ($\hat{\mb a}$, $\hat{\mb b}$, $\hat{\mb c}$) coordinate frame. 
+For a magnetic field along the $\hat{\mb c}$ direction, the rotational symmetry implies that the quadrupole tensor is diagonal $Q_{12}=0$ and  $Q_{11}=Q_{22}=-Q_{33}/2$. As we vary the field direction, the anisotropy is manifested in the difference between $Q_{11}$ and $Q_{22}$ and in the off-diagonal element  $Q_{12}$. 
+
+\section{Quadrupole for pure Kitaev model }
+
+Before analyzing the quadrupole for the extended Kitaev model, let us first compute it for the simpler case. 
+To consider the effect of the magnetic field in the pure Kitaev model we use perturbation theory. 
+The third-order perturbation theory, the $\kappa$ term in \eqref{eq:H0spin}, is not enough to capture the anisotropy due to the magnetic field direction. 
+The quadrupole tensor dependence in the magnetic field direction can also be obtained from the pure Kitaev model when we consider the second-order perturbation theory developed in the Appendix~\ref{App-pertubation}.
+The perturbation at second order renormalizes the Kitaev exchanges in \eqref{eq:H0spin} to generate anisotropic ones $$K_\gamma-K \propto -(h_\gamma)^2$$
+with proportionality constant going with the inverse of the vison gap $ \sim 1/\Delta_{2\mathrm v}$. 
+
+
+%In a first approximation, let us discuss the dependence of the quadrupole tensor on the magnetic field direction by treating the field perturbatively in the pure Kitaev model.  For magnetic field directions not perpendicular to the lattice plane, the (often discarded) contribution from second-order perturbation theory generates an anisotropic renormalization of the Kitaev couplings. This effect is captured by the Hamiltonian in Eq.~(\ref{eq:pure_K}) with 
+
+
+In Fig.~\ref{fig:quadrupole-pure}, we show the angular dependence of the quadrupole components  $Q_{33}$, $Q_{11}-Q_{22}$ and $Q_{12}$ calculated from the spin correlations for the model in Eq.~\eqref{eq:H0spin} with $K_\gamma$ given by the second order perturbation in the magnetic field. 
+The component $Q_{33}$ does not change sign but varies slightly around an average value with an angular dependence qualitatively similar to  $|h_xh_yh_z|$. %In particular, $Q_{33}$ is the maximum for a field along the $\hat{\mb c}$ direction, which may be interesting to maximize the intrinsic electric field produced at positions right above the vortex.    
+
+\begin{figure}[t]
+    \centering
+    \hspace*{-10mm}%
+    \includegraphics{Figures/npj/fig6.pdf}
+    \caption{Quadrupole components as a function of magnetic field direction, calculated using the exactly solvable  Hamiltonian with coupling generated by second and third order perturbation theory in the magnetic field. The coupling constants $K_\gamma$ and $\kappa$ were calculated using $\kappa = 0.338  \; \frac{h_xh_yh_z}{\Delta_{2\mathrm v}^2}$ and $K_\gamma=K-   \frac{(h_\gamma)^2}{\Delta_{2\mathrm v}}$ with  $|\mathbf{h}|=0.2 |K|$ and $\Delta_{2\rm v} = 0.263 |K|$.
+    The scale is in units of $t_2^2t_2^\prime/U^3$ and we set the lattice spacing to unity.  Here we use $L=42$.}
+    \label{fig:quadrupole-pure}
+\end{figure}
+On the other hand, the difference $Q_{11}-Q_{22}$ vanishes for $\mb h\parallel \hat{\mb c}$, but is maximum when the field points along the $\hat {\mb z}$ axis; this is the direction in which the anisotropy in the effective Kitaev couplings is maximized, with $K_z<K_x=K_y$.   Finally, $Q_{12}$ vanishes if we tilt the field along the high-symmetry $ac$ plane, but becomes nonzero for more general field directions.
+
+
+
+
+
+
+\section{Quadrupole for the extended Kitaev}
+
+The spin correlations calculated within the mean-field approach for the extended Kitaev model lead to the same qualitative dependence on the field direction as in Fig.~\ref{fig:quadrupole-pure}.  
+As in the pure Kitaev limit, the anisotropy in the quadrupole tensor is maximized for fields along the $\hat{ \mb z}$ direction. We focus on the direction $\mb h=h\hat{\mb z}$, for which the off-diagonal components $Q_{12}$ vanish. 
+
+To quantify the anisotropy, we used the dimensionless  parameter 
+\begin{equation}
+    \Delta Q={(Q_{11}-Q_{22})}/|Q_{33}| \; .
+\end{equation}
+For field in the $\mb{z}$ direction, as shown in Fig.~\ref{fig:quadrupole}, $\Delta Q$ increases with $h$.
+This effect is enhanced in the presence of the $\Gamma$ interaction. 
+The increase of the anisotropy $\Delta Q$ due to the presence of non-zero $\Gamma$ may lead to an observable effect in the vortex-vortex interaction. 
+
+\begin{figure}[t]
+    \centering
+    \hspace*{-10mm}%
+    \includegraphics[width=.7\textwidth]{Figures/npj/fig7.pdf}   
+    \caption{{\bf Dependence of the quadrupole anisotropy on the magnetic field strength.}  Open markers represent the   mean-field results for $\Delta Q= (Q_{11}-Q_{22})/|Q_{33}|$  in the extended Kitaev model with $\Gamma/|K| = 0.3$,  $J=0$, and  $\mb h=h\hat{\mathbf{z}}$. Dashed lines follow from the pure Kitaev Hamiltonian.
+    Inset: quadrupole components $Q_{33}$ and $Q_{11}-Q_{22}$ (in units of $|t_2^2t_2^\prime/U^3|$ and setting the lattice spacing to unity). 
+    }
+    \label{fig:quadrupole}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{Figures/npj/fig8.pdf}
+    \caption{  Quadrupolar interaction. Function $F(\Delta Q,\theta)$ that governs the sign of the quadrupolar interaction for $\Delta Q>0$. For $\Delta Q<0$, see the relation below   Eq.~\eqref{eq:E-cos}.  The dashed line marks the critical value $|\Delta Q| = \sqrt{9/7}$, below which the interaction is always repulsive. The black solid line corresponds to $F(\Delta Q,\theta)=0$.   }
+    \label{fig8}
+\end{figure}
+
+
+
+Let us see how the spatial anisotropy of the charge density profile affects the electric quadrupole interaction between vortices.
+The following discussion is independent of the microscopic origin of the quadrupole. 
+Suppose the first vortex is located at the origin and the second one at   $\mb r=x_1\hat{\mb a}+x_2\hat{\mb b}$, with $r=|\mb r|$ much larger than the length scale in the decay of $\delta n_l$.  The energy due to the electrical vortex-vortex interaction of the quadrupole tensor $Q^{(2)}$  of the second vortex due to the electric field of $Q^{(1)}$  is 
+\begin{equation}
+\begin{split}
+ \mathrm E &= \frac{1}{6}  \sum_{\alpha\beta} Q^{(2)}_{\alpha \beta}  \,  \partial_\alpha \partial_\beta V^{(1)}(\mb r)  ,
+\end{split}
+\end{equation}  
+where the electrostatic potential $V^{(1)}$ generated by  the first vortex is $V^{(1)}(\mathbf{r}) = \frac{1}{4 \pi \epsilon_0}  \frac{1}{2r^5}  \sum_{\alpha\beta} x_\alpha x_\beta Q_{\alpha \beta}^{(1)}$. 
+Since well-separated vortices generate the same charge distribution, we now assume $Q^{(1)}=Q^{(2)}=Q$. 
+As a result, the quadrupolar interaction can be written as
+\begin{align}
+    \mathrm E = \frac{1}{4 \pi \epsilon_0}\frac{1}{12}\Big[ 
+    \frac{35}{r^9}\left(\mathbf{r}\cdot{Q}\!\cdot\mathbf{r}\right)^2\!\!
+    -\!\frac{20}{r^7}\left(\mathbf{r}\cdot{Q}^2\!\cdot\mathbf{r}\right)\!
+    +\!\frac{2}{r^5}\mathrm{ tr}\left( {Q}^2\right)\!\Big].
+\end{align}
+When the magnetic field varies along the $ac$ plane, the quadrupole tensor is diagonal.
+Assuming the diagonal quadrupole tensor of the form 
+\begin{equation}
+    \mathrm{Q} = 
+     \left(\begin{array}{ccc}
+         Q_{33} \; \dfrac{1+\Delta Q}{2} & 0 & 0  \\
+         0 & Q_{33} \dfrac{1-\Delta Q}{2} & 0  \\
+         0 & 0  & Q_{\; 33}
+    \end{array}\right) \; ,
+\end{equation} where $Q_{33}>0$,
+we obtain
+$\mathrm E = \frac{1}{4 \pi \epsilon_0} \frac{Q^2_{33}}{ r^5} F(\Delta Q, \theta)$ with 
+\begin{equation}
+F(\Delta Q,\theta)=
+    \frac{9}{8}
+    +\frac{5}{4} \cos (2\theta)    \Delta  Q 
+    +\left[ \frac{35}{24} \cos^2 (2\theta)-\frac{2}{3} \right]\Delta Q^2
+ \label{eq:E-cos} \; .
+\end{equation}
+Here $\theta$ is the angle between $\mb r$ and $\hat{\mb a}$, and   $F(-\Delta Q,\theta)=F(\Delta Q,\pi/2-\theta)$. 
+
+The function $F$ determines the interaction between the quadrupoles. The interaction is repulsive for positive $F>0$ and attractive for negative $F<0$. From \eqref{eq:E-cos} we can see that in the absence of anisotropy, $\Delta Q=0$, the interaction is always repulsive. In Fig.~\ref{fig8} we see that the sign of $F$ does change up to a critical anisotropy $\sqrt{9/7}\approx 1.13$. For anisotropy less than this value, the quadrupole displays repulsive interaction in all directions:
+\begin{equation} 
+    \Delta Q <  \sqrt{9/7} \quad \Rightarrow \quad F(\Delta Q , \theta) > 0   \quad \text{Repulsive} \; .
+\end{equation}
+For larger values of the anisotropy, $\Delta Q > \sqrt{9/7}$, the quadrupole displays attractive interaction along some directions, see Fig.~\ref{fig8}. 
+
+Applying these results to the vortices in the extended Kitaev model, we find that for a magnetic field along the $\hat {\mb c}$ direction,  the anisotropy vanishes $\Delta Q=0$ and the quadrupolar interaction becomes strictly repulsive and independent of $\theta$.  Furthermore, by tilting the magnetic field $\mb h$ toward the plane the anisotropy is enhanced.
+If the anisotropy is strong enough, $|\Delta Q| > \sqrt{9/7}$, then the interaction can change sign for some particular directions of $\mb r$.
+% as illustrated in Fig.~\ref{fig8}, the interaction can change sign for some particular directions of $\mb r$ if the anisotropy is strong enough. The attractive regime appears for $|\Delta Q| > \sqrt{9/7}\approx 1.13$. 
+According to the result in Fig.~\ref{fig:quadrupole}, this attractive regime becomes accessible for sufficiently large $h$ and $\Gamma$ with $\mb h$ along the $\hat{\mb z}$ direction. 
+
+% We note that already in the pure Kitaev model, vortices have an effective interaction that depends on the vortex separation  \cite{Lahtinen2012}.  
+
+%  The charge redistribution discussed here provides a mechanism to make this interaction spatially anisotropic. In the extended Kitaev model,  where vortices acquire small mobility \cite{Joy_2022}, the charge density profile must be carried along with the slow vortex motion,  and the anisotropic interaction may cause some nontrivial dynamics in a system of dilute vortices. 
+
+% Importantly, the quadrupole interaction decays algebraically with the distance between vortices; thus, at large distances, it dominates over other sources of vortex-vortex interactions that are expected to decay exponentially \cite{Lahtinen2012}. 
+
+The vortex-vortex interaction found here decays algebraically as $\sim r^{-5}$. At large distances, this interaction dominates over other sources of interaction,  which are expected to decay exponentially \cite{Lahtinen2012} due to the gapped nature of excitations in the non-Abelian phase. 
+
+
+
+
+
+
+
+
+\section{Electrical manipulation of vortices}
+
+In this section we continue discussing the electric properties of the vortices, however, we move to the subject from its own electric field to its response to an external electric potential. 
+A question that we want to answer is if one can manipulate and create vortices electrically. 
+
+We consider the same four-vortex configuration of Fig.~\ref{fig:Z2-vortices} and apply an ultra-local electric field on the top of the hexagonal plaquette of each vortex. 
+The difference between the energy  $E_{4\rm v}$   of this four-vortex configuration and the energy $E_{0\rm v}$  of the vortex-free state is equal to four times the vison gap.
+For simplicity, we are assuming ultra-local potential that corresponds to $V_0$ on the six vertices of the corresponding plaquettes and zero elsewhere. From the Hubbard-Kanamori model, the electrons (holes) couple to the potential leading to inhomogeneous exchanges in the effective spin model. For the ultra-local electric potential only the exchanges in the bonds exterior to the plaquettes of applied potential are altered. 
+The dependence of the exchanges $J, K$, and $\Gamma$ in the electric potential was derived in Sec.~\ref{sec:local-electric-field}. 
+
+%In Ref.~\cite{Pereira2020} they found that the energy of the ground state of the pure Kitaev model with four vortices decreases with applied ele
+
+In the pure Kitaev model, the applied electrical potential lowers the energy of the ground state for the configuration with four isolated vortices. The energy lowers but remains finite even for very large electric potential $e V_0 \sim (U- 3 J_H)$. This effect may be used to attract vortices, but not to create them from the flux-free ground state.
+In the extended Kitaev model, with $\Gamma$ and $J$ exchanges, we similarly found a finite energy gap for all values of $V_0$. Figure \ref{fig:flux-gap}  shown the energy difference for the configuration with four vortices and no vortices for zero and finite $\Gamma$ with no magnetic field. For small $V_0$ a positive $\Gamma$ exchange leads to a small decrease of the flux gap in comparison to the pure Kitaev case $\Gamma=J=0$, but for large $V_0$ the gap increases independently of the sign of $\Gamma$.
+For a finite magnetic field, the curve remains qualitative the same with the gap increasing slightly for all values of $V_0$. 
+
+%In the solvable Kitaev model,  the local electric potential lowers the energy of an isolated vortex with respect to the vortex-free configuration but never closes the vortex gap in the absence of the DM interaction \cite{Pereira2020}. In that case, this effect can be used to attract and bind vortices that have been created by some other mechanism, such as thermal fluctuations, but it does not induce vortices in the ground state of the system.  
+
+
+\begin{figure}[h]
+    \centering 
+    \includegraphics[width=.7\textwidth]{Figures/7/flux-gap.png}  
+    \caption{Energy of the four-vortex state vs applied electric potential $V_0$,  with the dimensionless quantity
+    $\xi_1= eV_0/(U-3J_{\mathrm H})$, for different values of $\Gamma$ and $h=D=0$. }
+    \label{fig:flux-gap}
+\end{figure}
+
+
+
+%We now consider the effect of a local electrostatic potential on vortices. Going back to the Hubbard-Kanamori model,  we couple the hole density to a potential $V_0$ on the six sites surrounding a hexagonal plaquette $p$ where a vortex is located. 
+%This local potential can be generated by the electric field of a scanning tunneling microscope (STM) tip.  
+%Redoing the derivation of the effective spin Hamiltonian by second-order perturbation theory, we find that the local potential modifies the couplings on bonds between sites in $p$ and their nearest neighbors outside $p$; see Eq.~\eqref{eq:ev-J}.
+
+In searching for a physics that leads to a flux gap closing we should consider that the local electric potential breaks inversion symmetry and generates a Dzyaloshinskii-Moriya (DM) interaction, c.f. Sec.~\ref{sec:DM}. 
+This term corresponds to the spin Hamiltonian 
+\begin{equation}
+   H_{\text{DM}} = \sum_\gamma\! \sum_{\braket{ij}_{\gamma} }     \; D_{ij}  \, \left( \sigma_i^\alpha \sigma_j^\beta -\sigma_i^\beta \sigma_j^\alpha    \right),
+\end{equation}
+where $(\alpha\beta\gamma)$ is a cyclic permutation of $(xyz)$, which enters in the bond-dependent exchange matrices $\mathbf{J}_{ij}$ as in \eqref{eq:J-DM}.
+
+The DM interaction has its microscopic origin from crystal field splittings in the atomic Hamiltonian and asymmetries in the hopping matrix due to lattice distortions \cite{Winter2017rev}. % We investigate this effect phenomenologically by adding  to the effective spin Hamiltonian \eqref{Hwithfield} the term
+The coupling $D_{ij}=D(V_0)$ is taken to be independent of the bond type $\gamma$ but restricted to the bonds exterior to the plaquette with the local potential.  
+We investigate the effect of DM coupling phenomenologically by using \eqref{eq:ev-DM}
+such that $D(V_0)\propto V_0$ and this exchange is zero in the absence of applied electric potential. 
+
+% The equation \eqref{eq:DM-V0} is phenomenological, but this is the \In fact, for $V_0=0$, the DM coupling is absent since it will be generated by the tip potential.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{Figures/npj/fig9.pdf}
+    \caption{  Energy of four-vortex state for different values of $\Gamma$ and the DM coupling $D_1$; see
+    Eq.~(\ref{eq:ev-DM}). Open-markers represent mean-field results for the extended Kitaev model with $K=-1$,  $J=0$, and the magnetic field $\mathbf{h}=0.2\,\hat{\mathbf{c}}$.  The linear system size is $L=40$. Solid lines are guide lines obtained with the fit function $a+b \tanh[c(\xi_1-d)]$.
+    }
+\label{fig9}
+\end{figure}
+
+
+
+Using the mean-field approach, we can now analyze how the vortex gap varies with the electric potential in the extended Kitaev model. % We consider again the configuration with four equally spaced vortices, see the inset in Fig.~\ref{fig5}(b), and apply the electric potential on the four corresponding plaquettes.
+As shown in Fig.~\ref{fig9}, the vison gap monotonically decreases with the applied electric potential, and it is further reduced for finite DM coupling $D_1$ and $\Gamma$. 
+The self-consistent solution to the mean-field equation in the Kitaev spin liquid phase is only found for not too large an electric potential.
+When the gap becomes too small (large $V_0$) the convergent solution for the self-consistency equation shows the vanishing of the local mean-field parameters near the vortices. However, the extrapolation of the results indicates that the gap vanishes for sufficiently large $V_0$.
+
+The possibility of vanishing of the flux gap leads us to predict that it is possible to create (or annihilate) vortices by modulating the local interactions, which could be induced, for instance, by  STM tip of $V_0 \lessapprox 1$~V \cite{Freitas_2024} in presence of both DM and $\Gamma$ exchanges. 
+
+
+%We emphasize that this remarkable functionality arises due to the interplay between $\Gamma$ interactions and the local DM.
+
+
+%From Fig.~\ref{fig9}, we observe that $\xi_1\sim 0.5$ is sufficient to create vortices. Using the parameters listed in Fig.~\ref{fig:4npj}, we find that this corresponds to realistic  tip voltages of the order of $V_0< 1$~V. 
+

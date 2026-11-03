@@ -1,0 +1,329 @@
+
+
+In this chapter, I will explain how we implement the mean-field approximation. Initially, we start from the extended Hamiltonian and represent the spin-half degrees of freedom into Majorana fermions. This representation transforms the Hamiltonian into one that is quartic in these fermions. Next, we employ a mean-field decoupling approach to convert these quartic terms into bilinears. The resultant operator constitutes the mean-field Hamiltonian, which depends on the mean-field parameters $\rmV$ and $\rmU$. With a specified set of these parameters, the Hamiltonian becomes quadratic in the fermions, allowing for numerical diagonalization. Utilizing the eigenvectors of the mean-field Hamiltonian, we can compute a new set of mean-field parameters. This iterative process serves as a method for solving self-consistent equations.
+
+Similar to a variational approach, mean-field theory aims to approximate a state that minimizes the energy functional.  Our mean field is designed to find this state within a given flux configuration, allowing us to study non-trivial $\mathbb{Z}_2$ flux configurations.
+
+
+
+
+
+
+\section{Mean-field decoupling}
+
+The low-energy effective spin Hamiltonian is given by the extended Kitaev  model,
+ \begin{equation}
+     H =\frac{1}{2}\sum_{ \braket{ ij} }   \bm{\sigma}_i \cdot  \mathbf{J}_{ij} \cdot\bm{\sigma}_j   -\sum_i \mb h\cdot \boldsymbol\sigma_i ,\label{Hwithfield}
+\end{equation}
+where the bond-dependent exchange matrices $\mathbf{J}_{ij}$ are
+\begin{equation}
+\mathbf{J}_{\braket{ij}_x} \!\!=\!    
+    \left( \begin{array}{ccc}      
+        \!J_{ij}+K_{ij}\! & 0 & 0  \\
+        0 & \!J_{ij}\! & \Gamma_{ij} - D_{ij} \\          
+        0 & \!\Gamma_{ij}+D_{ij}\! & J_{ij}\!         
+    \end{array}\right), \;
+ %\mathbf{J}_{\braket{ij}_y} \!\!=\!        \left( \begin{array}{ccc}              \!J& 0 & \Gamma\!  \\        0 & \!J+K\! & 0 \\                  \!\Gamma & 0 & J\!    \end{array}\right), \;
+\mathbf{J}_{\braket{ij}_z} \!\!=\!    
+    \left( \begin{array}{ccc}      
+        \!J_{ij}\!& \!\Gamma-D_{ij}\! & 0  \\
+        \!\Gamma_{ij}+D_{ij}\! & J_{ij} & 0 \\          
+        0 & 0 & \!J_{ij} +K_{ij}\!    
+    \end{array}\right),\!\! \label{eq:J-DM}
+\end{equation}
+and similarly for $\mathbf{J}_{\braket{ij}_y}$. The couplings are assumed to be homogeneous and $D_{ij}=0$ except near the plaquette where we apply electric potential.
+As we saw in chapter \ref{ch:kitaev},  the model can be solved exactly for $J=\Gamma=D=h=0$ using the Kitaev representation  $\sigma_i^\gamma =  
+\im  c_i^0 c_i^\gamma$ in terms of  four Majorana fermions which obey $(c_i^\mu)^\dagger=c_i^\mu$ and $\{ c^\mu_i, c^\nu_j \} = 2\delta_{ij}\delta_{\mu\nu}$. 
+In the presence of any non-zero exchange $J$, $\Gamma$, D, or field $h$  the Hamiltonian is no longer solvable as the fluxes $W_p$ and gauge fields $u_{\braket{ij}_\gamma}$ are not conserved. 
+
+In our mean-field approach, to explicitly implement the antisymmetry due to the Majorana fermionic anticommutation relation, it is convenient to write the Kitaev representation in terms of the vector $c_i^{\phantom 1}=(c_i^0,c_i^1,c_i^2,c_i^3)^{\rm T}$ and the antisymmetric matrices $\rmN^\gamma$ defined by 
+\begin{equation}
+    \sigma_i^\gamma =   \frac{\im}{2}  c_i^{\T} \rmN^\gamma  c_i \equiv \frac{\im}{2}\Big( c_i^0c_i^\gamma - c_i^\gamma c_i^0 \Big) .
+    \label{eq:spin_rep}
+\end{equation}
+Instead of imposing the physical state constraint in quartic form $D_i= c^0_i c^1_i c^2_i c^3_i=+1$, we use the equivalent constraint \cite{Seifert_2018}
+\begin{align} 
+    c_i^{\T} \rmG^\gamma  c_i 
+    = 0 \; , \quad 
+    c_i^{\T} \rmG^\gamma  c_i =c_i^0c_i^\gamma - c_i^\gamma c_i^0 +\sum_{\alpha\beta} \epsilon^{\alpha \beta \gamma} c_i^\alpha c_i^\beta  .  \label{eq:G=0}
+\end{align}
+Expressed in operator form, any of the three constraints $c_i^{\T} \rmG^\gamma c_i =0$ corresponds to $\rmD_i=1$. However, to achieve a more symmetrical form in the mean-field Hamiltonian it is preferable to include all three constraints per site. We implement these constraints using Lagrange multipliers $\lambda_i^\gamma$ \cite{Ralko2020,Yilmaz2022}.
+
+%Note that the constraints $c_i^{\T} \rmG^\gamma  c_i =0$ for $\gamma=x,y,z$ are redundant. If the constraint is implemented exactly, it suffices to impose it for a single value of $\gamma$. However, when treating the constraints \eqref{eq:G=0} numerically through the corresponding Lagrange multipliers $\lambda_i^\gamma$ \cite{Ralko2020,Yilmaz2022}, it is advantageous to enforce them symmetrically for all three values of $\gamma$.  
+
+In terms of the Majorana fermions and the Lagrange multiplier, the extended Kitaev Hamiltonian is 
+\begin{equation}
+        H=\frac{1}{8}\sum_{ij } \sum_{\alpha\beta}
+         \im c_i^{\T} \rmN^\alpha  c_i  \,  \mathbf{J}_{ij}^{\alpha\beta} \,  \im c_j^{\T} \rmN^\beta  c_j  
+         -  \frac{1}{4} \sum_{i\gamma} \left( 2 h^\gamma \im c_i^{\T} \rmN^\gamma  c_i - \lambda_i^\gamma \im c_i^{\T} \rmG^\gamma  c_i  \right)   .
+          \label{eq:H}
+\end{equation}
+We decouple the quartic terms using
+\begin{equation}
+    \begin{split}
+        ABCD &\approx \braket{ AB} CD + AB \braket{  CD} -  \braket{ AB}  \braket{ CD} \\[6pt]
+         &- \braket{ AC } BD - AC \braket{BD}  +  \braket{AC} \braket{ BD}  \\[6pt]
+         &+ \braket{ AD} BC + AD \braket{ BC} - \braket{ AD} \braket{ BC } \; , 
+         \label{eq:3-MF-app}
+    \end{split}
+\end{equation}
+where $A,B,C,D$ represent some fermionic operator  $c_i^\mu$ or $c_j^\nu$. We will use two types of real-valued  mean-field parameters,   
+\begin{align}
+         \rmU_{ij}^{\mu\nu} = \braket{\im c_i^\mu c_j^\nu } , \qquad  \rmV_{i}^{\mu\nu} &= \braket{\im c_i^\mu c_i^\nu }      , \label{eq:MF_parameters}
+\end{align}
+which obey   $ \rmU_{ij}^{\mu\nu} =-  \rmU_{ji}^{\nu\mu}$ and $  \rmV_{i}^{\mu\nu}  = 2 \im \delta^{\mu\nu}- \rmV_{i}^{\nu\mu}$. 
+The elements of $\rmU_{ij}^{\mu\nu}$ generalizes the matter fermionic correlations $\braket{\im c^0_i c^0_j}$ and the gauge field $\braket{\im c^\gamma_i c^\gamma_j}$ of the pure Kitaev model. The on-site fermion bilinears $\rmV_i^{\mu\nu}$ are related to the local magnetization induced by the external magnetic field. The constraint in Eq.~(\ref{eq:G=0}) implies   $\rmV_{i}^{\alpha\beta}=-\rmV_{i}^{0\gamma}$ for $(\alpha\beta\gamma)$ a cyclic permutation of $(xyz)$. Thus, each site has only three independent components of $\rmV_i^{\mu\nu}$. 
+We have $16$ parameters of type $\rmU$ per bond $\braket{ij}_\gamma$ and $3$ of type $\rmV$ per site, resulting in $M/N=3\times 16+2\times 3 = 54$ mean-field parameter per unit cell.
+
+%For the exactly solvable  Kitaev model, one finds   that    $\rmU^{\mu\nu}_{ij}$ is diagonal in the indices $\mu,\nu$. In particular, the components $\rmU^{\gamma\gamma}_{ij}$ are related to the static $\mathbb Z_2$ gauge field and take values $\rmU^{\gamma\gamma}_{ij}=\pm1$  when $i,j$ form a nearest-neighbor $\gamma$ bond, and  $\rmU^{\gamma\gamma}_{ij}= 0$ otherwise.   Thus, $\rmU^{\gamma\gamma}_{ij}$ can be viewed as an   ``order parameter'' for the Kitaev spin liquid phase.   For comparison with the exact solution, we  also define $W_p=\prod_{\langle ij\rangle_\gamma \in p}\rmU_{ij}^{\gamma\gamma}$,where $p$ is a hexagonal plaquette.In the pure Kitaev model, $W_p$ is identified with the gauge-invariant $\mathbb Z_2$ flux, and the ground state lies in the sector with  $W_p=+1$ for all plaquettes. States with  $W_p=-1$ at isolated plaquettes are associated with vortex excitations \cite{Kitaev2006}.  Besides the link variables $\rmU_{ij}^{\mu\nu}$, in the mean-field approach, we also consider the on-site fermion bilinears $\rmV_i^{\mu\nu}$. It follows from the Kitaev representation that  $ \rmV_{i}^{0\gamma}=\braket{\sigma_i^\gamma}$.  Moreover, the constraint in Eq.~(\ref{eq:G=0}) implies   $\rmV_{i}^{\alpha\beta}=-\rmV_{i}^{0\gamma}$ for $(\alpha\beta\gamma)$ a cyclic permutation of $(xyz)$. Thus, there are only three independent components of $\rmV_i^{\mu\nu}$ at each site, and they are related to the local magnetization induced by the external magnetic field. In the limit $|h|\gg |K|,|J|,|\Gamma|$, we expect to encounter  a partially polarized phase characterized by $ \rmV_{i}^{\mu\nu}\neq0$ while $\rmU^{\mu\nu}_{ij}= 0$ for all bonds. 
+
+ 
+
+\section{Mean-field Hamiltonian}
+
+Using the mean-field parameters in Eq.~\eqref{eq:MF_parameters}, the Majorana mean-field Hamiltonian for Eq.~\eqref{eq:H} is given by  
+\begin{equation}
+    H_{\mathrm{MF}}=\sum_{ {ij} }  \frac{\im}{4} c_i^{\T}   \rmA_{ij}  c_j +\sum_i  \frac{\im}{4} c_i^{\T}   \rmB_{i}  c_i-\rmC . \label{eq:HMF}
+\end{equation}
+The  first  term on the right-hand side couples Majorana fermions on nearest-neighbor  bonds $\braket{ij}_\gamma$ via the $4\times 4$ bond-dependent matrix     
+\begin{equation}
+    \rmA_{ij} = 
+    2    \mb{N} \cdot \mathbf{J}_{ij} \cdot \left( \rmU_{ij} \, \mb{N} \right) \; 
+    %=    2 \sum_{\alpha\beta}\mathbf{J}_{ij}^{\alpha\beta}  \rmN^\alpha \rmU_{ij} \rmN^\beta    
+    .  \label{eq:A}
+\end{equation}
+Where the dot product in over bond/spin indexes $\alpha,\beta=1,2,3=x,y,z$ and there is matrix multiplication between the mean-field parameter matrices such as $\left( \rmU_{ij} \rmN^\alpha  \right)^{\mu\nu}= \sum_{\rho} \rmU_{ij}^{\mu\rho}(\rmN^\alpha )^{\rho \nu}  $.
+The on-site term involves the matrix 
+\begin{equation}
+    \rmB_{i}= \bm{\lambda}_i \cdot   \mb{G} -    2 \mb{h} \cdot  \mb{N}  +
+    \sum_{\gamma} 
+    \mb{N} \cdot \mathbf{J}_{\gamma}
+    \cdot \tr\!\left( \rmV_{i_\gamma}^\T \mb{N} \right)
+    %\sum_{\gamma}   \sum_{\alpha\beta}\mathbf{J}_{ij}^{\alpha\beta}     \rmN^\alpha \tr\!\left( \rmV_{j}^\T \rmN^\beta \right)     +\sum_\gamma(\lambda_i^\gamma  \rmG^\gamma -    2h^\gamma  \rmN^\gamma )     
+    , \label{eq:B}
+\end{equation}
+where the sum over $i_\gamma$ corresponds to the sum over bonds $\braket{ij}_\gamma$ for the exchange $\mb{J}_{\gamma}=\mb{J}_{\braket{ij}_\gamma}$ for fixed $i$.
+The constant term is 
+\begin{equation}
+\begin{split}
+       \rmC = 
+       \frac{1}{8}\sum_{ij}   \Big[  \tr\!\left( \rmV_{i}^\T \mb{N} \right) \cdot \mathbf{J}_{ij}  \cdot \tr\!\left( \rmV_{j}^\T \mb{N} \right)       + 2 \,  \tr\!\left( \rmU_{ij}^\T \mb{N}   \cdot \mathbf{J}_{ij}  \cdot \rmU_{ij} \mb{N} \right)   \Big]   
+       %\frac{1}{8}\sum_{ij}  \sum_{\alpha\beta}\mathbf{J}_{ij}^{\alpha\beta} \Big[  \tr\!\left( \rmV_{i}^\T \rmN^\alpha \right)\tr\!\left( \rmV_{j}^\T \rmN^\beta \right)       + 2 \,  \tr\!\left( \rmU_{ij}^\T \rmN^\alpha   \rmU_{ij} \rmN^\beta \right)   \Big]   
+    .  \label{eq:C}
+\end{split}
+\end{equation}
+
+To find the mean-field solution one needs to find the set of parameters $\rmU, \rmV$ that are self-consistent, meaning when plugged in the Hamiltonian $H_{\mathrm{MF}}$ the correlations $\braket{\im c^\mu c^\nu}$ give the same set of parameters $\rmU, \rmV$, and that minimize the mean-field energy $E_{\mathrm{MF}}=\braket{H_{\mathrm{MF}}}$.
+
+
+\section{Self-consistent state}
+
+The mean-field Hamiltonian $\eqref{eq:HMF}$ is quadratic in Majorana fermions and can be compactly written as
+\begin{equation}
+    H_{\mathrm{MF}}=\sum_{IJ}  \frac{\im}{4} c_I   \tilde{\rmA}_{IJ} c_J-\rmC . \label{eq:HMF-2}
+\end{equation}
+Here $\I=(i,\mu)$ is the multi-index for both position $i$ and the Majorana fermion type $\mu$.
+To compute the needed correlations 
+\begin{equation}
+    {\mathsf{C}}_{IJ}=\braket{ \im c_I c_J}
+\end{equation}
+we will diagonalize the Hamiltonian matrix $\tilde{\rmA}$, and use the normal modes. 
+
+We diagonalize the Hamiltonian using a unitary transformation $\mathbb{U}$
+\begin{equation}
+    \sum_{\J=1}^{8 N} \, \big( \im \tilde{\rmA} \big)_{IJ} \, \mathbb{U}_{\J,\lambda} = \varepsilon_\lambda \mathbb{U}_{\I,\lambda} \; .
+\end{equation}
+Denoting the eigenmodes by $d_\lambda^{\phantom{\dagger}}, d_\lambda^\dagger$ and the eigenenergy by $\varepsilon_\lambda$, 
+we use the transformation
+\begin{equation}
+    c = \sqrt{2} \, \mathbb{U} \, \left( \begin{array}{c}  d^{\phantom{\dagger}} \\ d^\dagger \end{array} \right)   \; , \quad 
+    \mathbb{U} = \left( \begin{array}{cc} \mathbb{U}_{>} & \mathbb{U}_{<} 
+    \end{array}\right) ,
+\end{equation}
+where the factor $\sqrt{2}$ ensures proper normalization for the complex fermions given unitary matrix $\mathbb{U} $.  The columns of $\mathbb{U}_{<}$ 
+ and $\mathbb{U}_{>}$  correspond to the eigenvectors of the mean-field Hamiltonian with negative and positive energy. With proper ordering of the eigenvectors, we can choose $\mathbb{U}_{<}^{\ast}=\mathbb{U}_{>}$.
+
+
+The Hamiltonian in terms of the normal modes is
+\begin{equation}
+    H_{\mathrm{MF}} =\frac{1}{2} \sum_{\lambda = 1}^{4 N} \varepsilon_\lambda \, \big(  d^\dagger_\lambda d_\lambda^{\phantom{\dagger}} - d_\lambda^{\phantom{\dagger}} d_\lambda^\dagger    \big) =  \sum_{\lambda = 1}^{4  {N}} \varepsilon_\lambda \,  d^\dagger_\lambda d_\lambda^{\phantom{\dagger}} - \frac{1}{2}\sum_{\lambda = 1}^{4  {N}} \varepsilon_\lambda\, .
+\end{equation}
+The columns of $\mathbb{U}$ are ordered so that for $ \lambda \leq 4 {N}$ they correspond to non-negative energy $\varepsilon_\lambda \geq 0$, and for $\lambda > 4 {N}$ they correspond to $\varepsilon_{\lambda} = - \varepsilon_{\lambda - 4  {N}}$.  
+We construct the trial mean-field state annihilated by all $d_\lambda$,
+\begin{equation}
+     d_{\lambda} \ket{\Omega_{\text{MF}}}=0\; , \quad \forall \lambda \leq 4  {N}  \; .
+\end{equation}
+In constructing the state $\ket{\Omega_{\text{MF}}}$, we use the equivalent description on the expectation values
+\begin{equation}
+    \braket{ d_\lambda^{\phantom{\dagger}} \, d_{\lambda'}^\dagger}=\delta_{\lambda\lambda'} \;, 
+\end{equation}
+and the other expectation values vanish
+$ \braket{ d_\lambda^\dagger \, d_{\lambda'}^{\phantom{\dagger}}}=0 = \braket{ d_\lambda^{{\dagger}} \, d_{\lambda'}^\dagger} = \braket{ d_\lambda^{\phantom{\dagger}} \, d_{\lambda'}^{\phantom{\dagger}} }$, where the expectation value is in the mean-field trial state $\braket{\cdots}=\bra{\Omega_{\text{MF}}}\cdots\ket{\Omega_{\text{MF}}}$.
+%The ground state energy is $E=-\frac{1}{2}\sum_{\lambda \leq 4 N} \varepsilon_\lambda$. 
+
+
+Using the expression for the Majorana fermions
+\begin{align}%\big( T\,U \big)
+    c_I^{\phantom{\dagger}} &= \sum_{\lambda=1}^{ 4  {N}} \Big[  \big( \mathbb{U} \big)_{\I,\lambda} \, d_\lambda^{\phantom{\dagger}} +    \big( \mathbb{U} \big)_{\I,\lambda+4 {N}}  \, d_\lambda^\dagger \Big] 
+    =
+    \sum_{\lambda=1}^{ 4  {N}} \Big[  \big( \mathbb{U}_{>} \big)_{\I,\lambda}  d_\lambda^{\phantom{\dagger}} \!+    \big( \mathbb{U}_{<} \big)_{\I,\lambda}  \, d_\lambda^\dagger \Big]
+    \; ,
+    %\\[6pt]     c_I^{\dagger} &= \sum_{\lambda=1}^{ 4  {N}} \Big[   \big( \mathbb{U}^{\dagger} \big)_{\lambda,\I}d_\lambda^\dagger+   \big( \mathbb{U}^{\dagger} \big)_{\lambda+4 {N},\I} d_\lambda^{\phantom{\dagger}} \! \Big]      =\sum_{\lambda=1}^{ 4  {N}} \Big[   \big( \mathbb{U}^{\dagger}_{>} \big)_{\lambda,\I}d_\lambda^\dagger+   \big( \mathbb{U}^{\dagger}_{<} \big)_{\lambda,\I} d_\lambda^{\phantom{\dagger}} \! \Big] \; ,
+\end{align}
+we find that the expectation value of a bilinear of Majorana fermions in the ground state is
+\begin{equation}
+\begin{split}
+    {\mathsf{C}}_{\I\J}%=\braket{ \, \im  c_\I \,  c_\J  \, }  
+    =    \braket{ \,  \im c_I^{\dagger} c_J^{\phantom{\dagger}}  \! }  
+    &= \im
+    \sum_{\lambda=1}^{ 4  {N}} \;  \big( \mathbb{U}^{\dagger}_{<} \big)_{\lambda,\I} \big( \mathbb{U}_{<} \big)_{\J,\lambda}
+    = \im\big(\mathbb{U}_{<}^{\pd}  \mathbb{U}_{<}^\dagger  \big)_{\J\I} \; , \label{eq:MF_eq} 
+\end{split}
+\end{equation}
+where we use $c_I^{\dagger}=c_I^{\pd}$ for convenience.
+Thus, we can compute all correlations between the Majorana fermions $c_I$ from the set of negative energy eigenvectors. 
+We obtain the mean-field parameters in Eq.~\eqref{eq:MF_parameters} by setting $i$ and $j$ to be either nearest neighbors ($\rmU$) or the same site ($\rmV$). Together with the mean-field Hamiltonian, Eq.~(\ref{eq:MF_eq}) defines a set of self-consistent equations which we then solve numerically. 
+
+%In our approach, we require that the constraint in Eq.~(\ref{eq:G=0}) is satisfied  by the mean-field solution as accurately as possible.  Since $ic^{\mathrm T}_i\rmG^\gamma c^{\phantom{T}}_i$ are linear combinations of  operators with eigenvalues $\pm1$, we define the quantities ${\mathcal G}_i^\gamma \equiv \frac{1}{4} |\braket{c^{\mathrm T}_i\rmG^\gamma c^{\phantom T}_i}|$ for the mean-field ground state average, with $0\le {\mathcal G}^\gamma_i\le 1$.  For zero magnetic field and in the absence of magnetic order,  the constraints are automatically satisfied, ${\mathcal G}_i^\gamma=0$, since $\rmV^{0\gamma}_i=\rmV^{\alpha\beta}_i=0$. To describe the Kitaev spin liquid phase at finite magnetic field, we tune the Lagrange multipliers $\lambda_i^\gamma$ contained in $\rmB_i$ to minimize the violation of the constraint measured by ${\mathcal G}^\gamma_i$. For all results shown below, we guarantee  ${\mathcal G}_i^\gamma<0.05$  for all values of $(\gamma,i)$.  In the homogeneous case (cf.\ Figs.~\ref{fig1}, \ref{fig2} and \ref{fig3}), the largest violations occur in the vicinity of phase transitions.  Away from transitions, we instead find  ${\mathcal G}_i^\gamma< 10^{-3}$. Similarly, in the presence of vortices, the  largest violations occur near a vortex but they are always bounded as specified. 
+
+
+\section{Self-consistent algorithm}\label{sec:4-algorithm}
+
+Representing the collection of mean-field parameters $\rmU, \rmV$ by the correlation matrix ${\mathsf{C}}=({\mathsf{C}}_{\I\J})$, where only on-site and nearest-neighboring terms enter in the Hamiltonian\footnote{Allowing us to clip to zero the other terms.}, the diagonalization of the mean-field Hamiltonian provides an iteration map ${\mathsf{F}}$ from correlation matrices to correlation matrices:
+\begin{equation}
+    {\mathsf{C}} \; \longrightarrow \; {\mathsf{F}}({\mathsf{C}}) = \im\,\mathbb{U}_{<}^{\pd}({\mathsf{C}}) \, \mathbb{U}_{<}^\dagger({\mathsf{C}})  = \braket{\im c^T c}_{{\mathsf{C}}} \; .
+\end{equation}
+Where $\mathbb{U}_{<}({\mathsf{C}})$ are the eigenvectors from the mean-field Hamiltonian $\im \tilde{\rmA}({\mathsf{C}})=\im \tilde{\rmA}(\rmU,\rmV)$ for this given set of mean-field parameters. From the properties of the unitary transformation $\mathbb{U}_{<}$, one can check that this map indeed gives antisymmetric real-valued matrix ${\mathsf{F}}_{\I\J}=-{\mathsf{F}}_{\J\I}$  with coefficients with absolute value less than one, as it should for correlation of Majorana fermions $\braket{\im c_\I c_\J}$ in any state. 
+
+In this notation, a solution of the self-consistent equation is a fixed point of the iteration map, 
+\begin{equation}
+    {\mathsf{F}}({\mathsf{C}}) = {\mathsf{C}} \; ,
+\end{equation}
+which minimizes the energy   
+\begin{equation}
+    E_{\mathrm{MF}}({\mathsf{C}})
+    =\braket{\, H_{\mathrm{MF}}({\mathsf{C}})\,}_{{\mathsf{C}}}
+    = \frac{1}{4} \sum_{\I\J}    \tilde{\rmA}_{\I\J}({\mathsf{C}})\, {\mathsf{C}}_{\I\J}-\rmC({\mathsf{C}}) \; .
+\end{equation}
+The existence of at least one fixed point is guaranteed by Brouwer fixed-point theorem since $\rmF$ is continuous and maps a convex compact set into itself (the set of unit ball in the correlation matrix space  $\{{\mathsf{C}}\in\mathbb{R}^{8N\times8N} : -1\leq {\mathsf{C}}_{\I\J} \leq 1\}$). 
+
+There are numerous optimization techniques for numerically finding the fixed points, such as Newton's method, Broyden's method, or any other root-finding method applied to the function $\mathbb{G}({\mathsf{C}})={\mathsf{F}}({\mathsf{C}}) - {\mathsf{C}}$. 
+The numerical difficulty of these methods, and any method that requires the gradient or the Jacobian, is that for $M$ mean-field parameters $\rmU,\rmV$  in ${\mathsf{C}}$ the computation of the gradient/Jacobian in one iteration requires $M+1$ computations of the function ${\mathsf{F}}$. Evaluating ${\mathsf{F}}$ (due to the eigenvectors) is very costly for large system sizes. 
+
+
+To minimize the number of times we need to diagonalize the mean-field Hamiltonian, the best optimization method is the fixed-point iteration method. In this method, we use the sequence 
+\begin{equation}
+    {\mathsf{C}}^{(n)} = {\mathsf{C}}^{(n-1)} + s \, \big( {\mathsf{F}}({\mathsf{C}}^{(n-1)}) - {\mathsf{C}}^{(n-1)} \big)
+\end{equation}
+for some real scaling factor $0< s\leq 1$ and initial condition ${\mathsf{C}}^{(0)}$. 
+We halt the iteration method if the solution has not have converged up to a given maximum iteration parameter\footnote{I use $n_{\text{max}}\sim 10^2$ and $\text{tol} \sim 10^{-8}$. } $n_{\text{max}}$ or if the solution has converged up to a tolerance 
+\begin{equation}
+    \big\| \, {\mathsf{C}}^{(n)} - {\mathsf{C}}^{(n-1)} \, \big\| \leq \text{tol} \; ,
+\end{equation}
+where I am using the maximum norm $\| a_{\I\J} \| = \max\limits_{\I\J}|a_{\I\J}|$. 
+The radius of convergence is larger for small $s$, but the convergence rate is faster for $s=1$. I will use $s=1$ whenever it converges. 
+In comparison with Newton's method, here we need to use the function ${\mathsf{F}}$ (compute the eigenvectors) just $n_{\text{FP}}$ instead of $M n_{\text{N}}$. Even though Newton's convergence is faster\footnote{Iteration is linear, while Newton's is quadratic, close to the fixed point.} $n_{\text{N}} \ll n_{\text{FP}}$, in general, it is not worth it for a system with a large number of mean-field parameters. In our case,  we have $M = 54 \, L^2 \sim 10^5$ for $L \sim 44$ while the fixed point iteration will use $n_{\text{FP}} < n_{\text{max}}\sim 10^2 $ times, independent of $L$.
+
+The choice of the initial condition plays a big role in the fixed-point iteration method for our problem.  Especially because we are interested in an excited state with a non-trivial flux configuration, our initial condition must reflect the desired configuration. We do this by using the knowledge of the solution for zero $J, \Gamma, \mathbf{h}$ as an initial guess for small $J, \Gamma, \mathbf{h}$. For larger values of the couplings, we can use the convergent solution for a given set of couplings as an initial guess for another set of couplings. 
+
+In the next chapter, we will treat the problem of isolated vortices in the extended Kitaev model using the mean-field theory developed here. 
+
+
+
+
+\vfill
+
+\begin{figure}[h!]
+\begin{center}
+%1\includegraphics[width= .6\textwidth]{Chapters/Appendix/Figures/trans/disp-1a.pdf}\vspace*{-2mm}\\
+\includegraphics[width= .6\textwidth]{Chapters/Appendix/Figures/trans/disp-1b.pdf}\vspace*{-2mm}\\
+\includegraphics[width= .6\textwidth]{Figures/npj/fig1.pdf}\vspace*{-4mm}
+\end{center}
+\caption{Dispersion for zero magnetic field %($\Gamma=0, \mathbf{h}=0.4 \mathbf{c}$), 
+and non-zero $\Gamma$ ($\Gamma=0.2, \mathbf{h}=0 \mathbf{c}$), and both $h$ and $\Gamma$ non-zero ($\Gamma=0.2, \mathbf{h}=0.4  \mathbf{c}$).
+The dotted line depicts the dispersion in the pure Kitaev limit ($J=\Gamma=0, \mathbf{h}= \mathbf{0}$).}
+\label{fig1}
+\end{figure}
+
+\clearpage
+
+\section{Translational invariant solution}
+
+In our work, we are interested in the configurations with isolated vortices. Nonetheless, it is important to check how the mean-field theory that we develop performs in the configuration without vortices. Here I will briefly show the main result for the homogenous trivial flux configuration. For this configuration, we can compare how our results for the extended model compare with the exact solution in the solvable point $J=\Gamma=0$, for $h=0$ and perturbative $h$, and how it compares with other mean-field methods such as in Ref.~\cite{Knolle2018} that studied the vortex-free configuration for finite $J, \Gamma$ without magnetic field.
+
+The Kitaev spin liquid phase for the vortex-free configuration does not break any symmetry. To analyze this phase, one can assume a translational invariant ground state. This is not true in general for other phases of the extended Kitaev model, such as the zig-zag phase that has a larger unit cell, but here we are solely interested in the spin liquid phase. 
+For a translational invariant mean-field ground state, the parameters $\rmU$ and $\rmV$ shall only depend on the bond type and sub-lattice label, respectively, being independent of the unit cell. We further assume that the sublattice symmetry is not spontaneously broken $\rmV_\rmA=\rmV_\rmB$, and write the mean-field parameters as 
+\begin{equation}
+    \rmU^{\mu\nu}_{\braket{ij}_\gamma}=\rmU^{\mu\nu}_\gamma 
+    \;, \quad \rmV^{\mu\nu}_{i}=\rmV^{\mu\nu} \; .
+\end{equation}
+This immensely simplify the problem of $54$ parameters per unit cell, to $3\times16+3=51$ parameters given by the matrices $\rmU_x,\rmU_y,\rmU_z,\rmV$.
+
+%\section{Homogeneous case}
+%\begin{comment}
+%We first describe the mean-field solution for the homogeneous case, i.e., in the absence of vortices. If the ground state does not break spin rotation or lattice symmetries, as in the Kitaev spin liquid phase, the matrices     $\rmU^{\mu\nu}_{ij}$  depend only on the bond type $\gamma$, and we set $\rmU^{\mu\nu}_{ij}=\rmU^{\mu\nu}_\gamma$ for bonds $\braket{ij}_\gamma$.  
+%Moreover, $\rmV^{\mu\nu}_{i}=\rmV^{\mu\nu}$ becomes a constant matrix. More generally, we can allow these parameters to vary with the sublattice within larger unit cells to describe magnetically ordered phases.
+
+
+Using a translational invariant set of mean-field parameters the mean-field Hamiltonian can be block diagonalized by Fourier transform into $8\times8$  blocks. The technical details and further analysis are addressed in the Appendix \ref{App-translational}. In summary, we have verified that our mean-field approach recovers the exact results for the  
+Kitaev model \cite{Kitaev2006} when we set $\Gamma=J=h=0$.    
+The resulting dispersion relation of Majorana fermions is depicted by dashed lines in Fig.~\ref{fig1}. In this case, the only dispersive band is associated with the fermion $c^0$.  
+This band is gapless with a Dirac spectrum near the $\mathrm{K}$ point in the Brillouin zone.
+In addition, there are three degenerate flat bands associated with the fermions $c^\gamma$. The $\mathrm{C}_3$ symmetry for these fermions is related to the bond independency of the static gauge variables $\rmU^{\gamma\gamma}_\gamma$ 
+ 
+
+
+
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width= .75\textwidth]{Figures/npj/fig2.pdf}
+    \caption{Fermion gap as a function of magnetic field for $\mb h=h\hat{\mb c}$ along the $\hat{\mb c}$ axis, with $K=-1$, $J=0$, and for three values of $\Gamma$:  $\Gamma=-0.1$ (green circles), $\Gamma=0$ (blue triangles) and $\Gamma=0.1$ (red diamonds). The inset shows that for weak fields the fermion gap agrees with the perturbative result to leading order in $h$, $\Delta_{\mathrm f}\propto h^3$. }
+    \label{fig2}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width= .75\textwidth]{Figures/npj/fig3a.pdf}\\
+    \includegraphics[width= .75\textwidth]{Figures/npj/fig3b.pdf}
+    \caption{ Mean-field parameter $\rmU_\gamma^{\gamma\gamma}$ for fixed $K=-1$ and $J=0$ as a function of the $\Gamma$ interaction and the strength of the magnetic field along two directions: (a) $\mathbf h\parallel \hat{\mathbf c}$, perpendicular to the honeycomb plane; (b) an in-plane field $\mathbf h\parallel \hat{\mathbf a}$.   White circles represent critical points where the fermion gap closes at the $\Gamma$ point in the BZ.   The region labeled as KSL is identified with the Kitaev spin liquid phase.}
+    \label{fig3}
+\end{figure}
+
+Away from the integrable point, we find that all bands become dispersive.
+For zero field in the extended Kitaev model $ J, \Gamma\neq0$,  our results are in quantitative agreement with a previous mean-field calculation \cite{Knolle2018}. 
+We can go further and also consider magnetic field nonperturbatively.  
+Figure  \ref{fig1} shows the dispersion for a magnetic field perpendicular to the honeycomb plane. 
+%As shown in Fig.~\ref{fig2},  
+The magnetic field opens up a gap in the fermion spectrum, as expected for the non-Abelian Kitaev spin liquid phase.
+The gap opening due to the magnetic field is also shown in Fig.~\ref{fig2}.
+As we increase the magnetic field, the gap at the K point increases, but the gap at the $\Gamma$ point decreases. 
+The non-smooth point in the fermionic gap  $\Delta_{\mathrm f}$ happens when the energies at the K and $\Gamma$ points cross. 
+As we increase the magnetic field, we encounter a critical value $h_{\mathrm c}$ at which the gap either changes discontinuously, as in a first-order transition (e.g., for $\Gamma=-0.1|K|$ in Fig.~\ref{fig2}), or it vanishes and varies continuously across the phase transition (e.g., for $\Gamma=0.1|K|$ in Fig.~\ref{fig2}). 
+For   $\mb h=h\hat{\mb c}$ and $h\ll h_{\mathrm c}$, the fermion gap increases with the magnetic field as $\Delta_{\mathrm f}\propto h^3$, as expected from perturbation theory \cite{Kitaev2006}; see the inset in Fig.~\ref{fig2}. For general field directions, the fermion gap behaves as $\Delta_{\mathrm f}\propto h_x h_y h_z$, closing when one component of $\mb h$ vanishes.
+
+
+Another important calculation with the translational invariant mean-field ground state is to identify the coupling space $J, K, \Gamma, \mathbf{h}$ where the Kitaev spin liquid phase remains stable. These coupling values define the parameter region of interest for studying isolated vortices. However, it is important to note that the phase where the mean-field parameter for the Kitaev spin liquid is stable may be larger than its actual phase. This occurs because we are using fewer mean-field parameters when assuming a translationally invariant ground state, which prevents us from identifying phases that break this symmetry. 
+The strong magnetic fields regime should correspond to the partially polarized phase, while the regime of large  $|\Gamma|$ or $|J|$ harbors magnetically ordered phases  \cite{Rau2014,Yadav2016,Gordon2019,Yilmaz2022}. %In this work, we do not investigate the different phases of the extended Kitaev model, as their nature remains somewhat unresolved \cite{Rousochatzakis2023}. 
+For our analysis, the entire phase diagram is not necessary; we focus on finding the largest region where a ground state with Kitaev spin liquid mean-field parameters can be found.
+
+
+%By contrast, the regime of strong magnetic fields should be identified with the partially polarized phase, whereas the regime of large  $|\Gamma|$ or $|J|$ harbors magnetically ordered phases  \cite{Rau2014,Yadav2016,Gordon2019,Yilmaz2022}. Here we do not explore the various phases of the extended Kitaev model, whose nature is not completely settled \cite{Rousochatzakis2023}. 
+
+The $\mathbb Z_2$ flux gives an order parameter for the Kitaev spin liquid phase. The leading order contribution to this parameter in a homogenous ground state is 
+\begin{equation}
+    \braket{W_p}=(\rmU_{\gamma}^{\gamma\gamma})^6 \; .
+\end{equation}
+%We further assess the stability of the  Kitaev spin liquid phase by evaluating the $\mathbb Z_2$ flux parameter.  In a homogeneous ground state, we have $W_p=(\rmU_{\gamma}^{\gamma\gamma})^6$. 
+The result for the extended Kitaev model with $J=0$ and $\Gamma,h\neq0$ is shown in Fig.~\ref{fig3} 
+for a magnetic field along the $\hat{\mathbf c}$ direction and for an in-plane field along  the $\hat{\mathbf a}$ direction.    The dots in this figure mark the transition where the gap $\Delta_{\mathrm f}$ vanishes.  %. Note that $\rmU_\gamma^{\gamma\gamma}$ varies smoothly across the continuous  transition for $\mathbf{h}\parallel \hat{\mathbf c}$ and $\Gamma>0$. 
+As expected, in general, the value for the $\mathbb Z_2$ flux decreases as we increase $|\mathbf{h}|$ or $|\Gamma|$.
+However, a positive $\Gamma>0$ increases the critical magnetic field along the $\hat{\mb c}$ direction,
+and the Kitaev spin liquid phase shrinks as we tilt the field towards the plane,  in agreement with exact diagonalization results \cite{Gordon2019}. 
+
+%The parameter region where both $\rmU_\gamma^{\gamma\gamma}$ and $\Delta_{\mathrm f}$ vary smoothly and take values comparable to those at the exactly solvable point is the largest region where we expect Kitaev physics. 
+In the parameter region of finite  $\rmU_\gamma^{\gamma\gamma}$ and $\Delta_{\mathrm f}$,  we expect the mean-field approach to yield qualitatively correct results for the charge response of the Kitaev spin liquid phase. The mean-field results, however, must be used with caution as in general they overestimate the value of the critical magnetic field for a ferromagnetic Kitaev coupling in comparison with more accurate numerical methods \cite{Zhu2018,Hickey2019,Gordon2019,Kim2020}.  
+%As long as there is a Kitaev spin liquid, our mean-field 

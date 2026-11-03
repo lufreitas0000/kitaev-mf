@@ -1,0 +1,393 @@
+
+
+%\section{Spin representation and Majorana Fermions}
+
+A representation of the spin algebra for spin $S=1/2$ operators $\mb{S}$ acting in a vector space $\mathcal{H}$ which must satisfies the $\mathfrak{su}(2)$ algebra,
+\begin{equation}
+    \big[ S^\alpha \, , \, S^\beta \big] =  \im %\sum_{\gamma=x,y,z}
+    \epsilon^{\alpha\beta\gamma} S^\gamma \; , \qquad \alpha, \beta  =x,y, z\; , 
+\end{equation}
+and the Casimir of $\mathrm{SU}(2)$ group requirement
+\begin{equation}
+    \mb{S}^2 = \left( S^x \right)^2+\left( S^y \right)^2+\left( S^z \right)^2= \mathbb{1}\; S(S+1) = \mathbb{1}\; \frac{3}{4} \;  ,  \label{eq:casimir}
+\end{equation}
+%A sufficient condition for such representation is to find objects satisfying 
+%\begin{equation}    S^\alpha \,  S^\beta  = \frac{1}{4} \, \mathbb{1} \, \delta^{\alpha\beta} + \frac{1}{2}  \im \epsilon^{\alpha\beta\gamma} S^\gamma \;  \end{equation}
+where $\mathbb{1}$ is the appropriated identity for the corresponding vector space and we are implicitly summing over repeated indices.
+
+A faithful representation of this algebra occurs for dimension two $\mathcal{H}=\mathbb{C}^2$ using Pauli matrices
+ \begin{equation}
+     \sigma^x = \left(\begin{array}{cc}0&1\\ 1& 0   \end{array}\right), \;
+     \sigma^y = \left(\begin{array}{cc}0&-\im \\ \im & 0   \end{array}\right), \;
+     \sigma^z = \left(\begin{array}{cc}1&0 \\ 0 & -1 \end{array}\right)\;,
+ \end{equation}
+ which satisfies $\sigma^\alpha \sigma^ \beta = \mathbb{1}_2 \, \delta^ {\alpha\beta} + \im \epsilon^{\alpha\beta\gamma} \sigma^ \gamma$ so that $\rmS^\gamma=\frac{1}{2} \, \sigma^\gamma$ gives a spin-half representation. 
+ Unfortunately, this representation does not allow us to study the fractionalization of spins at the mean-field level. For that, we need somehow to factorize the action of the spin operator. 
+
+In the following we see that one way to find such a representation is to look for representations of the algebra $\mathfrak{su}(2)\oplus \mathfrak{su}(2)$ projected in the subspace where one of these subalgebras are identically mapped to zero, and other to spin-half.
+Other representations follow from this one, which algebraically is due to the Lie-Algebra isomorphisms $\mathfrak{su}(2) \cong \mathfrak{so}(3)$ and $\mathfrak{su}(2)\oplus \mathfrak{su}(2) \cong \mathfrak{so}(4)$.  
+
+
+\section{Representation with complex fermions}
+Spin-half can be represented using a pair of complex fermions.
+In the context used here, they are called spinons %\reminder{(cite)} 
+or Abrikosov (pseudo-)fermions \cite{Abrikosov1965}.
+These fermions are conveniently labeled with spin-half indices $\sigma=\uparrow,\downarrow$. Let us denote them by $f =(f_{\uparrow}, \, f_{\downarrow})$. These complex fermions satisfy the usual anticommutation relations $\{ f_{\sigma}, f_{\sigma'} \} = 0$ and   $\{ f_{\sigma}^\pd, f_{\sigma'}^\dagger \} = \delta_{\sigma\sigma'}$. 
+The local Hilbert space is spanned by four vectors: \begin{equation}
+    \mathcal{H}_f=\mathrm{span}\; \big\{ 
+    \ket{\emptyset},  \; 
+    f_{\downarrow}^\dagger \ket{\emptyset}, \; 
+    f_{\uparrow}^\dagger \ket{\emptyset},\;
+    f_{\uparrow}^\dagger f_{\downarrow}^\dagger \ket{\emptyset} 
+    \big\} 
+\end{equation}
+ where $\ket{\emptyset}$ is the fermionic vacua annihilated by $f_{\uparrow}$ and $f_{\downarrow}$.  
+% The states in the basis are the common eigenstates of the occupation number operators $n_{\uparrow}=f_{\uparrow}^\dagger f_{\uparrow}^\pd$, $n_{\downarrow}=f_{\downarrow}^\dagger f_{\downarrow}^\pd$. % $\ket{n_\uparrow,n_\downarrow} =(f_{\uparrow}^\dagger )^{n_\uparrow} (f_{\downarrow}^\dagger)^{n_\downarrow} \ket{\emptyset} $, 
+ %these states correspond to $\{     \ket{0,0},  \;     \ket{1,0},\;    \ket{0,1}, \;     \ket{1,1}    \}  $. %one state with no fermions, two states with one fermion, and one state with two fermions.
+
+
+ 
+ The Fock space spanned by two complex fermions has dimension $4$, which is double the dimension of the Hilbert space for a spin-half, which for instance may be spanned by the vectors $\ket{\uparrow}=\ket{1/2,1/2}, \ket{\downarrow}= \ket{1/2,-1/2}$ in the basis of $\mb{S}^2, \rmS^z $.
+ Therefore, the representation is done in an enlarged Hilbert space and one needs to impose constraints to recover the original spin-space.
+
+We can define operators $\hat{\rmS}^\alpha$ that represents spin-half. Consider the operators
+ \begin{equation}
+      \hat{\rmS}^\alpha = \frac{1}{2} f^\dagger \, \sigma^\alpha \, f \; , 
+ \end{equation}
+which acts in the enlarged local fermionic Hilbert space $\mathcal{H}_f$. Explicitly, the components of the spin operators are
+\begin{equation}\!\!
+    \hat{\rmS}^x = 
+    \frac{1}{2}\left( f_{\uparrow}^\dagger f_{\downarrow}^\pd 
+    +f_{\downarrow}^\dagger f_{\uparrow}^\pd \right)
+    ,\;\;   
+    \hat{\rmS}^y = -\frac{\im}{2}\left( 
+    f_{\uparrow}^\dagger f_{\downarrow}^\pd 
+    -f_{\downarrow}^\dagger f_{\uparrow}^\pd  \right)
+    , \;\; 
+    \hat{\rmS}^z = \frac{1}{2}\left( 
+    f_{\uparrow}^\dagger f_{\uparrow}^\pd 
+    -f_{\downarrow}^\dagger f_{\downarrow}^\pd \right).
+  \!\!  \end{equation} 
+
+Denoting the occupation number operators by $n_{\uparrow}=f_{\uparrow}^\dagger f_{\uparrow}^\pd$ and $n_{\downarrow}=f_{\downarrow}^\dagger f_{\downarrow}^\pd $, %the square of the  $\hat{\rmS}^\alpha$  operators are all equal to
+we have $\left( \hat{\rmS}^{\alpha} \right)^2  = \frac{1}{2}(n_\uparrow + n_\downarrow) - n_\uparrow n_\downarrow$ and then
+\begin{equation} 
+    \hat{\mb{S}}^2 = \frac{3}{2} \left( n_\uparrow + n_\downarrow - 2 n_\uparrow n_\downarrow \right) \; .
+\end{equation}
+Therefore, to recover the Casimir condition \eqref{eq:casimir} and find $ \hat{\mb S}$ to be a spin-half representation, one must restrict to the subspace where
+\begin{equation}
+    n_\uparrow + n_\downarrow = 1 \; , \quad n_\uparrow n_\downarrow = 0 \; . \label{eq:single-ocupation}
+\end{equation}
+%On the eigenstates of the occupation number, the second constraint follows from the first.
+These constraints force us to project to the physical (spin) subspace 
+\begin{equation}
+    \mathcal{H}_{\bm{+}}
+    =\mathrm{span}\; \big\{ 
+    f_{\downarrow}^\dagger \ket{\emptyset},\;
+    f_{\uparrow}^\dagger \ket{\emptyset}
+    \big\} \; 
+\end{equation}
+where there is a single total fermionic occupation.
+Similarly, we can define the ``unphysical'' (isospin) subspace $ \mathcal{H}_{{-}}=\mathrm{span}\; \big\{  \ket{\emptyset},\;   f_{\uparrow}^\dagger f_{\downarrow}^\dagger \ket{\emptyset}  \big\} $ so that the total space is $\mathcal{H}_{\bm{f}}=\mathcal{H}_{\bm{+}}\oplus \mathcal{H}_{\mb{-}}$.
+
+Using Nambu spinors one can rewrite the single site occupation condition \eqref{eq:single-ocupation} in $\mathrm{SU}(2)$ symmetric fashion \cite{Coleman_1994,Yu_2008}. 
+Let us define the isospin operator and Nambu spinors 
+ \begin{equation}
+      \hat{\rmT}^\alpha = \frac{1}{2} \tilde{f}^\dagger \, \sigma^\alpha \, \tilde{f} \; ,  \quad 
+      \tilde{f} = \left(\begin{array}{c}   f_{\uparrow} \\ f_{\downarrow}^\dagger \end{array}\right) \; .
+ \end{equation}
+Explicitly, the components of the isospin operator are
+\begin{equation}
+    \hat{\rmT}^x = \frac{1}{2}\left( 
+    f_{\uparrow}^\dagger f_{\downarrow}^\dagger
+    +f_{\downarrow}^\pd f_{\uparrow}^\pd \right)
+    ,\;\;   
+    \hat{\rmT}^y = -\frac{\im}{2} \left(
+    f_{\uparrow}^\dagger f_{\downarrow}^\dagger 
+    -f_{\downarrow}^\pd f_{\uparrow}^\pd  \right)
+    , \;\; 
+    \hat{\rmT}^z = \frac{1}{2} \left(
+    n_\uparrow + n_\downarrow -1 \right)\; .
+\end{equation} 
+The action $\hat{\rmT}^\alpha$ on any physical state $\mathcal{H}_{+}$ give zero, while acts injectively in $\mathcal{H}_{-}$.
+From this, it is clear that the local single-occupancy constraint is equivalent to the vanishing of the three components of the isospin operator. 
+In this way, saying that a state $\ket{\Psi}$ is in the physical subspace $\mathcal{H}_{+}$ it is equivalent to the conditions 
+\begin{equation}
+    \hat{\mb{S}}^2 \ket{\Psi}  
+    = \frac{3}{4} \ket{\Psi}
+    \; \leftrightarrow \;
+    \left\{ \begin{array}{rl}
+        (n_\uparrow + n_\downarrow)\ket{\Psi} \!\!&=\ket{\Psi}, \\
+        n_\uparrow n_\downarrow \ket{\Psi}    \!\!&= 0
+    \end{array} \right\}  
+    \; \leftrightarrow \;   \hat{\rmT}^\alpha  \ket{\Psi} = 0 
+    \; \leftrightarrow \;   \hat{\mb{T}}^2  \ket{\Psi} = 0 \; 
+\end{equation}
+Conversely, the same relation holds if we exchange spin and physical states for isospin and unphysical states. % it is also true that the spin operator vanished in the unphysical subspace.
+
+The spin and isospin operators are independent and satisfies the $\mathfrak{su}(2) \oplus \mathfrak{su}(2)$ algebra
+\begin{equation}
+    [ \hat{\rmS}^\alpha, \hat{\rmT}^\beta]=0 \; ,\quad
+    [ \hat{\rmS}^\alpha, \hat{\rmS}^\beta]= \im \epsilon^{\alpha\beta\gamma} \hat{\rmS}^\gamma \; ,\quad
+    [ \hat{\rmT}^\alpha, \hat{\rmT}^\beta]= \im \epsilon^{\alpha\beta\gamma} \hat{\rmT}^\gamma \; .
+\end{equation}
+Moreover, the operators $\hat{\rmS}^\alpha$ in $\mathcal{H}_{+}$ and  $\hat{\rmT}^\alpha$ in $\mathcal{H}_{-}$ give faithful representations of the spin-half algebra in this spaces and are zero in $\mathcal{H}_{-}$ and  $\mathcal{H}_{+}$ respectively. 
+
+
+
+
+\section{SU(2) gauge symmetry  }
+In the spin representation $ \hat{\rmS}^\alpha = \frac{1}{2} f^\dagger \, \sigma^\alpha \, f $ there is a $\mathrm{SU}(2)$ gauge redundancy. The representation is invariant by isospin rotations $
+    \hat{\rmT}^\alpha = \rmO^{\alpha\beta} \,  \hat{\rmT}^\beta$ 
+which are the $\mathrm{SU}(2)$ transformation in the Nambu spinor $\tilde{f} \longrightarrow \tilde{g}^\dagger \; \tilde{f}$. % with $\tilde{g}^\dagger \sigma^\alpha \tilde{g} = \rmO^{\alpha\beta} \sigma^\beta$.
+
+
+To make the gauge invariance clear, let us write the complex fermions in matrix format \cite{Hermele2007,You2012}
+\begin{equation}
+    \rmF =\left( \begin{array}{cc}
+         f_{\uparrow}^\pd & -f_{\downarrow}^\dagger  \\
+         f_{\downarrow}^\pd & \phantom{-}f_{\uparrow}^\dagger  \\
+    \end{array} \right) \; .
+\end{equation}
+Notice that this is directly related to write  $\mathrm{SU}(2)$ matrices as $u=\left(\begin{smallmatrix} \alpha & - \bar{\beta} \\ \beta & \bar\alpha \end{smallmatrix}\right)$ for two complex numbers such that $|\alpha|^2+|\beta|^2=1$.
+Using the operator matrix $\rmF$, the spin and isospin operators are 
+\begin{equation}
+     \hat{\rmS}^\alpha = \frac{1}{4} \tr \, \Big[  \rmF^\dagger \sigma^\alpha \, \rmF \, \Big] 
+     \; , \quad 
+     \hat{\rmT}^\alpha = \frac{1}{4} \tr \, \Big[  \rmF\,  \sigma^\alpha  \,  \rmF^\dagger \Big]  \; . \label{eq:A-SFF}
+\end{equation}
+Now, the gauge symmetry of this representation is immediate.
+The spin operators are invariant under right $\mathrm{SU}(2)$ transformations
+\begin{equation}
+     \rmF \longrightarrow  \rmF \; g \;,  \quad g\in\mathrm{SU}(2) \; .
+\end{equation}
+which are exactly the isospin rotations that send
+\begin{equation}
+    \hat{\rmS}^\alpha \longrightarrow  \hat{\rmS}^\alpha \; , \quad     
+    \hat{\rmT}^\alpha \longrightarrow  \rmO^{\alpha\beta} 
+ \, \hat{\rmT}^\beta \; ,
+\end{equation}
+with rotation matrix  $\rmO^{\alpha\beta} \sigma^\beta = {g} \sigma^\alpha {g}^\dagger$.
+On the other hand, the $\mathrm{SU}(2)$ left transformation $\rmF \to u^\dagger \; \rmF $ are the spin rotations.
+
+
+%The matrices are related by $\tilde{g}=\sigma^x g^\dagger \sigma^x$.
+
+\section{SO(4) chiral Majorana  }
+
+We can rewrite each complex fermions as the sum of two Majorana fermions, resulting in an (equivalent) representation in terms of four Majorana fermions \cite{Burnell_2011,You2012}
+\begin{equation}
+    f_\uparrow^\pd = \frac{1}{2} \left( c^0 + \im c^3 \right) \; , \quad 
+    f_\downarrow^\pd = \frac{\im}{2} \left( c^1 + \im c^2 \right) \; .
+\end{equation}
+The Majorana fermions are Hermitian $(c^\mu)^\dagger=c^\mu$ linear operators in $\mathcal{H}_f$ satisfying the the anticommutation rules $\{c^\mu,c^\nu \} = 2 \delta^{\mu \nu}$, in particular, they are normalized to $(c^\mu)^2=1$.
+Conversely, expressing Majorana fermions as combinations of the complex fermions:
+\begin{equation}
+\begin{split}    
+    c^0 = f_\uparrow^\pd + f_\uparrow^\dagger \; , \quad 
+    c^3 = -\im \left( f_\uparrow^\pd - f_\uparrow^\dagger \right)  \; , \\    
+    c^1 =  -\im \left(f_\downarrow^\pd - f_\downarrow^\dagger\right) \; , \quad 
+    c^2 = - \left( f_\downarrow^\pd + f_\downarrow^\dagger \right)  \; . \label{eq:parton-Maj}
+\end{split}
+\end{equation}
+Note that the mapping between spinful fermions and Majorana fermions is not unique. We can introduce any $\rmU(1)$ phase in $f_\uparrow^\pd = e^{\im \phi_\uparrow}\, \frac{1}{2} \left( c^0 \pm \im c^3 \right)$ and $ f_\downarrow^\pd = e^{\im \phi_\downarrow}\,  \frac{\im}{2} \left( c^1 \pm \im c^2 \right)$ and well as permutations of the Majorana fermions. This representation freedom represent corresponds to $\mathrm{SO}(4)$ rotations of $c^\mu = (c^0,c^1,c^2,c^3)$.
+The difference between these representations is not physical but is equivalent under $\mathrm{SU}(2)$ rotations of $f=(f_\uparrow^\pd, f_\downarrow^\pd)$.
+
+In the Majorana fermionic language, the states $\ket{00}=\ket{\emptyset},\ket{01}= f_{\downarrow}^\dagger \ket{\emptyset},  \ket{10}=f_{\uparrow}^\dagger
+\ket{\emptyset}, \ket{11}= f_{\uparrow}^\dagger f_{\downarrow}^\dagger \ket{\emptyset}$, are indexed by the fermionic parity of a pair of Majorana fermions, instead of the occupation number of the complex fermions $n_\uparrow=f^\dagger_\uparrow f^\pd_\uparrow,n_\downarrow=f^\dagger_\downarrow f^\pd_\downarrow$. 
+From the definition of the Majorana fermions, we have $n_\uparrow=\frac12 (1+\im c^0 c^3), n_\downarrow=\frac12 (1+\im c^1 c^2)$ so the parity of $\im c^0 c^3$ (or $\im c^1 c^2$) being   $-1/+1$ corresponds to a occupation number $n_\uparrow$ (or $n_\downarrow$) being $0/1$. The single fermion constraint $n_\uparrow+n_\downarrow=1$ naturally translates to a constraint in the fermionic parity $(\im c^0 c^3)(\im c^1 c^2)=-1$, or equivalently $c^0  c^1 c^2 c^3=+1$.
+
+
+The $\rmF$ matrix expressed in Majorana fermions are
+\begin{equation}
+    \rmF = \frac{1}{2} \left( \begin{array}{cc}
+          c^0 + \im c^3 & \im \left( c^1 - \im c^2 \right)  \\
+         \im \left( c^1 + \im c^2 \right) &  c^0 - \im c^3  \\
+    \end{array} \right) 
+    %= \frac{\im }{2} \mathrm{g}_{\mu\nu} c^\mu \sigma^\nu  
+    = \frac{\im }{2}  c^\mu \,  \sigma_\mu 
+\end{equation}
+with four component object $(\sigma_\mu)=(-\im \, \mathbb{1}_2,\sigma^x,\sigma^y,\sigma^z)$. % and metric $(\mathrm{g}_{\mu\nu})=\mathrm{diag}(-\im ,1,1,1)$.
+This expression is analogous to express the $\mathrm{SU}(2)$ matrices as unit quaternions $ a^0 +  a^1 \mb{i} +  a^2 \mb{j}+  a^3 \mb{k} = a^0 +  a^1 \im \sigma^x+  a^2 \im \sigma^y+  a^3 \im  \sigma^z$, which gives the isomorphism between $\mathrm{SU}(2)$ and the three-sphere $\mathrm{S}^3$.
+Using this expression for $\rmF$ into equation \eqref{eq:A-SFF}  we find the spin and isospin operators to be
+\begin{equation}
+\begin{split}    
+     \hat{\rmS}^\alpha 
+     &= \frac{\im}{4}  c^\mu  \left( \rmM^\alpha \right)_{\mu\nu}  c^\nu 
+     =  \frac{\im}{4}  \, c \cdot \rmM^\alpha \cdot  c
+     \; , \\ 
+     \hat{\rmT}^\alpha 
+     &= \frac{\im}{4}  c^\mu  \left( \rmG^\alpha \right)_{\mu\nu}  c^\nu 
+     =  \frac{\im}{4}  \, c \cdot \rmG^\alpha \cdot  c\; . 
+\end{split}
+\end{equation}
+where these three-component matrix objects are 
+\begin{align}
+    \left( \rmM^\alpha \right)_{\mu\nu} &= -\frac{\im}{4} \,  \tr \, \Big[  \, \sigma_\mu^\dagger \sigma^\alpha \, \sigma_\nu^\pd  \Big]
+    = \frac{1}{2} \left( \phantom{-}  \delta^0_\mu \delta^\alpha_\nu - \delta^\alpha_\mu \delta^0_\nu 
+    - \epsilon^{\alpha\beta\gamma}  \delta^\beta_\mu \delta^\gamma_\nu
+    \right)
+    \, , \label{A:MG} \\
+    \left( \rmG^\alpha \right)_{\mu\nu} &=- \frac{\im}{4} \,  \tr \, \Big[  \, \sigma_\mu^\pd \sigma^\alpha \, \sigma_\nu^\dagger  \Big]
+    =  \frac{1}{2} \left( -\delta^0_\mu \delta^\alpha_\nu + \delta^\alpha_\mu \delta^0_\nu 
+    - \epsilon^{\alpha\beta\gamma}  \delta^\beta_\mu \delta^\gamma_\nu
+    \right)
+\end{align}
+where we use that $\tr \left( \sigma^\alpha \right) = 0, \tr \left( \sigma^\alpha \sigma^\beta \right) = 2 \delta^{\alpha\beta},  \tr \left(  \sigma^\alpha \sigma^\beta \sigma^\gamma \right) = 2 \im \epsilon^{\alpha\beta\gamma} $ and  $\alpha,\beta,\gamma$ take values in $x,y,z=1,2,3$ while $\mu,\nu=0,1,2,3$. For completeness, these matrices may be written using Pauli matrices \cite{Seifert_2018} (for upper-indexed  $(\sigma^\mu)=(\mathbb{1}_2,\sigma^x,\sigma^y,\sigma^z)$) as 
+\begin{align}
+    \rmM^1 \!&=\frac12 \sigma^3 \otimes  \im  \sigma^2, \;
+    \rmM^2 \!=  \frac12\im \sigma^2 \otimes  \sigma^0, \;
+    \rmM^3 \!=\frac12 \sigma^1 \otimes   \im \sigma^2, \\
+    \rmG^1 \!&=\! -\frac12\sigma^0 \otimes  \im  \sigma^2, \;
+    \rmG^2 \!=\!- \frac12 \im \sigma^2 \otimes  \sigma^3, \;
+    \rmG^3 \!=\!- \frac12 \im \sigma^2 \otimes \sigma^1. 
+\end{align}
+The matrices $\rmM^\alpha, \rmG^\alpha$ are $\mathfrak{so}(4)$ matrices, i.e. antisymmetric real $4\times 4$ matrices, and additionally they satisfies the $\mathfrak{su}(2) \oplus \mathfrak{su}(2)$ algebra: $
+[ \rmM^\alpha, \rmG^\beta]=0,
+[ \rmM^\alpha, \rmM^\beta]= \im \epsilon^{\alpha\beta\gamma} \rmM^\gamma,
+[ \rmG^\alpha, \rmG^\beta]= \im \epsilon^{\alpha\beta\gamma} \rmG^\gamma$. 
+Plugging these matrix elements and using anticommutation rules for the Majorana fermions, the spin and isospin operators are 
+\begin{equation}
+\begin{split}    
+     \hat{\rmS}^\alpha 
+     &= \frac{\im}{4} \left( \phantom{-} c^0 c^\alpha - \frac{1}{2} \epsilon^{\alpha\beta\gamma} c^\beta c^\gamma \right) 
+     \; , \\ 
+     \hat{\rmT}^\alpha 
+     &=  \frac{\im}{4} \left( -c^0 c^\alpha - \frac{1}{2} \epsilon^{\alpha\beta\gamma} c^\beta c^\gamma \right) 
+     \; . 
+\end{split}
+\end{equation}
+In Ref. \cite{Fu2018} they call this representation of $\hat{\rmS}$ the $\mathrm{SO}(4)$ chiral Majorana representation.
+The condition of vanishing isospin is
+\begin{equation}
+    \hat{\rmT}^\alpha = 0 
+    \; \leftrightarrow \; 
+    c^0 c^\alpha = - \frac{1}{2} \epsilon^{\alpha\beta\gamma} c^\beta c^\gamma
+    \; \leftrightarrow \; 
+   1=  \rmD = \frac{1}{6} \epsilon^{\alpha\beta\gamma}  c^0 c^\alpha   c^\beta c^\gamma = c^0 c^1   c^2 c^3 \; , 
+\end{equation}
+where the first two equations hold for every $\alpha=1,2,3$.
+
+
+
+A seemingly simpler spin representation is found by summing the spin and isospin operators ( $\mathrm{SO}(3)$ representation \cite{Fu2018})
+\begin{equation}
+    \hat{\mathrm{J}}^\alpha = \hat{\rmS}^\alpha + \hat{\rmT}^\alpha = -\frac{\im}{4} \epsilon^{\alpha\beta\gamma} c^\beta c^\gamma   
+    \; .
+\end{equation}
+Since the spin and isospin operators commute and both satisfy the spin algebra, we confirm that this other representation will also satisfy $[ \hat{\rmJ}^\alpha, \hat{\rmJ}^\beta]=[ \hat{\rmS}^\alpha, \hat{\rmS}^\beta]+[ \hat{\rmT}^\alpha, \hat{\rmT}^\beta]= \im \epsilon^{\alpha\beta\gamma} \hat{\rmJ}^\gamma $.
+This representation is expressed using only $3$ Majorana fermions $c^1,c^2,c^3$. However,  the fourth Majorana is constrained to be $c^0=c^1 c^2 c^3$ which is a constant of motion with respect to the spin in $\hat{\mathrm{J}}^\alpha$ representation.
+
+%All these representations are valid spin representations, and which to use regards the specific system in consideration. When using a mean-field ansatz the specific representation matters. Due to the type of exchanges in the Kitaev model, the representation used by Kitaev is the best to express the type of pairing present in the low energy physics of the problem.
+
+All these representations are valid spin representations, and the choice of which to use depends on the specific system under consideration. When applying a mean-field ansatz, the specific representation becomes crucial. Due to the nature of the exchanges in the Kitaev model, the representation used by Kitaev is optimal for expressing the type of pairing present in the low-energy physics of the problem.
+
+\section{Kitaev representation }
+
+%From the spin and isospin operators, we can find another spin operator satisfying the $\mathfrak{su}(2)$ algebra
+Restricting ourselves to physical states, there is another spin representation in terms of Majorana fermions
+\begin{equation}
+    \rmS^\alpha = (\hat{\rmS}^\alpha - \hat{\rmT}^\alpha) = \frac{\im}{2} \,  c^0 c^\alpha \; .
+\end{equation}
+I am using $\rmS$ without a hat to distinguish it from the other spin operators.
+%However, this spin operator does not commute with $\hat\rmT^\alpha$ connecting the sectors where $\hat{\rmT}=0$ and $\hat{\rmT}\neq0$.
+Unlike the other representations we have seen before, this one does not satisfy the spin algebra in the full fermionic space $\mathcal{H}_f$. Rather, we find that 
+\begin{equation}
+        \hspace*{-3mm}
+\begin{split}
+[\rmS^\alpha,\rmS^\beta] 
+%=[(\hat{\rmS}^\alpha - \hat{\rmT}^\alpha),(\hat{\rmS}^\beta - \hat{\rmT}^\beta)] 
+    =  [\hat{\rmS}^\alpha ,\hat{\rmS}^\beta] 
+    \, \bm{+} \,  
+    [\hat{\rmT}^\alpha,\hat{\rmT}^\beta] 
+    &= \im \epsilon^{\alpha\beta\gamma} \big( \hat\rmS^\alpha +  \hat\rmT^\alpha \big) \\
+    &= \im \epsilon^{\alpha\beta\gamma} \big( \rmS^\alpha + 2 \hat\rmT^\alpha \big) .
+\end{split}
+\end{equation}
+Which is a spin representation as long as we are in the physical state, $\rmT^\alpha=0$. From the expression $\rmS^\alpha = \hat{\rmS}^\alpha - \hat{\rmT}^\alpha$ it is clear that these operators map physical states into physical states, since both $\hat{\rmS}^\alpha$ and $\hat{\rmT}^\alpha$ does it.
+
+
+
+\textit{Remark:} Even though all these representations are equivalent, they will lead to different mean-field Hamiltonians, so the particular representation used here is important. Here we will use this representation, which is the same one used by Kitaev \cite{Kitaev_2006}.
+
+\section{Example: single spin problem}
+Let me exemplify the use of spin representation using Partons for the simplest example. 
+Consider one spin-half, with Hilbert space $\mathbb{C}^2\cong \text{span}\{\ket\uparrow,\ket\downarrow\}$, and Hamiltonian $H=-h S^z$ for $h>0$. In the Parton description, we use an extended 4-dimensional Hilbert space $\mathcal{H}_f=\mathrm{span}\{\ket{00},\ket{01},\ket{10},\ket{11}\}$ and the modified Hamiltonian $\tilde H$ with  $ S^\alpha \to \rmS^\alpha$ in the Kitaev representation. 
+
+To find the physical eigenstates, we can either work in the unconstrained problem $\tilde H$ and project the states in the $\rmD=1$ subspace, or we can modify the Hamiltonian to project out the un-physical states. The former option automatically solves the problem, as the $\rmS^z$ operator is diagonal in the occupation number basis with physical ground state $\ket{\uparrow}=\ket{10}$. Let us exemplify the latter. Consider the modified Hamiltonian with a Lagrange multiplier term
+\begin{equation}
+    \tilde{H}_\lambda = - h \rmS^z - \sum_\alpha \lambda_\alpha \hat\rmT^\alpha \; . 
+\end{equation}
+where, to impose the $\mathrm{SU}(2)_{\text{iso}}$ constraint of vanishing $\mb{T}^2 = 0$ we impose the vanishing of its three components $\rmT^\alpha=0$.
+In terms of the Majorana fermions, the Hamiltonian is 
+\begin{equation}
+    \tilde{H}_\lambda =  \frac{\im}4
+    \Big[ \lambda_1 c^0 c^1 +\lambda_2 c^0 c^2 +(\lambda_3-h)c^0 c^3 \Big]   
+    + \frac\im4 \big[ \lambda_1 c^2 c^3 +\lambda_2 c^3 c^1+\lambda_3 c^1 c^2 \big]
+    \; . 
+\end{equation}
+This Hamiltonian is quadratic in the fermions and we can solve it by an orthogonal transformation. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.485\textwidth]{Chapters/Appendix/Figures/parton/eigen-values.pdf}
+    \includegraphics[width=.485\textwidth]{Chapters/Appendix/Figures/parton/constraint-violation2.pdf}
+    \caption{[left] Eigenvalues of $\tilde{H}_\lambda$ for $\lambda_1=\lambda_2=0$. Dashed lines represent unphysical states. The  ground state is $\ket{10}$  for $0<\lambda_3<h$ and unphysical ($\ket{00}$,$\ket{11}$) otherwise.
+    [right] The expectation value of $\braket{\mb{T}}^2 = \braket{\rmT^x}^2+\braket{\rmT^y}^2+\braket{\rmT^z}^2$ on the ground state of $\tilde{H}_\lambda$ .}
+    \label{fig:parton-en}
+\end{figure} 
+
+Another way to solve this is by exact diagonalization. In the occupation number   basis $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$, the Majorana fermions \eqref{eq:parton-Maj} have the matrix representation 
+\begin{equation}
+    c^0 = \sigma^x \otimes \mathbb{1}_2, \quad 
+    c^3 = \sigma^y \otimes \mathbb{1}_2, \quad     
+    c^1 =  \sigma^z \otimes \sigma^y, \quad 
+    c^2 = - \sigma^z \otimes \sigma^x \; .
+\end{equation}
+Also $\im c^0 c^3 = 2 n_\uparrow - 1 = - \sigma^z \otimes \mathbb{1}_2$, and  $\im c^1 c^2 = 2 n_\downarrow - 1 = - \mathbb{1}_2 \otimes \sigma^z$.
+For simplicity, let us consider first the case where $\lambda_1=\lambda_2=0$. The Hamiltonian is already diagonal in the occupation number basis, with diagonal elements $h-2\lambda_3,h,-h, -h + 2\lambda_3 $ times $\frac14$.  We find the correct ground state $\ket{\uparrow}=\ket{10}$ with energy $-h/4$ for any $0<\lambda_3<h$ as shown in Fig.\ref{fig:parton-en}. While for $\lambda_3<0$ or $\lambda_3> h$ we find unphysical ground states. For $\lambda_1,\lambda_2\neq 0$ the energy relation for the unphysical states changes to $\pm\frac14 | \mb{h}- 2\bm{\lambda}|$  %$\pm\frac14\sqrt{\mb{h}^2- 4 \mb{h}\cdot\bm{\lambda} +4 \bm{\lambda}^2}$ 
+which has the correct ground state as long as $0<|\bm\lambda|<|\mb h|$.
+
+Note that the Hamiltonian $\tilde{H}_\lambda$ does not have an eigenstate with a combination of physical and unphysical states. This is not true for the Kitaev Hamiltonian with a magnetic field. A consequence is that we will not have a collection of $\lambda$ to choose (as $0<|\bm\lambda|<|\mb h|$), but generically we will have one value for $\bm{\lambda}$ that minimizes the constraint $\braket{\mb{T}}^2$.
+
+\textit{Remark:} Here it would be better to use the Hamiltonian with a single Lagrange multiplier $H = - h \rmS^z - \lambda \hat{\mb{T}}^2 $. 
+Where $\hat{\mb{T}}^2=\frac{3}{8}(1-\rmD) = \frac{3}{8}\left( \mathbb{1}_2\otimes\mathbb{1}_2 + \sigma^z \otimes \sigma^z \right)$.
+This Hamiltonian is diagonal in the occupation number basis and the additional term changes the energy of the unphysical states to $\pm h +  \frac34 \lambda$ leaving the physical states unaltered. Thus, any $\lambda > 0$ reproduces the correct ground state and we only need to introduce one Lagrange multiplier. However, when treating the many-spin problem, handling the fermionic bilinear $\hat\rmT^\alpha$ is easier than the quartic terms $\hat{\mb{T}}^2$. %Meaning that quartic term we would need to decouple into bilinears, using mean-field aproximation.
+
+\section{Many spins}
+
+We discussed the spin representation for a single spin operator, in general, we need to take care as these representations also work for the Hilbert space of many spins satisfying different position commutation relations 
+\begin{equation}
+    [ S_i^\alpha \, , \, S_j^\beta ] = 0  \; , \quad i\neq j \; .
+\end{equation}
+This is very important, for instance, in the Jordan-Wigner representation, which is for a single spin-half operator it can be represented by one fermionic operator, however, to get the correct commutation relations for the spin operators one needs to attach a string operator.
+Here the commutation relation follows automatically.
+It works because we have an even number of fermionic operators, so the spin operator commutes at different sites.
+
+%\reminder{ (c.f.) Jordan-Wigner transformation has only one fermionic operator, so it needs a string operator to get correct commutation relations for the spin operators.}
+
+
+%\section{Kitaev}
+%.. solve Kitaev with no field. show that the Lagrange multiplier is useless here
+
+\begin{comment}
+    
+\section{Example: two spin problem  }
+
+\reminder{$J \mb{S}_1\cdot \mb{S}_2 $}
+
+
+\reminder{cite
+\begin{enumerate}
+    \item Y. Yu (2008)  \cite{Yu_2008}
+    \item Natalia Perkins ... (2018) on Majorana reps \cite{Fu2018};  
+    \item  Seifert and Vojta on \cite{Seifert_2018} (2018) Kondo stuff and other papers that they cite 
+    \item Appendix A. of ``Odd Frequency Pairing in the Kondo Lattice. P. Coleman, E. Miranda, A. Tsvelik''   \cite{Coleman_1994} (1994) ;
+    \item  SU(2) gauge symmetry of the large-U limit of the Hubbard model \cite{Affleck1988}
+    \item Majorana liquids: the complete fractionalization of the electron, Cenke Xu and Subir Sachdev \cite{Xu_2010}
+    \item (**) Doping a Spin-Orbit Mott Insulator: Topological Superconductivity from the Kitaev-Heisenberg Model,   You,  Itamar Kimchi, and Ashvin Vishwanath (2012) \cite{You2012}
+    \item M. Hermele, Phys. Rev. B, 76, 035125 (2007) \cite{Hermele2007}
+\end{enumerate} 
+}
+
+\end{comment}

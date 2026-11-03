@@ -1,6 +1,15 @@
 """Test exact operator relations for SO(4) Majorana and gauge matrices."""
 import numpy as np
-from kitaev_mf.domain.constants import G_MATRICES, M_MATRICES, N_MATRICES
+from kitaev_mf.domain.constants import (
+    EPSILON,
+    G_MATRICES,
+    I_2,
+    M_MATRICES,
+    N_MATRICES,
+    PI_PLUS,
+    S_X,
+    S_Z,
+)
 
 
 def test_antisymmetry():
@@ -10,19 +19,37 @@ def test_antisymmetry():
         assert np.allclose(M_MATRICES[gamma], -M_MATRICES[gamma].T)
 
 
+def test_pauli_kronecker_construction():
+    """Verify algebraic Kronecker definitions against analytical targets."""
+    # Gauge matrices G^gamma
+    assert np.allclose(G_MATRICES[1], np.kron(I_2, EPSILON))
+    assert np.allclose(G_MATRICES[2], np.kron(EPSILON, S_Z))
+    assert np.allclose(G_MATRICES[3], np.kron(EPSILON, S_X))
+
+    # Chiral spin matrices M^gamma
+    assert np.allclose(M_MATRICES[1], np.kron(S_Z, EPSILON))
+    assert np.allclose(M_MATRICES[2], np.kron(EPSILON, I_2))
+    assert np.allclose(M_MATRICES[3], np.kron(S_X, EPSILON))
+
+    # Kitaev projection matrices N^gamma
+    assert np.allclose(N_MATRICES[1], np.kron(PI_PLUS, EPSILON))
+    assert np.allclose(N_MATRICES[2], np.kron(EPSILON, PI_PLUS))
+    n3_expected = 0.5 * (np.kron(S_X, EPSILON) + np.kron(EPSILON, S_X))
+    assert np.allclose(N_MATRICES[3], n3_expected)
+
+
 def test_orthogonality_and_normalization():
     for a in (1, 2, 3):
         for b in (1, 2, 3):
-            # M^a and G^b are orthogonal Lie subalgebras: Tr(M^a^T G^b) = 0
+            # M and G are orthogonal Lie subalgebras
             trace_mg = np.trace(M_MATRICES[a].T @ G_MATRICES[b])
             assert np.isclose(trace_mg, 0.0)
 
-            # Overlap Tr(N^a^T G^b) = Tr(N^a^T (N^b - N_tilde^b)) = 2 * delta_ab
+            # Trace overlap: Tr(N^a^T G^b) = 2.0 * delta_ab
             trace_ng = np.trace(N_MATRICES[a].T @ G_MATRICES[b])
             expected_ng = 2.0 if a == b else 0.0
             assert np.isclose(trace_ng, expected_ng)
 
-    # Trace norms
     for a in (1, 2, 3):
         assert np.isclose(np.trace(N_MATRICES[a].T @ N_MATRICES[a]), 2.0)
         assert np.isclose(np.trace(G_MATRICES[a].T @ G_MATRICES[a]), 4.0)
@@ -36,16 +63,16 @@ def test_so4_lie_algebra_commutations():
 
     for a in (1, 2, 3):
         for b in (1, 2, 3):
-            # Gauge algebra: [G^a, G^b] = -2 * sum_c eps_{abc} G^c
+            # [G^a, G^b] = -2 * sum_c eps_{abc} G^c
             comm_g = G_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ G_MATRICES[a]
             expected_g = -2.0 * sum(eps[a, b, c] * G_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_g, expected_g)
 
-            # Chiral spin algebra: [M^a, M^b] = +2 * sum_c eps_{abc} M^c
+            # [M^a, M^b] = +2 * sum_c eps_{abc} M^c
             comm_m = M_MATRICES[a] @ M_MATRICES[b] - M_MATRICES[b] @ M_MATRICES[a]
             expected_m = 2.0 * sum(eps[a, b, c] * M_MATRICES[c] for c in (1, 2, 3))
             assert np.allclose(comm_m, expected_m)
 
-            # Commuting subalgebras: [M^a, G^b] = 0
+            # [M^a, G^b] = 0
             comm_mg = M_MATRICES[a] @ G_MATRICES[b] - G_MATRICES[b] @ M_MATRICES[a]
             assert np.allclose(comm_mg, 0.0)

@@ -1,0 +1,157 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \h { 0.57735026918}  % 1/\sqrt(3)
+\def \d { 0.28867513459} % 1/2\sqrt(3)
+\def \c { 0.5}          
+\def \v { 0.86602540378 }  % \sqrt(3)/2
+
+\def \ax {0.5 cm}
+\def \ay {0.86602540378 cm} % \sqrt(3)/2
+\def \ez {0.57735026918 cm} % 1/\sqrt(3)
+
+\def \mar {0.1 cm}     % margin for the clip
+\def \l {3}       % linear length
+
+
+\begin{tikzpicture}[>=latex]
+
+
+
+
+
+\clip (-\mar-\l*\ax -3 cm, -\mar-\ez) rectangle (\mar+\l*\ax+3 cm, \mar+2*\l*\ay+1.5*\ez);
+
+%% draw hexagonal plaquette
+%\draw[draw=lightpink,fill=lightpink,line width=0.1mm] (1*\ax-1*\ax,1*\ay+1*\ay+\ez)--(2*\ax-1*\ax,2*\ay+1*\ay)--(2*\ax-1*\ax,2*\ay+1*\ay+\ez)--(2*\ax-2*\ax,2*\ay+2*\ay)--(1*\ax-2*\ax,1*\ay+2*\ay+\ez)--(1*\ax-2*\ax,1*\ay+2*\ay)--cycle;
+
+%\node (w) at (1*\ax-1*\ax,1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+%% draw edges 
+\foreach \m in {0,1,2,3}{
+    \foreach \n in {0,1,2,3}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkblue,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
+    }
+}
+
+%% draw edges for periodic b.c.
+\foreach \m in {4}{
+    \foreach \n in {0,1,2,3}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+    }
+}
+\foreach \m in {0,1,2,3}{
+    \foreach \n in {4}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
+    }
+}
+
+
+%% draw vertices
+\foreach \m in {0,1,2,3}{
+    \foreach \n in {0,1,2,3}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B\m\n) at (\x*\ax,\y*\ay) {};
+        \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W\m\n) at (\x*\ax,\y*\ay+\ez) {};
+    }
+}     
+
+
+%%%% drawing axis L1 L2
+
+\draw[->,draw=black, line width=0.15mm] (0,-\ez)--(4*\ax,4*\ay-\ez) node[below = 0.6 cm] { {\small $L_1 \; \;\;$} };
+\draw[->,draw=black, line width=0.15mm] (0,-\ez)--(-4*\ax,4*\ay-\ez) node[below = 0.6 cm] { {\small $\;\;\; \, L_2$} };
+
+
+%%%% drawing basis vectors a_1 a_2
+
+\draw[->,draw=black!95, line width=0.3mm] (0,0-\ez)--(\ax,\ay-\ez) node[below right] {\textcolor{black}{$\mathbf{a}_{1}\;\;$}};
+\draw[->,draw=black!95, line width=0.3mm] (0,0-\ez)--(-\ax,\ay-\ez) node[below left] { \textcolor{black}{$\;\;\mathbf{a}_{2}$} };
+
+%%%% drawing vectors delta
+
+\draw[->,draw=darkred, line width=0.5mm] (0,2*\ay)--(-\ax,\ay+\ez) node[midway,below] { \textcolor{darkred}{$\,\bm{\delta}_{x}$} };
+\draw[->,draw=darkgreen, line width=0.5mm] (0,2*\ay)--(\ax,2*\ay-\ay+\ez) node[midway,below] { \textcolor{darkgreen}{$\bm{\delta}_{y} \, $} };
+\draw[->,draw=darkblue, line width=0.5mm] (0,2*\ay)--(0,2*\ay+\ez)  node[midway,right] { \textcolor{darkblue}{$\bm{\delta}_{z}$} };
+
+
+%%%% vectors N
+ 
+\draw[->,draw=darkred, dotted, line width=0.5mm] (0,4*\ay)--(-\ax,5*\ay) node[below = .1 cm ] { \textcolor{darkred}{\small $\mathbf{N}_{\!x}\;$} };
+\draw[->,draw=darkgreen, dotted, line width=0.5mm] (0,4*\ay)--(-\ax,3*\ay) node[above right] { \textcolor{darkgreen}{\small $\;\,\mathbf{N}_{\!y}$} };
+\draw[->,draw=darkblue, dotted, line width=0.5mm] (0,4*\ay)--(2*\ax,4*\ay) node[above left] { \textcolor{darkblue}{\small $\mathbf{N}_{\!z}$} }; 
+
+
+%%% equations
+
+\node at (-3,\ez) {\small \textcolor{black}{$\mathbf{a}_{1}=\big(+ \frac{1}{2}, \frac{\sqrt{3}}{2}\big) $}};
+\node at (-3,0)   {\small \textcolor{black}{$\mathbf{a}_{2}=\big(- \frac{1}{2}, \frac{\sqrt{3}}{2}\big)$}};
+
+
+\node at (-2.75,6*\ay+\ez) {\small \textcolor{darkred}{$\,\bm{\delta}_{x}=\big(-\frac{1}{2},-\frac{1}{2 \sqrt{3}}\big)$} };
+\node at (-2.75,6*\ay) {\small \textcolor{darkgreen}{$\,\bm{\delta}_{y}=\big(+\frac{1}{2},-\frac{1}{2 \sqrt{3}}\big)$} };
+\node at (-2.75,6*\ay-\ez)  {\small   \textcolor{darkblue}{$\bm{\delta}_{z}=\big(0,\frac{1}{\sqrt{3}}\big)$}  };
+
+
+\node at (3,6*\ay+\ez) {\small \textcolor{darkred}{$\mathbf{N}_{\!x}=\bm{\delta}_{z}-\bm{\delta}_{y}$} };
+\node at (3,6*\ay) {\small \textcolor{darkgreen}{$\mathbf{N}_{\!y}=\bm{\delta}_{x}-\bm{\delta}_{z}$} };
+\node at (3,6*\ay-\ez)  {\small   \textcolor{darkblue}{$\mathbf{N}_{\!z}=\bm{\delta}_{y}-\bm{\delta}_{x}$}  };
+
+
+%%%%% unit cell
+
+\draw[draw=gray,fill=gray!20,line width=0.2mm,dotted] (6*\ax,-\ez)--(7*\ax,\ay-\ez)--(6*\ax,2*\ay-\ez)--(5*\ax,\ay-\ez)--cycle;
+
+\draw[draw=darkblue,line width=0.40mm] (6*\ax,0)--(6*\ax,\ez);
+\draw[draw=darkred, line width=0.40mm] (6*\ax,0)--(5*\ax,\ez-\ay);      
+\draw[draw=darkgreen,line width=0.40mm] (6*\ax,0)--(7*\ax,\ez-\ay);
+\draw[draw=darkred, line width=0.40mm] (6*\ax,\ez)--(7*\ax,\ay);      
+\draw[draw=darkgreen,line width=0.40mm] (6*\ax,\ez)--(5*\ax,\ay);
+
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]  at (3,0) {};
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]  at (3,0+\ez) {};
+\node[below] at (3,-.03 cm) {\small $\mathrm{A}$};
+\node[above] at (3,0+\ez+.03 cm) {\small $\mathrm{B}$};
+
+\end{tikzpicture}
+\end{document}
+
+

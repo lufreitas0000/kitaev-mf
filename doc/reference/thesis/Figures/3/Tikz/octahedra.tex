@@ -1,0 +1,51 @@
+\documentclass{standalone}  
+\usepackage{tikz}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+\usetikzlibrary{arrows} 
+
+
+
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\def \r { 1.5}   
+
+\begin{tikzpicture}[>=latex]
+
+%\clip (-\mar+1-.1,  \v -2*\d -2*\d-2*\v -\mar -.5) rectangle (\l+\mar+1+.1,\v+\mar+1);
+
+\draw[->, draw=black, line width=0.40mm] (0,0)-- (0,1.5*\r);
+\node[right] at  (0,1.5*\r)  {$\hat{z}$};
+\draw[->, draw=black, line width=0.40mm] (0,0)-- (\r*0.866*1.5 ,-\r*0.5*1.5);
+\node[below] at  (\r*0.866*1.5 ,-\r*0.5*1.5)  {$\hat{y}$};
+\draw[->, draw=black, line width=0.40mm] (0,0)-- (-\r*0.866*1.5 ,-\r*0.5*1.5);
+\node[below] at  (-\r*0.866*1.5 ,-\r*0.5*1.5)  {$\hat{x}$};
+ 
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, minimum size=4pt] (Ru) at (0, 0) {}; 
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl1) at (\r*0.866 ,\r*0.5) {};   
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl2) at (0 ,\r) {};   
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl3) at (-\r*0.866 ,\r*0.5) {};   
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl4) at (-\r*0.866 ,-\r*0.5) {};   
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl5) at (0 ,-\r) {};   
+    	\node[circle, fill=orange, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (Cl6) at (\r*0.866 ,-\r*0.5) {};       
+    	
+    	
+    	\draw[ draw=black!80!white, densely dashed, opacity=0.4 , line width=0.40mm] (Cl1)--(Cl3)--(Cl5)--(Cl1);
+    	\draw[ draw=black, line width=0.40mm] (Cl2)--(Cl4)--(Cl6)--(Cl2);
+    	\draw[ draw=black, line width=0.40mm] (Cl2)--(Cl3)--(Cl4)--(Cl5)--(Cl6)--(Cl1)--(Cl2);
+    	
+   %     \draw[draw=green!80!black, line width=0.40mm] (B2\b\a)-- (W1\b\a);
+%        \draw[draw=red!80!black, line width=0.40mm] (B2\b\a)--(W3\b\a);
+  %      \draw[draw=blue!80!black, line width=0.40mm] (W1\b\a)--(B6\b\a);
+
+
+
+\end{tikzpicture}
+\end{document}

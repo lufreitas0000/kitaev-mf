@@ -1,0 +1,91 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \h { 0.57735026918}  % 1/\sqrt(3)
+\def \d { 0.28867513459} % 1/2\sqrt(3)
+\def \c { 0.5}          
+\def \v { 0.86602540378 }  % \sqrt(3)/2
+
+\def \ax {0.5}
+\def \ay {0.86602540378} % \sqrt(3)/2
+\def \ez {0.57735026918} % 1/\sqrt(3)
+
+\def \one {0.3333} % 1/3
+\def \two {0.6666} % 1/3
+\def \bx {1 } % 1
+\def \by {0.57735026918 } % 1/\sqrt(3)
+
+\def \mar {0.2 }     % margin for the clip
+\def \l {3}       % linear length
+
+
+\begin{tikzpicture}[>=latex,x=2cm,y=2cm]
+
+
+
+
+
+\clip (-\mar-\bx, -\mar-\by) rectangle (\mar+\bx, \mar+2*\by);
+
+%% draw  BZ 
+\draw[draw=lightpink,fill=lightpink, opacity=1,  line width=0.6mm] (0,0)--(\bx,\by)--(0,2*\by)--(-\bx,\by)--cycle;
+
+%% draw half BZ 
+\draw[draw=gray!50,fill=gray!40, opacity=0.8, densely dotted, line width=0.4mm]  (0.01,0)--(\bx,\by)--(0.01,2*\by)--cycle;
+ 
+\draw[->,draw=black!95, line width=0.3mm] (0,0)--(\bx,\by) node[below = 5pt] {\textcolor{black}{$\, \mathbf{b}_{1}$}};
+\draw[->,draw=black!95, line width=0.3mm] (0,0)--(-\bx,\by) node[below = 5pt] { \textcolor{black}{$\mathbf{b}_{2}\, $} };
+
+
+%% Point Gamma
+\node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (Gamma) at (0,0) {};
+\node[below=5pt] at (0,0) {\small $\bm{\Gamma}$};
+
+%% Point K
+\node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (K) at (\one,\by) {};
+\node[above=5pt] at (\one,\by) {\small $\mathrm{K}$};
+
+ 
+%% Point K'
+\node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (Kp) at (-\one,\by) {};
+\node[above=5pt] at (-\one,\by) {\small $\mathrm{K}^\prime$};
+
+%% Point M
+\node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (M) at (0,\by) {};
+\node[above=5pt] at (0,\by) {\small $\mathrm{M}$};
+
+ 
+  
+\end{tikzpicture}
+\end{document}
+
+

@@ -1,0 +1,127 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+\def \h { 0.57735026918}  % 1/sqrt(3) comprimento  y  de uma celula                                     even (White, 2y) to odd (black ,2y+1) 
+\def \d { 0.28867513459}  % 1/ 2 sqrt(3)  distancia  y  entre celulas                                   odd (black , 2y-1) to even (white , 2y)
+\def \c { 0.5}           % 1/2 distancia  x  entre celulas  
+\def \v { 0.86602540378 }  % sqrt(3)/ 2   distancia  y  de duas celulas                                 odd-odd or even-even 
+
+\def \mar {0.2}  % margin for the clip
+\def \l {8}         %horizontal length
+
+\begin{tikzpicture}[>=latex]
+
+
+
+
+
+
+%\clip (-\mar+1,  -\v -\mar -\d) rectangle (\l+\mar-1,\v+\mar);
+
+\clip (-\mar+1,  -\v -\mar -\d-0.06) rectangle (\l+\mar-1,\v+\mar);
+
+\foreach \a in {0,...,\l}{
+        \draw[draw=darkblue, line width=0.40mm] ( \c +\a, \v  )-- ( \c+\a, \v + \c);
+        \draw[draw=darkblue, line width=0.40mm] ( \c+\a, -\d )-- ( \c+\a, -\d -\v+\d);
+        \draw[draw=darkblue, line width=0.40mm] ( \c +\a, \v -\c-2*\d-2*\v )-- ( \c+\a, \v -\c -\c-2*\d-2*\v);
+}
+
+%\node at ( \c+4-.05, -\d - .25) [right] { \scriptsize \textcolor{darkblue}{$K_{\!z}$}   };
+%\node at ( \c+4.2, -\v-.12) [below] { \scriptsize \textcolor{darkgreen}{$K_{\!y}$}   };
+%\node at ( \c+4-.065, -\d - .55) [left] { \scriptsize \textcolor{darkred}{$K_{\!x}$}   };
+
+\foreach \b in {-1,0}{    
+    \foreach \a in {1,3,...,\l} {
+        \draw[draw=darkgreen, line width=0.40mm] ( \a , -\d +\v+ 2*\v*\b    ) -- ( \a -\c, -\d +\v+ 2*\v*\b   +\d );
+        \draw[draw=darkred, line width=0.40mm] (\a , -\d +\v+ 2*\v*\b - \v+\d )-- ( \a -\c,  -\d +\v+ 2*\v*\b - \v);
+            }   
+}
+
+
+\foreach \b in {-1,0}{    
+    \foreach \a in {1,3,...,\l} {        
+        \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W1\b\a) at ( \a , -\d +\v+ 2*\v*\b    ) {};
+    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2\b\a) at ( \a + \c, \v + 2*\v*\b   ) {};
+        \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W3\b\a) at ( \a +1, -\d +\v+ 2*\v*\b    ) {};
+    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B4\b\a) at ( \a +1, -\d +\v+ 2*\v*\b - \v+\d)  {};
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5\b\a) at ( \a -\c + 1, -\d +\v+ 2*\v*\b - \v) {};  	
+    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B6\b\a) at  ( \a , -\d +\v+ 2*\v*\b - \v+\d ) {};
+
+    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2r\b\a) at ( \a + \c+1, -\d +\v+ 2*\v*\b+\d   ) {}; 
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5r\b\a) at ( \a -\c + 2, -\d +\v+ 2*\v*\b - \v) {};    	
+    	
+    }   
+}
+
+\foreach \b in {-1,0}{    
+    \foreach \a in {1,3,...,\l} { 
+        \draw[draw=darkred, line width=0.40mm] (B2\b\a)-- (W1\b\a);
+        \draw[draw=darkgreen, line width=0.40mm] (B2\b\a)--(W3\b\a);
+        \draw[draw=darkblue, line width=0.40mm] (W1\b\a)--(B6\b\a);
+ %       \draw[draw=darkgreen, line width=0.40mm] (W1\b\a)-- ( \a -\c, -\d +\v+ 2*\v*\b   +\d );
+        \draw[draw=darkred, line width=0.40mm] (B2r\b\a)-- (W3\b\a);        
+        \draw[draw=darkblue, line width=0.40mm] (W3\b\a)--(B4\b\a);       
+        \draw[draw=darkgreen, line width=0.40mm] (W5\b\a)--(B6\b\a);        
+        \draw[draw=darkred, line width=0.40mm] (B4\b\a)-- (W5\b\a);
+        \draw[draw=darkgreen, line width=0.40mm] (W5r\b\a)--(B4\b\a); 
+%        \draw[draw=darkred, line width=0.40mm] (B6\b\a)-- ( \a -\c, 2*\v*\b   - \d);
+            }   
+}
+
+
+%\draw[->,draw=black, line width=0.55mm] ( 3-\c,- 0.03-\v)--( 4.04-\c,- 0.03-\v);
+%\draw[->,draw=orange!80!black, line width=0.4mm] ( 3-\c,- 0.03-\v)--( 4-\c,- 0.03-\v) node[below = 2pt] {\textcolor{orange!80!black}{$\, \mathbf{e}_{1}$}};
+
+\draw[->,draw=orange!80!black, line width=0.4mm] (0.01+3-\c,- 0.03-\v )--( 2-0.03,0.03) node[below = 6pt] { \textcolor{orange!80!black}{$\mathbf{a}_{2}\, $} };
+\draw[->,draw=orange!80!black, line width=0.4mm] ( 3-\c,- 0.03-\v)--( 3.05,0.03) node[below = 6pt] {\textcolor{orange!80!black}{$\, \mathbf{a}_{1}$}};
+%( ,0)-(\c, -0.125-\v )
+
+%\draw[->,draw=orange!70!gray, line width=0.3mm] (-4+8,0)--( -4+\c+0.085+8, -\d-0.05 ) node[midway,below] { \textcolor{orange!70!gray}{$\bm{\delta}_{y} \, $} };
+%\draw[->,draw=orange!70!gray, line width=0.3mm] (-4+8,0)--( -5+\c -0.085+8, -\d- 0.05 ) node[midway,below] { \textcolor{orange!70!gray}{$\,\bm{\delta}_{x}$} };
+%\draw[->,draw=orange!70!gray, line width=0.3mm] (-4+8,0)--( -4+8, -\d+\v+0.11 ) node[midway,right] { \textcolor{orange!70!gray}{$\bm{\delta}_{z}$} };
+
+
+\draw[->,draw=darkred, line width=0.5mm] (-4+8,0)--( -5+\c -0.085+8, -\d- 0.05 ) node[midway,below] { \textcolor{darkred}{$\,\bm{\delta}_{x}$} };
+\draw[->,draw=darkgreen, line width=0.5mm] (-4+8,0)--( -4+\c+0.085+8, -\d-0.05 ) node[midway,below] { \textcolor{darkgreen}{$\bm{\delta}_{y} \, $} };
+\draw[->,draw=darkblue, line width=0.5mm] (-4+8,0)--( -4+8, -\d+\v+0.11 ) node[midway,right] { \textcolor{darkblue}{$\bm{\delta}_{z}$} };
+
+\draw[->,draw=darkpink, line width=0.5mm] ( 6,- 0.03)--( 7.08,- 0.03);
+\draw[->,draw=darkpink, line width=0.5mm] (0.01+6,- 0.03)--(6-0.03-\c,0.03+\v);
+\draw[->,draw=darkpink, line width=0.5mm] ( 6,- 0.03)--( 6-0.03-\c,-0.03-\v);
+
+\node at (6-0.03-\c,\v) [below=3pt] {\textcolor{darkpink}{$\mathbf{N}_{\!x}$}};
+\node at (6.06-\c,-\v) [below=1pt] {\textcolor{darkpink}{$\mathbf{N}_{\!y}$}};
+\node at (7-0.03,0) [below=3pt] {\textcolor{darkpink}{$\mathbf{N}_{\!z}$}};
+
+
+
+
+\end{tikzpicture}
+\end{document}
+
+

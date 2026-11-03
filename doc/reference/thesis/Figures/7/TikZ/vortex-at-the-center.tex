@@ -1,0 +1,218 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+
+\definecolor{darkblue}{HTML}{000000}
+\definecolor{darkred}{HTML}{000000}
+\definecolor{darkgreen}{HTML}{000000}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+ 
+\def \ax {0.5 cm}
+\def \ay {0.86602540378 cm} % \sqrt(3)/2
+\def \ez {0.57735026918 cm} % 1/\sqrt(3)
+
+\def \mar {0.4 cm}     % margin for the clip
+\def \lx {10}       
+\def \ly {10} 
+\def \d  {5} 
+\def \op {.5} 
+
+
+\begin{tikzpicture}[>=latex]
+
+
+\pgfmathsetlengthmacro {\x}{1*\ax-1*\ax};
+\pgfmathsetlengthmacro {\y}{1*\ay+1*\ay+2*\ez};
+
+
+%\clip (-\mar-2*\d*\ax+\x, -\mar-\d*\ay+\y) rectangle (\mar+2*\d*\ax+\x, \mar+\d*\ay+\y);
+\clip (\x, \y) circle (5.3 cm);
+
+%% draw hexagonal unit cell 
+\draw[draw=yellow,fill=yellow,line width=.41mm,opacity=0.25] 
+(3*\ax-3*\ax,3*\ay+3*\ay)--
+++(-3*\ax-1*\ax,-3*\ay+1*\ay+\ez)--
+++(-1*\ax+1*\ax,-1*\ay-1*\ay-\ez)--
+++(1*\ax+3*\ax,1*\ay-3*\ay+\ez)--
+++(3*\ax+1*\ax,3*\ay-1*\ay-\ez)--
+++(1*\ax-1*\ax,1*\ay+1*\ay+\ez)--
+cycle;
+
+%% draw hexagonal plaquette
+\pgfmathsetlengthmacro {\x}{0*\ax};
+\pgfmathsetlengthmacro {\y}{0*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w1) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+
+\pgfmathsetlengthmacro {\x}{4*\ax};
+\pgfmathsetlengthmacro {\y}{4*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w2) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+\pgfmathsetlengthmacro {\x}{-4*\ax};
+\pgfmathsetlengthmacro {\y}{4*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w3) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+\pgfmathsetlengthmacro {\x}{-8*\ax};
+\pgfmathsetlengthmacro {\y}{0*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w1) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+
+\pgfmathsetlengthmacro {\x}{8*\ax};
+\pgfmathsetlengthmacro {\y}{0*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w1) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+
+\pgfmathsetlengthmacro {\x}{-4*\ax};
+\pgfmathsetlengthmacro {\y}{-4*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w2) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+\pgfmathsetlengthmacro {\x}{4*\ax};
+\pgfmathsetlengthmacro {\y}{-4*\ay};
+\draw[draw=lightpink,fill=lightpink,line width=0.1mm] 
+(\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+\ez)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay)--
+(\x+2*\ax-1*\ax,\y+2*\ay+1*\ay+\ez)--
+(\x+2*\ax-2*\ax,\y+2*\ay+2*\ay)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay+\ez)--
+(\x+1*\ax-2*\ax,\y+1*\ay+2*\ay)--
+cycle;
+%\node (w3) at (\x+1*\ax-1*\ax,\y+1*\ay+1*\ay+2*\ez) {\small $\!-1$};
+
+
+
+%\node (i) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay-0.3 cm) {\small $i$};
+%\node (j) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay+\ez+0.3 cm) {\small $j$};
+
+%% draw edges 
+\foreach \m in {-\lx,...,\lx}{
+    \foreach \n in {-\ly,...,\ly}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \draw[draw=darkblue,line width=0.40mm,opacity=\op] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
+        \draw[draw=darkred,line width=0.40mm,opacity=\op] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkgreen,line width=0.40mm,opacity=\op] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
+    }
+}
+
+
+%% draw edges for flipped bonds
+\foreach \i in {0,...,3}{
+        \pgfmathsetlengthmacro {\x}{(2-2-\i)};
+        \pgfmathsetlengthmacro {\y}{(2+2+\i)};
+        \draw[draw=lightblue,line width=1.2mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);     
+}
+\foreach \i in {0,...,3}{
+        \pgfmathsetlengthmacro {\x}{(6-2-\i)};
+        \pgfmathsetlengthmacro {\y}{(6+2+\i)};
+        \draw[draw=lightblue,line width=1.2mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);          
+}
+\foreach \i in {0,...,3}{
+        \pgfmathsetlengthmacro {\x}{(-2-2-\i)};
+        \pgfmathsetlengthmacro {\y}{(-2+2+\i)};
+        \draw[draw=lightblue,line width=1.2mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);     
+}
+\foreach \i in {0,...,3}{
+        \pgfmathsetlengthmacro {\x}{(6+6-\i)};
+        \pgfmathsetlengthmacro {\y}{(6-6+\i)};
+        \draw[draw=lightblue,line width=1.2mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);     
+}
+\foreach \i in {0,...,3}{
+        \pgfmathsetlengthmacro {\x}{(2+6-\i)};
+        \pgfmathsetlengthmacro {\y}{(2-6+\i)};
+        \draw[draw=lightblue,line width=1.2mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);     
+}
+
+
+
+
+%% draw vertices
+\foreach \m in {-\lx,...,\lx}{
+    \foreach \n in {-\ly,...,\ly}{
+        \pgfmathsetlengthmacro {\x}{(\m-\n)};
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
+        \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt,opacity=.9] (B\m\n) at (\x*\ax,\y*\ay) {};
+        \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt,opacity=.9] (W\m\n) at (\x*\ax,\y*\ay+\ez) {};
+    }
+}
+
+
+
+\end{tikzpicture}
+\end{document}
+
+

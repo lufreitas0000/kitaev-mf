@@ -1,0 +1,167 @@
+\input{preamble}
+%\usepackage{minitoc}
+%\setcounter{\secttocdepth}{2} 
+%\setlength{\stcindent}{24pt} 
+%\renewcommand{\stcfont}{\small\rm} 
+%\renewcommand{\stcSSfont}{\small\bf} 
+
+
+\date{November, 2024 \\ Natal, Brazil}
+\author{Lu Rodrigues Delgado de Freitas}
+\title{Majorana mean-field theory with {$\mathbb{Z}_2$} vortices}
+\subtitle{Electrical tests in the extended Kitaev model}
+\university{ UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE, 
+   \\[4pt] \noindent 
+   PROGRAMA DE P\'{O}S-GRADUA\c{c}\~{A}O EM F\'ISICA,}
+\lab{Quantum Information and Quantum Matter group}
+%\person{Supervisor}{ name}{their job}
+%\person{Cosupervisor}{  }{ }
+%\person{Jury members}{}{}
+%\person{}{jury 2}{\dots}
+\logo{Figures/doc/brasao_UFRN.pdf}
+%\logo{Figures/doc/logotipo_UFRN.pdf}
+
+\begin{document}
+\maketitle
+\setcounter{secnumdepth}{2}
+\includepdf[pages=-]{ficha_catalografica.pdf}
+\includepdf[pages=-]{ata_defesa_lu.pdf}
+\tableofcontents
+\setcounter{secnumdepth}{3}
+\frontmatter
+
+\input{Chapters/abstract.tex}
+\chapter*{List of publications}\begin{enumerate}
+    \item Gapless excitations in non-Abelian Kitaev spin liquids with line defects, Lucas R. D. Freitas and Rodrigo G. Pereira.  Phys. Rev. B 105, L041104 (2022). \href{https://doi.org/10.1103/PhysRevB.105.L041104}{10.1103/PhysRevB.105.L041104}.
+    \item Scanning tunneling spectroscopy of Majorana zero modes in a Kitaev spin liquid. Tim Bauer, Lucas R. D. Freitas, Rodrigo G. Pereira, and Reinhold Egger. Phys. Rev. B 107, 054432 (2023). \href{https://doi.org/10.1103/PhysRevB.107.054432}{10.1103/PhysRevB.107.054432}.
+    \item Lucas R. D. Freitas, Tim Bauer, Reinhold Egger, and Rodrigo G. Pereira. Electric polarization near vortices in the extended Kitaev model.  npj Quantum Mater. 9, 33 (2024).  \href{https://doi.org/10.1038/s41535-024-00643-5}{10.1038/s41535-024-00643-5}.
+    \item Tim Bauer, Lucas R. D. Freitas, Eric Andrade, Reinhold Egger, Rodrigo G. Pereira. Local spin-flip transitions induced by magnetic quantum impurities in two-dimensional magnet. Phys. Rev. B 110, L220403 (2024).
+    \href{https://doi.org/10.1103/PhysRevB.110.L220403}{doi.org/10.1103/PhysRevB.110.L220403}.   
+\end{enumerate}
+\listoffigures
+\listoftables
+%\setcounter{secnumdepth}{3}
+%\tableofcontents
+%\clearpage
+%\begin{absolutelynopagebreak}\end{absolutelynopagebreak}
+%\clearpage
+%\begin{absolutelynopagebreak}\listoftables\end{absolutelynopagebreak}
+\mainmatter
+%\listoflistings
+
+\part{ }
+\fontsize{13}{14}\selectfont
+\chapter{Introduction}%
+\label{ch:intro}%
+\input{Chapters/1-Intro}
+\chapter{Kitaev honeycomb model}%
+\label{ch:kitaev}%
+\input{Chapters/2-Kitaev}
+\chapter{Microscopic mechanisms and electric response }\label{ch:micro}%
+\input{Chapters/3-Micro}
+
+\part{}\nopagebreak
+\chapter{Mean-field theory for the Extended model }%
+\label{ch:KMF}%
+\input{Chapters/6-KMF}
+\chapter[Vison electrostatics]{{$\mathbb{Z}_2$}-vortices electrostatics }%
+\label{ch:Z2}%
+\input{Chapters/7-Z2}
+
+%\part*{}
+\chapter{Conclusion}%\addcontentsline{toc}{chapter}{Conclusion}
+\input{Chapters/Conclusion}
+
+\part{Appendices}%
+
+\appendix
+%\begin{absolutelynopagebreak}
+\chapter{Spin representation using Partons}%
+\label{App-Parton}%
+\input{Chapters/Appendix/parton}
+\chapter{Majorana Parton mean-field theory}%
+\label{App-MF}%
+\input{Chapters/Appendix/mf}
+\chapter{Perturbation theory on the magnetic field}%
+\label{App-pertubation}%
+\input{Chapters/Appendix/perturbation}
+\chapter{Hubbard-Kanamori and Schrieffer-Wolff transformation}%
+\label{App-micro}%
+\input{Chapters/Appendix/micro}
+\chapter{Translational invariant Mean-field theory}%
+\label{App-translational}%
+\input{Chapters/Appendix/translational-inv}
+%\chapter{Quadrupole in the pure Kitaev model}%
+%\label{App-quadrupole}%
+%\input{Chapters/Appendix/quadrupole}
+%\end{absolutelynopagebreak}
+
+\backmatter
+
+
+\setstretch{1}
+%\chapter*{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+    %\cleardoublepage
+  %  \begin{wide}        \thispagestyle{empty}        \printindex    \end{wide}
+    
+
+\begin{comment}
+1. Introduction
+2. Quantum spin liquids 
+    1. aqui já introduz o modelo de Kitaev
+3. The microscopic mechanism for the Kitaev honeycomb model
+    1. define o modelo extendido JKΓ, e
+    2.  fala da interação DM
+4. Electric response 
+    1. sobre como os acoplamento do modelo extendido mudam com o campo eletrico,
+    2.  e o operador densidade de carga
+5. Majorana Parton mean-field theory  
+(perhaps separete this chapter in two - theory and results )
+    1. discute os resultados no caso com simetria de translação, 
+    2. e mostra a teoria para o caso com vortices
+6. Z2-fluxes electrostatics
+    1. a densidade de carga dos vortices, 
+    2. e o momento de quadrupolo
+7. Electric manipulation and creation of non-Abelian anyons
+    1. mostrar que o campo eletrico diminui o gap dos vortices
+    2. isso favorece o hopping para onde o campo é aplicado (precisa calcular)
+    3. e que o gap tende a fechar com o acoplamento DM
+
+
+\section{Full width text}
+\begin{wide} 
+
+\end{wide}
+ 
+To put a graphics in the text like in the figure
+\begin{figure}
+	\sidecaption{<caption>\label{<label>}} % put this on top
+	% \label HAS to be inside the \sidecaption
+	\includegraphics[]{<>} % or tikz or anything
+\end{figure}
+
+To put a figure in the margin  
+
+\marginfig{figures/marine-knots.jpg}{The most common sea boat knots. This image can be displayed rather small, so it fits in the margin. The caption is displayed below.}{fig:figure-margin}
+
+For wide figures like the figure 
+\begin{figure*}
+	\includegraphics[]{<>} % or tikz or anything
+	\sidecaption{<caption>\label{<label>}}
+\end{figure*}
+
+
+%\begin{figure}[htb!]
+    \includegraphics[width =.7\linewidth]{figures/mandelbrot.png}
+    \caption[ \label{fig:figure-plain} 
+%\end{figure}
+\end{comment}
+ 
+  
+
+
+
+
+\end{document}

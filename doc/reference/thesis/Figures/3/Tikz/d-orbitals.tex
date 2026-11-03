@@ -1,0 +1,107 @@
+\documentclass{standalone}  
+\usepackage{tikz,comment}
+\usepackage[active,tightpage]{preview}
+\usepackage{bm}
+\usetikzlibrary{decorations.pathreplacing}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%%%
+\usetikzlibrary{arrows} 
+
+
+%\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
+%\definecolor{darkred}{cmyk}{0, .89, .88, .12}
+%\definecolor{darkgreen}{cmyk}{.56, 0, .58, .31}
+%\definecolor{darkpink}{cmyk}{0, .91, .46, .08}
+
+\definecolor{darkblue}{HTML}{00639a}
+\definecolor{darkred}{HTML}{e41a1c}
+\definecolor{darkgreen}{HTML}{4daf4a}
+\definecolor{darkpink}{HTML}{ea147e}
+
+\definecolor{lightpink}{HTML}{ffccd7}
+\definecolor{lightblue}{HTML}{4ccdff}
+
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\def \h {.3}   
+\def \d {.075}  
+\def \x {1}
+\def \y {.4}
+\def \l {1.25} 
+\def \mar {.1}
+
+\def \bond {0.5mm}
+
+\begin{tikzpicture}[>=latex,x=2cm,y=2cm]
+
+
+\clip (-\mar-\x, -\mar-5*\d-\h) rectangle (\mar+\l+\x+.1, \mar+\h+3*\d+\y);
+
+
+%%%%%       d5 
+    %       lines
+\draw[draw=black, line width=\bond] (-\x,-5*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (-\x,-3*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (-\x,-1*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (-\x, 1*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (-\x, 3*\d)--++(\x,0);
+\node at (-.5*\x, 3*\d+\y) {$d^5$};
+
+    %       nodes
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (-.25*\x,-5*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (-.75*\x,-5*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (-.25*\x,-3*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (-.75*\x,-3*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (- .5*\x,-1*\d) {};
+
+
+
+%%%%%       Eg 
+    %       lines
+\draw[draw=black, line width=\bond] (\l, \h+1*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (\l, \h+3*\d)--++(\x,0);
+\node at (\l+.5*\x, \h+3*\d+\y) {$e_g$};
+\node[opacity=.5] at (\l+.5*\x, \h+3*\d+.5*\y) {$\{d_{3z^2-r^2},d_{x^2-y^2} \}$};
+
+
+
+
+
+%%%%%       t2g 
+    %       lines
+\draw[draw=black, line width=\bond] (\l,-\h-5*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (\l,-\h-3*\d)--++(\x,0);
+\draw[draw=black, line width=\bond] (\l,-\h-1*\d)--++(\x,0);
+\node at  (\l+.5*\x, -\h-\d+\y) {$t_{2g}$};
+\node[opacity=.5] at  (\l+.5*\x, -\h-\d+0.5*\y) {$\{d_{yz},d_{zx},d_{xy}\}$};
+
+    %       nodes
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.25*\x,-\h-5*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.75*\x,-\h-5*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.25*\x,-\h-3*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.75*\x,-\h-3*\d) {};
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.5*\x,-\h-1*\d) {};
+ 
+%%%%    splitting lines 
+\draw[draw=black, line width=.4mm, dotted] (0.02,-\d)--(\l-.02,-\h-\d);
+\draw[draw=black, line width=.4mm, dotted] (0.02,+\d)--(\l-.02,\h+\d);
+
+
+
+\node at (.5*\l,\d+\y) {CFS};
+
+\draw [decorate,opacity=.5,decoration={brace}] %,xshift=0.5cm,yshift=0pt]
+      (.958*\l,-\h-.7*\d)--(.958*\l,\h+.7*\d) node [midway,left,xshift=-.1cm] {\scriptsize $10 D q$}; 
+  
+\end{tikzpicture}
+\end{document}
+
+

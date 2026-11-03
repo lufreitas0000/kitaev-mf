@@ -1,0 +1,195 @@
+%The field of quantum matter studies states of matter in which quantum fluctuations are present at zero temperature.
+
+
+Quantum matter consists of zero-temperature phases with purely quantum fluctuations. % where its quantum behavior promotes the fluctuation of its constituents. 
+These phases are found in materials with strong correlation and low dimensionality.
+Exotic phenomena arise in these phases such as many-body entanglement, emergent gauge fields, and fractionalization into emergent Fermi- and non-Abelian excitations.
+A summary of the classification of quantum matter is shown in Fig.~\ref{fig:intro-01}.
+
+%An important class of quantum phases of matter are those that display long-range entanglement, which is a microscopic characterization of topological order. 
+
+In gapped quantum phases, two states belong to the same phase if they can be adiabatically connected without closing the energy gap. 
+In categorizing the quantum phases of matter, there are two important distinguishing factors: whether the phase is locally ordered and whether it displays topological order.  
+Let us review these two concepts. 
+The local order parameters, according to Landau's theory \cite{landau2008}, emerge from a symmetry-breaking state that spontaneously breaks the symmetry of the underlying theory. %(Hamiltonian, Lagrangian). 
+Based on Laudau phase transition principles, one would expect to find featureless phases for states, such as liquids, that do not break any symmetry, but it turns out that the quantum disordered matter displays a richer structure.
+
+Beyond the Landau paradigm, a topological order is an order of the quantum matter that is not due to local order parameters or broken symmetries, but to long-range entanglement. The first definition of topological order state in Ref.~\cite{Wen1990} was that its ground state degeneracy depends on the topology of the manifold where it is defined. So the degeneracy is different depending, for instance, if the model is on the sphere or the torus. 
+A more modern approach is defining the topological order through the low-energy behavior of the entanglement spectrum. As a consequence, topological nature implies the presence of a topological term in the entanglement entropy independent of the subsystem size. 
+
+
+
+%an intrinsic topological order has emergent fractional charge, emergent fractional statistics, and emergent gauge theory.
+%Ground state with long-range quantum entanglement.
+%Ground state degeneracy depends on the topology of the space.
+%Supports anyonic excitations with fractional statistics.
+%Exhibits topological entanglement entropy.
+%Robust to local perturbations.
+
+
+%a topologically ordered state is a gapped ground state that cannot be continuously deformed into a product state without closing the energy gap (i.e., without a phase transition). Two topologically ordered states belong to the same phase (i.e., have the same topological order) if they can deform into each other smoothly without a phase transition.
+
+
+
+%Up until then, studies of phases of matter and the transitions between them were usually built on Laudau phase transition principles. Landau had  emphasized the crucial role of symmetry, and local-order parameters that distinguish different symmetry realizations. 
+
+
+%superposition,  coherence
+%Examples of quantum materials that you may generally be familiar with are those that display the quantum Hall effect or super-conductivity, topological insulators, spin liquids, qubits, quantum sensors, or quantum dots. 
+
+%Quantum matter includes exotic states of matter such as quantum spin liquids, superconductors, and topological insulators 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.05\textwidth]{Figures/1/f1.pdf}%{Figures/1/gapped-quantum-matter.jpeg}
+    \caption{%\reminder{do a simplified version of this map, cite \cite{Wen2019rev} - focusing on quantum magnets and quantum spin liquids} `` The black entries are described by symmetry breaking. Colored entries are phases beyond symmetry breaking: the red ones have topological order, whereas the blue are product states with SPT order''  
+    Classification of gapped phases of matter 
+    \cite{Wen2019rev}. %Topological order refers to long-range entanglement.  
+    [QSL: quantum spin liquid, FQH: fractional quantum hall, SPT: symmetry-protected  topological] }
+    \label{fig:intro-01}
+\end{figure}
+
+
+
+
+
+%\reminder{do a short review of Quantum Spin Liquid (QSL), e.g. Ref.~\cite{Savary2016}. Connect to topology and the importance of the Kitaev model. }
+
+
+Topologically ordered states are fascinating for describing exotic physics, such as the emergence of particles with fractionalized charges or statistics.
+The most studied topological ordered phase is the fractional quantum Hall, which was first experimentally observed in 1982 \cite{Tsui1982} and some of its Abelian states were theoretically understood using Laughlin wavefunctions in 1983 \cite{Laughlin1983}. 
+Another important but less understood phase with topological order is the quantum spin liquids (QSL). The QSL are quantum phases in spin systems with no spontaneous symmetry-breaking that exhibit fractional excitations \cite{Misguich2011}.  
+
+The term  QSL was introduced by Anderson in 1973 in his seminal paper \cite{Anderson1973} describing a `resonating valence bond' (RVB) state as the ground state of an antiferromagnet. The RVB state was proposed at the wavefunction level, where spins were paired into singlets and the total state is given by all superpositions of different pairings. Although it failed to describe the spin-1/2 Heisenberg antiferromagnet on the triangular lattice where it was originally proposed, this highlighted the importance of frustration in stabilizing QSL states.
+
+The discovery of high-temperature superconductivity boosted a resurgence in interest in QSLs. Baskaran,  Zou, and Anderson \cite{Baskaran1987,Anderson1987} proposed RVB states, suggesting that superconductivity might emerge from doped QSLs. Additionally, the notion of `pseudo-fermions', or `spinons', as possible quasiparticles of QSLs was introduced, marking the beginning of modern parton mean-field methods to study QSLs.
+
+%\reminder{more details of the parton mean-field of \cite{Baskaran1987}}
+
+Parallel developments in the late 1980s connected QSLs to the fractional quantum Hall effect (FQHE) and topology. Kalmeyer and Laughlin proposed a `chiral spin liquid' state, while Kivelson, Rokhsar, and Sethna \cite{Kivelson1987} pointed out the importance of topology in RVB states and, together with \cite{Wen1990}, coined the term topological order. Other QSL states were proposed, such as the quantum hard-core dimer model in the square lattice \cite{Rokhsar1988}, however, this phase is unstable.
+
+
+Around 2000, QSLs experienced a renewed interest, fueled by theoretical connections between spinons, fractional quantum numbers, and topological order.
+Key developments during this period included the realization of stable QSL phases in lattice gauge theories and the identification of topological phases in certain QSL states. Kitaev's toric \cite{Kitaev2003} code model and honeycomb model provided simple yet exact solutions for QSL phases, providing concrete evidence for models with QSL phases.
+
+\clearpage
+
+\section*{Frustration}
+
+The ground state manifold of a spin system, 
+\begin{equation}
+    H=\sum_X \mathfrak{h}_X \; , \quad \text{e.g. } \;  \mathfrak{h}_X = J \mathbf{S}_i\cdot \mathbf{S}_j \;  \text{ for } X=\{ i,j\} \;, 
+\end{equation}
+is said to be frustrated when it cannot fully satisfy all pairwise interactions, which means that the energy of each local term in the Hamiltonian fails to give minimal energy in these states. The simplest example is in the triangular lattice: while the ferromagnetic interaction can be fully satisfied by a ground state with all spin paralleled aligned, which minimizes $-\mathbf{S}_i\cdot \mathbf{S}_j$, for anti-ferromagnetic exchange, $+\mathbf{S}_i\cdot \mathbf{S}_j$,  the configuration with all spin anti-paralleled aligned is not possible, see Fig.\ref{fig:intro-02}. Since this configuration is not possible, any state for this spin system will give an energy per bond $\left< \mathbf{S}_i\cdot \mathbf{S}_j \right>$ larger than the minimal possible obtained by the \textit{local} anti-parallel alignment of the spins. We say the spins are frustrated as they are never as `happy' as in the minimal energy configuration. One can readily see that frustration is related to the lack of extensibility of the solution of the local Hamiltonian $\mathfrak{h}_X$ to the global $H$ one. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.05\textwidth]{Figures/1/frustration_triang.pdf}
+    \caption{Frustration in the triangular lattice. In (a), the ground state for the ferromagnetic Heisenberg interaction is not frustrated as there is a (classical/trivial/product state) spin configuration that fully satisfies the Heisenberg exchange, while in (b) the anti-ferromagnetic Heisenberg interaction does not allow an unfrustrated ground state which satisfies the minimal energy configuration.
+     }
+    \label{fig:intro-02}
+\end{figure}
+
+As there isn't a single classical aligned spin configuration, the importance of frustration comes in many forms related to the high degeneracy of the ground state manifold. This may appear as a diffuse broad distribution in the spin structure factor, as opposed to a sharp peak due to long-range order, or high residual entropy at low temperatures due to an exponential number of low states. The degeneracy of the ground state manifold can be quantified by the topological entanglement entropy $\gamma$, which is non-zero in a spin system and is linked to strong frustration, topological order, and lack of conventional order.
+
+In experiments, one cannot directly count the number of degenerate states at the ground state manifold. 
+This number is indirectly quantified by the frustration parameter $f$,
+\begin{equation}
+    f = \theta_{\mathrm{CW}} /  T_{\mathrm{c}} \; .
+\end{equation}
+Which is the ratio of the Curie-Weiss $\theta_{\mathrm{CW}}$ temperature, which characterizes the average interaction strength, and the temperature $T_{\mathrm{c}}$ at which the material has a transition to an ordered state. 
+Frustrated materials and candidates for quantum spin liquids have a relatively low, or even zero, critical temperature $T_c$, giving a very high value for the frustration parameter $f$.  
+
+\section*{Kitaev honeycomb model}
+
+%\reminder{overview of the Kitaev model, its importance to QSL and topological QC, and its experimental realization. say the difficulties in realizing this phase, and the goal to have smoking gun evidence for the phase and the vison.  Connect with our work. }
+
+The Kitaev model is an exactly solvable spin-1/2 model in a honeycomb lattice that exhibits a quantum spin liquid as a ground state\cite{Kitaev_2006}.  
+%The is a very interesting scenario since this phase of matter is very complicated, and in this model one can explore a plenty of properties. 
+In the gapped phase, the model exhibits itinerant Majorana fermions and non-Abelian Ising anyons in the bulk and chiral Majorana modes at the boundary. 
+The chiral edge modes are responsible for a quantized thermal Hall effect \cite{Kitaev2006}.
+The Kitaev model is unique as these complicated properties that emerge in quantum spin liquid phases can be understood in an exactly solvable model. 
+
+
+%The absence of order parameters 
+Beyond the natural theoretical interest in the Kitaev model to better understand a quantum spin liquid phase, the model can be approximately realized in different two-dimensional platforms \cite{Jackeli2009, Trebst2022, Winter2017, Winter2017rev, Takagi2019}. 
+The Jackeli-Khaliullin mechanism works for $t_{2g}$ ions in edge-shared octahedra favors a bond-dependent non-diagonal hopping amplitude $t_2$. 
+This mechanism happens due to the $90^\circ$ angle in the metal-ligand-metal process, which suppresses the isotropic hopping between the three  $t_{2g}$ orbitals of the transition metal 
+while favoring an orientating-dependent hopping between different orbitals.
+$\alpha\text{-RuCl}_3$ is the currently most prominent candidate Kitaev material \cite{Sandilands2015,Banerjee2016}.
+In these materials, sub-dominant interactions beyond the Kitaev model are present. The most relevant exchanges in the so-called extended Kitaev model beyond the Kitaev ($K$) are the Heisenberg ($J$) and the off-diagonal ($\Gamma$) exchanges \cite{Rau2014,Rousochatzakis2023}. 
+
+%\reminder{explain more about the microscopically model, orbital, projection to the effective spin model}
+
+
+There is some evidence for the observation of the thermal Hall effect in some samples of $\alpha\text{-RuCl}_3$  for a narrow temperature interval \cite{Kasahara2018,Motome2020,Yokoi_2021,Ye2018}, but it is controversial whether this effect is a signature of the chiral Majorana edge modes in the Kitaev spin liquid phase. For example, one could see similar effects for topological magnons \cite{Sahasrabudhe_2020,Czajka_2022} or gapless acoustic phonons \cite{Vinkler_Aviv_2018}.
+
+
+
+%\reminder{cite more recent experiments }
+
+
+
+
+
+\section*{In this work}
+
+In view of the difficulty in identifying the QSL phase in Kitaev material, this project arises from the work in Ref.~\cite{Pereira2020} which, as well as in other recent theoretical works \cite{Aasen2020,zhang2020electrical}, proposes an alternative technique using an electrical field to help unambiguously identify this phase. 
+ 
+
+%\reminder{%.. How I started working on this project; what other projects inspired this; the problem we want to solve ; what I have tried ; what is new here; }
+
+A somewhat surprising result is that vortices in Kitaev material induce charge density \cite{Pereira2020}. This follows from a property of Mott insulators that a non-homogeneous spin correlation generates a charge polarization of the order of the smallest loop in the lattice \cite{Bulaevskii_2008,Khomskii_2010}.  The effective density operator for Kitaev materials was derived in Ref.~\cite{Pereira2020}  %starting from the multi-orbital Hubbard-Kanamori model
+in the limit of the pure Kitaev model. 
+They showed that the vortex is attracted by external local electrostatic potential, such that one could possibly use an electrically polarized tip to trap and move anyons adiabatically. 
+
+%The  effective   density operator for Kitaev materials was derived in Ref.~\cite{Pereira2020}  starting from the multi-orbital Hubbard-Kanamori model in the ideal limit where the dominant exchange path only generates the pure Kitaev interaction \cite{Jackeli2009}. The electric field effects  then work both ways. On the one hand, the inhomogeneous  spin correlations around a $\mathbb Z_2$ vortex imply that vortices produce an intrinsic electric charge distribution. On the other hand, vortices are attracted by electrostatic potentials that locally modify  exchange couplings, and this effect   can be used to trap and move anyons adiabatically \cite{Pereira2020,Jang2021}.   
+
+
+
+In this work, we generalize the result in the electronic properties of the anyons in Ref.~\cite{Pereira2020} to the extended model for Kitaev materials. 
+%Our starting point is the three-orbital Hubbard-Kanamori model which takes into account sub-dominant hopping processes that, in addition to Kitaev ($K$) interactions, also generate Heisenberg ($J$) and off-diagonal  ($\Gamma$) exchange interactions.
+For this generalization, we rederive the charge density starting from the multi-orbital Hubbard-Kanamori model with the additional hopping allowed in the Kitaev material at leading order.
+We found an expression for the charge density operator that contains all two-spin terms allowed by symmetry.
+
+The Heisenberg and $\Gamma$ interaction spoils the integrability of the Kitaev model.
+To compute the charge profile we need the spin correlation, which cannot be computed exactly for the extended Kitaev model.
+This computation is noticeably a hard numerical problem as we need to compute the correlations in the presence of vortices. The system size must be sufficiently large so the vortices are sufficiently isolated and we can find the properties of a single vortex. 
+To face this problem in such a large system size we opt to use a mean-field approximation. There are many instances where the Majorana mean-field approximation was used in the extended Kitaev model \cite{Knolle2018,Liang2018,Nasu2018,Gohlke2018,Go2019,Ralko2020,Li2022,Yilmaz2022,Merino2022}. However, in all of these previous works the mean field was used for a translational invariant state. Here, we need to consider states with vortices, so we generalize the mean-field theory to deal with an extensive number of position-dependent order parameters. 
+%The approximation tSince the additional interactions spoil the integrability of the pure Kitaev model, we compute spin correlations using a  Majorana mean-field theory. This type of approximation has been   applied to map out the ground state phase diagram and to compute response functions of the extended Kitaev model  \cite{Knolle2018,Liang2018,Nasu2018,Gohlke2018,Go2019,Ralko2020,Li2022,Yilmaz2022,Merino2022,Cookmeyer2023}. Here we generalize the mean-field approach to treat position-dependent order parameters in the case where translation symmetry is broken by the presence of  vortices in the $\mathbb Z_2$ flux configuration. 
+Another technical difficulty that we needed to deal with was how to project the Majorana state into the physical states of the spin system. 
+
+Our approach also allows us to include a Zeeman coupling. 
+Treating the magnetic field beyond perturbation theory allows us to find the dependence of the vortex charge distribution on the direction of the magnetic field.
+We found that a finite in-plane component induces spatial anisotropy in the charge distribution. 
+This can be quantified by the components of the electrical quadrupole momentum. 
+
+%We show that the spatial anisotropy of the charge distribution around a vortex varies with the direction of the magnetic field and can be quantified by the components of the electric quadrupole moment. 
+
+%In the same way that the vortex has 
+Beyond studying the intrinsic vortex electric charge, we also succeed in understanding how the vortex is affected by an external electric field. For simplicity, we model the electric field by a ultra-local potential applied on top of the vortex. 
+This interaction is considered within the Hubbard-Kanamori model and generates local modulation in the exchanges in the effective spin model.
+In the limit of the pure Kitaev model, this applied potential lowers the energy gap for creating a vortex, but remains finite. 
+In the extended Kitaev model with Heisenberg ($J$) and off-diagonal ($\Gamma$) exchanges, we found qualitatively the same results as in the pure limit. 
+This means that one can use the electric potential to attract and possibly adiabatically move the vortices. 
+Furthermore, we notice that the external electric potential breaks the bond inversion symmetry allowing the Dzyaloshinskii-Moriya ($D$) exchange. In the presence of this additional exchange in the extended Kitaev model, we found that the energy to create a vortex goes to zero with the applied potential. This indicates the possibility of creating vortex excitation controlled by an electrical field.
+
+
+%We also discuss how a local electrostatic potential renormalizes the couplings in the extended Kitaev model and gives rise to an effective attractive potential for vortices. Remarkably, the effect is stronger in the presence of non-Kitaev interactions, and we find that it is  possible to close the vortex gap by means of electric modulation of the local spin interactions.  
+
+
+
+%\reminder{Organization of the thesis}
+
+
+
+%The Kitaev honeycomb model realizes a quantum spin liquid where spin degrees of freedom are fractionalized into itinerant Majorana fermions and localized vortices. The entanglement among these particles holds promise for executing fault-tolerant topological quantum computation. While several materials have been proposed to host a quantum spin liquid phase, concrete evidence confirming its existence remains elusive.  To aid in identifying this phase, we propose an electrical test using the charge profile, offering a signature for the $\mathbb{Z}_2$-vortices in Kitaev materials.
+
+
+%This study explores the electric charge response in Kitaev materials, considering a generalized spin model including Heisenberg, off-diagonal exchange interactions, and magnetic Zeeman field. 
+%Majorana mean-field theory is employed to analyze spin correlations around vortices, revealing spatial anisotropy in the charge distribution, quantified by the electric quadrupole moment.
+%This mean-field approach remains exact in the pure Kitaev limit and captures the fundamental physics across the Kitaev spin liquid phase.
+%The quadrupole-quadrupole interaction between distant vortices is shown to be either repulsive or attractive, depending on the parameters. We predict that electrically biased scanning probe tips can help create vortices at predetermined locations. 
+
+%The findings of our study pave the way for electrically manipulating Ising anyons in Kitaev spin liquids, offering a promising path for technological applications of Kitaev materials.
+

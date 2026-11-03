@@ -1,0 +1,566 @@
+
+In this chapter, I will show some formulas omitted from Chapter \ref{ch:micro}.
+
+
+\begin{comment}
+    
+
+The first step is to set the perturbation theory for the Hubbard-Kanamori Hamiltonian
+\begin{equation}
+     { H } _{HK} =  { H } _{\mathrm{at}}+ { H } _\text{hop} 
+\end{equation}
+in the limit $U,J_H\gg t$. The combination of average one-hole occupancy per site and large $U$ drives the electronic system to a Mott insulating phase. For finite $U$, the holes can jump from one site/orbital to the next, lowering their kinetic energy. %Pron this virtual exchange process  the low energy description of this theory 
+In the single-orbital Hubbard model, the well-known superexchange mechanism  favors the antiferromagnetic arrangement of neighboring spin. Projecting into the single occupancy subspace, the charge degrees of freedom remain quenched and the effective Hamiltonian is a spin-1/2 Heisenberg Hamiltonian  $J \bm{\sigma}_i\cdot\bm{\sigma}_j$ with $J\sim t_{\scriptsize 1,3}^2/U$. Here we will apply the standard procedure of perturbation theory for $ { H } _{HK}$.
+
+
+%put a high energy cost for double occupancy of holes 
+
+To implement the perturbation theory we will use the canonical transformation
+\begin{equation}
+     { H } _{HK} \to \tilde{ { H } } = e^{\, S}  \;   { H } _{HK} \, e^{-S} =  { H } _{HK} + [S, { H } _{HK}]+\frac{1}{2}[S,[S, { H } _{HK}]] + \cdots \, , \label{eq:II-1-S-transf}
+\end{equation}
+which eliminates perturbation in the first order, that is the terms that change $\bar{N}$ up to order $(t/U)^2$. We have used the Baker-Campbell-Hausdorff formula to expand the exponentials in the right-hand-side of equation \eqref{eq:II-1-S-transf}. 
+
+%Effective Hamiltonian in the low-energy subspace up to third order in $t/U$.
+We can use the projector $\mathcal{P}^{(n)}_{i}$ to the subspace of $n$ holes at the site $i$. In this low-energy sector, we can approximate the identity by $\mathbb{1} \approx \mathcal{P}^{(0)}_{ }+\mathcal{P}^{(1)}_{ }+\mathcal{P}^{(2)}_{ }$, which differ from the sector of one hole per site at most by one hole. The hopping Hamiltonian can be written as
+\begin{equation}
+     { H } _{\text{hop}} = - \sum_{ij} \mathbb{1} \;  h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \, \mathbb{1} \approx T_0 + T_1 + T_{-1}\; ,
+\end{equation}
+where I am defining $T_m$ as the term that changes the hole occupation in the hopping Hamiltonian by $m$
+\begin{align}
+\begin{split}    
+    T_0 &= \mathcal{P}^{(0)}  T \mathcal{P}^{(0)} + \mathcal{P}^{(1)}  T \mathcal{P}^{(1)} +\mathcal{P}^{(2)}  T \mathcal{P}^{(2)}  \\
+    &= \mathcal{P}^{(1)}  T \mathcal{P}^{(1)} +\mathcal{P}^{(2)}  T \mathcal{P}^{(2)}  \; , 
+\end{split}\\
+\begin{split} 
+    T_1 &=  \mathcal{P}^{(1)}  T \mathcal{P}^{(0)} +\mathcal{P}^{(2)}  T \mathcal{P}^{(1)}  
+    \\ &=\mathcal{P}^{(2)}_{}  T \mathcal{P}^{(1)}    \; ,
+    \end{split}\\
+\begin{split} 
+    T_{-1} &= \mathcal{P}^{(0)}  T \mathcal{P}^{(1)} +\mathcal{P}^{(1)}  T \mathcal{P}^{(2)}   \; ,
+     \\ &=\mathcal{P}^{(1)} T \mathcal{P}^{(2)} \; .
+    \end{split}
+\end{align}
+Here we use that  $ \mathcal{P}^{(n)}_{i}  h_{is}^{\dagger}  \mathcal{P}^{(m)}_{i} $ is non-zero only if $n=m+1$, and $h_i\mathcal{P}^{(0)}_{i}=\mathcal{P}^{(0)}_{i}h_i^\dagger=0$. 
+Explicitly we have
+\begin{align}
+    T_0 &=   - \sum_{ij}  \mathcal{P}^{(1)}_{i}   h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \mathcal{P}^{(1)}_{j} - \sum_{ij}\mathcal{P}^{(2)}_{i}   h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \mathcal{P}^{(2)}_{j}    \; , \\
+    T_1 &=   - \sum_{ij}\mathcal{P}^{(2)}_{i}   h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \mathcal{P}^{(1)}_{j}    \; , \\
+T_{-1} &= - \sum_{ij} \mathcal{P}^{(1)}_{i}   h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \mathcal{P}^{(2)}_{j} = T_1^{\dagger}    \; .
+\end{align}
+The decomposition of the hopping Hamiltonian in these different hopping operators allows us to separate the terms in the transformed Hamiltonian $\tilde{H}$ according to the contribution for the change in the occupation number. 
+
+%\subsection{Commutators} 
+\subsection{Canonical transformation}
+
+For the canonical transformation, we need to calculate the commutators between the hopping operators $T_m$ and the atomic Hamiltonian $ { H } _{\mathrm{at}}$. First, we split the projector operator for two-hole states into channels with different orbital angular momentum
+\begin{equation}
+    \mathcal{P}^{(2)}_{i} = \mathcal{P}^{(2)}_{i,\ell=0}+\mathcal{P}^{(2)}_{i,\ell=1}+\mathcal{P}^{(2)}_{i,\ell=2} \, .
+\end{equation}
+%The general expression for the change in the eigenvalue of the atomic Hamiltonian between the channels with different orbital angular momentum is 
+%\begin{equation}     \sum_{ij} \big[  { H } _{\text{at}} \, ,\, \mathcal{P}^{(n)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(n')}_{j,\ell'} \big] = \Delta V (n \ell ; n' \ell' ) \sum_{ij}  \mathcal{P}^{(n)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(n')}_{j,\ell'} \;. \end{equation}
+The relevant commutator to cancel the first-order terms is
+\begin{equation}
+    \sum_{ij} \big[  { H } _{\text{at}} \, ,\, \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \big] = \Delta E_{\ell}  \, \sum_{ij}  \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \, , \label{eq:II-1-comm}
+\end{equation}
+where 
+\begin{equation}
+    \Delta E_0 = U + 2 J_H \, , \quad 
+    \Delta E_1 = U - 3 J_H \, , \quad 
+    \Delta E_2 = U - J_H \, . \label{eq:II-1-delta-E}
+\end{equation}
+
+
+
+%We can use a canonical transformation,
+%\begin{equation}    H \to \tilde{ { H } } = e^S H e^{-S} = H + [S,H]+\frac{1}{2}[S,[S,H]] + \cdots,\end{equation}
+%which eliminates terms that change $\bar{N}$ up to order $(t/U)^2$. 
+Lets write the canonical transformation as $S=S_1+S_2+...$ where $S_k$ is of order $k$ in the perturbation, i.e. $S_k\propto (t/U)^k$.
+The transformed  Hamiltonian \eqref{eq:II-1-S-transf} is
+\begin{equation}
+\begin{split}
+        \tilde{ { H } } &=  T_0 +  { H } _{\text{at}} + \left( T_1 + T_{-1} + [S_1,  { H } _{\text{at}}] \right) +  \\[4pt]
+    &+ [S_1, T_0+T_1 + T_{-1}] + \frac{1}{2} [S_1,[S_1,  { H } _{\text{at}}]] + [S_2,  { H } _{\text{at}}] + \cdots \; ,
+\end{split}
+\end{equation}
+where the terms of order $(t/U)^2$ are in the second line.  
+
+
+The goal of the canonical transformation is to choose $S$ such that the perturbation is canceled in the first order. 
+To eliminate the perturbation\footnote{Note that we do not include the term $T_0$ of $ { H } _{\text{hop}}$ in the `perturbation', even though it is a term $\propto t$, as it does not change the occupation.  } in the first order, we must choose $[S_1,  { H } _{\text{at}}] = - T_1 - T_{-1}$ which is equivalent to
+\begin{align}
+    S_1 &= S_1^{+} - S_1^{-} \; ,  \quad 
+    (S_1^{-})^\dagger = S_1^{+} \; , \quad 
+    [ { H } _{\text{at}},S_1^{+}] =   T_{ 1 } \; .
+\end{align}
+Then, choose
+\begin{equation}
+    S_1^{+}  = \sum_{ij}\sum_{\ell} \frac{1}{\Delta E_{\ell}} \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j}  \; .
+\end{equation}
+We find the Hamiltonian,
+\begin{equation}
+    \begin{split}
+        \tilde{ { H } } &=   T_0 +  { H } _{\text{at}} +  [S_1, T_0]  + \frac{1}{2} [S_1, T_1 + T_{-1}] + [S_2,  { H } _{\text{at}}] + \cdots \; .
+\end{split}
+\end{equation}
+To simplify the Hamiltonian we also choose 
+\begin{equation}
+     [S_1, T_0]  + 
+     [S_2,  { H } _{\text{at}}] = 0 \; . \label{eq:II-1-S2}
+\end{equation}
+To compute the effective Hamiltonian $\tilde{H}$ in second-order perturbation theory one does not need to compute $S_2$ as it gets canceled by the relation \eqref{eq:II-1-S2}. However, for computing a transformed observable 
+$\tilde{\mathcal{O}} = e^{\, S}  \;  \mathcal{O} \, e^{-S}$ in the same or higher order of perturbation $S_2$ is needed.%  in second order of the perturbation. 
+
+\subsection{Effective Hamiltonian}
+The second step in the process to get the effective Hamiltonian is to restrict to the low-energy subspace of the unperturbed Hamiltonian. 
+Let us define the projection operator to the low-energy sector of one hole per site
+\begin{equation}
+    \mathcal{P}_{1\mathrm{h}} = 
+    \prod_i \mathcal{P}_{i}^{(1)} \; , \quad  \mathcal{P}_{i}^{(1)} = \sum_{s_i} \ket{s_i}\bra{s_i}\; .
+\end{equation}
+In this subspace we have
+\begin{equation} 
+    \mathcal{P}_{1\mathrm{h}} V_N \mathcal{P}_{1\mathrm{h}} = 0 \, , \quad 
+    \mathcal{P}_{1\mathrm{h}} V_S \mathcal{P}_{1\mathrm{h}} = - 2J_H \, \frac{3}{4} \bar{N}   \, , \quad 
+    \mathcal{P}_{1\mathrm{h}} V_L \mathcal{P}_{1\mathrm{h}} = -  \frac{J_H}{2} \, 2 \, \bar{N} \, ,
+\end{equation}
+where $\bar{N} = \sum_i 1$ is the total number of holes. Then we conclude that the projection of the atomic Hamiltonian is a constant %\textcolor{red!70}{[factor of 2?]}
+$\mathcal{P}_{1\mathrm{h}}  { H } _{\text{at}} \mathcal{P}_{1\mathrm{h}} = - 5J_H\bar{N} /2$.
+The projection of the hopping term in this subspace is zero $\mathcal{P}_{1\mathrm{h}} \,  { H } _{\text{hop}}\,\mathcal{P}_{1\mathrm{h}} = 0$ and the commutator $[S_1, T_0]$ also has zero projection since the terms $S_1^{\pm}T_0$ and $T_0S_1^{\pm}$ go out of the subspace with one hole per site. For the commutator $[S_1, T_{\pm 1}]$, the terms that stay in this subspace are  $[S_1^+, T_{- 1}]$ and  $[S_1^-, T_{+1}]$.
+
+
+Projecting the Hamiltonian in the low-energy subspace and subtracting a constant term $\sim J_H\bar{N}$, and ignoring the term with $S_2$ we then have 
+\begin{align}\hspace*{-15mm}
+    \mathcal{P}_{1\mathrm{h}} \tilde{ { H } }  \mathcal{P}_{1\mathrm{h}}
+&= 
+     \mathcal{P}_{1\mathrm{h}}  \Big(\, \frac{1}{2} [S_1, T_1 + T_{-1}] \, \Big)
+     \mathcal{P}_{1\mathrm{h}} \, , \\[6pt]
+     &= 
+    \frac{1}{2} \mathcal{P}_{1\mathrm{h}}  \Big( \,  [S_1^+, T_{- 1}] - [S_1^-, T_{+1}] \, \Big) \mathcal{P}_{1\mathrm{h}} \, , \\[6pt]
+&=  \frac{1}{2}
+     \mathcal{P}_{1\mathrm{h}}  [S_1^{(+)}, T_{-1}]  \mathcal{P}_{1\mathrm{h}} + \text{h.c.}\\[6pt]
+     &=- \frac{1}{2}
+     \mathcal{P}_{1\mathrm{h}} T_{-1} S_1^{(+)}  \mathcal{P}_{1\mathrm{h}} + \text{h.c.} \, . 
+\end{align} 
+In the last line, note that $S^+$ maps into the sector with one double occupancy, thus  $T_{-1} S_1^{(+)}$  has non-zero projection while $\mathcal{P}_{1\mathrm{h}}  S_1^{(+)} T_{-1}  \mathcal{P}_{1\mathrm{h}} =0$. 
+%[In Rodrigo's notes, he said that the we must consider only the term with double occupancy $[S_1^{(+)}, T_{-1}] \to  - T_{-1} S_1^{(+)} $. This is the term that will produce the spin Hamiltonian. What is the term that we ignore?]
+
+
+
+
+The effective Hamiltonian in the low-energy subspace is
+\begin{equation}\hspace*{-10mm}
+    \begin{split}
+        \mathcal{P}_{1\mathrm{h}} \tilde{ { H } }  \mathcal{P}_{1\mathrm{h}}
+      &= -  
+      \sum_{ij}\sum_{\ell} \frac{1}{\Delta E_{\ell}} \mathcal{P}_{1\mathrm{h}}  \, \big( h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \big) \, \mathcal{P}^{(2)}_{i,\ell} \, \big( h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \big)\, \mathcal{P}_{1\mathrm{h}} \; .
+    \end{split}
+\end{equation}
+Considering the matrix elements between a pair of sites $i,j$. Let us write $\tilde{ { H } }=\sum_{\ell} \tilde{ { H } }_{\ell}$, and consider the contribution from each channel separately 
+\end{comment}
+
+\section{Hamiltonian in spin-orbital basis}
+
+The matrix elements of the Hamiltonian \eqref{micro-Heff} in the basis of spin-orbital basis $\ket{s}=\ket{a,\sigma}$ are given by 
+\begin{adjustwidth}{0mm}{-5mm}
+\begin{equation}\hspace*{-5mm}
+    \begin{split}
+        \hspace*{-5mm}\bra{s_i', s_j'} \tilde{ { H } }_{\ell}  \ket{s_i, s_j}
+      &= -   \frac{1}{\Delta E_{\ell}} \bra{s_i', s_j'}  \, \big( h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \big) \, \mathcal{P}^{(2)}_{i,\ell} \, \big( h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \big)\, \ket{s_i, s_j} \;  
+      \\
+      &= -   \frac{1}{\Delta E_{\ell}} \sum_{s_1,s_2,s_3,s_4}\big(\tilde{\mathbf{T}}_{ji} \big)_{s_1,s_2}\big(  \tilde{\mathbf{T}}_{ij}\big)_{s_3,s_4}   \bra{s_i', s_j'}  \,  h_{js_1}^\dagger   h_{is_2}^{\phantom{\dagger}} \, \mathcal{P}^{(2)}_{i,\ell} \, h_{is_3}^\dagger h_{js_4}^{\phantom{\dagger}} \, \ket{s_i, s_j}  \\      
+      &= -   \frac{1}{\Delta E_{\ell}} \sum_{s_1,s_2,s_3,s_4}\big(\tilde{\mathbf{T}}_{ji} \big)_{s_1,s_2}\big(  \tilde{\mathbf{T}}_{ij}\big)_{s_3,s_4}   
+      \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell}  h_{is_3}^\dagger  \ket{s_i}   
+      \bra{s_j'}    h_{js_1}^\dagger   h_{js_4}^{\phantom{\dagger}} \ket{s_j} 
+   , 
+    \end{split}
+\end{equation}\end{adjustwidth}
+where we separated the contribution for each sector $\ell$.
+The matrix element at site $j$ are simply, $
+    \bra{s_j'}    h_{js_1}^\dagger   h_{js_4}^{\phantom{\dagger}} \ket{s_j}  =
+    \delta_{s_4,s_j}\delta_{s_1,s_j' } $, and the expression reduces to
+\begin{equation}
+    \begin{split}\hspace*{-8mm}
+        \bra{s_i', s_j'}\! \tilde{ { H } }_{\ell} \!\ket{s_i, s_j} \!
+      &= -   \frac{1}{\Delta E_{\ell}} \!
+      \sum_{s_2,s_3}\!\!\big({\mathbf{T}}_{ji} \big)_{ {a}_j', {a}_2}\!\big(  {\mathbf{T}}_{ij}\big)_{ {a}_3,{a}_j}\!\delta_{\sigma_j'\sigma_2} \delta_{\sigma_3\sigma_j}  
+      \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell}  h_{is_3}^\dagger  \ket{s_i}                .\hspace*{-1mm}
+    \end{split}
+\end{equation}
+Let us consider each channel separately to calculate the matrix elements at site $i$. 
+\begin{align}
+   %\begin{split}      \mathcal{P}^{(2)}_{i,\ell=0}  &= \ket{\Psi_{i,\ell=0}^{(2)}}\bra{\Psi_{i,\ell=0}^{(2)}} \; ,  \\[6pt] 
+    %\ket{\Psi_{i,\ell=0}^{(2)}} &= \frac{1}{\sqrt{3}} \sum_a h_{ia\uparrow}^\dagger h_{ia\downarrow}^{\dagger \phantom{\dagger}}\ket{F} \; .   \end{split}\\
+   \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell=0}  h_{is_3}^\dagger  \ket{s_i} 
+    &=
+    \frac{1}{3} \sigma_2\sigma_3 \delta_{a_{i}'a_{2}}
+    \Big( \delta_{\bar\sigma_i', \sigma_2} \Big) 
+    \delta_{a_{i}a_{3}}
+    \Big( \delta_{\bar\sigma_i,\sigma_3} \Big) 
+        \\[6pt]
+\bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell=1}  h_{is_3}^\dagger  \ket{s_i} 
+&=
+\frac{1}{2} 
+\Big( \delta_{a_{i}'a_{i}} \delta_{a_{2}a_{3}} - (\alpha_3 \leftrightarrow \alpha_i)  \Big) 
+\Big( \delta_{\sigma_{i}'\sigma_{i}} \delta_{\sigma_{2}\sigma_{3}} + (\sigma_3 \leftrightarrow \sigma_i)  \Big) 
+\\[6pt]
+    \begin{split}
+      \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell=2}  h_{is_3}^\dagger  \ket{s_i} 
+     &=
+     \bra{s_i'}    h_{is_2}^{\phantom{\dagger}}    h_{is_3}^\dagger  \ket{s_i} \\
+     &
+     -
+     \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell=0}  h_{is_3}^\dagger  \ket{s_i} 
+     -
+     \bra{s_i'}    h_{is_2}^{\phantom{\dagger}} \mathcal{P}^{(2)}_{i,\ell=1}  h_{is_3}^\dagger  \ket{s_i} 
+     \; .  
+    \end{split}     
+\end{align}
+The final expression for the matrix elements of the Hamiltonian is
+\begin{align}
+     \bra{s_i', s_j'} \tilde{ { H } }_0  \ket{s_i, s_j}
+    &= -   \frac{1}{3 \Delta E_0} 
+    \big({\mathbf{T}}_{ji} \big)_{a_j'\,a_i'} \big(  {\mathbf{T}}_{ij}\big)_{a_i\,a_j} \sigma_j'\sigma_j      \delta_{\bar\sigma_i'\, \sigma_j'} 
+    \delta_{\bar\sigma_i\,\sigma_j} 
+    \; , \\
+    \begin{split}
+    \bra{s_i', s_j'} \tilde{ { H } }_1  \ket{s_i, s_j}
+    &= -   \frac{1}{2 \Delta E_1} \Big[
+    \big({\mathbf{T}}_{ji}   {\mathbf{T}}_{ij}\big)_{a_j'\,a_j}  \delta_{a_i'\,a_i}
+    - \big({\mathbf{T}}_{ji} \big)_{a_j'\,a_i} \big(  {\mathbf{T}}_{ij}\big)_{a_i'\,a_j} \Big] \;\\ &\times  \big( \, 
+      \delta_{\sigma_j'\, \sigma_j}  \delta_{\sigma_i\,\sigma_i'}  +
+      \delta_{\sigma_j'\, \sigma_i}  \delta_{\sigma_j\,\sigma_i'} \,\big)  \; .
+    \end{split}\\
+    \begin{split}
+        \bra{s_i', s_j'} \tilde{ { H } }_2  \ket{s_i, s_j}
+      &= -   
+      \frac{1}{\Delta E_2} \!      \Big[
+       \big({\mathbf{T}}_{ji}  {\mathbf{T}}_{ij}\big)_{a_j'\,a_j}\!\delta_{\sigma_j'\sigma_j} \delta_{s_i' s_i}       -
+      \big({\mathbf{T}}_{ji} \big)_{a_j'\,a_i}\big(  {\mathbf{T}}_{ij}\big)_{a_i'\,a_j}\!\delta_{\sigma_j'\,\sigma_i} \delta_{\sigma_i'\,\sigma_j}        \Big]      \\
+      & -   
+      \frac{\Delta E_0}{\Delta E_2} \bra{s_i', s_j'} \tilde{ { H } }_0  \ket{s_i, s_j}
+      -   
+      \frac{\Delta E_1}{\Delta E_2} \bra{s_i', s_j'} \tilde{ { H } }_1  \ket{s_i, s_j}            .
+    \end{split}
+\end{align} 
+These matrix elements are expressed in the full spin-orbital basis, in the next section we will compute the representation in the effective $j=1/2$ basis.
+
+
+\section{Effective spin-half Hamiltonian}
+
+
+The matrix in the $j_{\text{eff}}=1/2$ subspace is obtained by the projection $\mathcal{P}_{\frac{1}{2}}$. 
+To go from the basis $\{ \ket{s} \} =\big\{ \ket{x\uparrow},  \ket{x\downarrow}, \; \,\ket{y\uparrow},  \ket{y\downarrow}, \; \,\ket{z\uparrow},  \ket{z\downarrow} \big\}$ to the basis spin-orbital-half is a change of basis and projection in the subspace spanned by the vectors $\{\ket{+},\ket{-}\}$. Algebraically, we need to compute matrix multiplication in eq.~\eqref{eq:oij}. This process is implemented symbolically using \texttt{Mathematica}.
+
+As an example of this projection, consider a magnetic field $B_z$ applied in the $z$ direction. The Hamiltonian for this operator is $ { H } _{h}=-B_z S^z=\frac{1}{2}\sum B_z \, h_i^\dagger \big(\mathbb{1}_3\otimes\sigma_z\big)h_i$. The matrix for this term is $\bra{s_i'}    { H } _{Z} \ket{s_i} =  \frac{1}{2}B_z \,   \big(\mathbb{1}_3\otimes\sigma_z\big)_{s_i',s_i}$, which after the projection gives 
+$\mathcal{P}_{\frac{1}{2}}  { H } _{Z}  \mathcal{P}_{\frac{1}{2}} =  \frac{1}{2}B_z \,   \mathbb{M}^\dagger \big(\mathbb{1}_3\otimes\sigma_z\big) \mathbb{M} = \frac{1}{6} B_z \big( \sigma_x\sigma_z\sigma_x+\sigma_y\sigma_z\sigma_y+\sigma_z\sigma_z\sigma_z \big) = - \frac{1}{6} B_z \sigma_z  $.
+
+The Hamiltonian $\tilde{ { H } }$ is a sum of terms that act on two sites.  
+After the projection into the effective spin-1/2 space we find (up to constants)
+\begin{align}
+    \mathcal{P}_{\frac{1}{2}}\tilde{ { H } }_0   \mathcal{P}_{\frac{1}{2}} 
+    &=
+    \frac{(2  t_{1}+ t_{3})^2}{27 \, \Delta E_0} 
+    \sum_{\left<ij\right>_\gamma } \, \bm{\sigma}_i\cdot\bm{\sigma}_j
+    \;,\\
+    \begin{split}
+        \mathcal{P}_{\frac{1}{2}}\tilde{ { H } }_1   \mathcal{P}_{\frac{1}{2}}  
+    &=
+    \frac{1}{9\Delta E_1} \sum_{\gamma(\alpha\beta)} 
+    \sum_{\left<ij\right>_\gamma } \Bigg[ 
+    2t_{1} ( t_{1}+2  t_{3}) \bm{\sigma}_i\cdot\bm{\sigma}_j 
+    \\ &+  \Big(\big( t_{1}- t_{3}\big)^2-3t_{2}^2 \Big) \sigma_i^\gamma\sigma_j^\gamma 
+    + 2t_{2} ( t_{1}- t_{3})    \big(\sigma_i^\alpha \sigma_j^\beta +\sigma_i^\beta \sigma_j^\alpha  \big)  \Bigg] 
+    \; ,
+    \end{split} \\
+    \mathcal{P}_{\frac{1}{2}}\tilde{ { H } }_2   \mathcal{P}_{\frac{1}{2}}  
+    &= 
+    \frac{(2  t_{1}+ t_{3})^2}{9 \, \Delta E_2} 
+    \sum_{\left<ij\right>_\gamma }  \bm{\sigma}_i\cdot\bm{\sigma}_j
+    -\frac{\Delta E_0}{\Delta E_2} \mathcal{P}_{\frac{1}{2}}\tilde{ { H } }_0   \mathcal{P}_{\frac{1}{2}} 
+    -\frac{\Delta E_1}{\Delta E_2}\mathcal{P}_{\frac{1}{2}}\tilde{ { H } }_1   \mathcal{P}_{\frac{1}{2}}
+\end{align}  
+Summing all these terms and grouping like terms, 
+one finds the extended Kitaev Hamiltonian in eq. \eqref{eq:ext-Ham} of the main text.
+
+
+\section{Second order canonical transformation}
+The second order $S_2$ in the canonical transformation expansion is determined by the condition in eq.\eqref{eq:II-1-S2}, which I will write again for convenience
+\begin{equation}
+    \begin{split}
+       0 &= [S_1, T_0]  + 
+     [S_2, H_{\text{at}}]   
+     \; , \\[6pt]
+     S_1  &= \sum_{ij}\sum_{\ell} \frac{1}{\Delta E_{\ell}} \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \;  - \mathrm{h.c} 
+     \; , \\
+     H_{\mathrm{at}} &=\sum_i \left( \frac{U-3J_H}{2}(N_i-5)^2 - 2J_H \mathbf{S}_i^2 - \frac{J_H}{2} \mathbf{L}_i^2 \right) 
+     \; ,\\
+     T_0 &=  - \sum_{ij} \Big( \cP_i^{(1)} \;  h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \, \cP_j^{(1)}
+     +
+     \cP_i^{(2)} \;  h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \, \cP_j^{(2)} \Big) \; .
+    \end{split}
+\end{equation}
+To determine the effective Hamiltonian in the second order, we do not need to know $S_2$. It is enough to know that $S_2$ satisfies the previous equation. However, we need $S_2$ to determine the charge density in the third order.
+
+Using $\Delta V=\Delta V_{N}+\Delta V_{S}+\Delta V_L$ to define the change in the eigenvalue of the atomic Hamiltonian $H_{\mathrm{at}}$ by hopping off one hole. Consider $\Delta V = \Delta V(n,\ell; n',\ell')$ corresponding to hopping with a configuration with $n'$ holes with angular momentum $\ell'$ to a configuration with $n$ holes and angular momentum $\ell$. This expression is defined by 
+\begin{equation}
+    \sum_{ij} \; \left[ H_{\mathrm{at}} \; , \; \cP_{i,\ell}^{(n)} \, h_i^\dagger   \tilde{\mb{T}}_{ij} h_j^\pd \, \cP_{j,\ell'}^{(n')} \right]
+    = 
+    \sum_{ij} \;    \Delta V(n,\ell; n',\ell') 
+    \; \cP_{i,\ell}^{(n)} \, h_i^\dagger  \mb{T}_{ij}  h_j^\pd \, \cP_{j,\ell'}^{(n')} 
+\end{equation}
+Where we are interested in $n,n' \in \{ 0,1,2 \}$. For one hole only, only $\ell=1$ is allowed, and these energies change by adding one hole to a configuration where there was already one hole are $\Delta E_\ell$ in eq.\eqref{eq:II-1-delta-E}. 
+The values for these changes in the potential are
+\begin{align}
+    \Delta V(1,\ell; 1,\ell') &= 0 \; , \\
+    \Delta V(2,\ell; 1,\ell') &= \delta_{\ell',1}  \; \Delta E_{\ell} \; , \\
+    \Delta V(1,\ell; 2,\ell') &= -\delta_{\ell,1}  \; \Delta E_{\ell'} \; , \\
+    \Delta V(2,\ell; 2,\ell') &= \Delta E_{\ell} - \Delta R_{\ell'} \; . 
+\end{align}
+The expression with $n=0$ or $n'=0$ does not appear in intermediate steps when projecting the initial and final state into the one hole per site subspace. 
+
+The expression for the canonical transformation is 
+\begin{equation}
+    S_2 =    \sum_{ijkl}\!\sum_{\ell\,\ell'\ell''}\!\sum_{n=1,2}\!
+    A(\ell;n,\ell',\ell'')
+    \left[ 
+    \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \mathcal{P}^{(1)}_{j}  ,\cP_{k,\ell'}^{(n)} \; h_k^\dagger  \tilde{\mb{T}}_{kl}  h_l^\pd  \cP_{l,\ell''}^{(n)} 
+    \right] 
+    - \mathrm{h.c} \; ,  \label{eq:S2}
+\end{equation}
+with coefficient 
+\begin{equation}
+    A(\ell;n,\ell',\ell'') =  \frac{1}{\Delta E_\ell \; \left( \Delta E_{\ell'} + \Delta V(n,\ell';n,\ell'') \; \right)} \; .
+\end{equation}
+Some of the processes contributing to $S_2$ are: one hole at $j$ hops to $i$ forming a state with angular momentum $\ell$ then one of these doubly occupied holes hops to another site. Many other processes are happening in $S_2$, however, the projection into the subspace with one hole per site will simplify the expressions. 
+
+
+
+
+
+
+
+\section{Charge density matrix elements}
+After projecting in the $j_{\text{eff}}=1/2$ subspace, the general expression for the charge density is \eqref{spincorr} with coefficients given by
+\begin{align}
+    \mathcal{C}_{jkl}^{\mu\nu\rho} &= 
+    \frac{1}{8} \; \text{Tr} \left( \cP_{\frac12}  \delta n_{l,(jk)}^{(3)} \cP_{\frac12} \sigma^\mu_j \sigma^\nu_k \sigma^\rho_l  \right) \; , \\[6pt]
+    \begin{split}        
+     &= 
+    \frac{1}{8} \sum_{\sigma_j',\sigma_k',\sigma_l'}\sum_{\sigma_j, \sigma_k, \sigma_l} \\
+    & \;\, 
+    \braket{\sigma_j',\sigma_k',\sigma_l' | \cP_{\frac12}  \delta n_l \cP_{\frac12}  | \sigma_j, \sigma_k, \sigma_l}
+    \big(\sigma^\mu\big)_{\sigma_j,\sigma_j'}
+    \big(\sigma^\nu\big)_{\sigma_k,\sigma_k'}
+    \big(\sigma^\rho\big)_{\sigma_l,\sigma_l'}
+     \; , \!  
+    \end{split}
+\end{align}
+where $\big(\sigma^\mu\big)_{\sigma,\sigma'}$ are the matrix elements of Pauli matrices $(\sigma^\mu)=(\mathbb{1}_2,\sigma^x,\sigma^y,\sigma^z)$ and the sum runs over the effective spin-half indices $\sigma=+,-$.
+
+The matrix elements of the charge density for points in a triangle $ljk$ are 
+\begin{equation}
+\begin{split}    
+    \braket{\sigma_j',\sigma_k',\sigma_l' | \cP_{\frac12} 
+ \delta n_l \cP_{\frac12}  | \sigma_j, \sigma_k, \sigma_l}
+ &=\!
+ \sum_{s_j's_k's_l',s_js_ks_l}\! 
+ \mathbb{M}_{\sigma_j' \, s_j'}^\dagger   \mathbb{M}_{\sigma_k' \, s_k'}^\dagger
+ \mathbb{M}_{\sigma_l' \, s_l'}^\dagger
+ \mathbb{M}_{s_j\, \sigma_j} 
+ \mathbb{M}_{s_k\, \sigma_k}
+ \mathbb{M}_{s_l\, \sigma_l}  \\
+ &\phantom{\sum_{s_j's_k's_l',s_js_ks_l}}
+ \braket{s_j',s_k',s_l' | \delta n_l | s_j, s_k, s_l}    
+\end{split}
+\end{equation}
+where the matrix elements in the spin-orbital space are
+\begin{align}
+    \hspace*{-9mm}
+        \braket{s_j',s_k',s_l' | \delta n_l | s_j, s_k, s_l} &=\!
+        \braket{s_j',s_k',s_l' | \delta n_{l,jk} | s_j, s_k, s_l}+
+        \braket{s_j',s_k',s_l' | \delta n_{l,kj} | s_j, s_k, s_l} \; , \\
+        &=:\!
+        \braket{s_j',s_k',s_l' | \delta n_{l,(jk)} | s_j, s_k, s_l}
+\end{align}
+for which
+\begin{equation}
+    \begin{split}\hspace*{-9mm}
+        &\braket{s_j',s_k',s_l' | \delta n_{l,jk} | s_j, s_k, s_l} =\\ 
+        \hspace*{-9mm}        &=\!
+        -\!\!\!\!\sum_{s_2,s_3,s_4,s_5} \!\!\!\!
+    \big({\mathbf{T}}_{jk} \big)_{ {a}_j', {a}_2} \big({\mathbf{T}}_{kl} \big)_{ {a}_3, {a}_4}\big({\mathbf{T}}_{lj} \big)_{ {a}_5, {a}_j}
+    \sum_{\ell, \ell'}\frac{F_{\ell'}(s_k',s_2,s_3,s_k) \; F_{\ell}(s_l',s_4,s_5,s_l) }{ (\Delta E_\ell)^2 \; \Delta E_{ \ell'} }
+    \\
+    &+\!\!\!\!\sum_{s_2,s_3,s_4,s_5} \!\!\!\!
+    \big({\mathbf{T}}_{lk} \big)_{ {a}_j', {a}_2} \big({\mathbf{T}}_{kj} \big)_{ {a}_3, {a}_4}\big({\mathbf{T}}_{jl} \big)_{ {a}_5, {a}_l}
+    \sum_{\ell, \ell'}\frac{F_{\ell}(s_j',s_4,s_5,s_j) \; F_{\ell'}(s_k',s_2,s_3,s_k) }{ (\Delta E_\ell)^2 \; \Delta E_{ \ell'} } \\
+    & -\!\sum_{s_2,s_5} \!
+    \big({\mathbf{T}}_{jk} \big)_{ {a}_k', {a}_2} \big({\mathbf{T}}_{kl} \big)_{ {a}_l', {a}_k}\big({\mathbf{T}}_{lj} \big)_{ {a}_5, {a}_l}
+    \sum_{\ell}\frac{F_{\ell}(s_j',s_2,s_5,s_j)  }{ (\Delta E_\ell)^3 }
+    \\
+    &+\!\sum_{s_2,s_5} \!
+    \big({\mathbf{T}}_{lk} \big)_{ {a}_k', {a}_2} \big({\mathbf{T}}_{kj} \big)_{ {a}_j', {a}_k}\big({\mathbf{T}}_{jl} \big)_{ {a}_5, {a}_j}
+    \sum_{\ell}\frac{F_{\ell}(s_l',s_2,s_5,s_l) \;  }{ (\Delta E_\ell)^3 } + \text{h.c.} 
+    \; ,  \label{eq:II-5-dcharge-jk}
+    \end{split}
+\end{equation}
+where 
+\begin{equation}
+    F_{\ell}(s_1,s_2,s_3,s_4) = \braket{ s_1 | h_{s_2}^{\phantom{\dagger}} \; \mathcal{P}_{\ell}^{(2)} \; h_{s_3}^{\dagger} | s_4 }
+\end{equation}
+and $\Delta E_\ell$ are defined in eq. \eqref{eq:II-1-delta-E}.
+Note that the matrices $\mathbf{T}_{ij}$ are only non-zero between sites $ij$ that are either nearest-neighbors or next-nearest-neighbors. 
+Importantly, when exchanging $j$ and $k$, the matrices $\mathbf{T}_{jk}, \mathbf{T}_{kl}, \mathbf{T}_{lj}$ change, as the matrixes are different for each type of bonds\footnote{Bonds in a generalized sense to include next-nearest-neighbors bonds.} between $(jk)$, $(kl)$ and $(lj)$.
+
+
+The coefficients $\mathcal{C}_{jkl}$ are invariant by translation of the honeycomb lattice, so it only depends on the relative position between the sites $jkl$. These positions can be any three points in the lattice, but the coefficients are independent of the position of $l$ and only differ by the relative position of $j$ and $k$. 
+Thus, let us use the relative orientation of these points to label the set of coefficients. There are $s=1, ..., 18$ ways to arrange three points in the honeycomb lattice such that there are two pairs of NN bonds and the other pair is in a NNN bond, these are displayed in figure \ref{fig:AB_triangles}. 
+Where $s=1, ..., 9$ refer to when $l$ is in $A$ sublattice, and $s=10, ..., 18$ for $l$ in the $B$ sublattice. The position dependence in the coefficients $\mathcal{C}_{(s)}^{\mu\nu\rho}=\mathcal{C}_{jkl}^{\mu\nu\rho}$ are fully described by the type of triangle $s$.
+
+The charge density at site $l$  is the sum of the contribution of $9$ triangles%, and for each triangle indexed by $s$ the coefficients only depend on the type of the triangle
+\begin{adjustwidth}{-0mm}{-0mm}\vspace*{-5mm}
+\begin{equation}
+\begin{split}
+        \braket{\delta n_l} &= \sum_s \delta n_{l,(s)} \; , 
+        \\
+    \delta n_{l,(s)} &= \sum_{jk} 
+    \sum_{\alpha\beta} \Big(  \mathcal{C}_{(s)}^{\alpha 0 \beta } \braket{\sigma_j^\alpha \sigma_l^\beta} +\mathcal{C}_{(s)}^{ 0 \alpha\beta } \braket{\sigma_k^\alpha \sigma_l^\beta} +  
+         \mathcal{C}_{(s)}^{   \alpha\beta 0 } \braket{\sigma_j^\alpha \sigma_k^\beta}  \Big) \; , \label{eq:II-5-density}
+\end{split}
+\end{equation}\end{adjustwidth}
+where the sum in $jk$ is such that $(jkl)$ is \textit{the} triangle of the form $(s)$. 
+Now we need to compute the coefficients $ \mathcal{C}_{(s)}^{\mu\nu\rho} $ for each triangle $s$. 
+%\paragraph{First type of configuration}
+For example, let us consider the triangle in figure \ref{fig:triang-jkl}. 
+The label for this configuration is $s=11$.
+This triangle is defined by the sites $(jlk)$ where $jl$ is in an $x$ bond, $lk$ is in a $y$-bond and the NNN bond between $jk$ is of type $z$. Thus,
+the hopping matrices for this process are
+\begin{equation}
+    \mathbf{T}_{jl}  =    \mathbf{T}_{\braket{x}} ,    \; 
+    \mathbf{T}_{lk}  =    \mathbf{T}_{\braket{y}} , \; 
+    \mathbf{T}_{jk}  =    \mathbf{T}_{\braket{\braket{z}}}  .
+\end{equation}
+These are the hopping matrices for the configuration with $j$ and $k$ as in figure \ref{fig:triang-jkl}. However, in the charge density, $\delta n_{l (jk)}$ we are also considering the contribution due to swapped positions $j \leftrightarrow k$. The hopping matrices for this other contribution are 
+\begin{equation}
+    \mathbf{T}_{jl}  =    \mathbf{T}_{\braket{y}} ,    \; 
+    \mathbf{T}_{lk}  =    \mathbf{T}_{\braket{x}} , \; 
+    \mathbf{T}_{jk}  =    \mathbf{T}_{\braket{\braket{z}}}  .
+\end{equation}
+Using these matrices in equation \eqref{eq:II-5-dcharge-jk} we can compute $\braket{s_j',s_k',s_l' | \delta n_{l,jk} | s_j, s_k, s_l}$ and 
+$\braket{s_j',s_k',s_l' | \delta n_{l,kj} | s_j, s_k, s_l}$. Then, using equation \eqref{eq:II-5-C} we can compute the coefficients $\mathcal{C}_{(s)}^{\mu\nu\rho}=\mathcal{C}_{jkl}^{\mu\nu\rho}$ for this configuration $s=11$.
+
+In principle we should compute the coefficients $\mathcal{C}_{(s)}^{\mu\nu\rho}$ for each set of triangles $(s)$.
+However one can see that they are not all independent.
+For example in fig. \ref{fig:AB_triangles} we see that the triangle $s=12$ is related by a $120^\circ$ rotation from the $s=11$ triangle.
+Identifying the bonds $xyz \overset{\pi}{\longrightarrow} yzx$  one gets the relation between the coefficients
+$\mathcal{C}_{(s=12)}^{\pi(\mu)\,\pi(\nu)\,\pi(\rho)}=\mathcal{C}_{(s=11)}^{\mu\nu\rho}$.
+
+In total, we need to compute eq. \eqref{eq:II-5-dcharge-jk} and then project each of the $64$ entries (of which at most $27$ are non-zero) of $C_{(s)}$ for  each of the $18$ triangles. This type of repetitive task claims for an automated process, which was implemented using symbolic computation in \texttt{Mathematica}. %The computation of the $27$ 
+Here I will not display all these coefficients, but I can write for instance the dominant coefficient close to the Kitaev limit  ($\eta=J_H/U$)
+\begin{equation}\hspace*{-4mm}
+    \max_{ }  \big| \mathcal{C}^{\mu\nu\rho}_{(s)}  \big|  =   
+    \big| \mathcal{C}^{x0x}_{(11)}  \big|  = \frac{t_2^2  t_2^\prime}{U^3} \frac{\eta \left(6-23\eta+22\eta^2\right)}{\; 27 \left(1-\eta\right)^3\left(1-3\eta\right)^3 \;} \approx 7 \times 10^{-6} \; .
+\end{equation}
+%Beyond the $3$ triangles related by $120^\circ$ rotation of the triangle in fig  \ref{fig:triang-jkl} (b), there are more $6$ triangles. These other $6$ are also related by some symmetry.Now consider another configuration that contributes to the charge density at $l$.  Let $j$ and $k$ be such that $\braket{jl}_x$ and $\braket{jk}_y$.
+%The charge density is  order 
+The overall proportional coefficient is the expected $J_H\,t^2  t^\prime/U^4$. This coefficient correctly reproduces the coefficient for the Kitaev limit on Ref. \cite{Pereira2020}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.49\textwidth]{Chapters/Appendix/Figures/micro/A_triangle.pdf}\hspace{1mm}%
+    \includegraphics[width=0.49\textwidth]{Chapters/Appendix/Figures/micro/B_triangle.pdf}
+    \caption{Triangles configurations. For $s=$01-09 are the triangles where $l$ is in the $A$ sublattice, whereas for $s=$10-18 $l$ is in the $B$ sublattice. The triangles are label by the sublattice $\sigma=A,B$ of $l$, and the relative position $(m,n)$ of $j$ and $k$ with respect to $l$.}
+    \label{fig:AB_triangles}
+\end{figure}
+
+
+\section{Charge density due to applied electric potential}
+\label{sec:micro-2nd}
+When introducing a local electric potential, it breaks the bond inversion symmetry between $i,j$ for bonds with a potential difference. These bonds contribute to the charge density at second order.
+
+
+
+The effective charge density operator is
+\begin{equation}
+        \delta \tilde{n}_l^{\phantom{(0)}}= \mathcal{P}_{1\text{h}} \, e^{S} \; \delta {n}_l \; e^{-S} \,  \mathcal{P}_{1\text{h}} 
+        = \delta n_l^{(0)} + \delta n_l^{(1)} + \delta n_l^{(2)} + \delta n_l^{(3)} + ...  \; , 
+\end{equation}
+where $\delta n_l^{(k)}$ is the contribution of $\delta \tilde{n}_l$ in $k$-th order of perturbation.
+These contributions to the second order is
+\begin{equation}
+    \begin{split}
+      %  \delta \tilde{n}_l^{\phantom{(0)}} &= \mathcal{P}_{1\text{h}} \, e^{S} \; \delta {n}_l \; e^{-S} \,  \mathcal{P}_{1\text{h}} 
+       % \\ &= \delta n_l^{(0)} + \delta n_l^{(1)} + \delta n_l^{(2)} + \delta n_l^{(3)} + ... \; , \\
+        \delta n_l^{(0)} &= \mathcal{P}_{1\text{h}} \, \delta {n}_l \,\mathcal{P}_{1\text{h}} = 0  \; , \\
+         \delta n_l^{(1)} &= \mathcal{P}_{1\text{h}} [S_1, \delta {n}_l ] \mathcal{P}_{1\text{h}} = 0\; , \\
+         \delta n_l^{(2)} &=  %\frac{1}{2} \mathcal{P}_{1\text{h}} [S_1,[S_1, \delta {n}_l ]]  \mathcal{P}_{1\text{h}} = 0\; , \\
+         \mathcal{P}_{1\text{h}} \Big\{\, [S_2, \delta {n}_l ]+  \frac{1}{2} [S_1,[S_1, \delta {n}_l ]] \; \Big\}  \mathcal{P}_{1\text{h}}  \; , 
+    \end{split}
+\end{equation}
+where $S_1$ and $S_2$ are the generators of the canonical transformation for ${H}$ with 
+After projecting into the low-energy subspace, only the operators with zero total ``charge'' remain, meaning terms that do not change the hole occupancy. For example, $ [S_1,[S_1, [S_1, \delta {n}_l ]]] = 0$ since each $S_1$ changes the occupancy by $\pm 1$ and there is no way to combine three of these terms to keep within the same occupancy subspace.
+
+The generator of the transformation $S=\sum_k S_k$ is written as $S_k=S_k^+-S_k^-$ with $S_k^{\pm}$ being a homogeneous polynomial of degree $k$ in $T_{1},T_0,T_{-1}$ that has charge $\pm 1$ with property $\mathcal{P}_{1\text{h}}S_k^+ = S_k^-\mathcal{P}_{1\text{h}} =0$. From this it follows directly that $\mathcal{P}_{1\text{h}} [S_k, \delta {n}_l ] \mathcal{P}_{1\text{h}} = 0$ and then $\delta n_l^{(0)}=\delta n_l^{(1)}=0$.
+The second-order term can be expanded to 
+    \begin{equation}
+\begin{split}    
+    \delta n_l^{(2)} 
+    \!&=\!  - \mathcal{P}_{1\text{h}} \, S_1^{-} \, [ \, {n}_l, S_1^{+} ]\,  \mathcal{P}_{1\text{h}} = \sum_{j} \delta n_{l \,(j)}^{(2)} \; , 
+\end{split}
+\end{equation} where %the sum is over NN of $l$ and  
+$\delta n_{l \,(j)}^{(2)}$  is the charge transfer from $j\to l$ minus the charge transfer from $l \to j$. 
+Including $V_0$ the charge density has a non-zero second order contribution.
+The contribution for $\delta n_{l \,(j)}^{(2)}$ of the generator of the canonical transformation in the presence of the electric potential is
+\begin{align}
+    S_1^{+}  &\overset{\;i \,(j)\;}{\longrightarrow}  \sum_{\ell=0} \Big[ \frac{1}{\Delta E_{\ell}+eV_0} \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\bf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j}  + \frac{1}{\Delta E_{\ell}-eV_0} \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\bf{T}}_{ji} h_i^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{i} \Big] \; .
+\end{align}
+The second order change in  charge density
+\begin{align}
+     \delta n_{\;i \,(j)\;}^{(2)}   &= \sum_{\ell=0}^{2}\!\! \Big[ \frac{1}{(\Delta E_{\ell}+eV_0)^2}  h_j^\dagger  \tilde{\bf{T}}_{ji} h_i^{\phantom{\dagger}}\, \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\bf{T}}_{ij} h_j^{\phantom{\dagger}}- \frac{1}{(\Delta E_{\ell}-eV_0)^2} h_i^\dagger  \tilde{\bf{T}}_{ij} h_j^{\phantom{\dagger}} \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\bf{T}}_{ji} h_i^{\phantom{\dagger}}   \Big] \; , \\  
+     &= \sum_{\ell}\! \sum_{s_1, s_2, s_3,s_4}\!\! \Big[ \frac{ (\tilde{\bf{T}}_{ji})_{s_1,s_2}(\tilde{\bf{T}}_{ij})_{s_3,s_4}  }{(\Delta E_{\ell}+eV_0)^2}    h_{i,s_2}^{\phantom{\dagger}}\, \mathcal{P}^{(2)}_{i,\ell} \, h_{i,s_3}^\dagger 
+ h_{j,s_1}^\dagger h_{j,s_4}^{\phantom{\dagger}}- \big( i\leftrightarrow j,\, V_0\to-V_0\big) \Big] \; .
+\end{align}
+From this we confirm that $ \delta n_{\;i \,(j)\;}^{(2)}=- \delta n_{\;j \,(i)\;}^{(2)}  $.
+The matrix elements are 
+\begin{align}
+     \braket{ s_i',\,s_j'\,| \delta n_{\;i \,(j)\;}^{(2)} | \, s_i, \, s_j}   &= 
+      \sum_{\ell}\! \sum_{s_2, s_3}\! \Big[ \frac{ (\tilde{\bf{T}}_{ji})_{s_j',s_2}(\tilde{\bf{T}}_{ij})_{s_3,s_j}  }{(\Delta E_{\ell}+eV_0)^2}    F_{\ell}(s_i',s_2,s_3,s_i) 
+- \big( i\leftrightarrow j,\, V_0\to-V_0\big) \Big] \; .
+\end{align}
+where, as before, we have  $
+    F_{\ell}(s_1,s_2,s_3,s_4) = \braket{s_1|h_{s_2
+}^{\phantom{\dagger}}\, \mathcal{P}^{(2)}_{\ell} \, h_{s_3}^\dagger|s_4}$.
+
+
+
+Including $V_0$ the charge density has a non-zero second order contribution. For a pair of sites in a $\gamma$ bond 
+\begin{equation}
+    \delta n^{(2)}_{l\,(k)} 
+    =F_{\mathbb{1}}
+    - \Bigg[   F_{J} \bm{\sigma}_l \cdot \bm{\sigma}_k
+    + F_{K} \sigma_l^\gamma \sigma_k^\gamma 
+    + F_{\Gamma} \left( \sigma^\alpha_l\sigma^\beta_k + \sigma^\alpha_l\sigma^\alpha_k \right) \Bigg] \; , 
+\end{equation}
+where the $F$ are functions of $t_i$, $J_H$, $U$ and $e V_0$. The sub-indexes indicate a relation to the couplings $J, K, \Gamma$, in particular, the $t_i$ dependence are the same that appears in these coefficients. The functions $F_K$ and $F_\Gamma$ are multiples of $K$ and $\Gamma$, $F_K = K(V_0) \; g(\xi,\eta), F_\Gamma = \Gamma(V_0) \;  g(\xi,\eta)$, but $F_J$ and $F_\mathbb{1}$ are more complicated.  
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Chapters/Appendix/Figures/micro/plot-second-order-t1-xi1-g0-hc.2.pdf}\\
+    \includegraphics[width=0.7\textwidth]{Chapters/Appendix/Figures/micro/plot-second-order-t1-xi1-g4-hc.2.pdf}\\
+    \includegraphics[width=0.7\textwidth]{Chapters/Appendix/Figures/micro/plot-third-order-t1-xi1-g4-hc.2.pdf}
+    \caption{[Top and middle] \textbf{Second} + \textbf{Third} order charge density in presence of an electric potential $(\xi=0.1)$ in configuration without ($g0$) and with vortices ($g4$). For comparison, in Fig. [Bottom] only \textbf{Third} order contribution to the charge density for a configuration with a vortex is shown.}
+    \label{fig:micro-2nd}
+\end{figure}
+
+
+As expected, the charge in response to the electric potential is orders of magnitude larger than the charge due to a single vortex. 
+The contribution from the vortices is a third-order perturbation effect, and it is typically of order $\sim 10^{-6} $ in units of electron charge. 
+While the contribution due to an electric potential is a third-order perturbation effect, and for potentials of order $10^{-1} \, \mathrm{V}$ contributes to a charge of order $\sim 10^{-3}$. This is shown in Fig.~\ref{fig:micro-2nd}, where we use an ultra-local potential that yields a change in the charge density in the first $3$ rings from the center of the plaquette where the potential is applied. 
+
+We find that the applied potential completely dominates over the charge due to vortices. Moreover, in the second order, the charge contribution for a configuration with and without vortices is essentially the same, allowing one to compute its difference and extract the contribution in the third order solely due to the vortices. 
+
+
+
+
