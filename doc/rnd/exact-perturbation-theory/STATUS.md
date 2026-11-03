@@ -23,7 +23,7 @@ been implemented.
 |---|---|---|
 | M0.1 | Derive and verify the flux-free matter dispersion and one-particle upper edge | analytically complete; numerical implementation pending |
 | M0.2 | Derive the thermodynamic matter-vacuum energy per unit cell | analytically complete; independent quadrature pending |
-| M0.3 | Distinguish one-particle band range from extensive many-body width | documented; finite-size numerical check pending |
+| M0.3 | Distinguish one-particle band range from extensive many-body width | analytically complete; finite-size numerical check pending |
 | M0.4 | Compute adjacent-pair energy from one link flip | pending |
 | M0.5 | Compute separated-pair energies and finite-size convergence | pending |
 | M0.6 | Derive physical matter parity and check against spin-space ED | pending |
@@ -64,6 +64,10 @@ $H=-J\sum S_i^\alpha S_j^\alpha$ with $S^\alpha=\sigma^\alpha/2$,
 the equivalent value is $-0.3936J$ per two-site unit cell, since
 $K=J/4$. The analytic integral and normalization are established;
 an independent numerical quadrature remains part of the solver tests.
+
+## M0.3 result
+
+The unprojected matter Fock-space width is exactly $W_{\\mathrm{Fock}}(N)=\\sum_n\\epsilon_n$. Its thermodynamic density is $-2e_{\\mathrm{vac}}\\simeq3.14919448K$ per two-site unit cell. In a fixed gauge representative, physical projection retains one matter-parity sector; the finite-size width differs from the unprojected width by at most two times the smallest matter-mode energy. Since the isotropic model is gapless and $\\epsilon_{\\min}\\to0$ along regular thermodynamic sequences, this does not change the width per unit cell.
 
 ## Important distinctions
 
