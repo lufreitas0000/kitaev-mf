@@ -9,13 +9,13 @@ been implemented.
 ## Starting conventions
 
 - Spin Hamiltonian:
-  \(H_K=-K\sum_{\langle ij\rangle_\alpha}
-  \sigma_i^\alpha\sigma_j^\alpha\), with \(K>0\).
+  $H_K=-K\sum_{\langle ij\rangle_\alpha}
+  \sigma_i^\alpha\sigma_j^\alpha$, with $K>0$.
 - Perturbation:
-  \(V=-\sum_{i,\alpha}h_\alpha\sigma_i^\alpha\).
-- Energies are reported in units of \(K\).
-- Each oriented \(A\to B\) bond is counted once.
-- Physical states satisfy \(D_i=+1\) at every site.
+  $V=-\sum_{i,\alpha}h_\alpha\sigma_i^\alpha$.
+- Energies are reported in units of $K$.
+- Each oriented $A\to B$ bond is counted once.
+- Physical states satisfy $D_i=+1$ at every site.
 
 ## Milestones
 
@@ -31,13 +31,13 @@ been implemented.
 
 ## Important distinctions
 
-1. The maximum positive matter quasiparticle energy is \(6K\) in the
+1. The maximum positive matter quasiparticle energy is $6K$ in the
    isotropic convention. This is a one-particle energy scale.
 2. The unprojected matter Fock-space spectral width is extensive. Its
-   thermodynamic value is approximately \(3.1492K\) per unit cell.
-3. A vortex-pair creation energy is an \(O(K)\) defect energy, independent
+   thermodynamic value is approximately $3.1492K$ per unit cell.
+3. A vortex-pair creation energy is an $O(K)$ defect energy, independent
    of system size in the thermodynamic limit.
-4. A matter-energy cutoff \(P_\Lambda\) does not isolate a spectral block
+4. A matter-energy cutoff $P_\Lambda$ does not isolate a spectral block
    from its full orthogonal complement: that complement contains flux-free
    matter states immediately above the cutoff.
 5. The flux threshold must be defined relative to the same physical
