@@ -12,11 +12,17 @@ def test_antisymmetry() -> None:
         assert np.allclose(M_MATRICES[gamma], -M_MATRICES[gamma].T)
 
 
-def test_orthogonality() -> None:
-    for a in (1, 2, 3):
-        for b in (1, 2, 3):
-            trace_ng = np.trace(N_MATRICES[a].T @ G_MATRICES[b])
-            assert np.isclose(trace_ng, 0.0)
+def test_cross_gram_matrix() -> None:
+    indices = (1, 2, 3)
+    cross_gram = np.array([
+        [
+            np.trace(N_MATRICES[a].T @ G_MATRICES[b])
+            for b in indices
+        ]
+        for a in indices
+    ])
+    expected = 2.0 * np.eye(3)
+    np.testing.assert_allclose(cross_gram, expected)
 
 
 def test_trace_normalization() -> None:
