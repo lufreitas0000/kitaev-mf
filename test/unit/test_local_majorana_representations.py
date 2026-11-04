@@ -50,9 +50,11 @@ def _local_operators() -> tuple[
     parity = majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
     spin = {
         gamma: (0.5 * _bilinear(majoranas, M_MATRICES[gamma])).astype(np.complex128, copy=False)
+        for gamma in (1, 2, 3)
     }
     gauge = {
         gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(np.complex128, copy=False)
+        for gamma in (1, 2, 3)
     }
     return parity, spin, gauge
 

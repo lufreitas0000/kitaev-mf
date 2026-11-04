@@ -106,7 +106,7 @@ active_milestone:
     mypy_src: "Passed: no issues in 15 source files."
     outstanding_before_unified_verification:
       - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
-      - "The first make verify run stopped during pytest collection: 63 items collected and one SyntaxError at test_local_majorana_algebra.py:98 due to a missing comma introduced by manual formatting. Later stages did not run. The comma is now restored; full verification must be rerun."
+      - "The subsequent make verify run reported 12 failed and 58 passed. All 12 failures shared a NameError in two local test helpers: dictionary comprehensions referenced gamma without iterating over the three spin/gauge components. The helpers in test_local_majorana_representations.py and test_physical_projection.py are corrected in this commit. Rerun focused representation/projection tests and then make verify; later verification stages remain unvalidated."
       - "git diff --check: one extra blank line at EOF; fixed in this commit."
       - "git status output was not present in the supplied log."
   status: "awaiting_local_validation"

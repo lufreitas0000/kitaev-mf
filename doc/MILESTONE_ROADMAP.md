@@ -55,7 +55,7 @@ Acceptance:
 
 M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed and have now been executed successfully in user WSL. Reported results: 9 focused quadrature tests passed, 3 energetics tests passed, 70 tests passed in the full unit suite, and the quadrature CLI completed with values converging to approximately 0.5248657458506 and observed order near three. Mypy on src/ passed. Ruff identified one B905 issue and formatting differences; git diff --check identified one extra blank line at EOF. This commit fixes the B905 issue and EOF whitespace, formats the active-batch source/CLI/tests, and introduces a unified validation target. The formatter check intentionally covers all production source and scripts plus the two tests introduced/modified in this batch; unrelated legacy test formatting is not churned. The full-repository formatter remains available through make format.
 
-The first `make verify` run stopped at stage 1 during pytest collection: `test_local_majorana_algebra.py:98` had a missing comma in an `np.allclose` argument list. Pytest collected 63 items and reported one collection error; stages 2–5 did not run. The defect was introduced by the preceding manual formatting edit. A syntax-only correction is committed separately; rerun `make verify` before drawing conclusions about the remaining stages. Working-tree cleanliness is not inferred.
+After the syntax correction, the next `make verify` run reported 12 failed and 58 passed. All 12 failures shared a `NameError` caused by missing dictionary-comprehension iteration clauses in `_local_operators` in `test_local_majorana_representations.py` and `test_physical_projection.py`. The affected spin and gauge dictionaries are corrected in the current commit. Rerun the focused representation/projection tests and then `make verify`; stages 2–5 remain unvalidated. Working-tree cleanliness is not inferred.
 
 ## 4. Remaining M1.4 execution order
 
@@ -114,3 +114,6 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - Expanded the formatter check back to the full `src/`, `test/`, and `scripts/` tree after applying Ruff's reported formatting-only changes to the remaining legacy test modules; no test logic or physics expressions were changed.
 
 - Fixed the missing comma in the `np.allclose` argument list of `test_local_majorana_algebra.py` that caused pytest collection to stop; this is a syntax-only correction. Awaiting a complete rerun of `make verify`.
+
+
+- Fixed missing dictionary-comprehension iteration clauses in both finite-Fock-space local-operator helpers after the user-reported WSL run returned 12 failed and 58 passed. All 12 failures shared the same `NameError`; the affected algebraic assertions were not reached. Awaiting focused and unified WSL revalidation.
