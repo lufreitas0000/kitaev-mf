@@ -23,7 +23,7 @@ TOL = 1.0e-12
 def _kron_all(factors: list[NDArray[np.complex128]]) -> NDArray[np.complex128]:
     result = factors[0]
     for factor in factors[1:]:
-        result = np.kron(result, factor)
+        result = np.kron(result, factor).astype(np.complex128, copy=False)
     return result
 
 
