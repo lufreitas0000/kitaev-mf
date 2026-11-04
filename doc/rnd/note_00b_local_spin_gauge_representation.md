@@ -1,7 +1,7 @@
 # Note 00b: Local Parity Sectors and the Spin–Gauge Representation
 
-**Status:** M1.1b R&D specification  
-**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md)  
+**Status:** M1.1b R&D specification
+**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md)
 **Scope:** Derive the decomposition of the four-dimensional local Fock representation under the commuting spin and gauge algebras. This note supplements the parent notes; it does not replace or amend them.
 
 ## 1. Algebraic setting and sign convention
