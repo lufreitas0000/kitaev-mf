@@ -9,7 +9,7 @@ This is a selective shared-file integration, not a branch merge. The research br
 ## Current audited baseline
 
 - `main`: `bd4f177afa4c130fe71b3b69d71548de49991d8a`.
-- `research/pure-kitaev-exact-perturbation-20261102`: 23 commits ahead and 19 behind `main`.
+- `research/pure-kitaev-exact-perturbation-20261102`: 43 commits ahead and 19 behind `main` at the latest comparison.
 - Merge base: `897a28335386e0d20a9b955e2f8c80bb610aea4e`.
 - The branch-local `AGENTS.md` predates the current modular governance and describes obsolete source paths (`src/domain`, `src/services`, `src/infra`).
 - `main` now has `.agents/rules/00_workspace_hygiene.md` through `03_editorial_rigor.md`; none currently exists on the research branch.
@@ -37,7 +37,7 @@ This is a selective shared-file integration, not a branch merge. The research br
 | `README.md` | Identical on both branches and stale | Rewrite architecture and workflow sections against the actual current repository; add link to exact-perturbation R&D track | Do not copy stale paths; keep project-level README concise and make no claim that research code is production-ready |
 | `PROJECT_STATE.yaml` | Main has M1.2 completed and verified K-001–K-005; research has stale M1.2 and research-track metadata | Three-way reconcile: current main production state + research-track block + actual branch/CI status | Preserve K-001–K-005 exactly unless independently re-audited; do not claim clean tree or passing CI without checking |
 | `.gitignore` | Main has extra snapshot and reference-build exclusions | Merge missing relevant patterns into research version | Preserve research build path exclusion; do not ignore source notes or compact reviewed results |
-| `pyproject.toml` | setuptools, Ruff ignores N802/N803/N806, strict mypy, pytest config | Reconcile with branch's Flit metadata and optional dev extras; decide one build backend and one dependency-install contract | Verify package layout, editable install, requirements files, and CI before changing backend |
+| `pyproject.toml` | setuptools, Ruff ignores N802/N803/N806, strict mypy, pytest config | Research branch now uses setuptools namespace discovery for its legacy `src.*` imports and retains its `dev` extra | Wheel construction and dependency installation passed in CI; Ruff required baseline cleanup; mypy and pytest pending successful lint |
 | `Makefile`, `requirements*.in/txt` | Main has Makefile / lock workflow | Adopt only after all referenced files and scripts are present and commands pass | No dangling make targets or CI steps; keep WSL/Linux-compatible commands |
 | `.github/workflows/ci.yml` | Main has lockfile + Ruff + mypy + pytest CI | Port workflow after dependency and path reconciliation | Must pass on research branch; ensure research branch is included in push triggers or PR validation |
 | Other root configs / scripts | Potentially changed since merge base | Inventory from full tree diff before touching | Classify as shared infrastructure, production-only, or research-only; no bulk copy |
@@ -109,3 +109,58 @@ Do not combine all six into one large commit. If I3 reveals that main's build as
 - No import of unrelated mean-field production features into the perturbation solver.
 - No change to the perturbation Hamiltonian, analytical derivations, or numerical conventions during governance synchronization.
 - No claim that the research branch is production-ready.
+
+
+## Incremental integration protocol (adopted)
+
+The research branch is maintained as a long-lived branch that periodically incorporates
+selected changes from `main`. The goal is to keep divergence bounded without importing
+unrelated production refactors.
+
+1. Before editing a shared file, fetch its current versions from both `main` and the
+   research branch. Record the intended semantic change, not only the textual diff.
+2. Keep each commit narrow and single-purpose. Avoid drive-by formatting, bulk renames,
+   and unrelated cleanup in shared files.
+3. Treat `doc/rnd/exact-perturbation-theory/**` as research-owned. Treat root governance,
+   project metadata, and CI as shared integration surfaces. Production package code is
+   not imported unless a specific research requirement justifies it.
+4. After a coherent shared-infrastructure batch, compare the branches and inspect the
+   changed-file list. Incorporate `main` into the research branch at explicit checkpoints:
+   before beginning a new research milestone that depends on production interfaces, after
+   material changes to shared build/governance files on `main`, and before preparing the
+   eventual pull request.
+5. Perform these integrations on the research branch, never by experimenting on `main`.
+   Resolve conflicts there, run the full branch checks, and record the source `main`
+   commit and the resulting integration commit.
+6. Maintain an integration ledger: record the last incorporated `main` SHA, intentionally
+   divergent files and rationale, unresolved semantic mappings, and validation results.
+7. A conflict-free merge is not sufficient acceptance. Recheck import paths, package
+   discovery, dependency resolution, test collection, numerical conventions, and API
+   behavior where the merged changes interact.
+
+## A-007/A-008 implementation record
+
+- A-007: replaced Flit with setuptools and configured namespace-package discovery for
+  the existing `src.domain` and `src.infra` imports. The `dev` extra remains the
+  branch's dependency source. This is a transitional compatibility arrangement, not
+  the target public package layout.
+- A-008: CI now runs on pushes to `research/**`. It continues to install `.[dev]`
+  and run Ruff, mypy, and pytest. The main-branch Makefile and pinned requirements
+  workflow remain deferred because their package paths and scripts are not present here.
+- First CI attempt: wheel build and dependency installation succeeded; Ruff failed on
+  existing import ordering, deprecated `typing.Tuple` annotations, and one uppercase
+  mathematical local variable. Mypy and pytest were skipped by the workflow.
+- Follow-up lint cleanup: imports and tuple annotations were normalized; `N806` is
+  ignored to preserve conventional uppercase mathematical matrix names. A subsequent
+  CI run is pending. Do not mark I3 complete until Ruff, mypy, and pytest all pass.
+
+## Conflict-reduction operating rules
+
+- Prefer additive files and stable module boundaries over editing heavily shared files.
+- Do not combine package-layout migrations with scientific derivations in one commit.
+- When a shared interface changes, update a small adapter or compatibility test in the
+  research branch rather than duplicating production implementation.
+- Keep branch-specific decisions documented in this plan and in the relevant file's
+  comments only when the rationale is not otherwise discoverable.
+- Use the GitHub compare view against the merge base at every integration checkpoint;
+  classify remaining differences as intentional, obsolete, or requiring reconciliation.
