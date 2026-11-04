@@ -25,7 +25,7 @@ with $K>0$ and each bond counted once. Analytical derivations are primary; Pytho
 
 Existing M0.1–M0.3 notes use $H_K=-K\sum\sigma_i^\alpha\sigma_j^\alpha$ and give $\epsilon_{\max}=6K$, $e_{\rm vac}\simeq-1.5746K$ per two-site cell, and width density $-2e_{\rm vac}$. These are analytical notes, not independently validated project outputs.
 
-**Blocking discrepancy:** main currently records $E(\mathbf k)=\pm |K|\,|1+e^{-i2\pi k_1}+e^{-i2\pi k_2}|/2$, with maximum $3|K|/2$. The research convention gives $2K|1+e^{i\theta_1}+e^{i\theta_2}|$, with maximum $6K$. This is a factor-four difference if K denotes the same coupling. Derive the map; do not assume a rescaling.
+**Normalization audit:** the coupling map and real-space bond coefficient are derived in `notes/02_normalization_and_bloch_conventions.md`. The production Bloch matrix is scaled by one quarter relative to the canonical matter excitation generator because its builder returns $iA(\mathbf k)/4$. The production solver uses the negative-energy spectral projector, so this positive scale does not change the ideal occupied subspace or its fixed-point map; the numerical zero-mode threshold and public matrix contract remain to be audited under B-001. Do not interpret the factor-four eigenvalue difference alone as a physical disagreement.
 
 ## Phase II — Physical projection and parity
 
