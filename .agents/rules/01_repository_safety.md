@@ -9,6 +9,7 @@
    - `fix/<slug>` for bug fixes;
    - `doc/<slug>` for documentation;
    - `research/<slug>` for isolated research;
+   - `develop/<slug>` for a long-lived development integration branch;
    - `release/<version>` for release preparation.
 4. Integrate through a pull request to `main`. Describe scope, compatibility impact, and verification performed.
 5. A PR is ready to merge only after its diff has been reviewed, required checks have passed, and unresolved review comments and merge conflicts have been addressed. Do not claim checks passed without inspecting their actual results.

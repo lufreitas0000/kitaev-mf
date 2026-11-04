@@ -9,7 +9,7 @@ The production Python package follows ports-and-adapters separation:
 - `src/kitaev_mf/domain/`: mathematical entities, lattice definitions, model parameters, and port protocols.
 - `src/kitaev_mf/services/`: physics algorithms operating on domain types and interfaces.
 - `src/kitaev_mf/infra/`: concrete linear-algebra, hardware, and persistence adapters.
-- `src/kitaev_mf/app/`: command-line and workflow orchestration.
+- `src/kitaev_mf/app/`: reserved for command-line and workflow orchestration if and when this layer is established.
 - `test/unit/` and `test/integration/`: focused verification suites.
 - `doc/adr/`: architecture decision records.
 - `doc/rnd/`: exploratory derivations and numerical research notes.
