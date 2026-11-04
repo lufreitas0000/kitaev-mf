@@ -72,11 +72,13 @@ def test_solver_metrics_defaults_and_validations() -> None:
         converged=True,
         iterations=15,
         final_correlator_residual=1.2e-11,
+        final_onsite_residual=3.4e-12,
         final_gauge_residual=4.5e-12,
         residual_history=(0.1, 0.01, 1e-3, 1.2e-11),
     )
     assert metrics.converged is True
     assert metrics.iterations == 15
+    assert metrics.final_onsite_residual == 3.4e-12
     assert len(metrics.residual_history) == 4
 
     with pytest.raises(FrozenInstanceError):
@@ -87,6 +89,7 @@ def test_solver_metrics_defaults_and_validations() -> None:
             converged=False,
             iterations=-1,
             final_correlator_residual=0.1,
+            final_onsite_residual=0.1,
             final_gauge_residual=0.1,
         )
 
@@ -95,5 +98,24 @@ def test_solver_metrics_defaults_and_validations() -> None:
             converged=False,
             iterations=1,
             final_correlator_residual=-0.1,
+            final_onsite_residual=0.1,
             final_gauge_residual=0.1,
+        )
+
+    with pytest.raises(ValueError, match="Residual norms"):
+        SolverMetrics(
+            converged=False,
+            iterations=1,
+            final_correlator_residual=0.1,
+            final_onsite_residual=-0.1,
+            final_gauge_residual=0.1,
+        )
+
+    with pytest.raises(ValueError, match="Residual norms"):
+        SolverMetrics(
+            converged=False,
+            iterations=1,
+            final_correlator_residual=0.1,
+            final_onsite_residual=0.1,
+            final_gauge_residual=-0.1,
         )

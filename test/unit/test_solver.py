@@ -49,6 +49,7 @@ def test_pure_kitaev_one_step_convergence(cpu_backend: TorchBackend) -> None:
     """Verify that pure Kitaev state converges within 3 iterations with zero gauge violation."""
     cell = make_honeycomb_2site()
     params = ModelParameters(K=-1.0)
+    # Seed close to analytical fixed point
     init_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0, u_matter=-0.5248645)
     config = SolverConfig(
         k_grid_shape=(24, 24),
@@ -64,6 +65,8 @@ def test_pure_kitaev_one_step_convergence(cpu_backend: TorchBackend) -> None:
 
     assert metrics.converged is True
     assert metrics.iterations <= 3
+    assert metrics.final_correlator_residual < 1e-8
+    assert metrics.final_onsite_residual < 1e-12
     assert metrics.final_gauge_residual < 1e-12
     assert np.allclose(final_state.lambdas, 0.0, atol=1e-12)
 
@@ -89,5 +92,6 @@ def test_finite_perturbation_convergence(cpu_backend: TorchBackend) -> None:
 
     assert metrics.converged is True
     assert metrics.final_correlator_residual < 1e-8
+    assert metrics.final_onsite_residual < 1e-8
     assert metrics.final_gauge_residual < 1e-8
     assert np.linalg.norm(final_state.lambdas) > 1e-4

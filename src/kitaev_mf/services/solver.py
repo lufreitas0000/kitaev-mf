@@ -98,6 +98,7 @@ def solve_self_consistent_mean_field(
     residual_history: list[float] = []
     converged = False
     diff_u = 1.0
+    diff_v = 1.0
     max_g = 1.0
     step_count = 0
 
@@ -117,11 +118,16 @@ def solve_self_consistent_mean_field(
 
         # 5. Convergence check
         diff_u = float(np.max(np.abs(u_new - curr_state.U)))
+        diff_v = float(np.max(np.abs(v_new - curr_state.V)))
         max_g = float(np.max(np.abs(g_res)))
-        total_res = max(diff_u, max_g)
+        total_res = max(diff_u, diff_v, max_g)
         residual_history.append(total_res)
 
-        if diff_u < config.tol_correlator and max_g < config.tol_gauge:
+        if (
+            diff_u < config.tol_correlator
+            and diff_v < config.tol_correlator
+            and max_g < config.tol_gauge
+        ):
             converged = True
             curr_state = MeanFieldState(U=u_new, V=v_new, lambdas=lambda_target)
             break
@@ -154,6 +160,7 @@ def solve_self_consistent_mean_field(
         converged=converged,
         iterations=step_count,
         final_correlator_residual=diff_u,
+        final_onsite_residual=diff_v,
         final_gauge_residual=max_g,
         residual_history=tuple(residual_history),
     )

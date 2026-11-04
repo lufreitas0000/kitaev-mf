@@ -53,21 +53,27 @@ class SolverMetrics:
     """Immutable telemetry recording the trajectory and final state of the solver loop.
 
     Attributes:
-        converged: Whether both correlator and gauge residuals dropped below tolerance.
+        converged: Whether correlator, on-site, and gauge residuals dropped below tolerance.
         iterations: Total number of iterations executed.
-        final_correlator_residual: Final max-norm difference ||Delta U||_inf.
-        final_gauge_residual: Final max-norm gauge violation ||g||_inf.
-        residual_history: Chronological sequence of residual norms (max(||Delta U||_inf, ||g||_inf)).
+        final_correlator_residual: Final max-norm difference ||Delta U||_inf across bonds.
+        final_onsite_residual: Final max-norm difference ||Delta V||_inf across sublattices.
+        final_gauge_residual: Final max-norm gauge violation ||g||_inf across sublattices.
+        residual_history: Chronological sequence of residual norms max(||Delta U||, ||Delta V||, ||g||).
     """
 
     converged: bool
     iterations: int
     final_correlator_residual: float
+    final_onsite_residual: float
     final_gauge_residual: float
     residual_history: tuple[float, ...] = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
         if self.iterations < 0:
             raise ValueError(f"iterations cannot be negative, got {self.iterations}")
-        if self.final_correlator_residual < 0.0 or self.final_gauge_residual < 0.0:
+        if (
+            self.final_correlator_residual < 0.0
+            or self.final_onsite_residual < 0.0
+            or self.final_gauge_residual < 0.0
+        ):
             raise ValueError("Residual norms cannot be negative.")
