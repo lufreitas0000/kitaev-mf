@@ -174,8 +174,8 @@ def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None
             )
             majorana_exchange += (
                 0.125
+                * tensor[alpha - 1, beta - 1]
                 * majorana_bilinears[0][alpha]
-                @ tensor[alpha - 1, beta - 1]
                 @ majorana_bilinears[1][beta]
             )
     assert np.allclose(majorana_exchange, spin_exchange, atol=TOL, rtol=0.0)
@@ -284,11 +284,11 @@ def test_t00d_06_two_site_projected_spin_and_majorana_hamiltonians_agree() -> No
             reverse_left = 4.0 * _bilinear(sites[1], N_MATRICES[alpha])
             reverse_right = 4.0 * _bilinear(sites[0], N_MATRICES[beta])
             majorana_hamiltonian += 0.125 * (
-                left_bilinear
-                @ tensor[alpha - 1, beta - 1]
+                tensor[alpha - 1, beta - 1]
+                * left_bilinear
                 @ right_bilinear
-                + reverse_left
-                @ tensor.T[alpha - 1, beta - 1]
+                + tensor.T[alpha - 1, beta - 1]
+                * reverse_left
                 @ reverse_right
             )
 
