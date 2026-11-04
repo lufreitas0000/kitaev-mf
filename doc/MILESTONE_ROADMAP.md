@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: 763439b34f2324cde4925ff4ca947a0972f4323d
+Last known branch head before this update: 8c420310202dab6777e2b0a72eed8277cd0baf2d
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -95,6 +95,7 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - M1.4.3 tests await local WSL validation.
 
 ## 7. Change log
+- Corrected the machine-readable M1.4.3b definition of done and recorded completed normalization subtask M1.4.3b.0.
 - Corrected the CLI invocation formatting in Note 04d; no scientific content changed.
 - M1.4.3b.0 normalization mapping and midpoint table corrected; b.1 tests, b.2 implementation, and b.3 CLI/note committed. Awaiting local validation.
 - M1.4.3b.1 contract tests committed; M1.4.3b.2 implementation and M1.4.3b.3 provenance/CLI added. Local WSL validation pending.
