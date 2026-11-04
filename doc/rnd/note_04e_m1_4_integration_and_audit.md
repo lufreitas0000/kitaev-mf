@@ -1,6 +1,6 @@
 # Note 04e: Milestone M1.4 Integration, Numerical Anomalies, and Lessons Learned
 
-**Status:** M1.4.4 R&D audit record  
+**Status:** M1.4.4 R&D audit record
 **Scope:** Document trial-and-error resolutions, algebraic sign traps, and physical domain boundaries discovered during the implementation of production observables and energetics services.
 
 ---
