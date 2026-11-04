@@ -94,25 +94,25 @@ def test_system_2site_vs_4site_scale_parity(
     """Verify energy per physical site and flux parity match between 2-site and 4-site cells."""
     cell_2 = make_honeycomb_2site()
     cell_4 = make_honeycomb_4site_rectangular()
-    params = ModelParameters(K=-1.0, Gamma=0.04, h=(0.02, 0.02, 0.02))
+    params = ModelParameters(K=-1.0)
 
     config_2 = SolverConfig(
-        k_grid_shape=(16, 16),
-        max_iterations=30,
-        tol_correlator=1e-7,
-        tol_gauge=1e-7,
-        mixing_alpha=0.6,
+        k_grid_shape=(24, 24),
+        max_iterations=10,
+        tol_correlator=1e-8,
+        tol_gauge=1e-8,
+        mixing_alpha=0.8,
     )
     config_4 = SolverConfig(
-        k_grid_shape=(8, 8),
-        max_iterations=30,
-        tol_correlator=1e-7,
-        tol_gauge=1e-7,
-        mixing_alpha=0.6,
+        k_grid_shape=(12, 12),
+        max_iterations=10,
+        tol_correlator=1e-8,
+        tol_gauge=1e-8,
+        mixing_alpha=0.8,
     )
 
-    init_2 = MeanFieldState.from_pure_kitaev(cell_2, u_gauge=1.0, u_matter=-0.4)
-    init_4 = MeanFieldState.from_pure_kitaev(cell_4, u_gauge=1.0, u_matter=-0.4)
+    init_2 = MeanFieldState.from_pure_kitaev(cell_2, u_gauge=1.0, u_matter=-0.5)
+    init_4 = MeanFieldState.from_pure_kitaev(cell_4, u_gauge=1.0, u_matter=-0.5)
 
     state_2, metrics_2 = solve_self_consistent_mean_field(
         cell_2, params, init_2, config_2, cpu_backend
@@ -126,9 +126,14 @@ def test_system_2site_vs_4site_scale_parity(
     energy_2 = compute_gaussian_energy(state_2, cell_2, params)
     energy_4 = compute_gaussian_energy(state_4, cell_4, params)
 
-    assert np.isclose(energy_2.per_site, energy_4.per_site, atol=2e-3)
+    assert np.isclose(energy_2.per_site, energy_4.per_site, atol=1e-3)
 
     flux_2 = compute_plaquette_fluxes(state_2, cell_2)
     flux_4 = compute_plaquette_fluxes(state_4, cell_4)
-    assert np.allclose(flux_2, 1.0, atol=1e-10)
-    assert np.allclose(flux_4, 1.0, atol=1e-10)
+    assert np.allclose(flux_2, 1.0, atol=1e-12)
+    assert np.allclose(flux_4, 1.0, atol=1e-12)
+
+    sigma_2, _ = compute_sublattice_magnetizations(state_2, cell_2)
+    sigma_4, _ = compute_sublattice_magnetizations(state_4, cell_4)
+    assert np.allclose(sigma_2, 0.0, atol=1e-12)
+    assert np.allclose(sigma_4, 0.0, atol=1e-12)
