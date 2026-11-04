@@ -1,10 +1,48 @@
-"""Immutable mean-field state entity storing ultralocal bond and on-site correlators."""
+"""Immutable mean-field state and energy breakdown value objects."""
 
 from dataclasses import dataclass
 
 import numpy as np
 
 from kitaev_mf.domain.lattice import UnitCell
+
+
+@dataclass(frozen=True)
+class EnergyBreakdown:
+    """Variational Gaussian energy components and normalized densities.
+
+    Attributes:
+        E_exchange: Extensive exchange interaction energy (summed over directed bonds).
+        E_field: Extensive external Zeeman energy.
+        E_multiplier: Extensive gauge constraint penalty energy.
+        E_total: Extensive total energy E_exchange + E_field + E_multiplier.
+        num_bonds: Number of physical directed bonds in the cell.
+        num_cells: Number of unit cells represented (typically 1 for local cell).
+        num_sites: Number of physical lattice sites (sublattices) in the cell.
+    """
+
+    E_exchange: float
+    E_field: float
+    E_multiplier: float
+    E_total: float
+    num_bonds: int
+    num_cells: int
+    num_sites: int
+
+    @property
+    def per_bond(self) -> float:
+        """Energy normalized per directed bond."""
+        return self.E_total / float(self.num_bonds)
+
+    @property
+    def per_cell(self) -> float:
+        """Energy normalized per unit cell."""
+        return self.E_total / float(self.num_cells)
+
+    @property
+    def per_site(self) -> float:
+        """Energy normalized per physical site."""
+        return self.E_total / float(self.num_sites)
 
 
 @dataclass(frozen=True)

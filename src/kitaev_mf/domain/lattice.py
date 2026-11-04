@@ -37,6 +37,21 @@ class Bond:
 
 
 @dataclass(frozen=True)
+class Plaquette:
+    """Hexagonal plaquette face on the honeycomb lattice graph.
+
+    Attributes:
+        name: Plaquette identifier (e.g. 'p0', 'p1').
+        bond_indices: Indices of the 6 directed bonds forming the boundary of the plaquette.
+        oriented_bonds: Optional sequence of (bond_index, orientation) steps where orientation in (+1, -1).
+    """
+
+    name: str
+    bond_indices: tuple[int, ...]
+    oriented_bonds: tuple[tuple[int, int], ...] = ()
+
+
+@dataclass(frozen=True)
 class UnitCell:
     """Unit cell geometry defining a periodic lattice graph Lambda = (V, E)."""
 
@@ -46,6 +61,7 @@ class UnitCell:
     a2: np.ndarray
     basis_positions: np.ndarray  # Shape: (num_sublattices, 2)
     bonds: tuple[Bond, ...]
+    plaquettes: tuple[Plaquette, ...] = ()
 
     @property
     def vertices(self) -> tuple[int, ...]:
@@ -110,7 +126,15 @@ def make_honeycomb_2site(d_nn: float = DEFAULT_D_NN) -> UnitCell:
         Bond(sublattice_i=0, sublattice_j=1, cell_offset=(-1, 0), bond_type=2),
     )
 
-    return UnitCell("primitive_2site", 2, a1, a2, positions, bonds)
+    plaquettes = (
+        Plaquette(
+            name="p0",
+            bond_indices=(0, 1, 2, 0, 1, 2),
+            oriented_bonds=((0, 1), (1, -1), (2, 1), (0, -1), (1, 1), (2, -1)),
+        ),
+    )
+
+    return UnitCell("primitive_2site", 2, a1, a2, positions, bonds, plaquettes)
 
 
 def make_honeycomb_4site_rectangular(d_nn: float = DEFAULT_D_NN) -> UnitCell:
@@ -148,4 +172,17 @@ def make_honeycomb_4site_rectangular(d_nn: float = DEFAULT_D_NN) -> UnitCell:
         Bond(sublattice_i=0, sublattice_j=3, cell_offset=(-1, -1), bond_type=2),
     )
 
-    return UnitCell("rectangular_4site", 4, a1, a2, positions, bonds)
+    plaquettes = (
+        Plaquette(
+            name="p0",
+            bond_indices=(0, 3, 1, 2, 4, 5),
+            oriented_bonds=((0, 1), (3, -1), (1, 1), (2, -1), (4, 1), (5, -1)),
+        ),
+        Plaquette(
+            name="p1",
+            bond_indices=(0, 4, 1, 5, 3, 2),
+            oriented_bonds=((0, 1), (4, -1), (1, 1), (5, -1), (3, 1), (2, -1)),
+        ),
+    )
+
+    return UnitCell("rectangular_4site", 4, a1, a2, positions, bonds, plaquettes)

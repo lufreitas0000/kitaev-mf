@@ -40,12 +40,11 @@ def build_on_site_matrices(
     lam_torch = torch.from_numpy(state.lambdas).to(device=device, dtype=torch.float64)
     h_vec = torch.from_numpy(params.h_vec).to(device=device, dtype=torch.float64)
 
-    # Pre-calculate local spin expectations m_j^beta = 0.5 * tr(V_j^T N^beta)
-    # tr(V_j^T N^beta) = sum_{mu,nu} V_j[nu, mu] * N^beta[mu, nu]
+    # Pre-calculate local spin expectations tr(V_j^T N^beta)
     tr_v_n = torch.zeros((num_sub, 3), dtype=torch.float64, device=device)
     for site in range(num_sub):
         for beta in (1, 2, 3):
-            tr_v_n[site, beta - 1] = torch.sum(v_torch[site].T * n_torch[beta])
+            tr_v_n[site, beta - 1] = torch.trace(v_torch[site].T @ n_torch[beta])
 
     # Accumulate Hartree exchange fields from nearest neighbors
     for bond in cell.bonds:
@@ -138,7 +137,6 @@ def build_bloch_hamiltonian(
     """
     device = backend.device if backend is not None else torch.device("cpu")
 
-    # Ensure k_pts is a 2D float64 tensor of shape (N_k, 2)
     single_k = False
     if isinstance(k_pts, np.ndarray):
         k_tensor = torch.from_numpy(k_pts).to(device=device, dtype=torch.float64)
@@ -156,8 +154,8 @@ def build_bloch_hamiltonian(
     dim = 4 * num_sub
 
     # Construct single-particle real on-site and hopping blocks
-    b_mat = build_on_site_matrices(cell, params, state, device)  # (num_sub, 4, 4)
-    a_mat = build_bond_hopping_matrices(cell, params, state, device)  # (num_bonds, 4, 4)
+    b_mat = build_on_site_matrices(cell, params, state, device)
+    a_mat = build_bond_hopping_matrices(cell, params, state, device)
 
     # Allocate complex Hermitian Hamiltonian tensor
     h_bloch = torch.zeros((num_k, dim, dim), dtype=torch.complex128, device=device)
@@ -178,7 +176,7 @@ def build_bloch_hamiltonian(
 
         # Phase factor: phi_b(k) = 2*pi*(k1*n1 + k2*n2)
         phase = 2.0 * np.pi * (k1 * n1 + k2 * n2)
-        exp_phase = torch.exp(1j * phase)[:, None, None]  # Shape: (N_k, 1, 1)
+        exp_phase = torch.exp(1j * phase)[:, None, None]
         exp_phase_conj = torch.conj(exp_phase)
 
         a_complex = a_mat[b_idx].to(dtype=torch.complex128)
