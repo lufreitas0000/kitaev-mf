@@ -3,7 +3,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-from kitaev_mf.domain.constants import G_MATRICES, N_MATRICES
+from kitaev_mf.domain.constants import G_MATRICES, M_MATRICES, N_MATRICES
 
 IDENTITY_2 = np.eye(2, dtype=np.complex128)
 PAULI_X = np.array([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex128)
@@ -252,3 +252,60 @@ def test_t00c_06_two_site_projected_operators_form_tensor_product_pauli_algebras
                 - projected[1][beta] @ projected[0][alpha]
             )
             assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
+
+def test_t00c_07_physical_spin_normalization() -> None:
+    majoranas = _majorana_operators(2)
+    parity, spin_pauli, _ = _local_operators(majoranas)
+    identity = np.eye(4, dtype=np.complex128)
+    physical_projector = 0.5 * (identity + parity)
+    spin_generators = {
+        gamma: 0.5 * _bilinear(majoranas, M_MATRICES[gamma])
+        for gamma in COMPONENTS
+    }
+
+    for alpha in COMPONENTS:
+        projected_spin = (
+            physical_projector
+            @ spin_generators[alpha]
+            @ physical_projector
+        )
+        projected_pauli_spin = (
+            0.5
+            * physical_projector
+            @ spin_pauli[alpha]
+            @ physical_projector
+        )
+        assert np.allclose(
+            projected_spin,
+            projected_pauli_spin,
+            atol=TOL,
+            rtol=0.0,
+        )
+
+    for alpha in COMPONENTS:
+        for beta in COMPONENTS:
+            commutator = (
+                spin_generators[alpha] @ spin_generators[beta]
+                - spin_generators[beta] @ spin_generators[alpha]
+            )
+            expected = 1.0j * sum(
+                _levi_civita(alpha, beta, gamma) * spin_generators[gamma]
+                for gamma in COMPONENTS
+            )
+            assert np.allclose(
+                physical_projector @ (commutator - expected) @ physical_projector,
+                0.0,
+                atol=TOL,
+                rtol=0.0,
+            )
+
+    spin_casimir = sum(
+        spin_generators[gamma] @ spin_generators[gamma]
+        for gamma in COMPONENTS
+    )
+    assert np.allclose(
+        physical_projector @ spin_casimir @ physical_projector,
+        0.75 * physical_projector,
+        atol=TOL,
+        rtol=0.0,
+    )
