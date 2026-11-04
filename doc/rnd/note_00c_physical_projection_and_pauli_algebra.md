@@ -1,7 +1,7 @@
 # Note 00c: Physical Projection and Recovery of the Pauli Algebra
 
-**Status:** M1.1c R&D specification  
-**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md), [Note 00b](note_00b_local_spin_gauge_representation.md)  
+**Status:** M1.1c R&D specification
+**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md), [Note 00b](note_00b_local_spin_gauge_representation.md)
 **Scope:** Construct the exact local and global physical projectors and establish the Pauli algebra on the projected Hilbert space. This note supplements the parent notes; it does not replace or amend them.
 
 ## 1. Local physical projector
