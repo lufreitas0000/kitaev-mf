@@ -15,6 +15,11 @@ the existing Majorana mean-field implementation.
 Analytical derivations are primary. Numerical calculations provide validation
 and finite-size diagnostics.
 
+## Planning
+
+- `ROADMAP.md`: phased research plan and completion criteria.
+- `BACKLOG.md`: prioritized implementation and derivation tasks.
+
 ## Structure
 
 - `STATUS.md`: scope, milestones, and unresolved points.
