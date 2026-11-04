@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 \definecolor{darkblue}{HTML}{00639a}
 \definecolor{darkred}{HTML}{e41a1c}
@@ -30,7 +30,7 @@
 
 \def \h { 0.57735026918}  % 1/\sqrt(3)
 \def \d { 0.28867513459} % 1/2\sqrt(3)
-\def \c { 0.5}          
+\def \c { 0.5}
 \def \v { 0.86602540378 }  % \sqrt(3)/2
 
 \def \ax {0.5 cm}
@@ -51,13 +51,13 @@
 
 %\node (w) at (1*\ax-1*\ax,1*\ay+1*\ay+2*\ez) {\small $\!-1$};
 
-%% draw edges 
+%% draw edges
 \foreach \m in {0,1,...,\l}{
     \foreach \n in {0,1,...,\l}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=black,line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
-        \draw[draw=black,line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=black,line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
         \draw[draw=black,line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -67,13 +67,13 @@
     \foreach \n in {0,1,...,\l}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
-        \draw[draw=black, line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=black, line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
     }
 }
 \foreach \m in {0,1,...,\l}{
     \foreach \n in {5}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
-        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=black, line width=0.31mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -88,11 +88,11 @@
         \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B\m\n) at (\x*\ax,\y*\ay) {};
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W\m\n) at (\x*\ax,\y*\ay+\ez) {};
     }
-}     
+}
 
 \draw[->,draw=black, line width=0.15mm] (0,-\ez)--(4*\ax,4*\ay-\ez) node[below = 0.6 cm] {  };
 \draw[->,draw=black, line width=0.15mm] (0,-\ez)--(-4*\ax,4*\ay-\ez) node[below = 0.6 cm] { };
- 
+
 
 \draw[draw=tintgreen, line width=0.95mm,opacity=0.8] (-1*\ax,-1*\ay+\ez)--
 (0*\ax,0*\ay)--(0*\ax,0*\ay+\ez)--

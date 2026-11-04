@@ -1,4 +1,4 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
@@ -8,7 +8,7 @@
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -35,7 +35,7 @@
 
 \def \h { 0.57735026918}  % 1/\sqrt(3)
 \def \d { 0.28867513459} % 1/2\sqrt(3)
-\def \c { 0.5}          
+\def \c { 0.5}
 \def \v { 0.86602540378 }  % \sqrt(3)/2
 
 \def \ax {0.5 cm}
@@ -43,8 +43,8 @@
 \def \ez {0.57735026918 cm} % 1/\sqrt(3)
 
 \def \mar {0.2 cm}     % margin for the clip
-\def \lx {5}       
-\def \ly {5}       
+\def \lx {5}
+\def \ly {5}
 
 
 \begin{tikzpicture}[>=latex]
@@ -78,13 +78,13 @@
 \node[above = 2pt] at (4*\ax,2*\ay+2*\ay+\ez) { \small \textcolor{lightblue}{$\!-1$} };
 
 
-%% draw edges 
+%% draw edges
 \foreach \m in {-1,0,...,\lx}{
     \foreach \n in {-1,0,...,\ly}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkblue,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
-        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
         \draw[draw=darkgreen,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -94,13 +94,13 @@
     \foreach \n in {0,...,\ly}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
-        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
     }
 }
 \foreach \m in {0,...,\lx}{
     \foreach \n in {5}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
-        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkgreen,line width=0.20mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }

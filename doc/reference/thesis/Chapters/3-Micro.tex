@@ -1,11 +1,11 @@
 
 
-The Kitaev model is very interesting for being exactly solvable and describes a highly entangled quantum spin liquid ground state with fractionalized excitations. 
+The Kitaev model is very interesting for being exactly solvable and describes a highly entangled quantum spin liquid ground state with fractionalized excitations.
 The model became even more interesting as there was hope for physical realization.
 Three years after Kitaev's paper\cite{Kitaev2006}, Jackeli and Khaliullin proposed a mechanism that generates dominant Kitaev exchange in a class of compounds \cite{Jackeli2009}.
 
 
-The Kitaev material candidates, for the two-dimensional model in a hexagonal lattice,  have a single hole in the $t_{2d}$ orbital and are such that a Mott insulator with localized spin-1/2 can describe the strong spin-orbit coupling and strong electron repulsion. 
+The Kitaev material candidates, for the two-dimensional model in a hexagonal lattice,  have a single hole in the $t_{2d}$ orbital and are such that a Mott insulator with localized spin-1/2 can describe the strong spin-orbit coupling and strong electron repulsion.
 
 In this chapter, I will describe the superexchange mechanism that leads to the Kitaev model with dominant interaction and I will keep the subdominant interactions $\Gamma$ and $J$. I will also show the effect of an applied electric field in the effective spin system.
 
@@ -19,25 +19,25 @@ Consider a system composed of metallic ions with $5$ electrons in the outermost 
 %Due to the crystal field splitting, there is a separation of the $d$ orbitals.
 
 
-%A paragraph on crystal field and   $t_{2g}$ and $e_g$ orbital.  E.g. 
+%A paragraph on crystal field and   $t_{2g}$ and $e_g$ orbital.  E.g.
 %Due to a cubic crystal field, the $d$ levels splits into two levels $t_{2g}$ and $e_g$ which are, respectively, doubly and triply degenerated \cite{Sugano_1970}. Considering the spins degrees of freedom these levels are respectively $4-$ and $6-$fold degenerated. For positive electric interaction, the low energy levels are the $t_{2g}$.
 
 
-%Considering the spins degrees of freedom and due to a 
-The cubic crystal field due to an octahedral environment lifts the degeneracy splitting the $d$ orbitals into  $e_g$ and $t_{2g}$  orbitals which are, respectively, %doubly and triply degenerated. Considering the spins degrees of freedom these levels are respectively 
+%Considering the spins degrees of freedom and due to a
+The cubic crystal field due to an octahedral environment lifts the degeneracy splitting the $d$ orbitals into  $e_g$ and $t_{2g}$  orbitals which are, respectively, %doubly and triply degenerated. Considering the spins degrees of freedom these levels are respectively
 $2-$ and $3-$fold degenerate, times  spin degeneracy \cite{Sugano_1970}. %For positive electric interaction t
 The low energy levels are the $t_{2g}$ orbitals which are separated from the high energy $e_{g}$ orbitals by $10Dq \sim 2-3 \text{ eV}$. %\footnote{The crystal field splitting is $\sim 3.3\text{ eV}$ for iridates and about  $2.2\text{ eV}$ for ruthenium compounds \cite{Winter2017}}.
 In a real crystal, the octahedral symmetry may be lowered due to  Jahn–Teller distortions which squash one or more axes of the octahedron further splitting the $t_{2g}$ levels \cite{Winter2017}. Here we will not consider this effect.
- 
- 
+
+
 
 \begin{figure}[t]
 \centering
     \includegraphics[width=.85\textwidth]{Figures/3/2-octahedra.pdf}%\hspace*{-1mm}%
     %\includegraphics[width=.45\textwidth]{Figures/3/3-3D-octahedron.pdf}
-  \caption{ %Frontal-top view of two $\text{RuCl}_6$ octahedrons 
-   Side view of two $\text{RuCl}_6$ octahedra. Pink balls represent the chlorine ions and the black and white circles denote the ruthenium atoms in different sublattices of the honeycomb lattice. The vertices of the octahedron are used to define the basis $\mathbf{\hat{x}},\mathbf{\hat{y}},\mathbf{\hat{z}}$. 
-  The blue bond denotes a z-link which is parallel to $\mathbf{b}$.   }  
+  \caption{ %Frontal-top view of two $\text{RuCl}_6$ octahedrons
+   Side view of two $\text{RuCl}_6$ octahedra. Pink balls represent the chlorine ions and the black and white circles denote the ruthenium atoms in different sublattices of the honeycomb lattice. The vertices of the octahedron are used to define the basis $\mathbf{\hat{x}},\mathbf{\hat{y}},\mathbf{\hat{z}}$.
+  The blue bond denotes a z-link which is parallel to $\mathbf{b}$.   }
   \label{fig:3-rucl6}
   \end{figure}
 
@@ -47,22 +47,22 @@ The Hamiltonian to describe the electrons in the $t_{2g}$ orbitals is
     H = H_{\mathrm{CF}} + H_{\mathrm{SO}} + H_{\mathrm{at}} +H_{\mathrm{hop}} \; , \label{eq:II-1-H-micro}
 \end{equation}
 where the terms in this sum refer to the crystal field splitting, spin-orbit coupling, Coulomb interactions,  and kinetic hopping term. Ignoring distortion in the octahedron cage, the crystal field term splits the high and low energy $e_{g}$ and $t_{2g}$ orbitals. For the low energy subspace of $5$ electrons occupies the $t_{2g}$ orbitals  and the operator  $H_{\mathrm{CF}}$ act as a constant% in the considered subspace
-, and does not play a further role in the dynamics. 
+, and does not play a further role in the dynamics.
 
 Lets denote the creation operator for the $t_{2g}$ orbitals at site $i$ by
 \begin{equation}
     d_{i}^{\dagger} = \Big( d_{ia\sigma}^{\dagger} \Big) = \left( \begin{array}{cccccc} d_{i x  \uparrow}^{\dagger}&d_{i x  \downarrow}^{\dagger}&
     d_{i y  \uparrow}^{\dagger}&d_{i y  \downarrow}^{\dagger}&
-    d_{i z  \uparrow}^{\dagger}&d_{i z  \downarrow}^{\dagger}    \end{array} \right) 
- \, , 
+    d_{i z  \uparrow}^{\dagger}&d_{i z  \downarrow}^{\dagger}    \end{array} \right)
+ \, ,
 \end{equation}
 where we are using the notation for three $t_{2g}$ orbitals $a \in \{ x,y,z \} \equiv \{ yz, zx, xy\} $, electronic spin $\sigma \in \{ \uparrow, \downarrow \}$ and sites $i=(r,A/B)$ in the honeycomb lattice. For each site, the local low-energy subspace is spanned by states with one hole $\ket{a,\sigma} = d_{a\sigma}\ket{F}$ where $\ket{F}=\prod_{a,\sigma}d^\dagger_{a \sigma}\ket{0}$ is the filled $t_{2g}$ level.
 
 The spin-orbit coupling is described by the Hamiltonian\footnote{
 The spin-orbit coupling for Kitaev materials are of order $\lambda^{\mathrm{Ir}}\approx 0.4\text{ eV}$ \cite{Kim_2014} and  $\lambda^{\mathrm{Ru}}\approx 0.15\text{ eV}$ \cite{Banerjee_2016}.}
-\begin{equation} 
+\begin{equation}
     H_{\mathrm{SO}}\! = \!\lambda \sum_i   \mathbf{L}_i \cdot \mathbf{S}_i
-    =- \frac{\lambda}{2} \sum_i  d_i^\dagger \, \big( \bm{\ell}  \cdot \bm{\sigma}\big) \,d_i^{\phantom{\dagger}} ,  \;\; 
+    =- \frac{\lambda}{2} \sum_i  d_i^\dagger \, \big( \bm{\ell}  \cdot \bm{\sigma}\big) \,d_i^{\phantom{\dagger}} ,  \;\;
     \bm{\ell}  \cdot \bm{\sigma}\!=\!\left( \begin{array}{ccc}
        0 & - \im \sigma^z  & +\im \sigma^y  \\
        +\im \sigma^z & 0  & - \im \sigma^x \\
@@ -74,7 +74,7 @@ For large cubic field splitting, the T-P equivalence\footnote{Correspondence bet
 The effect of spin-orbit coupling is to partially lift the degeneracy of the $t_{2g}$ orbitals into $j_{\mathrm{eff}}=1/2$ with energy $E\sim\lambda$ and $j_{\mathrm{eff}}=3/2$ with energy $E\sim-\lambda/2$. For $\lambda > 0$, the four low energy states $j_{\mathrm{eff}}=3/2$ are occupied and the remaining one electron is in the doublet $j_{\mathrm{eff}}=1/2$ given by
 \begin{equation}
     \begin{split}
-        \ket{+} = {\scriptsize \left|j_{\mathrm{eff}}=\frac{1}{2},j_z=+\frac{1}{2} \right> } &= \frac{1}{\sqrt{3}} \Big( - \ket{z,\uparrow} - \im \ket{y,\downarrow} - \ket{x,\downarrow} \Big) \; , \\ 
+        \ket{+} = {\scriptsize \left|j_{\mathrm{eff}}=\frac{1}{2},j_z=+\frac{1}{2} \right> } &= \frac{1}{\sqrt{3}} \Big( - \ket{z,\uparrow} - \im \ket{y,\downarrow} - \ket{x,\downarrow} \Big) \; , \\
         \ket{-} = \left|j_{\mathrm{eff}}=\frac{1}{2},j_z=-\frac{1}{2} \right> &= \frac{1}{\sqrt{3}} \Big( \ket{z,\downarrow} + \im \ket{y,\uparrow} - \ket{x,\uparrow} \Big) \; . \label{eq:jeff+-}
     \end{split}
 \end{equation}
@@ -84,9 +84,9 @@ The hopping Hamiltonian contain orbital ($a$) and bond ($\braket{ij}_\gamma$) de
 \begin{equation}
     H_{\mathrm{hop}} =  \sum_{ij} \;  d_i^\dagger  \, \left( \mathbf{T}_{ij } \otimes \mathbb{1}_2 \right)   \,d_j^{\phantom{\dagger}} \;.
 \end{equation}
-The hopping is considered for electronic orbitals in the nearest neighboring sites. The diagonal elements of the hopping matrix $t_{ij }^{ab}=(\mathbf{T}_{ij })^{ab}$  give the hopping between same $t_{2g}$ orbitals,  and, importantly for the Kitaev exchange, there are off-diagonal bond dependent matrix elements.  %Thwill be described in the next section \ref{sec:3.2}. 
-%To derive the Hamiltonian with nearest neighbor interactions we can restrict to nearest neighbor hopping, which in the honeycomb lattice means that for each position $i$ there are three possibilities for $j$, when they are connected by a $x$-,$y$- or $z$-bond. 
-%The hopping matrix $t_{ij }^{ab}=(\mathbf{T}_{ij })^{ab}$ will be described in the next section \ref{sec:3.2}. 
+The hopping is considered for electronic orbitals in the nearest neighboring sites. The diagonal elements of the hopping matrix $t_{ij }^{ab}=(\mathbf{T}_{ij })^{ab}$  give the hopping between same $t_{2g}$ orbitals,  and, importantly for the Kitaev exchange, there are off-diagonal bond dependent matrix elements.  %Thwill be described in the next section \ref{sec:3.2}.
+%To derive the Hamiltonian with nearest neighbor interactions we can restrict to nearest neighbor hopping, which in the honeycomb lattice means that for each position $i$ there are three possibilities for $j$, when they are connected by a $x$-,$y$- or $z$-bond.
+%The hopping matrix $t_{ij }^{ab}=(\mathbf{T}_{ij })^{ab}$ will be described in the next section \ref{sec:3.2}.
 
 
 \begin{figure}
@@ -97,8 +97,8 @@ The hopping is considered for electronic orbitals in the nearest neighboring sit
 \end{figure}
 
 
-The minimal model for describing the Coulomb interaction in our problem is the Hubbard-Kanamori model \cite{Kanamori_1963}. 
-For a single site, the atomic Hamiltonian for $t_{2g}$ orbitals in a screened Coulomb potential $V_C$ is schematically given by 
+The minimal model for describing the Coulomb interaction in our problem is the Hubbard-Kanamori model \cite{Kanamori_1963}.
+For a single site, the atomic Hamiltonian for $t_{2g}$ orbitals in a screened Coulomb potential $V_C$ is schematically given by
 \begin{equation}
 \begin{split}
     H_{\mathrm{at}} &= \sum_{aa'bb'}\sum_{\sigma\sigma'}  U_{aa'bb'}c^\dagger_{a \sigma} c^\dagger_{a' \sigma'}  c^\pd_{b' \sigma'} c^\pd_{b \sigma} \; , \\
@@ -107,10 +107,10 @@ For a single site, the atomic Hamiltonian for $t_{2g}$ orbitals in a screened Co
 \end{split}
 \end{equation}
 for $ \phi_{a}$ representing the (real) Wannier wavefunction the $t_{2g}$ orbital $a=x,y,z$. For these orbital, only three independent Coulomb integrals are relevant \cite{Georges_2013,Triebl_2018} %($J_H=J_H'$)
-\begin{eqnarray}    
+\begin{eqnarray}
         U\!&=U_{aaaa}\; , \quad & \text{onsite same orbital  Coulomb repulsion} \; , \\
         U'\!&=U_{abab}\; , \quad & \text{onsite different orbital Coulomb repulsion} \; , \\
-        J_H=U_{abba}\!&\!=U_{aabb}\; , \quad & \text{onsite Hund's spin-exchange/pair-hopping} \; , 
+        J_H=U_{abba}\!&\!=U_{aabb}\; , \quad & \text{onsite Hund's spin-exchange/pair-hopping} \; ,
 \end{eqnarray}
 These exchanges integrals are positive with $U>U'>J_H$ \footnote{In eV, $U,U',J_H\!\sim\!1.7,1.1,0.3$ for iridates and $U,U',J_H\!\sim\! 3, 1.8, 0.6$ for ruthenium compounds \cite{Winter2017rev}}. For these three types of exchanges, the multi-band Hubbard atomic Hamiltonian is given by \cite{Kanamori_1963,Winter_2016}
 \begin{equation}
@@ -119,7 +119,7 @@ These exchanges integrals are positive with $U>U'>J_H$ \footnote{In eV, $U,U',J_
         U \sum_a \,  n_{a\uparrow}n_{a\downarrow}
         +U' \sum_{a\neq b} \,  n_{a\uparrow}n_{b\downarrow}
         +\frac{U'-J_H}2 \sum_{a\neq b}\sum_\sigma \,  n_{a\sigma}n_{b\sigma} \\
-        &+ J_H  \sum_{a\neq b} \Big( 
+        &+ J_H  \sum_{a\neq b} \Big(
         c^\dagger_{a \uparrow}c^\dagger_{a \downarrow}
         c^\pd_{b \downarrow}c^\pd_{b \uparrow}
         -
@@ -133,49 +133,49 @@ the onsite \textit{inter}orbital  Coulomb repulsion is $U'=U-2J_H$ and the Hubba
 \begin{equation}
      H_{\mathrm{at}} =\sum_i \left( \frac{U-3J_H}{2}(N_i-5)^2 - 2J_H \mathbf{S}_i^2 - \frac{J_H}{2} \mathbf{L}_i^2 \right) \label{eq:atomic_hubbard_kanamori_RAU}
 \end{equation}
-apart from constant terms. 
+apart from constant terms.
 
 
 
 The effective Coulomb interaction is described by two parameters $J_H$ and $U$, which are the Hund's exchange coupling favoring parallel spin and orbital alignment and the Hubbard repulsion for electrons at the same site and same orbital. The integrals \eqref{eq:at}  can by simplified to handful of Slater integrals\footnote{For spherically symmetric Coulomb potential with radial wave function $R(r)$ the Slater integrals are $F^k=
 \int\limits_0^\infty dr_1 \, r_1^2
-\int\limits_0^\infty dr_2 \, r_2^2 \, 
+\int\limits_0^\infty dr_2 \, r_2^2 \,
 R^2(r_1)R^2(r_2) \; \dfrac{r_{<}^k}{r_{>}^{k+1}}
- \,  $.} $F^k$. 
+ \,  $.} $F^k$.
 Assuming spherical symmetric interaction and $t_{\text{2g}}$ wavefunctions, one can parameterized all Coulomb integral by the numbers $F^0, F^2 $ and $F^d$.
-In the single $d$ orbital Hubbard model, these energies are simply given by \cite{Sugano_1970} $U=F_0$ and $J_H=\frac{1}{14}\left(F_2+F_4\right)$, the Hund's exchange is generally weaker than $U$ as it comes from a higher order Slater–Condon parameters $F^k$. 
+In the single $d$ orbital Hubbard model, these energies are simply given by \cite{Sugano_1970} $U=F_0$ and $J_H=\frac{1}{14}\left(F_2+F_4\right)$, the Hund's exchange is generally weaker than $U$ as it comes from a higher order Slater–Condon parameters $F^k$.
 The parameter $F_0$ represented the average Coulomb interaction between two electrons in the same orbital, while the higher other terms $F_k$ accounts for the angular dependency in the electron-electron repulsion.
 For typical wavefunctions, one generically expects $F_0>F_2> F_4$.
 In $t_{2g}$ orbitals, on get the more evolvent expressions for the energies as the combination of these integrals \cite{Georges_2013}
 \begin{equation}
-    U=F_0 + \frac{4}{49} F_2+ \frac{4}{49} 
- F_4 \; , \quad 
-    J_H=\frac{3}{49} F_2+ \frac{20}{441} 
+    U=F_0 + \frac{4}{49} F_2+ \frac{4}{49}
+ F_4 \; , \quad
+    J_H=\frac{3}{49} F_2+ \frac{20}{441}
  F_4 \; .
-\end{equation} 
-Due to the localization and low angular overlap, the ratio $F_2/F_0, F_4/F_2$ are rather small yielding in typical values $J_H / U \lesssim \, 1/5$. 
+\end{equation}
+Due to the localization and low angular overlap, the ratio $F_2/F_0, F_4/F_2$ are rather small yielding in typical values $J_H / U \lesssim \, 1/5$.
 The $J_H/U$ for a $t_{2g}$ shell is also approximately constant among (early) transition-metal oxides and we can safely assume
 \begin{equation}
-    J_H/U < \frac{1}{3} \; . 
-\end{equation} Which is where our formulas for the Hubbard-Kanamori Hamiltonian with spherical symmetry works. 
+    J_H/U < \frac{1}{3} \; .
+\end{equation} Which is where our formulas for the Hubbard-Kanamori Hamiltonian with spherical symmetry works.
 
 \begin{comment}
 \textcolor{red!60!black}{
-\texttt{comment for Rodrigo:} However, according to eq.(7) of  \href{https://arxiv.org/abs/1207.3033}{1207.3033}\cite{Georges_2013} or eq. (5) of  \href{https://arxiv.org/abs/1807.05106}{1807.05106} \cite{Triebl_2018} the Kanamori Hamiltonian for $t_{2g}$ is actually 
+\texttt{comment for Rodrigo:} However, according to eq.(7) of  \href{https://arxiv.org/abs/1207.3033}{1207.3033}\cite{Georges_2013} or eq. (5) of  \href{https://arxiv.org/abs/1807.05106}{1807.05106} \cite{Triebl_2018} the Kanamori Hamiltonian for $t_{2g}$ is actually
 \begin{equation}
      \left( \frac{U-3J}{2}N(N-1) - 2J \mathbf{S}^2 - \frac{J}{2} \mathbf{L}^2 + \frac{5J}{2}N \right)  \; .
-\end{equation}  Also in Winter \textit{et. al} paper \cite{Winter2017}, the expression that he uses is more close related to this one. It seems that only Rau \textit{et. al} \cite{Rau2014} used eq.\eqref{eq:atomic_hubbard_kanamori_RAU}, which he cite Sugano's book \cite{Sugano_1970}. Also I cannot find in the book the expression as they used. [Anyway, these terms differ only by a constant term 
+\end{equation}  Also in Winter \textit{et. al} paper \cite{Winter2017}, the expression that he uses is more close related to this one. It seems that only Rau \textit{et. al} \cite{Rau2014} used eq.\eqref{eq:atomic_hubbard_kanamori_RAU}, which he cite Sugano's book \cite{Sugano_1970}. Also I cannot find in the book the expression as they used. [Anyway, these terms differ only by a constant term
 $\propto N$. In the thesis I could explain this better%(getting from the Hubbard-Kanamori)
 , for now I will just consider \eqref{eq:atomic_hubbard_kanamori_RAU} as a given Hamiltonian.]
 Answer: this account for the chemical potential definition, choosing that it happens for $N__i=5$. For constant density this does not change.
-}   
+}
 \end{comment}
 
 
 
-The procedure to obtain the effective spin Hamiltonian is to apply perturbation theory %in the $t_{2g}$ orbitals 
+The procedure to obtain the effective spin Hamiltonian is to apply perturbation theory %in the $t_{2g}$ orbitals
 in the regime $U \gg \lambda  \gg t$.
-The expansion is carried out first by taking large $U$ and $J_H$ limit over the hopping Hamiltonian, $U, J_H \gg t$. Via the superexchange mechanism, this produces exchanges of order $\sim J_H \, t^2/U^2$, and $\sim t^2/U$. The second step of this expansion is to introduce the spin-orbit coupling, which dominates over the hopping term as $\lambda \gg J_H \, t^2/U^2, t^2/U$.   The resulting effective spin Hamiltonian is obtained after the projection into the $j_{\mathrm{eff}}=1/2$ subspace. 
+The expansion is carried out first by taking large $U$ and $J_H$ limit over the hopping Hamiltonian, $U, J_H \gg t$. Via the superexchange mechanism, this produces exchanges of order $\sim J_H \, t^2/U^2$, and $\sim t^2/U$. The second step of this expansion is to introduce the spin-orbit coupling, which dominates over the hopping term as $\lambda \gg J_H \, t^2/U^2, t^2/U$.   The resulting effective spin Hamiltonian is obtained after the projection into the $j_{\mathrm{eff}}=1/2$ subspace.
 
 
 
@@ -188,7 +188,7 @@ The expansion is carried out first by taking large $U$ and $J_H$ limit over the 
  % \label{fig:3-rucl3-2}
 %\end{figure}
 
-  
+
 
 
 
@@ -203,14 +203,14 @@ The expansion is carried out first by taking large $U$ and $J_H$ limit over the 
 \end{figure}
 
 Instead of describing the $5$ electrons in the $t_{2g}$ orbitals, let us formulate the theory regarding single holes in these orbitals. The projection of these orbitals into an effective spin-half is schematically shown in Fig.~\ref{fig:3-h-orbitals}. Consider the particle-hole transformation  $d_i = \Big[ \mathbb{1}_3\otimes \, \im \sigma^y \Big] \, \big(h_i^\dagger\big)^T$, that is
-\begin{equation}\begin{split}    
-    d_{ia\uparrow}^{\phantom{\dagger}} = h^\dagger_{ia\downarrow}  \; , \\ 
+\begin{equation}\begin{split}
+    d_{ia\uparrow}^{\phantom{\dagger}} = h^\dagger_{ia\downarrow}  \; , \\
     d_{ia\downarrow}^\dagger = - h_{ia\uparrow}^{\phantom{\dagger}} \; .
 \end{split}
 \end{equation}
 The density, spin, and angular momentum for holes are related to the ones for electrons by
 \begin{equation}\hspace*{-5mm}
-\begin{split}    
+\begin{split}
     \bar{N}_i
     &= h_i^\dagger h_i
     %= \textcolor{black!60}{    \sum_{a\sigma} h^\dagger_{ia\sigma}h^{\phantom{\dagger}}_{ia\sigma} }
@@ -219,34 +219,34 @@ The density, spin, and angular momentum for holes are related to the ones for el
     &= h_i^\dagger \big( \mathbb{1}_3 \otimes \frac{\bm{\sigma}}{2}    \big) h_i
     %= \textcolor{black!60}{ \sum_{a\sigma\sigma'} h^\dagger_{ia\sigma}\left(\frac{\bm{\sigma}}{2} \right)_{\sigma\sigma'}h^{\phantom{\dagger}}_{ia\sigma'}  }
     = \mathbf{S}_i\;,\\
-    \bar{\mathbf{L}}_i 
+    \bar{\mathbf{L}}_i
     &=h_i^\dagger \big( \mathbf{l} \otimes \mathbb{1}_2 \big) h_i
     %=\textcolor{black!60}{  \sum_{ab\sigma} h^\dagger_{ia\sigma}\big(\mathbf{l}\big)_{ab}h^{\phantom{\dagger}}_{ib\sigma}  }
     =-\mathbf{L}_i\;.
 \end{split}
 \end{equation}
-Expressed in terms of the holes operator we have 
+Expressed in terms of the holes operator we have
 \begin{align}
-    H_{\mathrm{SO}} 
+    H_{\mathrm{SO}}
     &= -\frac{\lambda}{2} \sum_i  h_i^\dagger \, \big( \bm{\ell}  \cdot \bm{\sigma}\big) \,h_i^{\phantom{\dagger}} \; ,\\
      H_{\mathrm{hop}} &=  -\sum_{ij} \;  h_i^\dagger  \,  \tilde{\mathbf{T}}_{ij }    \,h_j^{\phantom{\dagger}} \;, \quad \tilde{\mathbf{T}}_{ij }=\left( \mathbf{T}_{ij } \otimes \mathbb{1}_2 \right),
 \end{align} and $H_{\mathrm{at}}= V_N+V_S+V_L$ with
 \begin{equation}
-V_N =   \frac{U-3J_H}{2} \sum (\bar{N}_i-1)^2 , \quad 
-V_S = - 2J_H  \sum \mathbf{S}_i^2 , \quad 
+V_N =   \frac{U-3J_H}{2} \sum (\bar{N}_i-1)^2 , \quad
+V_S = - 2J_H  \sum \mathbf{S}_i^2 , \quad
 V_L = - \frac{J_H}{2} \sum \mathbf{L}_i^2 \; .
-\end{equation} 
+\end{equation}
 
-The matrices $ \mathbf{T}_{ij }$ couple the $t_{2g}$ three-orbitals $x, y, z$ of sites $i$ and $j$. 
-In this chapter, we will restrict ourselves to the case of nearest neighbors $\braket{ij}$. 
+The matrices $ \mathbf{T}_{ij }$ couple the $t_{2g}$ three-orbitals $x, y, z$ of sites $i$ and $j$.
+In this chapter, we will restrict ourselves to the case of nearest neighbors $\braket{ij}$.
 In the honeycomb lattice, meaning that $ij$ are in a $x,y$ or $z$-bond.
-For ions surrounded by {edge sharing octahedra}, the entries of $\mathbf{T}_{\braket{ij}}$ are constrained by inversion about the center of the bond, and $180^\circ$ rotation symmetry about three coordinate axis defined by the common plane %\footnote{This plane is not the plane formed by the honeycomb lattice. For each pair of bonds, there is a specific plane, e.g. for $z$ bonds, these planes are orthogonal to $\hat{\mathbf{z}}$ and the three axes of symmetry are $\hat{\mathbf{x}}+\hat{\mathbf{y}}, \hat{\mathbf{x}}-\hat{\mathbf{y}},\hat{\mathbf{z}}$.} 
+For ions surrounded by {edge sharing octahedra}, the entries of $\mathbf{T}_{\braket{ij}}$ are constrained by inversion about the center of the bond, and $180^\circ$ rotation symmetry about three coordinate axis defined by the common plane %\footnote{This plane is not the plane formed by the honeycomb lattice. For each pair of bonds, there is a specific plane, e.g. for $z$ bonds, these planes are orthogonal to $\hat{\mathbf{z}}$ and the three axes of symmetry are $\hat{\mathbf{x}}+\hat{\mathbf{y}}, \hat{\mathbf{x}}-\hat{\mathbf{y}},\hat{\mathbf{z}}$.}
 of the two octahedra: two axes in the plane ($\hat{\mb a}, \hat{\mb b}$), one in the direction of the bond and the other perpendicular, and one axis out of this plane ($\hat{\mb c}$).
-%For the most general nearest neighbor hopping model between the $t_{2g}$ orbitals includes four real hopping amplitudes $t_1,t_2,t_3, \textcolor{black!45}{  t_4  }$.  
-These symmetries constrain the hopping matrices to \cite{Rau2014}  
+%For the most general nearest neighbor hopping model between the $t_{2g}$ orbitals includes four real hopping amplitudes $t_1,t_2,t_3, \textcolor{black!45}{  t_4  }$.
+These symmetries constrain the hopping matrices to \cite{Rau2014}
 \begin{align}\hspace*{-5mm}
     \mathbf{T}_{\braket{ij}_z} \! & = \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_1 & t_2  & {0} \\
          t_2 & t_1  & {0} \\
@@ -254,7 +254,7 @@ These symmetries constrain the hopping matrices to \cite{Rau2014}
     \end{array}
     \right) \!, \;
         \mathbf{T}_{\braket{ij}_x} \!  = \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_3 & {0}  & {0} \\
          {0} & t_1  & t_2 \\
@@ -262,16 +262,16 @@ These symmetries constrain the hopping matrices to \cite{Rau2014}
     \end{array}
     \right)\! , \;
         \mathbf{T}_{\braket{ij}_y}  \!= \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_1 & {0}  & t_2 \\
          {0} & t_3  & {0} \\
          t_2 & {0}  & t_1 \\
     \end{array}
-    \right)   \!   . 
+    \right)   \!   .
 \end{align}
-The dominant hopping is\footnote{For $\text{RuCl}_3$, the hoppings in $\text{eV}$ are $t_2\!\sim\!160$, $t_3\!\sim\!-100$, $t_1\!\sim\!50$ and $t_4\!\sim\!-15$ \cite{Winter_2016}.}  $t_2 > t_1,t_3$. In presence of a cubic field deformation, such as trigonal distortion, there is an additional non-diagonal $t_4$ coupling. % and in absence of deformation in the cubic field $\textcolor{black!85}{t_4}=0$, which   I will always assume. 
-%I will take as is needed to generate the $\Gamma'$ term in the Kitaev model . %For next-nearest neighbor the hopping matrix is the same exchanging $t_n \to t_n'$.  From the numerical values for the couplings in Ref.  , the dominant term for second neighbour is $t_2'$. Here I will assume that $t_1'=t_3'=t_4'=0$, since $t_2'$ give the dominant contribution to the change in the charge density. For the extended Kitaev model with couplings $JK\Gamma$, I assume $t_4 = 0$. 
+The dominant hopping is\footnote{For $\text{RuCl}_3$, the hoppings in $\text{eV}$ are $t_2\!\sim\!160$, $t_3\!\sim\!-100$, $t_1\!\sim\!50$ and $t_4\!\sim\!-15$ \cite{Winter_2016}.}  $t_2 > t_1,t_3$. In presence of a cubic field deformation, such as trigonal distortion, there is an additional non-diagonal $t_4$ coupling. % and in absence of deformation in the cubic field $\textcolor{black!85}{t_4}=0$, which   I will always assume.
+%I will take as is needed to generate the $\Gamma'$ term in the Kitaev model . %For next-nearest neighbor the hopping matrix is the same exchanging $t_n \to t_n'$.  From the numerical values for the couplings in Ref.  , the dominant term for second neighbour is $t_2'$. Here I will assume that $t_1'=t_3'=t_4'=0$, since $t_2'$ give the dominant contribution to the change in the charge density. For the extended Kitaev model with couplings $JK\Gamma$, I assume $t_4 = 0$.
 Here the notation $\braket{ij}$ means that the sites $i$ and $j$ are nearest neighbors (NN).  In the honeycomb lattice, for each site $i$ there are $3$ other NN sites, which form $\gamma= x, y, z$-bonds. A pair of sites $(i,j)$ in a $\gamma$-bond is denoted by $\braket{ij}_\gamma$.
 
 
@@ -279,19 +279,19 @@ Here the notation $\braket{ij}$ means that the sites $i$ and $j$ are nearest nei
 
 The first step is to set the perturbation theory for the Hubbard-Kanamori Hamiltonian
 \begin{equation}
-    H_{HK} = H_{\mathrm{at}}+H_\text{hop} 
+    H_{HK} = H_{\mathrm{at}}+H_\text{hop}
 \end{equation}
-in the limit $U,J_H\gg t$. The combination of average one-hole occupancy per site and large $U$ drives the electronic system to a Mott insulating phase. For finite $U$, the holes can jump from one site/orbital to the next, lowering their kinetic energy. %Pron this virtual exchange process  the low energy description of this theory 
+in the limit $U,J_H\gg t$. The combination of average one-hole occupancy per site and large $U$ drives the electronic system to a Mott insulating phase. For finite $U$, the holes can jump from one site/orbital to the next, lowering their kinetic energy. %Pron this virtual exchange process  the low energy description of this theory
 In the single-orbital Hubbard model, the well-known superexchange mechanism  favors the antiferromagnetic arrangement of neighboring spin. Projecting into the single occupancy subspace, the charge degrees of freedom remain quenched and the effective Hamiltonian is a spin-1/2 Heisenberg Hamiltonian  $J \bm{\sigma}_i\cdot\bm{\sigma}_j$ with $J\sim t_{\scriptsize 1,3}^2/U$. Here we will apply the standard procedure of perturbation theory for $H_{HK}$.
 
 
-%put a high energy cost for double occupancy of holes 
+%put a high energy cost for double occupancy of holes
 
 To implement the perturbation theory we will use the canonical transformation
 \begin{equation}
     H_{HK} \to \tilde{H} = e^{\, S}  \;  H_{HK} \, e^{-S} = H_{HK} + [S,H_{HK}]+\frac{1}{2}[S,[S,H_{HK}]] + \cdots \, , \label{eq:II-1-S-transf}
 \end{equation}
-which eliminates perturbation in the first order, that is the terms that change $\bar{N}$ up to order $(t/U)^2$. We have used the Baker-Campbell-Hausdorff formula to expand the exponentials in the right-hand-side of equation \eqref{eq:II-1-S-transf}. 
+which eliminates perturbation in the first order, that is the terms that change $\bar{N}$ up to order $(t/U)^2$. We have used the Baker-Campbell-Hausdorff formula to expand the exponentials in the right-hand-side of equation \eqref{eq:II-1-S-transf}.
 
 %Effective Hamiltonian in the low-energy subspace up to third order in $t/U$.
 We can use the projector $\mathcal{P}^{(n)}_{i}$ to the subspace of $n$ holes at the site $i$. In this low-energy sector, we can approximate the identity by $\mathbb{1} \approx \mathcal{P}^{(0)}_{ }+\mathcal{P}^{(1)}_{ }+\mathcal{P}^{(2)}_{ }$, which differ from the sector of one hole per site at most by one hole. The hopping Hamiltonian can be written as
@@ -299,25 +299,25 @@ We can use the projector $\mathcal{P}^{(n)}_{i}$ to the subspace of $n$ holes at
     H_{\text{hop}} = - \sum_{ij} \mathbb{1} \;  h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}}  \, \mathbb{1} \approx T_0 + T_1 + T_{-1}\; ,
 \end{equation}
 where I am defining $T_m$ as the term that changes the hole occupation in the hopping Hamiltonian by $m$.
-The decomposition of the hopping Hamiltonian in these different hopping operators allows us to separate the terms in the transformed Hamiltonian $\tilde{H}$ according to the contribution for the change in the occupation number. 
+The decomposition of the hopping Hamiltonian in these different hopping operators allows us to separate the terms in the transformed Hamiltonian $\tilde{H}$ according to the contribution for the change in the occupation number.
 
-%\subsection{Commutators} 
+%\subsection{Commutators}
 \subsection{Canonical transformation}\label{sec:II-1-canon}
 
 For the canonical transformation, we need to calculate the commutators between the hopping operators $T_m$ and the atomic Hamiltonian $H_{\mathrm{at}}$. First, we split the projector operator for two-hole states into channels with different orbital angular momentum
 \begin{equation}
     \mathcal{P}^{(2)}_{i} = \mathcal{P}^{(2)}_{i,\ell=0}+\mathcal{P}^{(2)}_{i,\ell=1}+\mathcal{P}^{(2)}_{i,\ell=2} \, .
 \end{equation}
-%The general expression for the change in the eigenvalue of the atomic Hamiltonian between the channels with different orbital angular momentum is 
+%The general expression for the change in the eigenvalue of the atomic Hamiltonian between the channels with different orbital angular momentum is
 %\begin{equation}     \sum_{ij} \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(n)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(n')}_{j,\ell'} \big] = \Delta V (n \ell ; n' \ell' ) \sum_{ij}  \mathcal{P}^{(n)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(n')}_{j,\ell'} \;. \end{equation}
 The relevant commutator to cancel the first-order terms is
 \begin{equation}
     \sum_{ij} \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \big] = \Delta E_{\ell}  \, \sum_{ij}  \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \, , \label{eq:II-1-comm}
 \end{equation}
-where 
+where
 \begin{equation}
-    \Delta E_0 = U + 2 J_H \, , \quad 
-    \Delta E_1 = U - 3 J_H \, , \quad 
+    \Delta E_0 = U + 2 J_H \, , \quad
+    \Delta E_1 = U - 3 J_H \, , \quad
     \Delta E_2 = U - J_H \, . \label{eq:II-1-delta-E}
 \end{equation}
 
@@ -325,7 +325,7 @@ where
 
 %We can use a canonical transformation,
 %\begin{equation}    H \to \tilde{H} = e^S H e^{-S} = H + [S,H]+\frac{1}{2}[S,[S,H]] + \cdots,\end{equation}
-%which eliminates terms that change $\bar{N}$ up to order $(t/U)^2$. 
+%which eliminates terms that change $\bar{N}$ up to order $(t/U)^2$.
 Let us write the canonical transformation as $S=S_1+S_2+...$ where $S_k$ is of order $k$ in the perturbation, i.e. $S_k\propto (t/U)^k$.
 The transformed  Hamiltonian \eqref{eq:II-1-S-transf} is
 \begin{equation}
@@ -334,14 +334,14 @@ The transformed  Hamiltonian \eqref{eq:II-1-S-transf} is
     &+ [S_1, T_0+T_1 + T_{-1}] + \frac{1}{2} [S_1,[S_1, H_{\text{at}}]] + [S_2, H_{\text{at}}] + \cdots \; ,
 \end{split}
 \end{equation}
-where the terms of order $(t/U)^2$ are in the second line.  
+where the terms of order $(t/U)^2$ are in the second line.
 
 
-The goal of the canonical transformation is to choose $S$ such that the perturbation is canceled in the first order. 
+The goal of the canonical transformation is to choose $S$ such that the perturbation is canceled in the first order.
 To eliminate the perturbation\footnote{Note that we do not include the term $T_0$ of $H_{\text{hop}}$ in the `perturbation', even though it is a term $\propto t$, as it does not change the occupation.  } in the first order, we must choose $[S_1, H_{\text{at}}] = - T_1 - T_{-1}$ which is equivalent to
 \begin{align}
-    S_1 &= S_1^{+} - S_1^{-} \; ,  \quad 
-    (S_1^{-})^\dagger = S_1^{+} \; , \quad 
+    S_1 &= S_1^{+} - S_1^{-} \; ,  \quad
+    (S_1^{-})^\dagger = S_1^{+} \; , \quad
     [H_{\text{at}},S_1^{+}] =   T_{ 1 } \; . \label{eq:S1}
 \end{align}
 Then, choose
@@ -354,25 +354,25 @@ We find the Hamiltonian,
         \tilde{H} &=   T_0 + H_{\text{at}} +  [S_1, T_0]  + \frac{1}{2} [S_1, T_1 + T_{-1}] + [S_2, H_{\text{at}}] + \cdots \; .
 \end{split}
 \end{equation}
-To simplify the Hamiltonian we also choose 
+To simplify the Hamiltonian we also choose
 \begin{equation}
-     [S_1, T_0]  + 
+     [S_1, T_0]  +
      [S_2, H_{\text{at}}] = 0 \; . \label{eq:II-1-S2}
 \end{equation}
-To compute the effective Hamiltonian $\tilde{H}$ in second-order perturbation theory one does not need to compute $S_2$ as it gets canceled by the relation \eqref{eq:II-1-S2}. However, for computing a transformed observable 
-$\tilde{\mathcal{O}} = e^{\, S}  \;  \mathcal{O} \, e^{-S}$ in the same or higher order of perturbation $S_2$ is needed.%  in second order of the perturbation. 
+To compute the effective Hamiltonian $\tilde{H}$ in second-order perturbation theory one does not need to compute $S_2$ as it gets canceled by the relation \eqref{eq:II-1-S2}. However, for computing a transformed observable
+$\tilde{\mathcal{O}} = e^{\, S}  \;  \mathcal{O} \, e^{-S}$ in the same or higher order of perturbation $S_2$ is needed.%  in second order of the perturbation.
 
 \subsection{Effective Hamiltonian}
-The second step in the process to get the effective Hamiltonian is to restrict to the low-energy subspace of the unperturbed Hamiltonian. 
+The second step in the process to get the effective Hamiltonian is to restrict to the low-energy subspace of the unperturbed Hamiltonian.
 Let us define the projection operator to the low-energy sector of one hole per site
 \begin{equation}
-    \mathcal{P}_{1\mathrm{h}} = 
+    \mathcal{P}_{1\mathrm{h}} =
     \prod_i \mathcal{P}_{i}^{(1)} \; , \quad  \mathcal{P}_{i}^{(1)} = \sum_{s_i} \ket{s_i}\bra{s_i}\; .
 \end{equation}
 In this subspace we have
-\begin{equation} 
-    \mathcal{P}_{1\mathrm{h}} V_N \mathcal{P}_{1\mathrm{h}} = 0 \, , \quad 
-    \mathcal{P}_{1\mathrm{h}} V_S \mathcal{P}_{1\mathrm{h}} = - 2J_H \, \frac{3}{4} \bar{N}   \, , \quad 
+\begin{equation}
+    \mathcal{P}_{1\mathrm{h}} V_N \mathcal{P}_{1\mathrm{h}} = 0 \, , \quad
+    \mathcal{P}_{1\mathrm{h}} V_S \mathcal{P}_{1\mathrm{h}} = - 2J_H \, \frac{3}{4} \bar{N}   \, , \quad
     \mathcal{P}_{1\mathrm{h}} V_L \mathcal{P}_{1\mathrm{h}} = -  \frac{J_H}{2} \, 2 \, \bar{N} \, ,
 \end{equation}
 where $\bar{N} = \sum_i 1$ is the total number of holes. Then we conclude that the projection of the atomic Hamiltonian is a constant %\textcolor{red!70}{[factor of 2?]}
@@ -380,20 +380,20 @@ $\mathcal{P}_{1\mathrm{h}} H_{\text{at}} \mathcal{P}_{1\mathrm{h}} = - 5J_H\bar{
 The projection of the hopping term in this subspace is zero $\mathcal{P}_{1\mathrm{h}} \, H_{\text{hop}}\,\mathcal{P}_{1\mathrm{h}} = 0$ and the commutator $[S_1, T_0]$ also has zero projection since the terms $S_1^{\pm}T_0$ and $T_0S_1^{\pm}$ go out of the subspace with one hole per site. For the commutator $[S_1, T_{\pm 1}]$, the terms that stay in this subspace are  $[S_1^+, T_{- 1}]$ and  $[S_1^-, T_{+1}]$.
 
 
-Projecting the Hamiltonian in the low-energy subspace and subtracting a constant term $\sim J_H\bar{N}$, and ignoring the term with $S_2$ we then have 
+Projecting the Hamiltonian in the low-energy subspace and subtracting a constant term $\sim J_H\bar{N}$, and ignoring the term with $S_2$ we then have
 \begin{align}\hspace*{-15mm}
     \mathcal{P}_{1\mathrm{h}} \tilde{H}  \mathcal{P}_{1\mathrm{h}}
-&= 
+&=
      \mathcal{P}_{1\mathrm{h}}  \Big(\, \frac{1}{2} [S_1, T_1 + T_{-1}] \, \Big)
      \mathcal{P}_{1\mathrm{h}} \, , \\[6pt]
-     &= 
+     &=
     \frac{1}{2} \mathcal{P}_{1\mathrm{h}}  \Big( \,  [S_1^+, T_{- 1}] - [S_1^-, T_{+1}] \, \Big) \mathcal{P}_{1\mathrm{h}} \, , \\[6pt]
 &=  \frac{1}{2}
      \mathcal{P}_{1\mathrm{h}}  [S_1^{(+)}, T_{-1}]  \mathcal{P}_{1\mathrm{h}} + \text{h.c.}\\[6pt]
      &=- \frac{1}{2}
-     \mathcal{P}_{1\mathrm{h}} T_{-1} S_1^{(+)}  \mathcal{P}_{1\mathrm{h}} + \text{h.c.} \, . 
-\end{align} 
-In the last line, note that $S^+$ maps into the sector with one double occupancy, thus  $T_{-1} S_1^{(+)}$  has non-zero projection while $\mathcal{P}_{1\mathrm{h}}  S_1^{(+)} T_{-1}  \mathcal{P}_{1\mathrm{h}} =0$. 
+     \mathcal{P}_{1\mathrm{h}} T_{-1} S_1^{(+)}  \mathcal{P}_{1\mathrm{h}} + \text{h.c.} \, .
+\end{align}
+In the last line, note that $S^+$ maps into the sector with one double occupancy, thus  $T_{-1} S_1^{(+)}$  has non-zero projection while $\mathcal{P}_{1\mathrm{h}}  S_1^{(+)} T_{-1}  \mathcal{P}_{1\mathrm{h}} =0$.
 %[In Rodrigo's notes, he said that the we must consider only the term with double occupancy $[S_1^{(+)}, T_{-1}] \to  - T_{-1} S_1^{(+)} $. This is the term that will produce the spin Hamiltonian. What is the term that we ignore?]
 
 
@@ -403,12 +403,12 @@ The effective Hamiltonian in the low-energy subspace is
 \begin{equation}\hspace*{-10mm}
     \begin{split}
         \mathcal{P}_{1\mathrm{h}} \tilde{H}  \mathcal{P}_{1\mathrm{h}}
-      &= -  
+      &= -
       \sum_{ij}\sum_{\ell} \frac{1}{\Delta E_{\ell}} \mathcal{P}_{1\mathrm{h}}  \, \big( h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \big) \, \mathcal{P}^{(2)}_{i,\ell} \, \big( h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \big)\, \mathcal{P}_{1\mathrm{h}} \; . \label{micro-Heff}
     \end{split}
 \end{equation}
 Considering the matrix elements between a pair of sites $i,j$. Let us write $\tilde{H}=\sum_{\ell} \tilde{H}_{\ell}$, and consider the contribution from each channel separately,
-The derivation for the expression of the matrix elements $\bra{s_i', s_j'} \tilde{H}_{\ell}  \ket{s_i, s_j}$  are in the appendix. 
+The derivation for the expression of the matrix elements $\bra{s_i', s_j'} \tilde{H}_{\ell}  \ket{s_i, s_j}$  are in the appendix.
 Using these matrices, we will compute the projection into the effective spin-1/2 Hamiltonian in the next section.
 
 
@@ -418,11 +418,11 @@ The spin-orbit interaction partially lifts the degeneracy of the $t_{2g}$ orbita
 \begin{equation}
     \ket{\sigma} %=  \frac{\bar{\sigma}}{\sqrt{3}} \big( \ket{z,\sigma} + \im \ket{y,\bar{\sigma}} -\bar{\sigma} \ket{x,\bar{\sigma}} \big)
     = \sum_{s}
-    \mathbb{M}_{s\,\sigma} \ket{s} \; , \quad 
+    \mathbb{M}_{s\,\sigma} \ket{s} \; , \quad
     \mathbb{M}^{\dagger} = -\frac{1}{\sqrt{3}} \;  \left(
 \begin{array}{cccccccc}
      0&1&  &0&\!\!-\im&   &1&0  \\
-     1&0&  &\im&0&  &0&-1 
+     1&0&  &\im&0&  &0&-1
 \end{array}
     \right) \; .
 \end{equation} where $\{ \ket{s} \} =\big\{ \ket{x\uparrow},  \ket{x\downarrow}, \; \,\ket{y\uparrow},  \ket{y\downarrow}, \; \,\ket{z\uparrow},  \ket{z\downarrow} \big\}$.
@@ -433,16 +433,16 @@ We can define the projection operator to $j_{\text{eff}}=1/2$ subspace
     \mathcal{P}_{\frac{1}{2}} =
     \sum_{i, \sigma} \ket{\sigma_i = \sigma}\bra{\sigma_i = \sigma} \; .
 \end{equation}
-The projection reduces the dimension of the local Hilbert space from $6$, spanned by $\{\ket{s_i}\}$, to $2$, spanned by $\{\ket{\sigma_i}\}$. 
-After the projection, the matrix elements of operators $\mathcal{O}_i$ that acts on one site can be obtained as 
+The projection reduces the dimension of the local Hilbert space from $6$, spanned by $\{\ket{s_i}\}$, to $2$, spanned by $\{\ket{\sigma_i}\}$.
+After the projection, the matrix elements of operators $\mathcal{O}_i$ that acts on one site can be obtained as
 \begin{equation}
    \Big(\mathcal{P}_{\frac{1}{2}} \mathcal{O}_{i} \mathcal{P}_{\frac{1}{2}} \Big)_{\sigma_i',\sigma_i}
    = \bra{\sigma_i'}   \mathcal{O}_{i}   \ket{\sigma_i}
    = \sum_{s_i',s_i}  \mathbb{M}_{\sigma_i' \, s_i'}^\dagger   \bra{s_i'}   \mathcal{O}_{i}   \ket{s_i} \mathbb{M}_{s_i\, \sigma_i}
    \; .
 \end{equation}
-Thus to compute the $2\times2$ square matrix of $\mathcal{P}_{\frac{1}{2}} \mathcal{O}_{i} \mathcal{P}_{\frac{1}{2}}$ we need to compute the matrix elements of the operators in the orbital-spin $\ket{s}$ basis and perform a few matrix multiplications. 
-%As an example of this projection, consider a magnetic field $B_z$ applied in the $z$ direction. The Hamiltonian for this operator is $H_{h}=-B_z S^z=\frac{1}{2}\sum B_z \, h_i^\dagger \big(\mathbb{1}_3\otimes\sigma_z\big)h_i$. The matrix for this term is $\bra{s_i'}   H_{Z} \ket{s_i} =  \frac{1}{2}B_z \,   \big(\mathbb{1}_3\otimes\sigma_z\big)_{s_i',s_i}$, which after the projection gives 
+Thus to compute the $2\times2$ square matrix of $\mathcal{P}_{\frac{1}{2}} \mathcal{O}_{i} \mathcal{P}_{\frac{1}{2}}$ we need to compute the matrix elements of the operators in the orbital-spin $\ket{s}$ basis and perform a few matrix multiplications.
+%As an example of this projection, consider a magnetic field $B_z$ applied in the $z$ direction. The Hamiltonian for this operator is $H_{h}=-B_z S^z=\frac{1}{2}\sum B_z \, h_i^\dagger \big(\mathbb{1}_3\otimes\sigma_z\big)h_i$. The matrix for this term is $\bra{s_i'}   H_{Z} \ket{s_i} =  \frac{1}{2}B_z \,   \big(\mathbb{1}_3\otimes\sigma_z\big)_{s_i',s_i}$, which after the projection gives
 %$\mathcal{P}_{\frac{1}{2}} H_{Z}  \mathcal{P}_{\frac{1}{2}} =  \frac{1}{2}B_z \,   \mathbb{M}^\dagger \big(\mathbb{1}_3\otimes\sigma_z\big) \mathbb{M} = \frac{1}{6} B_z \big( \sigma_x\sigma_z\sigma_x+\sigma_y\sigma_z\sigma_y+\sigma_z\sigma_z\sigma_z \big) = - \frac{1}{6} B_z \sigma_z  $.
 The Hamiltonian $\tilde{H}$ is a sum of terms that act on two sites. The expression for the matrix elements of operators $\mathcal{O}_{ij}$ that acts on two site is
 \begin{equation}
@@ -456,43 +456,43 @@ The Hamiltonian $\tilde{H}$ is a sum of terms that act on two sites. The express
 
 
 
-Summing all these terms and grouping like terms, one finds the extended Kitaev Hamiltonian 
+Summing all these terms and grouping like terms, one finds the extended Kitaev Hamiltonian
 \begin{align}\hspace*{-5mm}
 H &= H_{\text{J}} + H_{\text{K}}+ H_{\Gamma}\;,  \label{eq:ext-Ham}
 \\
-    H_{\text{J}} &= J \sum_{\gamma} \sum_{\left< i,j\right>_\gamma}  
-         \bm{\sigma}_i \cdot \bm{\sigma}_j    \; , \\[5pt]  
+    H_{\text{J}} &= J \sum_{\gamma} \sum_{\left< i,j\right>_\gamma}
+         \bm{\sigma}_i \cdot \bm{\sigma}_j    \; , \\[5pt]
     \hspace*{-5mm}
-    H_{\text{K}} &=   K \sum_{\left< i,j\right>x} \sigma_i^x  \sigma_j^x    +  K \sum_{\left< i,j\right>y}  \sigma_i^y  \sigma_j^y     +  K \sum_{\left< i,j\right>z}  \sigma_i^z  \sigma_j^z     \; , \\ 
+    H_{\text{K}} &=   K \sum_{\left< i,j\right>x} \sigma_i^x  \sigma_j^x    +  K \sum_{\left< i,j\right>y}  \sigma_i^y  \sigma_j^y     +  K \sum_{\left< i,j\right>z}  \sigma_i^z  \sigma_j^z     \; , \\
     \hspace*{-5mm}
-    H_{\Gamma} &=  
+    H_{\Gamma} &=
      \Gamma \!\!\sum_{\left< i,j\right>x}\!\! \left(  \sigma_i^y  \sigma_j^z + \sigma_i^z  \sigma_j^y \right) +\Gamma\!\! \sum_{\left< i,j\right>y}\!\! \left(  \sigma_i^z  \sigma_j^x + \sigma_i^x  \sigma_j^z \right) + \Gamma \!\!\sum_{\left< i,j\right>z} \!\!\left(  \sigma_i^x  \sigma_j^y + \sigma_i^y  \sigma_j^x \right), \!\!
 \end{align}
-where the couplings are %\setlength{\jot}{10pt} 
+where the couplings are %\setlength{\jot}{10pt}
 \begin{align}
     J   &=  \frac{1}{27} \Big[
     \frac{(2  t_{1}+ t_{3})^2}{ U+2J_H}  +\frac{6t_{1} ( t_{1}+2  t_{3})}{U-3J_H}  + \frac{2(t_{1}-t_{3})^2}{U-J_H}  \Big]\;, \label{eq:II-1-J}    \\
      K&=\frac{2J_H}{9} \frac{ (t_{1}-t_3)^2-3  t_{2}^2   }{(U-3J_H)(U-J_H)}  \; , \label{eq:II-1-K} \\
      \Gamma &=  \frac{4J_H}{9}  \frac{t_{2} ( t_{1}- t_{3})}{(U-3J_H)(U-J_H)} \; . \label{eq:II-1-gamma}
-\end{align}  
+\end{align}
 These couplings found here reproduce the derivation by \cite{Rau2014}. %, with the corresponding $1/2$ in normalization.
-For $t_1=t_3=0$, the non-Kitaev couplings vanish $J=\Gamma=0$. 
+For $t_1=t_3=0$, the non-Kitaev couplings vanish $J=\Gamma=0$.
 
 
 \begin{comment}
-    
+
 \subsection*{Extended Kitaev model}
 
-The $JK\Gamma$ model in Eq.~\eqref{Hwithfield} follows by projecting the 
+The $JK\Gamma$ model in Eq.~\eqref{Hwithfield} follows by projecting the
 three-orbital Hubbard-Kanamori Hamiltonian on the honeycomb lattice, $H_{\mathrm HK} =  V +H_{\mathrm so}+T$,
-to the low-energy sector spanned by a single hole per site. 
-On-site interactions are encoded by 
+to the low-energy sector spanned by a single hole per site.
+On-site interactions are encoded by
 \begin{equation}
-    V=\sum_i \left[ \frac{U-3J_{\mathrm H}}{2}(\bar{N}_i-1)^2     \!-\!2J_{\mathrm H} \mathbf{S}_i^2 
-    \!-\!\frac{J_{\mathrm H}}{2} \mathbf{L}_i^2 \right], 
-\end{equation} 
+    V=\sum_i \left[ \frac{U-3J_{\mathrm H}}{2}(\bar{N}_i-1)^2     \!-\!2J_{\mathrm H} \mathbf{S}_i^2
+    \!-\!\frac{J_{\mathrm H}}{2} \mathbf{L}_i^2 \right],
+\end{equation}
 where $U$ is the repulsive interaction strength, $J_{\mathrm H}$ is Hund's coupling, and  the operators $\bar N_i$, $\mathbf S_i$ and $\mathbf L_i$ are the total number,  spin and orbital angular momentum of holes at site $i$.
-The operator $h^\dagger_{i\alpha \sigma} $ creates a hole at site $i$ with spin $\sigma \in \{ \uparrow, \downarrow \}$ and orbital 
+The operator $h^\dagger_{i\alpha \sigma} $ creates a hole at site $i$ with spin $\sigma \in \{ \uparrow, \downarrow \}$ and orbital
  $\alpha \in\{ x,y,z\}$  for  $yz$, $xz$, and $xy$ orbitals, respectively.
 Defining the spinor $h_i^\dagger=(h^\dagger_{ix\uparrow},h^\dagger_{iy\uparrow},h^\dagger_{iz\uparrow},h^\dagger_{ix\downarrow},h^\dagger_{iy\downarrow},h^\dagger_{iz\downarrow})$, we   write
 \begin{equation}
@@ -505,14 +505,14 @@ splits the degeneracy of the $t_{2g}$ manifold. At each site, the low-energy sub
 \left|+\right\rangle&=\frac1{\sqrt3}\left(-\left|z,\uparrow\right\rangle-i\left|y,\downarrow\right\rangle-\left|x,\downarrow\right\rangle\right),\nonumber\\
 \left|-\right\rangle&=\frac1{\sqrt3}\left(\left|z,\downarrow\right\rangle+i\left|y,\uparrow\right\rangle-\left|x,\uparrow\right\rangle\right),\label{jeff12}
 \end{align}
-which are associated with  total angular momentum $j_{\mathrm eff}=\frac12$. Finally, 
-the hopping term in $H_{\mathrm K}$ has the form 
+which are associated with  total angular momentum $j_{\mathrm eff}=\frac12$. Finally,
+the hopping term in $H_{\mathrm K}$ has the form
 $T = - \sum_{ij} h_i^\dagger  \left( \mathbb{1}_2 \otimes \mathbf{T}_{ij } \right) h_j^{\phantom{\dagger}}.$
-The hopping matrix $\mb T_{ij}$  in orbital space depends on the orientation of the bond between sites $i$ and $j$. We label  the bonds on the honeycomb lattice by $\gamma\in \{x,y,z\}\equiv\{1,2,3\}$ 
+The hopping matrix $\mb T_{ij}$  in orbital space depends on the orientation of the bond between sites $i$ and $j$. We label  the bonds on the honeycomb lattice by $\gamma\in \{x,y,z\}\equiv\{1,2,3\}$
 corresponding to nearest-neighbor vectors $\boldsymbol\delta_x=\frac{1}{2}\hat{\mb a}+\frac1{2\sqrt3}\hat{\mb b}$,  $\boldsymbol\delta_y=-\frac{1}{2}\hat{\mb a}+\frac1{2\sqrt3}\hat{\mb b}$, and  $\boldsymbol\delta_z=-\frac1{\sqrt3}\hat{\mb b}$, respectively. We parametrize the hopping matrix for a nearest-neighbor $z$ bond as \cite{Rau2014}
 $
     \mathbf{T}_{\braket{ij}_z} =
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_1 & t_2  & {t_4} \\
          t_2 & t_1  & {t_4} \\
@@ -520,48 +520,48 @@ $
     \end{array}
     \right)  .
 $
-The hopping matrix for $x$ and $y$ bonds follows by cyclic permutation of the orbital indices.  Microscopically, the hopping parameters   are associated with   direct hopping between $d$ orbitals or  hoppings mediated by the ligand ions. Neglecting trigonal distortions for simplicity,   we  set  $t_4=0$   \cite{Winter2017rev,Rau2014}.  
+The hopping matrix for $x$ and $y$ bonds follows by cyclic permutation of the orbital indices.  Microscopically, the hopping parameters   are associated with   direct hopping between $d$ orbitals or  hoppings mediated by the ligand ions. Neglecting trigonal distortions for simplicity,   we  set  $t_4=0$   \cite{Winter2017rev,Rau2014}.
 
 The effective spin Hamiltonian for the Mott insulating phase can now be derived by applying perturbation theory in the regime $U,J_{\mathrm H}\gg \lambda \gg t_1,t_2,t_3$. We use the canonical transformation
 \begin{align}
     \tilde{H}_{\mathrm HK} &= e^{ S}   {H}_{\mathrm HK}   e^{-S} \nonumber\\
     &= {H}_{\mathrm HK}  + [S,{H}_{\mathrm HK} ]+\frac{1}{2}[S,[S,{H}_{\mathrm HK} ]] + \cdots \, . \label{eq:II-1-S-transf}
 \end{align}
-The anti-Hermitian operator $S=\sum_{k=1}^{\infty}S_k$ is chosen so that $S_k$ eliminates the terms that change the hole occupation numbers  $\bar N_i$ at $k$-th order in the hopping parameters.  We can write $S_k=S_k^+-S_k^-$, where $S_k^+$ creates   excitations with $\bar N_i\neq 1$ and $S_k^-=(S_k^+)^\dagger$. For the calculation of the effective spin Hamiltonian, it suffices to consider the first-order term $S_1 = S_1^{+} - S_1^{-}$, with 
+The anti-Hermitian operator $S=\sum_{k=1}^{\infty}S_k$ is chosen so that $S_k$ eliminates the terms that change the hole occupation numbers  $\bar N_i$ at $k$-th order in the hopping parameters.  We can write $S_k=S_k^+-S_k^-$, where $S_k^+$ creates   excitations with $\bar N_i\neq 1$ and $S_k^-=(S_k^+)^\dagger$. For the calculation of the effective spin Hamiltonian, it suffices to consider the first-order term $S_1 = S_1^{+} - S_1^{-}$, with
 \begin{equation}
-    S_1^{+}  = \sum_{ij}\sum_{\ell=0}^2 \frac{1}{\Delta E_{\ell}} \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger ( \mathbb 1\otimes {\mathbf{T}}_{ij} )h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j}.  
+    S_1^{+}  = \sum_{ij}\sum_{\ell=0}^2 \frac{1}{\Delta E_{\ell}} \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger ( \mathbb 1\otimes {\mathbf{T}}_{ij} )h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j}.
 \end{equation}
-Here $\mathcal{P}^{(1)}_{j}$ is a projector onto the subspace of a single hole at site $j$ and $ \mathcal{P}^{(2)}_{j,\ell}$ projects onto the subspace of two holes with total angular momentum $\ell\in\{0,1,2\}$. The  excited states have energies $\Delta E_{\ell}$ given by  
+Here $\mathcal{P}^{(1)}_{j}$ is a projector onto the subspace of a single hole at site $j$ and $ \mathcal{P}^{(2)}_{j,\ell}$ projects onto the subspace of two holes with total angular momentum $\ell\in\{0,1,2\}$. The  excited states have energies $\Delta E_{\ell}$ given by
 \begin{equation} \label{deltaEl}
 \Delta E_0 = U + 2 J_{\mathrm H},\quad \Delta E_1=U-3J_{\mathrm H}, \quad \Delta E_2=U-J_{\mathrm H},
-\end{equation} 
+\end{equation}
 with $J_{\mathrm H}<U/3$ in the Mott insulating phase. We then take $H=\cP_{1\text{h}}\tilde H_{\mathrm HK}\cP_{1\text{h}}$,
 where $\cP_{1\text{h}}=\prod_i \left(\ket{+_i}\bra{+_i}+ \ket{-_i}\bra{-_i}\right)$
 is the projector onto the low-energy  subspace restricted to
-$j_{\text{eff}}=\frac12$ states at every site. We thereby arrive 
-at the $JK\Gamma$ model \cite{Rau2014}, 
+$j_{\text{eff}}=\frac12$ states at every site. We thereby arrive
+at the $JK\Gamma$ model \cite{Rau2014},
 \begin{equation}
-        H\!=\sum_{\left< ij\right>_\gamma\!\!}\!\Big[ 
-        J  \bm{\sigma}_i \cdot \bm{\sigma}_j 
-        + K  \sigma_i^\gamma \sigma_j^\gamma  
+        H\!=\sum_{\left< ij\right>_\gamma\!\!}\!\Big[
+        J  \bm{\sigma}_i \cdot \bm{\sigma}_j
+        + K  \sigma_i^\gamma \sigma_j^\gamma
         + \Gamma  \big( \sigma_i^\alpha \sigma_j^\beta+\sigma_i^\beta \sigma_j^\alpha \big)     \Big]  , \label{eq:H_ext}
-\end{equation} 
+\end{equation}
 with an implicit sum over bond type $\gamma$, and $\alpha,\beta$ chosen so that $(\alpha\beta\gamma)$ is a cyclic permutation of $(xyz)$.  The couplings are
 \begin{eqnarray}
         J   &= & \frac{1}{27} \left[
-    \frac{(2  t_{1}+ t_{3})^2}{ \Delta E_0}\!+\frac{6t_{1} ( t_{1}+2  t_{3})}{\Delta E_1} 
+    \frac{(2  t_{1}+ t_{3})^2}{ \Delta E_0}\!+\frac{6t_{1} ( t_{1}+2  t_{3})}{\Delta E_1}
     +\frac{2(t_{1}-t_{3})^2}{\Delta E_2}  \right],  \nonumber
  \\     K&=&\frac{2J_{\mathrm H}}{9} \frac{ (t_{1}-t_3)^2-3  t_{2}^2   }{\Delta E_1\Delta E_2}  , \quad
      \Gamma =  \frac{4J_{\mathrm H}}{9}  \frac{t_{2} ( t_{1}- t_{3})}{\Delta E_1 \Delta E_2}  .\label{eq:J}
 \end{eqnarray}
 In the limit $t_1,t_3\to 0$ and $t_2\neq0$,  Eq.~(\ref{eq:H_ext}) reduces  to the exactly solvable Kitaev model \cite{Kitaev2006} with a ferromagnetic Kitaev interaction ($K<0$).
-Finally, in the presence of a potential $V_0$, the respective couplings are renormalized according to 
+Finally, in the presence of a potential $V_0$, the respective couplings are renormalized according to
 \begin{align}
     J(V_0) &= \frac{1}{27} \left[
     \frac{(2  t_{1}+ t_{3})^2}{ (1-\xi_0^2)\Delta E_0} +\frac{6t_{1} ( t_{1}+2  t_{3})}{(1-\xi_1^2)\Delta E_1}
      + \frac{2(t_{1}-t_{3})^2}{(1-\xi_2^2)\Delta E_2} \right], \label{eq:ev-J}
-    \\ \nonumber 
-   \frac{K(V_0)}{K(0)} &= \frac{\Gamma(V_0)}{\Gamma(0)} =  
+    \\ \nonumber
+   \frac{K(V_0)}{K(0)} &= \frac{\Gamma(V_0)}{\Gamma(0)} =
   \frac{1+\xi_1 \xi_2}{(1-\xi_1^2)(1-\xi_2^2)},
 \end{align}
 where $\xi_\ell = eV_0/\Delta E_\ell$.
@@ -574,7 +574,7 @@ where $\xi_\ell = eV_0/\Delta E_\ell$.
 
 Our strategy to localize the anyons in the Kitaev spin liquid is to apply a local electrostatic field above it. %The vortices live in the center of the hexagonal plaquette and it is natural to consider a local electric field also in the center of the plaquette $p$.
 It is natural to consider a local electric field in the center of the plaquette $p$ since the vortices live in the center of the plaquette.
-We will consider an extremely local field such that it only changes the electric potential of the sites on the boundary of the plaquette $\partial p$, see Fig.~ \ref{fig:II-1-plaquette_eV0}. This framework applied for the pure Kitaev model was first described in \cite{Pereira2020}, and here I will present the generalization for the extended model. 
+We will consider an extremely local field such that it only changes the electric potential of the sites on the boundary of the plaquette $\partial p$, see Fig.~ \ref{fig:II-1-plaquette_eV0}. This framework applied for the pure Kitaev model was first described in \cite{Pereira2020}, and here I will present the generalization for the extended model.
 
 
 Including a local electrostatic field $V_0$ in the border $\partial p$ of a set of plaquettes $\mathsf{P}$,  the atomic Hamiltonian changes to $H_{\mathrm{at}}= V_N+V_S+V_L+V_{e}$ with
@@ -594,17 +594,17 @@ Thus we need to calculate the couplings just for $i$ and $j$ with different pote
 Let us consider $i$ in the board of a plaquette in $\mathsf{P}$ and $j$ a neighboring site. The equation  \eqref{eq:II-1-comm} for the computation changes for the terms where on the sites is in the plaquette as
 \begin{equation}
 \begin{split}
-        \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \big] &= \big( \Delta E_{\ell} + eV_0 \big) \;  \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} 
+        \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j} \big] &= \big( \Delta E_{\ell} + eV_0 \big) \;  \mathcal{P}^{(2)}_{i,\ell} \, h_i^\dagger  \tilde{\mathbf{T}}_{ij} h_j^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{j}
         \; , \\
-        \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{i} \big] &= \big( \Delta E_{\ell} - eV_0 \big) \;   \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{i}  
+        \big[ H_{\text{at}} \, ,\, \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{i} \big] &= \big( \Delta E_{\ell} - eV_0 \big) \;   \mathcal{P}^{(2)}_{j,\ell} \, h_j^\dagger  \tilde{\mathbf{T}}_{ji} h_i^{\phantom{\dagger}} \, \mathcal{P}^{(1)}_{i}
         \; .
 \end{split}
 \end{equation}
 This leads to a straightforward change in $S_1$ by changing the denominator $\Delta E_\ell$ to $\Delta E_\ell \pm e V_0$ for the terms involving the sites $ij$.
 Expressing in terms of the adimensional parameters
 \begin{equation}
-    \xi_{0} = \frac{eV_0}{\,U+2J_H\,}, \quad  
-    \xi_{1} = \frac{eV_0}{\,U-3J_H\,} , \quad 
+    \xi_{0} = \frac{eV_0}{\,U+2J_H\,}, \quad
+    \xi_{1} = \frac{eV_0}{\,U-3J_H\,} , \quad
     \xi_{2} = \frac{eV_0}{\,U-J_H\,} \; ,
 \end{equation}
 i.e. $\xi_{\ell}=eV_0/\Delta E_{\ell}$,  the couplings for neighboring sites $\braket{ij}$ with potential difference $V_0$ are
@@ -612,19 +612,19 @@ i.e. $\xi_{\ell}=eV_0/\Delta E_{\ell}$,  the couplings for neighboring sites $\b
 \begin{split}\hspace*{-5mm}
         J_{ij}(V_0) &= \frac{1}{27} \Big[
     \frac{(2  t_{1}+ t_{3})^2}{ U+2J_H}\frac{1}{1-\xi_0^2}
-    +\frac{6t_{1} ( t_{1}+2  t_{3})}{U-3J_H} \frac{1}{1-\xi_1^2}  
+    +\frac{6t_{1} ( t_{1}+2  t_{3})}{U-3J_H} \frac{1}{1-\xi_1^2}
     + \frac{2(t_{1}-t_{3})^2}{U-J_H}\frac{1}{1-\xi_2^2} \Big]  \; \end{split} \label{eq:II-1-V-J}\\  \hspace*{-5mm}
-   K_{ij}(V_0) 
-   &= K(0) 
+   K_{ij}(V_0)
+   &= K(0)
    \; \frac{1+\xi_1 \xi_2}{(1-\xi_1^2)(1-\xi_2^2)}
    \; , \label{eq:II-1-V-K}  \\ \hspace*{-5mm}
-   \Gamma_{ij}(V_0)  
+   \Gamma_{ij}(V_0)
    &= \Gamma(0) \; \frac{1+\xi_1 \xi_2}{(1-\xi_1^2)(1-\xi_2^2)} \; ,    \label{eq:II-1-V-G}
-\end{align} 
+\end{align}
 where the couplings for $V_0=0$ are given in equations \eqref{eq:II-1-K} and \eqref{eq:II-1-gamma}.
 The ratios $J(V_0)/K(0), \Gamma(V_0)/K(0), K(V_0)/K(0)$ are depicted in the figures \ref{fig:coulings-ev-dependence} and \ref{fig:coulings-ev-dependence-ii}.
 Note that these expressions diverge for $|\xi_\ell|=1$. Thus one must restrict to the interval $|\xi_\ell|<1$ which implies\footnote{$U,J_H >0$ and $U>3J_H$.} in $e|V_0|<U-3 J_H$.
-The factors $(1-\xi_\ell^2)^{-1}$ increase the absolute value of couplings along the corresponding bonds, going to infinity for $|\xi_\ell|\to1$. 
+The factors $(1-\xi_\ell^2)^{-1}$ increase the absolute value of couplings along the corresponding bonds, going to infinity for $|\xi_\ell|\to1$.
 
 
 \begin{figure}[h!]
@@ -650,23 +650,23 @@ The factors $(1-\xi_\ell^2)^{-1}$ increase the absolute value of couplings along
 
 \section{Dzyaloshinskii-Moriya interaction}\label{sec:DM}
 
-The local electric field breaks bond inversion symmetry. 
+The local electric field breaks bond inversion symmetry.
 This reduced symmetry allows another term in the extended Kitaev model
 \begin{equation}
    H_{\text{DM}} = \sum_\gamma\! \sum_{\braket{ij}_{\gamma} }     \; D_{ij}  \, \left( \sigma_i^\alpha \sigma_j^\beta -\sigma_i^\beta \sigma_j^\alpha    \right),
 \end{equation}
 where $(\alpha\beta\gamma)$ is a cyclic permutation of $(xyz)$.
-This coupling is known as the Dzyaloshinskii-Moriya (DM) term \cite{Jang2021}. 
+This coupling is known as the Dzyaloshinskii-Moriya (DM) term \cite{Jang2021}.
 The coupling is zero $D_{ij}=0$ for bonds with no electric potential difference and we assume them to be uniform and independent of the bond type $\gamma$ $D_{ij}=D(V_0)$.
-This restricts the sum over the bonds exterior to the plaquette with the applied local potential. 
- 
+This restricts the sum over the bonds exterior to the plaquette with the applied local potential.
+
 
 Microscopically, the DM interactions are generated by the lattice distortion and anisotropy in the hopping elements or the crystal field. We will not consider the microscopic derivation for this interaction, but only the leading order contribution due to the applied electric potential:
 \begin{equation}
-     \label{eq:ev-DM}  
+     \label{eq:ev-DM}
     D(V_0) =  \xi_1 D_1 |K(0)|, \quad \xi_1=\frac{eV_0}{U-3J_{\mathrm H}} \; ,
 \end{equation}
-such that $D(V_0)\propto V_0$ with a dimensionless free parameter $D_1$.  
+such that $D(V_0)\propto V_0$ with a dimensionless free parameter $D_1$.
 We use $\Delta E_1 = U-3J_H$ as the lowest among the energy scale that depend on the Hubbard interaction and Hund's coupling.
 
 
@@ -680,10 +680,10 @@ A maybe counterintuitive finding is that inhomogeneous correlation in Mott insul
 This mechanism was exploited in Ref.~\cite{Pereira2020} to find a finite charge profile due to $\mathbb{Z}_2$ vortices in the Kitaev model.
 Here I will present the derivation of the charge density operator in the context of the extended Kitaev model.
 
-Computing an observable in the perturbation theory used here regards to account for the contributions of the observable in the virtual hopping processes over the one hole per site subspace. 
+Computing an observable in the perturbation theory used here regards to account for the contributions of the observable in the virtual hopping processes over the one hole per site subspace.
 The contribution to the charge density in perturbation theory vanishes up to second-order processes for hopping between first-neighbor sites.
-This happens because the amplitude of the charge from one site to its near-neighbor cancels with the amplitude of the reverse process. 
-Including second-neighbor hopping, processes involving the hopping between two nearest neighboring sites and one next-nearest-neighboring site in a triangular configuration yields a non-zero contribution for the charge operator. 
+This happens because the amplitude of the charge from one site to its near-neighbor cancels with the amplitude of the reverse process.
+Including second-neighbor hopping, processes involving the hopping between two nearest neighboring sites and one next-nearest-neighboring site in a triangular configuration yields a non-zero contribution for the charge operator.
 The next-nearest-neighboring hoppings in the candidate Kitaev material are indeed non-zero, so these processes are physically relevant.
 
 \begin{figure}[h!]
@@ -698,9 +698,9 @@ We will consider the microscopic Hubbard-Kanamori Hamiltonian modifying the hopp
 We generalize the hopping matrix to include hopping between next-nearest-neighbor sites on the honeycomb lattice. We denote by $\langle \langle ij\rangle\rangle_\gamma$ a second-neighbor bond perpendicular to nearest-neighbor  $\gamma$ bonds, see Fig.~\ref{fig:triang-jkl}. Sizeable second- and third-neighbor hopping parameters have been calculated for Kitaev materials using {\it ab initio} methods \cite{Winter_2016,Winter2017rev}. For simplicity,  we consider only the dominant second-neighbor hopping given by the matrices
 \begin{equation}
 \begin{split}
-    \hspace*{-5mm} 
+    \hspace*{-5mm}
         \mathbf{T}_{\braket{x}}    \!&=  \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_3 & 0  & 0 \\
          0 & t_1  & t_2 \\
@@ -708,15 +708,15 @@ We generalize the hopping matrix to include hopping between next-nearest-neighbo
     \end{array}
     \right)  \!, \;
         \mathbf{T}_{\braket{y}}  \! =  \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          t_1 & 0  & t_2 \\
          0 & t_3  & 0 \\
          t_2 & 0  & t_1 \\
     \end{array}
-    \right) \!, \;    
-    \mathbf{T}_{\braket{z}}  \! = \! 
-    \left( 
+    \right) \!, \;
+    \mathbf{T}_{\braket{z}}  \! = \!
+    \left(
     \begin{array}{ccc}
          t_1 & t_2  & 0 \\
          t_2 & t_1  & 0 \\
@@ -724,7 +724,7 @@ We generalize the hopping matrix to include hopping between next-nearest-neighbo
     \end{array}
     \right) \!, \\ \hspace*{-5mm}
     \mathbf{T}_{\braket{\braket{x}}} \! \! &=  \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          0 & 0  & 0 \\
          0 & 0  & t_2' \\
@@ -732,15 +732,15 @@ We generalize the hopping matrix to include hopping between next-nearest-neighbo
     \end{array}
     \right)  \!, \;
         \mathbf{T}_{\braket{\braket{y}}} \!\! = \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          0 & 0  & t_2' \\
          0 & 0  & 0 \\
          t_2' & 0  & 0 \\
     \end{array}
-    \right) \!, \;    
+    \right) \!, \;
     \mathbf{T}_{\braket{\braket{z}}}  \!\! =  \!
-    \left( 
+    \left(
     \begin{array}{ccc}
          0 & t_2'  & 0 \\
          t_2' & 0  & 0 \\
@@ -751,9 +751,9 @@ We generalize the hopping matrix to include hopping between next-nearest-neighbo
 \end{equation}
 Here $\braket{\gamma}$ stands for a $\gamma$-bond between NN sites and orthogonal to these directions we define $\braket{\braket{\gamma}}$ for a $\gamma$-bond between NNN sites. For example, a NNN bond  $(jk)$ is of $\braket{\braket{z}}$ type when the others two (equal length) sides of the triangle $jlk$  are of type $\braket{x}$ and $\braket{y}$, see Fig. \ref{fig:triang-jkl}.
 Assuming   $|t_2'|\ll |t_1|,|t_2|,|t_3|$, we calculate the charge density response to first order in $t_2'$. In this approximation, we neglect the second-neighbor exchange interaction generated by perturbation theory at order $(t_2')^2$, keeping only the nearest-neighbor exchange couplings.
-In the hopping matrix for NNN we only consider $t_2'$. 
+In the hopping matrix for NNN we only consider $t_2'$.
 The other second neighbor hopping amplitudes are much smaller than $t_2'$ and I set them to zero\footnote{In meV, the amplitudes are $t_1'\approx - 5$, $t_3'\approx - 1$ and $t_4'\approx 10$ for $\alpha\text{-RuCl}_3$ \cite{Winter_2016}}.
-Also, note that for the second neighbor, we do not have inversion symmetry through the center of the bond, and then $\mathbf{T}_{\braket{\braket{ik}}}$ is in general not symmetric. %\footnote{For example, if $\braket{\braket{ik}}_z$ is a NNN $z$-bond in $\alpha\text{-RuCl}_3$, the $\mathbf{T}_{\braket{\braket{z}}}$ is not symmetric and the hopping between orbitals $y\to x$ has amplitude $-60 \text{ meV}$ whereas the hopping between orbital $x\to y$ has amplitude $-24 \text{ meV}$ \cite{Winter_2016}.}. 
+Also, note that for the second neighbor, we do not have inversion symmetry through the center of the bond, and then $\mathbf{T}_{\braket{\braket{ik}}}$ is in general not symmetric. %\footnote{For example, if $\braket{\braket{ik}}_z$ is a NNN $z$-bond in $\alpha\text{-RuCl}_3$, the $\mathbf{T}_{\braket{\braket{z}}}$ is not symmetric and the hopping between orbitals $y\to x$ has amplitude $-60 \text{ meV}$ whereas the hopping between orbital $x\to y$ has amplitude $-24 \text{ meV}$ \cite{Winter_2016}.}.
 The addition of all these amplitudes is a straightforward generalization of the calculation for this chapter, which follows from simply changing these amplitudes and modifying the matrix for the mean-field Hamiltonian.
 Here I will consider \eqref{eq:II-5-hopping} as the minimal model to observe non-zero charge density in the extended Kitaev model.
 
@@ -768,13 +768,13 @@ We then define the charge (imbalance) operator
     \delta n_l = \bar{N}_l -1  \; .
 \end{equation}
 
-Consider the canonical transformation $S=S_1+S_2+\cdots$. %that we introduced in Sec. \ref{sec:II-1-canon}. 
-The effective charge density operator is 
+Consider the canonical transformation $S=S_1+S_2+\cdots$. %that we introduced in Sec. \ref{sec:II-1-canon}.
+The effective charge density operator is
 \begin{equation}
-        \delta \tilde{n}_l^{\phantom{(0)}}= \mathcal{P}_{1\text{h}} \, e^{S} \; \delta {n}_l \; e^{-S} \,  \mathcal{P}_{1\text{h}} 
-        = \delta n_l^{(0)} + \delta n_l^{(1)} + \delta n_l^{(2)} + \delta n_l^{(3)} + ...  \; , 
+        \delta \tilde{n}_l^{\phantom{(0)}}= \mathcal{P}_{1\text{h}} \, e^{S} \; \delta {n}_l \; e^{-S} \,  \mathcal{P}_{1\text{h}}
+        = \delta n_l^{(0)} + \delta n_l^{(1)} + \delta n_l^{(2)} + \delta n_l^{(3)} + ...  \; ,
 \end{equation}
-where $\delta n_l^{(k)}$ is the contribution of $\delta \tilde{n}_l$ in $k$-th order of perturbation.  
+where $\delta n_l^{(k)}$ is the contribution of $\delta \tilde{n}_l$ in $k$-th order of perturbation.
 These contributions to the lowest non-zero order are
 %\begin{adjustwidth}{-5mm}{-10mm}\vspace*{-5mm}
 \begin{equation}\hspace*{-10mm}%
@@ -791,15 +791,15 @@ After projecting into the low-energy subspace, only the operators with zero tota
 
 
 The generator of the transformation $S=\sum_k S_k$ is written as $S_k=S_k^+-S_k^-$ with $S_k^{\pm}$ being a homogeneous polynomial of degree $k$ in $T_{1},T_0,T_{-1}$ that has charge $\pm 1$ with property $\mathcal{P}_{1\text{h}}S_k^+ = S_k^-\mathcal{P}_{1\text{h}} =0$. From this it follows directly that $\mathcal{P}_{1\text{h}} [S_k, \delta {n}_l ] \mathcal{P}_{1\text{h}} = 0$ and then $\delta n_l^{(0)}=\delta n_l^{(1)}=0$.
-The second-order term can be expanded to 
+The second-order term can be expanded to
     \begin{equation}
-\begin{split}    
-    \delta n_l^{(2)} 
-    \!&=\!  - \mathcal{P}_{1\text{h}} \, S_1^{-} \, [ \delta {n}_l, S_1^{+} ]\,  \mathcal{P}_{1\text{h}} = \sum_{j} \delta n_{l \,(j)}^{(2)} \; , 
+\begin{split}
+    \delta n_l^{(2)}
+    \!&=\!  - \mathcal{P}_{1\text{h}} \, S_1^{-} \, [ \delta {n}_l, S_1^{+} ]\,  \mathcal{P}_{1\text{h}} = \sum_{j} \delta n_{l \,(j)}^{(2)} \; ,
 \end{split}
-\end{equation} where %the sum is over NN of $l$ and  
-$\delta n_{l \,(j)}^{(2)}$  is the charge transfer from $j\to l$ minus the charge transfer from $l \to j$. 
-In the absence of some \textit{asymmetry}, the contribution from these two processes cancels. 
+\end{equation} where %the sum is over NN of $l$ and
+$\delta n_{l \,(j)}^{(2)}$  is the charge transfer from $j\to l$ minus the charge transfer from $l \to j$.
+In the absence of some \textit{asymmetry}, the contribution from these two processes cancels.
 The third-order term can be expressed as
 \begin{equation}
     \delta n_l^{(3)} = - \mathcal{P}_{1\text{h}} S_2^{-}\,[ \delta {n}_l, S_1^{+} ]  \,\mathcal{P}_{1\text{h}} + \text{h.c.}
@@ -808,27 +808,27 @@ Considering hopping over NN and NNN, the third-order contribution to the charge 
 \begin{equation}
     \delta n_l^{(3)} = \sum_{(jk)} \delta n_{l,(jk)}^{(3)} \; ,
 \end{equation}
-where the sum over $(jk)$ is a sum over all pairs of sites such that $jkl$ forms a triangle. To avoid double counting, we consider only one pair in the sum $(jk)\equiv(kj)$, and the two contributions are already considered in $\delta n_{l,(jk)}$. 
+where the sum over $(jk)$ is a sum over all pairs of sites such that $jkl$ forms a triangle. To avoid double counting, we consider only one pair in the sum $(jk)\equiv(kj)$, and the two contributions are already considered in $\delta n_{l,(jk)}$.
 
 After the projection  onto the $j_{\text{eff}}=\frac{1}{2}$ subspace, the effective charge density operator is
 \begin{equation}
-\delta n_{l \; \text{(eff)} }  = 
-\sum_{(jk)}\sum_{\alpha\beta} \Big(  \mathcal{C}_{jkl}^{\alpha 0 \beta } \sigma_j^\alpha \sigma_l^\beta \!+\mathcal{C}_{jkl}^{ 0 \alpha\beta } \sigma_k^\alpha \sigma_l^\beta\! +  
+\delta n_{l \; \text{(eff)} }  =
+\sum_{(jk)}\sum_{\alpha\beta} \Big(  \mathcal{C}_{jkl}^{\alpha 0 \beta } \sigma_j^\alpha \sigma_l^\beta \!+\mathcal{C}_{jkl}^{ 0 \alpha\beta } \sigma_k^\alpha \sigma_l^\beta\! +
 \mathcal{C}_{jkl}^{   \alpha\beta 0 } \sigma_j^\alpha \sigma_k^\beta  \Big).\label{spincorr}
 \end{equation}
 Note that the effective density operator involves only two spin operators because it must be invariant under time reversal.
-The coefficients in  Eq.~(\ref{spincorr}) are given by 
+The coefficients in  Eq.~(\ref{spincorr}) are given by
 \begin{equation}
     \mathcal{C}_{jkl}^{\mu\nu\rho} = \frac{1}{8} \text{Tr} \left( \cP_{\frac12}  \delta n_{l,(jk)}^{(3)} \cP_{\frac12} \sigma^\mu_j \sigma^\nu_k \sigma^\rho_l  \right)
 , \label{eq:II-5-C}
 \end{equation}
 where $\sigma^{0}=\mathbb{1}$ and the expression for the matrix elements of $\cP_{\frac12}  \delta n_{l,(jk)}^{(3)} \cP_{\frac12}$ is given in the appendix \ref{App-micro}.
-Since the charge density operator is even under time reversal, terms that act nontrivially on an odd number of spins vanish identically,  
+Since the charge density operator is even under time reversal, terms that act nontrivially on an odd number of spins vanish identically,
 \begin{equation}
      \mathcal{C}_{jkl}^{\alpha\beta\gamma} =     \mathcal{C}_{jkl}^{\alpha00} =     \mathcal{C}_{jkl}^{0\alpha0}= \mathcal{C}_{jkl}^{00\alpha} = 0,
 \end{equation}
-with $\alpha, \beta, \gamma \in \{1,2,3\}$.  
-The nonzero terms can be written as in Eq.~(\ref{spincorr}) and depend on the specific triangle. 
+with $\alpha, \beta, \gamma \in \{1,2,3\}$.
+The nonzero terms can be written as in Eq.~(\ref{spincorr}) and depend on the specific triangle.
 
 
 
@@ -836,5 +836,5 @@ The nonzero terms can be written as in Eq.~(\ref{spincorr}) and depend on the sp
 
 To compute the charge profile \eqref{spincorr} in a given state we need the expectation value for the spin bilinear  $\braket{\sigma_j^\alpha \sigma_l^\beta}$. In the pure Kitaev model one can do this exactly finding only diagonal and ultra-local terms, as was done in Ref.~\cite{Pereira2020}.
 However, for the extended Kitaev model, all these coefficients are important.
-In the next chapters, we will see how to evaluate these expectation values under mean-field approximation. 
+In the next chapters, we will see how to evaluate these expectation values under mean-field approximation.
 

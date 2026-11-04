@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -32,7 +32,7 @@
 
 \def \h { 0.57735026918}  % 1/\sqrt(3)
 \def \d { 0.28867513459} % 1/2\sqrt(3)
-\def \c { 0.5}          
+\def \c { 0.5}
 \def \v { 0.86602540378 }  % \sqrt(3)/2
 
 \def \ax {0.5}
@@ -56,13 +56,13 @@
 
 \clip (-\mar-\bx, -\mar-\by) rectangle (\mar+\bx, \mar+2*\by);
 
-%% draw hexagonal BZ 
+%% draw hexagonal BZ
 \draw[draw=lightpink,fill=lightpink, opacity=1,  line width=0.6mm] (\two,0)--(\one,\by)--(-
 \one,\by)--(-\two,0)--(-\one,-\by)--(\one,-\by)--cycle;
 
-%% draw half BZ 
+%% draw half BZ
 \draw[draw=gray!50,fill=gray!40, opacity=0.8, densely dotted, line width=0.4mm] (\two,0)--(\one,\by)--(0.01,\by)--(0.01,-\by)--(\one,-\by)--cycle;
- 
+
 \draw[->,draw=black!95, line width=0.3mm] (0,0)--(\bx,\by) node[below = 5pt] {\textcolor{black}{$\, \mathbf{b}_{1}$}};
 \draw[->,draw=black!95, line width=0.3mm] (0,0)--(-\bx,\by) node[below = 5pt] { \textcolor{black}{$\mathbf{b}_{2}\, $} };
 
@@ -75,7 +75,7 @@
 \node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (K) at (\one,\by) {};
 \node[above=5pt] at (\one,\by) {\small $\mathrm{K}$};
 
- 
+
 %% Point K'
 \node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (Kp) at (-\one,\by) {};
 \node[above=5pt] at (-\one,\by) {\small $\mathrm{K}^\prime$};
@@ -84,8 +84,8 @@
 \node[circle, fill=black, draw=black, line width=0.20mm, inner sep=1pt, minimum size=1pt] (M) at (0,\by) {};
 \node[above=5pt] at (0,\by) {\small $\mathrm{M}$};
 
- 
-  
+
+
 \end{tikzpicture}
 \end{document}
 

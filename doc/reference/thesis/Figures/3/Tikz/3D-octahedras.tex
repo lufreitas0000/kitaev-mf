@@ -1,4 +1,4 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,tikz-3dplot}
 %\usepackage[active,tightpage]{preview}
 %\PreviewEnvironment{tikzpicture}
@@ -26,45 +26,45 @@
 
 % Set view angles for 3D plot
 % Elevation angle, azimuth angle (xy plane) (it was 72,105)
-\tdplotsetmaincoords{75}{130}  %{72}{118}  
+\tdplotsetmaincoords{75}{130}  %{72}{118}
 
-% {118}{-40} c entering plane 
+% {118}{-40} c entering plane
 % {145}{-45} c out of the plane, b left, a down
 
-% {58}{-45}  c vertical up, b to the left, a out of the plane 
+% {58}{-45}  c vertical up, b to the left, a out of the plane
 
-\begin{tikzpicture}[>=latex,tdplot_main_coords]    
-        
+\begin{tikzpicture}[>=latex,tdplot_main_coords]
+
 %\clip (-20,-30,-15) rectangle (18,22,12);
-       
+
 %%% draw more Ru/ honeycomb points
 
 %% (11A)
-\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (11A) at (\r,-\r,0) {}; 
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (11A) at (\r,-\r,0) {};
 
 
 %% (11B)
-\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (11B) at (0, 0, 0) {}; 
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (11B) at (0, 0, 0) {};
 
 %% (01B)= (11A)+delta x
-\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (01B) at (\r,-\r-\onerootsix*\roottwo*\r,\onerootsix*\roottwo*\r) {}; 
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (01B) at (\r,-\r-\onerootsix*\roottwo*\r,\onerootsix*\roottwo*\r) {};
 
 %% (10B)= (11A)+delta y
-\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (10B) at (\r+\onerootsix*\roottwo*\r,-\r,-\onerootsix*\roottwo*\r) {}; 
+\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (10B) at (\r+\onerootsix*\roottwo*\r,-\r,-\onerootsix*\roottwo*\r) {};
 
 %% (12A)= (11B)-delta x
-\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (12A) at (0,0+\onerootsix*\roottwo*\r,-\onerootsix*\roottwo*\r) {}; 
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (12A) at (0,0+\onerootsix*\roottwo*\r,-\onerootsix*\roottwo*\r) {};
 
 %% (21A)= (11B)-delta y
-\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (21A) at (-\onerootsix*\roottwo*\r,0,\onerootsix*\roottwo*\r) {}; 
+\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=4pt, opacity = 1, minimum size=4pt] (21A) at (-\onerootsix*\roottwo*\r,0,\onerootsix*\roottwo*\r) {};
 
 
 %%% draw bonds
 \draw[draw=darkblue, line width=\bond] (11A)--(11B);
 \draw[draw=darkred, line width=\bond]  (11A)--(01B);
 \draw[draw=darkred, line width=\bond]  (11B)--(12A);
-\draw[draw=darkgreen, line width=\bond]  (11A)--(10B);   
-\draw[draw=darkgreen, line width=\bond]  (11B)--(21A);  
+\draw[draw=darkgreen, line width=\bond]  (11A)--(10B);
+\draw[draw=darkgreen, line width=\bond]  (11B)--(21A);
 
 
 \draw[draw=darkblue, line width=\bond,opacity=0.74] (01B)--++(\onerootsix*\roottwo*\r,-\onerootsix*\roottwo*\r,0);
@@ -79,7 +79,7 @@
 \draw[draw=darkred, line width=\bond,opacity=0.74] (10B)--++(0,\onerootsix*\roottwo*\r,-\onerootsix*\roottwo*\r);
 \draw[draw=darkred, line width=\bond,opacity=0.74] (21A)--++(0,-\onerootsix*\roottwo*\r,\onerootsix*\roottwo*\r);
 
-        
+
 %\draw[->, draw=black, line width=0.40mm] (0,0)-- (0,1.5*\r);
 %\node[right] at  (0,1.5*\r)  {$\hat{z}$};
 %\draw[->, draw=black, line width=0.40mm] (0,0)-- (\r*0.866*1.5 ,-\r*0.5*1.5);
@@ -90,35 +90,35 @@
 
 
  %%% draw nodes for octahedra 1
-            \node  (O16) at (0,0,\r) {};   
-    	\node  (O11) at (0,0 ,-\r) {};   
-    	\node  (O12) at (\r ,0,0) {};   
-    	\node  (O13) at (0 ,\r,0) {};   
-    	\node  (O14) at (-\r ,0,0) {};   
-    	\node  (O15) at (0 ,-\r,0) {};       
+            \node  (O16) at (0,0,\r) {};
+    	\node  (O11) at (0,0 ,-\r) {};
+    	\node  (O12) at (\r ,0,0) {};
+    	\node  (O13) at (0 ,\r,0) {};
+    	\node  (O14) at (-\r ,0,0) {};
+    	\node  (O15) at (0 ,-\r,0) {};
 
 
- %%% draw edges for octahedra 1   	
+ %%% draw edges for octahedra 1
         \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O12)--(O13)--(O14)--(O15)--(O12);
         \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O16)--(O12) (O16)--(O13) (O16)--(O14) (O16)--(O15) (O16)--(O12);
         \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O11)--(O12) (O11)--(O13) (O11)--(O14) (O11)--(O15) (O11)--(O12);
-    	
-%%% draw nodes for octahedra 2    	
-    	\node  (O26) at (\r,-\r,\r) {};   
-    	\node  (O21) at (\r,-\r, -\r) {};   
-    	\node  (O22) at (\r+\r,-\r,0) {};   
-    	\node  (O23) at (\r,-\r+\r,0) {};   
-    	\node  (O24) at (\r-\r,-\r,0) {};   
-    	\node  (O25) at (\r,-\r-\r,0) {};       
-    	
- %%% draw edges for octahedra 2  	
+
+%%% draw nodes for octahedra 2
+    	\node  (O26) at (\r,-\r,\r) {};
+    	\node  (O21) at (\r,-\r, -\r) {};
+    	\node  (O22) at (\r+\r,-\r,0) {};
+    	\node  (O23) at (\r,-\r+\r,0) {};
+    	\node  (O24) at (\r-\r,-\r,0) {};
+    	\node  (O25) at (\r,-\r-\r,0) {};
+
+ %%% draw edges for octahedra 2
     	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O22)--(O23)--(O24)--(O25)--(O22);
     	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O26)--(O22) (O26)--(O23) (O26)--(O24) (O26)--(O25) (O26)--(O22);
-  	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O21)--(O22) (O21)--(O23) (O21)--(O24) (O21)--(O25) (O21)--(O22);    	
+  	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O21)--(O22) (O21)--(O23) (O21)--(O24) (O21)--(O25) (O21)--(O22);
 
-\foreach \oc in {1,2}{    
+\foreach \oc in {1,2}{
     \foreach \v in {1,...,6} {
-        \shade[ball color=darkpink]  (O\oc\v)  circle (2mm); 
+        \shade[ball color=darkpink]  (O\oc\v)  circle (2mm);
 }}
 
 
@@ -133,5 +133,5 @@
     \draw[draw=black, line width=\bond , ->]  (Oxyz) -- ++(0,\R,0) node[right] {$\hat{\bf{y}}$};
     \draw[draw=black, line width=\bond , ->]  (Oxyz) -- ++(0,0,\R) node[above] {$\hat{\bf{z}}$};
 
-\end{tikzpicture} 
+\end{tikzpicture}
 \end{document}

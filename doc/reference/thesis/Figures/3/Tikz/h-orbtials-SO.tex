@@ -1,4 +1,4 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
@@ -6,7 +6,7 @@
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -31,12 +31,12 @@
 
 
 
-\def \h {.65}   
-\def \hh {.5} 
-\def \d {.075}  
+\def \h {.65}
+\def \hh {.5}
+\def \d {.075}
 \def \x {1}
 \def \y {.4}
-\def \l {1.25} 
+\def \l {1.25}
 \def \mar {.2}
 
 \def \bond {0.5mm}
@@ -47,7 +47,7 @@
 \clip (-\mar+\l, -\mar-5*\d-\h) rectangle (\mar+3*\l+3*\x, \mar+\y-.4*\h);
 
 
-%%%%%       t2g 
+%%%%%       t2g
     %       lines
 \draw[draw=black, line width=\bond] (\l,-.4*\h-5*\d)--++(\x,0);
 \draw[draw=black, line width=\bond] (\l,-.4*\h-3*\d)--++(\x,0);
@@ -72,8 +72,8 @@
 
     %       nodes
 \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (2*\l+1.5*\x,-.4*\h-3*\d-.666*\hh) {};
- 
-%%%%    splitting lines 
+
+%%%%    splitting lines
 \draw[draw=black,opacity=.5, line width=.2mm, dotted] (\l+\x,-.4*\h-3*\d)--(2*\l+\x,-.4*\h-3*\d+.333*\hh);
 \draw[draw=black,opacity=.5, line width=.2mm, dotted] (\l+\x,-.4*\h-3*\d)--(2*\l+\x,-.4*\h-3*\d-.666*\hh);
 
@@ -83,15 +83,15 @@
            \left|+\right>=%\left|j_{1/2},+1/2\right>=
            \frac{-\left|x,\downarrow\right>-i\left|y,\downarrow\right>-\left|z,\uparrow\right>}{\sqrt{3}}  \\[10pt]
            \left|-\right>=%\left|j_{1/2},+1/2\right>=
-           \frac{-\left|x,\uparrow\right>+i\left|y,\uparrow\right>+\left|z,\downarrow\right>}{\sqrt{3}} 
-      \end{array}$}; 
+           \frac{-\left|x,\uparrow\right>+i\left|y,\uparrow\right>+\left|z,\downarrow\right>}{\sqrt{3}}
+      \end{array}$};
 
 
 %\node at  (2*\l+2*\x,-.4*\h-3*\d-.666*\hh+.5*\y) {$j_{1/2}$};
 
 
 
-  
+
 \end{tikzpicture}
 \end{document}
 

@@ -1,4 +1,4 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
@@ -6,7 +6,7 @@
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -31,11 +31,11 @@
 
 
 
-\def \h {.3}   
-\def \d {.075}  
+\def \h {.3}
+\def \d {.075}
 \def \x {1}
 \def \y {.4}
-\def \l {1.25} 
+\def \l {1.25}
 \def \mar {.1}
 
 \def \bond {0.5mm}
@@ -46,7 +46,7 @@
 \clip (-\mar-\x, -\mar-5*\d-\h) rectangle (\mar+\l+\x+.1, \mar+\h+3*\d+\y);
 
 
-%%%%%       d5 
+%%%%%       d5
     %       lines
 \draw[draw=black, line width=\bond] (-\x,-5*\d)--++(\x,0);
 \draw[draw=black, line width=\bond] (-\x,-3*\d)--++(\x,0);
@@ -64,7 +64,7 @@
 
 
 
-%%%%%       Eg 
+%%%%%       Eg
     %       lines
 \draw[draw=black, line width=\bond] (\l, \h+1*\d)--++(\x,0);
 \draw[draw=black, line width=\bond] (\l, \h+3*\d)--++(\x,0);
@@ -75,7 +75,7 @@
 
 
 
-%%%%%       t2g 
+%%%%%       t2g
     %       lines
 \draw[draw=black, line width=\bond] (\l,-\h-5*\d)--++(\x,0);
 \draw[draw=black, line width=\bond] (\l,-\h-3*\d)--++(\x,0);
@@ -89,8 +89,8 @@
 \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.25*\x,-\h-3*\d) {};
 \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.75*\x,-\h-3*\d) {};
 \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]   at (\l+.5*\x,-\h-1*\d) {};
- 
-%%%%    splitting lines 
+
+%%%%    splitting lines
 \draw[draw=black, line width=.4mm, dotted] (0.02,-\d)--(\l-.02,-\h-\d);
 \draw[draw=black, line width=.4mm, dotted] (0.02,+\d)--(\l-.02,\h+\d);
 
@@ -99,8 +99,8 @@
 \node at (.5*\l,\d+\y) {CFS};
 
 \draw [decorate,opacity=.5,decoration={brace}] %,xshift=0.5cm,yshift=0pt]
-      (.958*\l,-\h-.7*\d)--(.958*\l,\h+.7*\d) node [midway,left,xshift=-.1cm] {\scriptsize $10 D q$}; 
-  
+      (.958*\l,-\h-.7*\d)--(.958*\l,\h+.7*\d) node [midway,left,xshift=-.1cm] {\scriptsize $10 D q$};
+
 \end{tikzpicture}
 \end{document}
 

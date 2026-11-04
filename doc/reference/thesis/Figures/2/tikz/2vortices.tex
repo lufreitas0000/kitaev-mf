@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -32,7 +32,7 @@
 
 \def \h { 0.57735026918}  % 1/\sqrt(3)
 \def \d { 0.28867513459} % 1/2\sqrt(3)
-\def \c { 0.5}          
+\def \c { 0.5}
 \def \v { 0.86602540378 }  % \sqrt(3)/2
 
 \def \ax {0.5 cm}
@@ -40,8 +40,8 @@
 \def \ez {0.57735026918 cm} % 1/\sqrt(3)
 
 \def \mar {0.2 cm}     % margin for the clip
-\def \lx {5}       
-\def \ly {5}       
+\def \lx {5}
+\def \ly {5}
 
 
 \begin{tikzpicture}[>=latex]
@@ -62,13 +62,13 @@
 \node (i) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay-0.3 cm) {\small $i$};
 \node (j) at (2*\ax-2*\ax-0.02 cm,2*\ay+2*\ay+\ez+0.3 cm) {\small $j$};
 
-%% draw edges 
+%% draw edges
 \foreach \m in {-1,0,...,\lx}{
     \foreach \n in {-1,0,...,\ly}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkblue,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
-        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
         \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -78,13 +78,13 @@
     \foreach \n in {0,...,\ly}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
-        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
     }
 }
 \foreach \m in {0,...,\lx}{
     \foreach \n in {5}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
-        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -101,11 +101,11 @@
     }
 }
 
-     
+
 %\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W1\b\a) at ( \a , -\d +\v+ 2*\v*\b    ) {};
 %\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2\b\a) at ( \a + \c, \v + 2*\v*\b   ) {};
-     
-     
+
+
 
 
 %\draw[->,draw=orange!80!black, line width=0.4mm] (0.01+3-\c,- 0.03-\v )--( 2-0.03,0.03) node[below = 6pt] { \textcolor{orange!80!black}{$\mathbf{a}_{2}\, $} };
@@ -116,8 +116,8 @@
 %\draw[->,draw=darkred, line width=0.5mm] (-4+8,0)--( -5+\c -0.085+8, -\d- 0.05 ) node[midway,below] { \textcolor{darkred}{$\,\bm{\delta}_{x}$} };
 %\draw[->,draw=darkgreen, line width=0.5mm] (-4+8,0)--( -4+\c+0.085+8, -\d-0.05 ) node[midway,below] { \textcolor{darkgreen}{$\bm{\delta}_{y} \, $} };
 %\draw[->,draw=darkblue, line width=0.5mm] (-4+8,0)--( -4+8, -\d+\v+0.11 ) node[midway,right] { \textcolor{darkblue}{$\bm{\delta}_{z}$} };
- 
- 
+
+
 %\draw[->,draw=black, line width=0.15mm] (0,-\ez)--(5*\ax,5*\ay-\ez) node[below = 0.6 cm] { {\small $L_1 \; \;\;$} };
 %\draw[->,draw=black, line width=0.15mm] (0,-\ez)--(-5*\ax,5*\ay-\ez) node[below = 0.6 cm] { {\small $\;\;\; \, L_2$} };
 

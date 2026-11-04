@@ -1,84 +1,84 @@
 
 
-We will consider the Kitaev Hamiltonian $H_K$  perturbed by a homogenous magnetic Zeeman term $H_{\text{Z}}$, 
+We will consider the Kitaev Hamiltonian $H_K$  perturbed by a homogenous magnetic Zeeman term $H_{\text{Z}}$,
 \begin{equation}
-    H_{K} = \sum_{\left< i,j\right>_\alpha}       K \, \sigma_i^\alpha  \sigma_j^\alpha    
-    \, , \quad  H_{\text{Z}} = 
-    - \, \mathbf{h} \cdot  \sum_{i}        \bm{\sigma}_i  \; . 
+    H_{K} = \sum_{\left< i,j\right>_\alpha}       K \, \sigma_i^\alpha  \sigma_j^\alpha
+    \, , \quad  H_{\text{Z}} =
+    - \, \mathbf{h} \cdot  \sum_{i}        \bm{\sigma}_i  \; .
     \label{C:Ham}
-\end{equation} 
+\end{equation}
 In the third order, this perturbation gives the well-known $\kappa$ term in the Kitaev Hamiltonian, eq. \eqref{eq:H0spin}. However, the second order is mostly ignored, e.g. \cite{Kitaev2006}. This term renormalizes the Kitaev exchanges $K_\alpha$ and for magnetic fields with in-plane components, it generates anisotropic exchanges. This is important for the anisotropy in the charge profile shown in Ch.\ref{ch:Z2}.
 
 \section{Unperturbed Hamiltonian}
 
-The eigenstates of $H_K$ are labeled by the $\mathbb{Z}_2$ flux configuration $W_p$ and the fermionic levels $k$ obtained from Majorana Hamiltonian in a gauge field $u$ with flux configuration $W_p$. Up to third-order perturbation, we are only interested in the states in the vortex-free configuration and the states with a \textit{pair of adjacent vortices}. The flux configuration of the later class of states is indexed by the common bond shared by the pair of vortices. 
+The eigenstates of $H_K$ are labeled by the $\mathbb{Z}_2$ flux configuration $W_p$ and the fermionic levels $k$ obtained from Majorana Hamiltonian in a gauge field $u$ with flux configuration $W_p$. Up to third-order perturbation, we are only interested in the states in the vortex-free configuration and the states with a \textit{pair of adjacent vortices}. The flux configuration of the later class of states is indexed by the common bond shared by the pair of vortices.
 
 Let us use the notation for the eigenstates within the relevant gauge sectors
 \begin{equation}\!\!\!
     \begin{array}{rcl}
-         \text{Vortex free configuration:}          & &   \ket{\Psi_0(n),u_0} = \prod\limits_{k} \left( \alpha_{k}^{\dagger}(u_0)\,\right)^{n_{k}} \ket{\emptyset,u_0} \, ,         
+         \text{Vortex free configuration:}          & &   \ket{\Psi_0(n),u_0} = \prod\limits_{k} \left( \alpha_{k}^{\dagger}(u_0)\,\right)^{n_{k}} \ket{\emptyset,u_0} \, ,
          \\[12pt]
-         \text{Pair of vortices at }b=\braket{ij}_\gamma\text{:} & & 
-         \ket{\Psi(n),u_b} = \prod\limits_{k} \left( \alpha_{k}^{\dagger}(u_b)\,\right)^{n_{k}}\ket{\emptyset,u_b} 
+         \text{Pair of vortices at }b=\braket{ij}_\gamma\text{:} & &
+         \ket{\Psi(n),u_b} = \prod\limits_{k} \left( \alpha_{k}^{\dagger}(u_b)\,\right)^{n_{k}}\ket{\emptyset,u_b}
            \, .
     \end{array}
-\end{equation} 
+\end{equation}
 Where $u_0$ is the gauge field with $+1$ in all bonds and $u_b$ is obtained from $u_0$ by flipping the gauge field at the bond $b=\braket{ij}_\gamma$.
 The canonical fermionic operators $\alpha^{\dagger}_k(u)$ are such that $ H_{K}[u] = \sum_{k} \varepsilon_k(u) \big( \alpha^{\dagger}_k(u) \alpha^{\phantom{\dagger}}_k(u) - \frac{1}{2} \big)$, and $\ket{\emptyset,u}$ is the fermionic vacuum for the field configuration $u$.
-The many-body energy for a given flux configuration is 
+The many-body energy for a given flux configuration is
 \begin{equation}
     E_\Psi[u]=\bra{\Psi(n),u} H_{K}[u] \ket{\Psi(n),u} = - \frac12  \sum_{k} (-)^{n_k}\varepsilon_k(u) \; . \label{C:many-body-energy}
 \end{equation}
-Note that $k=1,...,N$ is an index for the quasi-particles of $ H_{K}[u]$ of energy $\varepsilon_k$ and $\Psi$ labels the many-body states given by the collection of $2^N$ occupation numbers $\{n_k\}$, with $n_k\in\{0,1\}$. 
+Note that $k=1,...,N$ is an index for the quasi-particles of $ H_{K}[u]$ of energy $\varepsilon_k$ and $\Psi$ labels the many-body states given by the collection of $2^N$ occupation numbers $\{n_k\}$, with $n_k\in\{0,1\}$.
 %I introduced the label $k_0$ to avoid confusion on the indices.
 
 For the physical states, we need to project the states in the extended Hilbert space into the physical state, however, the perturbation does not mixture the two subspaces. Then we can safely work within the extended Hilbert space.
 
-The relevant flux sectors here are the flux-free $\Pi_0$ and the sectors with a pair of closed-vortices $\Pi_2$. Let us define the projectors for these subspaces with a fixed gauge choice  
+The relevant flux sectors here are the flux-free $\Pi_0$ and the sectors with a pair of closed-vortices $\Pi_2$. Let us define the projectors for these subspaces with a fixed gauge choice
 \begin{equation}
     \Pi_0 = \sum_{\Psi_0} \ket{\Psi_0,u_0} \bra{\Psi_0,u_0} \; , \quad \Pi_2 = \sum_{\Psi,b} \ket{\Psi,u_b} \bra{\Psi, \, u_b}  \; .
 \end{equation}
 The sum on $b$ is over all the $3N$ bonds $\braket{ij}_\gamma$ and the one in $\Psi$ is over the $2^N$ possible states within a given gauge configuration.
 Not all two-fluxes configurations are included in $\Pi_2$, only those where the vortices share a mutual bond.
 
-The action of the spin operators and the Zeeman Hamiltonian sends the subspaces $\Pi_0$ into $\Pi_2$. 
+The action of the spin operators and the Zeeman Hamiltonian sends the subspaces $\Pi_0$ into $\Pi_2$.
 More specifically, writing $\sigma_i^\gamma = \im c^0_i c^\gamma_i$ with $\ket{u_{\braket{ij}_\gamma}}$ a eigenstate of $\hat u_{\braket{ij}_\gamma} = \im c_i^\gamma c_j^\gamma$ for $i$ in the $A$ sublattice, we have\footnote{In the complex fermion language, the state with $\ket{u_{\braket{ij}_\gamma}\!=+1}$ is unoccupied for the fermion $f^\dagger = \frac12(c^\gamma_i + \im  c^\gamma_j )$.  The state for the bond $\braket{ij}_\gamma$ with odd fermionic parity is occupied. }
 \begin{align}
     \ket{u_{\braket{ij}_\gamma}\!=-1}&=\frac12\big(c^\gamma_i + \im  c^\gamma_j \big) \ket{u_{\braket{ij}_\gamma}\!=+1} \; , \quad \big(c^\gamma_i + \im  c^\gamma_j \big) \ket{u_{\braket{ij}_\gamma}\!=-1} = 0 \\[5pt]
     \ket{u_{\braket{ij}_\gamma}\!=+1}&=\frac12\big(c^\gamma_i - \im  c^\gamma_j \big) \ket{u_{\braket{ij}_\gamma}\!=-1} \; , \quad \big(c^\gamma_i - \im  c^\gamma_j \big) \ket{u_{\braket{ij}_\gamma}\!=+1}=0
-    \; , 
+    \; ,
 \end{align}
 which yields the relation, for a generic state $\ket{u}=\bigotimes\limits_{\braket{ij}_\gamma\!}\ket{u_{\braket{ij}_\gamma}} $ with gauge field $u=\{ u_{\braket{ij}_\gamma} \}$ in each bond,
 \begin{equation}
-    c^\gamma_i \ket{u} =  \ket{u_b} \; , \quad 
-    c^\gamma_j \ket{u} = - \im u_{\braket{ij}_\gamma}  \ket{u_b} 
+    c^\gamma_i \ket{u} =  \ket{u_b} \; , \quad
+    c^\gamma_j \ket{u} = - \im u_{\braket{ij}_\gamma}  \ket{u_b}
     \label{C:c-action}
 \end{equation}
 where $u_b$ is the gauge $u$ with the bond $b=\braket{ij}_\gamma$ flipped.
 In the sense of eq.~\eqref{C:c-action}, $c^\gamma_i$ act as $\sigma^x$ and $c^\gamma_j$ as $-\sigma^y$ in the basis  $\{\ket{u_{\braket{ij}_\gamma}=1},\ket{u_{\braket{ij}_\gamma}=-1}\} $.
 The relevant matrix elements of the spin operator are
-\begin{align}    
+\begin{align}
  \bra{\Psi', \, u_b}    \sigma_i^\gamma  \ket{\Psi,u}
-    &= \im \delta_{b,\braket{ij}_\gamma} \; %u_{\braket{ij}_\gamma} \; 
+    &= \im \delta_{b,\braket{ij}_\gamma} \; %u_{\braket{ij}_\gamma} \;
     \bra{\Psi', \, u_b}
-   \, c^0_i  \, \ket{\Psi,u} 
+   \, c^0_i  \, \ket{\Psi,u}
     \; ,
 \end{align}
-for $i$ in the $\rmA$ sublattice, and similarly for $\rmB$ sublattice. 
-To compute the matrix $\bra{\Psi', \, u_b} c^0_i  \ket{\Psi,u}$, one needs to find the transformation that diagonalized the Hamiltonian $H_K[u]$ for each gauge configuration, and relate the excitation for type each quasi-particle $\alpha(u)$ using Touless theorem, as done in Ref. \cite{Bauer2023}. Here will use an approximation to not need to deal explicitly with these matrix elements, but it is important to restrict the calculation within $\Pi_2$. 
+for $i$ in the $\rmA$ sublattice, and similarly for $\rmB$ sublattice.
+To compute the matrix $\bra{\Psi', \, u_b} c^0_i  \ket{\Psi,u}$, one needs to find the transformation that diagonalized the Hamiltonian $H_K[u]$ for each gauge configuration, and relate the excitation for type each quasi-particle $\alpha(u)$ using Touless theorem, as done in Ref. \cite{Bauer2023}. Here will use an approximation to not need to deal explicitly with these matrix elements, but it is important to restrict the calculation within $\Pi_2$.
 
-The unperturbed Green function with the vortex-free sector excluded is 
+The unperturbed Green function with the vortex-free sector excluded is
 \begin{equation}
     G_0^{\prime}(z) = \big( 1-\Pi_0\big) \, G_0(z) \, \big( 1-\Pi_0\big)  \, , \quad       G_0(z) = \frac{1}{z-H_{K}} \; .
 \end{equation}
-Due to the structure of the Zeeman Hamiltonian, it only changes the gauge field in one bond $b=\braket{ij}_\gamma$ at a time, we only need the unperturbed Green function in these sectors. Let us define 
+Due to the structure of the Zeeman Hamiltonian, it only changes the gauge field in one bond $b=\braket{ij}_\gamma$ at a time, we only need the unperturbed Green function in these sectors. Let us define
 \begin{equation}
-\begin{split}    
-    G_0^{(b)}(z) 
+\begin{split}
+    G_0^{(b)}(z)
     &= \sum_{\Psi,\Psi',b} \ket{\Psi',u_b} \bra{\Psi', \, u_b}   \, G_0(z) \,  \ket{\Psi,u_b} \bra{\Psi, \, u_b} \; . \label{C:G0b}
 \end{split}
 \end{equation}
-This expression is much more simpler than $G_0^{\prime}(z)$. In the latter, we need to work with the many-body Hamiltonian $H_K$, while in $G_0^{(b)}(z)$ we can work with the Hamiltonian in a fixed flux sector $H_K[u_b]$. 
+This expression is much more simpler than $G_0^{\prime}(z)$. In the latter, we need to work with the many-body Hamiltonian $H_K$, while in $G_0^{(b)}(z)$ we can work with the Hamiltonian in a fixed flux sector $H_K[u_b]$.
 The matrix elements that appear in this sum are
 \begin{align}
     \bra{\Psi', \, u_b}   \, G_0(z) \,  \ket{\Psi,u_b}
@@ -95,24 +95,24 @@ We will use this unperturbed Green's function to find an effective Hamiltonian w
 
 I will use perturbation theory to compute the effective Hamiltonian for small $H_\text{Z}$.  The Green's function approach here is inspired by Kitaev's, see sections 5.1 and 6.2 of \cite{Kitaev2006}, and the notation for the Green's functions from \cite{Bravyi_2011}.
 
-The eigenvalues of $H=H^{(0)}+V$ are obtained from the poles of $G(z)=(z-H)^{-1}$. For the ground state, it is enough to know the low energy projected Green's function $G_{-}(z) = \cP_{ {-} } G(z) \cP_{ {-} }$ at the low energy subspace. From the unperturbed Green's function $G^{(0)}(z)=(z-H^{(0)})^{-1}$, the poles of $G_{-}(z)$ can be found using Dyson's equation \cite{Bravyi_2011} 
+The eigenvalues of $H=H^{(0)}+V$ are obtained from the poles of $G(z)=(z-H)^{-1}$. For the ground state, it is enough to know the low energy projected Green's function $G_{-}(z) = \cP_{ {-} } G(z) \cP_{ {-} }$ at the low energy subspace. From the unperturbed Green's function $G^{(0)}(z)=(z-H^{(0)})^{-1}$, the poles of $G_{-}(z)$ can be found using Dyson's equation \cite{Bravyi_2011}
 \begin{align}
     G_{{-}}(z) &= \Big[ G^{(0)}_{{-}}(z)^{-1} - \Sigma(z) \;  \Big]^{-1}
     = \Big[ z-H^{(0)}_{{-}} - \Sigma(z) \;  \Big]^{-1} \label{eq:dyson-eq}
     \; , \\
-    \Sigma(z) &= V_{{-}}  + \sum_{n=2}^{\infty} \; 
+    \Sigma(z) &= V_{{-}}  + \sum_{n=2}^{\infty} \;
     V_{{-+}} \; \Big(\,  G_{\bm{+}}^{(0)}(z)\,V_{\bm{+}}   \,\Big)^{n-2} \; G^{(0)}_{\bm{+}}(z)  \; V_{{+-}}  \; .
     \label{eq:dyson-eq-sigma}
 \end{align}
 Where, for any operator $\cO$, the low/high energy projections are $\cO_{-}=\cP_{ {-} } \cO \cP_{ {-} }$, $\cO_{+}=\cP_{ \bm{+} }  \cO \cP_{ \bm{+} } $, and the off-diagonal terms are  $\cO_{+-}=\cP_{ \bm{+} }  \cO \cP_{ {-} }$, $\cO_{-+}=\cP_{ {-} } \cO \cP_{ \bm{+} } $, with high energy projector $ \cP_{ \bm{+} }=(\mathbb{1}-\cP_{ {-} })$.
 
 Note that, from \eqref{eq:dyson-eq}, $z$ is an eigenvalue of $H_{-}$ (pole of $G_{{-}}(z)$) if and only if it is a eigenvalue of $H^{(0)}_{{-}}+\Sigma(z)$.
-Thus, the effective low-energy Hamiltonian is 
+Thus, the effective low-energy Hamiltonian is
 \begin{equation}
     H_{\text{eff}}(z) = H^{(0)}_{{-}}+\Sigma(z)
 \end{equation}
-To get the correct effective Hamiltonian, $z$ must be an eigenvalue of $H$.  
-%In principle, to get the effective Hamiltonian for the ground state one could determine $z$ self-consistently by computing the eigenvalues of $H_{\text{eff}}(z) $ and choosing $z$ so that the lowest eigenvalue is $z$. 
+To get the correct effective Hamiltonian, $z$ must be an eigenvalue of $H$.
+%In principle, to get the effective Hamiltonian for the ground state one could determine $z$ self-consistently by computing the eigenvalues of $H_{\text{eff}}(z) $ and choosing $z$ so that the lowest eigenvalue is $z$.
 In principle, to get the correct effective Hamiltonian $z$ should be the exact ground state energy -- self-consistently the lowest-eigenvalue of $H_{\text{eff}}(z) $.
 In practice, we fix $z \to E_0$ the ground-state energy of $H^{(0)}$. I will set $H_{\text{eff}} = H_{\text{eff}}(E_0)$ and express it as sum $\sum_{n=0}^{\infty} H_{\text{eff}}^{(n)}$ with zero-th order term $H^{(0)}_{{-}}$, first order term $V_{{-}}$, and $n$-th order term given by the $n$-th term in the sum of $\Sigma(E_0)$ as in eq.~\eqref{eq:dyson-eq-sigma}.
 
@@ -124,7 +124,7 @@ In practice, we fix $z \to E_0$ the ground-state energy of $H^{(0)}$. I will set
 \section{Effective Hamiltonian }
 
 
-The effective Hamiltonian in the vortex-free sector, up to the third order in the magnetic field, is 
+The effective Hamiltonian in the vortex-free sector, up to the third order in the magnetic field, is
 \begin{align}
     H_{\text{eff}} &= H_{K} + H_{\text{eff}}^{(2)} +  H_{\text{eff}}^{(3)}  \, , \\[7pt]
     H_{\text{eff}}^{(2)}  &=  \Pi_0  H_{\text{Z}} G_0^{\prime} H_{\text{Z}} \Pi_0  \, , \\[7pt]
@@ -136,60 +136,60 @@ The first order perturbation $\Pi_0  H_{\text{Z}}  \Pi_0$ is zero since $H_{\tex
 
 To simplify the expressions, let us consider the perturbation acting only in two sites $i,j$ in a bond $b=\braket{ij}_\gamma$
 \begin{equation}
-    H_{\text{Z}} = 
+    H_{\text{Z}} =
     - \, \mathbf{h}\cdot  (  \bm{\sigma}_i  +  \bm{\sigma}_j) \; .
 \end{equation}
-For this perturbation, the effective Hamiltonian in second order is  
+For this perturbation, the effective Hamiltonian in second order is
 \begin{equation}
-    H_{\text{eff}}^{(2)} = \sum_{\alpha\beta} \; 
+    H_{\text{eff}}^{(2)} = \sum_{\alpha\beta} \;
     h^\alpha h^\beta \; \Pi_0 ( \sigma_i^\alpha  +  \sigma_j^\alpha) \, G_0^{\prime} \,  ( \sigma_i^\beta  +  \sigma_j^\beta) \Pi_0 \; .
 \end{equation}
-Expanding the terms for spins in parathesis we will find 
+Expanding the terms for spins in parathesis we will find
 \begin{equation}
-    H_{\text{eff}}^{(2)} = \sum_{\alpha\beta} \; 
-    h^\alpha h^\beta \; \Pi_0 \Big( 
-    \sigma_i^\alpha G_0^{\prime} \sigma_i^\beta+  
+    H_{\text{eff}}^{(2)} = \sum_{\alpha\beta} \;
+    h^\alpha h^\beta \; \Pi_0 \Big(
+    \sigma_i^\alpha G_0^{\prime} \sigma_i^\beta+
     \sigma_i^\alpha G_0^{\prime} \sigma_j^\beta+  (i\leftrightarrow j)\Big)    \Pi_0 \; .
 \end{equation}
 Only the terms with which the spin operators act in the same bond yield non-zero projection in the flux-free sector.
 This simplifies the sum to only diagonal terms $\alpha=\beta$, moreover, for spins at different sites they only share a bond (in the honeycomb lattice) if its spin index corresponds to the bond-index ($\alpha=\beta=\gamma$).
-The Hamiltonian simplifies to 
+The Hamiltonian simplifies to
 \begin{equation}
-    H_{\text{eff}}^{(2)} =  
+    H_{\text{eff}}^{(2)} =
     \Pi_0 \Big( \sum_\alpha  (h^\alpha)^2 \,
-    \sigma_i^\alpha G_0^{(b_\alpha)} \sigma_i^\alpha+  (h^\gamma)^2 \, \sigma_i^\gamma G_0^{(b)} \sigma_j^\gamma  \Big)    \Pi_0  +(i\leftrightarrow j)\; , 
+    \sigma_i^\alpha G_0^{(b_\alpha)} \sigma_i^\alpha+  (h^\gamma)^2 \, \sigma_i^\gamma G_0^{(b)} \sigma_j^\gamma  \Big)    \Pi_0  +(i\leftrightarrow j)\; ,
 \end{equation}
-where the bond $b_\alpha$ is between $i$ and its neighbor in an $\alpha$-bond. In the effective Hamiltonian, there are two terms:  a single site one, and the other from different sites in the same bond. 
+where the bond $b_\alpha$ is between $i$ and its neighbor in an $\alpha$-bond. In the effective Hamiltonian, there are two terms:  a single site one, and the other from different sites in the same bond.
 The one from spins in the same site gives a constant term for spin-half $(\sigma_i^\gamma)^2=1$, and we will ignore it.
-The operator $\sigma_i^\gamma G_0^{(b)} \sigma_j^\gamma  $ leaves the flux-free sector invariant. We can omit the projection operators within this sector. 
+The operator $\sigma_i^\gamma G_0^{(b)} \sigma_j^\gamma  $ leaves the flux-free sector invariant. We can omit the projection operators within this sector.
 
 %\reminder{say that for second order this is enough and sum over all bonds}
 
 The terms generated by the pairs $i,j$ are the only ones that appear to the second-order perturbation.
-Considering the full perturbation in eq.~\eqref{C:Ham}, the effective Hamiltonian is 
+Considering the full perturbation in eq.~\eqref{C:Ham}, the effective Hamiltonian is
 \begin{equation}
-    H_{\text{eff}}^{(2)} =  
+    H_{\text{eff}}^{(2)} =
    2 \sum_{\braket{ij}_\gamma } (h^\gamma)^2 \, \sigma_i^\gamma G_0^{(b)}(E_0) \sigma_j^\gamma \label{C:Heff}
 \end{equation}
-where the sum is over all bonds $b=\braket{ij}_\gamma$ and we assume that the matrix elements of $G_0^{(b)}$ is symmetric exchanging $i,j$. 
+where the sum is over all bonds $b=\braket{ij}_\gamma$ and we assume that the matrix elements of $G_0^{(b)}$ is symmetric exchanging $i,j$.
 The energy $E_0=E_{\emptyset}[u_0]$ is the energy of the ground state of the flux-free sector.
-Note that, apart from the operator $G_0^{(b)}$, the Hamiltonian 
+Note that, apart from the operator $G_0^{(b)}$, the Hamiltonian
 \eqref{C:Heff} is exactly the Kitaev Hamiltonian for $K_{\gamma}\to2(h^\gamma)^2$.
 
 The Green function $G_0^{(b)}(z)$ can be computed formally \cite{Panigrahi_2023}. This problem is solvable because the Hamiltonian $H[u_b]$ has only one (spatially local) term $=2K \, \im c_i^0c_j^0$ different from $H[u_0]$, which leads to a momentum-independent scattering $T$ matrix, which allows for a resummation of the Dyson series. Here we will not use the full Green function\footnote{This calculation is beyond the scope of this chapter, but It would be a nice follow-up project.}, but rather a simple approximation.
 
-Kitaev trick  \cite{Kitaev2006} is to (drastically) approximate the energy dependence in the Green function equations~\eqref{C:G0b} \eqref{C:G0} by a constant denominator 
+Kitaev trick  \cite{Kitaev2006} is to (drastically) approximate the energy dependence in the Green function equations~\eqref{C:G0b} \eqref{C:G0} by a constant denominator
 \begin{equation}
-    \frac{1}{E_0-E_\Psi[u_b]} \approx -\frac{1}{\Delta} \; , 
+    \frac{1}{E_0-E_\Psi[u_b]} \approx -\frac{1}{\Delta} \; ,
 \end{equation}
-with $\Delta>0$ being understood as the energy gap $\Delta \sim E_{\emptyset}[u_b]-E_{\emptyset}[u_0]$ between the flux-free configuration and the states $\ket{\Psi,u_b}$ with a pair of closed vortices. 
+with $\Delta>0$ being understood as the energy gap $\Delta \sim E_{\emptyset}[u_b]-E_{\emptyset}[u_0]$ between the flux-free configuration and the states $\ket{\Psi,u_b}$ with a pair of closed vortices.
 Note here there are two approximations: first, to approximate the exact ground state energy by the flux-free one $z\to E \approx E_0$,  and second, to ignore the energy dependence $E_\Psi[u_b]\approx E_{\emptyset}[u_b] $. These approximations are uncontrolled but should give consistent results for the very low energy states with energy\footnote{For which, mostly the term $\Psi=\emptyset$ in the sum \eqref{C:G0b} contributes anyway. } $\ll \Delta$ on top of the ground-state $\ket{\emptyset,u_0}$.
 
-The effective Hamiltonian is 
+The effective Hamiltonian is
 \begin{equation}
-    H_{K} + H_{\text{eff}}^{(2)} =  \sum_{ \left< ij \right>_{\gamma} } ( K_\gamma - \lambda^{\gamma}) \; 
+    H_{K} + H_{\text{eff}}^{(2)} =  \sum_{ \left< ij \right>_{\gamma} } ( K_\gamma - \lambda^{\gamma}) \;
      \sigma^{\gamma}_i \sigma^{\gamma}_j \; , \qquad    \lambda_{\gamma} \sim \frac{2}{\Delta} \left( h^{\gamma} \right)^2  \; .
-\end{equation} 
+\end{equation}
 For the isotropic limit of the Kitaev exchanges and large $N$, the vison gap, for a pair of closed vortices, is $\Delta_{2v}=E_{\emptyset}[u_b]-E_{\emptyset}[u_0] \approx 0.263 |K|$ \cite{Panigrahi_2023}.
 Approximation $\Delta\sim\Delta_{2v}$ gives a coefficient $2/\Delta \approx 7/ |K|$.
 For completeness, the term generated in third order is the $\kappa$ term in eq.~\eqref{eq:H0spin} with $\kappa\sim h^xh^yh^z/\Delta^2$.
@@ -197,32 +197,32 @@ For completeness, the term generated in third order is the $\kappa$ term in eq.~
 
 
 \begin{comment}
-    
+
 \vfill
 
 The matrix elements between states in the vortex-free sector of $ H_{\text{eff}}^{(2)} $ are
 \begin{align}
-    \bra{0; \, k} H_{\text{eff}}^{(2)} \ket{0; \, k'} &= \sum_{\alpha, \beta} h^{\alpha} h^{\beta} \, \sum_{i,j}' \, 
-    \sum_{l}^{\prime}  \bra{0;\, k}  \sigma^{\alpha}_i \ket{l} \frac{1}{E_{k} - E_{l}} \bra{l} \sigma^{\beta}_j   \ket{0;\, k'} \, , \\ 
-     &=   \sum_{\gamma, \left< ij \right>_{\gamma} }  \left( h^{\gamma} \right)^2 
+    \bra{0; \, k} H_{\text{eff}}^{(2)} \ket{0; \, k'} &= \sum_{\alpha, \beta} h^{\alpha} h^{\beta} \, \sum_{i,j}' \,
+    \sum_{l}^{\prime}  \bra{0;\, k}  \sigma^{\alpha}_i \ket{l} \frac{1}{E_{k} - E_{l}} \bra{l} \sigma^{\beta}_j   \ket{0;\, k'} \, , \\
+     &=   \sum_{\gamma, \left< ij \right>_{\gamma} }  \left( h^{\gamma} \right)^2
     \sum_{l} \bra{0;\, k}  \sigma^{\gamma}_i + \sigma^{\gamma}_j \ket{ i\gamma ;\, l} \frac{1}{E_{k} - E_{l}} \bra{ i\gamma ;\,l} \sigma^{\gamma}_i + \sigma^{\gamma}_j  \ket{0;\, k'} \, .
 \end{align}
 The sum over all excited states $l$ reduces to a sum over the states with a pair of closed vortices. In this sum, the matrix elements of $ \sigma^{\gamma}_j$ are only non-zero for excited states like $\ket{i\gamma,l}$. To proceed, let $\bra{0; \, k}$ be the ground state, with energy $E_0$.
 %\begin{align}    H_{\text{eff}}^{(2)} &=  - \sum_{\gamma,j}  \left( h^{\gamma} \right)^2      \sum_{l}   \sigma^{\gamma}_j \ket{ j\gamma ;\, l} \frac{1}{E_{l} - E_0} \bra{ j\gamma ;\,l} \sigma^{\gamma}_j    \, .  \end{align}
 %2nd and 3rd order perturbations.
-The excited states $E_l-E_0 \geq \Delta_v >0$. Then, $ -\frac{1}{E_l-E_0} \geq  - \frac{1}{\Delta_v} $ and we can get a good approximation.  When \textit{acting in the ground state}, the effective perturbation is 
+The excited states $E_l-E_0 \geq \Delta_v >0$. Then, $ -\frac{1}{E_l-E_0} \geq  - \frac{1}{\Delta_v} $ and we can get a good approximation.  When \textit{acting in the ground state}, the effective perturbation is
 \begin{align}
-    H_{\text{eff}}^{(2)} & \geq   -  \frac{1}{\Delta_v} \sum_{\gamma, \left< ij \right>_{\gamma} }\left( h^{\gamma} \right)^2 
+    H_{\text{eff}}^{(2)} & \geq   -  \frac{1}{\Delta_v} \sum_{\gamma, \left< ij \right>_{\gamma} }\left( h^{\gamma} \right)^2
     \sum_{l}   \big( \sigma^{\gamma}_i + \sigma^{\gamma}_j  \big)\ket{ i\gamma ;\, l}  \bra{ i\gamma ;\,l} \big( \sigma^{\gamma}_i + \sigma^{\gamma}_j  \big)   \ket{0;\, k'} \, , \\
-     & =   -  \sum_{i}\frac{2}{\Delta_v} |\mathbf{h}|^2 -  \frac{2}{\Delta_v} \sum_{\gamma, \left< ij \right>_{\gamma} } \left( h^{\gamma} \right)^2 
-     \sigma^{\gamma}_i \sigma^{\gamma}_j    \, . 
+     & =   -  \sum_{i}\frac{2}{\Delta_v} |\mathbf{h}|^2 -  \frac{2}{\Delta_v} \sum_{\gamma, \left< ij \right>_{\gamma} } \left( h^{\gamma} \right)^2
+     \sigma^{\gamma}_i \sigma^{\gamma}_j    \, .
 \end{align}
 The first term is an overall constant, which lowers the total energy. The second term renormalizes the Kitaev interaction
 
 
 Calculate how 2nd order perturbation changes the position of the Dirac points.
 
-Show the spectrum. Do a contour plot, write the points $K, K^\prime, \Gamma, M$, and the hexagon bounding the first BZ.  Compare with and without fields for two directions. 
+Show the spectrum. Do a contour plot, write the points $K, K^\prime, \Gamma, M$, and the hexagon bounding the first BZ.  Compare with and without fields for two directions.
 
 
 \end{comment}
@@ -232,7 +232,7 @@ Show the spectrum. Do a contour plot, write the points $K, K^\prime, \Gamma, M$,
 
 
 \begin{figure}[h!]
- \centering 
+ \centering
          \includegraphics[width=.43\textwidth]{Chapters/Appendix/Figures/perturbation/DISP_[000]_no_cc.pdf}
          \centering
          \includegraphics[width=.5\textwidth]{Chapters/Appendix/Figures/perturbation/DISP_.1[001].pdf}\\
@@ -243,7 +243,7 @@ Show the spectrum. Do a contour plot, write the points $K, K^\prime, \Gamma, M$,
          \includegraphics[width=.5\textwidth]{Chapters/Appendix/Figures/perturbation/DISP_.1[001]_zoom.pdf}
     \caption{Dispersion for two field configurations like $\mathbf{h}=\mathbf{0}$ and $\mathbf{h}=0.06 \, [001]$. When the second order perturbation is considered $(\bm{\lambda}\neq \mathbf{0})$, the Dirac cones (where the gap close) moves away from the points $K, K^\prime$.
      }
-    \label{fig:C}  
+    \label{fig:C}
 \end{figure}
 
 The effect of the second-order perturbation is to renormalize the Kitaev exchanges $K_\gamma \to K_\gamma -\lambda_\gamma$.
@@ -264,9 +264,9 @@ The effect of $\bm{\lambda}$ in the Dirac points is to push them close. The two 
 
 
 
-A relevant and somewhat unusual implication of the shift in the position of the Dirac cone is seen in the finite-size scaling. For zero magnetic field, the position of the $\rmK$ point is at $\mb{k}_\ast=\frac{1}{3} \mathbf{b}_1 + \frac{2}{3} \mathbf{b}_2$, which yields a dependence on $L \mod 3$. For $L$ being a multiple of $3$, the $\rmK$ point is included in the discretization of the Brillouin zone, while for $L \equiv 1, 2 (\text{mod} 3)$ it is not. 
+A relevant and somewhat unusual implication of the shift in the position of the Dirac cone is seen in the finite-size scaling. For zero magnetic field, the position of the $\rmK$ point is at $\mb{k}_\ast=\frac{1}{3} \mathbf{b}_1 + \frac{2}{3} \mathbf{b}_2$, which yields a dependence on $L \mod 3$. For $L$ being a multiple of $3$, the $\rmK$ point is included in the discretization of the Brillouin zone, while for $L \equiv 1, 2 (\text{mod} 3)$ it is not.
 This means that for $L \equiv 3$ we saw a gapless mode for every $L$, while for $L\equiv 1,2$ there is a finite gap $\sim 1/L$ due to distance of the values of $\mb{k}$ used and the position of minima $\mb{k}_\ast$.
-For fields in the out-of-plane $[111]$ direction, this behavior remains unchanged, but for fields with in-plane components, the finite size scaling changes. 
+For fields in the out-of-plane $[111]$ direction, this behavior remains unchanged, but for fields with in-plane components, the finite size scaling changes.
 In general, the position of the Dirac point will be at $\mb{k}_\ast= k_1 \mathbf{b}_1 + k_2 \mathbf{b}_2$ with irrational numbers $k_1,k_2$ (incommensurable coordinates), but suppose that $k_1,k_2$ can be approximated by rational numbers with common denominator $L_\ast$, then there is a dependence mod $L_\ast$, which may be a large number. Thus, by increasing $L$ values of $\mb{k}$ get closer to $\mb{k}_\ast$ with a minimum at $L$ multiple of $L_\ast$, but further increasing $L$ will give worst estimations for the energy gap (until increase $L$ to get closer to the next minima). This is shown in Fig.~\ref{fig:C-GAP} (b,c).
 
 

@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -32,7 +32,7 @@
 
 \def \d {1.2 cm} % 1/2\sqrt(3)
 \def \sqrtt {1.73205} % 1/\sqrt(3)
-\def \h {0.8 cm} 
+\def \h {0.8 cm}
 \def \mar {0.3 cm}     % margin for the clip
 \def \l {1.5 cm}       % linear length
 \def \rad {6mm}
@@ -47,7 +47,7 @@
 \clip (-\mar-\d-2*\l, -\mar) rectangle (\mar+\d+2*\l, \mar+\sqrtt*\l+\h);
 
 
-        
+
 \draw[draw=darkblue,line width=0.40mm,dotted] (\d,0)--(\d+2*\l,0)--(\d+\l,\sqrtt*\l)--(\d,0);
 
 \draw[draw=darkblue,line width=0.40mm,dotted] (-\d,0)--(-\d-2*\l,0)--(-\d-\l,\sqrtt*\l)--(-\d,0);
@@ -74,7 +74,7 @@
 \node[circle, fill=lightpink, inner sep=2pt, minimum size=\rad] at (-\d-\l,\sqrtt*\l) {};
 \node at  (-\d-\l,\sqrtt*\l) {$\bm{\uparrow}$};
 
-    
+
 
 
 

@@ -7,11 +7,11 @@ A natural first case to study is the one where we consider all mean-field parame
 
 \begin{figure}[b]
     \centering
-        \includegraphics[width=.49\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J0_K1_G0_h0.pdf}    
+        \includegraphics[width=.49\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J0_K1_G0_h0.pdf}
         \includegraphics[width=.49\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J.1_K1_G0_h0.pdf}\\%
         \includegraphics[width=.49\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J0_K1_G.2_h0.pdf}
         \includegraphics[width=.49\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J.1_K1_G.2_h0.pdf}\\
-        \includegraphics[width=.48\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J0_K1_G0_k.05.pdf}    
+        \includegraphics[width=.48\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J0_K1_G0_k.05.pdf}
         \includegraphics[width=.48\textwidth]{Chapters/Appendix/Figures/trans/dispersion_J.1_K1_G.2_k.05.pdf}
     \caption{Dispersion for different parameters $J$, $\Gamma$ and magnetic field. In the pure Kitaev model, there are three flat bands. They become dispersive for finite $J$, $\Gamma$, or $h$. [Here $E$ is normalized with an extra factor of $2$.] }
    % \label{fig:disp-T}
@@ -24,23 +24,23 @@ A natural first case to study is the one where we consider all mean-field parame
 %\end{figure}
 
 
-Running our mean-field self-consistent algorithm we are able to reproduce the exact ground state for $J=\Gamma=0$. 
+Running our mean-field self-consistent algorithm we are able to reproduce the exact ground state for $J=\Gamma=0$.
 That is, it reproduces all the correlations $\braket{\im c_I c_J}$ for arbitrary $I$ and $J$.
-To compare the different ground states for different couplings $J, K, \Gamma$ we can look at the energy dispersion relation in momentum space for the translational invariant limit. 
-In Fig. \ref{fig:disp-T}, the flat band for the gauge fermions $c^\alpha$  becomes dispersive for non-zero $J$, $\Gamma$ or $h$. 
+To compare the different ground states for different couplings $J, K, \Gamma$ we can look at the energy dispersion relation in momentum space for the translational invariant limit.
+In Fig. \ref{fig:disp-T}, the flat band for the gauge fermions $c^\alpha$  becomes dispersive for non-zero $J$, $\Gamma$ or $h$.
 
 
-Including a magnetic field, we must use a Lagrange multiplier to impose the constraints 
+Including a magnetic field, we must use a Lagrange multiplier to impose the constraints
 \begin{equation}
     \braket{\im c_j \cdot \rmG^\alpha \cdot c_j }=
-    \rmV_j^{0\alpha}-\rmV_j^{\beta \gamma } 
+    \rmV_j^{0\alpha}-\rmV_j^{\beta \gamma }
     =
     \braket{\im c_j^0 c^\alpha_j }  - \braket{ \im c^\beta_j c^\gamma_j} = 0 \; .
 \end{equation}
-The Lagrange multiplier can be chosen independently for each site. 
-The optimum value for these constraints is found numerically, but a good estimate for the translation invariant case is 
+The Lagrange multiplier can be chosen independently for each site.
+The optimum value for these constraints is found numerically, but a good estimate for the translation invariant case is
 \begin{equation}
-\bm{\lambda}_j \approx \frac{1}{2}\mb{h}_{\text{eff}} \; , \quad 
+\bm{\lambda}_j \approx \frac{1}{2}\mb{h}_{\text{eff}} \; , \quad
     h_{\text{eff}}^\alpha = h^\alpha - \frac12 \sum_{\gamma,\beta}  \mathbf{J}_{\gamma}^{\alpha\beta}
      \tr\!\left( \rmV  \mb{N}^\beta \right)
      \; .
@@ -51,7 +51,7 @@ The value for the Lagrange multiplier that we use is actually shifted from this 
 \clearpage
 
 Applying a magnetic field, the $c^0$ fermions hybridize with $c^\alpha$.
-One observation that is known from the Kitaev model with the perturbative magnetic field is that the dispersive matter fermions become gapped and the gap scales with the cubic power of the magnetic field. 
+One observation that is known from the Kitaev model with the perturbative magnetic field is that the dispersive matter fermions become gapped and the gap scales with the cubic power of the magnetic field.
 This is also seen from the mean-field result  Fig. \ref{fig:disp-h}.
 In the presence of a finite magnetic field, the flat bands from the $c^\alpha$ became dispersive.
 
@@ -66,19 +66,19 @@ In the presence of a finite magnetic field, the flat bands from the $c^\alpha$ b
 \begin{figure}[h]\centering
 \includegraphics[width= .79\columnwidth]{Chapters/Appendix/Figures/trans/MF_par_2.pdf}\\
 \includegraphics[width= .79\columnwidth]{Chapters/Appendix/Figures/trans/MF_par.pdf}
-\caption{Mean-field parameters dependence with $\Gamma$.  
-The region where $\rmU\neq0$ is connected to the Kitaev spin liquid phase. We considered non-Heisenberg interaction $J=0$ and a non-perturbative magnetic field perpendicular to the plane with [top] $\mathbf{h}=0.005 \mathbf{c}$ and [bottom] $\mathbf{h}=0.2 \mathbf{c}$. 
-The order parameters for Kitaev interaction $\mathrm{U}_{\!K}=\mathrm{U}_{\gamma}^{\gamma\gamma}, \mathrm{U}_{0}=\mathrm{U}_{\gamma}^{00}$, 
-symmetric off-diagonal interaction  
-$\mathrm{U}_{\Gamma}=\mathrm{U}_{\gamma}^{\alpha\beta}$, 
+\caption{Mean-field parameters dependence with $\Gamma$.
+The region where $\rmU\neq0$ is connected to the Kitaev spin liquid phase. We considered non-Heisenberg interaction $J=0$ and a non-perturbative magnetic field perpendicular to the plane with [top] $\mathbf{h}=0.005 \mathbf{c}$ and [bottom] $\mathbf{h}=0.2 \mathbf{c}$.
+The order parameters for Kitaev interaction $\mathrm{U}_{\!K}=\mathrm{U}_{\gamma}^{\gamma\gamma}, \mathrm{U}_{0}=\mathrm{U}_{\gamma}^{00}$,
+symmetric off-diagonal interaction
+$\mathrm{U}_{\Gamma}=\mathrm{U}_{\gamma}^{\alpha\beta}$,
 Heisenberg interaction
-$\mathrm{U}_{J}=\mathrm{U}_{\gamma}^{\alpha}$, 
+$\mathrm{U}_{J}=\mathrm{U}_{\gamma}^{\alpha}$,
 and magnetic polarization
-$\langle \sigma \rangle = \sum_\alpha 
+$\langle \sigma \rangle = \sum_\alpha
 \mathrm{V}^{0\alpha} \hat{h}^{\alpha}$.}
 \label{fig-MF-parameters}
 \end{figure}
- 
+
 
 
 

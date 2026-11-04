@@ -105,13 +105,13 @@ while true do
     Compute Fermi-Dirac occupation factors f_k = 1 / (exp(beta * E_k) + 1)
     Evaluate updated mean-field targets Phi_target = EvaluateExpectations(u, f)
     Evaluate constraint violation vector g_i^a = -i/4 * Tr[ G^a * <eta_i * eta_i^T> ]
-    
+
     if max_norm(Phi_target - Phi^(n)) < tol_Phi and max_norm(g) < tol_g then
         Phi* = Phi^(n)
         lambda* = lambda^(n)
         return Phi*, lambda*
     end if
-    
+
     if max_norm(g) > tol_g then
         Compute static Majorana susceptibility Jacobian J_(ia, jb) from eigenvectors |u_k>
         Solve linear system [ J + mu_LM * I ] * delta_lambda = -g
@@ -126,7 +126,7 @@ while true do
         Solve Karush-Kuhn-Tucker system for mixing coefficients c_m
         Set [Phi^(n+1), lambda^(n+1)] = sum_m c_m * x_out^(m)
     end if
-    
+
     n = n + 1
 end while
 ```
@@ -276,11 +276,11 @@ The $SO(3)$ representation has the advantage of introducing no unphysical local 
 Decoupling the exchange term $H_{ij}^\gamma = -K_\gamma S_i^\gamma S_j^\gamma$ produces distinct physical channels depending on which pairings are retained. In the Kitaev representation, the four-Majorana term $H_{ij}^\gamma = \frac{K_\gamma}{4}(b_i^\gamma c_i)(b_j^\gamma c_j)$ yields three primary Wick pairings:
 
 1. The **Kitaev pairing channel**, $\langle i b_i^\gamma b_j^\gamma \rangle (i c_i c_j) + \langle i c_i c_j \rangle (i b_i^\gamma b_j^\gamma)$, which preserves the separation between itinerant matter fermions and static $\mathbb{Z}_2$ gauge fields.
-    
+
 2. The **Fock cross-hopping channel**, $-\langle i c_i b_j^\gamma \rangle (i b_i^\gamma c_j) - \langle i b_i^\gamma c_j \rangle (i c_i b_j^\gamma)$, which couples matter and gauge sectors and generates hybridization bands.
-    
+
 3. The **Hartree magnetic channel**, $\langle i b_i^\gamma c_i \rangle (i b_j^\gamma c_j) + \langle i b_j^\gamma c_j \rangle (i b_i^\gamma c_i) \equiv -4 m_i^\gamma m_j^\gamma$, which drives conventional long-range magnetic ordering.
-    
+
 
 In the $SO(4)$ chiral representation, the composite nature of $M_i^\alpha$ expands each bond interaction into 16 distinct Wick contractions: four pure matter contractions $\langle \eta_i^0 \eta_j^0 \rangle (\eta_i^\gamma \eta_j^\gamma)$, four pure gauge contractions $\epsilon^{\gamma\alpha\beta}\epsilon^{\gamma\mu\nu} \langle \eta_i^\alpha \eta_j^\mu \rangle (\eta_i^\beta \eta_j^\nu)$, and eight mixed-chirality cross contractions $\epsilon^{\gamma\alpha\beta}\langle \eta_i^0 \eta_j^\alpha \rangle (\eta_i^\gamma \eta_j^\beta)$.
 
@@ -299,53 +299,53 @@ Conversely, omitting the Lagrange multipliers allows unphysical states into the 
 ## Benchmark Literature Survey and Reference Registry
 
 - Lucas R. D. Freitas, Tim Bauer, Reinhold Egger, and Rodrigo G. Pereira, _Electric polarization near vortices in the extended Kitaev model_, npj Quantum Materials 9, 33 (2024).
-    
+
     - DOI: 10.1038/s41535-024-00643-5
-        
+
     - arXiv: 2311.15750 [cond-mat.str-el]
-        
+
 - Lucas Rodrigues Delgado de Freitas, _Majorana mean-field theory with Z2 vortices: electrical tests in the extended Kitaev model_, Ph.D. thesis, Universidade Federal do Rio Grande do Norte (UFRN) / Heinrich-Heine-Universität Düsseldorf (2023).
-    
+
 - F. Yilmaz, A. P. Kampf, and S.-K. Yip, _Phase diagrams of the Kitaev-Heisenberg-$\Gamma$-$\Gamma'$ model in a magnetic field_, Phys. Rev. Research 4, 043024 (2022).
-    
+
     - DOI: 10.1103/PhysRevResearch.4.043024
-        
+
     - arXiv: 2202.06158 [cond-mat.str-el]
-        
+
 - F. Yilmaz, A. P. Kampf, and S.-K. Yip, _Interlayer exchange in bilayer Kitaev spin liquids_, Phys. Rev. B 109, 024439 (2024).
-    
+
     - DOI: 10.1103/PhysRevB.109.024439
-        
+
 - A. Ralko and J. Merino, _Majorana Chiral Spin Liquid in a Model for Mott Insulating Cuprates_, Phys. Rev. Lett. 124, 217203 (2020).
-    
+
     - DOI: 10.1103/PhysRevLett.124.217203
-        
+
 - Urban F. P. Seifert, Tobias Meng, and Matthias Vojta, _Fractionalized Fermi liquids and exotic superconductivity in the Kitaev-Kondo lattice_, Phys. Rev. B 97, 085118 (2018).
-    
+
     - DOI: 10.1103/PhysRevB.97.085118
-        
+
 - Urban F. P. Seifert, J. Doneit, and Matthias Vojta, _Bilayer Kitaev models and fractionalized Fermi liquids_, Phys. Rev. B 98, 155101 (2018).
-    
+
     - DOI: 10.1103/PhysRevB.98.155101
-        
+
 - Jianlong Fu, Johannes Knolle, and Natalia B. Perkins, _Majorana representations of spin and an alternative solution of the Kitaev honeycomb model_, Phys. Rev. B 97, 115142 (2018).
-    
+
     - DOI: 10.1103/PhysRevB.97.115142
-        
+
     - arXiv: 1801.09713 [cond-mat.str-el]
-        
+
 - Jeffrey G. Rau, Eric Kin-Ho Lee, and Hae-Young Kee, _Generic Spin Model for Bilayer and Honeycomb Materials with Strong Spin-Orbit Coupling_, Phys. Rev. Lett. 112, 077204 (2014).
-    
+
     - DOI: 10.1103/PhysRevLett.112.077204
-        
+
 - Stephen M. Winter, Ying Li, Harald O. Jeschke, and Roser Valentí, _Challenges in design of Kitaev materials: Magnetic interactions in $\alpha$-RuCl$_3$_, Phys. Rev. B 93, 214431 (2016); and _Breakdown of Magnons in a Strongly Spin-Orbit Coupled Magnet_, Phys. Rev. Lett. 117, 277202 (2016).
-    
+
     - DOI: 10.1103/PhysRevB.93.214431 and 10.1103/PhysRevLett.117.277202
-        
+
     - arXiv: 1611.03436 [cond-mat.str-el]
-        
+
 - J. Knolle, G.-W. Chern, D. L. Kovrizhin, R. Moessner, and N. B. Perkins, _Magnon damping in the zigzag phase of the Kitaev-Heisenberg-$\Gamma$ model on a honeycomb lattice_, Phys. Rev. B 97, 134432 (2018).
-    
+
     - DOI: 10.1103/PhysRevB.97.134432
-        
+
     - arXiv: 1911.12829 [cond-mat.str-el]

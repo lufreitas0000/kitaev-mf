@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -32,7 +32,7 @@
 
 \def \h { 0.57735026918}  % 1/\sqrt(3)
 \def \d { 0.28867513459} % 1/2\sqrt(3)
-\def \c { 0.5}          
+\def \c { 0.5}
 \def \v { 0.86602540378 }  % \sqrt(3)/2
 
 \def \ax {0.5 cm}
@@ -56,13 +56,13 @@
 
 %\node (w) at (1*\ax-1*\ax,1*\ay+1*\ay+2*\ez) {\small $\!-1$};
 
-%% draw edges 
+%% draw edges
 \foreach \m in {0,1,2,3}{
     \foreach \n in {0,1,2,3}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkblue,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax,\y*\ay+\ez);
-        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
         \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -72,13 +72,13 @@
     \foreach \n in {0,1,2,3}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
         \pgfmathsetlengthmacro {\y}{(\m+\n)};
-        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);        
+        \draw[draw=darkred,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax-\ax,\y*\ay-\ay+\ez);
     }
 }
 \foreach \m in {0,1,2,3}{
     \foreach \n in {4}{
         \pgfmathsetlengthmacro {\x}{(\m-\n)};
-        \pgfmathsetlengthmacro {\y}{(\m+\n)}; 
+        \pgfmathsetlengthmacro {\y}{(\m+\n)};
         \draw[draw=darkgreen,line width=0.40mm] (\x*\ax,\y*\ay)--(\x*\ax+\ax,\y*\ay-\ay+\ez);
     }
 }
@@ -92,7 +92,7 @@
         \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B\m\n) at (\x*\ax,\y*\ay) {};
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W\m\n) at (\x*\ax,\y*\ay+\ez) {};
     }
-}     
+}
 
 
 %%%% drawing axis L1 L2
@@ -114,10 +114,10 @@
 
 
 %%%% vectors N
- 
+
 \draw[->,draw=darkred, dotted, line width=0.5mm] (0,4*\ay)--(-\ax,5*\ay) node[below = .1 cm ] { \textcolor{darkred}{\small $\mathbf{N}_{\!x}\;$} };
 \draw[->,draw=darkgreen, dotted, line width=0.5mm] (0,4*\ay)--(-\ax,3*\ay) node[above right] { \textcolor{darkgreen}{\small $\;\,\mathbf{N}_{\!y}$} };
-\draw[->,draw=darkblue, dotted, line width=0.5mm] (0,4*\ay)--(2*\ax,4*\ay) node[above left] { \textcolor{darkblue}{\small $\mathbf{N}_{\!z}$} }; 
+\draw[->,draw=darkblue, dotted, line width=0.5mm] (0,4*\ay)--(2*\ax,4*\ay) node[above left] { \textcolor{darkblue}{\small $\mathbf{N}_{\!z}$} };
 
 
 %%% equations
@@ -141,9 +141,9 @@
 \draw[draw=gray,fill=gray!20,line width=0.2mm,dotted] (6*\ax,-\ez)--(7*\ax,\ay-\ez)--(6*\ax,2*\ay-\ez)--(5*\ax,\ay-\ez)--cycle;
 
 \draw[draw=darkblue,line width=0.40mm] (6*\ax,0)--(6*\ax,\ez);
-\draw[draw=darkred, line width=0.40mm] (6*\ax,0)--(5*\ax,\ez-\ay);      
+\draw[draw=darkred, line width=0.40mm] (6*\ax,0)--(5*\ax,\ez-\ay);
 \draw[draw=darkgreen,line width=0.40mm] (6*\ax,0)--(7*\ax,\ez-\ay);
-\draw[draw=darkred, line width=0.40mm] (6*\ax,\ez)--(7*\ax,\ay);      
+\draw[draw=darkred, line width=0.40mm] (6*\ax,\ez)--(7*\ax,\ay);
 \draw[draw=darkgreen,line width=0.40mm] (6*\ax,\ez)--(5*\ax,\ay);
 
 \node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt]  at (3,0) {};

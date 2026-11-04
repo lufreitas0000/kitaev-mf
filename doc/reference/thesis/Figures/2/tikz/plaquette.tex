@@ -1,9 +1,9 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}%%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 \definecolor{darkblue}{HTML}{00639a}
 \definecolor{darkred}{HTML}{e41a1c}
@@ -16,12 +16,12 @@
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
 
-\def \h { 0.57735026918}  
-\def \d { 0.28867513459}  
-\def \c { 0.5}    
-\def \v { 0.86602540378 } 
-\def \mar {0.6}  
-\def \l {7}       
+\def \h { 0.57735026918}
+\def \d { 0.28867513459}
+\def \c { 0.5}
+\def \v { 0.86602540378 }
+\def \mar {0.6}
+\def \l {7}
 \begin{tikzpicture}[>=latex]
 
 \clip (-\mar+1,  \v -\d-\v -\mar  ) rectangle (1+\mar+1+.05,\v+\mar);
@@ -32,43 +32,43 @@
         \draw[draw=darkblue, line width=0.40mm] ( \c+\a, -\d )-- ( \c+\a, -\d -\v+\d);
         \draw[draw=darkblue, line width=0.40mm] ( \c +\a, \v -\c-2*\d-2*\v )-- ( \c+\a, \v -\c -\c-2*\d-2*\v);
 }
- 
 
-\foreach \b in {0}{    
+
+\foreach \b in {0}{
     \foreach \a in {1,3} {
         \draw[draw=darkgreen, line width=0.40mm] ( \a , -\d +\v+ 2*\v*\b    ) -- ( \a + \c-1, \v + 2*\v*\b   );
         \draw[draw=darkred, line width=0.40mm] (\a , -\d +\v+ 2*\v*\b - \v+\d )-- ( \a -\c, -\d +\v+ 2*\v*\b - \v);
-            }   
+            }
 }
 
 
-\foreach \b in {0}{    
-    \foreach \a in {1,3} {        
+\foreach \b in {0}{
+    \foreach \a in {1,3} {
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W1\b\a) at ( \a , -\d +\v+ 2*\v*\b    ) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2\b\a) at ( \a + \c, \v + 2*\v*\b   ) {};
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W3\b\a) at ( \a +1, -\d +\v+ 2*\v*\b    ) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B4\b\a) at ( \a +1, -\d +\v+ 2*\v*\b - \v+\d)  {};
-    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5\b\a) at ( \a -\c + 1, -\d +\v+ 2*\v*\b - \v) {};  	
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5\b\a) at ( \a -\c + 1, -\d +\v+ 2*\v*\b - \v) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B6\b\a) at  ( \a , -\d +\v+ 2*\v*\b - \v+\d ) {};
 
-    	\node (B2r\b\a) at ( \a + \c+1, -\d +\v+ 2*\v*\b+\d   ) {}; 
-    	\node (W5r\b\a) at ( \a -\c + 2, -\d +\v+ 2*\v*\b - \v) {};    	    	
-    }   
+    	\node (B2r\b\a) at ( \a + \c+1, -\d +\v+ 2*\v*\b+\d   ) {};
+    	\node (W5r\b\a) at ( \a -\c + 2, -\d +\v+ 2*\v*\b - \v) {};
+    }
 }
 
-\foreach \b in {0}{    
-    \foreach \a in {1,3} { 
+\foreach \b in {0}{
+    \foreach \a in {1,3} {
         \draw[draw=darkred, line width=0.40mm] (B2\b\a)-- (W1\b\a);
         \draw[draw=darkgreen, line width=0.40mm] (B2\b\a)--(W3\b\a);
         \draw[draw=darkblue, line width=0.40mm] (W1\b\a)--(B6\b\a);
  %       \draw[draw=darkgreen, line width=0.40mm] (W1\b\a)-- ( \a -\c, -\d +\v+ 2*\v*\b   +\d );
-        \draw[draw=darkred, line width=0.40mm] (B2r\b\a)-- (W3\b\a);        
-        \draw[draw=darkblue, line width=0.40mm] (W3\b\a)--(B4\b\a);       
-        \draw[draw=darkgreen, line width=0.40mm] (W5\b\a)--(B6\b\a);        
+        \draw[draw=darkred, line width=0.40mm] (B2r\b\a)-- (W3\b\a);
+        \draw[draw=darkblue, line width=0.40mm] (W3\b\a)--(B4\b\a);
+        \draw[draw=darkgreen, line width=0.40mm] (W5\b\a)--(B6\b\a);
         \draw[draw=darkred, line width=0.40mm] (B4\b\a)-- (W5\b\a);
-        \draw[draw=darkgreen, line width=0.40mm] (W5r\b\a)--(B4\b\a); 
+        \draw[draw=darkgreen, line width=0.40mm] (W5r\b\a)--(B4\b\a);
 %        \draw[draw=darkred, line width=0.40mm] (B6\b\a)-- ( \a -\c, 2*\v*\b   - \d);
-            }   
+            }
 }
 
 \node (p) at (1.5,\v*.5-\d*.5) { \small $p$ };

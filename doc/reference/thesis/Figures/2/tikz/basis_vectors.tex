@@ -1,11 +1,11 @@
-\documentclass{standalone}  
+\documentclass{standalone}
 \usepackage{tikz,comment}
 \usepackage[active,tightpage]{preview}
 \usepackage{bm}
 \PreviewEnvironment{tikzpicture}
 \setlength\PreviewBorder{1pt}
 %%%
-\usetikzlibrary{arrows} 
+\usetikzlibrary{arrows}
 
 
 %\definecolor{darkblue}{cmyk}{1 , .36, 0, .40}
@@ -26,10 +26,10 @@
 \pgfsetlayers{background,main,foreground}
 
 
-\def \h { 0.57735026918}  % 1/sqrt(3) comprimento  y  de uma celula                                     even (White, 2y) to odd (black ,2y+1) 
+\def \h { 0.57735026918}  % 1/sqrt(3) comprimento  y  de uma celula                                     even (White, 2y) to odd (black ,2y+1)
 \def \d { 0.28867513459}  % 1/ 2 sqrt(3)  distancia  y  entre celulas                                   odd (black , 2y-1) to even (white , 2y)
-\def \c { 0.5}           % 1/2 distancia  x  entre celulas  
-\def \v { 0.86602540378 }  % sqrt(3)/ 2   distancia  y  de duas celulas                                 odd-odd or even-even 
+\def \c { 0.5}           % 1/2 distancia  x  entre celulas
+\def \v { 0.86602540378 }  % sqrt(3)/ 2   distancia  y  de duas celulas                                 odd-odd or even-even
 
 \def \mar {0.2}  % margin for the clip
 \def \l {8}         %horizontal length
@@ -55,42 +55,42 @@
 %\node at ( \c+4.2, -\v-.12) [below] { \scriptsize \textcolor{darkgreen}{$K_{\!y}$}   };
 %\node at ( \c+4-.065, -\d - .55) [left] { \scriptsize \textcolor{darkred}{$K_{\!x}$}   };
 
-\foreach \b in {-1,0}{    
+\foreach \b in {-1,0}{
     \foreach \a in {1,3,...,\l} {
         \draw[draw=darkgreen, line width=0.40mm] ( \a , -\d +\v+ 2*\v*\b    ) -- ( \a -\c, -\d +\v+ 2*\v*\b   +\d );
         \draw[draw=darkred, line width=0.40mm] (\a , -\d +\v+ 2*\v*\b - \v+\d )-- ( \a -\c,  -\d +\v+ 2*\v*\b - \v);
-            }   
+            }
 }
 
 
-\foreach \b in {-1,0}{    
-    \foreach \a in {1,3,...,\l} {        
+\foreach \b in {-1,0}{
+    \foreach \a in {1,3,...,\l} {
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W1\b\a) at ( \a , -\d +\v+ 2*\v*\b    ) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2\b\a) at ( \a + \c, \v + 2*\v*\b   ) {};
         \node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W3\b\a) at ( \a +1, -\d +\v+ 2*\v*\b    ) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B4\b\a) at ( \a +1, -\d +\v+ 2*\v*\b - \v+\d)  {};
-    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5\b\a) at ( \a -\c + 1, -\d +\v+ 2*\v*\b - \v) {};  	
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5\b\a) at ( \a -\c + 1, -\d +\v+ 2*\v*\b - \v) {};
     	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B6\b\a) at  ( \a , -\d +\v+ 2*\v*\b - \v+\d ) {};
 
-    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2r\b\a) at ( \a + \c+1, -\d +\v+ 2*\v*\b+\d   ) {}; 
-    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5r\b\a) at ( \a -\c + 2, -\d +\v+ 2*\v*\b - \v) {};    	
-    	
-    }   
+    	\node[circle, fill=black, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (B2r\b\a) at ( \a + \c+1, -\d +\v+ 2*\v*\b+\d   ) {};
+    	\node[circle, fill=white, draw=black, line width=0.40mm, inner sep=2pt, minimum size=2pt] (W5r\b\a) at ( \a -\c + 2, -\d +\v+ 2*\v*\b - \v) {};
+
+    }
 }
 
-\foreach \b in {-1,0}{    
-    \foreach \a in {1,3,...,\l} { 
+\foreach \b in {-1,0}{
+    \foreach \a in {1,3,...,\l} {
         \draw[draw=darkred, line width=0.40mm] (B2\b\a)-- (W1\b\a);
         \draw[draw=darkgreen, line width=0.40mm] (B2\b\a)--(W3\b\a);
         \draw[draw=darkblue, line width=0.40mm] (W1\b\a)--(B6\b\a);
  %       \draw[draw=darkgreen, line width=0.40mm] (W1\b\a)-- ( \a -\c, -\d +\v+ 2*\v*\b   +\d );
-        \draw[draw=darkred, line width=0.40mm] (B2r\b\a)-- (W3\b\a);        
-        \draw[draw=darkblue, line width=0.40mm] (W3\b\a)--(B4\b\a);       
-        \draw[draw=darkgreen, line width=0.40mm] (W5\b\a)--(B6\b\a);        
+        \draw[draw=darkred, line width=0.40mm] (B2r\b\a)-- (W3\b\a);
+        \draw[draw=darkblue, line width=0.40mm] (W3\b\a)--(B4\b\a);
+        \draw[draw=darkgreen, line width=0.40mm] (W5\b\a)--(B6\b\a);
         \draw[draw=darkred, line width=0.40mm] (B4\b\a)-- (W5\b\a);
-        \draw[draw=darkgreen, line width=0.40mm] (W5r\b\a)--(B4\b\a); 
+        \draw[draw=darkgreen, line width=0.40mm] (W5r\b\a)--(B4\b\a);
 %        \draw[draw=darkred, line width=0.40mm] (B6\b\a)-- ( \a -\c, 2*\v*\b   - \d);
-            }   
+            }
 }
 
 

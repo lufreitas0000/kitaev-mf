@@ -189,7 +189,7 @@ The third mechanism is multiplier feedback phase lag. The linear multiplier upda
 
 ```
 Algorithm 1: Augmented Lagrangian Solver for Constrained Majorana Parton Theory
-Input : Initial covariance matrix Ω^{(0)} ∈ M, multipliers λ^{(0)} = 0, penalty ρ > 0, 
+Input : Initial covariance matrix Ω^{(0)} ∈ M, multipliers λ^{(0)} = 0, penalty ρ > 0,
         tolerances ϵ_tol, max_iter K_max, penalty factor γ_ρ > 1.
 Output: Self-consistent covariance matrix Ω* and converged multipliers λ*.
 
@@ -207,20 +207,20 @@ Output: Self-consistent covariance matrix Ω* and converged multipliers λ*.
 12:      Ω_inner = - sgn( H_eff )
 13:   until convergence
 14:   Ω^{(k+1)} = Ω_inner
-15:   
+15:
 16:   // Stage 2: Dual Multiplier Update and Residual Check
 17:   Compute constraint violations: g_i^α = Tr( G^α V_i^{(k+1)} )
 18:   max_violation = max_{i,α} | g_i^α |
-19:   
+19:
 20:   if max_violation < ϵ_tol and ||R_grad||_F < ϵ_tol then
 21:      return Ω^{(k+1)}, λ^{(k)}
 22:   end if
-23:   
+23:
 24:   // Update Lagrange multipliers
 25:   for all i ∈ {1,...,N}, α ∈ {1,2,3} do
 26:      λ_i^{α,(k+1)} = λ_i^{α,(k)} - ρ * g_i^α
 27:   end for
-28:   
+28:
 29:   // Adaptive penalty parameter update
 30:   if max_violation > 0.25 * max_violation_prev then
 31:      ρ = γ_ρ * ρ
@@ -246,12 +246,12 @@ Output: Stationary root X* satisfying ||R(X*)|| < ϵ_R.
 9:       Gram-Schmidt orthogonalization of w against {v_1, ..., v_j}
 10:   end for
 11:   Solve least-squares problem in Krylov subspace to obtain Newton step δX_N
-12:   
+12:
 13:   // Compute Cauchy point (steepest descent step)
 14:   w_grad = [ R(X_k + ϵ * r_k) - R(X_k) ] / ϵ
 15:   α_cauchy = ||r_k||_2^2 / ||w_grad||_2^2
 16:   δX_C = - α_cauchy * r_k
-17:   
+17:
 18:   // Dogleg Step Construction
 19:   if ||δX_N||_2 ≤ Δ_k then
 20:      p_k = δX_N
@@ -261,14 +261,14 @@ Output: Stationary root X* satisfying ||R(X*)|| < ϵ_R.
 24:      Find τ ∈ [1, 2] such that ||δX_C + (τ - 1)(δX_N - δX_C)||_2 = Δ_k
 25:      p_k = δX_C + (τ - 1)(δX_N - δX_C)
 26:   end if
-27:   
+27:
 28:   // Evaluate actual vs predicted reduction
 29:   X_trial = X_k + p_k
 30:   Project Ω-component of X_trial onto M via polar decomposition: Ω = UV^T
 31:   act_red = ||R(X_k)||_2^2 - ||R(X_trial)||_2^2
 32:   pred_red = ||R(X_k)||_2^2 - ||R(X_k) + [R(X_k + ϵ*p_k) - R(X_k)]||_2^2
 33:   ρ_k = act_red / pred_red
-34:   
+34:
 35:   // Trust radius management
 36:   if ρ_k < 0.25 then
 37:      Δ_{k+1} = 0.5 * Δ_k
@@ -383,10 +383,10 @@ Pure quasi-free states form a real orthogonal Grassmannian $\mathcal{M} \cong \m
 The constrained saddle-point problem $\min_{\Omega \in \mathcal{M}} \max_{\bm{\lambda}} \mathcal{L}(\Omega, \bm{\lambda})$ fails under simple uncoupled fixed-point updates due to the divergence of the Fréchet derivative $\|D\operatorname{sgn}(H_{\mathrm{MF}})\| \sim \Delta_g^{-1}$ near Dirac points and the hyperbolic geometry of the mixed saddle block. Robust convergence requires coupled algorithms:
 
 - Joint Anderson Acceleration (DIIS) suppresses oscillatory modes by interpolating across historical residuals in the combined state space.
-    
+
 - Augmented Lagrangian Methods (ALM) restore positive definiteness to the primal tangent space by adding a quadratic penalty $\frac{\rho}{2}\sum [\operatorname{Tr}(\mathrm{G}^\alpha V_i)]^2$.
-    
+
 - Jacobian-Free Newton-Krylov (JFNK) solvers combined with Trust-Region Dogleg steps provide quadratic convergence near quantum critical points.
-    
+
 
 The decoupling channel parameter $\eta \in [0, 1]$ introduces an explicit energy shift into the mean-field functional via inter-site gauge-spin contractions. The Kitaev limit ($\eta = 1$) preserves static $\mathbb{Z}_2$ gauge fluxes and accurately models localized vortex bound states and electric polarization, whereas the chiral limit ($\eta = 0$) treats spin components isotropically, shifting the critical field $h_c$ and expanding the stability window of competing magnetic order. Selecting $\eta$ is therefore an essential physical choice that must be matched to the targeted regime of the quantum magnetic system.
