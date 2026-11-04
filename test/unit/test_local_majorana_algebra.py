@@ -132,7 +132,7 @@ def test_t00a_03_bilinear_hermiticity_and_commutator_identity() -> None:
             expected = 1.0j * _bilinear(majoranas, matrix_commutator)
             assert np.allclose(operator_commutator, expected, atol=TOL, rtol=0.0)
             nonzero_commutator_seen |= not np.allclose(
-                matrix_commutator, 0.0, atol=TOL
+                matrix_commutator, 0.0, atol=TOL, rtol=0.0
             )
 
     assert nonzero_commutator_seen
