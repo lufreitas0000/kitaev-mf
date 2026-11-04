@@ -53,7 +53,7 @@ active_milestone:
   id: "M1.4.5"
   description: "Consolidated verification and invariant hardening"
   objective: "Add independent tests for kinematic identities, Gaussian-state representability, solvable limits, symmetry selection rules, variational response, and canonical dualities."
-  status: "in_progress"
+  status: "active"
   sprint_goal: "Establish a layered, convention-consistent verification gate for the production mean-field services and record CPU/CUDA parity evidence."
   specification: "doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md"
   active_tasks:
@@ -190,6 +190,6 @@ verified_physics_invariants:
       matter_correlator_atol: 0.003
       gauge_correlator_atol: 1.0e-12
       onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      decimal_value: "0.5248657458506"
+      decimal_value: "-0.5248657458506"
 
 open_blockers: []
