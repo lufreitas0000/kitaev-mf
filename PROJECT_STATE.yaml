@@ -58,7 +58,6 @@ milestone_history:
   - id: "M1.4.3"
     name: "Gaussian energetics and double-counting tests"
     status: "awaiting_local_validation"
-  next_action: "Run mypy src test scripts, focused M1.1 matrix/projection/exchange tests, then make verify; record exact WSL output before closing M1.4.3b."
     evidence:
       - "test/unit/test_energetics.py"
       - "doc/rnd/note_04b_energetics_test_specification.md"
@@ -115,6 +114,7 @@ active_milestone:
       - "git diff --check: one extra blank line at EOF; fixed in this commit."
       - "git status output was not present in the supplied log."
   status: "awaiting_local_validation"
+  next_action: "Run mypy src test scripts, focused M1.1 matrix/projection/exchange tests, then make verify; record exact WSL output before closing M1.4.3b."
 
 hardware_targets:
   local:

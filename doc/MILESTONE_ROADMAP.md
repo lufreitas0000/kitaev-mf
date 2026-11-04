@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b.5 — Explicit SO(4) matrices and type-safe constants
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Base commit before this update: 3f794fef366589822eb68d86f40216f735d34554
+Base commit before this update: d7584c13711cd2763f83ba676a24e9bb00faeafd
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -31,7 +31,7 @@ A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this 
 
 M1.4.3 remains incomplete until user reports local validation of test_energetics.py and broader checks.
 
-## 3. Active batch — M1.4.3b: Reproducible K-006 quadrature
+## 3. M1.4.3b — K-006 quadrature and validation follow-up
 Objective: evaluate Ubar = (1/3) integral over [0,1)^2 of |1 + exp(-2 pi i k1) + exp(-2 pi i k2)| with deterministic midpoint quadrature, bounded memory, and convergence diagnostics.
 
 The absolute-value integrand is continuous with conical/non-differentiable behavior at isolated Dirac points. This avoids the 0/0 expression in the alternative normalized integrand. Use midpoint meshes N divisible by three: half-shifted coordinates do not coincide with fractional Dirac coordinates 1/3 or 2/3. This avoids sampling the Dirac points, but does not remove the cusp's effect on convergence.
@@ -44,6 +44,7 @@ The absolute-value integrand is continuous with conical/non-differentiable behav
 | M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | completed; focused and full unit tests passed in user WSL |
 | M1.4.3b.3 | Add reproducible CLI, mesh sequence, observed order, empirical Richardson estimate, limitations | scripts/k006_quadrature.py; Note 04d | completed |
 | M1.4.3b.4 | Focused test, full suite, Ruff, mypy, diff hygiene; user reports WSL results | local validation record | awaiting_local_validation |
+| M1.4.3b.5 | Explicit float64 SO(4) matrices; independent Kronecker and N=(M+G)/2 checks | constants.py; test_local_majorana_algebra.py | implemented; awaiting local validation |
 
 Acceptance:
 1. Integrate continuous |f(k)|, not the ratio with vanishing denominator.
