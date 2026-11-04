@@ -95,6 +95,7 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - M1.4.3 tests await local WSL validation.
 
 ## 7. Change log
+- Corrected the CLI invocation formatting in Note 04d; no scientific content changed.
 - M1.4.3b.0 normalization mapping and midpoint table corrected; b.1 tests, b.2 implementation, and b.3 CLI/note committed. Awaiting local validation.
 - M1.4.3b.1 contract tests committed; M1.4.3b.2 implementation and M1.4.3b.3 provenance/CLI added. Local WSL validation pending.
 - M1.4.3b.1 test contract is being added; no local test execution is claimed.

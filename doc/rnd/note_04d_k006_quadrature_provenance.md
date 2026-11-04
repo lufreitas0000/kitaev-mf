@@ -53,10 +53,8 @@ This is numerical convergence evidence. The error estimate is conditional on an 
 
 The directed zero-flux gauge link remains \(U_b^{\gamma\gamma}=+1\), and the matter covariance is \(U_b^{00}=-\bar U\). The quadrature therefore updates the magnitude used in K-006 without changing its sign convention or the pure-Kitaev energy normalization established in Note 04c.
 
-Run from the repository root:
-\
-\x60\x60\x60sh
-python scripts/k006_quadrature.py
-\x60\x60\x60
+Run from the repository root with the project environment active:
+
+    python scripts/k006_quadrature.py
 
 The CLI accepts an explicit doubling sequence with --meshes and a memory-control parameter --row-chunk-size. Automated tests check direct small-mesh agreement, chunk invariance, invalid inputs, and observed convergence order.
