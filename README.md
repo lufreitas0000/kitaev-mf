@@ -69,3 +69,8 @@ Majorana convention, bond orientation, and physical constraint explicitly.
 Those conventions have not yet been mapped at operator level to the
 production mean-field Bloch convention. Do not compare coupling prefactors or
 spectral scales across the two tracks until that mapping is established.
+
+
+## Versioning and releases
+
+The package version is declared once in `pyproject.toml`. See [`CHANGELOG.md`](CHANGELOG.md) and [`.agents/rules/04_versioning_and_releases.md`](.agents/rules/04_versioning_and_releases.md) for the SemVer policy, changelog format, and release procedure. Releases are published from `main`; research milestones do not trigger package version changes.
