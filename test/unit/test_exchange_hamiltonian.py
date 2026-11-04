@@ -98,12 +98,19 @@ def test_t00d_01_exchange_tensor_has_expected_symmetric_and_dm_parts() -> None:
         symmetric = 0.5 * (tensor + tensor.T)
         antisymmetric = 0.5 * (tensor - tensor.T)
 
-        expected_symmetric = _exchange_tensor(
-            gamma, j_value, k_value, gamma_value, gamma_prime, 0.0
-        )
-        expected_antisymmetric = np.zeros((3, 3), dtype=np.float64)
         gamma_plus = 1 + (gamma % 3)
         gamma_minus = 1 + ((gamma + 1) % 3)
+        cyclic_basis = (gamma_plus - 1, gamma_minus - 1, gamma - 1)
+        expected_symmetric = np.zeros((3, 3), dtype=np.float64)
+        expected_symmetric[np.ix_(cyclic_basis, cyclic_basis)] = np.array(
+            [
+                [j_value, gamma_value, gamma_prime],
+                [gamma_value, j_value, gamma_prime],
+                [gamma_prime, gamma_prime, j_value + k_value],
+            ],
+            dtype=np.float64,
+        )
+        expected_antisymmetric = np.zeros((3, 3), dtype=np.float64)
         expected_antisymmetric[gamma_plus - 1, gamma_minus - 1] = dm_value
         expected_antisymmetric[gamma_minus - 1, gamma_plus - 1] = -dm_value
 
@@ -141,7 +148,6 @@ def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None
     majoranas = _majorana_operators(4)
     sites = [_site_majoranas(majoranas, site) for site in (0, 1)]
     spins = [_site_spin(site_majoranas) for site_majoranas in sites]
-    identity = np.eye(16, dtype=np.complex128)
     tensor = np.array(
         [[0.4, 0.7, -0.2], [0.1, -0.6, 0.5], [-0.3, 0.8, 0.9]],
         dtype=np.float64,
