@@ -239,4 +239,3 @@ def test_t00a_07_even_bilinears_commute_across_sites() -> None:
             operator_b = _bilinear(site_one, matrix_b)
             commutator = operator_a @ operator_b - operator_b @ operator_a
             assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
-

@@ -21,13 +21,8 @@ def main() -> None:
     for item in estimates:
         order = "" if item.observed_order is None else f"{item.observed_order:.8f}"
         error = "" if item.estimated_error is None else f"{item.estimated_error:.6e}"
-        richardson = (
-            "" if item.richardson_value is None else f"{item.richardson_value:.15f}"
-        )
-        print(
-            f"{item.mesh_size},{item.value:.15f},"
-            f"{order},{error},{richardson}"
-        )
+        richardson = "" if item.richardson_value is None else f"{item.richardson_value:.15f}"
+        print(f"{item.mesh_size},{item.value:.15f},{order},{error},{richardson}")
 
 
 if __name__ == "__main__":

@@ -102,7 +102,7 @@ active_milestone:
     focused_quadrature_tests: "9 passed"
     energetics_tests: "3 passed"
     full_unit_suite: "70 passed"
-    quadrature_cli: "Completed; values converge to approximately 0.5248657458506 with observed order near 3."
+    quadrature_cli: "Completed; values converge to approximately 0.5248657458506 with observed order near 3. Added to make verify as a reproducible numerical diagnostic."
     mypy_src: "Passed: no issues in 15 source files."
     outstanding_before_unified_verification:
       - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
