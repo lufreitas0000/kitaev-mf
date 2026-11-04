@@ -5,7 +5,7 @@ current_sprint: "M1.4.3b.5: Explicit SO(4) matrices and type-safe constants"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
-  last_reviewed_commit: "a813f6ca886dc77f4647032630f40bea4efd143a"
+  last_reviewed_commit: "3f794fef366589822eb68d86f40216f735d34554"
   clean_working_tree: null
   clean_working_tree_note: "Not observable through the GitHub branch API; verify locally with git status."
   ci_status: "not_triggered_by_branch_filter"
