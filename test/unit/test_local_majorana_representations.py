@@ -51,18 +51,28 @@ def _local_operators() -> tuple[
 ]:
     majoranas = _majorana_operators()
     parity = majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
-    spin = {gamma: 0.5 * _bilinear(majoranas, M_MATRICES[gamma]) for gamma in (1, 2, 3)}
-    gauge = {gamma: 0.5 * _bilinear(majoranas, G_MATRICES[gamma]) for gamma in (1, 2, 3)}
+    spin = {
+        gamma: (0.5 * _bilinear(majoranas, M_MATRICES[gamma])).astype(
+            np.complex128, copy=False
+        )
+        for gamma in (1, 2, 3)
+    }
+    gauge = {
+        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(
+            np.complex128, copy=False
+        )
+        for gamma in (1, 2, 3)
+    }
     return parity, spin, gauge
 
 
 def _casimir(
     generators: dict[int, NDArray[np.complex128]],
 ) -> NDArray[np.complex128]:
-    return sum(
-        (generators[gamma] @ generators[gamma] for gamma in (1, 2, 3)),
-        start=np.zeros((4, 4), dtype=np.complex128),
-    )
+    result = np.zeros((4, 4), dtype=np.complex128)
+    for gamma in (1, 2, 3):
+        result += generators[gamma] @ generators[gamma]
+    return result
 
 
 def test_t00b_01_local_parity_is_hermitian_involution_with_equal_sectors() -> None:
