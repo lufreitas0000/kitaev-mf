@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 VENV := .venv
-PYTHON := $(if$(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
+PYTHON := $(if $(wildcard $(VENV)/bin/python3),$(VENV)/bin/python3,$(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3))
 PIP := $(VENV)/bin/pip
 PIP_COMPILE := $(VENV)/bin/pip-compile
 PIP_SYNC := $(VENV)/bin/pip-sync
