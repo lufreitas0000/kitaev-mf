@@ -75,14 +75,14 @@ def test_t00a_01_majorana_car() -> None:
 
     assert len(majoranas) == 4
     for mu in range(4):
-        assert np.allclose(majoranas[mu].conj().T, majoranas[mu], atol=TOL)
+        assert np.allclose(majoranas[mu].conj().T, majoranas[mu], atol=TOL, rtol=0.0)
         for nu in range(4):
             anticommutator = (
                 majoranas[mu] @ majoranas[nu]
                 + majoranas[nu] @ majoranas[mu]
             )
             expected = 2.0 * identity if mu == nu else np.zeros_like(identity)
-            assert np.allclose(anticommutator, expected, atol=TOL)
+            assert np.allclose(anticommutator, expected, atol=TOL, rtol=0.0)
 
 
 def test_t00a_02_dirac_car_and_inverse_relations() -> None:
@@ -98,7 +98,7 @@ def test_t00a_02_dirac_car_and_inverse_relations() -> None:
                 identity if a == b else zero,
                 atol=TOL,
             )
-            assert np.allclose(d[a] @ d[b] + d[b] @ d[a], zero, atol=TOL)
+            assert np.allclose(d[a] @ d[b] + d[b] @ d[a], zero, atol=TOL, rtol=0.0)
             assert np.allclose(
                 d[a].conj().T @ d[b].conj().T
                 + d[b].conj().T @ d[a].conj().T,
@@ -113,7 +113,7 @@ def test_t00a_02_dirac_car_and_inverse_relations() -> None:
         -1.0j * (d[1] - d[1].conj().T),
     )
     for actual, expected in zip(reconstructed, (c0, c1, c2, c3), strict=True):
-        assert np.allclose(actual, expected, atol=TOL)
+        assert np.allclose(actual, expected, atol=TOL, rtol=0.0)
 
 
 def test_t00a_03_bilinear_hermiticity_and_commutator_identity() -> None:
@@ -122,7 +122,7 @@ def test_t00a_03_bilinear_hermiticity_and_commutator_identity() -> None:
     bilinears = tuple(_bilinear(majoranas, matrix) for matrix in skew_matrices)
 
     for bilinear in bilinears:
-        assert np.allclose(bilinear.conj().T, bilinear, atol=TOL)
+        assert np.allclose(bilinear.conj().T, bilinear, atol=TOL, rtol=0.0)
 
     nonzero_commutator_seen = False
     for a_matrix, a_operator in zip(skew_matrices, bilinears, strict=True):
@@ -130,7 +130,7 @@ def test_t00a_03_bilinear_hermiticity_and_commutator_identity() -> None:
             matrix_commutator = a_matrix @ b_matrix - b_matrix @ a_matrix
             operator_commutator = a_operator @ b_operator - b_operator @ a_operator
             expected = 1.0j * _bilinear(majoranas, matrix_commutator)
-            assert np.allclose(operator_commutator, expected, atol=TOL)
+            assert np.allclose(operator_commutator, expected, atol=TOL, rtol=0.0)
             nonzero_commutator_seen |= not np.allclose(
                 matrix_commutator, 0.0, atol=TOL
             )
@@ -167,8 +167,8 @@ def test_t00a_05_matrix_lie_algebra_and_mutual_commutation() -> None:
     epsilon = _levi_civita_3()
 
     for alpha in (1, 2, 3):
-        assert np.allclose(G_MATRICES[alpha].T, -G_MATRICES[alpha], atol=TOL)
-        assert np.allclose(M_MATRICES[alpha].T, -M_MATRICES[alpha], atol=TOL)
+        assert np.allclose(G_MATRICES[alpha].T, -G_MATRICES[alpha], atol=TOL, rtol=0.0)
+        assert np.allclose(M_MATRICES[alpha].T, -M_MATRICES[alpha], atol=TOL, rtol=0.0)
         for beta in (1, 2, 3):
             expected_g = -2.0 * sum(
                 epsilon[alpha - 1, beta - 1, gamma - 1] * G_MATRICES[gamma]
@@ -190,9 +190,9 @@ def test_t00a_05_matrix_lie_algebra_and_mutual_commutation() -> None:
                 M_MATRICES[alpha] @ G_MATRICES[beta]
                 - G_MATRICES[beta] @ M_MATRICES[alpha]
             )
-            assert np.allclose(commutator_g, expected_g, atol=TOL)
-            assert np.allclose(commutator_m, expected_m, atol=TOL)
-            assert np.allclose(commutator_mg, 0.0, atol=TOL)
+            assert np.allclose(commutator_g, expected_g, atol=TOL, rtol=0.0)
+            assert np.allclose(commutator_m, expected_m, atol=TOL, rtol=0.0)
+            assert np.allclose(commutator_mg, 0.0, atol=TOL, rtol=0.0)
 
 
 def test_t00a_06_full_trace_gram_matrices() -> None:
@@ -215,9 +215,9 @@ def test_t00a_06_full_trace_gram_matrices() -> None:
         ]
     )
 
-    assert np.allclose(gauge_gram, 4.0 * np.eye(3), atol=TOL)
-    assert np.allclose(spin_gram, 4.0 * np.eye(3), atol=TOL)
-    assert np.allclose(mixed_gram, np.zeros((3, 3)), atol=TOL)
+    assert np.allclose(gauge_gram, 4.0 * np.eye(3), atol=TOL, rtol=0.0)
+    assert np.allclose(spin_gram, 4.0 * np.eye(3), atol=TOL, rtol=0.0)
+    assert np.allclose(mixed_gram, np.zeros((3, 3)), atol=TOL, rtol=0.0)
 
 
 def test_t00a_07_even_bilinears_commute_across_sites() -> None:
@@ -231,14 +231,14 @@ def test_t00a_07_even_bilinears_commute_across_sites() -> None:
         for matrix_b in skew_matrices:
             operator_b = _bilinear(site_one, matrix_b)
             commutator = operator_a @ operator_b - operator_b @ operator_a
-            assert np.allclose(commutator, 0.0, atol=TOL)
+            assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
 
 
 def test_local_generator_constructions_remain_consistent() -> None:
     """Cross-check the documented e_11 construction without a legacy alias."""
     e_11 = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)
-    assert np.allclose(e_11, 0.5 * (I_2 + S_Z), atol=TOL)
-    assert np.allclose(N_MATRICES[1], np.kron(e_11, EPSILON), atol=TOL)
-    assert np.allclose(N_MATRICES[2], np.kron(EPSILON, e_11), atol=TOL)
+    assert np.allclose(e_11, 0.5 * (I_2 + S_Z), atol=TOL, rtol=0.0)
+    assert np.allclose(N_MATRICES[1], np.kron(e_11, EPSILON), atol=TOL, rtol=0.0)
+    assert np.allclose(N_MATRICES[2], np.kron(EPSILON, e_11), atol=TOL, rtol=0.0)
     expected_n3 = 0.5 * (np.kron(S_X, EPSILON) + np.kron(EPSILON, S_X))
-    assert np.allclose(N_MATRICES[3], expected_n3, atol=TOL)
+    assert np.allclose(N_MATRICES[3], expected_n3, atol=TOL, rtol=0.0)
