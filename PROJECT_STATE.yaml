@@ -53,7 +53,13 @@ active_milestone:
     - "State finite-size and Brillouin-zone normalization conventions explicitly."
     - "Identify analytically controlled limiting cases and independent validation targets."
     - "Separate exact identities, thermodynamic-limit integrals, and finite-mesh numerical evidence."
-  status: "ready"
+  status: "awaiting_user_review"
+  evidence:
+    - "doc/rnd/note_04_observables_energetics.md"
+  unresolved_for_M1_4_3:
+    - "Derive and test the scalar double-counting constant C in the quadratic mean-field Hamiltonian."
+    - "Validate the Gaussian Wick energy functional against direct finite-dimensional contractions."
+    - "Establish pure-Kitaev energy normalization per bond, per site, and per unit cell."
 
 hardware_targets:
   local:
