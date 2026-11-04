@@ -83,8 +83,8 @@ active_milestone:
     - "Keep tests independent of the future production energetics service."
   subtasks:
     - id: "M1.4.3b.1"
-      status: "planned"
-      description: "Specify quadrature contracts and add failing tests."
+      status: "in_progress"
+      description: "Define API and commit tests for mesh restrictions, chunk invariance, direct midpoint agreement, and convergence diagnostics; tests not yet run locally."
     - id: "M1.4.3b.2"
       status: "planned"
       description: "Implement chunked NumPy integration and convergence estimator."
