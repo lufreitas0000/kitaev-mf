@@ -47,19 +47,32 @@ milestone_history:
     status: "completed"
     evidence:
       - "doc/rnd/note_04_observables_energetics.md"
+  - id: "M1.4.2"
+    name: "Independent finite-Fock-space observable tests"
+    status: "completed"
+    validation: "user_reported_local_wsl_pass"
+    evidence:
+      - "test/unit/test_observables.py"
+      - "doc/rnd/note_04a_observable_test_specification.md"
+  - id: "M1.4.3"
+    name: "Gaussian energetics and double-counting tests"
+    status: "awaiting_local_validation"
+    evidence:
+      - "test/unit/test_energetics.py"
+      - "doc/rnd/note_04b_energetics_test_specification.md"
 
 active_milestone:
-  id: "M1.4.2"
-  description: "Add independent finite-Fock-space tests for Gaussian one-point and two-point spin observables."
+  id: "M1.4.3"
+  description: "Validate the Gaussian exchange energy, scalar double-counting constant, and pure-Kitaev energy normalization."
   deliverables:
-    - "test/unit/test_observables.py"
-    - "doc/rnd/note_04a_observable_test_specification.md"
+    - "test/unit/test_energetics.py"
+    - "doc/rnd/note_04b_energetics_test_specification.md"
   dod:
-    - "Validate Pauli and physical-spin one-point normalization against direct Fock expectations."
-    - "Validate all nine intersite spin-component Wick contractions against direct Fock expectations."
-    - "Exercise nonzero Hartree and intersite exchange contributions independently."
-    - "Use a deterministic nondegenerate pure Gaussian state and explicit numerical tolerances."
-    - "Keep tests independent of the future production observable service."
+    - "Compare the Wick exchange energy with direct finite-Fock-space spin expectations for a nonsymmetric exchange tensor."
+    - "Derive and test C = E_exchange^G, with field and constraint terms excluded from C."
+    - "Verify the quadratic expectation identity with nonzero fields and multiplier residuals."
+    - "Check pure-Kitaev energy per bond, two-site cell, and physical site in the Pauli convention."
+    - "Keep tests independent of the future production energetics service."
   status: "awaiting_local_validation"
 
 hardware_targets:
