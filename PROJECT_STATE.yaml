@@ -42,24 +42,25 @@ milestone_history:
     evidence:
       - "doc/rnd/note_00f_m1_3_project_state_and_k006_provenance.md"
       - "PROJECT_STATE.yaml"
+  - id: "M1.4.1"
+    name: "Gaussian observables and variational energetics analytical contracts"
+    status: "completed"
+    evidence:
+      - "doc/rnd/note_04_observables_energetics.md"
 
 active_milestone:
-  id: "M1.4.1"
-  description: "Derive and specify observable and energetics conventions, formulas, and analytic limiting cases before implementation."
-  deliverable: "doc/rnd/note_04_observables_energetics.md"
+  id: "M1.4.2"
+  description: "Add independent finite-Fock-space tests for Gaussian one-point and two-point spin observables."
+  deliverables:
+    - "test/unit/test_observables.py"
+    - "doc/rnd/note_04a_observable_test_specification.md"
   dod:
-    - "Define physical observables and distinguish spin, Pauli, and Majorana normalization conventions."
-    - "Derive energy and observable expressions from the established Hamiltonian and covariance conventions."
-    - "State finite-size and Brillouin-zone normalization conventions explicitly."
-    - "Identify analytically controlled limiting cases and independent validation targets."
-    - "Separate exact identities, thermodynamic-limit integrals, and finite-mesh numerical evidence."
-  status: "awaiting_user_review"
-  evidence:
-    - "doc/rnd/note_04_observables_energetics.md"
-  unresolved_for_M1_4_3:
-    - "Derive and test the scalar double-counting constant C in the quadratic mean-field Hamiltonian."
-    - "Validate the Gaussian Wick energy functional against direct finite-dimensional contractions."
-    - "Establish pure-Kitaev energy normalization per bond, per site, and per unit cell."
+    - "Validate Pauli and physical-spin one-point normalization against direct Fock expectations."
+    - "Validate all nine intersite spin-component Wick contractions against direct Fock expectations."
+    - "Exercise nonzero Hartree and intersite exchange contributions independently."
+    - "Use a deterministic nondegenerate pure Gaussian state and explicit numerical tolerances."
+    - "Keep tests independent of the future production observable service."
+  status: "awaiting_local_validation"
 
 hardware_targets:
   local:
