@@ -59,3 +59,7 @@ doc/notes/*.out
 doc/notes/*.run.xml
 doc/notes/*.synctex.gz
 doc/notes/*.toc
+
+# Ephemeral AI context snapshots
+REPO_SNAPSHOT.md
+repo_snapshot.txt
