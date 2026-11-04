@@ -1,13 +1,7 @@
+schema_version: 1
 project_name: "kitaev-mf"
-version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.5: Consolidated Verification and Invariant Hardening"
-
-repository_status:
-  git_branch: "develop/m1-foundations-review"
-  clean_working_tree: true
-  ci_status: "passing_local_verification"
-  verification_command: "make verify"
+current_milestone: "M1.4.5"
 
 milestone_history:
   - id: "M1.1"
@@ -57,36 +51,76 @@ milestone_history:
 
 active_milestone:
   id: "M1.4.5"
-  description: "Consolidated verification across advanced kinematic sum rules, semidefinite constraints, solvable limits, and dualities"
-  deliverables:
-    - "doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md"
-    - "test/unit/test_kinematic_and_semidefinite.py"
-    - "test/unit/test_solvable_limits.py"
-    - "test/unit/test_symmetry_selection_rules.py"
-    - "test/integration/test_variational_response.py"
-    - "test/integration/test_dualities_and_asymptotics.py"
-  current_batch: "M1.4.5a: Package 1 — Kinematic and Semidefinite Gates"
+  description: "Consolidated verification and invariant hardening"
+  objective: "Add independent tests for kinematic identities, Gaussian-state representability, solvable limits, symmetry selection rules, variational response, and canonical dualities."
   status: "in_progress"
-  batches:
-    - id: "M1.4.5a"
-      name: "Package 1: Kinematic and Semidefinite Gates (Tier 1)"
+  sprint_goal: "Establish a layered, convention-consistent verification gate for the production mean-field services and record CPU/CUDA parity evidence."
+  specification: "doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md"
+  active_tasks:
+    - id: "T1"
+      title: "Kinematic and semidefinite gates"
       status: "planned"
-      target_module: "test/unit/test_kinematic_and_semidefinite.py"
-      contracts: ["TST-KIN-01", "TST-KIN-02", "TST-KIN-03", "TST-SDP-01", "TST-SDP-02", "TST-SDP-03"]
-    - id: "M1.4.5b"
-      name: "Package 2: Solvable Limits, Symmetries & Asymptotics (Tier 2)"
+      target_files:
+        - "test/unit/test_kinematic_and_semidefinite.py (planned)"
+        - "src/kitaev_mf/services/hamiltonian.py (existing; contract inspection)"
+        - "src/kitaev_mf/services/correlators.py (existing; contract inspection)"
+      contracts:
+        - "TST-KIN-01: Parseval-Frobenius second spectral moment; establish finite-grid orthogonality and non-aliasing conditions."
+        - "TST-KIN-02: Pointwise commutation [H(k), P(k)] = 0."
+        - "TST-KIN-03: P(k)^2 = 2P(k), trace/filling, and reflection sum rule P(-k) + P(k)^T = 2I."
+        - "TST-SDP-01: Hermiticity and positive semidefiniteness of the local two-site correlation matrix."
+        - "TST-SDP-02: Spectral-norm bounds on bond correlators and singular-value bounds on on-site covariance blocks."
+        - "TST-SDP-03: Bloch-ball magnetization and local parity/Pfaffian bounds."
+      validation:
+        - "python -m pytest test/unit/test_kinematic_and_semidefinite.py -q"
+    - id: "T2"
+      title: "Solvable limits, symmetry selection rules, and asymptotics"
       status: "planned"
-      target_modules: ["test/unit/test_solvable_limits.py", "test/unit/test_symmetry_selection_rules.py"]
-      contracts: ["TST-RED-01", "TST-RED-02", "TST-SYM-01", "TST-SYM-02", "TST-SYM-03", "TST-ASY-01"]
-    - id: "M1.4.5c"
-      name: "Package 3: Variational Response & Canonical Dualities (Tier 3)"
+      target_files:
+        - "test/unit/test_solvable_limits.py (planned)"
+        - "test/unit/test_symmetry_selection_rules.py (planned)"
+        - "src/kitaev_mf/services/correlators.py (existing; contract inspection)"
+        - "src/kitaev_mf/services/observables.py (existing; contract inspection)"
+      contracts:
+        - "TST-RED-01: Decoupled zigzag-chain limit K_z = 0 with U_bar = 4/(3*pi), under the note's stated coupling and cell conventions."
+        - "TST-RED-02: Exact isolated-dimer point K_x = K_y = 0; verify flat bands and correlator/energy normalization."
+        - "TST-SYM-01: Time-reversal-odd mixed correlators vanish at zero field and D = 0."
+        - "TST-SYM-02: Sublattice inversion relations, conditional on inversion-symmetric geometry, uniform fields, and a symmetry-preserving state."
+        - "TST-SYM-03: C3-related bond observables agree on the isotropic line."
+        - "TST-ASY-01: High-field polarization trend; test a controlled sequence in |h|/|K| rather than treating one finite ratio as an asymptotic limit."
+      validation:
+        - "python -m pytest test/unit/test_solvable_limits.py test/unit/test_symmetry_selection_rules.py -q"
+    - id: "T3"
+      title: "Variational response and canonical dualities"
       status: "planned"
-      target_modules: ["test/integration/test_variational_response.py", "test/integration/test_dualities_and_asymptotics.py"]
-      contracts: ["TST-VAR-01", "TST-VAR-02", "TST-RED-03", "TST-DUA-01"]
-    - id: "M1.4.5d"
-      name: "Package 4: Hardware Parity & Final M1 Quality Gate"
+      target_files:
+        - "test/integration/test_variational_response.py (planned)"
+        - "test/integration/test_dualities_and_asymptotics.py (planned)"
+        - "src/kitaev_mf/services/energetics.py (existing; contract inspection)"
+        - "src/kitaev_mf/services/solver.py (existing; contract inspection)"
+      contracts:
+        - "TST-VAR-01: Numerical Hellmann-Feynman derivative dE/dh^gamma = -sum_s V_s^(0 gamma), with differentiability and stationarity assumptions stated."
+        - "TST-VAR-02: Non-negative susceptibility only for the globally minimized equilibrium energy envelope, or a separately justified stable branch; do not impose it on arbitrary stationary/metastable solutions."
+        - "TST-RED-03: Bipartite sign-inversion energy duality at zero field, after matching cell and coupling conventions."
+        - "TST-DUA-01: Four-sublattice Klein duality in the four-site cell, including the full parameter map and zero-field restriction."
+      validation:
+        - "python -m pytest test/integration/test_variational_response.py test/integration/test_dualities_and_asymptotics.py -q"
+    - id: "T4"
+      title: "CPU/CUDA parity and final M1 verification gate"
       status: "planned"
-      scope: "Full unit + integration suite on CPU/CUDA, zero-import-cycle check, make verify"
+      target_files:
+        - "test/integration/test_backend_parity.py (planned)"
+        - "scripts/check_import_cycles.py (planned)"
+        - "Makefile (existing; register the import-architecture check in verify)"
+      contracts:
+        - "TST-HW-01: Backend parity for selected deterministic observables and solver outputs within precision- and conditioning-justified tolerances."
+        - "TST-ARCH-01: Detect prohibited import cycles or dependency-direction violations; define the checker scope explicitly."
+        - "TST-GATE-01: Full repository verification passes on CPU; CUDA parity is run only when CUDA is available and is reported separately."
+      validation:
+        - "make verify"
+        - "python scripts/check_import_cycles.py"
+        - "python -m pytest test/integration/test_backend_parity.py -q"
+        - "python -c 'import torch; assert torch.cuda.is_available()' (CUDA preflight; run CUDA parity only if it passes)"
 
 hardware_targets:
   local:

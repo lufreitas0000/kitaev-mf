@@ -1,79 +1,137 @@
-# Milestone Roadmap: kitaev-mf
+# Project Roadmap and Milestone Backlog: kitaev-mf
 
-## Milestone M1: Analytical Foundations, Bloch Formalism, and Self-Consistent Solvers
+## Planning hierarchy
 
-### Milestone M1.1 — Local Algebra and Exact Parton Representation (Closed)
-- **Status:** `completed`
-- **Contracts:** A01–A20 verified across 25 unit tests.
-- **Evidence:** `test/unit/test_local_majorana_algebra.py`, `test_local_majorana_representations.py`, `test_physical_projection.py`, `test_exchange_hamiltonian.py`.
+- **Phase**: macro physical and engineering horizon.
+- **Milestone**: persistent strategic backlog item and acceptance gate. IDs use M<phase>.<index>; a nested milestone may add a subordinate suffix, as in M1.4.5.
+- **Task**: short-lived execution unit, numbered T1, T2, ... only within the active milestone. Task IDs restart when the active milestone changes.
 
-### Milestone M1.2 — Bloch Formalism and Folding Parity (Closed)
-- **Status:** `completed`
-- **Contracts:** Exact Kitaev dispersion (K-004) and 2-site to 4-site supercell folding parity (K-005) verified to `< 1e-14`.
-- **Evidence:** `src/kitaev_mf/services/hamiltonian.py`, `test/unit/test_hamiltonian.py`.
+The roadmap contains persistent milestone objectives and acceptance gates. Current execution tasks are maintained in PROJECT_STATE.yaml. Future milestones are not decomposed into task lists before activation.
 
-### Milestone M1.3 — Reciprocal Projection and Self-Consistent Solver (Closed)
-- **Status:** `completed`
-- **Contracts:** Zero-temperature spectral projection, real-space BZ integration, and Joint Anderson Acceleration (DIIS).
-- **Evidence:** `src/kitaev_mf/services/correlators.py`, `src/kitaev_mf/services/solver.py`, `test/unit/test_correlators.py`, `test/unit/test_solver.py`.
+## Phase 1: Analytical Rigor and Domain Foundations
 
-### Milestone M1.4 — Physical Observables, Plaquette Fluxes, and Exact Energetics (Closed)
-- **Status:** `completed`
-- **Evidence:**
-  - `src/kitaev_mf/services/observables.py`: Sublattice magnetizations, bond spin-correlators, plaquette fluxes.
-  - `src/kitaev_mf/services/energetics.py`: Variational energy, spectral ground-state energy, consistency check.
-  - `test/unit/test_production_observables.py`, `test_production_energetics.py`, `test/integration/test_m1_system_convergence.py`.
-  - Audit record: `doc/rnd/note_04e_m1_4_integration_and_audit.md`.
+### Completed milestones
 
----
+#### M1.1 — Local Majorana Algebra and Exact Parton Representation
 
-### Milestone M1.4.5 — Consolidated Verification and Invariant Hardening (Active)
+- **Status:** completed.
+- **Scope:** local Clifford CAR algebra, spin/gauge representation, physical projection, Pauli algebra, and exact quartic exchange Hamiltonian.
+- **Acceptance:** contracts A01–A20 verified across 25 unit tests.
+- **Evidence:** R&D notes 00a–00e; unit tests for local algebra, representations, physical projection, and exchange Hamiltonian. See PROJECT_STATE.yaml for exact paths and provenance.
 
-- **Objective:** Deploy the full verification suite testing kinematic sum rules, semidefinite representability constraints, solvable reductions, discrete selection rules, and canonical dualities across the codebase.
-- **Parent R&D Specification:** `doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md`.
+#### M1.2 — Generalized Decoupling and Momentum-Space Bloch Matrices
 
-#### Batches & Execution Schedule:
+- **Status:** completed.
+- **Scope:** Bloch-Majorana Hamiltonian construction for two-site and four-site unit cells.
+- **Acceptance:** pure-Kitaev analytical dispersion and supercell Brillouin-zone folding parity verified, including general-coupling folding tests.
+- **Evidence:** src/kitaev_mf/services/hamiltonian.py, test/unit/test_hamiltonian.py, and doc/rnd/note_02_momentum_bloch_formalism.md. K-004 and K-005 are recorded in PROJECT_STATE.yaml.
 
-1. **M1.4.5a: Package 1 — Kinematic and Semidefinite Gates (Tier 1)**
-   - Target Module: `test/unit/test_kinematic_and_semidefinite.py`.
-   - Contracts:
-     - `TST-KIN-01`: Parseval–Frobenius second spectral moment identity (`CLM-M1-INV-001`).
-     - `TST-KIN-02`: Pointwise projector-Hamiltonian commutation $[\mathcal{H}(\mathbf{k}), P(\mathbf{k})] \equiv 0$ (`CLM-M1-INV-002`).
-     - `TST-KIN-03`: Reciprocal projector idempotency $P^2 = 2P$ and reflection sum rule $P(-\mathbf{k}) + P^T(\mathbf{k}) = 2\mathbb{1}$ (`CLM-M1-INV-002`).
-     - `TST-SDP-01`: Local two-site density matrix positivity LMI $\lambda_{\min}(\Gamma_{ij}) \ge 0$ (`CLM-M1-INV-003`).
-     - `TST-SDP-02`: Covariance operator norm bounds $\sigma_{\max}(\mathrm{U}_b) \le 1.0$ and $\max \vert{}\nu_k(\mathrm{V}_s)\vert{} \le 1.0$ (`CLM-M1-INV-004`).
-     - `TST-SDP-03`: Physical dipole envelope $\Vert{}\langle \boldsymbol{\sigma}_s \rangle\Vert{}_2 \le 1.0$ and parity bounds $\vert{}\operatorname{Pf}(\mathrm{V}_s)\vert{} \le 1.0$ (`CLM-M1-INV-004`).
-   - Performance: $< 15\,\mathrm{ms}$.
+#### M1.3 — Reciprocal Spectral Projection and Self-Consistent Solver
 
-2. **M1.4.5b: Package 2 — Solvable Limits, Symmetries & Asymptotics (Tier 2)**
-   - Target Modules: `test/unit/test_solvable_limits.py`, `test/unit/test_symmetry_selection_rules.py`.
-   - Contracts:
-     - `TST-RED-01`: Decoupled 1D zigzag chain limit ($K_z = 0 \implies \bar{U} = 4/(3\pi)$) (`CLM-M1-INV-005`).
-     - `TST-RED-02`: Isolated dimer flat-band limit ($\vert{}K_z\vert{} \gg \vert{}K_x\vert{}, \vert{}K_y\vert{}$) (`CLM-M1-INV-006`).
-     - `TST-SYM-01`: Time-reversal odd correlator vanishing ($\mathrm{U}_b^{0\gamma} \equiv 0$ at $\mathbf{h}=\mathbf{0}, D=0$) (`CLM-M1-INV-007`).
-     - `TST-SYM-02`: Sublattice inversion parity in uniform fields ($\langle \boldsymbol{\sigma}_A \rangle = \langle \boldsymbol{\sigma}_B \rangle$).
-     - `TST-SYM-03`: Permutation symmetry on the isotropic $C_3$ line ($E_{b,x} = E_{b,y} = E_{b,z}$).
-     - `TST-ASY-01`: High-field polarized limit ($\vert{}\mathbf{h}\vert{}/\vert{}K\vert{} \sim 25 \implies \Vert{}\mathrm{U}_b\Vert{} \to 0$).
-   - Performance: $\sim 60\,\mathrm{ms}$.
+- **Status:** completed.
+- **Scope:** zero-temperature spectral projection, Brillouin-zone integration, correlator reconstruction, and joint Anderson acceleration (DIIS).
+- **Acceptance:** correlator and solver regression suites pass; the pure-Kitaev matter correlator has the analytical Brillouin-zone expression and finite-mesh regression evidence.
+- **Evidence:** src/kitaev_mf/services/correlators.py, src/kitaev_mf/services/solver.py, test/unit/test_correlators.py, test/unit/test_solver.py, and doc/rnd/note_03_correlators_saddle_point.md. The matter correlator is negative, approximately -0.5248657458506, in the convention recorded as K-006; the gauge-link correlator is +1.
 
-3. **M1.4.5c: Package 3 — Variational Response & Canonical Dualities (Tier 3)**
-   - Target Modules: `test/integration/test_variational_response.py`, `test/integration/test_dualities_and_asymptotics.py`.
-   - Contracts:
-     - `TST-VAR-01`: Numerical Hellmann–Feynman derivative $\frac{\mathrm{d}E}{\mathrm{d}h^\gamma} = -\sum \mathrm{V}_s^{0\gamma}$ (`CLM-M1-INV-008`).
-     - `TST-VAR-02`: Thermodynamic energy concavity $\chi^{\gamma\gamma} \ge 0$ (`CLM-M1-INV-008`).
-     - `TST-RED-03`: Bipartite sign inversion duality $E(K) \equiv E(-K)$ at $\mathbf{h} = \mathbf{0}$.
-     - `TST-DUA-01`: Four-sublattice Klein duality in the 4-site cell ($E(J, K, \Gamma) \equiv E(-J, K+2J, -\Gamma)$) (`CLM-M1-INV-009`).
-   - Performance: $\sim 800\,\mathrm{ms}$.
+#### M1.4 — Production Observables, Plaquette Wilson Loops, and Variational Energetics
 
-4. **M1.4.5d: Hardware Parity & Final M1 Quality Gate**
-   - Consolidated execution of all unit and integration test suites on CPU and CUDA.
-   - Zero-import cycle verification.
-   - 100% green compliance under `make verify`.
+- **Status:** completed.
+- **Scope:** sublattice magnetizations, bond spin correlators, plaquette Wilson loops, Gaussian energy decomposition, spectral ground-state energy, and energy-consistency checks.
+- **Acceptance:** production service tests and the M1 end-to-end system-convergence test are present; local WSL validation was reported by the project owner.
+- **Evidence:** src/kitaev_mf/services/observables.py, src/kitaev_mf/services/energetics.py, test/unit/test_production_observables.py, test/unit/test_production_energetics.py, test/integration/test_m1_system_convergence.py, and doc/rnd/note_04e_m1_4_integration_and_audit.md.
 
----
+### Active milestone
 
-### Subsequent Milestone
+#### M1.4.5 — Consolidated Verification and Invariant Hardening
 
-- **M1.5: Standalone Research Monograph Delivery** (`doc/report/` / `main.pdf`)
-  - Integration of Part V (Observables, Variational Energetics, and Plaquette Dynamics).
-  - Traceability mapping between LaTeX theorems and pytest assertion targets via `CLM-M1-...` tags.
+- **Status:** active.
+- **Objective:** establish independent, layered verification of kinematic sum rules, Gaussian-state representability, solvable limits, symmetry selection rules, variational response, dualities, and backend parity.
+- **Scope:** production services and test suites under src/, test/, scripts/, and Makefile.
+- **Research specification:** doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md. This note is a contract proposal; each identity's assumptions, conventions, and numerical realization must be audited before it is treated as a regression gate.
+- **Acceptance gate:** all four active tasks T1–T4 completed; tests and architecture checks pass; CPU verification is recorded; CUDA parity is recorded when CUDA is available. Any skipped hardware check must be reported explicitly.
+- **Execution detail:** see active_tasks in PROJECT_STATE.yaml. Tasks are not copied into this roadmap as a second source of truth.
+
+The previous package labels M1.4.5a–M1.4.5d are retired as task identifiers. Their scopes are represented by T1–T4. These tasks are planned; no implementation or verification success is implied.
+
+### Strategic backlog
+
+#### M1.5 — Standalone Research Monograph
+
+- **Status:** backlog.
+- **Objective:** deliver a publication-grade LaTeX monograph synthesizing the theoretical and computational results from Parts I–V.
+- **Acceptance:** coherent manuscript and reproducible PDF build; equations, claims, figures, and numerical results trace to source derivations or tests using stable CLM-M1 identifiers.
+- **Planned deliverable:** doc/report/main.pdf. The doc/report/ directory is a proposed target and is not asserted to exist.
+
+## Phase 2: Homogeneous Phase Diagrams and Magnetic Ordering
+
+#### M2.1 — Multi-Sublattice Order-Parameter Framework
+
+- **Status:** backlog.
+- **Objective:** extract and classify Néel, ferromagnetic, zigzag, and stripy order parameters across supported unit cells.
+- **Acceptance:** symmetry-aware order parameters are defined, tested on limiting states, and reported with cell/normalization conventions.
+
+#### M2.2 — Automated Phase-Boundary Tracking
+
+- **Status:** backlog.
+- **Objective:** implement pseudo-arclength continuation and gap-closing detection for phase-boundary tracking.
+- **Acceptance:** continuation reproduces benchmark boundaries, detects documented gap closures, and reports convergence/failure diagnostics.
+
+#### M2.3 — Anisotropic Critical-Field Mapping
+
+- **Status:** backlog.
+- **Objective:** map critical fields as a function of field orientation.
+- **Acceptance:** angular scans are reproducible and compared against explicitly identified DMRG or other independent benchmarks.
+
+## Phase 3: Real-Space Inhomogeneous Vortices and Bound States
+
+#### M3.1 — Large-Scale Real-Space Lattice Engine
+
+- **Status:** backlog.
+- **Objective:** support real-space open and periodic clusters, with N up to 3200 sites as a target to be benchmarked.
+- **Acceptance:** boundary conditions, graph conventions, scaling, and numerical accuracy are validated against smaller exactly tractable clusters.
+
+#### M3.2 — Metastable Vortex Configurations
+
+- **Status:** backlog.
+- **Objective:** stabilize and characterize localized vison-pair configurations and associated string branch cuts.
+- **Acceptance:** configurations are reproducible, satisfy gauge/flux constraints, and have controlled energy and stability diagnostics.
+
+#### M3.3 — Induced Polarization and Quadrupole Interactions
+
+- **Status:** backlog.
+- **Objective:** compute local charge-imbalance profiles and effective vortex interactions.
+- **Acceptance:** polarization profiles and interaction energies are validated against symmetry constraints and finite-size/boundary-condition checks.
+
+## Phase 4: Spectroscopic and Dynamical Observables
+
+#### M4.1 — Scanning Tunneling Spectroscopy
+
+- **Status:** backlog.
+- **Objective:** compute local Majorana Green functions and tunneling/cotunneling observables relevant to zero-bias features.
+- **Acceptance:** spectral functions obey normalization and causality checks and reproduce appropriate limiting cases.
+
+#### M4.2 — Dynamical Spin Structure Factor
+
+- **Status:** backlog.
+- **Objective:** compute S(q, omega) and characterize the inelastic response continuum.
+- **Acceptance:** frequency/momentum resolution, sum rules, and comparison benchmarks are documented.
+
+#### M4.3 — Thermal Hall Conductance and Chiral Edge States
+
+- **Status:** backlog.
+- **Objective:** compute Berry-curvature/Chern diagnostics, ribbon spectra, chiral edge modes, and thermal Hall response.
+- **Acceptance:** bulk topological invariants and edge spectra are mutually consistent in validated regimes.
+
+## Phase 5: Cloud Production Pipelines and Open-Science Archiving
+
+#### M5.1 — GPU Cluster Orchestration
+
+- **Status:** backlog.
+- **Objective:** automate reproducible parameter sweeps on cloud GPU resources, with L4/A100-class hardware as candidate targets rather than guaranteed infrastructure.
+- **Acceptance:** jobs are restartable, resource-aware, and emit structured logs and provenance metadata.
+
+#### M5.2 — Open-Science Provenance and Archiving
+
+- **Status:** backlog.
+- **Objective:** establish versioned data pipelines, atomic HDF5 outputs, and archival release workflows.
+- **Acceptance:** datasets are reproducible and traceable to code/configuration; DVC and Zenodo DOI workflows are evaluated and adopted where appropriate.

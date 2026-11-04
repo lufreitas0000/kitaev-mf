@@ -1,22 +1,42 @@
 # Rule 04: Milestone Progress and Commit-Level Handover
 
-Every commit on a milestone/development branch MUST update both PROJECT_STATE.yaml and doc/MILESTONE_ROADMAP.md in the same Git commit. This applies to code, tests, documentation, refactors, and corrective changes.
+The planning hierarchy and task lifecycle are defined by Rule 05: Project Management. This rule specifies how milestone state is maintained on development branches.
 
-## Atomicity
-1. Include artifact changes and both progress files in one atomic commit; never defer progress synchronization.
-2. With GitHub APIs, create all blobs, one tree, one commit, then advance the branch ref using an expected-head check. Do not use separate Contents API writes for a multi-file change.
-3. If atomic multi-file commit is unavailable, stop and report the limitation.
+## State and roadmap ownership
 
-## Roadmap content
-For every active milestone, record objective, scope, assumptions, dependencies, definition of done, ordered batches/sub-batches with stable IDs, small intermediate tasks, expected files, validation commands, statuses (planned/in_progress/blocked/awaiting_local_validation/completed), risks, unresolved questions, decisions, non-goals, and the exact next action. Preserve completed history and explain execution-order changes.
+1. The roadmap at doc/MILESTONE_ROADMAP.md owns the persistent Phase/Milestone backlog and milestone acceptance gates.
+2. PROJECT_STATE.yaml records the active phase, active milestone, current active tasks, completed milestone evidence, verified invariants, and blockers.
+3. The state and roadmap describe the development branch that owns the active milestone. Do not copy in-progress state to unrelated branches or governance/project-governance.
+4. Do not store branch name, working-tree cleanliness, HEAD, or live CI status in PROJECT_STATE.yaml.
+
+## Atomic progress updates
+
+1. Update PROJECT_STATE.yaml and doc/MILESTONE_ROADMAP.md in the same commit whenever a milestone opens/closes or its scope, task set, acceptance criteria, blockers, or verification status materially changes.
+2. Include relevant implementation/test files in that same commit when the change alters the active task's deliverables or evidence.
+3. Routine commits that do not change milestone scope, task status, or verification evidence need not rewrite both progress files.
+4. For multi-file updates, create all blobs, one tree, and one commit, then advance the branch ref with an expected-head check. Do not use independent file commits for a logically atomic state transition.
+
+## Active task records
+
+- Keep task IDs T1, T2, ... only for the active milestone's current execution set.
+- Each task records exact target files, analytical/engineering contracts, dependencies, and validation commands.
+- Mark planned files as planned; do not imply they already exist.
+- When a task is complete, record evidence and outcome. When the milestone closes, move the verification summary to milestone history and remove the active task list.
+- Do not retain the former package labels M1.4.5a etc. as a second task taxonomy.
 
 ## Evidence discipline
-1. Update both progress files whenever scope, order, implementation, tests, blockers, or validation changes.
-2. Mark work completed only when deliverables exist and acceptance criteria are met.
-3. Local WSL validation remains awaiting_local_validation until the user reports exact commands and outcomes. Never infer test success from code inspection or GitHub writes.
-4. Distinguish analytical proof, literature agreement, numerical convergence, automated tests, and user-run validation.
-5. Record the previous known commit SHA in the next roadmap update when available; never guess the SHA of the commit being created.
-6. A fresh agent must read AGENTS.md, this rule, PROJECT_STATE.yaml, and doc/MILESTONE_ROADMAP.md, then inspect branch/head and working-tree state before editing.
 
-## Branch-local ownership
-Roadmap and project state describe the current milestone branch. Do not synchronize in-progress state to main, create a PR, merge, or switch branches unless explicitly authorized.
+1. Mark a milestone or task completed only when deliverables exist and acceptance criteria are met.
+2. Local WSL validation remains awaiting_local_validation until the user reports exact commands and outcomes. Never infer test success from code inspection or GitHub writes.
+3. Distinguish analytical proof, literature agreement, numerical convergence, automated tests, and user-run validation.
+4. A test passing establishes only its tested property and parameter domain. It does not prove a general mathematical statement.
+5. Record prior commit provenance only when known; never guess the SHA of a commit being created.
+6. A fresh agent reads AGENTS.md, applicable rules, PROJECT_STATE.yaml, and doc/MILESTONE_ROADMAP.md, then inspects branch/head and working-tree state before editing.
+
+## Next-action handover
+
+At the end of a substantial milestone task, report:
+- branch and commit/PR state;
+- completed task IDs and evidence;
+- commands run and outcomes, including skipped checks;
+- blockers, assumptions requiring review, and the exact next task.
