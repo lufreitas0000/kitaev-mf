@@ -1,6 +1,7 @@
 """Independent finite-Fock-space tests for the local Majorana algebra."""
 
 import numpy as np
+from numpy.typing import NDArray
 
 from kitaev_mf.domain.constants import (
     EPSILON,
@@ -19,16 +20,16 @@ PAULI_Z = np.array([[1.0, 0.0], [0.0, -1.0]], dtype=np.complex128)
 TOL = 1.0e-12
 
 
-def _kron_all(factors: list[np.ndarray]) -> np.ndarray:
+def _kron_all(factors: list[NDArray[np.complex128]]) -> NDArray[np.complex128]:
     result = factors[0]
     for factor in factors[1:]:
         result = np.kron(result, factor)
     return result
 
 
-def _majorana_operators(num_modes: int) -> tuple[np.ndarray, ...]:
+def _majorana_operators(num_modes: int) -> tuple[NDArray[np.complex128], ...]:
     """Jordan-Wigner representation with c_(2m)=Z^m X and c_(2m+1)=Z^m Y."""
-    operators: list[np.ndarray] = []
+    operators: list[NDArray[np.complex128]] = []
     for mode in range(num_modes):
         for local_pauli in (PAULI_X, PAULI_Y):
             factors = [
@@ -40,7 +41,9 @@ def _majorana_operators(num_modes: int) -> tuple[np.ndarray, ...]:
     return tuple(operators)
 
 
-def _bilinear(majoranas: tuple[np.ndarray, ...], matrix: np.ndarray) -> np.ndarray:
+def _bilinear(
+    majoranas: tuple[NDArray[np.complex128], ...], matrix: NDArray[np.float64]
+) -> NDArray[np.complex128]:
     result = np.zeros_like(majoranas[0], dtype=np.complex128)
     for mu in range(4):
         for nu in range(4):
@@ -48,8 +51,8 @@ def _bilinear(majoranas: tuple[np.ndarray, ...], matrix: np.ndarray) -> np.ndarr
     return 0.25j * result
 
 
-def _skew_basis() -> tuple[np.ndarray, ...]:
-    matrices = []
+def _skew_basis() -> tuple[NDArray[np.float64], ...]:
+    matrices: list[NDArray[np.float64]] = []
     for a in range(4):
         for b in range(a + 1, 4):
             matrix = np.zeros((4, 4), dtype=np.float64)
@@ -59,7 +62,7 @@ def _skew_basis() -> tuple[np.ndarray, ...]:
     return tuple(matrices)
 
 
-def _levi_civita_3() -> np.ndarray:
+def _levi_civita_3() -> NDArray[np.float64]:
     epsilon = np.zeros((3, 3, 3), dtype=np.float64)
     epsilon[0, 1, 2] = epsilon[1, 2, 0] = epsilon[2, 0, 1] = 1.0
     epsilon[0, 2, 1] = epsilon[2, 1, 0] = epsilon[1, 0, 2] = -1.0
