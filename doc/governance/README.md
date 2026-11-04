@@ -29,6 +29,7 @@ Different repository artifacts answer different questions. They should not be tr
 | `AGENTS.md` and `.agents/rules/` | Contributor and agent operating policy | Whether a scientific claim has been proved |
 | Accepted ADRs in `doc/adr/` | The rationale and consequences of architectural decisions | Current implementation status when code has since changed |
 | `PROJECT_STATE.yaml` | A concise index of current durable project state and verified milestones | Raw evidence, transient Git status, or a substitute for tests |
+| `doc/governance/PROJECT_STATE_SCHEMA.md` | Field semantics and structural contract for `PROJECT_STATE.yaml` | The current project state itself or the roadmap backlog |
 | Roadmaps and backlogs, when established | Intended future work and prioritization | Completed or verified work |
 | R&D notes in `doc/rnd/` | Exploratory derivations, calculations, experiments, and research history | Production guarantees or publication-ready claims by default |
 | Source code and tests | Implemented behavior and the computational checks currently encoded | A general mathematical proof beyond the tested scope |
@@ -121,7 +122,7 @@ An ADR is not a proof. Mathematical statements used to justify an architectural 
 
 These records have deliberately separate roles:
 
-- **Project state:** a concise snapshot of durable facts, such as the active milestone, completed milestones, verified invariants, and known blockers.
+- **Project state:** a concise snapshot of durable facts, such as the active milestone, completed milestones, verified invariants, and known blockers. Its structure is defined in `doc/governance/PROJECT_STATE_SCHEMA.md`.
 - **Roadmap:** the intended sequence of larger objectives.
 - **Backlog:** actionable work items with scope, dependencies, and acceptance criteria.
 - **R&D notes:** the technical record of exploration, including unsuccessful approaches and unresolved questions.
@@ -130,6 +131,8 @@ These records have deliberately separate roles:
 Do not use `PROJECT_STATE.yaml` to assert that a working tree is clean, that a branch is current, or that CI is passing as a timeless fact. Such information is transient. If a dated audit needs to record it, identify the commit and observation time, and treat it as a historical snapshot.
 
 A milestone should be marked complete only when its acceptance criteria are explicit and the corresponding checks or evidence have been reviewed. Record the scope of verification: a unit test, a finite-volume benchmark, a convergence study, and an analytical proof are not interchangeable.
+
+Project planning follows the Phase → Milestone → Task hierarchy and the lightweight Scrum-inspired workflow defined in `.agents/rules/05_project_management.md`. The roadmap owns the persistent milestone backlog; `PROJECT_STATE.yaml` records the active milestone and its current execution tasks.
 
 ## 6. Governance change workflow
 

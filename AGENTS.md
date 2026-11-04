@@ -11,6 +11,7 @@ Read the rules relevant to the task before changing files:
 - `.agents/rules/02_tdd_protocol.md` — testing and numerical verification.
 - `.agents/rules/03_editorial_rigor.md` — scientific exposition, claim provenance, notation, and references.
 - `.agents/rules/04_versioning_and_releases.md` — package versioning, changelog, and releases.
+- `.agents/rules/05_project_management.md` — phase, milestone, task, and sprint planning.
 
 Also consult the relevant accepted ADRs in `doc/adr/`, research records in `doc/rnd/`, and project-state records when they materially affect the task. The governance architecture in `doc/governance/README.md` defines the responsibilities and precedence of repository documents.
 
