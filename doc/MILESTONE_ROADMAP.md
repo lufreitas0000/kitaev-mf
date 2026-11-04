@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b.5 — Explicit SO(4) matrices and type-safe constants
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Base commit before this update: d7584c13711cd2763f83ba676a24e9bb00faeafd
+Base commit before this update: 500bb645e07ea427e729b75e16d3ac313f9ab391
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.

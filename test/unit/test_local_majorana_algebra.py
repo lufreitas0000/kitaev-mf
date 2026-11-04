@@ -166,8 +166,12 @@ def test_t00a_04_explicit_gauge_and_spin_contractions() -> None:
         3: np.kron(S_X, EPSILON),
     }
     for gamma in (1, 2, 3):
-        assert np.allclose(G_MATRICES[gamma], expected_g[gamma], atol=TOL, rtol=0.0)
-        assert np.allclose(M_MATRICES[gamma], expected_m[gamma], atol=TOL, rtol=0.0)
+        assert np.allclose(
+            G_MATRICES[gamma], expected_g[gamma], atol=TOL, rtol=0.0
+        )
+        assert np.allclose(
+            M_MATRICES[gamma], expected_m[gamma], atol=TOL, rtol=0.0
+        )
         assert np.allclose(
             N_MATRICES[gamma],
             0.5 * (M_MATRICES[gamma] + G_MATRICES[gamma]),
