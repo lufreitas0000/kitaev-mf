@@ -27,8 +27,8 @@ These tasks are required to make the research branch a first-class, maintainable
 
 ## P0 — Resolve first
 
-- [ ] **B-001 Normalization reconciliation.** Derive the map between research Pauli-spin $K$, spin-$1/2$ $J$, and main's Bloch prefactor $K/2$. Explain the apparent factor four from operator definitions and bond counting.
-- [ ] **B-002 Lattice/Bloch reconciliation.** Map primitive vectors, cell offsets, Fourier phases, sublattice ordering, directed-bond signs, and T-matrix to main's two-/four-site Bloch builders.
+- [ ] **B-001 Normalization reconciliation.** Coupling map and real-space bond-matrix coefficient are derived in `notes/02_normalization_and_bloch_conventions.md`; the factor-four spectral discrepancy is traced to the production `iA/4` Bloch matrix versus canonical excitation frequencies. Audit the intended production matrix contract and numerical zero-mode tolerance before marking complete.
+- [ ] **B-002 Lattice/Bloch reconciliation.** Primitive two-site vectors, offsets, Fourier phases, bond orientation, and the matter T-matrix are mapped in `notes/02_normalization_and_bloch_conventions.md`; independently verify the four-site rectangular-cell folding and unitary map before marking complete.
 - [ ] **B-003 Branch governance/state refresh.** Superseded by Track A tasks A-001–A-005; retain this ID only as a historical cross-reference. Do not perform a second independent state rewrite.
 - [ ] **B-004 Finite-torus conventions.** Fix site indexing, plaquette orientation, twists, Wilson loops, and numerical tolerances.
 
@@ -87,5 +87,6 @@ These tasks are required to make the research branch a first-class, maintainable
 - No independent numerical outputs have been generated.
 - M0.4–M0.7 remain pending.
 - No solver modules, physical parity derivation, or spin-space ED validation exist.
-- The apparent factor-four normalization discrepancy with main is the first physics blocker.
+- The B-001/B-002 audit is recorded in `notes/02_normalization_and_bloch_conventions.md`: spin coupling and bond-level matrix coefficients agree, primitive two-site geometry agrees, while the production Bloch eigenvalue scale is one quarter of the exact matter excitation energy. The production solver uses the occupied projector, so this positive scale factor does not alter its ideal fixed-point map; zero-mode threshold effects still require checking.
+- Four-site rectangular-cell folding remains to be independently audited.
 - Track A is planned; shared-file synchronization has not yet been applied.
