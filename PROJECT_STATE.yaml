@@ -1,7 +1,7 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.5: Consolidated Verification and Quality Gate"
+current_sprint: "M1.4.5: Consolidated Verification and Invariant Hardening"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
@@ -41,38 +41,10 @@ milestone_history:
       - "test/unit/test_correlators.py"
       - "test/unit/test_solver.py"
       - "doc/rnd/note_03_correlators_saddle_point.md"
-  - id: "M1.4.1"
-    name: "Gaussian observables and variational energetics analytical contracts"
-    status: "completed"
-    evidence:
-      - "doc/rnd/note_04_observables_energetics.md"
-  - id: "M1.4.2"
-    name: "Independent finite-Fock-space observable tests"
-    status: "completed"
-    validation: "user_reported_local_wsl_pass"
-    evidence:
-      - "test/unit/test_observables.py"
-      - "doc/rnd/note_04a_observable_test_specification.md"
-  - id: "M1.4.3"
-    name: "Gaussian energetics and double-counting tests"
-    status: "completed"
-    validation: "user_reported_local_wsl_pass"
-    evidence:
-      - "test/unit/test_energetics.py"
-      - "doc/rnd/note_04b_energetics_test_specification.md"
-      - "doc/rnd/note_04c_energy_normalization_audit.md"
-  - id: "M1.4.3b"
-    name: "Reproducible K-006 Brillouin-zone quadrature"
-    status: "completed"
-    validation: "user_reported_local_wsl_pass"
-    evidence:
-      - "src/kitaev_mf/services/quadrature.py"
-      - "scripts/k006_quadrature.py"
-      - "test/unit/test_k006_quadrature.py"
-      - "doc/rnd/note_04d_k006_quadrature_provenance.md"
-  - id: "M1.4.4"
+  - id: "M1.4"
     name: "Production observables, plaquette Wilson loops, and variational energetics services"
     status: "completed"
+    validation: "user_reported_local_wsl_pass"
     evidence:
       - "src/kitaev_mf/domain/lattice.py"
       - "src/kitaev_mf/domain/state.py"
@@ -81,15 +53,40 @@ milestone_history:
       - "test/unit/test_production_observables.py"
       - "test/unit/test_production_energetics.py"
       - "test/integration/test_m1_system_convergence.py"
+      - "doc/rnd/note_04e_m1_4_integration_and_audit.md"
 
 active_milestone:
   id: "M1.4.5"
-  description: "Consolidated verification across invariants K-001 through K-006, hardware parity, and hygiene"
+  description: "Consolidated verification across advanced kinematic sum rules, semidefinite constraints, solvable limits, and dualities"
   deliverables:
-    - "Consolidated test execution of complete test suite (unit and integration)"
-    - "CPU and CUDA parity verification"
-    - "Zero-import cycle verification"
+    - "doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md"
+    - "test/unit/test_kinematic_and_semidefinite.py"
+    - "test/unit/test_solvable_limits.py"
+    - "test/unit/test_symmetry_selection_rules.py"
+    - "test/integration/test_variational_response.py"
+    - "test/integration/test_dualities_and_asymptotics.py"
+  current_batch: "M1.4.5a: Package 1 — Kinematic and Semidefinite Gates"
   status: "in_progress"
+  batches:
+    - id: "M1.4.5a"
+      name: "Package 1: Kinematic and Semidefinite Gates (Tier 1)"
+      status: "planned"
+      target_module: "test/unit/test_kinematic_and_semidefinite.py"
+      contracts: ["TST-KIN-01", "TST-KIN-02", "TST-KIN-03", "TST-SDP-01", "TST-SDP-02", "TST-SDP-03"]
+    - id: "M1.4.5b"
+      name: "Package 2: Solvable Limits, Symmetries & Asymptotics (Tier 2)"
+      status: "planned"
+      target_modules: ["test/unit/test_solvable_limits.py", "test/unit/test_symmetry_selection_rules.py"]
+      contracts: ["TST-RED-01", "TST-RED-02", "TST-SYM-01", "TST-SYM-02", "TST-SYM-03", "TST-ASY-01"]
+    - id: "M1.4.5c"
+      name: "Package 3: Variational Response & Canonical Dualities (Tier 3)"
+      status: "planned"
+      target_modules: ["test/integration/test_variational_response.py", "test/integration/test_dualities_and_asymptotics.py"]
+      contracts: ["TST-VAR-01", "TST-VAR-02", "TST-RED-03", "TST-DUA-01"]
+    - id: "M1.4.5d"
+      name: "Package 4: Hardware Parity & Final M1 Quality Gate"
+      status: "planned"
+      scope: "Full unit + integration suite on CPU/CUDA, zero-import-cycle check, make verify"
 
 hardware_targets:
   local:
