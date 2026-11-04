@@ -83,18 +83,18 @@ active_milestone:
     - "Keep tests independent of the future production energetics service."
   subtasks:
     - id: "M1.4.3b.1"
-      status: "in_progress"
-      description: "Define API and commit tests for mesh restrictions, chunk invariance, direct midpoint agreement, and convergence diagnostics; tests not yet run locally."
+      status: "awaiting_local_validation"
+      description: "Contract tests committed; focused execution pending user WSL validation."
     - id: "M1.4.3b.2"
-      status: "in_progress"
-      description: "Implement pure chunked NumPy midpoint integration and empirical Richardson diagnostics."
+      status: "awaiting_local_validation"
+      description: "Chunked NumPy midpoint integration and empirical Richardson diagnostics committed; runtime validation pending."
     - id: "M1.4.3b.3"
       status: "completed"
-      description: "Add reproducible CLI and numerical provenance note; numerical values independently recomputed."
+      description: "CLI and numerical provenance note committed; reference sequence independently recomputed."
     - id: "M1.4.3b.4"
       status: "awaiting_local_validation"
       description: "User runs focused and full WSL validation."
-  status: "in_progress"
+  status: "awaiting_local_validation"
 
 hardware_targets:
   local:
@@ -147,7 +147,7 @@ verified_physics_invariants:
       numerical_tolerance: 1.0e-14
   - id: "K-006"
     name: "Pure Kitaev thermodynamic-limit matter bond correlator and gauge-link correlator"
-    equation: "U_b^00 = -integral_BZ[(1+cos(2*pi*k1)+cos(2*pi*k2))/|1+exp(-i*2*pi*k1)+exp(-i*2*pi*k2)|] approximately -0.5248645; U_b^(gamma,gamma) = +1"
+    equation: "U_b^00 = -(1/3) integral_BZ |1+exp(-i*2*pi*k1)+exp(-i*2*pi*k2)| approximately -0.5248657458506; U_b^(gamma,gamma) = +1"
     status: "analytical_formula_with_finite_mesh_regression"
     assumptions:
       - "K < 0; J = Gamma = Gamma_prime = D = h = lambda = 0"
@@ -166,8 +166,8 @@ verified_physics_invariants:
       matter_correlator_atol: 0.003
       gauge_correlator_atol: 1.0e-12
       onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      decimal_value: "approximately 0.5248657458506; reproducible implementation pending"
-      limitation: "The 36x36 regression test is not a precision benchmark; convergence/error analysis is pending."
+      decimal_value: "approximately 0.5248657458506; script and convergence note committed, local execution pending"
+      limitation: "The 36x36 regression test is not a precision benchmark. The Richardson estimate assumes asymptotic power-law convergence and is not a rigorous error bound; user WSL execution is pending."
 
 open_blockers:
   - id: "K-006-QUADRATURE-PROVENANCE"

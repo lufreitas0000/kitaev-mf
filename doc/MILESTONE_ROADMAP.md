@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: 50d8ce87591fa76289a841890314f8d626355829
+Last known branch head before this update: 763439b34f2324cde4925ff4ca947a0972f4323d
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -39,9 +39,9 @@ The absolute-value integrand is continuous with conical/non-differentiable behav
 ### Ordered sub-batches
 | ID | Small task | Deliverables | Status |
 |---|---|---|---|
-| M1.4.3b.0 | Correct spin-coupling map and audited midpoint values | Note 04c | in_progress |
+| M1.4.3b.0 | Correct spin-coupling map and audited midpoint values | Note 04c | completed |
 | M1.4.3b.1 | Specify API; tests for mesh restrictions, chunk invariance, direct small-mesh agreement, convergence order | test/unit/test_k006_quadrature.py | awaiting_local_validation |
-| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | in_progress |
+| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | awaiting_local_validation |
 | M1.4.3b.3 | Add reproducible CLI, mesh sequence, observed order, empirical Richardson estimate, limitations | scripts/k006_quadrature.py; Note 04d | completed |
 | M1.4.3b.4 | Focused test, full suite, Ruff, mypy, diff hygiene; user reports WSL results | local validation record | awaiting_local_validation |
 
@@ -53,7 +53,7 @@ Acceptance:
 5. CLI prints meshes, values, successive differences, observed order, and empirical fine-mesh error.
 6. Cross-check U_b^00 = -Ubar and gauge link +1.
 
-M1.4.3b.1 tests are committed but not executed in this environment; M1.4.3b.2 implementation and b.3 documentation are now present. Immediate next action: user pulls this commit and runs the focused test and CLI; fix any failures before advancing.
+M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed. Neither the pytest module nor CLI has been executed in the user WSL environment. Immediate next action: user pulls this commit and runs the focused test and CLI; fix any failures before advancing.
 
 ## 4. Remaining M1.4 execution order
 
@@ -95,6 +95,7 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - M1.4.3 tests await local WSL validation.
 
 ## 7. Change log
+- M1.4.3b.0 normalization mapping and midpoint table corrected; b.1 tests, b.2 implementation, and b.3 CLI/note committed. Awaiting local validation.
 - M1.4.3b.1 contract tests committed; M1.4.3b.2 implementation and M1.4.3b.3 provenance/CLI added. Local WSL validation pending.
 - M1.4.3b.1 test contract is being added; no local test execution is claimed.
 - Roadmap created; M1.4.3b active; mandatory per-commit progress synchronization introduced.
