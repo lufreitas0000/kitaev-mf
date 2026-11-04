@@ -1,7 +1,7 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.1: Observables and Energetics — analytical contracts"
+current_sprint: "M1.4.3: Gaussian energetics and double-counting validation"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
