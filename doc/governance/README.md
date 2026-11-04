@@ -151,4 +151,3 @@ The governance branch is a long-lived working branch for developing and reviewin
 ## 7. Maintenance of this document
 
 This document defines the current governance architecture, not an immutable directory specification. Update it when repository structure or document responsibilities materially change. Keep the existing-versus-proposed distinction accurate, and do not expand the governance system without a demonstrated need.
-
