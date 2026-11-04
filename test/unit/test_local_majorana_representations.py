@@ -145,7 +145,9 @@ def test_t00b_05_gauge_sign_and_dirac_occupation_parity() -> None:
                 conventional_gauge[alpha] @ conventional_gauge[beta]
                 - conventional_gauge[beta] @ conventional_gauge[alpha]
             )
-            mixed_commutator = spin[alpha] @ conventional_gauge[beta] - conventional_gauge[beta] @ spin[alpha]
+            mixed_commutator = (
+                spin[alpha] @ conventional_gauge[beta] - conventional_gauge[beta] @ spin[alpha]
+            )
             expected_spin = 1.0j * sum(
                 epsilon[alpha - 1, beta - 1, gamma - 1] * spin[gamma] for gamma in (1, 2, 3)
             )

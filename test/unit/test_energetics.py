@@ -135,8 +135,12 @@ def _quadratic_hamiltonian(
     onsite_blocks = np.zeros((2, 4, 4), dtype=np.float64)
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            onsite_blocks[0] += exchange[alpha - 1, beta - 1] * moments[1, beta - 1] * N_MATRICES[alpha]
-            onsite_blocks[1] += exchange[beta - 1, alpha - 1] * moments[0, beta - 1] * N_MATRICES[alpha]
+            onsite_blocks[0] += (
+                exchange[alpha - 1, beta - 1] * moments[1, beta - 1] * N_MATRICES[alpha]
+            )
+            onsite_blocks[1] += (
+                exchange[beta - 1, alpha - 1] * moments[0, beta - 1] * N_MATRICES[alpha]
+            )
     for site in (0, 1):
         for gamma in COMPONENTS:
             onsite_blocks[site] += (
@@ -147,7 +151,9 @@ def _quadratic_hamiltonian(
     hopping = np.zeros((4, 4), dtype=np.float64)
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            hopping += 2.0 * exchange[alpha - 1, beta - 1] * N_MATRICES[alpha] @ bond @ N_MATRICES[beta]
+            hopping += (
+                2.0 * exchange[alpha - 1, beta - 1] * N_MATRICES[alpha] @ bond @ N_MATRICES[beta]
+            )
 
     matrix = np.zeros((8, 8), dtype=np.float64)
     matrix[:4, :4] = onsite_blocks[0]

@@ -159,7 +159,9 @@ def test_t00c_03_kitaev_bilinears_obey_unprojected_clifford_relations() -> None:
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            anticommutator = spin_pauli[alpha] @ spin_pauli[beta] + spin_pauli[beta] @ spin_pauli[alpha]
+            anticommutator = (
+                spin_pauli[alpha] @ spin_pauli[beta] + spin_pauli[beta] @ spin_pauli[alpha]
+            )
             expected = 2.0 * identity if alpha == beta else zero
             assert np.allclose(anticommutator, expected, atol=TOL, rtol=0.0)
 
@@ -226,8 +228,11 @@ def test_t00c_06_two_site_projected_operators_form_tensor_product_pauli_algebras
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            commutator = projected[0][alpha] @ projected[1][beta] - projected[1][beta] @ projected[0][alpha]
+            commutator = (
+                projected[0][alpha] @ projected[1][beta] - projected[1][beta] @ projected[0][alpha]
+            )
             assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
+
 
 def test_t00c_07_physical_spin_normalization() -> None:
     majoranas = _majorana_operators(2)
