@@ -14,6 +14,12 @@ The project separates exact finite-dimensional algebraic identities from the mea
 
 The pure-Kitaev reference calculation uses the zero-flux background and conventions documented under `doc/rnd/`. Numerical convergence estimates are empirical unless a rigorous error analysis is explicitly supplied.
 
+## Active development status
+
+The current review branch is `develop/m1-foundations-review`; the main branch is not part of this work. M1.4.3b.5 has explicit real-`float64` SO(4) generator and Kitaev matrices in `src/kitaev_mf/domain/constants.py`. The finite-Fock-space algebra tests independently reconstruct the gauge and spin generators from their Kronecker-product definitions and verify `N^gamma = (M^gamma + G^gamma)/2`.
+
+The current handover is awaiting local WSL validation. The immediate checks are `mypy src test scripts`, the focused Majorana algebra/representation/projection/exchange tests, and `make verify`. Do not treat GitHub source updates as evidence that these checks passed; record the exact local results in `PROJECT_STATE.yaml` and `doc/MILESTONE_ROADMAP.md`.
+
 ## Repository layout
 
 - `src/kitaev_mf/domain/`: mathematical constants, model data, and domain-level types.

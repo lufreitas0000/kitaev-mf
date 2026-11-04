@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b.5 — Explicit SO(4) matrices and type-safe constants
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Base commit before this update: 500bb645e07ea427e729b75e16d3ac313f9ab391
+Base commit before this update: eb5ee1ce208edf2ba26a5660a26110672970db5e
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -64,6 +64,8 @@ After the syntax correction, the next `make verify` run reported 12 failed and 5
 - Preserve independent verification: reconstruct G and M from Kronecker-product definitions in the algebra test and verify `N^gamma=(M^gamma+G^gamma)/2` for every component. Keep the explicit N Kronecker identities.
 - This improves transparency and type stability, not runtime performance: these small module-level matrices are not a numerical hot path.
 - No physics convention, matrix ordering, sign, or tolerance should change.
+- Mypy follow-up: the four test-local `_bilinear` helpers accept `NDArray[np.floating[Any]]`. This expresses the actual real-floating input contract and accommodates NumPy's inferred `floating[Any]` dtype without call-site casts or weakening project-wide Mypy settings.
+- Formatting follow-up: normalize the two `np.allclose` assertions in `test_local_majorana_algebra.py` to Ruff's one-line form; the user's latest formatter output identified this as the sole remaining formatting difference.
 - Local acceptance: `mypy src test scripts`; focused local-algebra, representation, projection, and exchange tests; then `make verify`.
 - Do not mark complete until the user reports exact WSL output. No post-change tests have been executed by the assistant.
 
@@ -137,3 +139,11 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 
 
 - Fixed missing dictionary-comprehension iteration clauses in both finite-Fock-space local-operator helpers after the user-reported WSL run returned 12 failed and 58 passed. All 12 failures shared the same `NameError`; the affected algebraic assertions were not reached. Awaiting focused and unified WSL revalidation.
+
+
+### Latest handover — after user-reported formatter/Mypy failures
+- User's latest `make verify` reached stage [3/5]. Ruff lint passed. Ruff format failed only on two `np.allclose` assertions in `test_local_majorana_algebra.py`; the current commit applies Ruff's requested one-line formatting.
+- The preceding Mypy run reported nine identical dtype-compatibility errors across `test_local_majorana_algebra.py`, `test_local_majorana_representations.py`, `test_physical_projection.py`, and `test_exchange_hamiltonian.py`. Each arose because `_bilinear` required `NDArray[np.float64]` while Mypy inferred `NDArray[np.floating[Any]]` for the matrix argument. The four helpers now accept `NDArray[np.floating[Any]]`; this retains the real-floating constraint and avoids casts at every call site.
+- The production constants remain explicit `np.float64` arrays. The independent Kronecker-product reconstruction and `N=(M+G)/2` checks remain in place; no algebraic definitions or tolerances are changed.
+- README now records the active branch, matrix construction decision, and local validation handover.
+- **Exact next action:** on WSL, inspect status, fetch and fast-forward this branch, run `mypy src test scripts`, then the four focused test modules, then `make verify`. Report complete output. Do not close M1.4.3b.5 or claim validation until those results are available.

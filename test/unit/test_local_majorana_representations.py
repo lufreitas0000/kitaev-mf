@@ -1,5 +1,7 @@
 """Independent finite-Fock-space tests for the local spin/gauge representation."""
 
+from typing import Any
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -32,7 +34,7 @@ def _majorana_operators() -> tuple[NDArray[np.complex128], ...]:
 
 def _bilinear(
     majoranas: tuple[NDArray[np.complex128], ...],
-    matrix: NDArray[np.float64],
+    matrix: NDArray[np.floating[Any]],
 ) -> NDArray[np.complex128]:
     result = np.zeros_like(majoranas[0], dtype=np.complex128)
     for mu in range(4):

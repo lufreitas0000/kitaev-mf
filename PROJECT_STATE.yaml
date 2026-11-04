@@ -5,7 +5,7 @@ current_sprint: "M1.4.3b.5: Explicit SO(4) matrices and type-safe constants"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
-  last_reviewed_commit: "500bb645e07ea427e729b75e16d3ac313f9ab391"
+  last_reviewed_commit: "eb5ee1ce208edf2ba26a5660a26110672970db5e"
   clean_working_tree: null
   clean_working_tree_note: "Not observable through the GitHub branch API; verify locally with git status."
   ci_status: "not_triggered_by_branch_filter"
@@ -113,9 +113,10 @@ active_milestone:
       - "The subsequent make verify run reported 12 failed and 58 passed. All 12 failures shared a NameError in two local test helpers: dictionary comprehensions referenced gamma without iterating over the three spin/gauge components. The helpers in test_local_majorana_representations.py and test_physical_projection.py are corrected in this commit. Rerun focused representation/projection tests and then make verify; later verification stages remain unvalidated."
       - "git diff --check: one extra blank line at EOF; fixed in this commit."
       - "git status output was not present in the supplied log."
-      - "User-reported after formatting: Ruff lint passed and all 33 Python files were already formatted; Mypy then reported 9 NDArray dtype mismatches in four test modules. Explicit float64 G/M/N constants and independent Kronecker/algebra checks are committed in M1.4.3b.5; rerun mypy src test scripts and make verify locally."
+      - "User-reported: Ruff lint passed, but the full-tree formatter subsequently identified one remaining formatting difference in test_local_majorana_algebra.py (two np.allclose calls should be single-line); normalized in the current commit."
+      - "User-reported: Mypy reported nine NDArray dtype mismatches in _bilinear calls across four test modules. The helper parameter is generalized to NDArray[np.floating[Any]], preserving the real-floating contract while accepting NumPy's inferred floating[Any] dtype; pending local confirmation."
   status: "awaiting_local_validation"
-  next_action: "Run mypy src test scripts, focused M1.1 matrix/projection/exchange tests, then make verify; record exact WSL output before closing M1.4.3b."
+  next_action: "Fetch and fast-forward develop/m1-foundations-review; run mypy src test scripts, focused tests in the four affected Majorana test modules, then make verify. Report exact WSL output; fix any remaining formatter/type errors before closing M1.4.3b."
 
 hardware_targets:
   local:
