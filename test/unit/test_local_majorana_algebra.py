@@ -96,14 +96,14 @@ def test_t00a_02_dirac_car_and_inverse_relations() -> None:
             assert np.allclose(
                 d[a] @ d[b].conj().T + d[b].conj().T @ d[a],
                 identity if a == b else zero,
-                atol=TOL,
+                atol=TOL, rtol=0.0,
             )
             assert np.allclose(d[a] @ d[b] + d[b] @ d[a], zero, atol=TOL, rtol=0.0)
             assert np.allclose(
                 d[a].conj().T @ d[b].conj().T
                 + d[b].conj().T @ d[a].conj().T,
                 zero,
-                atol=TOL,
+                atol=TOL, rtol=0.0,
             )
 
     reconstructed = (
@@ -154,13 +154,20 @@ def test_t00a_04_explicit_gauge_and_spin_contractions() -> None:
         assert np.allclose(
             _bilinear(majoranas, G_MATRICES[gamma]),
             0.25j * gauge_contraction,
-            atol=TOL,
+            atol=TOL, rtol=0.0,
         )
         assert np.allclose(
             _bilinear(majoranas, M_MATRICES[gamma]),
             0.25j * spin_contraction,
-            atol=TOL,
+            atol=TOL, rtol=0.0,
         )
+
+    e_11 = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)
+    assert np.allclose(e_11, 0.5 * (I_2 + S_Z), atol=TOL, rtol=0.0)
+    assert np.allclose(N_MATRICES[1], np.kron(e_11, EPSILON), atol=TOL, rtol=0.0)
+    assert np.allclose(N_MATRICES[2], np.kron(EPSILON, e_11), atol=TOL, rtol=0.0)
+    expected_n3 = 0.5 * (np.kron(S_X, EPSILON) + np.kron(EPSILON, S_X))
+    assert np.allclose(N_MATRICES[3], expected_n3, atol=TOL, rtol=0.0)
 
 
 def test_t00a_05_matrix_lie_algebra_and_mutual_commutation() -> None:
@@ -233,12 +240,3 @@ def test_t00a_07_even_bilinears_commute_across_sites() -> None:
             commutator = operator_a @ operator_b - operator_b @ operator_a
             assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
 
-
-def test_local_generator_constructions_remain_consistent() -> None:
-    """Cross-check the documented e_11 construction without a legacy alias."""
-    e_11 = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)
-    assert np.allclose(e_11, 0.5 * (I_2 + S_Z), atol=TOL, rtol=0.0)
-    assert np.allclose(N_MATRICES[1], np.kron(e_11, EPSILON), atol=TOL, rtol=0.0)
-    assert np.allclose(N_MATRICES[2], np.kron(EPSILON, e_11), atol=TOL, rtol=0.0)
-    expected_n3 = 0.5 * (np.kron(S_X, EPSILON) + np.kron(EPSILON, S_X))
-    assert np.allclose(N_MATRICES[3], expected_n3, atol=TOL, rtol=0.0)
