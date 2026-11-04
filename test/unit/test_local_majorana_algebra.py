@@ -95,7 +95,7 @@ def test_t00a_02_dirac_car_and_inverse_relations() -> None:
             )
             assert np.allclose(d[a] @ d[b] + d[b] @ d[a], zero, atol=TOL, rtol=0.0)
             assert np.allclose(
-                d[a].conj().T @ d[b].conj().T + d[b].conj().T @ d[a].conj().T
+                d[a].conj().T @ d[b].conj().T + d[b].conj().T @ d[a].conj().T,
                 zero,
                 atol=TOL,
                 rtol=0.0,

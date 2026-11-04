@@ -106,7 +106,7 @@ active_milestone:
     mypy_src: "Passed: no issues in 15 source files."
     outstanding_before_unified_verification:
       - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
-      - "Ruff formatting: all nine reported files were formatted; full-tree Ruff format check restored."
+      - "The first make verify run stopped during pytest collection: 63 items collected and one SyntaxError at test_local_majorana_algebra.py:98 due to a missing comma introduced by manual formatting. Later stages did not run. The comma is now restored; full verification must be rerun."
       - "git diff --check: one extra blank line at EOF; fixed in this commit."
       - "git status output was not present in the supplied log."
   status: "awaiting_local_validation"

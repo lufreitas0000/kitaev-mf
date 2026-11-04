@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: cc66e7865ed2748b965d183b649a310af01e9de6
+Last known branch head before this update: de28caa5ae46b72cea719301a048ef0ff5da0c70
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -55,14 +55,14 @@ Acceptance:
 
 M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed and have now been executed successfully in user WSL. Reported results: 9 focused quadrature tests passed, 3 energetics tests passed, 70 tests passed in the full unit suite, and the quadrature CLI completed with values converging to approximately 0.5248657458506 and observed order near three. Mypy on src/ passed. Ruff identified one B905 issue and formatting differences; git diff --check identified one extra blank line at EOF. This commit fixes the B905 issue and EOF whitespace, formats the active-batch source/CLI/tests, and introduces a unified validation target. The formatter check intentionally covers all production source and scripts plus the two tests introduced/modified in this batch; unrelated legacy test formatting is not churned. The full-repository formatter remains available through make format.
 
-The active batch remains awaiting local validation until the user runs make verify on this commit. The supplied output did not include visible git status lines, so working-tree cleanliness is not inferred.
+The first `make verify` run stopped at stage 1 during pytest collection: `test_local_majorana_algebra.py:98` had a missing comma in an `np.allclose` argument list. Pytest collected 63 items and reported one collection error; stages 2–5 did not run. The defect was introduced by the preceding manual formatting edit. A syntax-only correction is committed separately; rerun `make verify` before drawing conclusions about the remaining stages. Working-tree cleanliness is not inferred.
 
 ## 4. Remaining M1.4 execution order
 
 ### M1.4.3c — Close Gaussian energetics validation
 - Reconcile T04b-03 precision with accepted K-006 output; keep regression tolerance distinct from quadrature precision.
 - Run pytest -q test/unit/test_energetics.py.
-- Run the unified make verify target: coverage-enabled pytest, Ruff lint, active-scope Ruff formatting, strict Mypy across src/test/scripts, committed-branch and local Git whitespace checks, and a final working-tree report.
+- Run the unified make verify target: coverage-enabled pytest, K-006 quadrature CLI, full-tree Ruff lint and formatting, Mypy across src/test/scripts, committed-branch and local Git whitespace checks, and a final working-tree report.
 - Confirm the Git status output and report any remaining local modifications.
 - Record exact outcomes and user confirmation in both progress files.
 - Complete M1.4.3 only after unified verification is clean.
@@ -112,3 +112,5 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - Extended `make verify` to execute the reproducible K-006 quadrature CLI between pytest and static checks; this is a numerical diagnostic, not a unit test.
 
 - Expanded the formatter check back to the full `src/`, `test/`, and `scripts/` tree after applying Ruff's reported formatting-only changes to the remaining legacy test modules; no test logic or physics expressions were changed.
+
+- Fixed the missing comma in the `np.allclose` argument list of `test_local_majorana_algebra.py` that caused pytest collection to stop; this is a syntax-only correction. Awaiting a complete rerun of `make verify`.
