@@ -106,7 +106,7 @@ active_milestone:
     mypy_src: "Passed: no issues in 15 source files."
     outstanding_before_unified_verification:
       - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
-      - "Ruff formatting: nine files reported; active-batch files formatted here, unrelated legacy test files intentionally not reformatted."
+      - "Ruff formatting: nine files were reported; active-batch files are now formatted, unrelated legacy test files intentionally not reformatted."
       - "git diff --check: one extra blank line at EOF; fixed in this commit."
       - "git status output was not present in the supplied log."
   status: "awaiting_local_validation"

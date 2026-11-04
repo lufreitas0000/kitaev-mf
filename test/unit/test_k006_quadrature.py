@@ -14,7 +14,11 @@ def _direct_midpoint_average(mesh_size: int) -> float:
     total = 0.0
     for k1 in points:
         for k2 in points:
-            form_factor = 1.0 + np.exp(-2.0j * np.pi * k1) + np.exp(-2.0j * np.pi * k2)
+            form_factor = (
+                1.0
+                + np.exp(-2.0j * np.pi * k1)
+                + np.exp(-2.0j * np.pi * k2)
+            )
             total += abs(form_factor)
     return total / (3.0 * mesh_size**2)
 
@@ -44,7 +48,9 @@ def test_k006_convergence_reports_cubic_order_and_error_estimate() -> None:
     assert middle.estimated_error is not None
     assert middle.estimated_error > 0.0
     assert middle.richardson_value is not None
-    assert middle.richardson_value == pytest.approx(0.52486574585, abs=2.0e-10)
+    assert middle.richardson_value == pytest.approx(
+        0.52486574585, abs=2.0e-10
+    )
 
 
 def test_k006_convergence_requires_doubling_meshes() -> None:

@@ -62,10 +62,13 @@ def midpoint_convergence(
         raise ValueError("at least three mesh sizes are required")
     if any(size <= 0 or size % 3 != 0 for size in meshes):
         raise ValueError("all mesh sizes must be positive multiples of three")
-    if any(right != 2 * left for left, right in zip(meshes, meshes[1:], strict=False)):
+    if any(right != 2 * left for left, right in zip(meshes, meshes[1:])):
         raise ValueError("mesh sizes must form an exact doubling sequence")
 
-    values = tuple(midpoint_form_factor_average(size, row_chunk_size) for size in meshes)
+    values = tuple(
+        midpoint_form_factor_average(size, row_chunk_size)
+        for size in meshes
+    )
     estimates = [
         MidpointEstimate(mesh_size=size, value=value)
         for size, value in zip(meshes, values, strict=True)

@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: 28fd6fd83575349955a618ed11fe247e757e7cd3
+Last known branch head before this update: 6e501192dc71cf73dc8572522d094342aeae92a4
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -106,3 +106,5 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - Roadmap created; M1.4.3b active; mandatory per-commit progress synchronization introduced.
 
 - Added `make verify` to run tests, static analysis, whitespace checks, and report working-tree state in sequence.
+
+- Completed the active-batch formatting adjustment in `test_energetics.py`; no numerical or physical expressions were changed.

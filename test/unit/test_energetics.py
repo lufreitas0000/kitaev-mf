@@ -111,8 +111,7 @@ def _energy_components(
         for beta in COMPONENTS:
             contraction = np.trace(N_MATRICES[alpha].T @ bond @ N_MATRICES[beta] @ bond.T)
             exchange_energy += exchange[alpha - 1, beta - 1] * (
-                0.25 * moments[0, alpha - 1] * moments[1, beta - 1]
-                - 0.5 * contraction
+                0.25 * moments[0, alpha - 1] * moments[1, beta - 1] - 0.5 * contraction
             )
     field_energy = -0.5 * float(np.sum(fields * moments))
     multiplier_energy = -0.25 * float(np.sum(multipliers * gauge_residuals))
