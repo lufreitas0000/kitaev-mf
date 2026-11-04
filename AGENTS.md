@@ -104,7 +104,7 @@ For this track:
 1. Derive operator identities, conventions, physical constraints, and numerical contracts before implementing solver modules.
 2. Distinguish the enlarged Majorana Fock space from the physical spin Hilbert space. Derive the gauge constraint and matter-parity selection rule before interpreting Gaussian flux-sector energies as physical thresholds.
 3. Do not identify production mean-field coupling parameters or dispersion prefactors with those in the Pauli-spin/Majorana derivation by inspection. Reconcile conventions through an explicit operator-level map before quantitative comparison; consult the relevant R&D backlog and notes when present.
-4. The standard `b_i^\\alpha,c_i` representation and the production four-flavor convention are scope-dependent. Do not transfer symbols or prefactors between them without an explicit map.
+4. The standard `b_i^\alpha,c_i` representation and the production four-flavor convention are scope-dependent. Do not transfer symbols or prefactors between them without an explicit map.
 5. Use transparent finite-volume calculations and, where feasible, spin-space exact diagonalization as independent checks. Numerical agreement is evidence for the tested finite systems, not a thermodynamic proof.
 6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed.
 7. Keep generated arrays, logs, plots, and build products under the designated ignored build area (currently `build/rnd/exact-perturbation-theory/`); commit only compact, reviewed results with reproducibility metadata.
