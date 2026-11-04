@@ -130,53 +130,84 @@ makes the two structure factors identical. Reordering the (x)- and
 The primitive-cell geometry, directed bond count, and Fourier phases do
 not explain the reported factor-four spectral discrepancy.
 
-## Remaining normalization defect to resolve
+## B-001/B-002 — Bloch matrix scaling: discrepancy identified
 
-The production builder currently assembles its Bloch matrix as
+The remaining factor four comes from the matrix used by the production Bloch
+builder, not from the coupling or lattice conventions. The real-space
+quadratic operator is
+\[
+H=\frac{i}{4}c^T A c,
+\qquad A^T=-A.
+\]
+Its canonical Majorana equations of motion are
+\[
+\frac{d c}{dt}=A c,
+\]
+so the Hermitian generator governing the one-particle excitation frequencies
+is (iA), not (iA/4). Equivalently, canonical mode diagonalization gives
+\[
+H=\sum_{n=1}^{N}\epsilon_n
+\left(d_n^\dagger d_n-\frac12\right),
+\qquad \epsilon_n=s_n(T),
+\]
+for the bipartite block matrix
+\[
+A=\begin{pmatrix}0&T\\-T^T&0\end{pmatrix}.
+\]
+The positive frequencies are the singular values of (T).
+
+The two-Majorana calculation makes the normalization explicit. For
+\(A_{12}=t\), (A_{21}=-t\), and
+(d=(c_1+ic_2)/2),
+\[
+H=\frac{i}{4}c^TAc
+=\frac{it}{2}c_1c_2
+=t\left(d^\dagger d-\frac12\right).
+\]
+The excitation energy is (t). The eigenvalues of (iA) are
+(pm t), whereas those of (iA/4) are (pm t/4). The latter are not
+the canonical excitation energies.
+
+The production builder constructs its matrix using
 \[
 H_{\mathrm{Bloch}}^{\mathrm P}(\mathbf k)
-=\frac{i}{4}A(\mathbf k),
+=\frac{i}{4}A(\mathbf k).
 \]
-and the production pure-Kitaev test consequently records eigenvalues
+Its test therefore reports
 \[
 E_{\mathrm{test}}^{\mathrm P}(\mathbf k)
 =\pm\frac{|K_{\mathrm P}|}{2}|f_{\mathrm P}(\mathbf k)|.
 \]
-By contrast, the exact research quadratic problem has
+But the real-space antisymmetric matrix has
+(T(\mathbf k)=2K_{\mathrm R}f(\mathbf k)), so its canonical positive
+excitation frequency is
 \[
-T(\mathbf q)=2K_{\mathrm R}f_{\mathrm R}(\mathbf q),\qquad
-\epsilon_{\mathrm R}(\mathbf q)
-=s(T)=2K_{\mathrm R}|f_{\mathrm R}(\mathbf q)|.
+\epsilon_{\mathrm{phys}}(\mathbf k)
+=s(T(\mathbf k))
+=2K_{\mathrm R}|f(\mathbf k)|.
 \]
-With (K_{\mathrm P}=-K_{\mathrm R}), the ratio of these quoted
-eigenvalue scales is four. Since the bond-level antisymmetric matrix
-coefficients have already been shown to agree, this residual factor cannot
-be repaired by changing the spin coupling map or the lattice convention.
+Using (K_{\mathrm P}=-K_{\mathrm R}), the production test eigenvalue is
+exactly one quarter of the physical excitation energy. This reproduces the
+factor-four discrepancy without changing the coupling map or the lattice
+convention.
 
-The distinction between the many-body operator (H=(i/4)c^TAc), its
-real antisymmetric matrix (A), and the Hermitian single-particle/BdG
-matrix used to report excitation energies must now be checked explicitly
-through the Fourier transform and canonical mode diagonalization. In
-particular, the factor (i/4) in the production Bloch assembly must not
-automatically be identified with the physical quasiparticle-energy matrix.
-The exact two-Majorana normalization check is a useful minimal diagnostic:
-for (A_{12}=t),
-\[
-\frac{i}{4}c^TAc=\frac{it}{2}c_1c_2
-=t\left(d^\dagger d-\frac12\right),
-\qquad d=\frac{c_1+ic_2}{2}.
-\]
-The excitation energy is (t), while the many-body levels are
-\(\pm t/2\). Any Bloch convention must reproduce this distinction
-without double-counting the (mathbf k,-\mathbf k) Majorana degrees of
-freedom.
+This identifies a mismatch between the production Bloch matrix's reported
+eigenvalues and the exact quasiparticle excitation energies. It does not,
+by itself, prove that the production mean-field operator is wrong: the
+builder may have intended (iA/4) as a coefficient matrix for a particular
+quadratic-form convention rather than as the excitation generator. Its
+public contract and downstream use must be audited before changing it.
+For an API that returns physical excitation energies, the matrix to
+diagonalize must reproduce the spectrum of (iA) (or, equivalently, the
+singular values of (T)); the current (iA/4) eigenvalues do not.
 
-**Decision:** B-001's spin-Hamiltonian and bond-matrix normalization, and
-B-002's primitive-cell geometry and phase convention, are reconciled.
-The production Bloch eigenvalue convention is not yet reconciled with the
-exact matter excitation energy. Do not change either implementation or
-declare the factor-four discrepancy resolved until the Bloch/Fourier
-canonical diagonalization is derived and tested.
+**Decision:** B-001's coupling and bond-matrix normalization, and B-002's
+primitive-cell geometry and Fourier phases, are reconciled. The source of
+the factor-four discrepancy is identified as the production Bloch matrix
+scaling. Do not modify production code from the research branch. First
+clarify the production builder's intended mathematical contract and verify
+the relation between its returned matrix, the many-body quadratic operator,
+and its canonical excitation frequencies.
 
 ## Required next checks
 
