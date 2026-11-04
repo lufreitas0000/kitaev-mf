@@ -31,11 +31,11 @@ def main(meshes: str, row_chunk_size: int) -> None:
 
     for est in estimates:
         order_str = f"{est.observed_order:8.3f}" if est.observed_order is not None else f"{'--':>8}"
-        error_str = f"{est.estimated_error:12.3e}" if est.estimated_error is not None else f"{'--':>12}"
+        error_str = (
+            f"{est.estimated_error:12.3e}" if est.estimated_error is not None else f"{'--':>12}"
+        )
         rich_str = (
-            f"{est.richardson_value:18.13f}"
-            if est.richardson_value is not None
-            else f"{'--':>18}"
+            f"{est.richardson_value:18.13f}" if est.richardson_value is not None else f"{'--':>18}"
         )
         print(f"{est.mesh_size:7d} | {est.value:18.13f} | {order_str} | {error_str} | {rich_str}")
 
