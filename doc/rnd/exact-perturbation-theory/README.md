@@ -18,7 +18,8 @@ and finite-size diagnostics.
 ## Planning
 
 - `ROADMAP.md`: phased research plan and completion criteria.
-- `BACKLOG.md`: prioritized implementation and derivation tasks.
+- `BACKLOG.md`: prioritized repository-integration, implementation, and derivation tasks.
+- `INTEGRATION_PLAN.md`: file-by-file strategy for selectively synchronizing shared governance and build files from `main`.
 
 ## Structure
 
