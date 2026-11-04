@@ -328,11 +328,11 @@ and its canonical excitation frequencies.
 ## Required next checks
 
 1. Derive the production Fourier-space quadratic operator from its real-space
-   `(i/4)c^T A c` expression, retaining the full `(\\mathbf k,-\\mathbf k)`
+   `(i/4)c^T A c` expression, retaining the full `(\mathbf k,-\mathbf k)`
    Majorana redundancy.
 2. Derive the canonical complex-fermion mode energies from that operator and
-   compare them with both the eigenvalues of `iA(\\mathbf k)/4` and the
-   singular values of `T(\\mathbf k)`.
+   compare them with both the eigenvalues of `iA(\mathbf k)/4` and the
+   singular values of `T(\mathbf k)`.
 3. Add a minimal two-site/two-Majorana normalization test before changing
    `test_pure_kitaev_analytical_dispersion` or the production builder.
 4. Add a direct numerical test of the four-site unitary identity derived
