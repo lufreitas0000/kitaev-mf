@@ -20,7 +20,7 @@ These tasks are required to make the research branch a first-class, maintainable
 - [ ] **A-011 Reconcile pyproject.toml.** Resolve Flit versus setuptools, optional development dependencies, package discovery, and Ruff naming exceptions. Verify editable install before selecting a backend.
 - [ ] **A-012 Reconcile dependency lock workflow.** Check whether requirements.in, requirements-dev.in, lockfiles, and scripts referenced by main's Makefile/CI exist and are appropriate on the research branch.
 - [ ] **A-013 Port Makefile selectively.** Adopt only targets whose dependencies and paths exist; ensure POSIX/WSL compatibility and no dangling targets.
-- [ ] **A-014 Port CI workflow.** Align Python version, lockfile verification, Ruff, mypy, and pytest; include the research branch in appropriate push validation.
+- [ ] **A-014 Port CI workflow.** Align Python version, lockfile verification, Ruff, mypy, and pytest while preserving the agreed trigger policy: hosted CI runs for pull requests targeting `main`, not for research-branch pushes; local R&D validation remains the responsibility of the active batch.
 - [ ] **A-015 Shared-file audit.** Review every remaining common-file diff and document intentional differences; ensure no unrelated production source enters the research branch.
 
 ## Track B — Physics and numerical research
