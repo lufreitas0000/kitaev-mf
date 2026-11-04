@@ -1,5 +1,7 @@
 """Independent numerical check of primitive/rectangular Bloch folding."""
 
+from typing import cast
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -58,9 +60,13 @@ def _folding_unitary(k1_a: float) -> ComplexMatrix:
     """Transform folded primitive momenta to the rectangular-cell basis."""
     phase = np.exp(2.0j * np.pi * k1_a)
     identity = np.eye(2, dtype=np.complex128)
-    return np.block(
-        [[identity, identity], [phase * identity, -phase * identity]]
-    ) / np.sqrt(2.0)
+    return cast(
+        ComplexMatrix,
+        np.block(
+            [[identity, identity], [phase * identity, -phase * identity]]
+        )
+        / np.sqrt(2.0),
+    )
 
 
 def _folded_momenta(kappa: NDArray[np.float64]) -> tuple[NDArray[np.float64], ...]:
