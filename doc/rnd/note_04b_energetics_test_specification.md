@@ -115,8 +115,8 @@ as defined by the thermodynamic-limit integral in Note 03. Since $m_i^a=0$, the 
 \[
 C_b^{\gamma\gamma}
 =\operatorname{tr}\!\left[(N^\gamma)^TU_bN^\gamma U_b^T\right]
-=-2U_b^{00}U_b^{\gamma\gamma}
-=2\bar U.
+=2U_b^{00}U_b^{\gamma\gamma}
+=-2\bar U.
 \]
 Hence
 \[
