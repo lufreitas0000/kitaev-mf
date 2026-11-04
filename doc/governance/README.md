@@ -1,7 +1,7 @@
 # Repository Governance Architecture
 
-**Status:** Initial policy baseline  
-**Scope:** Repository organization, document authority, and governance workflow  
+**Status:** Initial policy baseline
+**Scope:** Repository organization, document authority, and governance workflow
 **Applies to:** Human contributors and automated agents
 
 This document defines how repository guidance, executable configuration, scientific records, and project planning relate to one another. It establishes document responsibilities; it does not certify the correctness of any scientific result or imply that planned directories and workflows already exist.
