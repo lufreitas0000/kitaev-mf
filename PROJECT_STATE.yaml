@@ -1,7 +1,7 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.3: Gaussian energetics and double-counting validation"
+current_sprint: "M1.4.3b: Reproducible K-006 Brillouin-zone quadrature"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
@@ -60,20 +60,41 @@ milestone_history:
     evidence:
       - "test/unit/test_energetics.py"
       - "doc/rnd/note_04b_energetics_test_specification.md"
+  - id: "M1.4.3a"
+    name: "Pure-Kitaev energy normalization audit"
+    status: "completed"
+    evidence:
+      - "doc/rnd/note_04c_energy_normalization_audit.md"
+    validation: "analytical audit and independent numerical recomputation; no pytest execution"
 
 active_milestone:
-  id: "M1.4.3"
-  description: "Validate the Gaussian exchange energy, scalar double-counting constant, and pure-Kitaev energy normalization."
+  id: "M1.4.3b"
+  description: "Commit reproducible K-006 midpoint quadrature and empirical convergence diagnostics."
   deliverables:
-    - "test/unit/test_energetics.py"
-    - "doc/rnd/note_04b_energetics_test_specification.md"
+    - "src/kitaev_mf/services/quadrature.py"
+    - "scripts/k006_quadrature.py"
+    - "test/unit/test_k006_quadrature.py"
+    - "doc/rnd/note_04d_k006_quadrature_provenance.md"
   dod:
     - "Compare the Wick exchange energy with direct finite-Fock-space spin expectations for a nonsymmetric exchange tensor."
     - "Derive and test C = E_exchange^G, with field and constraint terms excluded from C."
     - "Verify the quadratic expectation identity with nonzero fields and multiplier residuals."
     - "Check pure-Kitaev energy per bond, two-site cell, and physical site in the Pauli convention."
     - "Keep tests independent of the future production energetics service."
-  status: "awaiting_local_validation"
+  subtasks:
+    - id: "M1.4.3b.1"
+      status: "planned"
+      description: "Specify quadrature contracts and add failing tests."
+    - id: "M1.4.3b.2"
+      status: "planned"
+      description: "Implement chunked NumPy integration and convergence estimator."
+    - id: "M1.4.3b.3"
+      status: "planned"
+      description: "Add reproducible CLI and numerical provenance note."
+    - id: "M1.4.3b.4"
+      status: "awaiting_local_validation"
+      description: "User runs focused and full WSL validation."
+  status: "in_progress"
 
 hardware_targets:
   local:
@@ -145,10 +166,10 @@ verified_physics_invariants:
       matter_correlator_atol: 0.003
       gauge_correlator_atol: 1.0e-12
       onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      decimal_value: "0.5248645 reported from high-precision quadrature in Note 03"
-      limitation: "The committed regression test is a finite-mesh check and does not certify the displayed decimal precision. A standalone high-precision quadrature script or convergence study is not yet committed."
+      decimal_value: "approximately 0.5248657458506; reproducible implementation pending"
+      limitation: "The 36x36 regression test is not a precision benchmark; convergence/error analysis is pending."
 
 open_blockers:
   - id: "K-006-QUADRATURE-PROVENANCE"
-    description: "Commit a reproducible high-precision quadrature calculation and convergence/error estimate before treating 0.5248645 as a strict numerical benchmark."
-    severity: "non_blocking_for_M1.3"
+    description: "Commit reproducible K-006 midpoint quadrature and empirical convergence diagnostics; no rigorous error bound is claimed."
+    severity: "blocking_for_K006_precision_claims"

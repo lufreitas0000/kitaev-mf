@@ -103,9 +103,9 @@ The integrand has isolated Dirac-point singularities in the second representatio
 
 | Mesh \(N\times N\) | \(\bar U_N\) |
 |---:|---:|
-| 576 | 0.524865742658 |
-| 1152 | 0.524865745452 |
-| 2304 | 0.524865745801 |
+| 576 | 0.524865746616 |
+| 1152 | 0.524865745946 |
+| 2304 | 0.524865745863 |
 | 4096 | 0.524865745850 |
 
 The sequence supports

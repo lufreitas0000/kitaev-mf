@@ -7,6 +7,7 @@ All human and AI contributors must strictly adhere to the modular rule sets in `
 - `.agents/rules/01_repository_safety.md`: Branch discipline and atomic HDF5 data integrity.
 - `.agents/rules/02_tdd_protocol.md`: Strict Red-Green-Refactor TDD workflow and `< 1e-14` precision gates.
 - `.agents/rules/03_editorial_rigor.md`: APS *PRL*/*PRB* & *Nature* mathematical style, vertex/edge notation, and verified `Author (Year)` bibliography rules.
+- `.agents/rules/04_milestone_progress.md`: mandatory atomic updates to PROJECT_STATE.yaml and doc/MILESTONE_ROADMAP.md in every commit.
 
 ---
 
