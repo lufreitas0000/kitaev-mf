@@ -29,7 +29,7 @@ To maintain end-to-end traceability between laboratory exploration, numerical te
    Every formal mathematical statement (Definition, Lemma, Theorem, Proposition, Corollary) in `doc/rnd/` must carry a persistent, immutable claim identifier in an HTML comment tag immediately following the statement header:
    ```markdown
    **Theorem (Casimir–Parity Identity)** <!-- claim: CLM-M1-ALG-002 -->
-   Let $\mathcal{Z}_i := c_i^0 c_i^1 c_i^2 c_i^3$...
+   Let $\mathcal{D}_i := c_i^0 c_i^1 c_i^2 c_i^3$...
    ```
    - Schema: `CLM-<MILESTONE>-<DOMAIN>-<ID>` (e.g., `CLM-M1-ALG-001`, `CLM-M1-BLO-003`, `CLM-M1-COR-002`).
    - Claim IDs are immutable: they never change even if the note is revised, reordered, or split.
@@ -42,7 +42,7 @@ To maintain end-to-end traceability between laboratory exploration, numerical te
    % verified_by: test/unit/test_algebra.py::test_casimir_parity_and_pauli
    \begin{theorem}[Casimir--Parity Identity]
    \label{thm:casimir_parity}
-   Let $\mathcal{Z}_i = c_i^0 c_i^1 c_i^2 c_i^3$...
+   Let $\mathcal{D}_i = c_i^0 c_i^1 c_i^2 c_i^3$...
    \end{theorem}
    ```
 
@@ -80,3 +80,14 @@ Every theoretical R&D note (`doc/rnd/note_NN_<slug>.md`) must remain self-contai
 ## 6. Citation and Bibliographic Verification Protocol
 1. **In-Text Citations:** Always use the strict `Author (Year)` or `(Author et al., Year)` format in prose (e.g., `Kitaev (2006)`, `(Freitas et al., 2024)`, `(Rau et al., 2014)`). Never use bare numbered brackets `[1]` in Markdown notes.
 2. **Terminal Bibliography:** Every Markdown document in `doc/rnd/` and `doc/adr/` must end with a `## References` section containing the complete, verified bibliographic details cross-checked against publisher DOIs and `doc/reference/thesis/refs.bib`.
+
+---
+
+## 7. Mandatory Documentation of R&D Trials, Anomalies, and Dead Ends
+
+To maintain research provenance and avoid repeating discarded approaches:
+1. **Audit Logs in R&D Notes:** Every technical milestone or major development sprint must document its debugging history, algebraic anomalies, and negative results in an R&D audit note (`doc/rnd/note_NN_<slug>_audit.md` or dedicated `## Numerical Anomalies and Lessons Learned` sections).
+2. **Specific Items to Record:**
+   - **Algebraic Sign Traps:** Contrast between mathematical conventions (e.g., element-wise product sum vs. matrix trace on skew matrices, Wick ordering signs).
+   - **Physical Misconceptions:** Distinguish exact mathematical invariants from approximate or regime-dependent quantities (e.g., conservation of $\mathbb{Z}_2$ Wilson loops in the pure Kitaev model vs. fluctuating links under perturbations).
+   - **Solver Convergence Edge Cases:** Premature stopping conditions (e.g., stationary $U$ while $V$ drifts) and regularizations required for singular KKT matrices.
