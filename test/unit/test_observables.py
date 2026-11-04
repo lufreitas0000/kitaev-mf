@@ -175,25 +175,3 @@ def test_observable_wick_formula_contains_nonzero_hartree_and_exchange_terms() -
     assert np.isclose(hartree + exchange, _wick_bond_correlator(
         bond, onsite[0], onsite[1], alpha, beta
     )[0], atol=TOL, rtol=0.0)
-
-
-def test_observable_pauli_and_physical_spin_normalizations_are_distinct() -> None:
-    majoranas = _majorana_operators(4)
-    state = _quadratic_ground_state(majoranas)
-    spins_i, _ = _spin_operators(majoranas)
-
-    for gamma in COMPONENTS:
-        pauli_value = _expectation(state, spins_i[gamma])
-        physical_spin_value = 0.5 * pauli_value
-        assert np.isclose(
-            physical_spin_value,
-            0.5 * pauli_value,
-            atol=TOL,
-            rtol=0.0,
-        )
-        assert np.isclose(
-            abs(physical_spin_value),
-            0.5 * abs(pauli_value),
-            atol=TOL,
-            rtol=0.0,
-        )
