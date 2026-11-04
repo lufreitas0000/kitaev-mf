@@ -146,6 +146,7 @@ def test_t00d_02_ordered_edge_sum_equals_single_directed_edge() -> None:
 
 def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None:
     majoranas = _majorana_operators(4)
+    identity = np.eye(16, dtype=np.complex128)
     sites = [_site_majoranas(majoranas, site) for site in (0, 1)]
     spins = [_site_spin(site_majoranas) for site_majoranas in sites]
     tensor = np.array(
