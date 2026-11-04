@@ -193,10 +193,15 @@ convention.
 
 This identifies a mismatch between the production Bloch matrix's reported
 eigenvalues and the exact quasiparticle excitation energies. It does not,
-by itself, prove that the production mean-field operator is wrong: the
-builder may have intended (iA/4) as a coefficient matrix for a particular
-quadratic-form convention rather than as the excitation generator. Its
-public contract and downstream use must be audited before changing it.
+by itself, prove that the production mean-field operator or self-consistent
+solver is wrong. The current solver passes the matrix to a negative-energy
+spectral-projector routine; multiplying a Hermitian matrix by a positive
+constant leaves its occupied eigenspace unchanged, apart from the numerical
+zero-mode threshold. Thus the scale cancels from the ideal self-consistency
+map. The builder's matrix can serve as a quadratic-form coefficient for
+that purpose, but its eigenvalues must not be labelled physical excitation
+energies without the corresponding canonical normalization. Its public
+contract and downstream use must be audited before changing it.
 For an API that returns physical excitation energies, the matrix to
 diagonalize must reproduce the spectrum of (iA) (or, equivalently, the
 singular values of (T)); the current (iA/4) eigenvalues do not.
