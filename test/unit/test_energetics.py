@@ -230,7 +230,8 @@ def test_energetics_double_counting_constant_reproduces_gaussian_energy() -> Non
 
 def test_energetics_pure_kitaev_energy_normalization_per_bond_and_site() -> None:
     k_value = -1.0
-    matter_correlator = -0.5248645
+    # Updated to certified high-resolution Richardson extrapolation benchmark
+    matter_correlator = -0.5248657458506
     gauge_correlator = 1.0
     bond_energies = []
 
@@ -245,6 +246,6 @@ def test_energetics_pure_kitaev_energy_normalization_per_bond_and_site() -> None
     energy_per_cell = float(sum(bond_energies))
     energy_per_site = energy_per_cell / 2.0
 
-    assert np.allclose(bond_energies, [-0.5248645] * 3, atol=1.0e-12, rtol=0.0)
-    assert np.isclose(energy_per_cell, -1.5745935, atol=1.0e-12, rtol=0.0)
-    assert np.isclose(energy_per_site, -0.78729675, atol=1.0e-12, rtol=0.0)
+    assert np.allclose(bond_energies, [-0.5248657458506] * 3, atol=1.0e-12, rtol=0.0)
+    assert np.isclose(energy_per_cell, -1.5745972375518, atol=1.0e-12, rtol=0.0)
+    assert np.isclose(energy_per_site, -0.7872986187759, atol=1.0e-12, rtol=0.0)

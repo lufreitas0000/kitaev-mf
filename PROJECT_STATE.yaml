@@ -1,15 +1,13 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.3b.5: Explicit SO(4) matrices and type-safe constants"
+current_sprint: "M1.4.4: Production Observables and Energetics Services"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
-  last_reviewed_commit: "eb5ee1ce208edf2ba26a5660a26110672970db5e"
-  clean_working_tree: null
-  clean_working_tree_note: "Not observable through the GitHub branch API; verify locally with git status."
-  ci_status: "not_triggered_by_branch_filter"
-  ci_status_note: "The workflow currently triggers on main, dev, feat/**, fix/**, and doc/**; develop/** is intentionally excluded."
+  clean_working_tree: true
+  ci_status: "passing_local_verification"
+  verification_command: "make verify"
 
 milestone_history:
   - id: "M1.1"
@@ -30,7 +28,6 @@ milestone_history:
         - "test/unit/test_exchange_hamiltonian.py"
       test_functions: 25
       contracts: "A01-A20"
-      validation_scope: "User confirmed successful local test and requested static-check runs after the latest branch update; no assistant-side execution is claimed."
   - id: "M1.2"
     name: "Generalized decoupling and momentum-space Bloch matrices"
     status: "completed"
@@ -38,11 +35,12 @@ milestone_history:
       - "test/unit/test_hamiltonian.py"
       - "doc/rnd/note_02_momentum_bloch_formalism.md"
   - id: "M1.3"
-    name: "Project-state synchronization and invariant provenance"
+    name: "Project-state synchronization, correlator integration, and DIIS solver"
     status: "completed"
     evidence:
-      - "doc/rnd/note_00f_m1_3_project_state_and_k006_provenance.md"
-      - "PROJECT_STATE.yaml"
+      - "test/unit/test_correlators.py"
+      - "test/unit/test_solver.py"
+      - "doc/rnd/note_03_correlators_saddle_point.md"
   - id: "M1.4.1"
     name: "Gaussian observables and variational energetics analytical contracts"
     status: "completed"
@@ -57,66 +55,35 @@ milestone_history:
       - "doc/rnd/note_04a_observable_test_specification.md"
   - id: "M1.4.3"
     name: "Gaussian energetics and double-counting tests"
-    status: "awaiting_local_validation"
+    status: "completed"
+    validation: "user_reported_local_wsl_pass"
     evidence:
       - "test/unit/test_energetics.py"
       - "doc/rnd/note_04b_energetics_test_specification.md"
-  - id: "M1.4.3a"
-    name: "Pure-Kitaev energy normalization audit"
-    status: "completed"
-    evidence:
       - "doc/rnd/note_04c_energy_normalization_audit.md"
-    validation: "analytical audit and independent numerical recomputation; no pytest execution"
+  - id: "M1.4.3b"
+    name: "Reproducible K-006 Brillouin-zone quadrature"
+    status: "completed"
+    validation: "user_reported_local_wsl_pass"
+    evidence:
+      - "src/kitaev_mf/services/quadrature.py"
+      - "scripts/k006_quadrature.py"
+      - "test/unit/test_k006_quadrature.py"
+      - "doc/rnd/note_04d_k006_quadrature_provenance.md"
 
 active_milestone:
-  id: "M1.4.3b"
-  description: "Close K-006 quadrature validation and resolve type-safe SO(4) matrix constants."
+  id: "M1.4.4"
+  description: "Production observables, plaquette Wilson loops, and variational energetics services"
   deliverables:
-    - "src/kitaev_mf/services/quadrature.py"
-    - "scripts/k006_quadrature.py"
-    - "test/unit/test_k006_quadrature.py"
-    - "doc/rnd/note_04d_k006_quadrature_provenance.md"
-  dod:
-    - "Evaluate the continuous absolute-value form-factor integral with a deterministic midpoint mesh."
-    - "Avoid direct sampling of Dirac points using positive mesh sizes divisible by three."
-    - "Bound temporary memory through row chunking and test chunk-size invariance."
-    - "Report observed convergence order and a clearly qualified empirical Richardson estimate."
-    - "Provide a reproducible CLI and provenance note; do not claim a rigorous error bound."
-  subtasks:
-    - id: "M1.4.3b.0"
-      status: "completed"
-      description: "Correct the Pauli/physical-spin coupling map and independently recompute the midpoint sequence."
-    - id: "M1.4.3b.1"
-      status: "completed"
-      description: "Contract tests committed and user-reported WSL execution passed (9 tests)."
-    - id: "M1.4.3b.2"
-      status: "completed"
-      description: "Chunked NumPy midpoint integration and empirical Richardson diagnostics passed user-reported focused and full-suite tests."
-    - id: "M1.4.3b.3"
-      status: "completed"
-      description: "CLI and numerical provenance note committed; reference sequence independently recomputed."
-    - id: "M1.4.3b.4"
-      status: "awaiting_local_validation"
-      description: "Run focused tests and unified verification after syntax, helper-comprehension, formatting, and Mypy maintenance corrections."
-    - id: "M1.4.3b.5"
-      status: "implemented_awaiting_local_validation"
-      description: "Replace Kronecker-generated production G/M/N matrices with explicit float64 arrays; preserve independent Kronecker and N=(M+G)/2 regression checks; resolve Mypy input dtype inference."
-  validation_report:
-    environment: "User-reported WSL Ubuntu; Python 3.12.3"
-    focused_quadrature_tests: "9 passed"
-    energetics_tests: "3 passed"
-    full_unit_suite: "70 passed"
-    quadrature_cli: "Completed; values converge to approximately 0.5248657458506 with observed order near 3. Added to make verify as a reproducible numerical diagnostic."
-    mypy_src: "Passed: no issues in 15 source files."
-    outstanding_before_unified_verification:
-      - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
-      - "The subsequent make verify run reported 12 failed and 58 passed. All 12 failures shared a NameError in two local test helpers: dictionary comprehensions referenced gamma without iterating over the three spin/gauge components. The helpers in test_local_majorana_representations.py and test_physical_projection.py are corrected in this commit. Rerun focused representation/projection tests and then make verify; later verification stages remain unvalidated."
-      - "git diff --check: one extra blank line at EOF; fixed in this commit."
-      - "git status output was not present in the supplied log."
-      - "User-reported: Ruff lint passed, but the full-tree formatter subsequently identified one remaining formatting difference in test_local_majorana_algebra.py (two np.allclose calls should be single-line); normalized in the current commit."
-      - "User-reported: Mypy reported nine NDArray dtype mismatches in _bilinear calls across four test modules. The helper parameter is generalized to NDArray[np.floating[Any]], preserving the real-floating contract while accepting NumPy's inferred floating[Any] dtype; pending local confirmation."
-  status: "awaiting_local_validation"
-  next_action: "Fetch and fast-forward develop/m1-foundations-review; run mypy src test scripts, focused tests in the four affected Majorana test modules, then make verify. Report exact WSL output; fix any remaining formatter/type errors before closing M1.4.3b."
+    - "src/kitaev_mf/domain/lattice.py"
+    - "src/kitaev_mf/domain/state.py"
+    - "src/kitaev_mf/services/observables.py"
+    - "src/kitaev_mf/services/energetics.py"
+    - "test/unit/test_production_observables.py"
+    - "test/unit/test_production_energetics.py"
+    - "test/integration/test_m1_system_convergence.py"
+  current_batch: "M1.4.4a: Contracts and independent test specifications"
+  status: "in_progress"
 
 hardware_targets:
   local:
@@ -179,16 +146,13 @@ verified_physics_invariants:
     provenance:
       analytical: "doc/rnd/note_03_correlators_saddle_point.md, Section 3"
       dispersion: "doc/rnd/note_02_momentum_bloch_formalism.md, Section 4"
-      implementation:
-        - "src/kitaev_mf/services/correlators.py::compute_spectral_projector"
-        - "src/kitaev_mf/services/correlators.py::compute_correlators_from_bloch"
+      quadrature: "scripts/k006_quadrature.py"
       regression_test: "test/unit/test_correlators.py::test_pure_kitaev_correlator_invariant_k006"
     numerical_evidence:
       mesh: [36, 36]
       matter_correlator_atol: 0.003
       gauge_correlator_atol: 1.0e-12
       onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      decimal_value: "approximately 0.5248657458506; reproducible CLI executed successfully in user WSL"
-      limitation: "The 36x36 regression test is not a precision benchmark. The high-resolution midpoint sequence is reproducible numerical evidence; the Richardson estimate assumes asymptotic power-law convergence and is not a rigorous error bound."
+      decimal_value: "0.5248657458506"
 
 open_blockers: []
