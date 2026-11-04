@@ -29,23 +29,24 @@
 
 #### M1.4.3: Gaussian Energetics and Quadrature Provenance (Closed)
 - **Status:** `completed`
-- **Validation:** User-reported WSL verification passed (`make verify` green across 70 tests).
 - **Reconciliation:** Reconciled `T04b-03` reference value to certified benchmark `-0.5248657458506`.
 - **Evidence:** `test/unit/test_energetics.py`, `src/kitaev_mf/services/quadrature.py`, `scripts/k006_quadrature.py`, `doc/rnd/note_04c_energy_normalization_audit.md`, `doc/rnd/note_04d_k006_quadrature_provenance.md`.
 
-#### M1.4.4: Production Observables and Energetics Services (Active)
-- **Objective:** Deploy production services wrapping verified Fock oracles, implement plaquette Wilson loops, and build system integration tests.
-- **Batches:**
-  - `M1.4.4a`: Define contracts and test specifications for production observables and energetics.
-  - `M1.4.4b`: Implement `src/kitaev_mf/services/observables.py` (magnetization and bond spin-correlators).
-  - `M1.4.4c`: Define `Plaquette` domain value object and implement `compute_plaquette_fluxes`.
-  - `M1.4.4d`: Define `EnergyBreakdown` domain value object and write normalization tests.
-  - `M1.4.4e`: Implement `src/kitaev_mf/services/energetics.py` (variational Gaussian functional).
-  - `M1.4.4f`: Integrate quadratic spectral ground-state energy ($E_{\text{quad}, 0} - C$) and assert consistency.
-  - `M1.4.4g`: System integration test suite across solver, observables, and energetics.
+#### M1.4.4: Production Observables and Energetics Services (Closed)
+- **Status:** `completed`
+- **Deliverables:**
+  - `src/kitaev_mf/domain/lattice.py`: Plaquette topology.
+  - `src/kitaev_mf/domain/state.py`: EnergyBreakdown normalization.
+  - `src/kitaev_mf/services/observables.py`: Sublattice magnetization, bond spin-correlators, Wilson loop fluxes.
+  - `src/kitaev_mf/services/energetics.py`: Variational Gaussian functional, spectral energy, and consistency check.
+  - `test/unit/test_production_observables.py`: Unit contracts.
+  - `test/unit/test_production_energetics.py`: Unit contracts.
+  - `test/integration/test_m1_system_convergence.py`: End-to-end integration suite.
+
+#### M1.4.5: Consolidated Verification and Quality Gate (Active)
+- **Objective:** Run full test suite across unit and integration targets, verify clean imports, and test CPU/CUDA execution parity.
 
 ---
 
 ### Subsequent Milestones
-- **M1.4.5:** Consolidated verification (K-001–K-006, CPU/CUDA parity, import-cycle checks).
 - **M1.5:** Standalone LaTeX research monograph (`doc/report/` / `main.pdf`).

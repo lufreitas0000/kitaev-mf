@@ -1,7 +1,7 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.4.4: Production Observables and Energetics Services"
+current_sprint: "M1.4.5: Consolidated Verification and Quality Gate"
 
 repository_status:
   git_branch: "develop/m1-foundations-review"
@@ -70,19 +70,25 @@ milestone_history:
       - "scripts/k006_quadrature.py"
       - "test/unit/test_k006_quadrature.py"
       - "doc/rnd/note_04d_k006_quadrature_provenance.md"
+  - id: "M1.4.4"
+    name: "Production observables, plaquette Wilson loops, and variational energetics services"
+    status: "completed"
+    evidence:
+      - "src/kitaev_mf/domain/lattice.py"
+      - "src/kitaev_mf/domain/state.py"
+      - "src/kitaev_mf/services/observables.py"
+      - "src/kitaev_mf/services/energetics.py"
+      - "test/unit/test_production_observables.py"
+      - "test/unit/test_production_energetics.py"
+      - "test/integration/test_m1_system_convergence.py"
 
 active_milestone:
-  id: "M1.4.4"
-  description: "Production observables, plaquette Wilson loops, and variational energetics services"
+  id: "M1.4.5"
+  description: "Consolidated verification across invariants K-001 through K-006, hardware parity, and hygiene"
   deliverables:
-    - "src/kitaev_mf/domain/lattice.py"
-    - "src/kitaev_mf/domain/state.py"
-    - "src/kitaev_mf/services/observables.py"
-    - "src/kitaev_mf/services/energetics.py"
-    - "test/unit/test_production_observables.py"
-    - "test/unit/test_production_energetics.py"
-    - "test/integration/test_m1_system_convergence.py"
-  current_batch: "M1.4.4a: Contracts and independent test specifications"
+    - "Consolidated test execution of complete test suite (unit and integration)"
+    - "CPU and CUDA parity verification"
+    - "Zero-import cycle verification"
   status: "in_progress"
 
 hardware_targets:
