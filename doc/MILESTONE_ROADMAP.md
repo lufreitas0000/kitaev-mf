@@ -2,9 +2,9 @@
 
 Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
-Active batch: M1.4.3b — Reproducible K-006 quadrature
+Active batch: M1.4.3b.5 — Explicit SO(4) matrices and type-safe constants
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: de28caa5ae46b72cea719301a048ef0ff5da0c70
+Base commit before this update: a813f6ca886dc77f4647032630f40bea4efd143a
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -55,9 +55,27 @@ Acceptance:
 
 M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed and have now been executed successfully in user WSL. Reported results: 9 focused quadrature tests passed, 3 energetics tests passed, 70 tests passed in the full unit suite, and the quadrature CLI completed with values converging to approximately 0.5248657458506 and observed order near three. Mypy on src/ passed. Ruff identified one B905 issue and formatting differences; git diff --check identified one extra blank line at EOF. This commit fixes the B905 issue and EOF whitespace, formats the active-batch source/CLI/tests, and introduces a unified validation target. The formatter check intentionally covers all production source and scripts plus the two tests introduced/modified in this batch; unrelated legacy test formatting is not churned. The full-repository formatter remains available through make format.
 
-After the syntax correction, the next `make verify` run reported 12 failed and 58 passed. All 12 failures shared a `NameError` caused by missing dictionary-comprehension iteration clauses in `_local_operators` in `test_local_majorana_representations.py` and `test_physical_projection.py`. The affected spin and gauge dictionaries are corrected in the current commit. Rerun the focused representation/projection tests and then `make verify`; stages 2–5 remain unvalidated. Working-tree cleanliness is not inferred.
+After the syntax correction, the next `make verify` run reported 12 failed and 58 passed. All 12 failures shared a `NameError` caused by missing dictionary-comprehension iteration clauses in `_local_operators` in `test_local_majorana_representations.py` and `test_physical_projection.py`. The affected spin and gauge dictionaries are corrected in the current commit. The user subsequently reported that Ruff lint passed and the full-tree formatter found 33 files already formatted, but Mypy reported nine dtype-annotation errors in duplicated `_bilinear` helpers across four test modules. Production constants are now explicit `float64` arrays, and independent Kronecker definitions plus `N=(M+G)/2` are checked in `test_local_majorana_algebra.py`. This change is committed but has not yet been run locally.
+
+### M1.4.3b.5 — Explicit SO(4) matrices and dtype contract
+- Replace production `np.kron`-constructed `G_MATRICES` and `M_MATRICES`, and arithmetic-generated `N_MATRICES`, with explicit `np.float64` 4x4 arrays.
+- Annotate each public dictionary as `dict[int, NDArray[np.float64]]`; the intended dtype contract is real float64.
+- Preserve independent verification: reconstruct G and M from Kronecker-product definitions in the algebra test and verify `N^gamma=(M^gamma+G^gamma)/2` for every component. Keep the explicit N Kronecker identities.
+- This improves transparency and type stability, not runtime performance: these small module-level matrices are not a numerical hot path.
+- No physics convention, matrix ordering, sign, or tolerance should change.
+- Local acceptance: `mypy src test scripts`; focused local-algebra, representation, projection, and exchange tests; then `make verify`.
+- Do not mark complete until the user reports exact WSL output. No post-change tests have been executed by the assistant.
 
 ## 4. Remaining M1.4 execution order
+
+### Immediate handover — M1.4.3b.5 local validation
+1. Read `AGENTS.md`, `.agents/rules/04_milestone_progress.md`, `PROJECT_STATE.yaml`, and this roadmap.
+2. Inspect `git status --short --branch`; fetch and fast-forward only `develop/m1-foundations-review` using the documented protocol.
+3. Run `mypy src test scripts`. If dtype errors persist, inspect NumPy typing behavior and constant annotations before changing helper signatures or adding casts.
+4. Run `pytest -q test/unit/test_local_majorana_algebra.py test/unit/test_local_majorana_representations.py test/unit/test_physical_projection.py test/unit/test_exchange_hamiltonian.py`.
+5. Run `make verify`; capture each stage and final Git status. Do not infer a clean tree from test success.
+6. Report exact output. Only then update both progress files atomically with the user-reported validation and close the batch if all acceptance criteria pass.
+
 
 ### M1.4.3c — Close Gaussian energetics validation
 - Reconcile T04b-03 precision with accepted K-006 output; keep regression tolerance distinct from quadrature precision.
@@ -106,6 +124,7 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - Roadmap created; M1.4.3b active; mandatory per-commit progress synchronization introduced.
 
 - Added `make verify` to run tests, static analysis, whitespace checks, and report working-tree state in sequence.
+- Replaced Kronecker-generated production SO(4) matrices with explicit float64 arrays; retained independent Kronecker and N=(M+G)/2 checks. Pending user WSL Mypy/test validation.
 
 - Completed the active-batch formatting adjustment in `test_energetics.py`; no numerical or physical expressions were changed.
 
