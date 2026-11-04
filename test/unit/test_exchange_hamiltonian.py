@@ -227,7 +227,7 @@ def test_t00d_05_constraint_multiplier_normalization_and_projection() -> None:
     for site in (0, 1):
         site_majoranas = _site_majoranas(majoranas, site)
         for gamma in COMPONENTS:
-            multiplier = 0.17 * (site + 1) * (gamma - 2)
+            multiplier = 0.17 * (site + 1) * gamma
             gauge_generator = 0.5 * _bilinear(
                 site_majoranas, G_MATRICES[gamma]
             )
