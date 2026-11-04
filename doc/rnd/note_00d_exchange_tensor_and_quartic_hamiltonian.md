@@ -1,7 +1,7 @@
 # Note 00d: Exchange Tensors and the Exact Quartic Majorana Hamiltonian
 
-**Status:** M1.1d R&D specification  
-**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md), [Note 00b](note_00b_local_spin_gauge_representation.md), [Note 00c](note_00c_physical_projection_and_pauli_algebra.md)  
+**Status:** M1.1d R&D specification
+**Parent notes:** [Note 00](note_00_algebraic_qft_parton_representation.md), [Note 00a](note_00a_local_majorana_algebra_and_conventions.md), [Note 00b](note_00b_local_spin_gauge_representation.md), [Note 00c](note_00c_physical_projection_and_pauli_algebra.md)
 **Scope:** Fix the directed-bond exchange convention, derive the quartic Majorana Hamiltonian and constraint-multiplier normalization, and establish projected operator equivalence. This note supplements the parent notes; it does not replace or amend them.
 
 ## 1. Finite directed honeycomb graph and edge counting
