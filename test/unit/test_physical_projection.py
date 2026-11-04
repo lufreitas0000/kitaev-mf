@@ -54,11 +54,15 @@ def _local_operators(
 ]:
     parity = majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
     spin_pauli = {
-        gamma: 1.0j * majoranas[0] @ majoranas[gamma]
+        gamma: (1.0j * majoranas[0] @ majoranas[gamma]).astype(
+            np.complex128, copy=False
+        )
         for gamma in COMPONENTS
     }
     gauge = {
-        gamma: 0.5 * _bilinear(majoranas, G_MATRICES[gamma])
+        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(
+            np.complex128, copy=False
+        )
         for gamma in COMPONENTS
     }
     return parity, spin_pauli, gauge
