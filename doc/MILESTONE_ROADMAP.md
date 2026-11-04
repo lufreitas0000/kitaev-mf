@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: 8c420310202dab6777e2b0a72eed8277cd0baf2d
+Last known branch head before this update: 28fd6fd83575349955a618ed11fe247e757e7cd3
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -40,8 +40,8 @@ The absolute-value integrand is continuous with conical/non-differentiable behav
 | ID | Small task | Deliverables | Status |
 |---|---|---|---|
 | M1.4.3b.0 | Correct spin-coupling map and audited midpoint values | Note 04c | completed |
-| M1.4.3b.1 | Specify API; tests for mesh restrictions, chunk invariance, direct small-mesh agreement, convergence order | test/unit/test_k006_quadrature.py | awaiting_local_validation |
-| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | awaiting_local_validation |
+| M1.4.3b.1 | Specify API; tests for mesh restrictions, chunk invariance, direct small-mesh agreement, convergence order | test/unit/test_k006_quadrature.py | completed; 9 user-reported WSL tests passed |
+| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | completed; focused and full unit tests passed in user WSL |
 | M1.4.3b.3 | Add reproducible CLI, mesh sequence, observed order, empirical Richardson estimate, limitations | scripts/k006_quadrature.py; Note 04d | completed |
 | M1.4.3b.4 | Focused test, full suite, Ruff, mypy, diff hygiene; user reports WSL results | local validation record | awaiting_local_validation |
 
@@ -53,16 +53,19 @@ Acceptance:
 5. CLI prints meshes, values, successive differences, observed order, and empirical fine-mesh error.
 6. Cross-check U_b^00 = -Ubar and gauge link +1.
 
-M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed. Neither the pytest module nor CLI has been executed in the user WSL environment. Immediate next action: user pulls this commit and runs the focused test and CLI; fix any failures before advancing.
+M1.4.3b.1 tests, b.2 implementation, and b.3 CLI/provenance are committed and have now been executed successfully in user WSL. Reported results: 9 focused quadrature tests passed, 3 energetics tests passed, 70 tests passed in the full unit suite, and the quadrature CLI completed with values converging to approximately 0.5248657458506 and observed order near three. Mypy on src/ passed. Ruff identified one B905 issue and formatting differences; git diff --check identified one extra blank line at EOF. This commit fixes the B905 issue and EOF whitespace, formats the active-batch source/CLI/tests, and introduces a unified validation target. The formatter check intentionally covers all production source and scripts plus the two tests introduced/modified in this batch; unrelated legacy test formatting is not churned. The full-repository formatter remains available through make format.
+
+The active batch remains awaiting local validation until the user runs make verify on this commit. The supplied output did not include visible git status lines, so working-tree cleanliness is not inferred.
 
 ## 4. Remaining M1.4 execution order
 
 ### M1.4.3c — Close Gaussian energetics validation
 - Reconcile T04b-03 precision with accepted K-006 output; keep regression tolerance distinct from quadrature precision.
 - Run pytest -q test/unit/test_energetics.py.
-- Run full unit suite, ruff check ., ruff format --check ., mypy src/, git diff --check.
+- Run the unified make verify target: coverage-enabled pytest, Ruff lint, active-scope Ruff formatting, strict Mypy across src/test/scripts, committed-branch and local Git whitespace checks, and a final working-tree report.
+- Confirm the Git status output and report any remaining local modifications.
 - Record exact outcomes and user confirmation in both progress files.
-- Complete M1.4.3 only after user-reported WSL success.
+- Complete M1.4.3 only after unified verification is clean.
 
 ### M1.4.4 — Production observables and energetics (after M1.4.3)
 1. M1.4.4a: contracts/tests for one-/two-point observables, plaquette Wilson loop/flux, exchange energy, fields, constraints, scalar double-counting.
@@ -89,10 +92,10 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 
 ## 6. Decisions and blockers
 - Spin mapping: matching Kp sum sigma_i sigma_j to -Ks sum S_i S_j with S=sigma/2 requires Ks=-4Kp. Do not invert.
-- K-006 prior 0.5248645 is not a high-precision target. Independent midpoint recomputation is near 0.5248657458506; reproducible implementation and empirical error estimate pending.
+- K-006 prior 0.5248645 is not a high-precision target. The reproducible midpoint implementation and CLI have now been executed in user WSL; the numerical result is near 0.5248657458506.
 - Observed N^-3 behavior is numerical evidence, not a rigorous quadrature error bound.
 - M1.4.2 tests do not establish plaquette Wilson-loop/flux behavior; add in M1.4.4.
-- M1.4.3 tests await local WSL validation.
+- M1.4.3 unit tests passed in user WSL; full static/Git verification remains pending.
 
 ## 7. Change log
 - Corrected the machine-readable M1.4.3b definition of done and recorded completed normalization subtask M1.4.3b.0.
@@ -101,3 +104,5 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - M1.4.3b.1 contract tests committed; M1.4.3b.2 implementation and M1.4.3b.3 provenance/CLI added. Local WSL validation pending.
 - M1.4.3b.1 test contract is being added; no local test execution is claimed.
 - Roadmap created; M1.4.3b active; mandatory per-commit progress synchronization introduced.
+
+- Added `make verify` to run tests, static analysis, whitespace checks, and report working-tree state in sequence.

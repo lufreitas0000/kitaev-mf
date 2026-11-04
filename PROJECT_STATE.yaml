@@ -86,17 +86,29 @@ active_milestone:
       status: "completed"
       description: "Correct the Pauli/physical-spin coupling map and independently recompute the midpoint sequence."
     - id: "M1.4.3b.1"
-      status: "awaiting_local_validation"
-      description: "Contract tests committed; focused execution pending user WSL validation."
+      status: "completed"
+      description: "Contract tests committed and user-reported WSL execution passed (9 tests)."
     - id: "M1.4.3b.2"
-      status: "awaiting_local_validation"
-      description: "Chunked NumPy midpoint integration and empirical Richardson diagnostics committed; runtime validation pending."
+      status: "completed"
+      description: "Chunked NumPy midpoint integration and empirical Richardson diagnostics passed user-reported focused and full-suite tests."
     - id: "M1.4.3b.3"
       status: "completed"
       description: "CLI and numerical provenance note committed; reference sequence independently recomputed."
     - id: "M1.4.3b.4"
       status: "awaiting_local_validation"
-      description: "User runs focused and full WSL validation."
+      description: "Unit tests and quadrature CLI passed in WSL; unified lint/format/Git verification remains pending after maintenance fixes."
+  validation_report:
+    environment: "User-reported WSL Ubuntu; Python 3.12.3"
+    focused_quadrature_tests: "9 passed"
+    energetics_tests: "3 passed"
+    full_unit_suite: "70 passed"
+    quadrature_cli: "Completed; values converge to approximately 0.5248657458506 with observed order near 3."
+    mypy_src: "Passed: no issues in 15 source files."
+    outstanding_before_unified_verification:
+      - "Ruff B905: zip() requires an explicit strict argument; fixed in this commit."
+      - "Ruff formatting: nine files reported; active-batch files formatted here, unrelated legacy test files intentionally not reformatted."
+      - "git diff --check: one extra blank line at EOF; fixed in this commit."
+      - "git status output was not present in the supplied log."
   status: "awaiting_local_validation"
 
 hardware_targets:
@@ -169,10 +181,7 @@ verified_physics_invariants:
       matter_correlator_atol: 0.003
       gauge_correlator_atol: 1.0e-12
       onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      decimal_value: "approximately 0.5248657458506; script and convergence note committed, local execution pending"
-      limitation: "The 36x36 regression test is not a precision benchmark. The Richardson estimate assumes asymptotic power-law convergence and is not a rigorous error bound; user WSL execution is pending."
+      decimal_value: "approximately 0.5248657458506; reproducible CLI executed successfully in user WSL"
+      limitation: "The 36x36 regression test is not a precision benchmark. The high-resolution midpoint sequence is reproducible numerical evidence; the Richardson estimate assumes asymptotic power-law convergence and is not a rigorous error bound."
 
-open_blockers:
-  - id: "K-006-QUADRATURE-PROVENANCE"
-    description: "Commit reproducible K-006 midpoint quadrature and empirical convergence diagnostics; no rigorous error bound is claimed."
-    severity: "blocking_for_K006_precision_claims"
+open_blockers: []

@@ -9,7 +9,7 @@ RUFF := $(VENV)/bin/ruff
 MYPY := $(VENV)/bin/mypy
 SNAPSHOT_FILE := REPO_SNAPSHOT.md
 
-.PHONY: help venv lock sync install test lint format snapshot clean
+.PHONY: help venv lock sync install test lint format verify snapshot clean
 
 help:
 	@echo "kitaev-mf development targets:"
@@ -18,8 +18,9 @@ help:
 	@echo "  make sync     - Synchronize venv to exact locked requirements"
 	@echo "  make install  - Editable install of kitaev-mf in venv"
 	@echo "  make test     - Run pytest suite with coverage"
-	@echo "  make lint     - Run ruff format/lint checks and mypy"
-	@echo "  make format   - Automatically fix lint and reformat all files via ruff"
+	@echo "  make lint     - Run Ruff lint/format checks and Mypy"
+	@echo "  make format   - Automatically fix lint and reformat all files via Ruff"
+	@echo "  make verify   - Run tests, static checks, Git whitespace checks, and status"
 	@echo "  make snapshot - Generate uncommitted $(SNAPSHOT_FILE) for AI context ingestion"
 	@echo "  make clean    - Remove build, test caches, and temporary snapshots"
 
@@ -50,9 +51,26 @@ format:
 	@$(RUFF) format src test scripts
 
 lint:
+	@echo "[lint] Ruff rules across src/, test/, and scripts/..."
 	@$(RUFF) check src test scripts
-	@$(RUFF) format --check src test scripts
+	@echo "[format] Check production code and tests touched in the active batch..."
+	@$(RUFF) format --check src scripts test/unit/test_energetics.py test/unit/test_k006_quadrature.py
+	@echo "[types] Mypy across src/, test/, and scripts/..."
 	@$(MYPY) src test scripts
+
+verify:
+	@set -eu; \
+	printf '\n[1/4] Unit tests with coverage\n'; \
+	$(MAKE) --no-print-directory test; \
+	printf '\n[2/4] Ruff lint, formatting, and Mypy\n'; \
+	$(MAKE) --no-print-directory lint; \
+	printf '\n[3/4] Git whitespace checks (committed branch diff and local changes)\n'; \
+	git diff --check main...HEAD; \
+	git diff --cached --check; \
+	git diff --check; \
+	printf '\n[4/4] Working-tree status (informational; does not require a clean tree)\n'; \
+	git status --short --branch; \
+	printf '\nVerification completed: all preceding checks passed.\n'
 
 snapshot:
 	@$(PYTHON) scripts/make_snapshot.py
