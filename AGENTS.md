@@ -1,30 +1,112 @@
-# Operating Protocol for AI Agents and Collaborators
+# Agent and Contributor Protocol
 
-Welcome to `kitaev-mf`. This repository is a research laboratory for Majorana parton mean-field theory (MMFT) on the extended Kitaev model ($J\text{-}K\text{-}\Gamma\text{-}\Gamma'\text{-}D\text{-}\mathbf{h}$), rederiving and generalizing **Freitas, Bauer, Egger, and Pereira, *npj Quantum Mater.* 9, 33 (2024)** [arXiv:2311.15750].
+This file is the repository entry point for human contributors and automated agents. It defines the operating sequence and points to the detailed policies; it is not a duplicate of those policies.
 
-All human and AI contributors must strictly adhere to the modular rule sets in `.agents/rules/`:
-- `.agents/rules/00_workspace_hygiene.md`: Directory taxonomy, zero untracked artifacts, and POSIX heredoc standards.
-- `.agents/rules/01_repository_safety.md`: Branch discipline and atomic HDF5 data integrity.
-- `.agents/rules/02_tdd_protocol.md`: Strict Red-Green-Refactor TDD workflow and `< 1e-14` precision gates.
-- `.agents/rules/03_editorial_rigor.md`: APS *PRL*/*PRB* & *Nature* mathematical style, vertex/edge notation, and verified `Author (Year)` bibliography rules.
-- `.agents/rules/04_milestone_progress.md`: mandatory atomic updates to PROJECT_STATE.yaml and doc/MILESTONE_ROADMAP.md in every commit.
+## 1. Required guidance
 
----
+Read the rules relevant to the task before changing files:
 
-## 1. Core Engineering & Architectural Principles
-1. **Zero-Shot Coding is Prohibited:** Formulate the mathematical contracts, agree on the Hexagonal ports/adapters design, and write failing tests before implementing services.
-2. **Hexagonal Architecture (Ports & Adapters):**
-   - `src/kitaev_mf/domain/`: Pure mathematical entities (`UnitCell`, `Bond`, `ModelParameters`, `MeanFieldState`), algebraic constants, and Port protocols (`LinalgBackendPort`, `HamiltonianBuilderPort`). Zero dependencies on `services/` or `infra/`.
-   - `src/kitaev_mf/services/`: Pure physics algorithms operating on `domain/` entities and Port interfaces.
-   - `src/kitaev_mf/infra/`: Concrete hardware and storage adapters (`TorchBackend`, HDF5 writers).
-3. **Hardware Backend Discipline:** Linear algebra operations pass through the `LinalgBackendPort` protocol supporting both CPU and CUDA (`complex128` / `float64`) without tensor allocation leakage.
+- `.agents/rules/00_workspace_hygiene.md` — workspace hygiene, file granularity, and repository layout.
+- `.agents/rules/01_repository_safety.md` — Git discipline, review, and simulation-data integrity.
+- `.agents/rules/02_tdd_protocol.md` — testing and numerical verification.
+- `.agents/rules/03_editorial_rigor.md` — scientific exposition, claim provenance, notation, and references.
+- `.agents/rules/04_versioning_and_releases.md` — package versioning, changelog, and releases.
+- `.agents/rules/05_project_management.md` — phase, milestone, task, and sprint planning.
+- `.agents/rules/06_milestone_progress.md` — development-branch state updates, verification evidence, and task handover.
 
----
+Also consult the relevant accepted ADRs in `doc/adr/`, research records in `doc/rnd/`, and project-state records when they materially affect the task. The governance architecture in `doc/governance/README.md` defines the responsibilities and precedence of repository documents.
 
-## 2. Canonical Mathematical & Lattice Conventions
-* **Lattice Graph:** $\Lambda = (\mathcal{V}, \mathcal{E})$ with vertices $i, j \in \mathcal{V}$ and directed bonds $\langle ij \rangle_\gamma \in \mathcal{E}$ oriented from sublattice $A$ to sublattice $B$. Primitive lattice constant $a = 1$ ($d_{\mathrm{NN}} = 1/\sqrt{3}$).
-* **Majorana CAR Algebra:** $\{c_i^\mu, c_j^\nu\} = 2\delta_{ij}\delta^{\mu\nu}\mathbb{1}$ with $\mu, \nu \in \{0, 1, 2, 3\}$.
-* **Fixed Kitaev Spin Representation:** $\sigma_i^\gamma = \frac{i}{2} c_i^T \mathrm{N}^\gamma c_i = i c_i^0 c_i^\gamma$, where $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$.
-* **Gauge Link Convention:** On directed bonds $i \in A \to j \in B$, the canonical zero-flux pure Kitaev state sets $\mathrm{U}_{\langle ij \rangle_\gamma}^{\gamma\gamma} = \langle i c_i^\gamma c_j^\gamma \rangle = +1.0$.
-* **Momentum Phase Factors:** For fractional coordinates $(k_1, k_2) \in [0, 1)^2$ and bond cell offset $(n_1, n_2) \in \mathbb{Z}^2$, the Bloch phase is explicitly $\exp(i 2\pi (k_1 n_1 + k_2 n_2))$.
-* **Bloch-Majorana Prefactor:** $\mathcal{H}(\mathbf{k}) = \frac{i}{4}\mathcal{M}(\mathbf{k})$, reproducing exact matter dispersion $E(\mathbf{k}) = \pm \frac{|K|}{2}|1 + e^{-i 2\pi k_1} + e^{-i 2\pi k_2}|$ ($E(\mathbf{0}) = 1.5|K|$) and flat gauge bands $\pm \frac{|K|}{2}|u_{\mathrm{matter}}|$.
+If guidance conflicts with executable configuration or the current repository structure, identify the discrepancy. Do not silently claim that a planned directory, check, or workflow exists. Resolve policy conflicts explicitly before proceeding.
+
+## 2. Session start
+
+For every substantial task:
+
+1. Inspect the current branch, working-tree status, and existing diff before editing. Preserve unrelated user changes.
+2. Read this file and the applicable rules; do not assume that prior-session branch or CI status is still current.
+3. Inspect the relevant source, tests, configuration, ADRs, and R&D notes. Read `PROJECT_STATE.yaml` when milestone status, conventions, or verified invariants matter.
+4. Confirm the task's scope, dependencies, acceptance criteria, and verification plan. For work on a long-lived branch, compare with `main` when intervening changes may affect the task.
+
+For a small, self-contained task, keep this inspection proportional; do not perform unrelated repository-wide refactoring.
+
+## 3. Branch and change discipline
+
+- Use a dedicated branch for routine development and integrate through a reviewed pull request to `main`. Follow Rule 01 for branch naming and history protection.
+- Ordinary feature and research branches should use `main` as their integration baseline unless a task explicitly requires otherwise.
+- `governance/project-governance` is reserved for developing repository governance. It is not a parent branch for ordinary feature or research work.
+- Do not push routine development changes directly to `main`.
+- Do not reset, force-push, clean, delete branches, or discard user changes without explicit authorization.
+- Keep each change set coherent and commits focused. Avoid mixing physics implementation, governance, dependency changes, and unrelated cleanup.
+- Before editing an existing file, inspect its current contents and preserve established conventions unless the task explicitly changes them.
+
+## 4. Implementation protocol
+
+### Mathematical and scientific contracts
+
+Before non-trivial physics implementation, state the mathematical contract: objects and domains, assumptions, conventions, boundary conditions, expected invariances or limiting cases, and relevant failure modes. Identify the intended interfaces and dependencies before selecting an implementation.
+
+Distinguish:
+- exact algebraic statements and analytical proofs;
+- finite-volume or finite-dimensional results;
+- numerical tests and benchmarks;
+- approximations, extrapolations, and conjectures.
+
+Do not promote finite-size numerical agreement into a thermodynamic claim without a controlled limiting argument. State Fourier, gauge, graph-orientation, normalization, and boundary conventions whenever they affect the result. Follow Rule 03 for scientific documentation and provenance.
+
+### Software architecture
+
+The intended dependency direction is:
+
+- `domain/`: mathematical entities and interfaces; independent of services and infrastructure.
+- `services/`: physics and computational algorithms depending on domain abstractions.
+- `infra/`: concrete numerical backends, hardware, storage, and I/O adapters.
+- `app/`: application and workflow orchestration, if and when this layer is established.
+
+Do not create missing architectural layers merely to satisfy this description. Keep pure mathematical logic separate from side effects. Route backend-specific allocation and operations through established interfaces; do not leak device-specific behavior into domain objects.
+
+Prefer the smallest implementation that satisfies the contract. Reuse existing abstractions, avoid speculative generality, and keep interfaces explicit and testable.
+
+### Tests and numerical verification
+
+Follow Rule 02 and the repository's actual test/tool configuration. Add focused tests for analytical identities, limiting cases, invariances, and failure modes. Run the relevant tests and verify that a new test fails for the intended reason before relying on it as a regression check when feasible.
+
+Do not use a universal numerical tolerance by habit. Justify tolerances in relation to scale, conditioning, precision, algorithm, and the expected numerical error. Separate exact symbolic identities from floating-point acceptance criteria.
+
+## 5. Verification and reporting
+
+Before declaring a task complete:
+
+1. Run checks relevant to the changed files and affected interfaces.
+2. Inspect the final diff for scope, accidental generated files, whitespace errors, and stale references.
+3. Report the exact commands run and their outcomes. Distinguish passed, failed, skipped, and not-run checks.
+4. Do not claim CI passed unless the corresponding remote workflow actually ran and its result was inspected.
+5. Identify unresolved issues and limitations rather than silently broadening the acceptance claim.
+
+A test passing establishes only the tested property and parameter domain. It is not, by itself, a proof of a general mathematical statement.
+
+## 6. Session handover and project records
+
+At the end of a substantial task, provide a concise handover containing:
+
+- the branch and commit/PR state;
+- the files changed and the purpose of each change;
+- verification commands and results;
+- remaining work, blockers, and decisions requiring user input.
+
+Update `PROJECT_STATE.yaml` only when durable project facts, milestone status, verified invariants, or blockers change. Do not use it as a live Git/CI dashboard: branch names, clean-tree claims, and CI status become stale immediately. Put dated audit observations in an explicitly time- and commit-scoped audit record when needed.
+
+Update R&D notes when a material derivation, failed approach, numerical result, or research decision should be preserved. Use an ADR for a durable architectural decision, not for routine implementation detail. Keep roadmap/backlog planning separate from completed project state.
+
+## 7. Project-specific research track: exact pure-Kitaev perturbation theory
+
+The exact pure-Kitaev perturbation work is scientifically distinct from the production mean-field solver. Its intended research-note location is `doc/rnd/exact-perturbation-theory/`; create or use that area only when the corresponding work is active. Keep exploratory code and generated outputs isolated from production modules.
+
+For this track:
+
+1. Derive operator identities, conventions, physical constraints, and numerical contracts before implementing solver modules.
+2. Distinguish the enlarged Majorana Fock space from the physical spin Hilbert space. Derive the gauge constraint and matter-parity selection rule before interpreting Gaussian flux-sector energies as physical thresholds.
+3. Do not identify production mean-field coupling parameters or dispersion prefactors with those in the Pauli-spin/Majorana derivation by inspection. Reconcile conventions through an explicit operator-level map before quantitative comparison; consult the relevant R&D backlog and notes when present.
+4. The standard `b_i^\alpha,c_i` representation and the production four-flavor convention are scope-dependent. Do not transfer symbols or prefactors between them without an explicit map.
+5. Use transparent finite-volume calculations and, where feasible, spin-space exact diagonalization as independent checks. Numerical agreement is evidence for the tested finite systems, not a thermodynamic proof.
+6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed.
+7. Keep generated arrays, logs, plots, and build products under the designated ignored build area (currently `build/rnd/exact-perturbation-theory/`); commit only compact, reviewed results with reproducibility metadata.

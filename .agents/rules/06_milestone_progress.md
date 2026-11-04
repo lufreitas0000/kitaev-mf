@@ -1,4 +1,4 @@
-# Rule 04: Milestone Progress and Commit-Level Handover
+# Rule 06: Milestone Progress and Commit-Level Handover
 
 The planning hierarchy and task lifecycle are defined by Rule 05: Project Management. This rule specifies how milestone state is maintained on development branches.
 

@@ -1,93 +1,55 @@
-# Rule 03: Scientific Editorial, Provenance, and Mathematical Rigor Standards
+# Rule 03: Scientific Documentation and Mathematical Rigor
 
-All documentation in `doc/rnd/`, `doc/adr/`, and final LaTeX deliverables must adhere to the editorial and mathematical standards of *Physical Review Letters* (APS) and *Nature Physics*.
+Apply these standards to research notes, architecture records, code documentation, and publication-facing material. The intended level is rigorous and readable scientific exposition; journal-specific formatting is governed by the target venue when a manuscript is prepared.
 
----
+## 1. Research notes and publication-facing documents
 
-## 1. Dual-Track Epistemology: R&D Lab Notebook vs. Canonical Monograph
+1. `doc/rnd/` is the exploratory record for derivations, conventions, algorithmic edge cases, numerical experiments, failed approaches, and research decisions. Notes may develop non-linearly and should be self-contained within their stated scope.
+2. Publication-facing documents must provide a coherent narrative for an external reader. They must not depend on unpublished scratch notes for definitions, proofs, or essential reasoning.
+3. A publication document may cite or acknowledge a research note only when that is appropriate for its intended audience and the note is an accessible, stable reference. Do not impose a blanket rule that all internal notes must be cited or that all such references are forbidden.
+4. Do not assume a canonical monograph directory exists. Use the location established by the relevant project deliverable and update the repository documentation when that structure is adopted.
+5. Keep numbering of definitions, lemmas, equations, and theorems local to the document or explicitly defined document series.
 
-A strict separation of concerns is maintained between exploratory derivations and final publications:
+## 2. Mathematical claims and provenance
 
-1. **Track 1: Exploratory R&D Notes (`doc/rnd/`):**
-   - Act as an internal, modular laboratory notebook capturing derivations, algorithmic edge cases, and numerical experiments.
-   - Progression is non-linear and modular. Notes do **not** map 1-to-1 to chapters of the final report.
-   - Internal numbering (Definitions, Lemmas, Theorems) is strictly local to each note. Cross-note structural coupling (e.g., numbering Note 02 items to match future Chapter 2) is forbidden.
+1. State definitions, domains, assumptions, conventions, and boundary conditions before relying on them.
+2. Give proofs for nontrivial claims when the note presents them as established results. Identify omitted arguments and cite a verifiable source when relying on an external result.
+3. Distinguish exact algebraic statements, analytical results, finite-volume statements, numerical evidence, approximations, extrapolations, and conjectures.
+4. Use persistent claim identifiers when a result is tracked across research notes, tests, project-state invariants, or publication sources. Do not require an identifier for every routine definition or statement.
+5. When a tracked claim is transferred to a publication source, record its identifier and relevant source/test provenance in comments or project metadata where this improves traceability. A test is evidence for its tested computational contract; it is not a proof of a theorem.
+6. Record limiting-case checks and independent validations when they materially support the result. Explain what those checks do and do not establish.
 
-2. **Track 2: Canonical LaTeX Monograph Deliverable (`doc/report/` or `doc/monograph/`):**
-   - The final milestone deliverable is a self-contained, publication-grade scientific document.
-   - It follows an optimal, linear pedagogical narrative designed for an external reader.
-   - It contains zero references to intermediate scratchpad notes (`doc/rnd/`).
-   - All environments (`\begin{definition}`, `\begin{theorem}`) follow standard LaTeX counter sequences governed exclusively by the monograph's own outline.
+## 3. Conventions and notation
 
----
+State conventions explicitly whenever they affect signs, prefactors, symmetry representations, or physical interpretation. In particular, document as relevant:
 
-## 2. Claim Provenance Protocol (Persistent Claim IDs)
+- lattice graph, sublattice and bond orientation;
+- Fourier-transform and Brillouin-zone conventions;
+- Majorana or parton representation and normalization;
+- gauge constraints and physical-state projection;
+- index ranges, summation conventions, and matrix ordering;
+- boundary conditions and finite-size geometry.
 
-To maintain end-to-end traceability between laboratory exploration, numerical test suites, and canonical publications without structural coupling:
+For the production four-flavor representation, retain the established project notation unless an explicit, reviewed convention change is made. In the notation used by the current R&D notes:
 
-1. **Claim ID Tagging in R&D Notes:**
-   Every formal mathematical statement (Definition, Lemma, Theorem, Proposition, Corollary) in `doc/rnd/` must carry a persistent, immutable claim identifier in an HTML comment tag immediately following the statement header:
-   ```markdown
-   **Theorem (Casimir–Parity Identity)** <!-- claim: CLM-M1-ALG-002 -->
-   Let $\mathcal{D}_i := c_i^0 c_i^1 c_i^2 c_i^3$...
-   ```
-   - Schema: `CLM-<MILESTONE>-<DOMAIN>-<ID>` (e.g., `CLM-M1-ALG-001`, `CLM-M1-BLO-003`, `CLM-M1-COR-002`).
-   - Claim IDs are immutable: they never change even if the note is revised, reordered, or split.
+- `\Lambda = (\mathcal{V},\mathcal{E})` denotes the lattice graph;
+- Latin indices label vertices; Greek indices may label Cartesian spin/bond directions, with their ranges stated locally;
+- `c_i=(c_i^0,c_i^1,c_i^2,c_i^3)^T` denotes the four-flavor Majorana vector;
+- the representation `\sigma_i^\gamma = \frac{i}{2}c_i^T\mathrm{N}^\gamma c_i = i c_i^0c_i^\gamma`, with `\mathrm{N}^\gamma=\frac12(\mathrm{M}^\gamma+\mathrm{G}^\gamma)`, and the associated constraint `T_i^\gamma=\frac{i}{8}c_i^T\mathrm{G}^\gamma c_i=0`, are convention-specific. State the convention and verify it against the defining algebra before reuse.
+- reserve `\eta` for the established project uses (Bogoliubov quasiparticles or the Hund-to-Hubbard ratio) unless a local notation declaration explicitly overrides it.
 
-2. **Provenance Metadata in LaTeX Sources:**
-   When claims are synthesized into the final LaTeX deliverable, their Claim ID, R&D origin, and unit test verification suite are recorded in comment metadata directly preceding the LaTeX environment:
-   ```latex
-   % provenance: CLM-M1-ALG-002
-   % source: doc/rnd/note_01_algebraic_foundations.md
-   % verified_by: test/unit/test_algebra.py::test_casimir_parity_and_pauli
-   \begin{theorem}[Casimir--Parity Identity]
-   \label{thm:casimir_parity}
-   Let $\mathcal{D}_i = c_i^0 c_i^1 c_i^2 c_i^3$...
-   \end{theorem}
-   ```
+Use upright Roman type for named operators and labels where conventional (for example, `\operatorname{tr}`, `\operatorname{Pf}`, `\mathrm{d}k`, `\mathrm{MF}`, `\mathrm{BdG}`) and blackboard bold for number fields and identity operators (for example, `\mathbb{R}`, `\mathbb{C}`, `\mathbb{Z}_2`, `\mathbb{1}`). Punctuate displayed equations as part of the surrounding sentence.
 
-3. **Project State Tracking:**
-   Key benchmark invariants in `PROJECT_STATE.yaml` (e.g., `K-001`, `K-002`) link directly to the corresponding `CLM` identifiers and pytest targets.
+## 4. Code and mathematical notation
 
----
+1. Use descriptive English identifiers by default. Conventional uppercase names for matrices, Hamiltonians, exchange tensors, and operator representations are acceptable when they improve correspondence with the mathematical notation.
+2. Ruff naming exceptions are defined in `pyproject.toml`; do not assume additional exceptions. Do not suppress lint rules locally without a concrete reason.
+3. Avoid semicolon-compressed statements and minified code. Preserve readability and explicit control flow.
 
-## 3. Deductive Mathematical Structure in R&D Notes
-Every theoretical R&D note (`doc/rnd/note_NN_<slug>.md`) must remain self-contained within its specific scope and follow the deductive progression:
-1. **Context & Conventions:** Explicitly state index sets, graph conventions, and Fourier definitions.
-2. **Lemmas & Intermediate Steps:** Document intermediate algebraic contractions and Lie brackets.
-3. **Theorems & Proofs:** Provide step-by-step analytical derivations.
-4. **Limiting Invariants:** Explicitly verify how general expressions reduce to solvable limits (such as the pure Kitaev limit $J = \Gamma = \Gamma' = D = \mathbf{h} = 0$).
+## 5. References and bibliographic integrity
 
----
-
-## 4. Canonical Index and Notation Conventions
-- **Lattice Graph:** $\Lambda = (\mathcal{V}, \mathcal{E})$ with vertex set $\mathcal{V}$ and directed edge set $\mathcal{E}$.
-- **Vertex Indices:** Latin letters $i, j, k, l \in \mathcal{V}$. Nearest-neighbor set of vertex $i$ is $\mathcal{V}_i$.
-- **Directed Bonds:** $\langle ij \rangle_\gamma \in \mathcal{E}$ denotes a nearest-neighbor bond of type $\gamma \in \{1, 2, 3\} \equiv \{x, y, z\}$ oriented from sublattice $A$ (site $i$) to sublattice $B$ (site $j$).
-- **Flavor & Spin Indices:** Greek indices $\alpha, \beta, \gamma \in \{1, 2, 3\}$ label Cartesian spin/bond directions; $\mu, \nu, \rho \in \{0, 1, 2, 3\}$ label all four Majorana flavors $c_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T$.
-- **Fixed Parton Representation:** Fix the Kitaev representation $\sigma_i^\gamma = \frac{i}{2} c_i^T \mathrm{N}^\gamma c_i = i c_i^0 c_i^\gamma$ where $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$, paired with the local gauge constraint $T_i^\gamma = \frac{i}{8} c_i^T \mathrm{G}^\gamma c_i = 0$. Reserve $\eta$ exclusively for Bogoliubov quasiparticles ($\eta_{n,\mathbf{k}}$) or the Hund-to-Hubbard ratio ($J_H/U$).
-- **Typography:** Punctuate all display equations as part of the surrounding grammatical sentence. Use upright Roman font for operators/labels ($\operatorname{tr}$, $\operatorname{Pf}$, $\mathrm{d}k$, $\mathrm{MF}$, $\mathrm{BdG}$) and Blackboard bold for number fields and identity operators ($\mathbb{R}, \mathbb{C}, \mathbb{Z}_2, \mathbb{1}$).
-
----
-
-## 5. Python Code Naming for Mathematical Physics
-- In compliance with mathematical physics conventions, linear algebra matrices, operator representations, and exchange tensors MAY be named using uppercase single- or multi-letter symbols ($H, U, V, A, B, J, M, G, N$) in both argument lists and local scopes.
-- Ruff rules `N802` (function names), `N803` (argument names), and `N806` (variable names) are explicitly ignored in `pyproject.toml` to prevent conflicts with standard Hamiltonian and covariance matrix notation.
-- One-line compound statements with semicolons (`;`) and non-standard minified Python remain strictly prohibited (`E701`, `E702`).
-
----
-
-## 6. Citation and Bibliographic Verification Protocol
-1. **In-Text Citations:** Always use the strict `Author (Year)` or `(Author et al., Year)` format in prose (e.g., `Kitaev (2006)`, `(Freitas et al., 2024)`, `(Rau et al., 2014)`). Never use bare numbered brackets `[1]` in Markdown notes.
-2. **Terminal Bibliography:** Every Markdown document in `doc/rnd/` and `doc/adr/` must end with a `## References` section containing the complete, verified bibliographic details cross-checked against publisher DOIs and `doc/reference/thesis/refs.bib`.
-
----
-
-## 7. Mandatory Documentation of R&D Trials, Anomalies, and Dead Ends
-
-To maintain research provenance and avoid repeating discarded approaches:
-1. **Audit Logs in R&D Notes:** Every technical milestone or major development sprint must document its debugging history, algebraic anomalies, and negative results in an R&D audit note (`doc/rnd/note_NN_<slug>_audit.md` or dedicated `## Numerical Anomalies and Lessons Learned` sections).
-2. **Specific Items to Record:**
-   - **Algebraic Sign Traps:** Contrast between mathematical conventions (e.g., element-wise product sum vs. matrix trace on skew matrices, Wick ordering signs).
-   - **Physical Misconceptions:** Distinguish exact mathematical invariants from approximate or regime-dependent quantities (e.g., conservation of $\mathbb{Z}_2$ Wilson loops in the pure Kitaev model vs. fluctuating links under perturbations).
-   - **Solver Convergence Edge Cases:** Premature stopping conditions (e.g., stationary $U$ while $V$ drifts) and regularizations required for singular KKT matrices.
+1. Cite primary literature, peer-reviewed work, authoritative books, and original software documentation as appropriate to the claim.
+2. Verify bibliographic metadata against publisher records, DOI registries, arXiv records, or the cited source itself. Never invent or infer a DOI, arXiv identifier, title, author list, page range, or publication year.
+3. Use a consistent citation style appropriate to the document. Author-year citations are suitable for Markdown research notes; follow the target journal or publisher style for manuscripts.
+4. Include a references section in research notes and architecture records when they rely on external literature or documentation. Do not add an empty bibliography to documents with no external references.
+5. The thesis bibliography at `doc/reference/thesis/refs.bib` is a useful local reference source, not a substitute for verifying the metadata of a new citation.
