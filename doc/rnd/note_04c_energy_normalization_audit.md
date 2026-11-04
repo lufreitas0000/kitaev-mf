@@ -21,9 +21,9 @@ S_i^\gamma S_j^\gamma,
 \qquad S_i^\gamma=\frac12\sigma_i^\gamma,
 \qquad K_S>0.
 \]
-For the same ferromagnetic model, \(K_{\mathrm P}=-4K_S\), and hence
+For the same ferromagnetic model, \(K_{\mathrm P}=-K_S/4\), and hence
 \[
-H_{\mathrm P}=4H_S.
+H_{\mathrm P}=H_S.
 \]
 The reference value \(E_0=-0.3936K_S\) is **per two-site unit cell**, not per physical site. Therefore, for \(|K_{\mathrm P}|=1\), the corresponding Pauli-convention values are approximately
 \[

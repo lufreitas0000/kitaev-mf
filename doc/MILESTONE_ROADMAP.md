@@ -40,9 +40,9 @@ The absolute-value integrand is continuous with conical/non-differentiable behav
 | ID | Small task | Deliverables | Status |
 |---|---|---|---|
 | M1.4.3b.0 | Correct spin-coupling map and audited midpoint values | Note 04c | in_progress |
-| M1.4.3b.1 | Specify API; tests for mesh restrictions, chunk invariance, direct small-mesh agreement, convergence order | test/unit/test_k006_quadrature.py | in_progress |
-| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | services/quadrature.py | planned |
-| M1.4.3b.3 | Add reproducible CLI, mesh sequence, observed order, empirical Richardson estimate, limitations | scripts/k006_quadrature.py; Note 04d | planned |
+| M1.4.3b.1 | Specify API; tests for mesh restrictions, chunk invariance, direct small-mesh agreement, convergence order | test/unit/test_k006_quadrature.py | awaiting_local_validation |
+| M1.4.3b.2 | Implement chunked NumPy midpoint integral and convergence estimator | src/kitaev_mf/services/quadrature.py | in_progress |
+| M1.4.3b.3 | Add reproducible CLI, mesh sequence, observed order, empirical Richardson estimate, limitations | scripts/k006_quadrature.py; Note 04d | completed |
 | M1.4.3b.4 | Focused test, full suite, Ruff, mypy, diff hygiene; user reports WSL results | local validation record | awaiting_local_validation |
 
 Acceptance:
@@ -53,7 +53,7 @@ Acceptance:
 5. CLI prints meshes, values, successive differences, observed order, and empirical fine-mesh error.
 6. Cross-check U_b^00 = -Ubar and gauge link +1.
 
-Immediate next action: finish the test-only contract commit, then implement the pure quadrature API in M1.4.3b.2. The test-only commit is not represented as locally executed; user WSL validation remains pending.
+M1.4.3b.1 tests are committed but not executed in this environment; M1.4.3b.2 implementation and b.3 documentation are now present. Immediate next action: user pulls this commit and runs the focused test and CLI; fix any failures before advancing.
 
 ## 4. Remaining M1.4 execution order
 
@@ -95,5 +95,6 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - M1.4.3 tests await local WSL validation.
 
 ## 7. Change log
+- M1.4.3b.1 contract tests committed; M1.4.3b.2 implementation and M1.4.3b.3 provenance/CLI added. Local WSL validation pending.
 - M1.4.3b.1 test contract is being added; no local test execution is claimed.
 - Roadmap created; M1.4.3b active; mandatory per-commit progress synchronization introduced.
