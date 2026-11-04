@@ -24,10 +24,7 @@ def _majorana_operators() -> tuple[NDArray[np.complex128], ...]:
     operators: list[NDArray[np.complex128]] = []
     for mode in range(2):
         for local_pauli in (PAULI_X, PAULI_Y):
-            factors = [
-                PAULI_Z if site < mode else IDENTITY_2
-                for site in range(2)
-            ]
+            factors = [PAULI_Z if site < mode else IDENTITY_2 for site in range(2)]
             factors[mode] = local_pauli
             operators.append(_kron_all(factors))
     return tuple(operators)
@@ -52,16 +49,10 @@ def _local_operators() -> tuple[
     majoranas = _majorana_operators()
     parity = majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
     spin = {
-        gamma: (0.5 * _bilinear(majoranas, M_MATRICES[gamma])).astype(
-            np.complex128, copy=False
-        )
-        for gamma in (1, 2, 3)
+        gamma: (0.5 * _bilinear(majoranas, M_MATRICES[gamma])).astype(np.complex128, copy=False)
     }
     gauge = {
-        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(
-            np.complex128, copy=False
-        )
-        for gamma in (1, 2, 3)
+        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(np.complex128, copy=False)
     }
     return parity, spin, gauge
 
@@ -152,13 +143,9 @@ def test_t00b_05_gauge_sign_and_dirac_occupation_parity() -> None:
                 conventional_gauge[alpha] @ conventional_gauge[beta]
                 - conventional_gauge[beta] @ conventional_gauge[alpha]
             )
-            mixed_commutator = (
-                spin[alpha] @ conventional_gauge[beta]
-                - conventional_gauge[beta] @ spin[alpha]
-            )
+            mixed_commutator = spin[alpha] @ conventional_gauge[beta] - conventional_gauge[beta] @ spin[alpha]
             expected_spin = 1.0j * sum(
-                epsilon[alpha - 1, beta - 1, gamma - 1] * spin[gamma]
-                for gamma in (1, 2, 3)
+                epsilon[alpha - 1, beta - 1, gamma - 1] * spin[gamma] for gamma in (1, 2, 3)
             )
             expected_gauge = 1.0j * sum(
                 epsilon[alpha - 1, beta - 1, gamma - 1] * conventional_gauge[gamma]

@@ -24,10 +24,7 @@ def _majorana_operators(num_modes: int) -> tuple[NDArray[np.complex128], ...]:
     operators: list[NDArray[np.complex128]] = []
     for mode in range(num_modes):
         for local_pauli in (PAULI_X, PAULI_Y):
-            factors = [
-                PAULI_Z if site < mode else IDENTITY_2
-                for site in range(num_modes)
-            ]
+            factors = [PAULI_Z if site < mode else IDENTITY_2 for site in range(num_modes)]
             factors[mode] = local_pauli
             operators.append(_kron_all(factors))
     return tuple(operators)
@@ -60,10 +57,7 @@ def _site_parity(
 def _site_spin(
     majoranas: tuple[NDArray[np.complex128], ...],
 ) -> dict[int, NDArray[np.complex128]]:
-    return {
-        gamma: 1.0j * majoranas[0] @ majoranas[gamma]
-        for gamma in COMPONENTS
-    }
+    return {gamma: 1.0j * majoranas[0] @ majoranas[gamma] for gamma in COMPONENTS}
 
 
 def _exchange_tensor(
@@ -92,9 +86,7 @@ def test_t00d_01_exchange_tensor_has_expected_symmetric_and_dm_parts() -> None:
     j_value, k_value, gamma_value, gamma_prime, dm_value = couplings
 
     for gamma in COMPONENTS:
-        tensor = _exchange_tensor(
-            gamma, j_value, k_value, gamma_value, gamma_prime, dm_value
-        )
+        tensor = _exchange_tensor(gamma, j_value, k_value, gamma_value, gamma_prime, dm_value)
         symmetric = 0.5 * (tensor + tensor.T)
         antisymmetric = 0.5 * (tensor - tensor.T)
 
@@ -133,11 +125,7 @@ def test_t00d_02_ordered_edge_sum_equals_single_directed_edge() -> None:
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
             forward += tensor[alpha - 1, beta - 1] * spin[0][alpha] @ spin[1][beta]
-            reverse += (
-                tensor.T[alpha - 1, beta - 1]
-                * spin[1][alpha]
-                @ spin[0][beta]
-            )
+            reverse += tensor.T[alpha - 1, beta - 1] * spin[1][alpha] @ spin[0][beta]
 
     ordered_half_sum = 0.5 * (forward + reverse)
     assert np.allclose(reverse, forward, atol=TOL, rtol=0.0)
@@ -157,8 +145,7 @@ def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None
     majorana_bilinears: list[dict[int, NDArray[np.complex128]]] = []
     for site_majoranas, spin in zip(sites, spins, strict=True):
         operators = {
-            gamma: 4.0 * _bilinear(site_majoranas, N_MATRICES[gamma])
-            for gamma in COMPONENTS
+            gamma: 4.0 * _bilinear(site_majoranas, N_MATRICES[gamma]) for gamma in COMPONENTS
         }
         for gamma in COMPONENTS:
             assert np.allclose(
@@ -173,12 +160,7 @@ def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None
     majorana_exchange = np.zeros_like(identity)
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            spin_exchange += (
-                0.5
-                * tensor[alpha - 1, beta - 1]
-                * spins[0][alpha]
-                @ spins[1][beta]
-            )
+            spin_exchange += 0.5 * tensor[alpha - 1, beta - 1] * spins[0][alpha] @ spins[1][beta]
             majorana_exchange += (
                 0.125
                 * tensor[alpha - 1, beta - 1]
@@ -195,10 +177,7 @@ def test_t00d_04_site_dependent_field_prefactor_is_exact() -> None:
         np.array([0.2, -0.4, 0.7], dtype=np.float64),
         np.array([-0.3, 0.6, 0.1], dtype=np.float64),
     )
-    spin = [
-        _site_spin(_site_majoranas(majoranas, site))
-        for site in (0, 1)
-    ]
+    spin = [_site_spin(_site_majoranas(majoranas, site)) for site in (0, 1)]
     direct_field = np.zeros_like(identity)
     majorana_field = np.zeros_like(identity)
 
@@ -207,9 +186,7 @@ def test_t00d_04_site_dependent_field_prefactor_is_exact() -> None:
         for gamma in COMPONENTS:
             direct_field -= fields[site][gamma - 1] * spin[site][gamma]
             bilinear = 4.0 * _bilinear(site_majoranas, N_MATRICES[gamma])
-            majorana_field -= (
-                0.25 * 2.0 * fields[site][gamma - 1] * bilinear
-            )
+            majorana_field -= 0.25 * 2.0 * fields[site][gamma - 1] * bilinear
 
     assert np.allclose(majorana_field, direct_field, atol=TOL, rtol=0.0)
 
@@ -229,9 +206,7 @@ def test_t00d_05_constraint_multiplier_normalization_and_projection() -> None:
         site_majoranas = _site_majoranas(majoranas, site)
         for gamma in COMPONENTS:
             multiplier = 0.17 * (site + 1) * gamma
-            gauge_generator = 0.5 * _bilinear(
-                site_majoranas, G_MATRICES[gamma]
-            )
+            gauge_generator = 0.5 * _bilinear(site_majoranas, G_MATRICES[gamma])
             i_cGc = 4.0 * _bilinear(site_majoranas, G_MATRICES[gamma])
             assert np.allclose(
                 0.25 * multiplier * i_cGc,
@@ -254,10 +229,7 @@ def test_t00d_06_two_site_projected_spin_and_majorana_hamiltonians_agree() -> No
     identity = np.eye(16, dtype=np.complex128)
     sites = [_site_majoranas(majoranas, site) for site in (0, 1)]
     spin = [_site_spin(site_majoranas) for site_majoranas in sites]
-    local_projectors = [
-        0.5 * (identity + _site_parity(site_majoranas))
-        for site_majoranas in sites
-    ]
+    local_projectors = [0.5 * (identity + _site_parity(site_majoranas)) for site_majoranas in sites]
     physical_projector = local_projectors[0] @ local_projectors[1]
 
     tensor = np.array(
@@ -279,48 +251,28 @@ def test_t00d_06_two_site_projected_spin_and_majorana_hamiltonians_agree() -> No
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
             spin_hamiltonian += 0.5 * (
-                tensor[alpha - 1, beta - 1]
-                * spin[0][alpha]
-                @ spin[1][beta]
-                + tensor.T[alpha - 1, beta - 1]
-                * spin[1][alpha]
-                @ spin[0][beta]
+                tensor[alpha - 1, beta - 1] * spin[0][alpha] @ spin[1][beta]
+                + tensor.T[alpha - 1, beta - 1] * spin[1][alpha] @ spin[0][beta]
             )
             left_bilinear = 4.0 * _bilinear(sites[0], N_MATRICES[alpha])
             right_bilinear = 4.0 * _bilinear(sites[1], N_MATRICES[beta])
             reverse_left = 4.0 * _bilinear(sites[1], N_MATRICES[alpha])
             reverse_right = 4.0 * _bilinear(sites[0], N_MATRICES[beta])
             majorana_hamiltonian += 0.125 * (
-                tensor[alpha - 1, beta - 1]
-                * left_bilinear
-                @ right_bilinear
-                + tensor.T[alpha - 1, beta - 1]
-                * reverse_left
-                @ reverse_right
+                tensor[alpha - 1, beta - 1] * left_bilinear @ right_bilinear
+                + tensor.T[alpha - 1, beta - 1] * reverse_left @ reverse_right
             )
 
     for site in (0, 1):
         for gamma in COMPONENTS:
-            field_bilinear = 4.0 * _bilinear(
-                sites[site], N_MATRICES[gamma]
-            )
-            gauge_bilinear = 4.0 * _bilinear(
-                sites[site], G_MATRICES[gamma]
-            )
+            field_bilinear = 4.0 * _bilinear(sites[site], N_MATRICES[gamma])
+            gauge_bilinear = 4.0 * _bilinear(sites[site], G_MATRICES[gamma])
             spin_hamiltonian -= fields[site][gamma - 1] * spin[site][gamma]
-            majorana_hamiltonian -= (
-                0.25 * 2.0 * fields[site][gamma - 1] * field_bilinear
-            )
-            majorana_hamiltonian += (
-                0.25 * multipliers[site][gamma - 1] * gauge_bilinear
-            )
+            majorana_hamiltonian -= 0.25 * 2.0 * fields[site][gamma - 1] * field_bilinear
+            majorana_hamiltonian += 0.25 * multipliers[site][gamma - 1] * gauge_bilinear
 
-    projected_spin = (
-        physical_projector @ spin_hamiltonian @ physical_projector
-    )
-    projected_majorana = (
-        physical_projector @ majorana_hamiltonian @ physical_projector
-    )
+    projected_spin = physical_projector @ spin_hamiltonian @ physical_projector
+    projected_majorana = physical_projector @ majorana_hamiltonian @ physical_projector
     assert np.allclose(
         projected_majorana,
         projected_spin,

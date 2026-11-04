@@ -25,10 +25,7 @@ def _majorana_operators(num_modes: int) -> tuple[NDArray[np.complex128], ...]:
     operators: list[NDArray[np.complex128]] = []
     for mode in range(num_modes):
         for local_pauli in (PAULI_X, PAULI_Y):
-            factors = [
-                PAULI_Z if site < mode else IDENTITY_2
-                for site in range(num_modes)
-            ]
+            factors = [PAULI_Z if site < mode else IDENTITY_2 for site in range(num_modes)]
             factors[mode] = local_pauli
             operators.append(_kron_all(factors))
     return tuple(operators)
@@ -54,16 +51,10 @@ def _local_operators(
 ]:
     parity = majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
     spin_pauli = {
-        gamma: (1.0j * majoranas[0] @ majoranas[gamma]).astype(
-            np.complex128, copy=False
-        )
-        for gamma in COMPONENTS
+        gamma: (1.0j * majoranas[0] @ majoranas[gamma]).astype(np.complex128, copy=False)
     }
     gauge = {
-        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(
-            np.complex128, copy=False
-        )
-        for gamma in COMPONENTS
+        gamma: (0.5 * _bilinear(majoranas, G_MATRICES[gamma])).astype(np.complex128, copy=False)
     }
     return parity, spin_pauli, gauge
 
@@ -133,8 +124,14 @@ def test_t00c_02_global_projector_is_product_of_local_constraints() -> None:
     assert np.isclose(np.trace(global_projector), 4.0, atol=TOL, rtol=0.0)
 
     total_parity = (
-        majoranas[0] @ majoranas[1] @ majoranas[2] @ majoranas[3]
-        @ majoranas[4] @ majoranas[5] @ majoranas[6] @ majoranas[7]
+        majoranas[0]
+        @ majoranas[1]
+        @ majoranas[2]
+        @ majoranas[3]
+        @ majoranas[4]
+        @ majoranas[5]
+        @ majoranas[6]
+        @ majoranas[7]
     )
     total_parity_projector = 0.5 * (identity + total_parity)
     assert not np.allclose(
@@ -160,10 +157,7 @@ def test_t00c_03_kitaev_bilinears_obey_unprojected_clifford_relations() -> None:
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            anticommutator = (
-                spin_pauli[alpha] @ spin_pauli[beta]
-                + spin_pauli[beta] @ spin_pauli[alpha]
-            )
+            anticommutator = spin_pauli[alpha] @ spin_pauli[beta] + spin_pauli[beta] @ spin_pauli[alpha]
             expected = 2.0 * identity if alpha == beta else zero
             assert np.allclose(anticommutator, expected, atol=TOL, rtol=0.0)
 
@@ -200,14 +194,8 @@ def test_t00c_05_projection_recovers_local_pauli_multiplication() -> None:
         for beta in COMPONENTS:
             expected = identity if alpha == beta else np.zeros_like(identity)
             for gamma in COMPONENTS:
-                expected += (
-                    1.0j
-                    * _levi_civita(alpha, beta, gamma)
-                    * spin_pauli[gamma]
-                )
-            residual = projector @ (
-                spin_pauli[alpha] @ spin_pauli[beta] - expected
-            ) @ projector
+                expected += 1.0j * _levi_civita(alpha, beta, gamma) * spin_pauli[gamma]
+            residual = projector @ (spin_pauli[alpha] @ spin_pauli[beta] - expected) @ projector
             assert np.allclose(residual, 0.0, atol=TOL, rtol=0.0)
 
 
@@ -215,10 +203,7 @@ def test_t00c_06_two_site_projected_operators_form_tensor_product_pauli_algebras
     majoranas = _majorana_operators(4)
     identity = np.eye(16, dtype=np.complex128)
     site_data = [_global_site_operators(majoranas, site) for site in (0, 1)]
-    local_projectors = [
-        0.5 * (identity + site_data[site][0])
-        for site in (0, 1)
-    ]
+    local_projectors = [0.5 * (identity + site_data[site][0]) for site in (0, 1)]
     global_projector = local_projectors[0] @ local_projectors[1]
     projected = [
         {
@@ -231,26 +216,15 @@ def test_t00c_06_two_site_projected_operators_form_tensor_product_pauli_algebras
     for site in (0, 1):
         for alpha in COMPONENTS:
             for beta in COMPONENTS:
-                expected = (
-                    global_projector
-                    if alpha == beta
-                    else np.zeros_like(global_projector)
-                )
+                expected = global_projector if alpha == beta else np.zeros_like(global_projector)
                 for gamma in COMPONENTS:
-                    expected += (
-                        1.0j
-                        * _levi_civita(alpha, beta, gamma)
-                        * projected[site][gamma]
-                    )
+                    expected += 1.0j * _levi_civita(alpha, beta, gamma) * projected[site][gamma]
                 actual = projected[site][alpha] @ projected[site][beta]
                 assert np.allclose(actual, expected, atol=TOL, rtol=0.0)
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            commutator = (
-                projected[0][alpha] @ projected[1][beta]
-                - projected[1][beta] @ projected[0][alpha]
-            )
+            commutator = projected[0][alpha] @ projected[1][beta] - projected[1][beta] @ projected[0][alpha]
             assert np.allclose(commutator, 0.0, atol=TOL, rtol=0.0)
 
 def test_t00c_07_physical_spin_normalization() -> None:
@@ -258,23 +232,11 @@ def test_t00c_07_physical_spin_normalization() -> None:
     parity, spin_pauli, _ = _local_operators(majoranas)
     identity = np.eye(4, dtype=np.complex128)
     physical_projector = 0.5 * (identity + parity)
-    spin_generators = {
-        gamma: 0.5 * _bilinear(majoranas, M_MATRICES[gamma])
-        for gamma in COMPONENTS
-    }
+    spin_generators = {gamma: 0.5 * _bilinear(majoranas, M_MATRICES[gamma]) for gamma in COMPONENTS}
 
     for alpha in COMPONENTS:
-        projected_spin = (
-            physical_projector
-            @ spin_generators[alpha]
-            @ physical_projector
-        )
-        projected_pauli_spin = (
-            0.5
-            * physical_projector
-            @ spin_pauli[alpha]
-            @ physical_projector
-        )
+        projected_spin = physical_projector @ spin_generators[alpha] @ physical_projector
+        projected_pauli_spin = 0.5 * physical_projector @ spin_pauli[alpha] @ physical_projector
         assert np.allclose(
             projected_spin,
             projected_pauli_spin,
@@ -289,8 +251,7 @@ def test_t00c_07_physical_spin_normalization() -> None:
                 - spin_generators[beta] @ spin_generators[alpha]
             )
             expected = 1.0j * sum(
-                _levi_civita(alpha, beta, gamma) * spin_generators[gamma]
-                for gamma in COMPONENTS
+                _levi_civita(alpha, beta, gamma) * spin_generators[gamma] for gamma in COMPONENTS
             )
             assert np.allclose(
                 physical_projector @ (commutator - expected) @ physical_projector,
@@ -299,10 +260,7 @@ def test_t00c_07_physical_spin_normalization() -> None:
                 rtol=0.0,
             )
 
-    spin_casimir = sum(
-        spin_generators[gamma] @ spin_generators[gamma]
-        for gamma in COMPONENTS
-    )
+    spin_casimir = sum(spin_generators[gamma] @ spin_generators[gamma] for gamma in COMPONENTS)
     assert np.allclose(
         physical_projector @ spin_casimir @ physical_projector,
         0.75 * physical_projector,

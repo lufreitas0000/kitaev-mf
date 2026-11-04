@@ -4,7 +4,7 @@ Branch: develop/m1-foundations-review
 Phase: Phase 1 — Analytical Rigor & Domain Foundations
 Active batch: M1.4.3b — Reproducible K-006 quadrature
 Progress policy: every commit atomically updates this file and PROJECT_STATE.yaml; see .agents/rules/04_milestone_progress.md.
-Last known branch head before this update: ee08d060b5cde6f6fdfd9e40c1105a2941b1eb55
+Last known branch head before this update: cc66e7865ed2748b965d183b649a310af01e9de6
 
 ## 0. Resume protocol
 A fresh agent reads AGENTS.md, all .agents/rules/, PROJECT_STATE.yaml, and this roadmap; inspects git status --short --branch and remote head; fetches and fast-forwards only develop/m1-foundations-review using git fetch origin then git merge --ff-only origin/develop/m1-foundations-review; reconciles validation from user reports; and includes both progress files in every commit. Never infer tests passed.
@@ -110,3 +110,5 @@ Each sub-batch receives a focused R&D note/section and atomic progress update.
 - Completed the active-batch formatting adjustment in `test_energetics.py`; no numerical or physical expressions were changed.
 
 - Extended `make verify` to execute the reproducible K-006 quadrature CLI between pytest and static checks; this is a numerical diagnostic, not a unit test.
+
+- Expanded the formatter check back to the full `src/`, `test/`, and `scripts/` tree after applying Ruff's reported formatting-only changes to the remaining legacy test modules; no test logic or physics expressions were changed.

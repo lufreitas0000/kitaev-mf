@@ -32,10 +32,7 @@ def _majorana_operators(num_modes: int) -> tuple[NDArray[np.complex128], ...]:
     operators: list[NDArray[np.complex128]] = []
     for mode in range(num_modes):
         for local_pauli in (PAULI_X, PAULI_Y):
-            factors = [
-                PAULI_Z if site < mode else IDENTITY_2
-                for site in range(num_modes)
-            ]
+            factors = [PAULI_Z if site < mode else IDENTITY_2 for site in range(num_modes)]
             factors[mode] = local_pauli
             operators.append(_kron_all(factors))
     return tuple(operators)
@@ -77,10 +74,7 @@ def test_t00a_01_majorana_car() -> None:
     for mu in range(4):
         assert np.allclose(majoranas[mu].conj().T, majoranas[mu], atol=TOL, rtol=0.0)
         for nu in range(4):
-            anticommutator = (
-                majoranas[mu] @ majoranas[nu]
-                + majoranas[nu] @ majoranas[mu]
-            )
+            anticommutator = majoranas[mu] @ majoranas[nu] + majoranas[nu] @ majoranas[mu]
             expected = 2.0 * identity if mu == nu else np.zeros_like(identity)
             assert np.allclose(anticommutator, expected, atol=TOL, rtol=0.0)
 
@@ -96,14 +90,15 @@ def test_t00a_02_dirac_car_and_inverse_relations() -> None:
             assert np.allclose(
                 d[a] @ d[b].conj().T + d[b].conj().T @ d[a],
                 identity if a == b else zero,
-                atol=TOL, rtol=0.0,
+                atol=TOL,
+                rtol=0.0,
             )
             assert np.allclose(d[a] @ d[b] + d[b] @ d[a], zero, atol=TOL, rtol=0.0)
             assert np.allclose(
-                d[a].conj().T @ d[b].conj().T
-                + d[b].conj().T @ d[a].conj().T,
+                d[a].conj().T @ d[b].conj().T + d[b].conj().T @ d[a].conj().T
                 zero,
-                atol=TOL, rtol=0.0,
+                atol=TOL,
+                rtol=0.0,
             )
 
     reconstructed = (
@@ -131,9 +126,7 @@ def test_t00a_03_bilinear_hermiticity_and_commutator_identity() -> None:
             operator_commutator = a_operator @ b_operator - b_operator @ a_operator
             expected = 1.0j * _bilinear(majoranas, matrix_commutator)
             assert np.allclose(operator_commutator, expected, atol=TOL, rtol=0.0)
-            nonzero_commutator_seen |= not np.allclose(
-                matrix_commutator, 0.0, atol=TOL, rtol=0.0
-            )
+            nonzero_commutator_seen |= not np.allclose(matrix_commutator, 0.0, atol=TOL, rtol=0.0)
 
     assert nonzero_commutator_seen
 
@@ -143,23 +136,19 @@ def test_t00a_04_explicit_gauge_and_spin_contractions() -> None:
     cyclic_pairs = {1: (2, 3), 2: (3, 1), 3: (1, 2)}
 
     for gamma, (gamma_plus, gamma_minus) in cyclic_pairs.items():
-        gauge_contraction = 2.0 * (
-            majoranas[0] @ majoranas[gamma]
-            + majoranas[gamma_plus] @ majoranas[gamma_minus]
-        )
-        spin_contraction = 2.0 * (
-            majoranas[0] @ majoranas[gamma]
-            - majoranas[gamma_plus] @ majoranas[gamma_minus]
-        )
+        gauge_contraction = 2.0 * (majoranas[0] @ majoranas[gamma] + majoranas[gamma_plus] @ majoranas[gamma_minus])
+        spin_contraction = 2.0 * (majoranas[0] @ majoranas[gamma] - majoranas[gamma_plus] @ majoranas[gamma_minus])
         assert np.allclose(
             _bilinear(majoranas, G_MATRICES[gamma]),
             0.25j * gauge_contraction,
-            atol=TOL, rtol=0.0,
+            atol=TOL,
+            rtol=0.0,
         )
         assert np.allclose(
             _bilinear(majoranas, M_MATRICES[gamma]),
             0.25j * spin_contraction,
-            atol=TOL, rtol=0.0,
+            atol=TOL,
+            rtol=0.0,
         )
 
     e_11 = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=np.float64)
@@ -178,49 +167,23 @@ def test_t00a_05_matrix_lie_algebra_and_mutual_commutation() -> None:
         assert np.allclose(M_MATRICES[alpha].T, -M_MATRICES[alpha], atol=TOL, rtol=0.0)
         for beta in (1, 2, 3):
             expected_g = -2.0 * sum(
-                epsilon[alpha - 1, beta - 1, gamma - 1] * G_MATRICES[gamma]
-                for gamma in (1, 2, 3)
+                epsilon[alpha - 1, beta - 1, gamma - 1] * G_MATRICES[gamma] for gamma in (1, 2, 3)
             )
             expected_m = 2.0 * sum(
-                epsilon[alpha - 1, beta - 1, gamma - 1] * M_MATRICES[gamma]
-                for gamma in (1, 2, 3)
+                epsilon[alpha - 1, beta - 1, gamma - 1] * M_MATRICES[gamma] for gamma in (1, 2, 3)
             )
-            commutator_g = (
-                G_MATRICES[alpha] @ G_MATRICES[beta]
-                - G_MATRICES[beta] @ G_MATRICES[alpha]
-            )
-            commutator_m = (
-                M_MATRICES[alpha] @ M_MATRICES[beta]
-                - M_MATRICES[beta] @ M_MATRICES[alpha]
-            )
-            commutator_mg = (
-                M_MATRICES[alpha] @ G_MATRICES[beta]
-                - G_MATRICES[beta] @ M_MATRICES[alpha]
-            )
+            commutator_g = G_MATRICES[alpha] @ G_MATRICES[beta] - G_MATRICES[beta] @ G_MATRICES[alpha]
+            commutator_m = M_MATRICES[alpha] @ M_MATRICES[beta] - M_MATRICES[beta] @ M_MATRICES[alpha]
+            commutator_mg = M_MATRICES[alpha] @ G_MATRICES[beta] - G_MATRICES[beta] @ M_MATRICES[alpha]
             assert np.allclose(commutator_g, expected_g, atol=TOL, rtol=0.0)
             assert np.allclose(commutator_m, expected_m, atol=TOL, rtol=0.0)
             assert np.allclose(commutator_mg, 0.0, atol=TOL, rtol=0.0)
 
 
 def test_t00a_06_full_trace_gram_matrices() -> None:
-    gauge_gram = np.array(
-        [
-            [np.trace(G_MATRICES[a].T @ G_MATRICES[b]) for b in (1, 2, 3)]
-            for a in (1, 2, 3)
-        ]
-    )
-    spin_gram = np.array(
-        [
-            [np.trace(M_MATRICES[a].T @ M_MATRICES[b]) for b in (1, 2, 3)]
-            for a in (1, 2, 3)
-        ]
-    )
-    mixed_gram = np.array(
-        [
-            [np.trace(M_MATRICES[a].T @ G_MATRICES[b]) for b in (1, 2, 3)]
-            for a in (1, 2, 3)
-        ]
-    )
+    gauge_gram = np.array([[np.trace(G_MATRICES[a].T @ G_MATRICES[b]) for b in (1, 2, 3)] for a in (1, 2, 3)])
+    spin_gram = np.array([[np.trace(M_MATRICES[a].T @ M_MATRICES[b]) for b in (1, 2, 3)] for a in (1, 2, 3)])
+    mixed_gram = np.array([[np.trace(M_MATRICES[a].T @ G_MATRICES[b]) for b in (1, 2, 3)] for a in (1, 2, 3)])
 
     assert np.allclose(gauge_gram, 4.0 * np.eye(3), atol=TOL, rtol=0.0)
     assert np.allclose(spin_gram, 4.0 * np.eye(3), atol=TOL, rtol=0.0)

@@ -58,8 +58,8 @@ format:
 lint:
 	@echo "[lint] Ruff rules across src/, test/, and scripts/..."
 	@$(RUFF) check src test scripts
-	@echo "[format] Check production code and tests touched in the active batch..."
-	@$(RUFF) format --check src scripts test/unit/test_energetics.py test/unit/test_k006_quadrature.py
+	@echo "[format] Check formatting across the complete Python source, test, and script tree..."
+	@$(RUFF) format --check src test scripts
 	@echo "[types] Mypy across src/, test/, and scripts/..."
 	@$(MYPY) src test scripts
 

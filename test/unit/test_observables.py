@@ -24,10 +24,7 @@ def _majorana_operators(num_modes: int) -> tuple[NDArray[np.complex128], ...]:
     operators: list[NDArray[np.complex128]] = []
     for mode in range(num_modes):
         for local_pauli in (PAULI_X, PAULI_Y):
-            factors = [
-                PAULI_Z if site < mode else IDENTITY_2
-                for site in range(num_modes)
-            ]
+            factors = [PAULI_Z if site < mode else IDENTITY_2 for site in range(num_modes)]
             factors[mode] = local_pauli
             operators.append(_kron_all(factors))
     return tuple(operators)
@@ -91,10 +88,7 @@ def _spin_operators(
     for site in (0, 1):
         offset = 4 * site
         spins.append(
-            {
-                gamma: 1.0j * majoranas[offset] @ majoranas[offset + gamma]
-                for gamma in COMPONENTS
-            }
+            {gamma: 1.0j * majoranas[offset] @ majoranas[offset + gamma] for gamma in COMPONENTS}
         )
     return spins[0], spins[1]
 
@@ -110,9 +104,7 @@ def _wick_bond_correlator(
     n_beta = N_MATRICES[beta]
     m_i = float(np.trace(onsite_i.T @ n_alpha))
     m_j = float(np.trace(onsite_j.T @ n_beta))
-    exchange_contraction = float(
-        np.trace(n_alpha.T @ bond @ n_beta @ bond.T)
-    )
+    exchange_contraction = float(np.trace(n_alpha.T @ bond @ n_beta @ bond.T))
     pauli = 0.25 * m_i * m_j - 0.5 * exchange_contraction
     return pauli, 0.25 * pauli
 
@@ -143,9 +135,7 @@ def test_observable_two_site_wick_formula_matches_fock_expectation() -> None:
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            pauli_wick, spin_wick = _wick_bond_correlator(
-                bond, onsite[0], onsite[1], alpha, beta
-            )
+            pauli_wick, spin_wick = _wick_bond_correlator(bond, onsite[0], onsite[1], alpha, beta)
             pauli_direct = _expectation(
                 state,
                 spins_i[alpha] @ spins_j[beta],
@@ -172,6 +162,9 @@ def test_observable_wick_formula_contains_nonzero_hartree_and_exchange_terms() -
 
     assert abs(hartree) > 1.0e-6
     assert abs(exchange) > 1.0e-6
-    assert np.isclose(hartree + exchange, _wick_bond_correlator(
-        bond, onsite[0], onsite[1], alpha, beta
-    )[0], atol=TOL, rtol=0.0)
+    assert np.isclose(
+        hartree + exchange,
+        _wick_bond_correlator(bond, onsite[0], onsite[1], alpha, beta)[0],
+        atol=TOL,
+        rtol=0.0,
+    )
