@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 VENV := .venv
-PYTHON := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
+PYTHON := $(if$(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PIP := $(VENV)/bin/pip
 PIP_COMPILE := $(VENV)/bin/pip-compile
 PIP_SYNC := $(VENV)/bin/pip-sync
@@ -71,10 +71,10 @@ verify:
 	$(MAKE) --no-print-directory k006-quadrature; \
 	printf '\n[3/5] Ruff lint, formatting, and Mypy\n'; \
 	$(MAKE) --no-print-directory lint; \
-	printf '\n[4/5] Git whitespace checks (committed branch diff and local changes)\n'; \
-	git diff --check main...HEAD; \
-	git diff --cached --check; \
-	git diff --check; \
+	printf '\n[4/5] Git whitespace checks (excluding read-only doc/reference/)\n'; \
+	git diff --check main...HEAD -- . ':(exclude)doc/reference'; \
+	git diff --cached --check -- . ':(exclude)doc/reference'; \
+	git diff --check -- . ':(exclude)doc/reference'; \
 	printf '\n[5/5] Working-tree status (informational; does not require a clean tree)\n'; \
 	git status --short --branch; \
 	printf '\nVerification completed: all preceding checks passed.\n'

@@ -91,31 +91,31 @@
 
  %%% draw nodes for octahedra 1
         \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (O16) at (0,0,\r) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl2) at (0,0 ,-\r) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl3) at (\r ,0,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl4) at (0 ,\r,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl5) at (-\r ,0,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl6) at (0 ,-\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl2) at (0,0 ,-\r) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl3) at (\r ,0,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl4) at (0 ,\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl5) at (-\r ,0,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl6) at (0 ,-\r,0) {};
 
 %\shade[ball color=darkpink]  (O16)  circle (2mm);
 
  %%% draw edges for octahedra 1
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl3)--(Cl4)--(Cl5)--(Cl6)--(Cl3);
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O16)--(Cl3) (O16)--(Cl4) (O16)--(Cl5) (O16)--(Cl6) (O16)--(Cl3);
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl2)--(Cl3) (Cl2)--(Cl4) (Cl2)--(Cl5) (Cl2)--(Cl6) (Cl2)--(Cl3);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl3)--(Cl4)--(Cl5)--(Cl6)--(Cl3);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O16)--(Cl3) (O16)--(Cl4) (O16)--(Cl5) (O16)--(Cl6) (O16)--(Cl3);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl2)--(Cl3) (Cl2)--(Cl4) (Cl2)--(Cl5) (Cl2)--(Cl6) (Cl2)--(Cl3);
 
 %%% draw nodes for octahedra 2
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (O26) at (\r,-\r,\r) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl22) at (\r,-\r, -\r) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl32) at (\r+\r,-\r,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl42) at (\r,-\r+\r,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl52) at (\r-\r,-\r,0) {};
-    	\node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl62) at (\r,-\r-\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (O26) at (\r,-\r,\r) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl22) at (\r,-\r, -\r) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl32) at (\r+\r,-\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl42) at (\r,-\r+\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl52) at (\r-\r,-\r,0) {};
+        \node[circle, fill=darkpink, draw=black, line width=0.40mm, inner sep=2.8pt, minimum size=2pt] (Cl62) at (\r,-\r-\r,0) {};
 
  %%% draw edges for octahedra 2
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl32)--(Cl42)--(Cl52)--(Cl62)--(Cl32);
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O26)--(Cl32) (O26)--(Cl42) (O26)--(Cl52) (O26)--(Cl62) (O26)--(Cl32);
-  	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl22)--(Cl32) (Cl22)--(Cl42) (Cl22)--(Cl52) (Cl22)--(Cl62) (Cl22)--(Cl32);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl32)--(Cl42)--(Cl52)--(Cl62)--(Cl32);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O26)--(Cl32) (O26)--(Cl42) (O26)--(Cl52) (O26)--(Cl62) (O26)--(Cl32);
+    \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (Cl22)--(Cl32) (Cl22)--(Cl42) (Cl22)--(Cl52) (Cl22)--(Cl62) (Cl22)--(Cl32);
 
 %%% draw  basis vectors
 \coordinate (Oabc) at (2,-2,-4);

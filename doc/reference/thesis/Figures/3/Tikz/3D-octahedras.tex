@@ -91,11 +91,11 @@
 
  %%% draw nodes for octahedra 1
             \node  (O16) at (0,0,\r) {};
-    	\node  (O11) at (0,0 ,-\r) {};
-    	\node  (O12) at (\r ,0,0) {};
-    	\node  (O13) at (0 ,\r,0) {};
-    	\node  (O14) at (-\r ,0,0) {};
-    	\node  (O15) at (0 ,-\r,0) {};
+        \node  (O11) at (0,0 ,-\r) {};
+        \node  (O12) at (\r ,0,0) {};
+        \node  (O13) at (0 ,\r,0) {};
+        \node  (O14) at (-\r ,0,0) {};
+        \node  (O15) at (0 ,-\r,0) {};
 
 
  %%% draw edges for octahedra 1
@@ -104,17 +104,17 @@
         \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O11)--(O12) (O11)--(O13) (O11)--(O14) (O11)--(O15) (O11)--(O12);
 
 %%% draw nodes for octahedra 2
-    	\node  (O26) at (\r,-\r,\r) {};
-    	\node  (O21) at (\r,-\r, -\r) {};
-    	\node  (O22) at (\r+\r,-\r,0) {};
-    	\node  (O23) at (\r,-\r+\r,0) {};
-    	\node  (O24) at (\r-\r,-\r,0) {};
-    	\node  (O25) at (\r,-\r-\r,0) {};
+        \node  (O26) at (\r,-\r,\r) {};
+        \node  (O21) at (\r,-\r, -\r) {};
+        \node  (O22) at (\r+\r,-\r,0) {};
+        \node  (O23) at (\r,-\r+\r,0) {};
+        \node  (O24) at (\r-\r,-\r,0) {};
+        \node  (O25) at (\r,-\r-\r,0) {};
 
  %%% draw edges for octahedra 2
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O22)--(O23)--(O24)--(O25)--(O22);
-    	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O26)--(O22) (O26)--(O23) (O26)--(O24) (O26)--(O25) (O26)--(O22);
-  	\draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O21)--(O22) (O21)--(O23) (O21)--(O24) (O21)--(O25) (O21)--(O22);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O22)--(O23)--(O24)--(O25)--(O22);
+        \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O26)--(O22) (O26)--(O23) (O26)--(O24) (O26)--(O25) (O26)--(O22);
+    \draw[draw=black, line width=\edge,opacity=\edgeopacity,densely dotted] (O21)--(O22) (O21)--(O23) (O21)--(O24) (O21)--(O25) (O21)--(O22);
 
 \foreach \oc in {1,2}{
     \foreach \v in {1,...,6} {
