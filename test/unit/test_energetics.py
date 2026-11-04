@@ -259,10 +259,21 @@ def test_energetics_pure_kitaev_energy_normalization_per_bond_and_site() -> None
     k_value = -1.0
     matter_correlator = -0.5248645
     gauge_correlator = 1.0
-    exchange_energy_per_bond = k_value * (-matter_correlator * gauge_correlator)
-    energy_per_cell = 3.0 * exchange_energy_per_bond
+    bond_energies = []
+
+    for gamma in COMPONENTS:
+        bond = np.zeros((4, 4), dtype=np.float64)
+        bond[0, 0] = matter_correlator
+        bond[gamma, gamma] = gauge_correlator
+        contraction = float(
+            np.trace(N_MATRICES[gamma].T @ bond @ N_MATRICES[gamma] @ bond.T)
+        )
+        pauli_correlator = -0.5 * contraction
+        bond_energies.append(k_value * pauli_correlator)
+
+    energy_per_cell = float(sum(bond_energies))
     energy_per_site = energy_per_cell / 2.0
 
-    assert np.isclose(exchange_energy_per_bond, -0.5248645, atol=1.0e-12, rtol=0.0)
+    assert np.allclose(bond_energies, [-0.5248645] * 3, atol=1.0e-12, rtol=0.0)
     assert np.isclose(energy_per_cell, -1.5745935, atol=1.0e-12, rtol=0.0)
     assert np.isclose(energy_per_site, -0.78729675, atol=1.0e-12, rtol=0.0)
