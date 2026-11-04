@@ -125,10 +125,10 @@ def test_t00d_02_ordered_edge_sum_equals_single_directed_edge() -> None:
 
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
-            forward += spin[0][alpha] @ tensor[alpha - 1, beta - 1] @ spin[1][beta]
+            forward += tensor[alpha - 1, beta - 1] * spin[0][alpha] @ spin[1][beta]
             reverse += (
-                spin[1][alpha]
-                @ tensor.T[alpha - 1, beta - 1]
+                tensor.T[alpha - 1, beta - 1]
+                * spin[1][alpha]
                 @ spin[0][beta]
             )
 
@@ -168,8 +168,8 @@ def test_t00d_03_majorana_bilinear_substitution_and_exchange_prefactor() -> None
         for beta in COMPONENTS:
             spin_exchange += (
                 0.5
+                * tensor[alpha - 1, beta - 1]
                 * spins[0][alpha]
-                @ tensor[alpha - 1, beta - 1]
                 @ spins[1][beta]
             )
             majorana_exchange += (
@@ -272,11 +272,11 @@ def test_t00d_06_two_site_projected_spin_and_majorana_hamiltonians_agree() -> No
     for alpha in COMPONENTS:
         for beta in COMPONENTS:
             spin_hamiltonian += 0.5 * (
-                spin[0][alpha]
-                @ tensor[alpha - 1, beta - 1]
+                tensor[alpha - 1, beta - 1]
+                * spin[0][alpha]
                 @ spin[1][beta]
-                + spin[1][alpha]
-                @ tensor.T[alpha - 1, beta - 1]
+                + tensor.T[alpha - 1, beta - 1]
+                * spin[1][alpha]
                 @ spin[0][beta]
             )
             left_bilinear = 4.0 * _bilinear(sites[0], N_MATRICES[alpha])
