@@ -1,18 +1,59 @@
 project_name: "kitaev-mf"
 version: "0.1.0"
 active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_sprint: "M1.2: Generalized Decoupling & Momentum-Space Bloch Matrices"
+current_sprint: "M1.4.1: Observables and Energetics — analytical contracts"
 
 repository_status:
-  git_branch: "main"
-  clean_working_tree: true
-  ci_status: "passing"
+  git_branch: "develop/m1-foundations-review"
+  clean_working_tree: null
+  clean_working_tree_note: "Not observable through the GitHub branch API; verify locally with git status."
+  ci_status: "not_triggered_by_branch_filter"
+  ci_status_note: "The workflow currently triggers on main, dev, feat/**, fix/**, and doc/**; develop/** is intentionally excluded."
+
+milestone_history:
+  - id: "M1.1"
+    name: "Local Majorana algebra, representation, physical projection, and exact quartic Hamiltonian"
+    status: "completed"
+    validation: "user_reported_local_wsl_pass"
+    evidence:
+      notes:
+        - "doc/rnd/note_00a_local_majorana_algebra_and_conventions.md"
+        - "doc/rnd/note_00b_local_spin_gauge_representation.md"
+        - "doc/rnd/note_00c_physical_projection_and_pauli_algebra.md"
+        - "doc/rnd/note_00d_exchange_tensor_and_quartic_hamiltonian.md"
+        - "doc/rnd/note_00e_m1_1_test_specification_and_validation.md"
+      test_modules:
+        - "test/unit/test_local_majorana_algebra.py"
+        - "test/unit/test_local_majorana_representations.py"
+        - "test/unit/test_physical_projection.py"
+        - "test/unit/test_exchange_hamiltonian.py"
+      test_functions: 25
+      contracts: "A01-A20"
+      validation_scope: "User confirmed successful local test and requested static-check runs after the latest branch update; no assistant-side execution is claimed."
+  - id: "M1.2"
+    name: "Generalized decoupling and momentum-space Bloch matrices"
+    status: "completed"
+    evidence:
+      - "test/unit/test_hamiltonian.py"
+      - "doc/rnd/note_02_momentum_bloch_formalism.md"
+  - id: "M1.3"
+    name: "Project-state synchronization and invariant provenance"
+    status: "completed"
+    evidence:
+      - "doc/rnd/note_00f_m1_3_project_state_and_k006_provenance.md"
+      - "PROJECT_STATE.yaml"
 
 active_milestone:
-  id: "M1.2"
-  description: "Implement Bloch-Majorana Hamiltonian builders for 2-site and 4-site unit cells"
-  dod: "Pass TDD parity checks between 2-site folded and 4-site rectangular dispersions in the pure Kitaev limit to < 1e-14"
-  status: "completed"
+  id: "M1.4.1"
+  description: "Derive and specify observable and energetics conventions, formulas, and analytic limiting cases before implementation."
+  deliverable: "doc/rnd/note_04_observables_energetics.md"
+  dod:
+    - "Define physical observables and distinguish spin, Pauli, and Majorana normalization conventions."
+    - "Derive energy and observable expressions from the established Hamiltonian and covariance conventions."
+    - "State finite-size and Brillouin-zone normalization conventions explicitly."
+    - "Identify analytically controlled limiting cases and independent validation targets."
+    - "Separate exact identities, thermodynamic-limit integrals, and finite-mesh numerical evidence."
+  status: "ready"
 
 hardware_targets:
   local:
@@ -26,22 +67,68 @@ verified_physics_invariants:
   - id: "K-001"
     name: "Clifford CAR algebra generators"
     equation: "{c_i^mu, c_j^nu} = 2 * delta_ij * delta_munu * I"
-    status: "verified"
+    status: "verified_analytical_and_pytest"
+    provenance:
+      analytical: "doc/rnd/note_00a_local_majorana_algebra_and_conventions.md"
+      test: "test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car"
   - id: "K-002"
     name: "Gauge Casimir vs Parity"
     equation: "T_i^2 = (3/8) * (I - D_i)"
-    status: "verified_analytical"
+    status: "verified_analytical_and_pytest"
+    provenance:
+      analytical: "doc/rnd/note_00b_local_spin_gauge_representation.md"
+      test: "test/unit/test_local_majorana_representations.py::test_t00b_03_spin_and_gauge_casimirs_equal_parity_expressions"
   - id: "K-003"
     name: "SO(4) Lie algebra commutation relations"
     equation: "[G^a, G^b] = -2*eps_{abc}*G^c and [M^a, M^b] = 2*eps_{abc}*M^c and [M^a, G^b] = 0"
-    status: "verified_pytest"
+    status: "verified_analytical_and_pytest"
+    provenance:
+      analytical: "doc/rnd/note_00a_local_majorana_algebra_and_conventions.md"
+      tests:
+        - "test/unit/test_local_majorana_algebra.py::test_t00a_05_gauge_spin_lie_algebras_and_mutual_commutation"
+        - "test/unit/test_local_majorana_representations.py::test_t00b_05_gauge_sign_and_dirac_occupation_parity"
   - id: "K-004"
-    name: "Exact Pure Kitaev Analytical Dispersion & Flat Gauge Bands"
+    name: "Exact Pure Kitaev Analytical Dispersion and Flat Gauge Bands"
     equation: "E_c0(k) = +/- (|K| / 2) * |1 + exp(-i*2pi*k1) + exp(-i*2pi*k2)| and E_cg(k) = +/- (|K| / 2) * |u_matter|"
-    status: "verified_pytest"
+    status: "verified_analytical_and_pytest"
+    provenance:
+      analytical: "doc/rnd/note_02_momentum_bloch_formalism.md, Section 4"
+      test: "test/unit/test_hamiltonian.py::test_pure_kitaev_analytical_dispersion"
   - id: "K-005"
     name: "Supercell Brillouin-Zone Folding Parity"
-    equation: "spec(H_4(K)) = spec(H_2(k_a)) U spec(H_2(k_b)) to < 1e-14"
+    equation: "spec(H_4(q)) = spec(H_2(k_a)) U spec(H_2(k_b))"
     status: "verified_pytest"
+    provenance:
+      analytical: "doc/rnd/note_02_momentum_bloch_formalism.md, Section 5"
+      tests:
+        - "test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_pure_kitaev"
+        - "test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_general_couplings"
+      numerical_tolerance: 1.0e-14
+  - id: "K-006"
+    name: "Pure Kitaev thermodynamic-limit matter bond correlator and gauge-link correlator"
+    equation: "U_b^00 = -integral_BZ[(1+cos(2*pi*k1)+cos(2*pi*k2))/|1+exp(-i*2*pi*k1)+exp(-i*2*pi*k2)|] approximately -0.5248645; U_b^(gamma,gamma) = +1"
+    status: "analytical_formula_with_finite_mesh_regression"
+    assumptions:
+      - "K < 0; J = Gamma = Gamma_prime = D = h = lambda = 0"
+      - "Zero-flux gauge background with directed A-to-B gauge link U_b^(gamma,gamma) = +1"
+      - "Two-sublattice primitive honeycomb cell and zero-temperature negative-energy matter-band occupation"
+      - "Particle-hole-symmetric half occupation for exact zero modes"
+    provenance:
+      analytical: "doc/rnd/note_03_correlators_saddle_point.md, Section 3"
+      dispersion: "doc/rnd/note_02_momentum_bloch_formalism.md, Section 4"
+      implementation:
+        - "src/kitaev_mf/services/correlators.py::compute_spectral_projector"
+        - "src/kitaev_mf/services/correlators.py::compute_correlators_from_bloch"
+      regression_test: "test/unit/test_correlators.py::test_pure_kitaev_correlator_invariant_k006"
+    numerical_evidence:
+      mesh: [36, 36]
+      matter_correlator_atol: 0.003
+      gauge_correlator_atol: 1.0e-12
+      onsite_correlator_and_gauge_residual_atol: 1.0e-14
+      decimal_value: "0.5248645 reported from high-precision quadrature in Note 03"
+      limitation: "The committed regression test is a finite-mesh check and does not certify the displayed decimal precision. A standalone high-precision quadrature script or convergence study is not yet committed."
 
-open_blockers: []
+open_blockers:
+  - id: "K-006-QUADRATURE-PROVENANCE"
+    description: "Commit a reproducible high-precision quadrature calculation and convergence/error estimate before treating 0.5248645 as a strict numerical benchmark."
+    severity: "non_blocking_for_M1.3"
