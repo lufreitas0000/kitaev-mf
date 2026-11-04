@@ -16,11 +16,7 @@ If a task appears to conflict with a rule, identify the conflict and resolve it 
 ## 1. Engineering and architecture
 
 1. **No zero-shot implementation.** Before non-trivial code, state the mathematical contract, dependencies, interfaces, and verification strategy. Write focused failing tests before implementation.
-2. **Package layout.** The current production package is under `src/kitaev_mf/`:
-   - `domain/`: mathematical entities, lattice structures, constants, and protocol interfaces. Keep this layer independent of services and infrastructure.
-   - `services/`: physics algorithms operating on domain objects and protocols.
-   - `infra/`: concrete numerical backends, hardware adapters, and persistence.
-   - `app/`: CLI and workflow orchestration.
+2. **Package layout.** This research branch currently retains the legacy `src/domain/` and `src/infra/` layout. The production architecture on `main` is under `src/kitaev_mf/`, with `domain/`, `services/`, `infra/`, and `app/` subpackages. Do not refer to the `main` package paths as if they already exist on this branch. Architecture synchronization is a separate integration task; until then, follow the imports and interfaces actually present in the checked-out branch.
 3. **Dependency direction.** Domain code must not depend on services, infrastructure, or application orchestration. Physics services should depend on domain interfaces, not concrete backend implementations.
 4. **Pure logic and side effects.** Keep mathematical transformations deterministic and side-effect free where practical. Isolate I/O, device allocation, persistence, and workflow orchestration behind explicit interfaces.
 5. **Backend discipline.** Route backend-specific linear algebra through the established backend protocol. Do not leak Torch/device-specific allocation into domain objects or pure physics algorithms.
