@@ -130,6 +130,117 @@ makes the two structure factors identical. Reordering the (x)- and
 The primitive-cell geometry, directed bond count, and Fourier phases do
 not explain the reported factor-four spectral discrepancy.
 
+## B-002 — Rectangular four-site cell as a two-fold supercell
+
+The rectangular Bravais vectors are
+[
+mathbf A_1=mathbf a_1-mathbf a_2,qquad
+mathbf A_2=mathbf a_1+mathbf a_2.
+]
+In primitive-cell integer coordinates, a rectangular translation
+((m_1,m_2)) is therefore
+[
+(n_1,n_2)=(m_1+m_2,-m_1+m_2).
+]
+The rectangular cell has twice the primitive area. Its four basis sites are
+the two primitive-cell sublattices in each of the two cosets
+[
+mathbf t_0=(0,0),qquad mathbf t_1=(1,0),
+]
+where (mathbf t_1) denotes the primitive translation (mathbf a_1).
+In Cartesian coordinates the four sites are
+[
+mathbf r_0=0,quad mathbf r_1=mathbf r_B,quad
+mathbf r_2=mathbf a_1,quad
+mathbf r_3=mathbf a_1+mathbf r_B.
+]
+Thus the production ordering ((0,1,2,3)) is precisely
+((A_0,B_0,A_{mathbf t_1},B_{mathbf t_1})), with the first two
+four-Majorana blocks belonging to coset 0 and the last two to coset 1.
+
+Let (oldsymbolkappa=(kappa_1,kappa_2)) be rectangular fractional
+reciprocal coordinates and (mathbf k=(k_1,k_2)) primitive fractional
+coordinates. Equality of the Bloch phases under the change of direct
+lattice basis gives
+[
+kappa_1=k_1-k_2,qquad
+kappa_2=k_1+k_2.
+]
+For fixed (oldsymbolkappa), the two primitive momenta in the folded
+fiber are
+[
+mathbf k^{(a)}
+=left(rac{kappa_1+kappa_2}{2},
+       rac{kappa_2-kappa_1}{2}ight),qquad
+mathbf k^{(b)}=mathbf k^{(a)}+(1/2,1/2)
+quad(mathrm{mod} 1).
+]
+Both map to the same rectangular momentum because the shift
+((1/2,1/2)) changes (kappa_2) by one and leaves (kappa_1)
+unchanged. This is the two-fold Brillouin-zone folding used in the
+existing production test.
+
+The folding also has an explicit unitary basis transformation. Group the
+four-site Bloch basis by coset, so each coset block has dimension eight
+(two sublattices times four Majoranas). Define
+[
+mathcal U(oldsymbolkappa)
+=rac{1}{sqrt2}
+egin{pmatrix}
+I_8&I_8\
+e^{i2pi k^{(a)}_1}I_8&e^{i2pi k^{(b)}_1}I_8
+end{pmatrix}
+=rac{1}{sqrt2}
+egin{pmatrix}
+I_8&I_8\
+e^{i2pi k^{(a)}_1}I_8&-e^{i2pi k^{(a)}_1}I_8
+end{pmatrix}.
+]
+The columns are orthonormal because the two coset phases differ by
+(e^{ipi}=-1); hence (mathcal U^daggermathcal U=I_{16}).
+With the same cell-periodic Fourier convention as the production builder,
+the matrix identity is
+[
+H_4(oldsymbolkappa)
+=mathcal U(oldsymbolkappa)
+egin{pmatrix}
+H_2(mathbf k^{(a)})&0\
+0&H_2(mathbf k^{(b)})
+end{pmatrix}
+mathcal U(oldsymbolkappa)^dagger.
+]
+The phase in the lower coset row is the Fourier phase of the internal
+primitive translation (mathbf t_1=mathbf a_1). More generally, for a
+bond from coset (s_i) to coset (s_j), its primitive translation is
+(mathbf n=mathbf t_{s_j}+m_1(mathbf a_1-mathbf a_2)
++m_2(mathbf a_1+mathbf a_2)-mathbf t_{s_i}). Its primitive Bloch
+phase factors into the rectangular cell phase and the two coset phases;
+this gives the displayed unitary block decomposition bond by bond.
+
+This identity requires the four-site state and all couplings to be
+translations of the same two-site primitive-cell data. It applies to the
+uniform pure-Kitaev seed used in the existing tests (including anisotropic
+bond couplings and uniform fields), but not to a genuinely enlarged-cell
+mean-field state that breaks primitive translations. In that latter case,
+the four-site cell describes a physically distinct modulation and folding
+into two primitive-cell Hamiltonians is not valid.
+
+The existing tests
+`test_brillouin_zone_folding_parity_pure_kitaev` and
+`test_brillouin_zone_folding_parity_general_couplings` compare sorted
+eigenvalue sets at the two folded momenta. That is useful numerical
+evidence for spectral folding, but it does not directly test the stronger
+matrix identity above. A direct test should construct (mathcal U) and
+check the operator-norm (or Frobenius-norm) residual
+[
+left|H_4-mathcal U,
+mathrm{diag}(H_2(mathbf k^{(a)}),H_2(mathbf k^{(b)}))
+,mathcal U^daggeright|<arepsilon
+]
+at generic momenta, including points on the rectangular Brillouin-zone
+boundary. This direct matrix test remains the numerical acceptance check
+for B-002; the basis and folding map are now derived analytically.
+
 ## B-001/B-002 — Bloch matrix scaling: discrepancy identified
 
 The remaining factor four comes from the matrix used by the production Bloch
