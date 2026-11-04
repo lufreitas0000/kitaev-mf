@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitaev-mf"
@@ -28,6 +28,11 @@ dev = [
 gpu = [
     # PyTorch with CUDA is managed via wheel or Colab runtime
 ]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+namespaces = true
 
 [tool.ruff]
 line-length = 100
