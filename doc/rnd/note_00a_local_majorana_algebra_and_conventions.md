@@ -1,7 +1,7 @@
 # Note 00a: Finite-Lattice Conventions and Local Majorana Algebra
 
-**Status:** M1.1a R&D specification  
-**Parent note:** [Note 00](note_00_algebraic_qft_parton_representation.md)  
+**Status:** M1.1a R&D specification
+**Parent note:** [Note 00](note_00_algebraic_qft_parton_representation.md)
 **Scope:** Clarify conventions and specify independently testable local-algebra contracts. This note supplements Note 00; it does not replace or amend it.
 
 ## 1. Scope and conventions
