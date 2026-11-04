@@ -1,14 +1,14 @@
 name: CI Suite
 
+# Research branches are validated locally. Run hosted CI only when proposing
+# changes for integration into main.
+on:
+  pull_request:
+    branches: [ main ]
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
-
-on:
-  push:
-    branches: [ main, dev, "research/**" ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   test:
