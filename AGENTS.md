@@ -8,6 +8,7 @@ All contributors must follow the modular rules in `.agents/rules/`:
 - `.agents/rules/01_repository_safety.md`: branch safety and simulation-data integrity.
 - `.agents/rules/02_tdd_protocol.md`: test-first implementation and numerical verification.
 - `.agents/rules/03_editorial_rigor.md`: mathematical exposition, claim provenance, notation, and bibliography.
+- `.agents/rules/04_versioning_and_releases.md`: SemVer, changelog maintenance, and release procedure.
 
 If a task appears to conflict with a rule, identify the conflict and resolve it explicitly before implementation. Do not silently bypass a rule.
 
@@ -59,7 +60,14 @@ The research track lives in `doc/rnd/exact-perturbation-theory/` and is intentio
 6. **No premature production integration.** Keep exploratory code isolated until mathematical contracts, tests, and compatibility with the production domain/backend interfaces have been reviewed.
 7. **Generated artifacts.** Place untracked arrays, logs, plots, and build products under `build/rnd/exact-perturbation-theory/`. Commit only compact, reviewed results with reproducibility metadata.
 
-## 5. Conventions and implementation changes
+## 5. Versioning and release governance
+
+1. The package version has one source of truth: `[project].version` in `pyproject.toml`.
+2. Follow Rule 04 for every version bump, changelog entry, pre-release, and release tag.
+3. Only publish releases from `main`. Research milestones and R&D note identifiers do not trigger package version changes.
+4. Do not claim a release exists until its matching tag and GitHub release have been published.
+
+## 6. Conventions and implementation changes
 
 - The production convention documented in the current architecture and Rule 02 is authoritative for existing production mean-field code.
 - The exact perturbation track retains its explicitly stated Hamiltonian and Majorana conventions until B-001/B-002 derive the mapping.
