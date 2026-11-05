@@ -121,6 +121,28 @@ active_milestone:
     on the Grassmannian manifold under K = -1.0, h || [111]; map basins across QSL,
     polarized, and random seeds.
   active_tasks:
+  - id: M1.5-T3
+    title: Living Lab Book Monograph Enrichment, Proof Restitution, and Exploratory Backlog Integration
+    status: in_progress
+    target_files:
+    - doc/labbook/chapters/ch_m1_1_foundations_algebra.tex
+    - doc/labbook/chapters/ch_m1_1b_quasifree_states_and_wick.tex
+    - doc/labbook/chapters/ch_m1_2_bloch_and_folding.tex
+    - doc/labbook/chapters/ch_m1_3_spectral_projector_diis.tex
+    - doc/labbook/chapters/ch_m1_4_observables_energetics.tex
+    - doc/labbook/chapters/ch_m1_4_5_invariants_dualities.tex
+    - doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md
+    - doc/rnd/exploratory/PHASE2_EXPLORATORY_BACKLOG.md
+    - LOG_DISCOVERY_AND_PIVOTS.md
+    contracts:
+    - Clean compilation with 0 warnings/errors under make labbook
+    - Complete restitution of Clifford CAR proofs, single-generator parity theorem, and projected operator equivalence
+    - Zero index clashes and zero symbol collisions
+    - Model-independent derivation of quasi-free states and Wick decoupling as variational Euler-Lagrange equations
+    - Full pgfplotstable rendering of K-006 and reproducible benchmark figures
+    - Formal isolation of Phase 2 exploratory research questions in PHASE2_EXPLORATORY_BACKLOG.md
+    - Full test suite verification under make verify
+    validation: make labbook && make verify
   - id: T1
     title: Grassmannian Solver Implementations (Picard, Broyden, and Newton-Krylov)
     status: in_progress
