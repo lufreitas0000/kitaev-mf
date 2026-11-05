@@ -1,54 +1,181 @@
 \chapter{Milestone M1.2: Mean-Field Decoupling, Bloch Hamiltonians, and Folding Parity}
 \label{ch:m1_2}
 
-% EDITORIAL QUESTION: How is the mean-field variational manifold parameterized on the Grassmannian manifold O(8N)/U(4N)?
-\section{Variational Search on the Grassmannian Manifold}
-Because exact many-body ground states of interacting quartic fermion systems cannot be solved in closed form away from integrability, mean-field theory restricts the variational search to the manifold of fermionic quasi-free (Gaussian) states:
-\begin{equation}
-\mathcal{M} = \{\Omega \in \mathfrak{so}(8N) : \Omega^2 = -\mathbb{1}_{8N}\} \cong \frac{\mathcal{O}(8N)}{U(4N)}.
-\end{equation}
-A state is parameterized by directed-bond correlators $\mathrm{U}_b^{\mu\nu} = \langle i c_i^\mu c_j^\nu \rangle$ and on-site correlators $\mathrm{V}_s^{\mu\nu} = \langle i c_s^\mu c_s^\nu \rangle - i\delta^{\mu\nu}$.
+% EDITORIAL QUESTION: How is the general Grassmannian variational framework specialized to the extended Kitaev honeycomb model?
+\section{Specialization of the Variational Ansatz to the Honeycomb Lattice}
+\label{sec:m1_2_honeycomb_specialization}
+In \Cref{ch:m1_1b}, we established that fermionic mean-field theory is the exact variational restriction of the energy functional $\mathcal{E}(\Omega) = \omega_\Omega(H_\lambda)$ to the real orthogonal Grassmannian manifold $\Gr(4N, 8N)$. We now specialize this model-independent framework to the extended Kitaev model on the bipartite honeycomb lattice $\Lambda = (\mathcal{V}, \mathcal{E})$.
 
-% EDITORIAL QUESTION: Why does the quadratic mean-field Hamiltonian satisfy the affine tangent property with respect to the energy functional?
-\section{Hartree-Fock-Bogoliubov Decoupling and the Tangent Property}
-Applying the generalized Wick theorem decomposes quartic spin interactions into Hartree and Fock exchange channels:
+The physical state is parameterized by the collective covariance tuple $\Xi \equiv (\mathrm{U}, \mathrm{V})$, consisting of:
+\begin{enumerate}
+\item \textbf{Directed-Bond Covariances $\mathrm{U}_b \in \mathbb{R}^{4 \times 4}$:} For each directed edge $b = \langle ij \rangle \in \overrightarrow{\mathcal{E}}_{A \to B}$:
 \begin{equation}
-\langle Q_i^a Q_j^b \rangle = \operatorname{tr}(\mathrm{V}_i^T \mathrm{N}^a)\operatorname{tr}(\mathrm{V}_j^T \mathrm{N}^b) + 2 \operatorname{tr}(\mathrm{U}_{ij}^T \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b).
+\label{eq:m1_2_bond_cov_def}
+\mathrm{U}_b^{\mu\nu} \equiv -\ii \langle c_i^\mu c_j^\nu \rangle_{\mathrm{G}} \in \mathbb{R}^{4 \times 4}, \qquad \mu, \nu \in \{0, 1, 2, 3\}.
 \end{equation}
-The effective quadratic mean-field Hamiltonian is:
+\item \textbf{On-Site Covariances $\mathrm{V}_s \in \mathfrak{so}(4)$:} For each site $i$ on sublattice $s \in \{A, B\}$:
 \begin{equation}
-H_{\mathrm{MF}}[\Xi] = \sum_{i} \sum_{j \in \mathcal{V}_i} \frac{i}{4} c_i^T \mathrm{A}_{ij} c_j + \sum_i \frac{i}{4} c_i^T \mathrm{B}_i c_i - C,
+\label{eq:m1_2_site_cov_def}
+\mathrm{V}_s^{\mu\nu} \equiv -\ii \langle c_{s, i}^\mu c_{s, i}^\nu \rangle_{\mathrm{G}} \in \mathfrak{so}(4), \qquad \mathrm{V}_s^T = -\mathrm{V}_s.
 \end{equation}
-where:
+\end{enumerate}
+In accordance with the workspace notation registry (\Cref{ch:m1_1b}), the symbol $\Xi = (\mathrm{U}, \mathrm{V})$ is the sole collective identifier for mean-field parameters, while $\Gamma, \Gamma'$ are reserved strictly for off-diagonal exchange coupling constants.
+
+% EDITORIAL QUESTION: How are the quadratic mean-field matrices and the double-counting scalar subtraction rigorously assembled?
+\section{Hartree-Fock-Bogoliubov Assembly and Double-Counting Subtraction}
+\label{sec:m1_2_hfb_assembly}
+% SOURCE [VERIFIED]: Freitas et al. (2024), Phys. Rev. B 109, Eqs. (25)-(27) — Majorana HFB decoupling
+Applying the generalized Wick theorem (\Cref{thm:m1_1b_energy_gradient}) to the quartic Hamiltonian $H_\lambda$ decomposes each bond exchange term into Hartree and Fock channels:
+\begin{equation}
+\label{eq:m1_2_wick_channels}
+\langle (\ii c_i^T \mathrm{N}^a c_i)(\ii c_j^T \mathrm{N}^b c_j) \rangle_{\mathrm{G}} = \tr(\mathrm{V}_i^T \mathrm{N}^a) \tr(\mathrm{V}_j^T \mathrm{N}^b) + 2 \tr(\mathrm{U}_{ij}^T \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b).
+\end{equation}
+The resulting single-particle quadratic mean-field Hamiltonian reads:
+\begin{equation}
+\label{eq:m1_2_H_MF_real_space}
+H_{\mathrm{MF}}[\Xi] = \sum_{i \in \mathcal{V}} \sum_{j \in \mathcal{V}_i} \frac{\ii}{4} c_i^T \mathrm{A}_{ij} c_j + \sum_{i \in \mathcal{V}} \frac{\ii}{4} c_i^T \mathrm{B}_i c_i - C,
+\end{equation}
+where the $4 \times 4$ real matrices are defined as:
 \begin{align}
-\mathrm{A}_{ij} &= 2 \sum_{a,b} \mathbf{J}_{ij}^{ab} \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b,\\
-\mathrm{B}_i &= \sum_{j \in \mathcal{V}_i} \sum_{a,b} \mathbf{J}_{ij}^{ab} \mathrm{N}^a \operatorname{tr}(\mathrm{V}_j^T \mathrm{N}^b) + \sum_\gamma (\lambda_i^\gamma \mathrm{G}^\gamma - 2 h^\gamma \mathrm{N}^\gamma).
+\label{eq:m1_2_A_matrix}
+\mathrm{A}_{ij} &= 2 \sum_{a,b=1}^3 \mathbf{J}_{ij}^{ab} \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b, \\
+\label{eq:m1_2_B_matrix}
+\mathrm{B}_i &= \sum_{j \in \mathcal{V}_i} \sum_{a,b=1}^3 \mathbf{J}_{ij}^{ab} \mathrm{N}^a \tr(\mathrm{V}_j^T \mathrm{N}^b) + \sum_{\gamma=1}^3 (\lambda_i^\gamma \mathrm{G}^\gamma - 2 h_i^\gamma \mathrm{N}^\gamma), \\
+\label{eq:m1_2_C_scalar}
+C &= \frac{1}{8} \sum_{i \in \mathcal{V}} \sum_{j \in \mathcal{V}_i} \sum_{a,b=1}^3 \mathbf{J}_{ij}^{ab} \left[ \tr(\mathrm{V}_i^T \mathrm{N}^a) \tr(\mathrm{V}_j^T \mathrm{N}^b) + 2 \tr(\mathrm{U}_{ij}^T \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b) \right].
 \end{align}
-The operator satisfies the exact affine tangent property $\langle H_{\mathrm{MF}}[\Xi] \rangle_{\Xi'} = E[\Xi] + \mathrm{d}E_\Xi[\Xi' - \Xi]$, meaning that $H_{\mathrm{MF}}[\Xi]$ is the exact Riemannian gradient of the energy functional.
+
+\begin{theorem}[Hermiticity, Double-Counting, and Tangent Property]
+\label{thm:m1_2_hfb_properties}
+The quadratic mean-field operator $H_{\mathrm{MF}}[\Xi]$ satisfies:
+\begin{enumerate}
+\item $\mathrm{A}_{ji} = -\mathrm{A}_{ij}^T$ and $\mathrm{B}_i^T = -\mathrm{B}_i$, guaranteeing that $H_{\mathrm{MF}}[\Xi]$ is Hermitian.
+\item \textbf{Scalar Double-Counting Cancellation:} $\langle H_{\mathrm{MF}}[\Xi] \rangle_{\mathrm{G}} = E[\Xi]$. The constant $C = E_{\mathrm{exchange}}$ cancels the factor-of-two overcounting inherent in linearizing quartic interactions.
+\item \textbf{Affine Tangent Property:} For any alternative covariance trial state $\Xi'$:
+\begin{equation}
+\label{eq:m1_2_tangent_property}
+\langle H_{\mathrm{MF}}[\Xi] \rangle_{\Xi'} = E[\Xi] + \mathrm{d}E_\Xi[\Xi' - \Xi].
+\end{equation}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1) Since $\mathrm{N}^a$ are skew-symmetric, $(\mathrm{N}^a)^T = -\mathrm{N}^a$. Using $\mathbf{J}_{ji} = \mathbf{J}_{ij}^T$ and $\mathrm{U}_{ji} = -\mathrm{U}_{ij}^T$:
+\begin{equation}
+\mathrm{A}_{ji} = 2 \sum_{a,b} \mathbf{J}_{ij}^{ba} \mathrm{N}^a (-\mathrm{U}_{ij}^T) \mathrm{N}^b = -2 \sum_{a,b} \mathbf{J}_{ij}^{ba} (\mathrm{N}^b \mathrm{U}_{ij} \mathrm{N}^a)^T = -\mathrm{A}_{ij}^T.
+\end{equation}
+Since $\mathrm{G}^\gamma$ and $\mathrm{N}^\gamma$ are skew, $\mathrm{B}_i^T = -\mathrm{B}_i$. (2) and (3) follow directly from the Euler derivative of quadratic polynomials established in Theorem~\ref{thm:m1_1b_affine_tangent}.
+\end{proof}
+
+\begin{remark}[Ingoing Bond Transposition and DM Interaction]
+\label{rem:m1_2_dm_transposition}
+In evaluating the on-site Hartree field $\mathrm{B}_s$ on sublattice $s$, bonds directed out of $s$ ($b \in \mathcal{E}_{s \to \mathrm{out}}$) contract with $\mathbf{J}_b^{ab}$, whereas bonds directed into $s$ ($b \in \mathcal{E}_{\mathrm{in} \to s}$) contract with the transposed tensor $\mathbf{J}_b^{ba} = (\mathbf{J}_b^T)^{ab}$:
+\begin{equation}
+\label{eq:m1_2_Bs_exact}
+\mathrm{B}_s = \sum_{b \in \mathcal{E}_{s \to \mathrm{out}}} \sum_{a,b=1}^3 \mathbf{J}_b^{ab} \mathrm{N}^a \tr(\mathrm{V}_{s_j}^T \mathrm{N}^b) + \sum_{b \in \mathcal{E}_{\mathrm{in} \to s}} \sum_{a,b=1}^3 \mathbf{J}_b^{ba} \mathrm{N}^a \tr(\mathrm{V}_{s_i}^T \mathrm{N}^b) + \sum_{\gamma=1}^3 (\lambda_s^\gamma \mathrm{G}^\gamma - 2 h_s^\gamma \mathrm{N}^\gamma).
+\end{equation}
+Because the Dzyaloshinskii-Moriya tensor $D_\gamma(\delta^{a\gamma^+}\delta^{b\gamma^-} - \delta^{a\gamma^-}\delta^{b\gamma^+})$ is antisymmetric under $a \leftrightarrow b$, transposition flips the DM sign on ingoing edges. Neglecting this transposition introduces an unphysical sign error in chiral and non-coplanar magnetic states.
+\end{remark}
 
 % EDITORIAL QUESTION: How is the real-space skew-symmetric hopping matrix transformed into the complex Hermitian Bloch Hamiltonian H(k)?
-\section{Momentum-Space Bloch Assembly}
-Using dimensionless fractional coordinates $\mathbf{k} = (k_1, k_2) \in [0, 1)^2$ dual to Bravais vectors $(\mathbf{a}_1, \mathbf{a}_2)$, the Fourier transform yields the complex Hermitian Bloch matrix:
+\section{Reciprocal-Space Discrete Fourier Transform and Bloch Assembly}
+\label{sec:m1_2_bloch_assembly}
+On a lattice of $N_{\mathrm{cell}}$ unit cells with $N_{\mathrm{sub}}$ sublattices, we define the discrete Fourier transform for Majorana fields:
 \begin{equation}
-\mathcal{H}(\mathbf{k}) = \frac{i}{4}\mathcal{M}(\mathbf{k}) \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}}, \qquad \mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k}).
+\label{eq:m1_2_dft}
+c_{s, \mathbf{R}}^\mu = \frac{1}{\sqrt{N_{\mathrm{cell}}}} \sum_{\mathbf{k} \in \mathrm{BZ}} c_{s, \mathbf{k}}^\mu e^{\ii \mathbf{k} \cdot \mathbf{R}}, \qquad c_{s, \mathbf{k}}^\mu = \frac{1}{\sqrt{N_{\mathrm{cell}}}} \sum_{\mathbf{R}} c_{s, \mathbf{R}}^\mu e^{-\ii \mathbf{k} \cdot \mathbf{R}}.
 \end{equation}
-Off-diagonal blocks carry the exact phase factors $\phi_b(\mathbf{k}) = 2\pi(k_1 n_{1,b} + k_2 n_{2,b})$. Particle-hole symmetry enforces $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k}) = -\mathcal{H}^T(\mathbf{k})$.
+The reciprocal operators obey $(c_{s, \mathbf{k}}^\mu)^\dagger = c_{s, -\mathbf{k}}^\mu$ and $\{c_{s, \mathbf{k}}^\mu, (c_{s', \mathbf{k}'}^\nu)^\dagger\} = 2\delta_{ss'} \delta^{\mu\nu} \delta_{\mathbf{k}\mathbf{k}'} \Id$.
+
+In dimensionless fractional coordinates $(k_1, k_2) \in [0, 1)^2$ dual to Bravais vectors $(\mathbf{a}_1, \mathbf{a}_2)$, a directed bond $b$ with lattice displacement $\Delta \mathbf{R}_b = n_{1, b} \mathbf{a}_1 + n_{2, b} \mathbf{a}_2$ carries the exact phase factor:
+\begin{equation}
+\label{eq:m1_2_bond_phase}
+\phi_b(\mathbf{k}) = 2\pi(k_1 n_{1, b} + k_2 n_{2, b}).
+\end{equation}
+
+\begin{definition}[Bloch Hamiltonian Matrix]
+\label{def:m1_2_bloch_matrix}
+The quadratic mean-field Hamiltonian in reciprocal space is:
+\begin{equation}
+\label{eq:m1_2_bloch_hamiltonian_operator}
+H_{\mathrm{MF}} = \frac{1}{2} \sum_{\mathbf{k} \in \mathrm{BZ}} \boldsymbol{\Psi}_{\mathbf{k}}^\dagger \mathcal{H}(\mathbf{k}) \boldsymbol{\Psi}_{\mathbf{k}} - C,
+\end{equation}
+where $\boldsymbol{\Psi}_{\mathbf{k}} = (c_{1, \mathbf{k}}^0, \dots, c_{N_{\mathrm{sub}}, \mathbf{k}}^3)^T \in \mathbb{C}^{4 N_{\mathrm{sub}}}$ and $\mathcal{H}(\mathbf{k}) = \frac{\ii}{4}\mathcal{M}(\mathbf{k})$ is a $4 N_{\mathrm{sub}} \times 4 N_{\mathrm{sub}}$ complex Hermitian matrix.
+In the 2-sublattice primitive cell ($N_{\mathrm{sub}} = 2$):
+\begin{equation}
+\label{eq:m1_2_bloch_2_sublattice}
+\mathcal{H}_2(\mathbf{k}) = \begin{pmatrix} \frac{\ii}{4}\mathrm{B}_A & \frac{\ii}{4}\mathcal{M}_{AB}(\mathbf{k}) \\ -\frac{\ii}{4}\mathcal{M}_{AB}^\dagger(\mathbf{k}) & \frac{\ii}{4}\mathrm{B}_B \end{pmatrix}, \qquad \mathcal{M}_{AB}(\mathbf{k}) = \sum_{\gamma \in \{x, y, z\}} \mathrm{A}_\gamma e^{\ii \phi_\gamma(\mathbf{k})}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Spectral Symmetries and Quasiparticle Normalization Factor 4]
+\label{prop:m1_2_spectral_symmetries}
+The Bloch matrix satisfies Hermiticity and particle-hole symmetry:
+\begin{equation}
+\label{eq:m1_2_hermiticity_phs}
+\mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k}), \qquad \mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k}) = -\mathcal{H}^T(\mathbf{k}).
+\end{equation}
+Consequently, eigenvalues appear in opposite-energy pairs $\{\pm \mathcal{E}_n(\mathbf{k})\}$. The physical Bogoliubov quasiparticle excitation energies $\varepsilon_n(\mathbf{k})$ satisfy the exact factor-4 scaling:
+\begin{equation}
+\label{eq:m1_2_factor_4_excitation}
+\varepsilon_n(\mathbf{k}) = 4 \mathcal{E}_n(\mathbf{k}).
+\end{equation}
+\end{proposition}
+\begin{proof}
+In the canonical real-space Majorana form $H_{\mathrm{MF}} = \frac{\ii}{4}\mathbf{c}^T M_{\mathrm{real}} \mathbf{c}$, standard Bogoliubov transformation into complex Dirac quasiparticles $\gamma_n^\dagger \gamma_n$ demonstrates that the physical excitation energy required to add a Bogoliubov quasiparticle to the ground state is equal to the positive eigenvalue of $\ii M_{\mathrm{real}}$. Because $\mathcal{H}(\mathbf{k}) = \frac{\ii}{4}\mathcal{M}(\mathbf{k})$, the eigenvalues of $\ii \mathcal{M}(\mathbf{k})$ are exactly $4\mathcal{E}_n(\mathbf{k})$.
+\end{proof}
 
 % EDITORIAL QUESTION: What are the exact analytical dispersion relations and flat bands of the pure Kitaev limit?
-\section{Pure-Kitaev Dispersion and Gauge Flat Bands}
+\section{Pure-Kitaev Dispersion and Flat Gauge Bands}
+\label{sec:m1_2_pure_kitaev_dispersion}
 % SOURCE [VERIFIED]: Kitaev (2006), Ann. Phys. 321, 2-111, Sec. 3 — Exact dispersion relation
 % CLAIM: K-004 (provenance: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, test: test/unit/test_hamiltonian.py::test_pure_kitaev_analytical_dispersion)
-In the 2-sublattice primitive cell with $K < 0$, $u_{\mathrm{gauge}} = +1.0$, and uniform matter hopping $u_{\mathrm{matter}}$:
-\begin{itemize}
-    \item \textbf{Matter Bands ($c^0$)}: $\mathcal{E}_{c^0}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}1 + e^{-i 2\pi k_1} + e^{-i 2\pi k_2}\vert{}$, exhibiting Dirac cones at $K, K'$ and bandwidth $3\vert{}K\vert{}$.
-    \item \textbf{Gauge Bands ($c^\gamma$)}: $\mathcal{E}_{c^\gamma}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}u_{\mathrm{matter}}\vert{}$, strictly flat across the Brillouin zone.
-\end{itemize}
+
+\begin{theorem}[Exact Dispersion in the Pure Kitaev Limit]
+\label{thm:m1_2_pure_kitaev_dispersion}
+In the 2-sublattice primitive cell with isotropic ferromagnetic Kitaev coupling $K < 0$, $J = \Gamma = \Gamma' = D = \mathbf{h} = \boldsymbol{\lambda} = \mathbf{0}$, uniform directed gauge links $\mathrm{U}_b^{\gamma\gamma} = u_{\mathrm{gauge}} = +1.0$, and uniform matter correlator $\mathrm{U}_b^{00} = u_{\mathrm{matter}}$:
+\begin{enumerate}
+\item \textbf{Matter Bands ($c^0$):} The two matter Majorana bands exhibit the exact conical dispersion:
+\begin{equation}
+\label{eq:m1_2_matter_dispersion}
+\mathcal{E}_{c^0}(\mathbf{k}) = \pm \frac{|K|}{2} |1 + e^{-\ii 2\pi k_1} + e^{-\ii 2\pi k_2}| = \pm \frac{|K|}{2} \sqrt{3 + 2\cos(2\pi k_1) + 2\cos(2\pi k_2) + 2\cos(2\pi(k_1 - k_2))}.
+\end{equation}
+At $\mathbf{k} = \mathbf{0}$, $\mathcal{E}_{c^0}(\mathbf{0}) = \pm \frac{3|K|}{2}$, reproducing the exact bandwidth $3|K|$. At $K, K' = (\pm 1/3, \mp 1/3)$, the dispersion vanishes linearly, realizing massless 2D Majorana Dirac cones.
+\item \textbf{Gauge Bands ($c^1, c^2, c^3$):} The six gauge Majorana bands are strictly flat across the entire Brillouin zone:
+\begin{equation}
+\label{eq:m1_2_gauge_flat_bands}
+\mathcal{E}_{c^\gamma}(\mathbf{k}) = \pm \frac{|K|}{2} |u_{\mathrm{matter}}|.
+\end{equation}
+When $u_{\mathrm{matter}} = 0$, all six gauge bands reside at zero energy, reflecting localized static flux degrees of freedom.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Evaluating $(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{\mu\nu}$ for the pure Kitaev tensor yields non-zero entries only on the diagonal: $(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{00} = -u_{\mathrm{gauge}} = -1$ and $(\mathrm{N}^\gamma \mathrm{U}_b \mathrm{N}^\gamma)_{\gamma\gamma} = -u_{\mathrm{matter}}$. Thus $\mathrm{A}_b^{00} = 2|K|$ and $\mathrm{A}_b^{\gamma\gamma} = 2|K|u_{\mathrm{matter}}$. With Bravais offsets $\Delta\mathbf{R}_z = (0,0)$, $\Delta\mathbf{R}_x = (0,-1)$, $\Delta\mathbf{R}_y = (-1,0)$, the matter off-diagonal element is $\mathcal{H}_{A0, B0}(\mathbf{k}) = \frac{\ii|K|}{2}(1 + e^{-\ii 2\pi k_1} + e^{-\ii 2\pi k_2})$, which diagonalizes to Eq.~\eqref{eq:m1_2_matter_dispersion}. Since each gauge flavor hops only across its own bond direction, it has no interference phase and yields strictly flat eigenvalues.
+\end{proof}
 
 % EDITORIAL QUESTION: How is gauge and translational invariance verified between primitive and supercell representations via BZ folding?
 \section{Supercell Brillouin-Zone Folding Parity}
+\label{sec:m1_2_folding_parity}
 % CLAIM: K-005 (provenance: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, test: test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_pure_kitaev)
-In the 4-sublattice rectangular cell ($\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2, \mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$), the $16 \times 16$ Hamiltonian $\mathcal{H}_4(\mathbf{q})$ satisfies exact unitary equivalence with the direct sum of folded primitive Hamiltonians:
+
+\begin{theorem}[Exact Unitary Folding Equivalence]
+\label{thm:m1_2_folding_equivalence}
+Let $\mathbf{q} = (q_1, q_2) \in [0, 1)^2$ denote fractional reciprocal coordinates in the 4-sublattice rectangular supercell with lattice vectors $\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2$ and $\mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$. The $16 \times 16$ supercell Bloch Hamiltonian $\mathcal{H}_4(\mathbf{q})$ is unitarily equivalent to the direct sum of two folded $8 \times 8$ primitive Hamiltonians:
 \begin{equation}
+\label{eq:m1_2_folding_unitary}
 \mathcal{H}_4(\mathbf{q}) = W(\mathbf{q}) \left[ \mathcal{H}_2(\mathbf{k}^{(1)}) \oplus \mathcal{H}_2(\mathbf{k}^{(2)}) \right] W^\dagger(\mathbf{q}),
 \end{equation}
-where $\mathbf{k}^{(1)} = (\frac{q_1 + q_2}{2}, \frac{q_2 - q_1}{2})$ and $\mathbf{k}^{(2)} = \mathbf{k}^{(1)} + (\frac{1}{2}, \frac{1}{2})$. Numerical verification confirms spectral equivalence to $< 10^{-14}$.
+where the two folded primitive momenta are:
+\begin{equation}
+\label{eq:m1_2_folded_momenta}
+\mathbf{k}^{(1)} = \left(\frac{q_1 + q_2}{2} \bmod 1, \; \frac{q_2 - q_1}{2} \bmod 1\right), \qquad \mathbf{k}^{(2)} = \left(\frac{q_1 + q_2 + 1}{2} \bmod 1, \; \frac{q_2 - q_1 + 1}{2} \bmod 1\right).
+\end{equation}
+The unitary transformation $W(\mathbf{q}) \in \mathbb{C}^{16 \times 16}$ has explicit block entries:
+\begin{equation}
+\label{eq:m1_2_W_matrix}
+W_{(r, s, \mu), (\kappa, s', \mu')} = \delta_{ss'} \delta_{\mu\mu'} \frac{e^{\ii 2\pi \mathbf{k}^{(\kappa)} \cdot \mathbf{r}^{(r)}}}{\sqrt{2}},
+\end{equation}
+where $\kappa \in \{1, 2\}$ indexes the folded momentum, $s, s' \in \{A, B\}$ label sublattices, $\mu, \mu' \in \{0, 1, 2, 3\}$ label Majorana flavors, and $\mathbf{r}^{(0)} = (0, 0)$, $\mathbf{r}^{(1)} = (1, 0)$ represent the primitive cell origins within the supercell.
+\end{theorem}
+\begin{proof}
+Because $\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2$ and $\mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$, the reciprocal vectors satisfy $\mathbf{B}_1 = \frac{1}{2}(\mathbf{b}_1 - \mathbf{b}_2)$ and $\mathbf{B}_2 = \frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2)$. Expanding $\mathbf{q} = q_1 \mathbf{B}_1 + q_2 \mathbf{B}_2$ gives $\mathbf{k}^{(1)}$. The second momentum is shifted by the half-reciprocal lattice vector $\mathbf{Q}_{\mathrm{fold}} = \mathbf{B}_2 = \frac{1}{2}(\mathbf{b}_1 + \mathbf{b}_2)$. Unitarity $W W^\dagger = \Id_{16}$ follows from $\sum_{r=0}^1 e^{\ii 2\pi (\mathbf{k}^{(\kappa)} - \mathbf{k}^{(\kappa')}) \cdot \mathbf{r}^{(r)}} = 2 \delta_{\kappa\kappa'}$. Direct numerical similarity transformation verifies Eq.~\eqref{eq:m1_2_folding_unitary} to machine precision ($< 10^{-14}$).
+\end{proof}
