@@ -1,0 +1,299 @@
+\chapter{Quasi-Free States, Wick's Theorem, and the Variational Grassmannian}
+\label{ch:m1_1b}
+
+% EDITORIAL QUESTION: Why is Wick factorisation a property of the state rather than an operator identity?
+\section{Motivating Example: The Failure of Operator Decoupling on Two Spins}
+\label{sec:m1_1b_motivating_example}
+In conventional treatments of condensed matter mean-field theory, Hartree--Fock--Bogoliubov decoupling is frequently presented as an intuitive operator replacement:
+\begin{equation}
+\label{eq:m1_1b_naive_decoupling}
+A B C D \stackrel{?}{\approx} \langle A B \rangle C D + A B \langle C D \rangle - \langle A C \rangle B D - \dots
+\end{equation}
+Such an expression cannot hold as an algebraic identity between operators.
+
+% CLAIM: CLM-M1-QF-001 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_02_wick_fails_for_generic_non_gaussian_state)
+\begin{proposition}[Failure of Operator-Level Wick Decoupling on States]
+\label{prop:m1_1b_wick_failure}
+Consider two spin-$1/2$ moments on a single bond $\langle ij \rangle$ governed by the ferromagnetic Kitaev interaction $H = -K \sigma_i^z \sigma_j^z$ with $K > 0$. Using the exact Majorana representation $\sigma_i^z = -\ii c_i^0 c_i^z$ and $\sigma_j^z = -\ii c_j^0 c_j^z$, the exchange Hamiltonian is quartic:
+\begin{equation}
+\label{eq:m1_1b_two_spin_quartic}
+H = K (c_i^0 c_i^z)(c_j^0 c_j^z).
+\end{equation}
+For an entangled spin singlet state $|\Psi_{\mathrm{singlet}}\rangle = \frac{1}{\sqrt{2}}(|\!\uparrow\downarrow\rangle - |\!\downarrow\uparrow\rangle)$, the truncated fourth cumulant:
+\begin{equation}
+\label{eq:m1_1b_fourth_cumulant}
+\kappa_4(c_i^0, c_i^z, c_j^0, c_j^z) \equiv \langle c_i^0 c_i^z c_j^0 c_j^z \rangle - \left[ \langle c_i^0 c_i^z \rangle \langle c_j^0 c_j^z \rangle - \langle c_i^0 c_j^0 \rangle \langle c_i^z c_j^z \rangle + \langle c_i^0 c_j^z \rangle \langle c_i^z c_j^0 \rangle \right],
+\end{equation}
+does not vanish ($\kappa_4 \neq 0$).
+\end{proposition}
+\begin{proof}
+Direct evaluation on the 4-dimensional Fock space shows that the exact singlet state has $\langle \sigma_i^z \sigma_j^z \rangle = -1$. In contrast, the product of two-point expectations evaluates to zero or positive values depending on gauge alignment. Thus $\kappa_4 \ne 0$ identically.
+\end{proof}
+
+This elementary counterexample establishes the epistemological foundation of this chapter: **Wick's theorem is not an identity on the operator algebra; it is a structural property characterizing a restricted family of states—the quasi-free (or Gaussian) states.** Mean-field theory is the restriction of the quantum variational principle to this state manifold.
+
+% EDITORIAL QUESTION: How is a finite spin system formulated rigorously in algebraic quantum field theory (AQFT)?
+\section{Finite Quasi-Local Spin Nets and the State Space}
+\label{sec:m1_1b_aqft_spin_nets}
+% SOURCE [VERIFIED]: Bratteli & Robinson (1997), Operator Algebras and Quantum Statistical Mechanics II, Sec. 5.2 — Quasi-local spin systems
+% CLAIM: CLM-M1-QF-002 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md)
+Let $\Lambda = (\mathcal{V}, \mathcal{E})$ be a finite bipartite graph consisting of $N = |\mathcal{V}|$ lattice sites.
+
+\begin{definition}[Finite Quasi-Local Spin Net]
+\label{def:m1_1b_spin_net}
+To each subset of sites $X \subseteq \mathcal{V}$, associate the finite-dimensional $C^*$-algebra $\mathcal{A}_X \equiv \bigotimes_{i \in X} \mathcal{B}(\mathcal{H}_i) \cong \bigotimes_{i \in X} M_2(\mathbb{C})$. The family $\{\mathcal{A}_X\}_{X \subseteq \mathcal{V}}$ constitutes a quasi-local net satisfying:
+\begin{enumerate}
+\item \textbf{Isotony:} $X \subseteq Y \implies \mathcal{A}_X \subseteq \mathcal{A}_Y$ via the canonical unital embedding $A \mapsto A \otimes \Id_{Y \setminus X}$.
+\item \textbf{Microcausality (Strict Locality):} If $X \cap Y = \emptyset$, then $[A, B] = 0$ for all $A \in \mathcal{A}_X$ and $B \in \mathcal{A}_Y$.
+\item \textbf{Quasi-Local Observable Algebra:} The global observable algebra is $\ALambda \equiv \mathcal{A}_{\mathcal{V}} \cong M_{2^N}(\mathbb{C})$.
+\end{enumerate}
+\end{definition}
+
+A **state** $\omega$ on $\ALambda$ is a normalized positive linear functional $\omega: \ALambda \to \mathbb{C}$ ($\omega(\Id) = 1$ and $\omega(A^\dagger A) \ge 0$). By the finite-dimensional Gelfand--Naimark--Segal (GNS) theorem, every state is uniquely represented by a density matrix $\rho \in \ALambda$ such that:
+\begin{equation}
+\label{eq:m1_1b_density_matrix}
+\rho \ge 0, \qquad \Tr(\rho) = 1, \qquad \omega(A) = \Tr(\rho A).
+\end{equation}
+The state space $\mathcal{S}(\ALambda)$ is convex and compact. A local Hamiltonian is specified by an interaction potential $\Phi: \mathcal{P}(\mathcal{V}) \to \ALambda$ with $\Phi(X) = \Phi(X)^\dagger \in \mathcal{A}_X$, yielding:
+\begin{equation}
+\label{eq:m1_1b_hamiltonian_general}
+H = \sum_{X \subseteq \mathcal{V}} \Phi(X).
+\end{equation}
+The exact quantum ground-state energy is the convex minimum over all states:
+\begin{equation}
+\label{eq:m1_1b_exact_variational_energy}
+E_0 = \min_{\omega \in \mathcal{S}(\ALambda)} \omega(H) = \min_{\substack{\rho \ge 0 \\ \Tr\rho = 1}} \Tr(\rho H).
+\end{equation}
+
+% EDITORIAL QUESTION: How does the spin net embed into the self-dual CAR algebra, and what is the role of parity superselection?
+\section{Majorana Representation Theory and Graded Locality}
+\label{sec:m1_1b_representation_theory}
+% CLAIM: CLM-M1-QF-003 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_08_graded_locality_vs_spin_commutativity)
+Let $V \cong \mathbb{R}^{2n}$ with $2n = 8N$ be the real Euclidean space spanned by the Majorana generators.
+
+\begin{definition}[Self-Dual CAR Algebra and $\mathbb{Z}_2$-Grading]
+\label{def:m1_1b_car_grading}
+The self-dual Canonical Anticommutation Relations algebra $\mathcal{A}_{\mathrm{CAR}}(V) \cong \Cl(V)$ is the unital $*$-algebra generated by Hermitian elements $\{c_a : a = 1, \dots, 2n\}$ satisfying $\{c_a, c_b\} = 2\delta_{ab}\Id$. The parity automorphism $\Theta(c_a) = -c_a$ induces the canonical $\mathbb{Z}_2$-grading:
+\begin{equation}
+\label{eq:m1_1b_z2_grading}
+\mathcal{A}_{\mathrm{CAR}} = \mathcal{A}_{\mathrm{CAR}}^+ \oplus \mathcal{A}_{\mathrm{CAR}}^-,
+\end{equation}
+where even elements commute at spacelike separation, while odd elements anticommute (\textbf{graded locality}):
+\begin{equation}
+\label{eq:m1_1b_graded_locality}
+A \in \mathcal{A}_X^-, \quad B \in \mathcal{A}_Y^- \implies \{A, B\} = 0 \quad (X \cap Y = \emptyset).
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Parity Superselection and Spin Embedding]
+\label{thm:m1_1b_parity_superselection}
+The local spin algebra $\mathcal{A}_{\mathrm{spin}, i}$ embeds into the parity-even gauge-invariant subalgebra of $\mathcal{A}_{\mathrm{CAR}, i}$:
+\begin{equation}
+\label{eq:m1_1b_spin_embedding}
+\mathcal{A}_{\mathrm{spin}, i} \cong P_{G, i} \mathcal{A}_{\mathrm{CAR}, i}^+ P_{G, i}, \qquad P_{G, i} = \frac{\Id + \mathcal{D}_i}{2}.
+\end{equation}
+Because physical spin operators are even quadratic monomials ($\sigma_i^a = -\ii c_i^0 c_i^a \in \mathcal{A}_{\mathrm{CAR}, i}^+$), they commute identically on distinct lattice sites:
+\begin{equation}
+\label{eq:m1_1b_spin_commutativity}
+[\sigma_i^a, \sigma_j^b] = 0 \quad \forall i \ne j,
+\end{equation}
+recovering ordinary bosonic microcausality despite the underlying fermionic CAR grading.
+\end{theorem}
+
+% EDITORIAL QUESTION: How are quasi-free states defined on the CAR algebra, and what makes Wick's theorem exact?
+\section{Quasi-Free States and the Pfaffian Theorem}
+\label{sec:m1_1b_quasifree_states}
+% SOURCE [VERIFIED]: Araki (1970), Publ. RIMS Kyoto Univ. 6, 385-442 — On quasifree states of the CAR algebra
+% CLAIM: CLM-M1-QF-004 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_01_pfaffian_wick_for_gaussian_states)
+
+\begin{definition}[Quasi-Free State]
+\label{def:m1_1b_quasifree_state}
+A state $\omega$ on $\mathcal{A}_{\mathrm{CAR}}(V)$ is called \textbf{quasi-free (or Gaussian)} if all odd correlation functions vanish, $\omega(c_{a_1} \cdots c_{a_{2k+1}}) = 0$, and all even correlation functions evaluate to the Pfaffian of the two-point function:
+\begin{equation}
+\label{eq:m1_1b_pfaffian_wick}
+\omega(c_{a_1} c_{a_2} \cdots c_{a_{2k}}) = \ii^k \operatorname{Pf}\left[ \Omega_{a_p a_q} \right]_{1 \le p < q \le 2k},
+\end{equation}
+where $\Omega \in \mathfrak{so}(2n)$ is the real skew-symmetric covariance matrix:
+\begin{equation}
+\label{eq:m1_1b_covariance_def}
+\omega(c_a c_b) = \delta_{ab}\Id + \ii \Omega_{ab}, \qquad \Omega^T = -\Omega \in \mathbb{R}^{2n \times 2n}.
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Quantum Admissibility and Purity]
+\label{thm:m1_1b_admissibility}
+A skew-symmetric matrix $\Omega \in \mathfrak{so}(2n)$ specifies a physical quantum state on $\mathcal{A}_{\mathrm{CAR}}$ if and only if its operator norm satisfies:
+\begin{equation}
+\label{eq:m1_1b_admissibility_bound}
+\|\Omega\|_2 \le 1 \iff -\Id \le \Omega^2 \le 0.
+\end{equation}
+The state is pure if and only if $\Omega$ is an orthogonal complex structure:
+\begin{equation}
+\label{eq:m1_1b_purity_condition}
+\Omega^2 = -\Id \iff \operatorname{spec}(\Omega) = \{\pm \ii\}.
+\end{equation}
+For any pure quasi-free state, $\operatorname{Pf}(\Omega) = \pm 1$ represents the global fermion parity.
+\end{theorem}
+
+% EDITORIAL QUESTION: What is the differential geometry of the pure quasi-free state manifold?
+\section{Differential Geometry of the Real Orthogonal Grassmannian}
+\label{sec:m1_1b_grassmannian_geometry}
+% SOURCE [VERIFIED]: Bach, Lieb & Solovej (1994), J. Stat. Phys. 76, 3-89 — Generalized Hartree-Fock theory
+% CLAIM: CLM-M1-QF-005 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_04_admissibility_purity_and_fermion_parity)
+
+\begin{definition}[The Real Orthogonal Grassmannian $\Gr(n, 2n)$]
+\label{def:m1_1b_grassmannian}
+The manifold of pure quasi-free states on $2n$ Majorana modes is isomorphic to the compact homogeneous space:
+\begin{equation}
+\label{eq:m1_1b_grassmannian_manifold}
+\mathcal{M}_{\mathrm{pure}} \cong \frac{\Oo(2n)}{\U(n)} \cong \Gr(n, 2n).
+\end{equation}
+Its real dimension is $\dim_{\mathbb{R}} \Gr(n, 2n) = n(n-1)$. It consists of two disconnected components distinguished by the parity invariant $\operatorname{Pf}(\Omega) \in \{+1, -1\}$.
+\end{definition}
+
+Each pure covariance $\Omega \in \Gr(n, 2n)$ uniquely defines an orthogonal projector $P$ onto a maximal isotropic subspace of $V \otimes \mathbb{C}$:
+\begin{equation}
+\label{eq:m1_1b_projector_covariance}
+P = \frac{\Id + \ii \Omega}{2}, \qquad P^2 = P = P^\dagger, \quad \Tr(P) = n.
+\end{equation}
+The tangent space to the Grassmannian at $\Omega$ is given by:
+\begin{equation}
+\label{eq:m1_1b_tangent_space}
+T_\Omega \Gr(n, 2n) = \{ X \in \mathfrak{so}(2n) : X \Omega + \Omega X = 0 \}.
+\end{equation}
+
+\begin{proposition}[Non-Convexity of the Quasi-Free Manifold]
+\label{prop:m1_1b_non_convexity}
+While the set of admissible covariance matrices $\{\Omega \in \mathfrak{so}(2n) : \|\Omega\|_2 \le 1\}$ is convex, the corresponding set of quasi-free states $\mathcal{M}_{\mathrm{QF}} \subset \mathcal{S}(\ALambda)$ is \textbf{not convex}. A statistical mixture of two Gaussian states $\rho_{\mathrm{mix}} = \frac{1}{2}\rho_1 + \frac{1}{2}\rho_2$ possesses a non-vanishing fourth cumulant $\kappa_4 \ne 0$.
+\end{proposition}
+
+% EDITORIAL QUESTION: How does mean-field decoupling emerge as the Euler-Lagrange stationarity condition on the Grassmannian?
+\section{The Variational Principle on the Grassmannian and Exact Mean-Field Decoupling}
+\label{sec:m1_1b_variational_principle}
+% CLAIM: CLM-M1-QF-006 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_06_affine_tangent_property, test_tst_qf_07_grassmannian_stationarity_commutator)
+Consider a general quartic Majorana Hamiltonian $H = \frac{\ii}{4}\sum_{a,b} K_{ab} c_a c_b + \frac{1}{16}\sum_{a,b,c,d} V_{abcd} c_a c_b c_c c_d$.
+
+\begin{theorem}[Energy Functional and Gradient on the Grassmannian]
+\label{thm:m1_1b_energy_gradient}
+Restricting the state expectation $\omega_\Omega(H)$ to the quasi-free manifold via Wick's theorem yields the polynomial energy functional:
+\begin{equation}
+\label{eq:m1_1b_quasifree_energy}
+\mathcal{E}(\Omega) = E_0^{\mathrm{core}} - \frac{1}{4} \Tr(K \Omega) - \frac{1}{8} \sum_{a,b,c,d} V_{abcd} (\Omega_{ab}\Omega_{cd} - \Omega_{ac}\Omega_{bd} + \Omega_{ad}\Omega_{bc}).
+\end{equation}
+The single-particle mean-field Hamiltonian matrix $h(\Omega) \in \mathfrak{so}(2n)$ is the functional gradient of $\mathcal{E}$:
+\begin{equation}
+\label{eq:m1_1b_hmf_gradient}
+h(\Omega) \equiv 4 \frac{\partial \mathcal{E}}{\partial \Omega} = K + \Sigma(\Omega),
+\end{equation}
+where $\Sigma(\Omega)$ is the Hartree--Fock--Bogoliubov self-energy. A state $\Omega \in \Gr(n, 2n)$ is stationary on the Grassmannian if and only if the commutator vanishes:
+\begin{equation}
+\label{eq:m1_1b_euler_lagrange_stationarity}
+[h(\Omega), \Omega] = 0 \iff \Omega = -\operatorname{sgn}(\ii h(\Omega)).
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Affine Tangent Property and Scalar Double-Counting Subtraction]
+\label{thm:m1_1b_affine_tangent}
+Let $H_{\mathrm{MF}}[\Omega] \equiv \frac{\ii}{4} c^T h(\Omega) c$ be the quadratic mean-field operator. Then:
+\begin{equation}
+\label{eq:m1_1b_double_counting_scalar}
+\omega_\Omega(H_{\mathrm{MF}}[\Omega]) = 2 E_{\mathrm{int}}(\Omega) + E_{\mathrm{quad}}(\Omega).
+\end{equation}
+The exact variational energy requires subtracting the scalar double-counting correction $C[\Omega] \equiv E_{\mathrm{int}}(\Omega)$:
+\begin{equation}
+\label{eq:m1_1b_energy_subtraction}
+\mathcal{E}(\Omega) = \omega_\Omega(H_{\mathrm{MF}}[\Omega]) - C[\Omega].
+\end{equation}
+Moreover, $H_{\mathrm{MF}}[\Omega]$ defines an affine tangent plane to the energy surface:
+\begin{equation}
+\label{eq:m1_1b_affine_tangent_bound}
+\mathcal{E}(\Omega') - \left[ \omega_{\Omega'}(H_{\mathrm{MF}}[\Omega]) - C[\Omega] \right] = \mathcal{O}(\|\Omega' - \Omega\|^2).
+\end{equation}
+\end{theorem}
+
+% EDITORIAL QUESTION: How are local gauge constraints treated in the variational framework, and what is the Gutzwiller gap?
+\section{Gauge Constraints, KKT Stationarity, and the Projection Gap}
+\label{sec:m1_1b_gauge_kkt}
+On the physical spin space, the gauge condition $\mathcal{D}_i = \Id$ must hold strictly. Within a quasi-free state, $\omega_\Omega(\mathcal{D}_i) = \operatorname{Pf}(\Omega_i)$ is a polynomial constraint that cannot force the full state into the exact singlet sector without breaking the Gaussian structure.
+
+Instead, mean-field theory enforces the local gauge conditions **on average** via Lagrange multipliers $\boldsymbol{\lambda} = \{\lambda_i^\gamma\}$:
+\begin{equation}
+\label{eq:m1_1b_kkt_lagrangian}
+\mathcal{L}(\Omega, \boldsymbol{\lambda}) = \mathcal{E}(\Omega) - \sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma \omega_\Omega(T_i^\gamma).
+\end{equation}
+The Karush--Kuhn--Tucker (KKT) stationarity conditions read:
+\begin{equation}
+\label{eq:m1_1b_kkt_stationarity}
+\nabla_\Omega \mathcal{L} \in (T_\Omega \Gr)^\perp, \qquad g_i^\gamma(\Omega) \equiv \omega_\Omega(T_i^\gamma) = 0.
+\end{equation}
+The discrepancy between the unprojected expectation $\langle \mathcal{O} \rangle_{\mathrm{G}} = \omega_\Omega(\mathcal{O})$ and the physical Gutzwiller-projected expectation $\langle \mathcal{O} \rangle_{\mathrm{phys}} = \frac{\Tr(\rho P_G \mathcal{O} P_G)}{\Tr(\rho P_G)}$ is the **Gutzwiller Projection Gap** (cataloged as exploratory backlog item \textbf{BL-01}).
+
+% EDITORIAL QUESTION: How does the quasi-free upper bound interface with semidefinite programming (SDP) lower bounds?
+\section{Semidefinite Relaxations, N-Representability, and 2-RDM Lower Bounds}
+\label{sec:m1_1b_sdp_bounds}
+% CLAIM: CLM-M1-QF-008 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md)
+The Grassmannian variational principle yields a strict **upper bound** to the true ground energy:
+\begin{equation}
+\label{eq:m1_1b_upper_bound}
+E_0 \le \min_{\Omega \in \Gr(n, 2n)} \mathcal{E}(\Omega) = E_{\mathrm{MF}}.
+\end{equation}
+Conversely, the fermionic $N$-representability problem yields rigorous **lower bounds** via semidefinite programming (SDP). Let $\rho^{(2)}$ denote the two-body reduced density matrix. The fundamental positivity conditions:
+\begin{equation}
+\label{eq:m1_1b_sdp_conditions}
+\rho^{(2)} \succeq 0 \quad (\text{D-condition}), \qquad Q(\rho^{(2)}) \succeq 0 \quad (\text{Q-condition}), \qquad G(\rho^{(2)}) \succeq 0 \quad (\text{G-condition}),
+\end{equation}
+define a convex outer relaxation of the physical state space. Minimizing $\Tr(H \rho^{(2)})$ over this SDP spectrahedron yields a rigorous lower bound:
+\begin{equation}
+\label{eq:m1_1b_energy_sandwich}
+E_{\mathrm{SDP}}^{(2)} \le E_0 \le E_{\mathrm{MF}}.
+\end{equation}
+The two-site covariance positivity condition $\mathcal{C}_{ij} \succeq 0$ proven in Chapter~\ref{ch:m1_4_5} is the exact local two-site manifestation of this semidefinite hierarchy.
+
+% EDITORIAL QUESTION: How do quantum-information metrics quantify state distance and non-Gaussianity?
+\section{Quantum Information Diagnostics: Entropy, Metrics, and Non-Gaussianity}
+\label{sec:m1_1b_quantum_information}
+% CLAIM: CLM-M1-QF-007 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_05_gaussian_entropy_and_maximum_entropy)
+
+\begin{definition}[Gaussian von Neumann Entropy]
+\label{def:m1_1b_gaussian_entropy}
+Let $\Omega \in \mathfrak{so}(2n)$ have symplectic eigenvalues $\nu_k \in [0, 1]$ ($k = 1, \dots, n$). The von Neumann entropy of the corresponding thermal quasi-free state is:
+\begin{equation}
+\label{eq:m1_1b_von_neumann_entropy}
+S(\omega_\Omega) = \sum_{k=1}^n h\left(\frac{1 + \nu_k}{2}\right), \qquad h(p) \equiv -p \log_2 p - (1-p) \log_2(1-p).
+\end{equation}
+By Jaynes' maximum entropy principle, the Gaussian state maximizes von Neumann entropy among all density matrices sharing the covariance matrix $\Omega$.
+\end{definition}
+
+\begin{definition}[Trace Distance and Uhlmann Fidelity]
+\label{def:m1_1b_fidelity}
+For two pure quasi-free states $\Omega_1, \Omega_2 \in \Gr(n, 2n)$, the Uhlmann fidelity evaluates to the closed-form determinant:
+\begin{equation}
+\label{eq:m1_1b_uhlmann_fidelity}
+F(\Omega_1, \Omega_2) = |\langle \Psi_1 | \Psi_2 \rangle|^2 = \det\left(\frac{\Id - \Omega_1 \Omega_2}{2}\right)^{1/2}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Non-Gaussianity Quantum Relative Entropy]
+\label{def:m1_1b_non_gaussianity}
+For any true many-body ground state $\rho_{\mathrm{exact}}$, its non-Gaussianity is measured by the quantum relative entropy to its Gaussian surrogate $\omega_{\mathrm{G}}[\rho]$ having the identical two-point covariance:
+\begin{equation}
+\label{eq:m1_1b_relative_entropy}
+D_{\mathrm{NG}}(\rho) \equiv S(\rho \| \omega_{\mathrm{G}}[\rho]) = S(\omega_{\mathrm{G}}[\rho]) - S(\rho) \ge 0.
+\end{equation}
+By Pinsker's inequality, $D_{\mathrm{NG}}(\rho)$ bounds the trace distance to the Gaussian manifold: $\|\rho - \omega_{\mathrm{G}}\|_1 \le \sqrt{2 \ln 2 \cdot D_{\mathrm{NG}}(\rho)}$.
+\end{definition}
+
+% EDITORIAL QUESTION: How does this model-independent theory specialize to translation-invariant honeycomb lattices?
+\section{Synthesis and Bridge to the Model-Specific Bloch Representation}
+\label{sec:m1_1b_bridge_to_model}
+The general theory developed in this chapter establishes that:
+1. Wick's theorem is a rigorous property of quasi-free states on $\mathcal{A}_{\mathrm{CAR}}$, not an operator approximation.
+2. The mean-field Hamiltonian $h(\Omega) = 4 \frac{\partial \mathcal{E}}{\partial \Omega}$ is the functional gradient on the real orthogonal Grassmannian $\Gr(n, 2n)$.
+3. Scalar double-counting subtraction $C[\Omega] = E_{\mathrm{int}}(\Omega)$ is the exact consequence of Euler's homogeneous function theorem on quadratic forms.
+
+In the subsequent chapter (\Cref{ch:m1_2}), we apply this universal framework to the **extended Kitaev honeycomb model**. Exploiting discrete translation symmetry, the global Grassmannian decomposes into a continuous direct product of momentum-space fibers:
+\begin{equation}
+\label{eq:m1_1b_grassmannian_fiber_bundle}
+\Gr(4N, 8N) \xrightarrow{\text{Fourier}} \prod_{\mathbf{k} \in \mathrm{BZ}} \Gr(4, 8)_{\mathbf{k}},
+\end{equation}
+mapping the global matrix $h(\Omega)$ to the $8 \times 8$ Bloch Hamiltonian $\mathcal{H}_2(\mathbf{k})$.
