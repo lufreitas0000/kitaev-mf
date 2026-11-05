@@ -1,9 +1,9 @@
 # Project Roadmap & Milestone Backlog: kitaev-mf
 
 ## Taxonomy
-- **Phase**: Macro engineering and physical regimes.
+- **Phase**: Macro physical and engineering regimes.
 - **Milestone (`M<Phase>.<Index>`)**: Strategic deliverable gates and persistent backlog units.
-- **Task (`T<Index>`)**: Immediate operational execution units active exclusively within the current milestone sprint.
+- **Task (`T<Index>`)**: Operational execution units active exclusively within the current milestone sprint.
 
 ---
 
@@ -18,42 +18,58 @@
   - *Contracts*: Zero-temperature spectral projector, BZ integration, and Joint Anderson Acceleration. High-resolution reference quadrature $\bar{U} \approx 0.5248657458506$ (`K-006`).
 - **M1.4: Production Observables & Gaussian Energetics**
   - *Contracts*: Physical spin observables, plaquette Wilson loops, extensive and density energetics, scalar double-counting subtraction $C = E_{\text{exchange}}$, and end-to-end system convergence.
-  - *Audit Record*: `doc/rnd/note_04e_m1_4_integration_and_audit.md`.
-
----
-
-### Completed Milestones (Continued)
 - **M1.4.5: Consolidated Verification & Invariant Hardening**
-  - *Contracts*: Advanced kinematic sum rules, semidefinite representability constraints, solvable reductions, discrete selection rules, variational response, and canonical dualities.
-  - *Benchmarks*: Recorded in data/processed/benchmarks/.
-
-### Active Milestone: M1.5 — Standalone Research Monograph
-- **Objective**: Execute multi-tiered verification covering kinematic sum rules, semidefinite representability constraints, solvable reductions, discrete selection rules, variational response, and canonical dualities.
-- **Parent R&D Specifications**:
-  - `doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md`
-  - `doc/rnd/note_04g_variational_kkt_and_convergence_asymptotics.md`
-  - `doc/rnd/note_05_quasifree_states_and_variational_stability.md`
-
-#### Active Sprint Tasks
-- **T1: Kinematic & Semidefinite Gates (Tier 1)** — **COMPLETED**
-  - *Target*: `test/unit/test_kinematic_and_semidefinite.py`
-  - *Contracts Verified*: Parseval–Frobenius spectral moment identity (`TST-KIN-01`), pointwise $[\mathcal{H}(\mathbf{k}), P(\mathbf{k})] \equiv 0$ (`TST-KIN-02`), projector idempotency (`TST-KIN-03`), local two-site LMI positivity $\lambda_{\min}(\mathcal{C}_{ij}) \ge 0$ (`TST-SDP-01`), operator norm bounds (`TST-SDP-02`), and dipole/parity envelopes (`TST-SDP-03`).
-
-- **T2: Solvable Limits & Symmetry Selection Rules (Tier 2)** — **COMPLETED**
-  - *Targets*: `test/unit/test_solvable_limits.py`, `test/unit/test_symmetry_selection_rules.py`
-  - *Contracts Verified*: 1D zigzag chain limit $U^{00} = -2/\pi$ (`TST-RED-01`), isolated dimer flat-band saturation with gauge zero modes (`TST-RED-02`), high-field classical polarization and energy convergence (`TST-ASY-01`), time-reversal-odd correlator vanishing (`TST-SYM-01`), sublattice inversion parity (`TST-SYM-02`), and $C_3$ ray permutation invariance (`TST-SYM-03`).
-
-- **T3: Variational Response & Canonical Dualities (Tier 3)** — **IN PROGRESS**
-  - *Targets*: `src/kitaev_mf/services/response.py`, `test/integration/test_variational_response.py`, `test/integration/test_dualities_and_asymptotics.py`
-  - *Contracts*: Variational Hellmann–Feynman derivative $\frac{\mathrm{d}E}{\mathrm{d}h^\gamma} = -\langle \sigma_{\mathrm{tot}}^\gamma \rangle$ with $\mathcal{O}(\delta^2)$ scaling (`TST-VAR-01`), thermodynamic concavity $\chi^{\gamma\gamma} > 0$ (`TST-VAR-02`), bipartite sign inversion duality (`TST-RED-03`), and symmetric Klein duality with cubic boundary suppression (`TST-DUA-01`).
-
-- **T4: Hardware Parity & Verification Gate** — **PLANNED**
-  - *Scope*: Full test suite execution on CPU and CUDA through `TorchBackend`, zero-import-cycle validation, and 100% green pass under `make verify`.
+  - *Contracts*: Verified TST-KIN-01..03, TST-SDP-01..03, TST-RED-01..03, TST-SYM-01..03, TST-ASY-01, TST-VAR-01..02, TST-DUA-01 across 103 unit and integration tests.
+  - *Artifacts*: `data/processed/benchmarks/k006_quadrature.dat`, `hellmann_feynman_scaling.dat`, `susceptibility_curve.dat`, `klein_duality_splitting.dat`.
 
 ---
 
-### Strategic Backlog (Future Milestones)
+### Active Milestone: M1.5 — Dual-Track Documentation & Living Lab Book
+- **Objective**: Standardize machine-readable R&D notes (`doc/rnd/phase_1/`) with mandatory YAML frontmatter, scaffold the human-first living LaTeX labbook (`doc/labbook/`) using `memoir` with soft-beige/charcoal aesthetics, and establish automated benchmark-to-table pipelines.
+- **Active Sprint Tasks**:
+  - **T1: R&D Note Reorganization & YAML Metadata Injection**
+    - Target: `doc/rnd/phase_1/m1_*_t*_<slug>.md`
+    - Scope: Rename unstructured notes to deterministic phase/milestone/task filenames; inject standardized YAML headers.
+  - **T2: Living Lab Book Scaffolding (Memoir, Beige/Charcoal Theme)**
+    - Target: `doc/labbook/main.tex`, `preamble.tex`, `Makefile`
+    - Scope: Configure `memoir` layout, `#FAF6EE` background, `#2B2B2B` charcoal font, and `pgfplotstable` integration.
+  - **T3: Cumulative Synthesis of Completed Milestones (Chapters M1.1 to M1.4.5)**
+    - Target: `doc/labbook/chapters/ch_m1_1_*.tex` through `ch_m1_4_5_*.tex`
+    - Scope: Synthesize derivations, failure modes, and benchmark plots directly from `data/processed/benchmarks/*.dat`.
 
-#### Phase 1: Analytical Rigor & Domain Foundations (Closing Milestone)
-- **M1.5: Standalone Research Monograph**
-  - Deliver publication-grade LaTeX deliverable (`doc/report/main.pdf`) synthesizing Parts I–V with end-to-end provenance tags (`CLM-M1-...`).
+---
+
+### Concrete Sprint Backlog (Next Milestones)
+
+- **M1.6: Fixed-Point Solver Algorithms & Basin Multistability (2-Site Cell, FM Kitaev + [111] Field)**
+  - *Physical Model*: Ferromagnetic Kitaev model $K = -1.0, J = \Gamma = \Gamma' = D = 0$, external Zeeman field $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$.
+  - *Scope*:
+    1. Implement and benchmark four convergence algorithms on the Grassmannian manifold: Damped Picard, Joint DIIS, Broyden's Quasi-Newton, and Jacobian-Free Newton-Krylov (JFNK).
+    2. Map basin of attraction across distinct seeds: QSL zero-flux seed, field-polarized seed, random Grassmannian states $\Omega_{\text{rand}} = Q\Omega_0 Q^T$, and adiabatic continuation sweeps ($h: 0 \to 1$ vs. $h: 1 \to 0$).
+    3. Document fixed-point contraction rates, spectral gap closing $\Delta_g(h)$, and algorithmic efficiency in `doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex`.
+
+- **M1.7: Phase Diagram of the [111]-Field FM Kitaev Model (2-Site $\to$ 4-Site $\to$ 8-Site Cells)**
+  - *Physical Model*: $K = -1.0, \mathbf{h} \parallel [111]$, scanning $h/|K| \in [0, 0.8]$ via adaptive bisection based on susceptibility curvature $\chi^{[111]}(h)$.
+  - *Scope*:
+    1. Map energy density $E_{\text{site}}(h)$, magnetization $\langle \sigma^{[111]} \rangle(h)$, susceptibility $\chi^{[111]}(h)$, Wilson loop $W_p(h)$, and hybrid hoppings $U_b^{0\gamma}(h)$ on the 2-site cell.
+    2. Scale to 4-sublattice rectangular and 8-sublattice cells to test for spontaneous translational symmetry breaking or multi-sublattice magnetic ordering near the critical field $h_c$.
+    3. Record verified boundaries, phase transition order, and figures in `doc/labbook/chapters/ch_m1_7_fm_kitaev_field_111.tex`.
+
+---
+
+### Adaptive Research Backlog (Post-M1.7 Horizons)
+
+The following trajectories probe the parameter space $\mathbf{p} = (J, K, \Gamma, \Gamma', D, \mathbf{h}) \in \mathbb{R}^8$ along physically motivated, literature-benchmarked manifolds:
+
+- **M1.8.1: Antiferromagnetic Kitaev Model ($K = +1.0$) under [111] Field**
+  - Investigate the intermediate gapless/chiral phase prior to polarization.
+- **M1.8.2: Kitaev-Heisenberg $J\text{-}K$ Trajectory ($\theta \in [0, 2\pi)$)**
+  - Benchmark Néel, Stripy, Zigzag, and QSL boundaries against literature benchmarks (Chaloupka, Jackeli, Khaliullin 2010; Rau et al. 2014).
+- **M1.8.3: Off-Diagonal Exchange $\Gamma$ and Dzyaloshinskii-Moriya $D$ Interactions**
+  - Canted zigzag domains, magnetic torque response, and non-coplanar structures.
+- **M1.8.4: Plaquette Flux-Sector Inversion ($\mathbb{Z}_2$ Vortex Solver)**
+  - Direct simulation of vison-pair and localized vortex states ($W_p = -1$) on supercells.
+- **M1.8.5: Arbitrary Field Directions & Multi-$\mathbf{Q}$ Star Orders**
+  - Trajectories along [001] and [110]; triple-$\mathbf{Q}$ states in 8-sublattice geometries.
+- **M1.9: Final Phase 1 Research Monograph (`doc/report/main.pdf`)**
+  - Publication-grade synthesis distilling Phase 1 into formal definitions, propositions, and certified phase diagrams with persistent claim tags (`CLM-M1-*`).
