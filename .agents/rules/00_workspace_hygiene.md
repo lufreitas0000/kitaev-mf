@@ -11,24 +11,31 @@
 ## 2. File and module granularity
 
 1. Give each source, test, script, and documentation file a coherent primary responsibility.
-2. Prefer concise modules and focused notes, but do not enforce a universal line-count limit. Split a file when doing so improves cohesion, navigation, testing, or reuse; avoid fragmentation that obscures the argument or interface.
+2. Arbitrary or unindexed note filenames (such as `note_04g.md`) are strictly prohibited. Every note in `doc/rnd/` must carry a deterministic phase, milestone, and task index (e.g. `doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md`).
 3. Keep tests focused on a behavior or contract. Use separate test modules when their subject matter or fixtures differ materially.
 4. Avoid monolithic audit scripts. Reuse the repository's existing scripts and test structure before adding new tooling.
 
 ## 3. Repository layout
 
-The following describes the current layout and intended responsibilities. A directory described as an intended or conditional layer is not assumed to exist.
+The repository layout is organized by the three-tier documentation and hexagonal package architecture:
 
-- `.agents/rules/`: normative operational, engineering, testing, safety, and scientific-documentation policies.
-- `doc/adr/`: architecture decision records, named `ADR-NNN-<slug>.md`.
-- `doc/governance/`: governance architecture and repository-level policy records.
-- `doc/rnd/`: exploratory theoretical and numerical research notes.
-- `doc/reference/`: reference material, including the imported thesis sources; treat source literature as reference material, not as production documentation.
-- `src/kitaev_mf/domain/`: mathematical entities, lattice structures, parameters, state, and interfaces. Keep independent of concrete services and infrastructure.
-- `src/kitaev_mf/services/`: physics and computational algorithms built on domain abstractions.
-- `src/kitaev_mf/infra/`: concrete numerical backends and external I/O.
-- `src/kitaev_mf/app/`: a possible application/workflow layer; create it only when an actual orchestration requirement justifies it.
-- `test/unit/`: focused unit tests. The current suite is under `test/`; add `test/integration/` only when integration-level contracts warrant a distinct location.
-- `scripts/`: repository utilities such as snapshot generation.
+- `.agents/rules/`: Normative operational, engineering, testing, safety, and scientific-documentation policies.
+- `data/processed/benchmarks/`: Plain text `.dat` tables with SHA-256 provenance headers, serving as the single source of truth for benchmark figures and tests.
+- `data/raw/`: Heavy binary array checkpoints and raw wavefunction tensors (tracked via DVC, ignored by Git).
+- `data/manifests/`: Run catalog and scan trajectory manifests.
+- `doc/adr/`: Architecture decision records, named `ADR-NNN-<slug>.md`.
+- `doc/governance/`: Governance architecture and repository-level policy records.
+- `doc/rnd/phase_<N>/`: Tier-1 Context of Discovery (machine-first R&D logs indexed as `m<phase>_<milestone>_t<task>_<slug>.md` with mandatory YAML frontmatter).
+- `doc/rnd/exploratory/`: General surveys, literature comparisons, and exploratory calculations.
+- `doc/labbook/`: Tier-2 Context of Justification (living human-first `memoir` LaTeX document with `#FAF6EE` background, `#2B2B2B` charcoal text, compiling into `doc/labbook/main.pdf`).
+- `doc/report/`: Tier-3 Phase Monograph (formal publication deliverable compiled into `doc/report/main.pdf` at the close of a phase).
+- `doc/reference/`: Reference material, including imported thesis sources.
+- `src/kitaev_mf/domain/`: Mathematical entities, lattice structures, parameters, state, and port protocols. Keep independent of concrete services and infrastructure.
+- `src/kitaev_mf/services/`: Physics algorithms and computational services operating on domain abstractions.
+- `src/kitaev_mf/infra/`: Concrete numerical backends, hardware adapters, and tabular data I/O.
+- `src/kitaev_mf/app/`: Command-line interface and trajectory orchestration.
+- `test/unit/`: Focused unit tests verifying mathematical and domain contracts.
+- `test/integration/`: System convergence, response scaling, and duality verification suites.
+- `scripts/`: Repository utilities such as snapshot generation, benchmark export, and state management.
 
 Do not create directories solely to make the tree conform to this description. Follow existing package and test conventions, and update this rule when the architecture materially changes.

@@ -9,7 +9,7 @@ RUFF := $(VENV)/bin/ruff
 MYPY := $(VENV)/bin/mypy
 SNAPSHOT_FILE := REPO_SNAPSHOT.md
 
-.PHONY: help venv lock sync install test test-verbose benchmark k006-quadrature lint format verify snapshot clean
+.PHONY: help venv lock sync install test test-verbose benchmark labbook k006-quadrature lint format verify snapshot clean
 
 help:
 	@echo "kitaev-mf targets:"
@@ -17,6 +17,7 @@ help:
 	@echo "  make test          - Run pytest suite concisely with coverage"
 	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
 	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
+	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/main.pdf)"
 	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
 	@echo "  make lint          - Run Ruff check, format verification, and strict Mypy"
 	@echo "  make snapshot      - Generate REPO_SNAPSHOT.md for agent ingestion"
@@ -47,6 +48,9 @@ test-verbose:
 benchmark:
 	@echo "[benchmark] Generating reproducible .dat benchmark files in data/processed/benchmarks/..."
 	@$(PYTHON) scripts/generate_benchmarks.py --benchmark all
+
+labbook:
+	@$(MAKE) --no-print-directory -C doc/labbook pdf
 
 k006-quadrature:
 	@$(PYTHON) scripts/k006_quadrature.py
@@ -95,3 +99,4 @@ snapshot:
 clean:
 	@rm -rf build/ dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/ $(SNAPSHOT_FILE) repo_snapshot.txt
 	@find . -type d -name "__pycache__" -exec rm -rf {} +
+	@$(MAKE) --no-print-directory -C doc/labbook clean || true

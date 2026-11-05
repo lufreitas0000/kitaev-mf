@@ -1,3 +1,16 @@
+---
+id: RND-P1-M1.4-T3
+title: "Gaussian Energetics and Double-Counting Test Specification"
+phase: 1
+milestone: M1.4
+task: T3
+status: completed
+contracts:
+  - T04b-01
+  - T04b-02
+  - T04b-03
+---
+
 # Note 04b: Gaussian Energetics and Double-Counting Test Specification
 
 **Status:** M1.4.3 analytical derivation and test implementation

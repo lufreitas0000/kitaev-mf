@@ -1,3 +1,20 @@
+---
+id: RND-P1-M1.1-T3
+title: "Physical Projection and Recovery of the Pauli Algebra"
+phase: 1
+milestone: M1.1
+task: T3
+status: completed
+contracts:
+  - A11
+  - A13
+  - A14
+  - A15
+claims:
+  - CLM-M1-ALG-008
+  - CLM-M1-ALG-009
+---
+
 # Note 00c: Physical Projection and Recovery of the Pauli Algebra
 
 **Status:** M1.1c R&D specification

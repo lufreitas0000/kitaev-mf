@@ -1,3 +1,21 @@
+---
+id: RND-P1-M1.3-T1
+title: "Reciprocal-Space Spectral Projector, Real-Space Correlator Integration, and Joint Anderson Acceleration"
+phase: 1
+milestone: M1.3
+task: T1
+status: completed
+claims:
+  - CLM-M1-COR-001
+  - CLM-M1-COR-002
+  - CLM-M1-COR-003
+  - CLM-M1-COR-004
+  - CLM-M1-COR-005
+  - CLM-M1-COR-006
+  - CLM-M1-COR-007
+  - CLM-M1-COR-008
+---
+
 # Note 03: Reciprocal-Space Spectral Projector, Real-Space Correlator Integration, and Joint Anderson Acceleration
 
 ## 1. Context, Reciprocal Majorana Operators, and Spectral Projector

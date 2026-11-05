@@ -1,3 +1,20 @@
+---
+id: RND-P1-M1.1-T2
+title: "Local Parity Sectors and the Spin Gauge Representation"
+phase: 1
+milestone: M1.1
+task: T2
+status: completed
+contracts:
+  - A08
+  - A09
+  - A10
+  - A12
+claims:
+  - CLM-M1-ALG-007
+  - CLM-M1-ALG-008
+---
+
 # Note 00b: Local Parity Sectors and the Spin–Gauge Representation
 
 **Status:** M1.1b R&D specification

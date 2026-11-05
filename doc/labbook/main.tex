@@ -1,0 +1,30 @@
+\documentclass[11pt,a4paper,oneside]{memoir}
+
+\input{preamble}
+
+\setlrmarginsandblock{28mm}{28mm}{*}
+\setulmarginsandblock{28mm}{28mm}{*}
+\setlength{\headheight}{28pt}
+\checkandfixthelayout
+
+\title{\Huge\bfseries\color{labbookaccent} kitaev-mf: R\&D Lab Book\\[4mm]
+\Large Phase 1: Analytical Rigor \& Domain Foundations}
+\author{\textbf{Lu Freitas}\\[1mm]
+International Institute of Physics / Universidade Federal do Rio Grande do Norte}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents*
+
+\mainmatter
+
+\include{chapters/ch_m1_1_foundations_algebra}
+\include{chapters/ch_m1_2_bloch_and_folding}
+\include{chapters/ch_m1_3_spectral_projector_diis}
+\include{chapters/ch_m1_4_observables_energetics}
+\include{chapters/ch_m1_4_5_invariants_dualities}
+
+\end{document}

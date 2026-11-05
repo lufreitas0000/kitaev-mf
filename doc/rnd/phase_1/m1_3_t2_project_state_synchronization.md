@@ -1,3 +1,14 @@
+---
+id: RND-P1-M1.3-T2
+title: "M1.3 Project-State Synchronization and K-006 Provenance"
+phase: 1
+milestone: M1.3
+task: T2
+status: completed
+claims:
+  - CLM-M1-COR-006
+---
+
 # Note 00f: M1.3 Project-State Synchronization and K-006 Provenance
 
 ## 1. Purpose

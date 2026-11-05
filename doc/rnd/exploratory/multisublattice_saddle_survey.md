@@ -1,6 +1,6 @@
 # Saddle-Point Algorithms, Multi-Sublattice Order, and Parton Decoupling in the Extended Kitaev Model
 
-Mean-field treatments of quantum spin liquids and proximate magnetically ordered phases in bond-directional $J\text{-}K\text{-}\Gamma\text{-}\mathbf{h}$ systems, such as $\alpha\text{-RuCl}_3$ and honeycomb iridates, require careful management of auxiliary Hilbert space redundancies. In the foundational monograph of Lucas Freitas (Universidade Federal do Rio Grande do Norte / Heinrich-Heine-Universität Düsseldorf) and the associated publication Freitas et al., Majorana mean-field theory (MMFT) provides an effective framework for computing spatial polarizations and local spin correlations around $\mathbb{Z}_2$ vortex cores in the extended Kitaev model. The quantitative accuracy of these parton methods depends on how the unphysical states introduced by fractionalization are eliminated. When local spin operators are expressed in terms of four Majorana fermions per lattice site, the Hilbert space dimension doubles from $2$ to $4$, necessitating an exact or average projection via local $SO(4)$ or isospin $SU(2)$ constraints. Benchmarking these frameworks requires analyzing the mathematical formulations of the underlying saddle-point equations, the multi-sublattice geometries hosting competing magnetic structures, and the variations introduced by distinct Wick decoupling schemes.
+Mean-field treatments of quantum spin liquids and proximate magnetically ordered phases in bond-directional $J\text{-}K\text{-}\Gamma\text{-}\mathbf{h}$ systems, such as $\alpha\text{-RuCl}_3$ and honeycomb iridates, require careful management of auxiliary Hilbert space redundancies. In the foundational monograph of Lu Freitas (Universidade Federal do Rio Grande do Norte / Heinrich-Heine-Universität Düsseldorf) and the associated publication Freitas et al., Majorana mean-field theory (MMFT) provides an effective framework for computing spatial polarizations and local spin correlations around $\mathbb{Z}_2$ vortex cores in the extended Kitaev model. The quantitative accuracy of these parton methods depends on how the unphysical states introduced by fractionalization are eliminated. When local spin operators are expressed in terms of four Majorana fermions per lattice site, the Hilbert space dimension doubles from $2$ to $4$, necessitating an exact or average projection via local $SO(4)$ or isospin $SU(2)$ constraints. Benchmarking these frameworks requires analyzing the mathematical formulations of the underlying saddle-point equations, the multi-sublattice geometries hosting competing magnetic structures, and the variations introduced by distinct Wick decoupling schemes.
 
 ## Lagrange Multiplier Saddle-Point Formulations and Root-Finding Algorithms
 
@@ -298,13 +298,13 @@ Conversely, omitting the Lagrange multipliers allows unphysical states into the 
 
 ## Benchmark Literature Survey and Reference Registry
 
-- Lucas R. D. Freitas, Tim Bauer, Reinhold Egger, and Rodrigo G. Pereira, _Electric polarization near vortices in the extended Kitaev model_, npj Quantum Materials 9, 33 (2024).
+- Lu Freitas, Tim Bauer, Reinhold Egger, and Rodrigo G. Pereira, _Electric polarization near vortices in the extended Kitaev model_, npj Quantum Materials 9, 33 (2024).
 
     - DOI: 10.1038/s41535-024-00643-5
 
     - arXiv: 2311.15750 [cond-mat.str-el]
 
-- Lucas Rodrigues Delgado de Freitas, _Majorana mean-field theory with Z2 vortices: electrical tests in the extended Kitaev model_, Ph.D. thesis, Universidade Federal do Rio Grande do Norte (UFRN) / Heinrich-Heine-Universität Düsseldorf (2023).
+- Lu Freitas, _Majorana mean-field theory with Z2 vortices: electrical tests in the extended Kitaev model_, Ph.D. thesis, Universidade Federal do Rio Grande do Norte (UFRN) / Heinrich-Heine-Universität Düsseldorf (2023).
 
 - F. Yilmaz, A. P. Kampf, and S.-K. Yip, _Phase diagrams of the Kitaev-Heisenberg-$\Gamma$-$\Gamma'$ model in a magnetic field_, Phys. Rev. Research 4, 043024 (2022).
 

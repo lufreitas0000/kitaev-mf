@@ -1,3 +1,17 @@
+---
+id: RND-P1-M1.4.5-T3
+title: "Quasi-Free Covariance Manifolds, Random Stress-Testing, and Variational Saddle-Point Stability"
+phase: 1
+milestone: M1.4.5
+task: T3
+status: completed
+claims:
+  - CLM-M1-STAB-001
+  - CLM-M1-STAB-002
+  - CLM-M1-STAB-003
+  - CLM-M1-STAB-004
+---
+
 # Note 05: Quasi-Free Covariance Manifolds, Random Stress-Testing, and Variational Saddle-Point Stability
 
 ## 1. Context, Conventions, and Disambiguation

@@ -1,0 +1,72 @@
+\chapter{Milestone M1.4.5: Invariants, Semidefinite Gates, and Dualities}
+\label{ch:m1_4_5}
+
+\section{Kinematic and Semidefinite Representability Gates}
+In non-integrable parameter regimes, exact ground states are unknown. Verification relies on universal kinematic, semidefinite, and variational invariants:
+\begin{itemize}
+    \item \textbf{Parseval-Frobenius Identity}: On any regular grid ($N_1, N_2 \ge 2$), $\frac{1}{N_{\mathbf{k}}}\sum \mathcal{E}_n^2 \equiv \frac{1}{16}\sum \Vert{}B_s\Vert{}_{\mathrm{F}}^2 + \frac{1}{8}\sum \Vert{}A_b\Vert{}_{\mathrm{F}}^2$.
+    \item \textbf{Local Two-Site LMI Positivity}: The $8 \times 8$ matrix $\mathcal{C}_{ij} = \langle \mathbf{c}_{ij} \mathbf{c}_{ij}^T \rangle$ satisfies $\lambda_{\min}(\mathcal{C}_{ij}) \ge 0$.
+    \item \textbf{Operator Norm Bound}: Inter-site hoppings satisfy $\sigma_{\max}(\mathrm{U}_b) \le 1.0$.
+    \item \textbf{Bloch-Ball \& Pfaffian Parity Envelopes}: $\Vert{}\langle \boldsymbol{\sigma}_s \rangle\Vert{}_2 \le 1.0$ and $-1.0 \le \operatorname{Pf}(\mathrm{V}_s) \le 1.0$.
+\end{itemize}
+
+\section{Solvable Reductions and Discrete Symmetries}
+\begin{itemize}
+    \item \textbf{1D Zigzag Chain Limit} ($K_x = K_y = -1, K_z = 0$): Active bond hoppings evaluate to $U_x^{00} = U_y^{00} = -2/\pi \approx -0.636620$, while $U_z \equiv \mathbf{0}$.
+    \item \textbf{Isolated Dimer Flat Bands} ($K_z = -1, K_x = K_y = 0$): Bands form flat levels at $\mathcal{E} = \pm 0.5$ and $\mathcal{E} = 0$.
+    \item \textbf{Discrete Selection Rules}: Time-reversal-odd correlators vanish ($U_b^{0\gamma} \equiv 0$), sublattice inversion parity holds ($V_A = V_B$), and $C_3$ ray permutation invariance is preserved.
+\end{itemize}
+
+\section{Variational Response and Hellmann-Feynman Error Scaling}
+At self-consistent stationarity, the energy derivative satisfies $\frac{\mathrm{d}E_{\mathrm{cell}}}{\mathrm{d}h^\gamma} = -\langle \sigma_{\mathrm{tot}}^\gamma \rangle_{\mathrm{G}}$. Truncation error under central differences scales as $\Delta_{\mathrm{HF}} \le \frac{1}{6}\vert{}E'''\vert{}\delta^2 + C_\sigma \tau + C_E \tau^2/\delta$.
+
+\begin{table}[ht]
+\centering
+\caption{Hellmann-Feynman numerical error scaling vs step size $\delta$.}
+\vspace{2mm}
+\pgfplotstabletypeset[
+    col sep=space,
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    columns/delta/.style={column name=$\delta$, precision=4},
+    columns/de_numerical/.style={column name=$(\Delta E/\Delta h)_{\mathrm{num}}$, precision=6},
+    columns/neg_sigma_tot/.style={column name=$-\langle \sigma_{\mathrm{tot}}^z \rangle$, precision=6},
+    columns/discrepancy/.style={column name=$\Delta_{\mathrm{HF}}$, sci, precision=2},
+    columns/observed_order/.style={column name=Order $p$, string type}
+]{../../data/processed/benchmarks/hellmann_feynman_scaling.dat}
+\end{table}
+
+\section{Thermodynamic Susceptibility and Klein Duality}
+Thermodynamic stability requires non-negative susceptibility $\chi^{zz} = \partial \langle \sigma_{\mathrm{tot}}^z \rangle / \partial h^z > 0$:
+
+\begin{table}[ht]
+\centering
+\caption{Thermodynamic susceptibility along $[0, 0, h_z]$.}
+\vspace{2mm}
+\pgfplotstabletypeset[
+    col sep=space,
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    columns/hz/.style={column name=$h_z$, precision=3},
+    columns/sigma_tot_z/.style={column name=$\langle \sigma_{\mathrm{tot}}^z \rangle$, precision=6},
+    columns/susceptibility_chi_zz/.style={column name=$\chi^{zz}$, precision=6}
+]{../../data/processed/benchmarks/susceptibility_curve.dat}
+\end{table}
+
+Under 4-sublattice Klein duality $\mathcal{K}: (J, K, \Gamma, \Gamma') \to (-J, K+2J, -\Gamma, \Gamma')$, finite-cell boundary splitting vanishes cubically/quadratically as $\epsilon \to 0$:
+
+\begin{table}[ht]
+\centering
+\caption{Four-sublattice Klein duality finite-cell boundary splitting.}
+\vspace{2mm}
+\pgfplotstabletypeset[
+    col sep=space,
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    columns/eps_J/.style={column name=$\epsilon_J$, precision=4},
+    columns/eps_Gamma/.style={column name=$\epsilon_\Gamma$, precision=4},
+    columns/E_site/.style={column name=$E_{\mathrm{site}}(\mathbf{p})$, precision=6},
+    columns/E_site_dual/.style={column name=$E_{\mathrm{site}}(\tilde{\mathbf{p}})$, precision=6},
+    columns/energy_diff/.style={column name=$\vert{}\delta E_{\mathrm{site}}\vert{}$, sci, precision=2}
+]{../../data/processed/benchmarks/klein_duality_splitting.dat}
+\end{table}

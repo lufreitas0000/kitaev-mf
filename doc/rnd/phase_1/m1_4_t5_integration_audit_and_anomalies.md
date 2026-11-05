@@ -1,3 +1,12 @@
+---
+id: RND-P1-M1.4-T5
+title: "Milestone M1.4 Integration, Numerical Anomalies, and Lessons Learned"
+phase: 1
+milestone: M1.4
+task: T5
+status: completed
+---
+
 # Note 04e: Milestone M1.4 Integration, Numerical Anomalies, and Lessons Learned
 
 **Status:** M1.4.4 R&D audit record

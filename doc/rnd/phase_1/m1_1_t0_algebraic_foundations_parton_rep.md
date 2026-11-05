@@ -1,3 +1,24 @@
+---
+id: RND-P1-M1.1-T0
+title: "Algebraic Foundations, SO(4) Gauge Group, and Exact Parton Representation"
+phase: 1
+milestone: M1.1
+task: T0
+status: completed
+claims:
+  - CLM-M1-ALG-001
+  - CLM-M1-ALG-002
+  - CLM-M1-ALG-003
+  - CLM-M1-ALG-004
+  - CLM-M1-ALG-005
+  - CLM-M1-ALG-006
+  - CLM-M1-ALG-007
+  - CLM-M1-ALG-008
+  - CLM-M1-ALG-009
+  - CLM-M1-ALG-010
+  - CLM-M1-ALG-011
+---
+
 # Note 00: Algebraic Foundations, $\mathfrak{so}(4)$ Gauge Group, and Exact Parton Representation
 
 ## 0. Conventions and Disambiguated Symbols

@@ -1,0 +1,29 @@
+\chapter{Milestone M1.4: Production Observables, Wilson Loops, and Energetics}
+\label{ch:m1_4}
+
+\section{Wick Contractions for Physical Spin Observables}
+Expectation values of local and two-site spin observables in the Gaussian mean-field state evaluate to:
+\begin{align}
+\langle \sigma_s^a \rangle_{\mathrm{G}} &= \frac{1}{2} \operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \mathrm{V}_s^{0a},\\
+\langle \sigma_i^a \sigma_j^b \rangle_{\mathrm{G}} &= \frac{1}{4} m_i^a m_j^b - \frac{1}{2} \operatorname{tr}\!\left( (\mathrm{N}^a)^T \mathrm{U}_b \mathrm{N}^b \mathrm{U}_b^T \right).
+\end{align}
+Local $\mathbb{Z}_2$ Wilson loops (plaquette fluxes) evaluate to $W_p = \prod_{b \in \partial p} u_b$. In the ground state of pure Kitaev, $W_p \equiv +1.0$.
+
+\section{Scalar Double-Counting Subtraction}
+Because two-body interactions are decoupled into single-particle effective fields, the single-particle ground-state energy counts exchange terms twice:
+\begin{equation}
+\langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} = 2 E_{\mathrm{exchange}} + E_{\mathrm{field}} + E_{\mathrm{multiplier}}.
+\end{equation}
+Exact thermodynamic consistency requires subtracting the scalar $C = E_{\mathrm{exchange}}$:
+\begin{equation}
+E_{\mathrm{total}} = E_{\mathrm{quad}, 0} - C \equiv E_{\mathrm{total}}^{\mathrm{G}}.
+\end{equation}
+Consistency residual $|(E_{\mathrm{quad}, 0} - C) - E_{\mathrm{total}}^{\mathrm{G}}| < 10^{-10}$ holds across all regimes.
+
+\section{Incident Audit and Failure Analysis}
+During M1.4 implementation, three numerical anomalies were identified and resolved:
+\begin{enumerate}
+    \item \textbf{Matrix Trace vs. Element-wise Multiplication Trap}: In assembling the Hartree exchange field, $\sum (V_s^T * N^\beta) = -\operatorname{tr}(V_s^T N^\beta)$ inverted the sign because both matrices are skew-symmetric. Replacing it with $\operatorname{tr}(V_s^T N^\beta)$ restored exact energy consistency.
+    \item \textbf{Dynamic Wilson Loops}: Asserting $W_p \equiv 1.0$ under finite $\Gamma$ and $\mathbf{h}$ fails because gauge Majoranas hybridize with matter, driving $W_p < 1$. Exact unity holds strictly at $J = \Gamma = \mathbf{h} = 0$.
+    \item \textbf{On-Site Relaxation}: Monitoring only gauge residuals allowed magnetic relaxation $V_s^{0a}$ to drift. Monitoring $\max_s |\Delta V_s| < \tau$ ensures simultaneous stationarity.
+\end{enumerate}

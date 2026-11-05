@@ -1,3 +1,21 @@
+---
+id: RND-P1-M1.1-T4
+title: "Exchange Tensors and the Exact Quartic Majorana Hamiltonian"
+phase: 1
+milestone: M1.1
+task: T4
+status: completed
+contracts:
+  - A16
+  - A17
+  - A18
+  - A19
+  - A20
+claims:
+  - CLM-M1-ALG-010
+  - CLM-M1-ALG-011
+---
+
 # Note 00d: Exchange Tensors and the Exact Quartic Majorana Hamiltonian
 
 **Status:** M1.1d R&D specification

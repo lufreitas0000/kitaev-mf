@@ -1,3 +1,16 @@
+---
+id: RND-P1-M1.4-T2
+title: "Observable Test Specification"
+phase: 1
+milestone: M1.4
+task: T2
+status: completed
+contracts:
+  - T04a-01
+  - T04a-02
+  - T04a-03
+---
+
 # Note 04a: Observable Test Specification
 
 **Status:** M1.4.2 test specification and implementation

@@ -1,3 +1,20 @@
+---
+id: RND-P1-M1.2-T2
+title: "Momentum-Space Bloch-Majorana Representation, Analytical Dispersion, and Brillouin-Zone Folding Parity"
+phase: 1
+milestone: M1.2
+task: T2
+status: completed
+claims:
+  - CLM-M1-BLO-001
+  - CLM-M1-BLO-002
+  - CLM-M1-BLO-003
+  - CLM-M1-BLO-004
+  - CLM-M1-BLO-005
+  - CLM-M1-BLO-006
+  - CLM-M1-BLO-007
+---
+
 # Note 02: Momentum-Space Bloch-Majorana Representation, Analytical Dispersion, and Brillouin-Zone Folding Parity
 
 ## 1. Context, Multi-Sublattice Graph, and Discrete Fourier Transform

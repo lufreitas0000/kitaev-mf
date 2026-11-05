@@ -1,3 +1,16 @@
+---
+id: RND-P1-M1.4-T4
+title: "Pure-Kitaev Energy Normalization Audit"
+phase: 1
+milestone: M1.4
+task: T4
+status: completed
+claims:
+  - CLM-M1-ENERGY-NORM-001
+  - CLM-M1-ENERGY-NORM-002
+  - CLM-M1-ENERGY-NORM-003
+---
+
 # Note 04c: Pure-Kitaev Energy Normalization Audit
 
 **Status:** M1.4.3a analytical audit

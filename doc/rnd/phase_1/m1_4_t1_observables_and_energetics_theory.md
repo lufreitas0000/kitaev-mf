@@ -1,3 +1,12 @@
+---
+id: RND-P1-M1.4-T1
+title: "Gaussian Observables and Variational Energetics"
+phase: 1
+milestone: M1.4
+task: T1
+status: completed
+---
+
 # Note 04: Gaussian Observables and Variational Energetics
 
 ## 1. Scope and conventions

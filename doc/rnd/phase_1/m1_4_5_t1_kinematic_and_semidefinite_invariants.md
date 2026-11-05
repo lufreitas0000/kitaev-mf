@@ -1,3 +1,29 @@
+---
+id: RND-P1-M1.4.5-T1
+title: "Advanced Invariants, Semidefinite Constraints, and Verification Backlog"
+phase: 1
+milestone: M1.4.5
+task: T1
+status: completed
+contracts:
+  - TST-KIN-01
+  - TST-KIN-02
+  - TST-KIN-03
+  - TST-SDP-01
+  - TST-SDP-02
+  - TST-SDP-03
+claims:
+  - CLM-M1-INV-001
+  - CLM-M1-INV-002
+  - CLM-M1-INV-003
+  - CLM-M1-INV-004
+  - CLM-M1-INV-005
+  - CLM-M1-INV-006
+  - CLM-M1-INV-007
+  - CLM-M1-INV-008
+  - CLM-M1-INV-009
+---
+
 # Note 04f: Advanced Invariants, Semidefinite Constraints, and Verification Backlog
 
 ## 1. Context and Problem Formulation

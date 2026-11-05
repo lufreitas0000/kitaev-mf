@@ -1,3 +1,19 @@
+---
+id: RND-P1-M1.2-T1
+title: "Hartree-Fock-Bogoliubov Decoupling, Covariance Manifolds, and Variational Mean-Field Symmetries"
+phase: 1
+milestone: M1.2
+task: T1
+status: completed
+claims:
+  - CLM-M1-MF-001
+  - CLM-M1-MF-002
+  - CLM-M1-MF-003
+  - CLM-M1-MF-004
+  - CLM-M1-MF-005
+  - CLM-M1-MF-006
+---
+
 # Note 01: Hartree–Fock–Bogoliubov Decoupling, Covariance Manifolds, and Variational Mean-Field Symmetries
 
 ## 1. Context and Quasi-Free State Manifold

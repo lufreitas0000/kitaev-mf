@@ -1,3 +1,23 @@
+---
+id: RND-P1-M1.1-T1
+title: "Finite-Lattice Conventions and Local Majorana Algebra"
+phase: 1
+milestone: M1.1
+task: T1
+status: completed
+contracts:
+  - A01
+  - A02
+  - A03
+  - A04
+  - A05
+  - A06
+  - A07
+claims:
+  - CLM-M1-ALG-003
+  - CLM-M1-ALG-006
+---
+
 # Note 00a: Finite-Lattice Conventions and Local Majorana Algebra
 
 **Status:** M1.1a R&D specification

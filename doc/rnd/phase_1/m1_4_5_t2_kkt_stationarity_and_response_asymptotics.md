@@ -1,3 +1,26 @@
+---
+id: RND-P1-M1.4.5-T2
+title: "Variational KKT Stationarity, Riemannian Grassmannian Geometry, and Response Asymptotics"
+phase: 1
+milestone: M1.4.5
+task: T2
+status: completed
+contracts:
+  - TST-VAR-01
+  - TST-VAR-02
+  - TST-DUA-01
+claims:
+  - CLM-M1-VAR-001
+  - CLM-M1-VAR-002
+  - CLM-M1-VAR-003
+  - CLM-M1-VAR-004
+  - CLM-M1-VAR-005
+artifacts:
+  - data/processed/benchmarks/hellmann_feynman_scaling.dat
+  - data/processed/benchmarks/susceptibility_curve.dat
+  - data/processed/benchmarks/klein_duality_splitting.dat
+---
+
 # Note 04g: Variational KKT Stationarity, Riemannian Grassmannian Geometry, and Response Asymptotics
 
 ## 1. Disambiguation: Global Covariance $\Omega$ vs. Quotient Configuration $\Xi$

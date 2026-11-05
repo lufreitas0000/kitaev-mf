@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a lean, context-optimized Markdown snapshot of the repository.
-
-By default, includes active milestone specifications, core governance,
-production code, and tests. Use --full to embed all historical notes.
-"""
+"""Generate a lean, context-optimized Markdown snapshot of the repository."""
 
 from __future__ import annotations
 
@@ -23,15 +19,12 @@ ROOT_FILES = [
     "Makefile",
 ]
 
-# Core governance and active milestone R&D notes
 ACTIVE_DOC_PATTERNS = [
     "doc/*.md",
     "doc/governance/*.md",
     ".agents/rules/*.md",
     "doc/adr/*.md",
-    "doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md",
-    "doc/rnd/note_04g_variational_kkt_and_convergence_asymptotics.md",
-    "doc/rnd/note_05_quasifree_states_and_variational_stability.md",
+    "doc/rnd/phase_1/m1_4_5_*.md",
 ]
 
 FULL_DOC_PATTERNS = [
@@ -39,7 +32,7 @@ FULL_DOC_PATTERNS = [
     "doc/governance/*.md",
     ".agents/rules/*.md",
     "doc/adr/*.md",
-    "doc/rnd/*.md",
+    "doc/rnd/**/*.md",
 ]
 
 CODE_PATTERNS = [
@@ -120,7 +113,7 @@ def main() -> None:
     parser.add_argument(
         "--full",
         action="store_true",
-        help="Embed all historical and scratchpad R&D notes instead of active set",
+        help="Embed all historical notes instead of active milestone subset",
     )
     args = parser.parse_args()
 
@@ -136,7 +129,7 @@ def main() -> None:
         f"- **Generated:** {now_utc}",
         f"- **Git Branch:** {branch}",
         f"- **Git Commit:** {commit}",
-        f"- **Scope:** {'Full Archive' if args.full else 'Active Milestone (M1.4.5) Context'}",
+        f"- **Scope:** {'Full Archive' if args.full else 'Active Milestone (M1.5) Context'}",
         "",
         "## 1. Directory Tree (Filtered)",
         "```text",
@@ -146,7 +139,6 @@ def main() -> None:
         lines.append(f_path)
     lines.extend(["```", "", "## 2. Governance, State & Active Documentation", ""])
 
-    # Root files
     for r_name in ROOT_FILES:
         p = root / r_name
         if p.is_file():
@@ -165,7 +157,6 @@ def main() -> None:
                 [f"### File: `{r_name}`", fence, p.read_text(encoding="utf-8").strip(), "```", ""]
             )
 
-    # Selected Doc files
     for p in collect_files(root, doc_patterns):
         rel = p.relative_to(root).as_posix()
         if rel in ROOT_FILES:

@@ -1,3 +1,16 @@
+---
+id: RND-P1-M1.3-T3
+title: "Reproducible K-006 Brillouin-Zone Quadrature"
+phase: 1
+milestone: M1.3
+task: T3
+status: completed
+claims:
+  - CLM-M1-COR-006
+artifacts:
+  - data/processed/benchmarks/k006_quadrature.dat
+---
+
 # Note 04d: Reproducible K-006 Brillouin-Zone Quadrature
 
 **Status:** M1.4.3b numerical provenance

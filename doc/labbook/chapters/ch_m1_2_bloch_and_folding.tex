@@ -1,0 +1,46 @@
+\chapter{Milestone M1.2: Mean-Field Decoupling, Bloch Hamiltonians, and Folding Parity}
+\label{ch:m1_2}
+
+\section{Variational Search on the Grassmannian Manifold}
+Because exact many-body ground states of interacting quartic fermion systems cannot be solved in closed form away from integrability, mean-field theory restricts the variational search to the manifold of fermionic quasi-free (Gaussian) states:
+\begin{equation}
+\mathcal{M} = \{\Omega \in \mathfrak{so}(8N) : \Omega^2 = -\mathbb{1}_{8N}\} \cong \frac{\mathcal{O}(8N)}{U(4N)}.
+\end{equation}
+A state is parameterized by directed-bond correlators $\mathrm{U}_b^{\mu\nu} = \langle i c_i^\mu c_j^\nu \rangle$ and on-site correlators $\mathrm{V}_s^{\mu\nu} = \langle i c_s^\mu c_s^\nu \rangle - i\delta^{\mu\nu}$.
+
+\section{Hartree-Fock-Bogoliubov Decoupling and the Tangent Property}
+Applying the generalized Wick theorem decomposes quartic spin interactions into Hartree and Fock exchange channels:
+\begin{equation}
+\langle Q_i^a Q_j^b \rangle = \operatorname{tr}(\mathrm{V}_i^T \mathrm{N}^a)\operatorname{tr}(\mathrm{V}_j^T \mathrm{N}^b) + 2 \operatorname{tr}(\mathrm{U}_{ij}^T \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b).
+\end{equation}
+The effective quadratic mean-field Hamiltonian is:
+\begin{equation}
+H_{\mathrm{MF}}[\Xi] = \sum_{i} \sum_{j \in \mathcal{V}_i} \frac{i}{4} c_i^T \mathrm{A}_{ij} c_j + \sum_i \frac{i}{4} c_i^T \mathrm{B}_i c_i - C,
+\end{equation}
+where:
+\begin{align}
+\mathrm{A}_{ij} &= 2 \sum_{a,b} \mathbf{J}_{ij}^{ab} \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b,\\
+\mathrm{B}_i &= \sum_{j \in \mathcal{V}_i} \sum_{a,b} \mathbf{J}_{ij}^{ab} \mathrm{N}^a \operatorname{tr}(\mathrm{V}_j^T \mathrm{N}^b) + \sum_\gamma (\lambda_i^\gamma \mathrm{G}^\gamma - 2 h^\gamma \mathrm{N}^\gamma).
+\end{align}
+The operator satisfies the exact affine tangent property $\langle H_{\mathrm{MF}}[\Xi] \rangle_{\Xi'} = E[\Xi] + \mathrm{d}E_\Xi[\Xi' - \Xi]$, meaning that $H_{\mathrm{MF}}[\Xi]$ is the exact Riemannian gradient of the energy functional.
+
+\section{Momentum-Space Bloch Assembly}
+Using dimensionless fractional coordinates $\mathbf{k} = (k_1, k_2) \in [0, 1)^2$ dual to Bravais vectors $(\mathbf{a}_1, \mathbf{a}_2)$, the Fourier transform yields the complex Hermitian Bloch matrix:
+\begin{equation}
+\mathcal{H}(\mathbf{k}) = \frac{i}{4}\mathcal{M}(\mathbf{k}) \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}}, \qquad \mathcal{H}^\dagger(\mathbf{k}) = \mathcal{H}(\mathbf{k}).
+\end{equation}
+Off-diagonal blocks carry the exact phase factors $\phi_b(\mathbf{k}) = 2\pi(k_1 n_{1,b} + k_2 n_{2,b})$. Particle-hole symmetry enforces $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k}) = -\mathcal{H}^T(\mathbf{k})$.
+
+\section{Pure-Kitaev Dispersion and Gauge Flat Bands}
+In the 2-sublattice primitive cell with $K < 0$, $u_{\mathrm{gauge}} = +1.0$, and uniform matter hopping $u_{\mathrm{matter}}$:
+\begin{itemize}
+    \item \textbf{Matter Bands ($c^0$)}: $\mathcal{E}_{c^0}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}1 + e^{-i 2\pi k_1} + e^{-i 2\pi k_2}\vert{}$, exhibiting Dirac cones at $K, K'$ and bandwidth $3\vert{}K\vert{}$.
+    \item \textbf{Gauge Bands ($c^\gamma$)}: $\mathcal{E}_{c^\gamma}(\mathbf{k}) = \pm \frac{\vert{}K\vert{}}{2} \vert{}u_{\mathrm{matter}}\vert{}$, strictly flat across the Brillouin zone.
+\end{itemize}
+
+\section{Supercell Brillouin-Zone Folding Parity}
+In the 4-sublattice rectangular cell ($\mathbf{A}_1 = \mathbf{a}_1 - \mathbf{a}_2, \mathbf{A}_2 = \mathbf{a}_1 + \mathbf{a}_2$), the $16 \times 16$ Hamiltonian $\mathcal{H}_4(\mathbf{q})$ satisfies exact unitary equivalence with the direct sum of folded primitive Hamiltonians:
+\begin{equation}
+\mathcal{H}_4(\mathbf{q}) = W(\mathbf{q}) \left[ \mathcal{H}_2(\mathbf{k}^{(1)}) \oplus \mathcal{H}_2(\mathbf{k}^{(2)}) \right] W^\dagger(\mathbf{q}),
+\end{equation}
+where $\mathbf{k}^{(1)} = (\frac{q_1 + q_2}{2}, \frac{q_2 - q_1}{2})$ and $\mathbf{k}^{(2)} = \mathbf{k}^{(1)} + (\frac{1}{2}, \frac{1}{2})$. Numerical verification confirms spectral equivalence to $< 10^{-14}$.
