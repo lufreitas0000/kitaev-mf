@@ -19,7 +19,6 @@ from pathlib import Path
 import numpy as np
 import torch
 
-
 from kitaev_mf.domain.lattice import (
     make_honeycomb_2site,
     make_honeycomb_4site_rectangular,
@@ -28,7 +27,6 @@ from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverConfig
 from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.infra.linalg_backend import TorchBackend
-from kitaev_mf.services.correlators import compute_correlators_from_bloch
 from kitaev_mf.services.hamiltonian import (
     build_bloch_hamiltonian,
     build_bond_hopping_matrices,
@@ -187,9 +185,27 @@ def export_solver_convergence(backend: TorchBackend) -> None:
     params_field = ModelParameters(K=(-1.0, -1.0, -1.0), h=(0.1, 0.1, 0.1))
 
     # Run Picard (depth=1), DIIS m=3, DIIS m=6
-    conf_picard = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=1)
-    conf_diis3 = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=3)
-    conf_diis6 = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=6)
+    conf_picard = SolverConfig(
+        k_grid_shape=(12, 12),
+        tol_correlator=1e-12,
+        tol_gauge=1e-12,
+        max_iterations=30,
+        diis_history_depth=1,
+    )
+    conf_diis3 = SolverConfig(
+        k_grid_shape=(12, 12),
+        tol_correlator=1e-12,
+        tol_gauge=1e-12,
+        max_iterations=30,
+        diis_history_depth=3,
+    )
+    conf_diis6 = SolverConfig(
+        k_grid_shape=(12, 12),
+        tol_correlator=1e-12,
+        tol_gauge=1e-12,
+        max_iterations=30,
+        diis_history_depth=6,
+    )
 
     init_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0)
     # add small seed perturbation to test convergence
@@ -200,11 +216,18 @@ def export_solver_convergence(backend: TorchBackend) -> None:
         lambdas=init_state.lambdas,
     )
 
-    _, res_picard = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_picard, backend)
-    _, res_diis3 = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_diis3, backend)
-    _, res_diis6 = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_diis6, backend)
-    _, res_field = solve_self_consistent_mean_field(cell, params_field, init_state_pert, conf_diis6, backend)
-
+    _, res_picard = solve_self_consistent_mean_field(
+        cell, params_pure, init_state_pert, conf_picard, backend
+    )
+    _, res_diis3 = solve_self_consistent_mean_field(
+        cell, params_pure, init_state_pert, conf_diis3, backend
+    )
+    _, res_diis6 = solve_self_consistent_mean_field(
+        cell, params_pure, init_state_pert, conf_diis6, backend
+    )
+    _, res_field = solve_self_consistent_mean_field(
+        cell, params_field, init_state_pert, conf_diis6, backend
+    )
 
     hist_p = list(res_picard.residual_history)
     hist_d3 = list(res_diis3.residual_history)
@@ -238,9 +261,12 @@ def export_dispersion_path(backend: TorchBackend) -> None:
     # Seg 1: Gamma to K
     k_seg1 = [np.array([s / (3 * n_seg), -s / (3 * n_seg)]) for s in range(n_seg)]
     # Seg 2: K to M
-    k_seg2 = [np.array([1/3 + s * (1/2 - 1/3) / n_seg, -1/3 + s * (0 - (-1/3)) / n_seg]) for s in range(n_seg)]
+    k_seg2 = [
+        np.array([1 / 3 + s * (1 / 2 - 1 / 3) / n_seg, -1 / 3 + s * (0 - (-1 / 3)) / n_seg])
+        for s in range(n_seg)
+    ]
     # Seg 3: M to Gamma
-    k_seg3 = [np.array([1/2 * (1 - s / n_seg), 0.0]) for s in range(n_seg + 1)]
+    k_seg3 = [np.array([1 / 2 * (1 - s / n_seg), 0.0]) for s in range(n_seg + 1)]
     k_path = k_seg1 + k_seg2 + k_seg3
 
     headers = [
@@ -253,7 +279,9 @@ def export_dispersion_path(backend: TorchBackend) -> None:
         h_k = build_bloch_hamiltonian(k_tensor, cell, params, state, backend)
         evals, _ = backend.eigh(h_k)
         ev = evals[0].detach().cpu().numpy()
-        row_str = f"{s_idx:4d}  {k_pt[0]:8.4f}  {k_pt[1]:8.4f}  " + "  ".join(f"{val:10.5f}" for val in ev)
+        row_str = f"{s_idx:4d}  {k_pt[0]:8.4f}  {k_pt[1]:8.4f}  " + "  ".join(
+            f"{val:10.5f}" for val in ev
+        )
         rows.append(row_str)
 
     write_dat_file("dispersion_path.dat", headers, rows)
@@ -273,9 +301,10 @@ def export_parseval_sum_rule(backend: TorchBackend) -> None:
         lambdas=0.1 * rng.standard_normal((2, 3)),
     )
 
-
     b_tensors = build_on_site_matrices(cell, params, state, backend.device).detach().cpu().numpy()
-    a_tensors = build_bond_hopping_matrices(cell, params, state, backend.device).detach().cpu().numpy()
+    a_tensors = (
+        build_bond_hopping_matrices(cell, params, state, backend.device).detach().cpu().numpy()
+    )
     sum_b_sq = float(np.sum([np.trace(b @ b.T) for b in b_tensors]))
     sum_a_sq = float(np.sum([np.trace(a @ a.T) for a in a_tensors]))
     rhs_frobenius = (1.0 / 16.0) * sum_b_sq + (1.0 / 8.0) * sum_a_sq
@@ -323,12 +352,13 @@ def export_wick_cumulant_check() -> None:
                     omega[a, b] = float(np.imag(np.trace(rho @ c_ops[a] @ c_ops[b])))
         op4 = c_ops[0] @ c_ops[1] @ c_ops[2] @ c_ops[3]
         exp_4 = float(np.real(np.trace(rho @ op4)))
-        pf = float(omega[0, 1] * omega[2, 3] - omega[0, 2] * omega[1, 3] + omega[0, 3] * omega[1, 2])
+        pf = float(
+            omega[0, 1] * omega[2, 3] - omega[0, 2] * omega[1, 3] + omega[0, 3] * omega[1, 2]
+        )
         cumulant = abs(exp_4 - (-pf))
         return exp_4, pf, cumulant
 
-    # State 1: Pure Gaussian ground state of K_12 = 1.0, K_34 = 1.0
-    h_gauss = 0.25j * (c_ops[0] @ c_ops[1] + c_ops[2] @ c_ops[3])
+    # State 1: Pure Gaussian ground state (vacuum)
     rho_gauss = np.zeros((dim, dim), dtype=np.complex128)
     rho_gauss[0, 0] = 1.0  # vacuum is Gaussian
 
@@ -395,7 +425,6 @@ def main() -> None:
         export_parseval_sum_rule(backend)
     if args.benchmark in ("all", "wick-cumulant"):
         export_wick_cumulant_check()
-
 
 
 if __name__ == "__main__":

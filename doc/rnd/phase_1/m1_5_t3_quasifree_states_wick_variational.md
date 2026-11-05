@@ -22,7 +22,7 @@ claims:
 
 In introductory presentations of mean-field theory, the Hartree–Fock decoupling of quartic operator products into quadratic terms is frequently introduced as an *ad-hoc operator substitution*:
 $$A B C D \stackrel{?}{\approx} \langle A B \rangle C D + A B \langle C D \rangle - \langle A C \rangle B D - \dots$$
-Such expressions are mathematically false on the operator algebra. 
+Such expressions are mathematically false on the operator algebra.
 
 <!-- claim: CLM-M1-QF-001 -->
 **Proposition 1 (Failure of Operator-Level Wick Decoupling on States)**
@@ -39,7 +39,7 @@ Therefore, **Wick's theorem is not an identity among operators; it is a mathemat
 
 ## 2. Finite Algebraic Quantum Field Theory (AQFT) on Spin Lattices
 
-Let $\Lambda = (\mathcal{V}, \mathcal{E})$ be a finite graph of $N = |\mathcal{V}|$ sites. 
+Let $\Lambda = (\mathcal{V}, \mathcal{E})$ be a finite graph of $N = |\mathcal{V}|$ sites.
 
 <!-- claim: CLM-M1-QF-002 -->
 **Definition 1 (Quasi-Local Spin Net)**

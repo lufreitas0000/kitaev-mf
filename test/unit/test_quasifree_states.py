@@ -19,7 +19,6 @@ import scipy.linalg as la
 
 def build_majorana_fock_basis(n_modes: int = 2) -> list[np.ndarray]:
     """Construct explicit 2^n_modes x 2^n_modes Majorana operators via Jordan-Wigner."""
-    dim = 2**n_modes
     sigma_x = np.array([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex128)
     sigma_y = np.array([[0.0, -1.0j], [1.0j, 0.0]], dtype=np.complex128)
     sigma_z = np.array([[1.0, 0.0], [0.0, -1.0]], dtype=np.complex128)
@@ -27,13 +26,13 @@ def build_majorana_fock_basis(n_modes: int = 2) -> list[np.ndarray]:
 
     dirac_d: list[np.ndarray] = []
     for k in range(n_modes):
-        op = np.array([[1.0]], dtype=np.complex128)
-        for j in range(k):
-            op = np.kron(op, sigma_z)
+        op: np.ndarray = np.array([[1.0]], dtype=np.complex128)
+        for _ in range(k):
+            op = np.asarray(np.kron(op, sigma_z), dtype=np.complex128)
         sigma_minus = 0.5 * (sigma_x - 1.0j * sigma_y)
-        op = np.kron(op, sigma_minus)
-        for j in range(k + 1, n_modes):
-            op = np.kron(op, eye)
+        op = np.asarray(np.kron(op, sigma_minus), dtype=np.complex128)
+        for _ in range(k + 1, n_modes):
+            op = np.asarray(np.kron(op, eye), dtype=np.complex128)
         dirac_d.append(op)
 
     # Majorana operators: c_{2k} = d_k + d_k^dagger, c_{2k+1} = -i(d_k - d_k^dagger)
@@ -91,7 +90,6 @@ def test_tst_qf_01_pfaffian_wick_for_gaussian_states() -> None:
     np.testing.assert_allclose(exp_4, -pf_val, atol=1e-12)
 
 
-
 def test_tst_qf_02_wick_fails_for_generic_non_gaussian_state() -> None:
     """TST-QF-02: For a generic entangled or non-Gaussian state, the 4th cumulant is non-zero."""
     c_ops = build_majorana_fock_basis(n_modes=2)
@@ -121,7 +119,6 @@ def test_tst_qf_02_wick_fails_for_generic_non_gaussian_state() -> None:
 def test_tst_qf_03_non_convexity_of_quasifree_manifold() -> None:
     """TST-QF-03: The convex combination of two Gaussian states is NOT Gaussian."""
     c_ops = build_majorana_fock_basis(n_modes=2)
-    dim = 4
 
     # Two distinct Gaussian states rho1, rho2 from random K1, K2
     rng = np.random.default_rng(123)
@@ -130,12 +127,8 @@ def test_tst_qf_03_non_convexity_of_quasifree_manifold() -> None:
     k2 = rng.normal(size=(4, 4))
     k2 = 0.5 * (k2 - k2.T)
 
-    h1 = sum(
-        0.25j * k1[a, b] * (c_ops[a] @ c_ops[b]) for a in range(4) for b in range(4)
-    )
-    h2 = sum(
-        0.25j * k2[a, b] * (c_ops[a] @ c_ops[b]) for a in range(4) for b in range(4)
-    )
+    h1 = sum(0.25j * k1[a, b] * (c_ops[a] @ c_ops[b]) for a in range(4) for b in range(4))
+    h2 = sum(0.25j * k2[a, b] * (c_ops[a] @ c_ops[b]) for a in range(4) for b in range(4))
 
     rho1 = la.expm(-h1) / np.trace(la.expm(-h1))
     rho2 = la.expm(-h2) / np.trace(la.expm(-h2))
@@ -165,10 +158,7 @@ def test_tst_qf_04_admissibility_purity_and_fermion_parity() -> None:
     # For a 4x4 skew matrix, pure covariance has eigenvalues +-i, +-i
     # Standard normal form: [[0, 1, 0, 0], [-1, 0, 0, 0], [0, 0, 0, 1], [0, 0, -1, 0]]
     j_std = np.array(
-        [[0.0, 1.0, 0.0, 0.0],
-         [-1.0, 0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0, 1.0],
-         [0.0, 0.0, -1.0, 0.0]],
+        [[0.0, 1.0, 0.0, 0.0], [-1.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0], [0.0, 0.0, -1.0, 0.0]],
         dtype=np.float64,
     )
 
@@ -195,7 +185,6 @@ def test_tst_qf_04_admissibility_purity_and_fermion_parity() -> None:
 def test_tst_qf_05_gaussian_entropy_and_maximum_entropy() -> None:
     """TST-QF-05: Gaussian entropy matches -Tr(rho log rho) and satisfies Jaynes maximum entropy."""
     c_ops = build_majorana_fock_basis(n_modes=2)
-    dim = 4
 
     rng = np.random.default_rng(99)
     k = rng.normal(size=(4, 4))
@@ -262,15 +251,11 @@ def test_tst_qf_06_affine_tangent_property() -> None:
         return grad
 
     om_base = np.array(
-        [[0.0, 0.8, 0.0, 0.0],
-         [-0.8, 0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0, 0.8],
-         [0.0, 0.0, -0.8, 0.0]],
+        [[0.0, 0.8, 0.0, 0.0], [-0.8, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.8], [0.0, 0.0, -0.8, 0.0]],
         dtype=np.float64,
     )
     e_base = compute_energy(om_base)
     h_mf = compute_hmf(om_base)
-    c_sub = e_base  # for purely quartic interactions
 
     # Check finite-difference tangent convergence: Delta E - (Tr(h dOmega) - C) = O(delta^2)
     direction = rng.normal(size=(4, 4))
@@ -297,20 +282,14 @@ def test_tst_qf_07_grassmannian_stationarity_commutator() -> None:
     """TST-QF-07: Stationarity [h(Omega), Omega] = 0 and spectral projector construction."""
     # Consider a single-particle Hamiltonian matrix h in so(4)
     h = np.array(
-        [[0.0, 2.5, 0.0, 0.0],
-         [-2.5, 0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0, 1.2],
-         [0.0, 0.0, -1.2, 0.0]],
+        [[0.0, 2.5, 0.0, 0.0], [-2.5, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.2], [0.0, 0.0, -1.2, 0.0]],
         dtype=np.float64,
     )
     # The negative-energy ground covariance is Omega = -sgn(i h)
     # Since i*h has eigenvalues +-2.5, +-1.2:
     # sgn(i*h) has eigenvalues +-1, +-1 with the same eigenvectors
     omega_ground = np.array(
-        [[0.0, 1.0, 0.0, 0.0],
-         [-1.0, 0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0, 1.0],
-         [0.0, 0.0, -1.0, 0.0]],
+        [[0.0, 1.0, 0.0, 0.0], [-1.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0], [0.0, 0.0, -1.0, 0.0]],
         dtype=np.float64,
     )
 

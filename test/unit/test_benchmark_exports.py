@@ -1,6 +1,7 @@
 """Unit tests verifying integrity and formatting of exported benchmark data files."""
 
 from pathlib import Path
+
 import numpy as np
 
 BENCHMARK_DIR = Path("data/processed/benchmarks")
