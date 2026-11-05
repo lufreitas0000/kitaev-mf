@@ -1,0 +1,23 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    labbook standard,
+    xlabel={Brillouin Zone Mesh Size $N_k$},
+    ylabel={Estimated Quadrature Error $|\bar{U}(N_k) - \bar{U}_\infty|$},
+    legend pos=north east,
+    xmin=80, xmax=15000,
+    ymin=1e-13, ymax=1e-6
+]
+    \addplot[labbookaccent, thick, mark=*, mark size=2pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/k006_quadrature.dat};
+    \addlegendentry{Midpoint Quadrature}
+
+    % Asymptotic O(N^-3) reference line
+    \addplot[labbookcrimson, dashed, thick, domain=96:12288] {1.5e-2 * x^(-3)};
+    \addlegendentry{Asymptotic $\mathcal{O}(N_k^{-3})$ Guide}
+\end{loglogaxis}
+\end{tikzpicture}
+\caption{K-006 pure-Kitaev matter correlator convergence vs.\ BZ mesh size $N_k$. The algebraic convergence follows an exact $N_k^{-3}$ power law due to the Dirac cone singularity at the $K, K'$ corners of the Brillouin zone.}
+\label{fig:m1_3_k006_convergence}
+\end{figure}

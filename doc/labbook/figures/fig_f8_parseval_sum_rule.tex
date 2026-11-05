@@ -1,0 +1,24 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+    labbook standard,
+    xlabel={Brillouin Zone Mesh Size $N_k$},
+    ylabel={Sum Rule Residual $|\text{Spectral} - \text{Frobenius}|$},
+    xmin=2, xmax=34,
+    ymin=1e-18, ymax=1e-14,
+    ytick={1e-17, 1e-16, 1e-15},
+    legend pos=north east
+]
+    \addplot[labbookaccent, thick, mark=*, mark size=2.5pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/parseval_sum_rule.dat};
+    \addlegendentry{Kinematic Parseval Residual}
+
+    % Machine epsilon reference line
+    \addplot[labbookcrimson, dashed, thick, domain=3:33] {2.22e-16};
+    \addlegendentry{Float64 Machine Epsilon $\epsilon_{\mathrm{mach}}$}
+\end{semilogyaxis}
+\end{tikzpicture}
+\caption{Parseval-Frobenius spectral energy sum rule verification across BZ mesh sizes $N_k$. The discrepancy between the BZ-averaged eigenvalue squares and the real-space matrix Frobenius norms remains strictly bounded by machine precision ($\sim 10^{-16}$) for all $N_k \ge 2$, confirming exact kinematic conservation without Fourier aliasing.}
+\label{fig:m1_4_5_parseval_residuals}
+\end{figure}

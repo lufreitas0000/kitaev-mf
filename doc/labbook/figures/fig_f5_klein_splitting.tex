@@ -1,0 +1,23 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    labbook standard,
+    xlabel={Klein Perturbation Parameter $\epsilon$},
+    ylabel={Boundary Energy Splitting $|\delta E_{\mathrm{site}}(\boldsymbol{\epsilon})|$},
+    legend pos=north west,
+    xmin=1e-3, xmax=0.06,
+    ymin=1e-9, ymax=1e-4
+]
+    \addplot[labbookaccent, thick, mark=*, mark size=2.2pt]
+        table[x index=0, y index=4] {../../data/processed/benchmarks/klein_duality_splitting.dat};
+    \addlegendentry{Numerical Finite-Cell Splitting}
+
+    % Cubic reference line
+    \addplot[labbookcrimson, dashed, thick, domain=1.5e-3:0.05] {0.38 * x^3};
+    \addlegendentry{Odd-Parity Cubic $\mathcal{O}(\epsilon^3)$ Law}
+\end{loglogaxis}
+\end{tikzpicture}
+\caption{Four-sublattice Klein duality finite-cell boundary splitting. Halving the perturbation step size decreases the energy difference by a factor of 8 ($2^3$), confirming the proven odd-parity cubic scaling law $\delta E = c_3 \epsilon^3 + \mathcal{O}(\epsilon^5)$.}
+\label{fig:m1_4_5_klein_splitting}
+\end{figure}

@@ -1,0 +1,23 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xlabel={Zeeman Field $h_z / |K|$},
+    ylabel={Longitudinal Magnetization $\langle \sigma_{\mathrm{tot}}^z \rangle$ / Susceptibility $\chi^{zz}$},
+    legend pos=north west,
+    xmin=0.0, xmax=0.6,
+    ymin=0.0, ymax=1.8
+]
+    \addplot[labbookaccent, thick, mark=*, mark size=2pt]
+        table[x index=0, y index=1] {../../data/processed/benchmarks/susceptibility_curve.dat};
+    \addlegendentry{Total Magnetization $\langle \sigma_{\mathrm{tot}}^z \rangle$}
+
+    \addplot[labbookcrimson, thick, mark=square*, mark size=2pt]
+        table[x index=0, y index=2] {../../data/processed/benchmarks/susceptibility_curve.dat};
+    \addlegendentry{Susceptibility $\chi^{zz} = \partial \langle \sigma^z \rangle / \partial h_z$}
+\end{axis}
+\end{tikzpicture}
+\caption{Thermodynamic response along external field $[0, 0, h_z]$. Strictly positive susceptibility $\chi^{zz} > 0$ verifies thermodynamic convexity and second-order stability of the mean-field saddle point.}
+\label{fig:m1_4_5_susceptibility}
+\end{figure}

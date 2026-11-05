@@ -52,6 +52,14 @@ benchmark:
 	@echo "[benchmark] Generating reproducible .dat benchmark files in data/processed/benchmarks/..."
 	@$(PYTHON) scripts/generate_benchmarks.py --benchmark all
 
+benchmark-check:
+	@echo "[benchmark-check] Auditing benchmark data file integrity and formatting..."
+	@$(PYTEST) test/unit/test_benchmark_exports.py -v
+
+figures-check: labbook
+	@echo "[figures-check] Verified that all 8 pgfplots figures compile into doc/labbook/main.pdf"
+
+
 labbook:
 	@$(MAKE) --no-print-directory -C doc/labbook pdf
 

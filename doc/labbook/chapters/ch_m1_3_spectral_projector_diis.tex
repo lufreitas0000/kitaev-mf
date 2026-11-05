@@ -123,6 +123,9 @@ yielding $\bar{U} = \frac{1}{3} W_3(1) \approx 0.5248657458506$.
 
 The numerical convergence shown in \Cref{tab:m1_3_k006_quadrature} exhibits an exact cubic convergence rate ($p \approx 3.0000$) on midpoint grids up to $12288 \times 12288$. While periodic analytic functions converge exponentially under trapezoidal quadrature, the conical Dirac singularity at $K, K'$ reduces the asymptotic error to algebraic $\mathcal{O}(N_k^{-3})$ scaling.
 
+\input{figures/fig_f1_k006_convergence}
+
+
 % EDITORIAL QUESTION: Why do plain Picard fixed-point iterations fail in Majorana mean-field models, and how does Joint DIIS resolve hyperbolic saddle instabilities?
 \section{Gauge Constraints, Dual Ascent, and Scale-Invariant DIIS Acceleration}
 \label{sec:m1_3_diis_solver}
@@ -165,3 +168,6 @@ where the Gram matrix $\mathbf{B}_{\mathrm{DIIS}} \in \mathbb{R}^{m \times m}$ i
 The accelerated state is assembled via $X^{(\ell+1)} = \sum_{j=0}^{m-1} c_j \Phi(X^{(\ell-j)})$.
 \end{proposition}
 The scale-invariant regularization \eqref{eq:m1_3_diis_gram_regularized} guarantees numerical well-conditioning even when residuals vary over ten orders of magnitude during convergence. If the system becomes singular, the solver falls back gracefully to the plain Picard step $\Phi(X^{(\ell)})$.
+
+\input{figures/fig_f2_solver_convergence}
+

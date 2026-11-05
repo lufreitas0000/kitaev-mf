@@ -1,0 +1,31 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+    labbook standard,
+    xlabel={Fixed-Point Iteration $\ell$},
+    ylabel={Mean-Field Residual $\|R^{(\ell)}\|_\infty$},
+    legend pos=north east,
+    xmin=1, xmax=25,
+    ymin=1e-5, ymax=3
+]
+    \addplot[labbookslate, thick, mark=o, mark size=1.8pt]
+        table[x index=0, y index=1] {../../data/processed/benchmarks/solver_convergence.dat};
+    \addlegendentry{Picard (History $m=1$)}
+
+    \addplot[labbookteal, thick, mark=triangle*, mark size=2pt]
+        table[x index=0, y index=2] {../../data/processed/benchmarks/solver_convergence.dat};
+    \addlegendentry{Joint DIIS ($m=3$)}
+
+    \addplot[labbookaccent, thick, mark=*, mark size=2pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/solver_convergence.dat};
+    \addlegendentry{Joint DIIS ($m=6$)}
+
+    \addplot[labbookcrimson, dashed, thick, mark=square*, mark size=1.8pt]
+        table[x index=0, y index=4] {../../data/processed/benchmarks/solver_convergence.dat};
+    \addlegendentry{DIIS under Field $\mathbf{h} = (0.1, 0.1, 0.1)$}
+\end{semilogyaxis}
+\end{tikzpicture}
+\caption{Fixed-point solver residual contraction history. Joint DIIS acceleration with scale-invariant Tikhonov regularization eliminates oscillatory stall and restores linear geometric contraction down to machine precision.}
+\label{fig:m1_3_solver_convergence}
+\end{figure}

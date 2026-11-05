@@ -54,6 +54,9 @@ On each sublattice site $s$, the local spin magnetization vector $\mathbf{m}_s =
 \end{equation}
 \end{proposition}
 
+\input{figures/fig_f8_parseval_sum_rule}
+
+
 % EDITORIAL QUESTION: How do analytically solvable 1D zigzag and isolated dimer limits provide exact non-perturbative checks of the 2D code?
 \section{Solvable Reductions and Discrete Selection Rules}
 \label{sec:m1_4_5_solvable_reductions}
@@ -125,6 +128,9 @@ where $\tau$ is the fixed-point solver residual tolerance.
 
 As shown in \Cref{tab:m1_4_5_hellmann_feynman}, the numerical error scales strictly as $\delta^2$ ($p \approx 2.000$) down to $\delta \sim 10^{-4}$, where solver tolerance round-off enters, confirming exact variational stationarity of the code.
 
+\input{figures/fig_f3_hellmann_feynman}
+
+
 % EDITORIAL QUESTION: How are thermodynamic stability and 4-sublattice Klein duality verified through susceptibility curvature and boundary energy splitting?
 \section{Thermodynamic Susceptibility and the Odd-Parity Klein Duality Law}
 \label{sec:m1_4_5_klein_duality}
@@ -152,7 +158,8 @@ Thermodynamic convexity requires that the longitudinal magnetic susceptibility b
 ]{../../data/processed/benchmarks/susceptibility_curve.dat}
 \end{table}
 
-The 4-sublattice Klein transformation $\mathcal{K}$ performs a canonical $\pi$-rotation around alternating spin axes on four sublattices:
+\input{figures/fig_f4_susceptibility}
+ $\mathcal{K}$ performs a canonical $\pi$-rotation around alternating spin axes on four sublattices:
 \begin{equation}
 \label{eq:m1_4_5_klein_map}
 \mathcal{K}: (J, K, \Gamma, \Gamma') \mapsto (-J, K + 2J, -\Gamma, \Gamma').
@@ -201,3 +208,6 @@ The numerical data in \Cref{tab:m1_4_5_klein_splitting} provides direct empirica
 \frac{|\delta E(0.01)|}{|\delta E(0.005)|} &= \frac{3.887 \times 10^{-7}}{4.786 \times 10^{-8}} \approx 8.120 \approx 2^3.
 \end{align}
 Each halving of the perturbation step $\epsilon$ decreases the boundary energy splitting by a factor of 8, establishing the exact cubic scaling $\mathcal{O}(\epsilon^3)$.
+
+
+\input{figures/fig_f5_klein_splitting}

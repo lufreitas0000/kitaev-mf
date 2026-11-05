@@ -1,0 +1,41 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xlabel={High-Symmetry Momentum Path},
+    ylabel={Bloch Energy $\mathcal{E}_n(\mathbf{k}) / |K|$},
+    xmin=0, xmax=120,
+    ymin=-1.65, ymax=1.65,
+    xtick={0, 40, 80, 120},
+    xticklabels={$\Gamma$, $K$, $M$, $\Gamma$},
+    legend pos=north east
+]
+    % Lower and upper matter bands
+    \addplot[labbookaccent, very thick]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addlegendentry{Matter Majorana Bands ($c^0$)}
+
+    \addplot[labbookaccent, very thick]
+        table[x index=0, y index=10] {../../data/processed/benchmarks/dispersion_path.dat};
+
+    % Six flat gauge bands
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=4] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addlegendentry{Flat Gauge Majorana Bands ($c^1, c^2, c^3$)}
+
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=5] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=6] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=7] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=8] {../../data/processed/benchmarks/dispersion_path.dat};
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=9] {../../data/processed/benchmarks/dispersion_path.dat};
+\end{axis}
+\end{tikzpicture}
+\caption{Exact pure-Kitaev Majorana band structure along the high-symmetry path $\Gamma \to K \to M \to \Gamma$. Conical Dirac crossings occur at $K$ with bandwidth $3|K|$, while the six gauge bands remain strictly flat across the entire Brillouin zone.}
+\label{fig:m1_2_band_dispersion}
+\end{figure}

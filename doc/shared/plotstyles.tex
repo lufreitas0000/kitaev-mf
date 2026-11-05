@@ -1,0 +1,27 @@
+% ==============================================================================
+% Shared PGFPlots and TikZ Plot Styles: kitaev-mf
+% Integrated with the Lab Book Warm Theme and Monograph Quality Standards
+% ==============================================================================
+
+\definecolor{labbookcrimson}{HTML}{8C1D40}
+\definecolor{labbookteal}{HTML}{006A67}
+\definecolor{labbookamber}{HTML}{B25E00}
+\definecolor{labbookslate}{HTML}{4A5568}
+\definecolor{labbookwarm}{HTML}{E2D9C8}
+
+\pgfplotsset{
+    labbook standard/.style={
+        width=0.88\textwidth,
+        height=6.2cm,
+        grid=major,
+        grid style={dashed, gray!30},
+        tick label style={font=\small},
+        label style={font=\small\bfseries},
+        legend style={
+            font=\footnotesize,
+            fill=labbookbg,
+            draw=labbookrule,
+            rounded corners=1pt
+        }
+    }
+}

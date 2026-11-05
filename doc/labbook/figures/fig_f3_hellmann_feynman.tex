@@ -1,0 +1,23 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    labbook standard,
+    xlabel={Central Difference Step Size $\delta$},
+    ylabel={Hellmann-Feynman Discrepancy $\Delta_{\mathrm{HF}}(\delta)$},
+    legend pos=north west,
+    xmin=5e-5, xmax=0.3,
+    ymin=1e-10, ymax=1e-2
+]
+    \addplot[labbookaccent, thick, mark=*, mark size=2pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/hellmann_feynman_scaling.dat};
+    \addlegendentry{Numerical Discrepancy}
+
+    % Quadratic reference line
+    \addplot[labbookcrimson, dashed, thick, domain=1e-4:0.2] {0.2 * x^2};
+    \addlegendentry{Asymptotic $\mathcal{O}(\delta^2)$ Guide}
+\end{loglogaxis}
+\end{tikzpicture}
+\caption{Hellmann-Feynman numerical derivative error scaling vs.\ step size $\delta$. The error exhibits clean $\mathcal{O}(\delta^2)$ central-difference scaling across three decades, confirming exact variational stationarity on the Grassmannian manifold.}
+\label{fig:m1_4_5_hellmann_feynman}
+\end{figure}
