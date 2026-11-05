@@ -2,37 +2,166 @@
 \label{ch:m1_3}
 
 % EDITORIAL QUESTION: How is the zero-temperature Fermi sea projected and integrated over the BZ to obtain real-space covariances?
-\section{Zero-Temperature Spectral Projector}
-The reciprocal two-point correlation matrix $P(\mathbf{k}) = 2\Pi^-(\mathbf{k})$ projects onto the occupied negative-energy subspace:
+\section{Zero-Temperature Spectral Projector and CAR Normalization}
+\label{sec:m1_3_spectral_projector}
+In the reciprocal-space representation, the single-particle state is completely characterized by the reciprocal Majorana two-point correlation matrix:
 \begin{equation}
-P(\mathbf{k}) = 2 \sum_{\mathcal{E}_n(\mathbf{k}) < 0} \mathbf{w}_n(\mathbf{k}) \mathbf{w}_n^\dagger(\mathbf{k}) + \sum_{\mathcal{E}_n(\mathbf{k}) = 0} \mathbf{w}_n(\mathbf{k}) \mathbf{w}_n^\dagger(\mathbf{k}).
+\label{eq:m1_3_P_def}
+P_{s\mu, s'\nu}(\mathbf{k}) \equiv \langle c_{s, \mathbf{k}}^\mu (c_{s', \mathbf{k}}^\nu)^\dagger \rangle_{\mathrm{G}} \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}}.
 \end{equation}
-The half-weight assignment on zero modes preserves particle-hole symmetry $P(-\mathbf{k}) = 2\mathbb{1} - P^T(\mathbf{k})$.
 
-Integrating $P(\mathbf{k})$ over the Brillouin zone yields real-space covariances:
+\begin{theorem}[Zero-Temperature Spectral Projector]
+\label{thm:m1_3_spectral_projector}
+Let $\mathcal{H}(\mathbf{k}) \mathbf{w}_n(\mathbf{k}) = \mathcal{E}_n(\mathbf{k}) \mathbf{w}_n(\mathbf{k})$ denote the spectral decomposition with orthonormal eigenvectors $\mathbf{w}_n(\mathbf{k})$. At zero temperature ($T = 0$), the two-point correlator projects onto the occupied negative-energy subspace:
+\begin{equation}
+\label{eq:m1_3_P_proj}
+P(\mathbf{k}) = 2 \sum_{n=1}^{4N_{\mathrm{sub}}} \Theta(-\mathcal{E}_n(\mathbf{k})) \mathbf{w}_n(\mathbf{k}) \mathbf{w}_n^\dagger(\mathbf{k}) = 2 \Pi^-(\mathbf{k}),
+\end{equation}
+where $\Theta(x) = 1$ for $x > 0$, $\Theta(x) = 0$ for $x < 0$, and zero modes ($\mathcal{E}_n = 0$) are assigned the half-weight $\Theta(0) = \frac{1}{2}$ to preserve exact particle-hole symmetry.
+\end{theorem}
+\begin{proof}
+Expand the Majorana field in canonical Bogoliubov quasiparticle operators:
+\begin{equation}
+c_{s, \mathbf{k}}^\mu = \sqrt{2} \sum_n w_{n, s\mu}(\mathbf{k}) \eta_{n, \mathbf{k}}, \qquad \eta_{n, \mathbf{k}} = \frac{1}{\sqrt{2}} \sum_{s, \mu} w_{n, s\mu}^*(\mathbf{k}) c_{s, \mathbf{k}}^\mu.
+\end{equation}
+The operators obey standard fermion anticommutation relations $\{\eta_{n, \mathbf{k}}, \eta_{m, \mathbf{k}'}^\dagger\} = \delta_{nm}\delta_{\mathbf{k}\mathbf{k}'}$. In the ground state $|0\rangle$, positive-energy modes are unoccupied ($\langle \eta_n^\dagger \eta_n \rangle = 0$), while negative-energy modes are filled ($\langle \eta_n \eta_n^\dagger \rangle = 1$). Therefore $\langle c_{s, \mathbf{k}}^\mu (c_{s', \mathbf{k}}^\nu)^\dagger \rangle = 2 \sum_{\mathcal{E}_n < 0} w_{n, s\mu} w_{n, s'\nu}^* = 2 \Pi^-(\mathbf{k})$.
+\end{proof}
+
+\begin{proposition}[Particle-Hole Inversion and CAR Normalization Sum Rule]
+\label{prop:m1_3_car_sum_rule}
+Under particle-hole symmetry $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k})$, the negative-energy projector transforms as:
+\begin{equation}
+\label{eq:m1_3_projector_phs}
+\Pi^-(-\mathbf{k}) = \Id - (\Pi^-(\mathbf{k}))^* \implies P(-\mathbf{k}) = 2\Id - P^*(\mathbf{k}) = 2\Id - P^T(\mathbf{k}).
+\end{equation}
+Taking the real part and integrating over the Brillouin zone yields the exact CAR normalization sum rule:
+\begin{equation}
+\label{eq:m1_3_car_sum_rule}
+\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \operatorname{Re}\left[ P_{s\mu, s'\nu}(\mathbf{k}) \right] = \delta_{ss'} \delta^{\mu\nu}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Summing $P(\mathbf{k}) + P(-\mathbf{k}) = 2\Id$ over an inversion-symmetric mesh $\mathbf{k} \leftrightarrow -\mathbf{k}$ immediately yields $\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Re}[P(\mathbf{k})] = \Id$.
+\end{proof}
+
+% EDITORIAL QUESTION: How are real-space bond and site covariances extracted from BZ integrals over P(k)?
+\section{Real-Space Correlator Quadrature}
+\label{sec:m1_3_correlator_quadrature}
+\begin{theorem}[Brillouin-Zone Correlator Quadrature Formulae]
+\label{thm:m1_3_bz_quadrature}
+Let $b = \langle ij \rangle$ be a directed bond from sublattice $s_i$ to $s_j$ with Bravais offset $\Delta \mathbf{R}_b = n_{1, b} \mathbf{a}_1 + n_{2, b} \mathbf{a}_2$ and bond phase $\phi_b(\mathbf{k}) = 2\pi(k_1 n_{1, b} + k_2 n_{2, b})$. The real-space covariances evaluate to:
 \begin{align}
-\mathrm{U}_b^{\mu\nu} &= \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \left( \operatorname{Im}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \cos\phi_b(\mathbf{k}) - \operatorname{Re}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \sin\phi_b(\mathbf{k}) \right),\\
-\mathrm{V}_s^{\mu\nu} &= \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})].
+\label{eq:m1_3_Ub_quadrature}
+\mathrm{U}_b^{\mu\nu} &= \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \left( \operatorname{Im}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \cos\phi_b(\mathbf{k}) - \operatorname{Re}[P_{s_i\mu, s_j\nu}(\mathbf{k})] \sin\phi_b(\mathbf{k}) \right), \\
+\label{eq:m1_3_Vs_quadrature}
+\mathrm{V}_s^{\mu\nu} &= \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})].
 \end{align}
+\end{theorem}
+\begin{proof}
+By inverse Fourier transform, $\langle c_{s_i, \mathbf{0}}^\mu c_{s_j, \Delta\mathbf{R}_b}^\nu \rangle = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \langle c_{s_i, \mathbf{k}}^\mu (c_{s_j, \mathbf{k}}^\nu)^\dagger \rangle e^{-\ii \phi_b(\mathbf{k})}$. For distinct sites ($s_i \ne s_j$), $\langle c_{s_i} c_{s_j} \rangle = -\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} P_{s_i\mu, s_j\nu}(\mathbf{k}) e^{-\ii \phi_b(\mathbf{k})}$. Multiplying by $\ii$ and taking the real part yields Eq.~\eqref{eq:m1_3_Ub_quadrature}. For on-site correlators, $\langle c_s^\mu c_s^\nu \rangle = 2\delta^{\mu\nu}\Id - \frac{1}{N_{\mathbf{k}}} \sum P_{s\mu, s\nu}$; subtracting $\ii \delta^{\mu\nu}$ and taking the real part gives Eq.~\eqref{eq:m1_3_Vs_quadrature}.
+\end{proof}
+
+\begin{corollary}[Exact Flat-Band Gauge Neutrality]
+\label{cor:m1_3_flat_neutrality}
+When $u_{\mathrm{matter}} = 0$ in the pure Kitaev state, all six gauge Majorana bands reside at zero energy ($\mathcal{E}_{c^\gamma} = 0$). Under the half-weight convention $\Theta(0) = \frac{1}{2}$:
+\begin{equation}
+\label{eq:m1_3_flat_neutrality}
+P_{s\gamma, s\gamma}(\mathbf{k}) = 1, \qquad P_{s\gamma, s\nu}(\mathbf{k}) = 0 \quad (\gamma \ne \nu).
+\end{equation}
+Consequently, $\operatorname{Im}[P_{s\mu, s\nu}(\mathbf{k})] = 0$ for all on-site blocks, ensuring $\mathrm{V}_s = \mathbf{0}$ and all gauge residuals $g_s^\gamma = \tr(\mathrm{G}^\gamma \mathrm{V}_s) = 0$ vanish identically, independently of the numerical $\mathbf{k}$-grid resolution.
+\end{corollary}
 
 % EDITORIAL QUESTION: What is the exact analytical value of the pure Kitaev matter correlator, and why does it equal a 3-step Pearson random walk?
 \section{The K-006 Invariant and Pearson Random-Walk Average}
+\label{sec:m1_3_k006_invariant}
 % SOURCE [VERIFIED]: Borwein, Straub, Wan, Zudilin (2012), Canad. J. Math. 64, 961-998 — Three-step planar random walk moment W_3(1)
 % CLAIM: K-006 (provenance: doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md, test: test/unit/test_correlators.py::test_pure_kitaev_correlator_invariant_k006, data: data/processed/benchmarks/k006_quadrature.dat)
-In the pure Kitaev ground state ($K = -1.0, u_{\mathrm{gauge}} = +1.0$), the self-consistent matter bond correlator evaluates to:
+
+\begin{theorem}[Matter Correlator Sign Structure and Closed-Form Integral]
+\label{thm:m1_3_k006_sign_structure}
+In the pure Kitaev limit ($K < 0$, $J = \Gamma = \Gamma' = D = \mathbf{h} = \boldsymbol{\lambda} = \mathbf{0}$) with zero-flux background $\mathrm{U}_b^{\gamma\gamma} = u_{\mathrm{gauge}} = +1.0$:
+\begin{enumerate}
+\item The on-site covariances vanish identically: $\mathrm{V}_s = \mathbf{0} \implies g_s^\gamma = 0$.
+\item The self-consistent matter bond correlator satisfies the exact sign rule:
 \begin{equation}
-U_b^{00} = -\bar{U} = -\frac{1}{3} \int_0^1 dk_1 \int_0^1 dk_2 |1 + e^{-2\pi i k_1} + e^{-2\pi i k_2}|.
+\label{eq:m1_3_matter_sign_rule}
+u_{\mathrm{matter}} = \operatorname{sgn}(K) \operatorname{sgn}(u_{\mathrm{gauge}}) \bar{U}, \qquad \bar{U} \equiv \frac{1}{3} \langle |f(\mathbf{k})| \rangle_{\mathrm{BZ}} > 0,
 \end{equation}
-Remarkably, $3\bar{U} = \mathbb{E}[|\mathbf{R}_3|] = W_3(1)$ is the expected distance from the origin of a 3-step uniform planar Pearson random walk. It possesses the exact closed form:
+where $f(\mathbf{k}) = 1 + e^{-\ii 2\pi k_1} + e^{-\ii 2\pi k_2}$.
+\item For $K < 0$ and $u_{\mathrm{gauge}} = +1.0$:
 \begin{equation}
-W_3(1) = \frac{3 \cdot 2^{1/3}}{16\pi^4}\Gamma\left(\tfrac{1}{3}\right)^6 + \frac{27 \cdot 2^{2/3}}{4\pi^4}\Gamma\left(\tfrac{2}{3}\right)^6 \approx 1.5745972375506,
+\label{eq:m1_3_U_bar_integral}
+\mathrm{U}_b^{00} = -\bar{U} = -\frac{1}{3} \int_0^1 \dd k_1 \int_0^1 \dd k_2 |1 + e^{-\ii 2\pi k_1} + e^{-\ii 2\pi k_2}| \approx -0.5248657458506.
 \end{equation}
-giving $\bar{U} \approx 0.5248657458506$. Midpoint quadrature on meshes up to $12288 \times 12288$ confirms cubic convergence ($p = 3.0000$).
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In the pure Kitaev limit, the negative-energy eigenvector of $\mathcal{H}_{c^0}(\mathbf{k}) = \frac{\ii|K|}{2} f(\mathbf{k})$ is $\mathbf{w}_-(\mathbf{k}) = \frac{1}{\sqrt{2}}(1, \ii e^{-\ii \theta_{\mathbf{k}}})^T$ with $e^{\ii \theta_{\mathbf{k}}} = f(\mathbf{k})/|f(\mathbf{k})|$. By Eq.~\eqref{eq:m1_3_P_proj}, $P_{A0, B0}(\mathbf{k}) = -\ii e^{\ii \theta_{\mathbf{k}}}$. For the $z$-bond ($\phi_z = 0$), Eq.~\eqref{eq:m1_3_Ub_quadrature} yields $\mathrm{U}_z^{00} = \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \operatorname{Im}[P_{A0, B0}] = -\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} \cos\theta_{\mathbf{k}} = -\bar{U}$. By $C_3$ rotational symmetry on the honeycomb torus, $x$- and $y$-bonds evaluate to the identical value $-\bar{U}$.
+\end{proof}
+
+Remarkably, $3\bar{U} = \mathbb{E}[|\mathbf{R}_3|] = W_3(1)$ is the first moment (expected distance from origin) of a 3-step uniform planar Pearson random walk. It possesses the exact hypergeometric evaluation:
+\begin{equation}
+\label{eq:m1_3_pearson_hypergeometric}
+W_3(1) = \frac{3 \cdot 2^{1/3}}{16\pi^4} \Gamma\left(\tfrac{1}{3}\right)^6 + \frac{27 \cdot 2^{2/3}}{4\pi^4} \Gamma\left(\tfrac{2}{3}\right)^6 \approx 1.5745972375506,
+\end{equation}
+yielding $\bar{U} = \frac{1}{3} W_3(1) \approx 0.5248657458506$.
+
+\begin{table}[htbp]
+\centering
+\caption{K-006 pure-Kitaev matter correlator midpoint BZ quadrature benchmark (\texttt{k006\_quadrature.dat}).}
+\label{tab:m1_3_k006_quadrature}
+\pgfplotstabletypeset[
+  every head row/.style={before row=\toprule, after row=\midrule},
+  every last row/.style={after row=\bottomrule},
+  columns/mesh_size/.style={column name={Mesh $N_k$}},
+  columns/U_bar/.style={column name={$\bar{U}$}, precision=13},
+  columns/observed_order/.style={column name={Observed Order $p$}, precision=4},
+  columns/estimated_error/.style={column name={Estimated Error}, sci, sci zerofill, precision=3},
+  columns/richardson_extrapolated/.style={column name={Richardson Extrapolated}, precision=13}
+]{../../data/processed/benchmarks/k006_quadrature.dat}
+\end{table}
+
+The numerical convergence shown in \Cref{tab:m1_3_k006_quadrature} exhibits an exact cubic convergence rate ($p \approx 3.0000$) on midpoint grids up to $12288 \times 12288$. While periodic analytic functions converge exponentially under trapezoidal quadrature, the conical Dirac singularity at $K, K'$ reduces the asymptotic error to algebraic $\mathcal{O}(N_k^{-3})$ scaling.
 
 % EDITORIAL QUESTION: Why do plain Picard fixed-point iterations fail in Majorana mean-field models, and how does Joint DIIS resolve hyperbolic saddle instabilities?
-\section{Joint Anderson Acceleration (DIIS)}
-Standard Picard updates oscillate due to the hyperbolic saddle-point geometry. Joint DIIS tracks the concatenated vector $X = (\operatorname{vec}(\mathrm{U}), \operatorname{vec}(\mathrm{V}), \boldsymbol{\lambda})^T$ and minimizes historical residuals:
+\section{Gauge Constraints, Dual Ascent, and Scale-Invariant DIIS Acceleration}
+\label{sec:m1_3_diis_solver}
+\begin{lemma}[Hellmann-Feynman Multiplier Gradient]
+\label{lem:m1_3_hf_gradient}
+Let $g_s^\gamma \equiv \tr(\mathrm{G}^\gamma \mathrm{V}_s)$ denote the local gauge residual on sublattice $s$. Then:
 \begin{equation}
-\begin{pmatrix} B & -\mathbf{1} \\ -\mathbf{1}^T & 0 \end{pmatrix} \begin{pmatrix} \mathbf{c} \\ \mu \end{pmatrix} = \begin{pmatrix} \mathbf{0} \\ -1 \end{pmatrix}, \qquad B_{pq} = \langle R_{k-p}, R_{k-q} \rangle + \epsilon_{\mathrm{reg}} \delta_{pq}.
+\label{eq:m1_3_hf_multiplier_gradient}
+\frac{\partial E_0}{\partial \lambda_s^\gamma} = -\frac{1}{4} g_s^\gamma.
 \end{equation}
-This dampens matter-gauge cross-talk and restores asymptotic linear contraction.
+Updating multipliers via $\tilde{\lambda}_s^\gamma = \lambda_s^\gamma - \alpha_\lambda g_s^\gamma$ with $\alpha_\lambda > 0$ corresponds to gradient ascent on the concave dual energy surface, systematically driving $g_s^\gamma \to 0$.
+\end{lemma}
+\begin{proof}
+The Lagrange multiplier term in $H_{\mathrm{MF}}$ is $\sum_{s,\gamma} \lambda_s^\gamma \frac{\ii}{4} c_s^T \mathrm{G}^\gamma c_s$. By the Hellmann-Feynman theorem:
+\begin{equation}
+\frac{\partial E_0}{\partial \lambda_s^\gamma} = \left\langle \frac{\ii}{4} c_s^T \mathrm{G}^\gamma c_s \right\rangle = \frac{1}{4} \tr(\mathrm{G}^\gamma (\mathrm{V}_s + \ii \Id)) = \frac{1}{4} \tr(\mathrm{G}^\gamma \mathrm{V}_s^T) = -\frac{1}{4} \tr(\mathrm{G}^\gamma \mathrm{V}_s) = -\frac{1}{4} g_s^\gamma,
+\end{equation}
+using $\tr(\mathrm{G}^\gamma) = 0$ and the skew-symmetry of both $\mathrm{G}^\gamma$ and $\mathrm{V}_s$.
+\end{proof}
+
+\begin{proposition}[Joint Anderson Acceleration / DIIS Solver]
+\label{prop:m1_3_diis_solver}
+Concatenate the entire mean-field state into a single iterate vector:
+\begin{equation}
+\label{eq:m1_3_state_vector}
+X = (\operatorname{vec}(\mathrm{U}), \operatorname{vec}(\mathrm{V}), \boldsymbol{\lambda})^T \in \mathbb{R}^D, \qquad D = 16 N_{\mathrm{bonds}} + 16 N_{\mathrm{sub}} + 3 N_{\mathrm{sub}}.
+\end{equation}
+At iteration $\ell$, evaluate target covariances $\tilde{\mathrm{U}}, \tilde{\mathrm{V}}$ and dual update $\tilde{\boldsymbol{\lambda}} = \boldsymbol{\lambda} - \alpha_\lambda \mathbf{g}$, defining the fixed-point map $\Phi(X^{(\ell)})$ and residual vector $R_\ell \equiv \Phi(X^{(\ell)}) - X^{(\ell)}$.
+
+Over a historical memory window of depth $m$, the optimal acceleration weights $\mathbf{c} = (c_0, \dots, c_{m-1})^T$ minimizing $\|\sum_{j=0}^{m-1} c_j R_{\ell-j}\|^2$ subject to $\sum_j c_j = 1$ are obtained by solving the augmented Karush-Kuhn-Tucker system:
+\begin{equation}
+\label{eq:m1_3_diis_kkt}
+\begin{pmatrix} \mathbf{B}_{\mathrm{DIIS}} & -\mathbf{1} \\ -\mathbf{1}^T & 0 \end{pmatrix} \begin{pmatrix} \mathbf{c} \\ \nu \end{pmatrix} = \begin{pmatrix} \mathbf{0} \\ -1 \end{pmatrix},
+\end{equation}
+where the Gram matrix $\mathbf{B}_{\mathrm{DIIS}} \in \mathbb{R}^{m \times m}$ is stabilized by a **scale-invariant relative Tikhonov regularization**:
+\begin{equation}
+\label{eq:m1_3_diis_gram_regularized}
+\mathbf{B}_{\mathrm{DIIS}, pq} = \langle R_{\ell-p}, R_{\ell-q} \rangle + \epsilon_{\mathrm{reg}} \delta_{pq} \max\left( \langle R_{\ell-p}, R_{\ell-p} \rangle, 10^{-14} \right), \qquad \epsilon_{\mathrm{reg}} = 10^{-12}.
+\end{equation}
+The accelerated state is assembled via $X^{(\ell+1)} = \sum_{j=0}^{m-1} c_j \Phi(X^{(\ell-j)})$.
+\end{proposition}
+The scale-invariant regularization \eqref{eq:m1_3_diis_gram_regularized} guarantees numerical well-conditioning even when residuals vary over ten orders of magnitude during convergence. If the system becomes singular, the solver falls back gracefully to the plain Picard step $\Phi(X^{(\ell)})$.
