@@ -30,7 +30,7 @@ does not vanish ($\kappa_4 \neq 0$).
 Direct evaluation on the 4-dimensional Fock space shows that the exact singlet state has $\langle \sigma_i^z \sigma_j^z \rangle = -1$. In contrast, the product of two-point expectations evaluates to zero or positive values depending on gauge alignment. Thus $\kappa_4 \ne 0$ identically.
 \end{proof}
 
-This elementary counterexample establishes the epistemological foundation of this chapter: **Wick's theorem is not an identity on the operator algebra; it is a structural property characterizing a restricted family of states—the quasi-free (or Gaussian) states.** Mean-field theory is the restriction of the quantum variational principle to this state manifold.
+This elementary counterexample establishes the epistemological foundation of this chapter: \textbf{Wick's theorem is not an identity on the operator algebra; it is a structural property characterizing a restricted family of states---the quasi-free (or Gaussian) states.} Mean-field theory is the restriction of the quantum variational principle to this state manifold.
 
 % EDITORIAL QUESTION: How is a finite spin system formulated rigorously in algebraic quantum field theory (AQFT)?
 \section{Finite Quasi-Local Spin Nets and the State Space}
@@ -49,7 +49,7 @@ To each subset of sites $X \subseteq \mathcal{V}$, associate the finite-dimensio
 \end{enumerate}
 \end{definition}
 
-A **state** $\omega$ on $\ALambda$ is a normalized positive linear functional $\omega: \ALambda \to \mathbb{C}$ ($\omega(\Id) = 1$ and $\omega(A^\dagger A) \ge 0$). By the finite-dimensional Gelfand--Naimark--Segal (GNS) theorem, every state is uniquely represented by a density matrix $\rho \in \ALambda$ such that:
+A \textbf{state} $\omega$ on $\ALambda$ is a normalized positive linear functional $\omega: \ALambda \to \mathbb{C}$ ($\omega(\Id) = 1$ and $\omega(A^\dagger A) \ge 0$). By the finite-dimensional Gelfand--Naimark--Segal (GNS) theorem, every state is uniquely represented by a density matrix $\rho \in \ALambda$ such that:
 \begin{equation}
 \label{eq:m1_1b_density_matrix}
 \rho \ge 0, \qquad \Tr(\rho) = 1, \qquad \omega(A) = \Tr(\rho A).
@@ -219,7 +219,7 @@ Moreover, $H_{\mathrm{MF}}[\Omega]$ defines an affine tangent plane to the energ
 \label{sec:m1_1b_gauge_kkt}
 On the physical spin space, the gauge condition $\mathcal{D}_i = \Id$ must hold strictly. Within a quasi-free state, $\omega_\Omega(\mathcal{D}_i) = \operatorname{Pf}(\Omega_i)$ is a polynomial constraint that cannot force the full state into the exact singlet sector without breaking the Gaussian structure.
 
-Instead, mean-field theory enforces the local gauge conditions **on average** via Lagrange multipliers $\boldsymbol{\lambda} = \{\lambda_i^\gamma\}$:
+Instead, mean-field theory enforces the local gauge conditions \textbf{on average} via Lagrange multipliers $\boldsymbol{\lambda} = \{\lambda_i^\gamma\}$:
 \begin{equation}
 \label{eq:m1_1b_kkt_lagrangian}
 \mathcal{L}(\Omega, \boldsymbol{\lambda}) = \mathcal{E}(\Omega) - \sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma \omega_\Omega(T_i^\gamma).
@@ -229,18 +229,18 @@ The Karush--Kuhn--Tucker (KKT) stationarity conditions read:
 \label{eq:m1_1b_kkt_stationarity}
 \nabla_\Omega \mathcal{L} \in (T_\Omega \Gr)^\perp, \qquad g_i^\gamma(\Omega) \equiv \omega_\Omega(T_i^\gamma) = 0.
 \end{equation}
-The discrepancy between the unprojected expectation $\langle \mathcal{O} \rangle_{\mathrm{G}} = \omega_\Omega(\mathcal{O})$ and the physical Gutzwiller-projected expectation $\langle \mathcal{O} \rangle_{\mathrm{phys}} = \frac{\Tr(\rho P_G \mathcal{O} P_G)}{\Tr(\rho P_G)}$ is the **Gutzwiller Projection Gap** (cataloged as exploratory backlog item \textbf{BL-01}).
+The discrepancy between the unprojected expectation $\langle \mathcal{O} \rangle_{\mathrm{G}} = \omega_\Omega(\mathcal{O})$ and the physical Gutzwiller-projected expectation $\langle \mathcal{O} \rangle_{\mathrm{phys}} = \frac{\Tr(\rho P_G \mathcal{O} P_G)}{\Tr(\rho P_G)}$ is the \textbf{Gutzwiller Projection Gap} (cataloged as exploratory backlog item \textbf{BL-01}).
 
 % EDITORIAL QUESTION: How does the quasi-free upper bound interface with semidefinite programming (SDP) lower bounds?
 \section{Semidefinite Relaxations, N-Representability, and 2-RDM Lower Bounds}
 \label{sec:m1_1b_sdp_bounds}
 % CLAIM: CLM-M1-QF-008 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md)
-The Grassmannian variational principle yields a strict **upper bound** to the true ground energy:
+The Grassmannian variational principle yields a strict \textbf{upper bound} to the true ground energy:
 \begin{equation}
 \label{eq:m1_1b_upper_bound}
 E_0 \le \min_{\Omega \in \Gr(n, 2n)} \mathcal{E}(\Omega) = E_{\mathrm{MF}}.
 \end{equation}
-Conversely, the fermionic $N$-representability problem yields rigorous **lower bounds** via semidefinite programming (SDP). Let $\rho^{(2)}$ denote the two-body reduced density matrix. The fundamental positivity conditions:
+Conversely, the fermionic $N$-representability problem yields rigorous \textbf{lower bounds} via semidefinite programming (SDP). Let $\rho^{(2)}$ denote the two-body reduced density matrix. The fundamental positivity conditions:
 \begin{equation}
 \label{eq:m1_1b_sdp_conditions}
 \rho^{(2)} \succeq 0 \quad (\text{D-condition}), \qquad Q(\rho^{(2)}) \succeq 0 \quad (\text{Q-condition}), \qquad G(\rho^{(2)}) \succeq 0 \quad (\text{G-condition}),
@@ -294,7 +294,7 @@ The general theory developed in this chapter establishes that:
 2. The mean-field Hamiltonian $h(\Omega) = 4 \frac{\partial \mathcal{E}}{\partial \Omega}$ is the functional gradient on the real orthogonal Grassmannian $\Gr(n, 2n)$.
 3. Scalar double-counting subtraction $C[\Omega] = E_{\mathrm{int}}(\Omega)$ is the exact consequence of Euler's homogeneous function theorem on quadratic forms.
 
-In the subsequent chapter (\Cref{ch:m1_2}), we apply this universal framework to the **extended Kitaev honeycomb model**. Exploiting discrete translation symmetry, the global Grassmannian decomposes into a continuous direct product of momentum-space fibers:
+In the subsequent chapter (\Cref{ch:m1_2}), we apply this universal framework to the \textbf{extended Kitaev honeycomb model}. Exploiting discrete translation symmetry, the global Grassmannian decomposes into a continuous direct product of momentum-space fibers:
 \begin{equation}
 \label{eq:m1_1b_grassmannian_fiber_bundle}
 \Gr(4N, 8N) \xrightarrow{\text{Fourier}} \prod_{\mathbf{k} \in \mathrm{BZ}} \Gr(4, 8)_{\mathbf{k}},

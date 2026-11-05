@@ -160,7 +160,7 @@ Over a historical memory window of depth $m$, the optimal acceleration weights $
 \label{eq:m1_3_diis_kkt}
 \begin{pmatrix} \mathbf{B}_{\mathrm{DIIS}} & -\mathbf{1} \\ -\mathbf{1}^T & 0 \end{pmatrix} \begin{pmatrix} \mathbf{c} \\ \nu \end{pmatrix} = \begin{pmatrix} \mathbf{0} \\ -1 \end{pmatrix},
 \end{equation}
-where the Gram matrix $\mathbf{B}_{\mathrm{DIIS}} \in \mathbb{R}^{m \times m}$ is stabilized by a **scale-invariant relative Tikhonov regularization**:
+where the Gram matrix $\mathbf{B}_{\mathrm{DIIS}} \in \mathbb{R}^{m \times m}$ is stabilized by a \textbf{scale-invariant relative Tikhonov regularization}:
 \begin{equation}
 \label{eq:m1_3_diis_gram_regularized}
 \mathbf{B}_{\mathrm{DIIS}, pq} = \langle R_{\ell-p}, R_{\ell-q} \rangle + \epsilon_{\mathrm{reg}} \delta_{pq} \max\left( \langle R_{\ell-p}, R_{\ell-p} \rangle, 10^{-14} \right), \qquad \epsilon_{\mathrm{reg}} = 10^{-12}.
