@@ -1,4 +1,5 @@
-"""Generate a single uncommitted Markdown snapshot of the repository for AI context ingestion."""
+#!/usr/bin/env python3
+"""Generate a Markdown context snapshot of the repository."""
 
 from __future__ import annotations
 
@@ -6,71 +7,89 @@ import datetime
 import subprocess
 from pathlib import Path
 
-OUTPUT_FILE = Path("REPO_SNAPSHOT.md")
+SNAPSHOT_FILENAME = "REPO_SNAPSHOT.md"
 
-EXCLUDE_DIRS = {
-    ".git",
-    ".venv",
-    ".pytest_cache",
-    ".mypy_cache",
-    ".ruff_cache",
-    "__pycache__",
-    "build",
-    "dist",
-    "doc/reference/thesis",
-}
-
-DOC_PATTERNS = [
+ROOT_FILES = [
     "AGENTS.md",
     "PROJECT_STATE.yaml",
+    "README.md",
+    "CHANGELOG.md",
     "pyproject.toml",
     "Makefile",
+]
+
+DOC_PATTERNS = [
+    "doc/*.md",
+    "doc/governance/*.md",
     ".agents/rules/*.md",
     "doc/adr/*.md",
     "doc/rnd/*.md",
 ]
 
+CODE_PATTERNS = [
+    "scripts/*.py",
+    "src/kitaev_mf/**/*.py",
+    "test/**/*.py",
+]
 
-def _get_git_info() -> tuple[str, str]:
+EXCLUDED_PARTS = {
+    ".git",
+    ".venv",
+    "venv",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "src/kitaev_mf.egg-info",
+    "doc/reference",
+}
+
+
+def get_git_info() -> tuple[str, str]:
     try:
         branch = subprocess.check_output(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"], stderr=subprocess.DEVNULL, text=True
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True
         ).strip()
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"], stderr=subprocess.DEVNULL, text=True
-        ).strip()
-        return branch, commit
+        commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
     except Exception:
-        return "unknown", "unknown"
+        branch, commit = "unknown", "unknown"
+    return branch, commit
 
 
-def _should_exclude(path: Path) -> bool:
-    path_str = str(path).replace("\\", "/")
-    return any(ex in path_str for ex in EXCLUDE_DIRS) or path.suffix == ".egg-info"
+def get_directory_tree(root: Path) -> list[str]:
+    files: list[str] = []
+    for p in sorted(root.rglob("*")):
+        if p.name == SNAPSHOT_FILENAME or "repo_snapshot" in p.name:
+            continue
+        rel_parts = p.relative_to(root).parts
+        if any(ex in rel_parts for ex in EXCLUDED_PARTS):
+            continue
+        if p.is_file():
+            files.append(p.relative_to(root).as_posix())
+    return files
 
 
-def _get_syntax_fence(path: Path) -> str:
-    ext_map = {
-        ".py": "python",
-        ".md": "markdown",
-        ".yaml": "yaml",
-        ".yml": "yaml",
-        ".toml": "toml",
-        ".txt": "text",
-        ".in": "text",
-    }
-    if path.name == "Makefile":
-        return "makefile"
-    return ext_map.get(path.suffix, "text")
+def collect_files(root: Path, patterns: list[str]) -> list[Path]:
+    collected: set[Path] = set()
+    for pattern in patterns:
+        for p in sorted(root.glob(pattern)):
+            if not p.is_file():
+                continue
+            rel_parts = p.relative_to(root).parts
+            if any(ex in rel_parts for ex in EXCLUDED_PARTS):
+                continue
+            collected.add(p)
+    return sorted(collected)
 
 
-def build_snapshot() -> None:
-    root = Path(".")
-    branch, commit = _get_git_info()
+def main() -> None:
+    root = Path.cwd()
+    branch, commit = get_git_info()
     now_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     lines: list[str] = [
-        "# Repository Context Snapshot: kitaev-mf",
+        f"# Repository Context Snapshot: {root.name}",
         "",
         f"- **Generated:** {now_utc}",
         f"- **Git Branch:** {branch}",
@@ -80,49 +99,53 @@ def build_snapshot() -> None:
         "```text",
     ]
 
-    # Build filtered directory tree
-    tree_paths: list[str] = []
-    for p in sorted(root.rglob("*")):
-        if (
-            p.is_file()
-            and not _should_exclude(p)
-            and p.name not in (OUTPUT_FILE.name, "repo_snapshot.txt")
-        ):
-            tree_paths.append(str(p.as_posix()))
-
-    lines.extend(tree_paths)
+    for f_path in get_directory_tree(root):
+        lines.append(f_path)
     lines.extend(["```", "", "## 2. Governance, State & Documentation", ""])
 
-    included_paths: set[Path] = set()
+    # Root files
+    for r_name in ROOT_FILES:
+        p = root / r_name
+        if p.is_file():
+            lines.extend(
+                [
+                    f"### File: `{r_name}`",
+                    "```markdown"
+                    if p.suffix == ".md"
+                    else "```yaml"
+                    if p.suffix in (".yaml", ".yml")
+                    else "```toml"
+                    if p.suffix == ".toml"
+                    else "```makefile"
+                    if p.name == "Makefile"
+                    else "```text",
+                    p.read_text(encoding="utf-8").strip(),
+                    "```",
+                    "",
+                ]
+            )
 
-    for pattern in DOC_PATTERNS:
-        for p in sorted(root.glob(pattern)):
-            if p.is_file() and not _should_exclude(p):
-                included_paths.add(p)
-                fence = _get_syntax_fence(p)
-                lines.append(f"### File: `{p.as_posix()}`")
-                lines.append(f"```{fence}")
-                lines.append(p.read_text(encoding="utf-8").rstrip())
-                lines.append("```")
-                lines.append("")
+    # Doc files
+    for p in collect_files(root, DOC_PATTERNS):
+        rel = p.relative_to(root).as_posix()
+        if rel in ROOT_FILES:
+            continue
+        lines.extend(
+            [f"### File: `{rel}`", "```markdown", p.read_text(encoding="utf-8").strip(), "```", ""]
+        )
 
     lines.extend(["## 3. Source Code & Tests", ""])
+    for p in collect_files(root, CODE_PATTERNS):
+        rel = p.relative_to(root).as_posix()
+        lines.extend(
+            [f"### File: `{rel}`", "```python", p.read_text(encoding="utf-8").strip(), "```", ""]
+        )
 
-    for sub_dir in ("src", "test"):
-        for p in sorted((root / sub_dir).rglob("*.py")):
-            if p.is_file() and not _should_exclude(p):
-                included_paths.add(p)
-                fence = _get_syntax_fence(p)
-                lines.append(f"### File: `{p.as_posix()}`")
-                lines.append(f"```{fence}")
-                lines.append(p.read_text(encoding="utf-8").rstrip())
-                lines.append("```")
-                lines.append("")
-
-    OUTPUT_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    line_count = len(OUTPUT_FILE.read_text(encoding="utf-8").splitlines())
-    print(f"Snapshot written to {OUTPUT_FILE} ({line_count} lines, {len(included_paths)} files).")
+    output = "\n".join(lines) + "\n"
+    out_path = root / SNAPSHOT_FILENAME
+    out_path.write_text(output, encoding="utf-8")
+    print(f"Snapshot written to {out_path} ({len(output.splitlines())} lines)")
 
 
 if __name__ == "__main__":
-    build_snapshot()
+    main()

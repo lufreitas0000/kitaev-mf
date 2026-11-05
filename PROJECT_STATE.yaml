@@ -105,6 +105,7 @@ active_milestone:
     title: Variational Response & Canonical Dualities (Tier 3)
     status: in_progress
     target_files:
+    - src/kitaev_mf/services/response.py
     - test/integration/test_variational_response.py
     - test/integration/test_dualities_and_asymptotics.py
     contracts:
