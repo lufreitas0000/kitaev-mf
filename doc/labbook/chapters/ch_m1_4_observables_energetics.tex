@@ -3,30 +3,116 @@
 
 % EDITORIAL QUESTION: How are local magnetizations, spin correlators, and plaquette Wilson loops evaluated from Gaussian Majorana covariances?
 \section{Wick Contractions for Physical Spin Observables}
-Expectation values of local and two-site spin observables in the Gaussian mean-field state evaluate to:
-\begin{align}
-\langle \sigma_s^a \rangle_{\mathrm{G}} &= \frac{1}{2} \operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \mathrm{V}_s^{0a},\\
-\langle \sigma_i^a \sigma_j^b \rangle_{\mathrm{G}} &= \frac{1}{4} m_i^a m_j^b - \frac{1}{2} \operatorname{tr}\!\left( (\mathrm{N}^a)^T \mathrm{U}_b \mathrm{N}^b \mathrm{U}_b^T \right).
-\end{align}
-Local $\mathbb{Z}_2$ Wilson loops (plaquette fluxes) evaluate to $W_p = \prod_{b \in \partial p} u_b$. In the ground state of pure Kitaev, $W_p \equiv +1.0$.
+\label{sec:m1_4_spin_observables}
+% CLAIM: CLM-M1-OBS-001 (provenance: doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md, test: test/unit/test_production_observables.py::test_observable_t01_magnetization_and_spin_correlators)
+Physical spin observables are quadratic or quartic in the underlying Majorana fermions. Within the quasi-free mean-field state characterized by the covariance tuple $\Xi = (\mathrm{U}, \mathrm{V})$, expectation values evaluate via Wick's theorem (\Cref{ch:m1_1b}):
+
+\begin{definition}[Local Magnetization]
+\label{def:m1_4_magnetization}
+The local expectation value of the spin operator $\sigma_s^a$ on sublattice $s$ ($a \in \{x, y, z\}$) is:
+\begin{equation}
+\label{eq:m1_4_magnetization}
+m_s^a \equiv \langle \sigma_s^a \rangle_{\mathrm{G}} = \left\langle \frac{\ii}{2} c_s^T \mathrm{N}^a c_s \right\rangle_{\mathrm{G}} = \frac{1}{2} \operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = 2 \mathrm{V}_s^{0a}.
+\end{equation}
+\end{definition}
+\begin{proof}
+By Definition~\ref{eq:m1_1_pauli_def}, $\mathrm{N}^a$ has non-zero entries connecting flavor $\mu = 0$ (matter) to $\mu = a$ (gauge). Specifically, $\mathrm{N}_{0a}^a = -\mathrm{N}_{a0}^a = 1$. Since $\mathrm{V}_s$ is real skew-symmetric, $\operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \sum_{\mu,\nu} \mathrm{V}_s^{\nu\mu} \mathrm{N}_{\mu\nu}^a = 2 \mathrm{V}_s^{0a} \mathrm{N}_{a0}^a = 4 \mathrm{V}_s^{0a}$. Multiplying by $\frac{1}{2}$ yields $m_s^a = 2\mathrm{V}_s^{0a}$.
+\end{proof}
+
+\begin{definition}[Two-Site Directed Bond Spin Correlator]
+\label{def:m1_4_spin_correlator}
+Let $b = \langle ij \rangle$ be a directed bond from site $i$ to site $j$. For Cartesian spin components $a, a' \in \{x, y, z\}$, the two-site spin correlation function evaluates to:
+\begin{equation}
+\label{eq:m1_4_two_site_correlator}
+\langle \sigma_i^a \sigma_j^{a'} \rangle_{\mathrm{G}} = m_i^a m_j^{a'} - \frac{1}{2} \operatorname{tr}\left( (\mathrm{N}^a)^T \mathrm{U}_b \mathrm{N}^{a'} \mathrm{U}_b^T \right).
+\end{equation}
+\end{definition}
+\begin{proof}
+Substituting $\sigma_i^a = \frac{\ii}{2} c_i^T \mathrm{N}^a c_i$ and $\sigma_j^{a'} = \frac{\ii}{2} c_j^T \mathrm{N}^{a'} c_j$, the four-Majorana expectation $\langle (c_i^T \mathrm{N}^a c_i)(c_j^T \mathrm{N}^{a'} c_j) \rangle_{\mathrm{G}}$ decomposes via Wick's theorem into:
+\begin{equation}
+\label{eq:m1_4_wick_spin_expansion}
+\langle (c_i^T \mathrm{N}^a c_i) \rangle \langle (c_j^T \mathrm{N}^{a'} c_j) \rangle - 2 \sum_{\mu,\nu,\rho,\lambda} \mathrm{N}_{\mu\nu}^a \mathrm{N}_{\rho\lambda}^{a'} \langle c_i^\mu c_j^\rho \rangle \langle c_i^\nu c_j^\lambda \rangle.
+\end{equation}
+Using $\langle c_i^\mu c_j^\rho \rangle = \ii \mathrm{U}_b^{\mu\rho}$, the second term contracts to $2 (\ii)^2 \operatorname{tr}(\mathrm{N}^a \mathrm{U}_b (\mathrm{N}^{a'})^T \mathrm{U}_b^T) = 2 \operatorname{tr}((\mathrm{N}^a)^T \mathrm{U}_b \mathrm{N}^{a'} \mathrm{U}_b^T)$. Multiplying by $(\frac{\ii}{2})^2 = -\frac{1}{4}$ produces Eq.~\eqref{eq:m1_4_two_site_correlator}.
+\end{proof}
+
+\begin{definition}[Directed Gauge Link and Factored Plaquette Wilson Loop]
+\label{def:m1_4_wilson_loop}
+For each bond $b = (i, j, \gamma_b)$, the directed gauge link is the expectation value of the gauge Majorana bond operator:
+\begin{equation}
+\label{eq:m1_4_gauge_link}
+u_b \equiv -\ii \langle c_i^{\gamma_b} c_j^{\gamma_b} \rangle_{\mathrm{G}} = \mathrm{U}_b^{\gamma_b \gamma_b}.
+\end{equation}
+The factored plaquette Wilson loop $W_p$ around boundary cycle $\partial p$ of hexagonal plaquette $p$ is:
+\begin{equation}
+\label{eq:m1_4_factored_wilson_loop}
+W_p \equiv \prod_{b \in \partial p} u_b = \prod_{b \in \partial p} \mathrm{U}_b^{\gamma_b \gamma_b}.
+\end{equation}
+\end{definition}
+In the solvable pure Kitaev ground state ($J = \Gamma = \Gamma' = D = \mathbf{h} = \boldsymbol{\lambda} = 0$), $u_b \equiv +1.0$ on every bond, yielding $W_p \equiv +1.0$ (vortex-free flux ground state). In the presence of off-diagonal couplings $\Gamma, \mathbf{h}$, gauge Majoranas hybridize with matter modes, causing $W_p < 1$. The difference between $W_p$ and the true multi-link operator expectation $\langle \prod_{b \in \partial p} \hat{u}_b \rangle$ is isolated in exploratory backlog item \textbf{BL-02}.
 
 % EDITORIAL QUESTION: Why must scalar double-counting subtraction be enforced to maintain thermodynamic consistency between quadratic and physical ground-state energies?
-\section{Scalar Double-Counting Subtraction}
-Because two-body interactions are decoupled into single-particle effective fields, the single-particle ground-state energy counts exchange terms twice:
+\section{Variational Energetics and Scalar Double-Counting Subtraction}
+\label{sec:m1_4_energetics_theorem}
+% CLAIM: CLM-M1-ENG-001 (provenance: doc/rnd/phase_1/m1_4_t3_energetics_test_specification.md, test: test/unit/test_production_energetics.py::test_energetics_t01_extensive_and_density_consistency)
+
+\begin{theorem}[Scalar Double-Counting Subtraction Theorem]
+\label{thm:m1_4_double_counting}
+Let $H_\lambda$ be the microscopic quartic Majorana Hamiltonian \eqref{eq:m1_1_H_lambda_full}, and let $H_{\mathrm{MF}}[\Xi]$ be the quadratic mean-field Hamiltonian \eqref{eq:m1_2_H_MF_real_space}. The expectation value of the quadratic Hamiltonian in the mean-field ground state satisfies:
 \begin{equation}
-\langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} = 2 E_{\mathrm{exchange}} + E_{\mathrm{field}} + E_{\mathrm{multiplier}}.
+\label{eq:m1_4_quad_expectation_decomposition}
+\langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} \equiv \left\langle \sum_{i,j} \frac{\ii}{4} c_i^T \mathrm{A}_{ij} c_j + \sum_i \frac{\ii}{4} c_i^T \mathrm{B}_i c_i \right\rangle_{\mathrm{G}} = 2 E_{\mathrm{exchange}} + E_{\mathrm{field}} + E_{\mathrm{multiplier}},
 \end{equation}
-Exact thermodynamic consistency requires subtracting the scalar $C = E_{\mathrm{exchange}}$:
+where:
+\begin{align}
+\label{eq:m1_4_E_exchange}
+E_{\mathrm{exchange}} &= \frac{1}{8} \sum_{b=(i,j)} \sum_{a,a'=1}^3 \mathbf{J}_{\gamma_b}^{aa'} \left[ \tr(\mathrm{V}_i^T \mathrm{N}^a) \tr(\mathrm{V}_j^T \mathrm{N}^{a'}) + 2 \tr(\mathrm{U}_b^T \mathrm{N}^a \mathrm{U}_b \mathrm{N}^{a'}) \right], \\
+\label{eq:m1_4_E_field}
+E_{\mathrm{field}} &= -\sum_{i \in \mathcal{V}} \sum_{a=1}^3 h_i^a \left( \frac{1}{2} \tr(\mathrm{V}_i^T \mathrm{N}^a) \right) = -\sum_{i, a} h_i^a m_i^a, \\
+\label{eq:m1_4_E_multiplier}
+E_{\mathrm{multiplier}} &= -\sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma \left( \frac{1}{4} \tr(\mathrm{G}^\gamma \mathrm{V}_i) \right) = -\frac{1}{4} \sum_{i, \gamma} \lambda_i^\gamma g_i^\gamma.
+\end{align}
+Consequently, the true variational ground-state energy satisfies:
 \begin{equation}
-E_{\mathrm{total}} = E_{\mathrm{quad}, 0} - C \equiv E_{\mathrm{total}}^{\mathrm{G}}.
+\label{eq:m1_4_E_total_subtracted}
+E_{\mathrm{total}} = \langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} - C = \langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} - E_{\mathrm{exchange}} = E_{\mathrm{exchange}} + E_{\mathrm{field}} + E_{\mathrm{multiplier}}.
 \end{equation}
-Consistency residual $|(E_{\mathrm{quad}, 0} - C) - E_{\mathrm{total}}^{\mathrm{G}}| < 10^{-10}$ holds across all regimes.
+\end{theorem}
+\begin{proof}
+By Euler's homogeneous function theorem on quadratic polynomials (\Cref{thm:m1_1b_affine_tangent}), the functional derivative $\mathrm{A}_{ij} = \partial E_{\mathrm{exchange}}/\partial \mathrm{U}_{ij}$ satisfies $\sum_{ij} \operatorname{tr}(\mathrm{A}_{ij} \mathrm{U}_{ij}^T) = 4 E_{\mathrm{Fock}}$, while the Hartree on-site derivative satisfies $\sum_i \operatorname{tr}(\mathrm{B}_{i, \mathrm{exchange}} \mathrm{V}_i^T) = 4 E_{\mathrm{Hartree}}$. Summing Fock and Hartree channels yields $\frac{\ii}{4}\langle \mathbf{c}^T \mathrm{M}_{\mathrm{exchange}} \mathbf{c} \rangle = 2 E_{\mathrm{exchange}}$. Because external field and Lagrange multiplier terms are strictly linear in $\mathrm{V}_s$, they enter the expectation with coefficient $1$. Subtracting the scalar $C = E_{\mathrm{exchange}}$ cancels the double-counting, yielding Eq.~\eqref{eq:m1_4_E_total_subtracted}.
+\end{proof}
+
+\begin{corollary}[Numerical Energy Equivalence]
+\label{cor:m1_4_energy_consistency}
+The extensive total ground-state energy obtained from the negative-energy Bloch eigenvalue sum $E_{\mathrm{band}} = 2 \sum_{\mathbf{k}} \sum_{\mathcal{E}_n < 0} \mathcal{E}_n(\mathbf{k}) - C$ and the real-space observable evaluation $E_{\mathrm{obs}} = E_{\mathrm{exchange}} + E_{\mathrm{field}} + E_{\mathrm{multiplier}}$ agree to machine precision:
+\begin{equation}
+\label{eq:m1_4_energy_consistency_tol}
+|E_{\mathrm{band}} - E_{\mathrm{obs}}| < 10^{-12} |E_{\mathrm{total}}|.
+\end{equation}
+\end{corollary}
 
 % EDITORIAL QUESTION: What anomalies and sign traps arose during observable implementation, and how were they resolved?
-\section{Incident Audit and Failure Analysis}
-During M1.4 implementation, three numerical anomalies were identified and resolved:
+\section{Mathematical Incident Audit and Failure Analysis}
+\label{sec:m1_4_incident_audit}
+During the implementation and audit of Milestone M1.4 services, three critical mathematical anomalies were diagnosed and resolved:
+
 \begin{enumerate}
-    \item \textbf{Matrix Trace vs. Element-wise Multiplication Trap}: In assembling the Hartree exchange field, $\sum (V_s^T * N^\beta) = -\operatorname{tr}(V_s^T N^\beta)$ inverted the sign because both matrices are skew-symmetric. Replacing it with $\operatorname{tr}(V_s^T N^\beta)$ restored exact energy consistency.
-    \item \textbf{Dynamic Wilson Loops}: Asserting $W_p \equiv 1.0$ under finite $\Gamma$ and $\mathbf{h}$ fails because gauge Majoranas hybridize with matter, driving $W_p < 1$. Exact unity holds strictly at $J = \Gamma = \mathbf{h} = 0$.
-    \item \textbf{On-Site Relaxation}: Monitoring only gauge residuals allowed magnetic relaxation $V_s^{0a}$ to drift. Monitoring $\max_s |\Delta V_s| < \tau$ ensures simultaneous stationarity.
+\item \textbf{Skew-Symmetric Hadamard Product Contraction Trap:}
+In assembling the on-site Hartree exchange field $\mathrm{B}_s$, the matrix trace contraction $\operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^\beta)$ was initially implemented via elementwise Hadamard multiplication: \texttt{torch.sum(V\_s.T * N\_beta)}.
+Mathematically:
+\begin{equation}
+\operatorname{tr}(A^T B) = \sum_{i,j} A_{ij} B_{ij}.
+\end{equation}
+However, the transpose operation on a real skew-symmetric matrix satisfies $A_{ij}^T = -A_{ij}$. Consequently:
+\begin{equation}
+\sum_{i,j} A_{ji} B_{ij} = -\sum_{i,j} A_{ij} B_{ij} = -\operatorname{tr}(A^T B).
+\end{equation}
+Because both $\mathrm{V}_s$ and $\mathrm{N}^\beta$ are skew-symmetric, transposing one factor in an elementwise Hadamard sum inverted the sign of the Hartree interaction. This drove the fixed-point solver into unphysical, non-convergent runaway trajectories favoring spurious polarized states. Remediation was achieved by formalizing tensor contractions via \texttt{torch.tensordot} and adding automated anti-symmetry regression tests.
+
+\item \textbf{Quasiparticle Excitation Normalization Discrepancy:}
+Initial band-structure scripts evaluated single-particle excitation gaps as $\Delta = 2\min \mathcal{E}_n(\mathbf{k})$. As proven in Proposition~\ref{prop:m1_2_spectral_symmetries}, the true Bogoliubov quasiparticle excitation energies satisfy $\varepsilon_n(\mathbf{k}) = 4\mathcal{E}_n(\mathbf{k})$, resolving a factor-of-two discrepancy between single-particle spectral gaps and two-particle optical response thresholds.
+
+\item \textbf{Dynamic Wilson Loops in Frustrated Regimes:}
+Unit tests initially asserted $W_p \equiv +1.0$ across all parameter regimes. In the presence of $\Gamma, \Gamma', \mathbf{h}$, gauge Majoranas hybridize dynamically with itinerant matter fermions, driving $W_p < 1$. Rigid assertions of flux locking were relaxed to dynamical monitoring of the gauge link continuum, resolving solver convergence stalls in intermediate-field regimes.
 \end{enumerate}
+These three incidents are formally archived in the repository discovery journal (\texttt{LOG\_DISCOVERY\_AND\_PIVOTS.md}).
