@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
 active_phase: 'Phase 1: Analytical Rigor & Domain Foundations'
-current_milestone: M1.4.5
+current_milestone: M1.5
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -65,65 +65,47 @@ milestone_history:
   - test/unit/test_production_energetics.py
   - test/integration/test_m1_system_convergence.py
   validation: user_reported_local_wsl_pass
+- id: M1.4.5
+  name: Consolidated verification across advanced kinematic sum rules, semidefinite
+    constraints, solvable limits, and dualities
+  status: completed
+  acceptance: Verified TST-KIN-01..03, TST-SDP-01..03, TST-RED-01..03, TST-SYM-01..03,
+    TST-ASY-01, TST-VAR-01..02, TST-DUA-01 across 103 unit and integration tests with
+    reproducible .dat benchmark exports.
+  evidence:
+  - doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md
+  - doc/rnd/note_04g_variational_kkt_and_convergence_asymptotics.md
+  - doc/rnd/note_05_quasifree_states_and_variational_stability.md
+  - test/unit/test_kinematic_and_semidefinite.py
+  - test/unit/test_solvable_limits.py
+  - test/unit/test_symmetry_selection_rules.py
+  - test/integration/test_variational_response.py
+  - test/integration/test_dualities_and_asymptotics.py
+  - test/unit/test_hardware_parity.py
+  - data/processed/benchmarks/k006_quadrature.dat
+  - data/processed/benchmarks/hellmann_feynman_scaling.dat
+  - data/processed/benchmarks/susceptibility_curve.dat
+  - data/processed/benchmarks/klein_duality_splitting.dat
+  validation: user_reported_local_wsl_pass
 active_milestone:
-  id: M1.4.5
-  description: Consolidated verification across advanced kinematic sum rules, semidefinite
-    constraints, solvable limits, and dualities
+  id: M1.5
+  description: 'Standalone Research Monograph: Formal analytical and numerical synthesis
+    of Majorana Mean-Field Theory on Extended Kitaev Systems'
   status: in_progress
-  sprint_goal: Consolidated verification across advanced kinematic sum rules, semidefinite
-    constraints, solvable limits, and dualities
+  sprint_goal: Compile and verify publication-grade research monograph (doc/report/main.pdf)
+    with full claim-provenance mapping (CLM-M1-*)
   active_tasks:
   - id: T1
-    title: Kinematic and Semidefinite Gates (Tier 1)
-    status: completed
-    target_files:
-    - test/unit/test_kinematic_and_semidefinite.py
-    contracts:
-    - 'TST-KIN-01: Parseval-Frobenius spectral moment identity'
-    - 'TST-KIN-02: Pointwise Bloch Hamiltonian and spectral projector commutation'
-    - 'TST-KIN-03: Spectral projector idempotency, trace filling, and reflection sum
-      rule'
-    - 'TST-SDP-01: Local two-site Majorana LMI positivity'
-    - 'TST-SDP-02: Covariance operator norm and singular value bounds'
-    - 'TST-SDP-03: Dipole Bloch-ball and fermion parity envelope bounds'
-    validation: pytest -v test/unit/test_kinematic_and_semidefinite.py
-  - id: T2
-    title: Solvable Limits, Symmetries & Asymptotics (Tier 2)
-    status: completed
-    target_files:
-    - test/unit/test_solvable_limits.py
-    - test/unit/test_symmetry_selection_rules.py
-    contracts:
-    - 'TST-RED-01: 1D zigzag chain solvable reduction'
-    - 'TST-RED-02: Isolated dimer flat-band saturation'
-    - 'TST-SYM-01: Time-reversal-odd correlator vanishing'
-    - 'TST-SYM-02: Sublattice inversion parity'
-    - 'TST-SYM-03: C3 ray permutation invariance'
-    - 'TST-ASY-01: High-field classical energy convergence'
-    validation: pytest -v test/unit/test_solvable_limits.py test/unit/test_symmetry_selection_rules.py
-  - id: T3
-    title: Variational Response & Canonical Dualities (Tier 3)
+    title: Monograph Preambles, Scaffolding, and Structural Verification
     status: in_progress
     target_files:
-    - src/kitaev_mf/services/response.py
-    - test/integration/test_variational_response.py
-    - test/integration/test_dualities_and_asymptotics.py
+    - doc/report/main.tex
+    - doc/report/Makefile
     contracts:
-    - 'TST-VAR-01: Variational Hellmann-Feynman magnetization derivative'
-    - 'TST-VAR-02: Thermodynamic magnetic concavity and non-negative susceptibility'
-    - 'TST-RED-03: Bipartite sign-inversion duality'
-    - 'TST-DUA-01: Four-sublattice Klein duality in 4-site cell'
-    validation: pytest -v test/integration/test_variational_response.py test/integration/test_dualities_and_asymptotics.py
-  - id: T4
-    title: Hardware Parity & Verification Gate
-    status: planned
-    target_files:
-    - src/kitaev_mf/infra/linalg_backend.py
-    contracts:
-    - Full test suite execution on CPU and CUDA through TorchBackend
-    - Zero-import-cycle validation
-    - 100% pass under make verify
-    validation: make verify
+    - Zero compilation warnings
+    - TikZ vector assets integrated
+    - Claim identifiers mapped
+    validation: make -C doc/report
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)

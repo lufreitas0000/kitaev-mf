@@ -77,9 +77,7 @@ def get_git_info() -> tuple[str, str]:
         branch = subprocess.check_output(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True
         ).strip()
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"], text=True
-        ).strip()
+        commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
     except Exception:
         branch, commit = "unknown", "unknown"
     return branch, commit
@@ -163,19 +161,25 @@ def main() -> None:
                 if p.name == "Makefile"
                 else "```text"
             )
-            lines.extend([f"### File: `{r_name}`", fence, p.read_text(encoding="utf-8").strip(), "```", ""])
+            lines.extend(
+                [f"### File: `{r_name}`", fence, p.read_text(encoding="utf-8").strip(), "```", ""]
+            )
 
     # Selected Doc files
     for p in collect_files(root, doc_patterns):
         rel = p.relative_to(root).as_posix()
         if rel in ROOT_FILES:
             continue
-        lines.extend([f"### File: `{rel}`", "```markdown", p.read_text(encoding="utf-8").strip(), "```", ""])
+        lines.extend(
+            [f"### File: `{rel}`", "```markdown", p.read_text(encoding="utf-8").strip(), "```", ""]
+        )
 
     lines.extend(["## 3. Source Code & Tests", ""])
     for p in collect_files(root, CODE_PATTERNS):
         rel = p.relative_to(root).as_posix()
-        lines.extend([f"### File: `{rel}`", "```python", p.read_text(encoding="utf-8").strip(), "```", ""])
+        lines.extend(
+            [f"### File: `{rel}`", "```python", p.read_text(encoding="utf-8").strip(), "```", ""]
+        )
 
     output = "\n".join(lines) + "\n"
     out_path = root / SNAPSHOT_FILENAME

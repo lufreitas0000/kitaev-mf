@@ -22,7 +22,12 @@
 
 ---
 
-### Active Milestone: M1.4.5 — Consolidated Verification & Invariant Hardening
+### Completed Milestones (Continued)
+- **M1.4.5: Consolidated Verification & Invariant Hardening**
+  - *Contracts*: Advanced kinematic sum rules, semidefinite representability constraints, solvable reductions, discrete selection rules, variational response, and canonical dualities.
+  - *Benchmarks*: Recorded in data/processed/benchmarks/.
+
+### Active Milestone: M1.5 — Standalone Research Monograph
 - **Objective**: Execute multi-tiered verification covering kinematic sum rules, semidefinite representability constraints, solvable reductions, discrete selection rules, variational response, and canonical dualities.
 - **Parent R&D Specifications**:
   - `doc/rnd/note_04f_advanced_invariants_and_sum_rules_backlog.md`

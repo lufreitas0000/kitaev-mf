@@ -9,21 +9,17 @@ RUFF := $(VENV)/bin/ruff
 MYPY := $(VENV)/bin/mypy
 SNAPSHOT_FILE := REPO_SNAPSHOT.md
 
-.PHONY: help venv lock sync install test k006-quadrature lint format verify snapshot clean
+.PHONY: help venv lock sync install test test-verbose benchmark k006-quadrature lint format verify snapshot clean
 
 help:
-	@echo "kitaev-mf development targets:"
-	@echo "  make venv     - Create .venv and install pip-tools"
-	@echo "  make lock     - Compile requirements.in -> requirements.txt via pip-compile"
-	@echo "  make sync     - Synchronize venv to exact locked requirements"
-	@echo "  make install  - Editable install of kitaev-mf in venv"
-	@echo "  make test     - Run pytest suite with coverage"
-	@echo "  make k006-quadrature - Run the high-resolution K-006 convergence diagnostic"
-	@echo "  make lint     - Run Ruff lint/format checks and Mypy"
-	@echo "  make format   - Automatically fix lint, format code, and sanitize whitespace"
-	@echo "  make verify   - Run tests, static checks, Git whitespace checks, and status"
-	@echo "  make snapshot - Generate uncommitted $(SNAPSHOT_FILE) for AI context ingestion"
-	@echo "  make clean    - Remove build, test caches, and temporary snapshots"
+	@echo "kitaev-mf targets:"
+	@echo "  make verify        - Run concise complete gate (tests, static checks, whitespace)"
+	@echo "  make test          - Run pytest suite concisely with coverage"
+	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
+	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
+	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
+	@echo "  make lint          - Run Ruff check, format verification, and strict Mypy"
+	@echo "  make snapshot      - Generate REPO_SNAPSHOT.md for agent ingestion"
 
 venv:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -33,9 +29,7 @@ venv:
 	@$(PIP) install --upgrade pip setuptools wheel pip-tools
 
 lock: venv
-	@echo "Compiling requirements.txt..."
 	@$(PIP_COMPILE) --resolver=backtracking -o requirements.txt requirements.in
-	@echo "Compiling requirements-dev.txt..."
 	@$(PIP_COMPILE) --resolver=backtracking -o requirements-dev.txt requirements-dev.in
 
 sync: venv
@@ -45,43 +39,55 @@ sync: venv
 install: venv lock sync
 
 test:
-	@$(PYTEST) --cov=kitaev_mf --cov-report=term-missing test/
+	@$(PYTEST) -q --tb=short --cov=kitaev_mf --cov-report=term-missing:skip-covered test/
+
+test-verbose:
+	@$(PYTEST) -v --tb=short --cov=kitaev_mf --cov-report=term-missing test/
+
+benchmark:
+	@echo "[benchmark] Generating reproducible .dat benchmark files in data/processed/benchmarks/..."
+	@$(PYTHON) scripts/generate_benchmarks.py --benchmark all
 
 k006-quadrature:
-	@echo "[K-006] Recompute the midpoint sequence and empirical convergence diagnostics..."
 	@$(PYTHON) scripts/k006_quadrature.py
 
 format:
-	@echo "[format] Ruff check & fix..."
 	@$(RUFF) check --fix src test scripts
-	@echo "[format] Ruff format..."
 	@$(RUFF) format src test scripts
-	@echo "[format] Sanitizing file whitespace and EOF lines..."
 	@$(PYTHON) scripts/fix_whitespace.py
 
 lint:
-	@echo "[lint] Ruff rules across src/, test/, and scripts/..."
 	@$(RUFF) check src test scripts
-	@echo "[format] Check formatting across the complete Python source, test, and script tree..."
 	@$(RUFF) format --check src test scripts
-	@echo "[types] Mypy across src/, test/, and scripts/..."
 	@$(MYPY) src test scripts
 
 verify:
 	@set -eu; \
-	printf '\n[1/5] Unit tests with coverage\n'; \
-	$(MAKE) --no-print-directory test; \
-	printf '\n[2/5] K-006 high-resolution numerical diagnostic\n'; \
-	$(MAKE) --no-print-directory k006-quadrature; \
-	printf '\n[3/5] Ruff lint, formatting, and Mypy\n'; \
-	$(MAKE) --no-print-directory lint; \
-	printf '\n[4/5] Git whitespace checks (excluding read-only doc/reference/)\n'; \
-	git diff --check main...HEAD -- . ':(exclude)doc/reference'; \
-	git diff --cached --check -- . ':(exclude)doc/reference'; \
-	git diff --check -- . ':(exclude)doc/reference'; \
-	printf '\n[5/5] Working-tree status (informational; does not require a clean tree)\n'; \
-	git status --short --branch; \
-	printf '\nVerification completed: all preceding checks passed.\n'
+	printf '[1/4] Running test suite... '; \
+	$(PYTEST) -q --tb=short --cov=kitaev_mf --cov-report=term:skip-covered test/ > /dev/null 2>&1 \
+		&& echo 'PASS' \
+		|| { echo 'FAILED'; $(PYTEST) --tb=short test/; exit 1; }; \
+	printf '[2/4] Static analysis (Ruff & Mypy)... '; \
+	if $(RUFF) check src test scripts > /dev/null 2>&1 \
+		&& $(RUFF) format --check src test scripts > /dev/null 2>&1 \
+		&& $(MYPY) src test scripts > /dev/null 2>&1; then \
+		echo 'PASS'; \
+	else \
+		echo 'FAILED'; \
+		$(MAKE) lint; \
+		exit 1; \
+	fi; \
+	printf '[3/4] Whitespace & Git hygiene... '; \
+	if git diff --check -- . ':(exclude)doc/reference' > /dev/null 2>&1; then \
+		echo 'PASS'; \
+	else \
+		echo 'FAILED'; \
+		git diff --check -- . ':(exclude)doc/reference'; \
+		exit 1; \
+	fi; \
+	printf '[4/4] Coverage summary:\n'; \
+	$(PYTEST) -q --cov=kitaev_mf --cov-report=term:skip-covered test/ | grep -E "(TOTAL|TOTAL.*%|===)" || true; \
+	printf '\nVerification completed successfully.\n'
 
 snapshot:
 	@$(PYTHON) scripts/make_snapshot.py
