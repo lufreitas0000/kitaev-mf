@@ -1,140 +1,145 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: "Phase 1: Analytical Rigor & Domain Foundations"
-current_milestone: M1.5
-
+active_phase: 'Phase 1: Analytical Rigor & Domain Foundations'
+current_milestone: M1.6
 milestone_history:
-  - id: M1.1
-    name: Local Majorana algebra, representation, physical projection, and exact quartic Hamiltonian
-    status: completed
-    acceptance: Verified A01-A20 contracts across 25 unit tests on Clifford CAR algebra, Casimir identities, physical projection, and exact quartic exchange.
-    evidence:
-      - doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
-      - doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md
-      - doc/rnd/phase_1/m1_1_t3_physical_projection_pauli_algebra.md
-      - doc/rnd/phase_1/m1_1_t4_exchange_tensor_quartic_hamiltonian.md
-      - doc/rnd/phase_1/m1_1_t5_test_specification_and_validation.md
-      - test/unit/test_local_majorana_algebra.py
-      - test/unit/test_local_majorana_representations.py
-      - test/unit/test_physical_projection.py
-      - test/unit/test_exchange_hamiltonian.py
-    validation: user_reported_local_wsl_pass
-  - id: M1.2
-    name: Generalized decoupling and momentum-space Bloch matrices
-    status: completed
-    acceptance: Verified exact pure-Kitaev dispersion, flat gauge bands, and 2-site to 4-site supercell folding unitary equivalence.
-    evidence:
-      - doc/rnd/phase_1/m1_2_t1_majorana_mean_field_decoupling.md
-      - doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md
-      - test/unit/test_hamiltonian.py
-    validation: user_reported_local_wsl_pass
-  - id: M1.3
-    name: Project-state synchronization, correlator integration, and DIIS solver
-    status: completed
-    acceptance: Verified zero-temperature spectral projector, BZ integration to real-space covariances, Joint Anderson Acceleration, and K-006 high-precision quadrature benchmark.
-    evidence:
-      - doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md
-      - doc/rnd/phase_1/m1_3_t2_k006_quadrature_provenance.md
-      - src/kitaev_mf/services/quadrature.py
-      - scripts/k006_quadrature.py
-      - test/unit/test_correlators.py
-      - test/unit/test_solver.py
-      - test/unit/test_k006_quadrature.py
-    validation: user_reported_local_wsl_pass
-  - id: M1.4
-    name: Production observables, plaquette Wilson loops, and variational energetics services
-    status: completed
-    acceptance: Verified local magnetization, bond spin correlators, plaquette Wilson loops, extensive and density energetics, scalar double-counting subtraction, and end-to-end convergence.
-    evidence:
-      - doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md
-      - doc/rnd/phase_1/m1_4_t2_observable_test_specification.md
-      - doc/rnd/phase_1/m1_4_t3_energetics_test_specification.md
-      - doc/rnd/phase_1/m1_4_t4_energy_normalization_audit.md
-      - doc/rnd/phase_1/m1_4_t5_integration_audit_and_anomalies.md
-      - src/kitaev_mf/domain/lattice.py
-      - src/kitaev_mf/domain/state.py
-      - src/kitaev_mf/services/observables.py
-      - src/kitaev_mf/services/energetics.py
-      - test/unit/test_production_observables.py
-      - test/unit/test_production_energetics.py
-      - test/integration/test_m1_system_convergence.py
-    validation: user_reported_local_wsl_pass
-  - id: M1.4.5
-    name: Consolidated verification across advanced kinematic sum rules, semidefinite constraints, solvable limits, and dualities
-    status: completed
-    acceptance: Verified TST-KIN-01..03, TST-SDP-01..03, TST-RED-01..03, TST-SYM-01..03, TST-ASY-01, TST-VAR-01..02, TST-DUA-01 across 103 unit and integration tests with reproducible .dat benchmark exports.
-    evidence:
-      - doc/rnd/phase_1/m1_4_5_t1_kinematic_and_semidefinite_invariants.md
-      - doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md
-      - doc/rnd/phase_1/m1_4_5_t3_quasifree_manifolds_and_stability.md
-      - test/unit/test_kinematic_and_semidefinite.py
-      - test/unit/test_solvable_limits.py
-      - test/unit/test_symmetry_selection_rules.py
-      - test/integration/test_variational_response.py
-      - test/integration/test_dualities_and_asymptotics.py
-      - test/unit/test_hardware_parity.py
-      - data/processed/benchmarks/k006_quadrature.dat
-      - data/processed/benchmarks/hellmann_feynman_scaling.dat
-      - data/processed/benchmarks/susceptibility_curve.dat
-      - data/processed/benchmarks/klein_duality_splitting.dat
-    validation: user_reported_local_wsl_pass
-
+- id: M1.1
+  name: Local Majorana algebra, representation, physical projection, and exact quartic
+    Hamiltonian
+  status: completed
+  acceptance: Verified A01-A20 contracts across 25 unit tests on Clifford CAR algebra,
+    Casimir identities, physical projection, and exact quartic exchange.
+  evidence:
+  - doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
+  - doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md
+  - doc/rnd/phase_1/m1_1_t3_physical_projection_pauli_algebra.md
+  - doc/rnd/phase_1/m1_1_t4_exchange_tensor_quartic_hamiltonian.md
+  - doc/rnd/phase_1/m1_1_t5_test_specification_and_validation.md
+  - test/unit/test_local_majorana_algebra.py
+  - test/unit/test_local_majorana_representations.py
+  - test/unit/test_physical_projection.py
+  - test/unit/test_exchange_hamiltonian.py
+  validation: user_reported_local_wsl_pass
+- id: M1.2
+  name: Generalized decoupling and momentum-space Bloch matrices
+  status: completed
+  acceptance: Verified exact pure-Kitaev dispersion, flat gauge bands, and 2-site
+    to 4-site supercell folding unitary equivalence.
+  evidence:
+  - doc/rnd/phase_1/m1_2_t1_majorana_mean_field_decoupling.md
+  - doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md
+  - test/unit/test_hamiltonian.py
+  validation: user_reported_local_wsl_pass
+- id: M1.3
+  name: Project-state synchronization, correlator integration, and DIIS solver
+  status: completed
+  acceptance: Verified zero-temperature spectral projector, BZ integration to real-space
+    covariances, Joint Anderson Acceleration, and K-006 high-precision quadrature
+    benchmark.
+  evidence:
+  - doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md
+  - doc/rnd/phase_1/m1_3_t2_k006_quadrature_provenance.md
+  - src/kitaev_mf/services/quadrature.py
+  - scripts/k006_quadrature.py
+  - test/unit/test_correlators.py
+  - test/unit/test_solver.py
+  - test/unit/test_k006_quadrature.py
+  validation: user_reported_local_wsl_pass
+- id: M1.4
+  name: Production observables, plaquette Wilson loops, and variational energetics
+    services
+  status: completed
+  acceptance: Verified local magnetization, bond spin correlators, plaquette Wilson
+    loops, extensive and density energetics, scalar double-counting subtraction, and
+    end-to-end convergence.
+  evidence:
+  - doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md
+  - doc/rnd/phase_1/m1_4_t2_observable_test_specification.md
+  - doc/rnd/phase_1/m1_4_t3_energetics_test_specification.md
+  - doc/rnd/phase_1/m1_4_t4_energy_normalization_audit.md
+  - doc/rnd/phase_1/m1_4_t5_integration_audit_and_anomalies.md
+  - src/kitaev_mf/domain/lattice.py
+  - src/kitaev_mf/domain/state.py
+  - src/kitaev_mf/services/observables.py
+  - src/kitaev_mf/services/energetics.py
+  - test/unit/test_production_observables.py
+  - test/unit/test_production_energetics.py
+  - test/integration/test_m1_system_convergence.py
+  validation: user_reported_local_wsl_pass
+- id: M1.4.5
+  name: Consolidated verification across advanced kinematic sum rules, semidefinite
+    constraints, solvable limits, and dualities
+  status: completed
+  acceptance: Verified TST-KIN-01..03, TST-SDP-01..03, TST-RED-01..03, TST-SYM-01..03,
+    TST-ASY-01, TST-VAR-01..02, TST-DUA-01 across 103 unit and integration tests with
+    reproducible .dat benchmark exports.
+  evidence:
+  - doc/rnd/phase_1/m1_4_5_t1_kinematic_and_semidefinite_invariants.md
+  - doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md
+  - doc/rnd/phase_1/m1_4_5_t3_quasifree_manifolds_and_stability.md
+  - test/unit/test_kinematic_and_semidefinite.py
+  - test/unit/test_solvable_limits.py
+  - test/unit/test_symmetry_selection_rules.py
+  - test/integration/test_variational_response.py
+  - test/integration/test_dualities_and_asymptotics.py
+  - test/unit/test_hardware_parity.py
+  - data/processed/benchmarks/k006_quadrature.dat
+  - data/processed/benchmarks/hellmann_feynman_scaling.dat
+  - data/processed/benchmarks/susceptibility_curve.dat
+  - data/processed/benchmarks/klein_duality_splitting.dat
+  validation: user_reported_local_wsl_pass
+- id: M1.5
+  name: Dual-Track R&D Documentation Standardization & Living Lab Book
+  status: completed
+  acceptance: Refactored doc/rnd/ into phase-indexed notes with YAML frontmatter,
+    established memoir living labbook with beige/charcoal theme, and compiled Chapters
+    1-5.
+  evidence:
+  - doc/rnd/phase_1/
+  - doc/labbook/main.pdf
+  - doc/labbook/chapters/
+  - .agents/rules/00_workspace_hygiene.md
+  - .agents/rules/03_editorial_rigor.md
+  - .agents/rules/05_project_management.md
+  - .agents/rules/06_milestone_progress.md
+  validation: user_reported_local_wsl_pass
 active_milestone:
-  id: M1.5
-  description: Dual-Track R&D Documentation Standardization & Living Lab Book
+  id: M1.6
+  description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site Cell,
+    FM Kitaev + [111] Field)
   status: in_progress
-  sprint_goal: Restructure doc/rnd/ into phase/milestone-indexed notes with YAML metadata, scaffold memoir-based living labbook (doc/labbook/) with beige/charcoal styling, and establish reproducible figure pipeline.
+  sprint_goal: Implement and benchmark Picard, Joint DIIS, Broyden, and JFNK solvers
+    on the Grassmannian manifold under K = -1.0, h || [111]; map basins across QSL,
+    polarized, and random seeds.
   active_tasks:
-    - id: T1
-      title: R&D Note Reorganization and YAML Metadata Injection
-      status: in_progress
-      target_files:
-        - doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
-        - doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md
-        - doc/rnd/phase_1/m1_1_t3_physical_projection_pauli_algebra.md
-        - doc/rnd/phase_1/m1_1_t4_exchange_tensor_quartic_hamiltonian.md
-        - doc/rnd/phase_1/m1_1_t5_test_specification_and_validation.md
-        - doc/rnd/phase_1/m1_2_t1_majorana_mean_field_decoupling.md
-        - doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md
-        - doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md
-        - doc/rnd/phase_1/m1_3_t2_k006_quadrature_provenance.md
-        - doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md
-        - doc/rnd/phase_1/m1_4_t2_observable_test_specification.md
-        - doc/rnd/phase_1/m1_4_t3_energetics_test_specification.md
-        - doc/rnd/phase_1/m1_4_t4_energy_normalization_audit.md
-        - doc/rnd/phase_1/m1_4_t5_integration_audit_and_anomalies.md
-        - doc/rnd/phase_1/m1_4_5_t1_kinematic_and_semidefinite_invariants.md
-        - doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md
-        - doc/rnd/phase_1/m1_4_5_t3_quasifree_manifolds_and_stability.md
-      contracts:
-        - Deterministic m<phase>_<milestone>_t<task>_<slug>.md naming convention
-        - Mandatory YAML frontmatter schema (id, phase, milestone, task, contracts, claims, artifacts)
-      validation: python3 scripts/make_snapshot.py
-    - id: T2
-      title: Living Lab Book Scaffolding (Memoir, Beige/Charcoal Theme)
-      status: planned
-      target_files:
-        - doc/labbook/main.tex
-        - doc/labbook/preamble.tex
-        - doc/labbook/Makefile
-      contracts:
-        - Memoir class configuration with pagecolor #FAF6EE and fontcolor #2B2B2B
-        - Standalone compilation under latexmk / pdflatex producing doc/labbook/main.pdf
-      validation: make -C doc/labbook
-    - id: T3
-      title: Cumulative Synthesis of Completed Milestones (Chapters M1.1 to M1.4.5)
-      status: planned
-      target_files:
-        - doc/labbook/chapters/ch_m1_1_foundations_algebra.tex
-        - doc/labbook/chapters/ch_m1_2_bloch_and_folding.tex
-        - doc/labbook/chapters/ch_m1_3_spectral_projector_diis.tex
-        - doc/labbook/chapters/ch_m1_4_observables_energetics.tex
-        - doc/labbook/chapters/ch_m1_4_5_invariants_dualities.tex
-      contracts:
-        - Direct tabular embedding of data/processed/benchmarks/*.dat via pgfplotstable
-        - Pedagogical narrative covering derivations, invariants, and failure modes
-      validation: make -C doc/labbook
-
+  - id: T1
+    title: Grassmannian Solver Implementations (Picard, Broyden, and Newton-Krylov)
+    status: in_progress
+    target_files:
+    - src/kitaev_mf/services/solver.py
+    contracts:
+    - Contraction factor evaluation mu
+    - KKT stationarity epsilon_KKT < 1e-10
+    validation: pytest -v test/unit/test_solver.py
+  - id: T2
+    title: Seed Basin & Multistability Mapping across h/|K| in [0, 1.0]
+    status: planned
+    target_files:
+    - scripts/generate_benchmarks.py
+    - data/processed/benchmarks/basin_multistability_111.dat
+    contracts:
+    - Hysteresis forward/backward continuation
+    - Random Grassmannian sampling
+    validation: python3 scripts/generate_benchmarks.py --benchmark basins
+  - id: T3
+    title: Lab Book Synthesis & Figures (Chapter M1.6)
+    status: planned
+    target_files:
+    - doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex
+    contracts:
+    - Compilation without error under make labbook
+    - PGFPlots convergence curves
+    validation: make labbook
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -142,69 +147,78 @@ hardware_targets:
     gpu: NVIDIA GeForce RTX 3050 6GB VRAM (WSL2)
   cloud:
     target: Google Colab Pro (NVIDIA L4 22.5GB, 53GB System RAM)
-
 verified_physics_invariants:
-  - id: K-001
-    name: Clifford CAR algebra generators
-    equation: "{c_i^mu, c_j^nu} = 2 * delta_ij * delta_munu * I"
-    status: verified_analytical_and_pytest
-    provenance:
-      analytical: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
-      test: test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car
-  - id: K-002
-    name: Gauge Casimir vs Parity
-    equation: "T_i^2 = (3/8) * (I - D_i)"
-    status: verified_analytical_and_pytest
-    provenance:
-      analytical: doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md
-      test: test/unit/test_local_majorana_representations.py::test_t00b_03_spin_and_gauge_casimirs_equal_parity_expressions
-  - id: K-003
-    name: SO(4) Lie algebra commutation relations
-    equation: "[G^a, G^b] = -2*eps_{abc}*G^c and [M^a, M^b] = 2*eps_{abc}*M^c and [M^a, G^b] = 0"
-    status: verified_analytical_and_pytest
-    provenance:
-      analytical: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
-      tests:
-        - test/unit/test_local_majorana_algebra.py::test_t00a_05_gauge_spin_lie_algebras_and_mutual_commutation
-        - test/unit/test_local_majorana_representations.py::test_t00b_05_gauge_sign_and_dirac_occupation_parity
-  - id: K-004
-    name: Exact Pure Kitaev Analytical Dispersion and Flat Gauge Bands
-    equation: "E_c0(k) = +/- (|K| / 2) * |1 + exp(-i*2pi*k1) + exp(-i*2pi*k2)| and E_cg(k) = +/- (|K| / 2) * |u_matter|"
-    status: verified_analytical_and_pytest
-    provenance:
-      analytical: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section 4
-      test: test/unit/test_hamiltonian.py::test_pure_kitaev_analytical_dispersion
-  - id: K-005
-    name: Supercell Brillouin-Zone Folding Parity
-    equation: "spec(H_4(q)) = spec(H_2(k_a)) U spec(H_2(k_b))"
-    status: verified_pytest
-    provenance:
-      analytical: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section 5
-      tests:
-        - test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_pure_kitaev
-        - test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_general_couplings
-    numerical_tolerance: 1.0e-14
-  - id: K-006
-    name: Pure Kitaev thermodynamic-limit matter bond correlator and gauge-link correlator
-    equation: "U_b^00 = -(1/3) integral_BZ |1+exp(-i*2*pi*k1)+exp(-i*2*pi*k2)| = -bar_U approx -0.5248657458506; U_b^(gamma,gamma) = +1"
-    status: analytical_formula_with_finite_mesh_regression
-    assumptions:
-      - K < 0; J = Gamma = Gamma_prime = D = h = lambda = 0
-      - Zero-flux gauge background with directed A-to-B gauge link U_b^(gamma,gamma) = +1
-      - Two-sublattice primitive honeycomb cell and zero-temperature negative-energy matter-band occupation
-      - Particle-hole-symmetric half occupation for exact zero modes
-    provenance:
-      analytical: doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md, Section 3
-      dispersion: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section 4
-      quadrature: scripts/k006_quadrature.py
-      benchmark_dat: data/processed/benchmarks/k006_quadrature.dat
-      regression_test: test/unit/test_correlators.py::test_pure_kitaev_correlator_invariant_k006
-    numerical_evidence:
-      mesh: [36, 36]
-      matter_correlator_atol: 0.003
-      gauge_correlator_atol: 1.0e-12
-      onsite_correlator_and_gauge_residual_atol: 1.0e-14
-      matter_correlator_u00: "-0.5248657458506"
-      form_factor_magnitude_bar_u: "0.5248657458506"
-
+- id: K-001
+  name: Clifford CAR algebra generators
+  equation: '{c_i^mu, c_j^nu} = 2 * delta_ij * delta_munu * I'
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
+    test: test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car
+- id: K-002
+  name: Gauge Casimir vs Parity
+  equation: T_i^2 = (3/8) * (I - D_i)
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md
+    test: test/unit/test_local_majorana_representations.py::test_t00b_03_spin_and_gauge_casimirs_equal_parity_expressions
+- id: K-003
+  name: SO(4) Lie algebra commutation relations
+  equation: '[G^a, G^b] = -2*eps_{abc}*G^c and [M^a, M^b] = 2*eps_{abc}*M^c and [M^a,
+    G^b] = 0'
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md
+    tests:
+    - test/unit/test_local_majorana_algebra.py::test_t00a_05_gauge_spin_lie_algebras_and_mutual_commutation
+    - test/unit/test_local_majorana_representations.py::test_t00b_05_gauge_sign_and_dirac_occupation_parity
+- id: K-004
+  name: Exact Pure Kitaev Analytical Dispersion and Flat Gauge Bands
+  equation: E_c0(k) = +/- (|K| / 2) * |1 + exp(-i*2pi*k1) + exp(-i*2pi*k2)| and E_cg(k)
+    = +/- (|K| / 2) * |u_matter|
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section
+      4
+    test: test/unit/test_hamiltonian.py::test_pure_kitaev_analytical_dispersion
+- id: K-005
+  name: Supercell Brillouin-Zone Folding Parity
+  equation: spec(H_4(q)) = spec(H_2(k_a)) U spec(H_2(k_b))
+  status: verified_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section
+      5
+    tests:
+    - test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_pure_kitaev
+    - test/unit/test_hamiltonian.py::test_brillouin_zone_folding_parity_general_couplings
+  numerical_tolerance: 1.0e-14
+- id: K-006
+  name: Pure Kitaev thermodynamic-limit matter bond correlator and gauge-link correlator
+  equation: U_b^00 = -(1/3) integral_BZ |1+exp(-i*2*pi*k1)+exp(-i*2*pi*k2)| = -bar_U
+    approx -0.5248657458506; U_b^(gamma,gamma) = +1
+  status: analytical_formula_with_finite_mesh_regression
+  assumptions:
+  - K < 0; J = Gamma = Gamma_prime = D = h = lambda = 0
+  - Zero-flux gauge background with directed A-to-B gauge link U_b^(gamma,gamma) =
+    +1
+  - Two-sublattice primitive honeycomb cell and zero-temperature negative-energy matter-band
+    occupation
+  - Particle-hole-symmetric half occupation for exact zero modes
+  provenance:
+    analytical: doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md, Section
+      3
+    dispersion: doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md, Section
+      4
+    quadrature: scripts/k006_quadrature.py
+    benchmark_dat: data/processed/benchmarks/k006_quadrature.dat
+    regression_test: test/unit/test_correlators.py::test_pure_kitaev_correlator_invariant_k006
+  numerical_evidence:
+    mesh:
+    - 36
+    - 36
+    matter_correlator_atol: 0.003
+    gauge_correlator_atol: 1.0e-12
+    onsite_correlator_and_gauge_residual_atol: 1.0e-14
+    matter_correlator_u00: '-0.5248657458506'
+    form_factor_magnitude_bar_u: '0.5248657458506'
 open_blockers: []
