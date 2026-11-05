@@ -1,6 +1,7 @@
 \chapter{Milestone M1.1: Local CAR Algebra, Representations, and Physical Projection}
 \label{ch:m1_1}
 
+% EDITORIAL QUESTION: Why must the local spin-1/2 degree of freedom be fractionalized into four Majorana fermions, and what redundancy does this introduce?
 \section{Physical Motivation and Parton Fractionalization}
 In strongly correlated quantum magnets, conventional spin operators $\mathbf{S}_i$ are non-linear and subject to the constraint $\mathbf{S}_i^2 = \frac{3}{4}\mathbb{1}$. In the Kitaev honeycomb model, bond-directional exchange interactions lead to strong quantum frustration and topological spin-liquid behavior.
 
@@ -10,7 +11,10 @@ c_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T \equiv (c_i, b_i^x, b_i^y, b_i^z)^T.
 \end{equation}
 Here $c_i^0$ denotes the itinerant matter Majorana, while $(c_i^1, c_i^2, c_i^3)$ represent localized gauge Majoranas assigned to the three bond directions ($x, y, z$). Because four Majorana modes define a local Hilbert space of dimension $4 = 2^2$ (equivalent to two complex Dirac fermions $d_1, d_2$), fractionalization doubles the local physical dimension from $2$ to $4$. This introduces unphysical redundant states that must be eliminated via local gauge constraints.
 
+% EDITORIAL QUESTION: How is the local Majorana CAR algebra represented in terms of canonical Dirac fermions on the Fock space?
 \section{The Self-Dual CAR Algebra and Dirac Representation}
+% SOURCE [VERIFIED]: Kitaev (2006), Ann. Phys. 321, 2-111, Sec. 2 — Self-dual CAR algebra
+% CLAIM: K-001 (provenance: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md, test: test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car)
 On a finite periodic bipartite honeycomb graph $\Lambda = (\mathcal{V}, \mathcal{E})$, the Majorana operators satisfy the self-dual Canonical Anticommutation Relations (CAR):
 \begin{equation}
 \{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \mathbb{1}, \qquad (c_i^\mu)^\dagger = c_i^\mu.
@@ -21,7 +25,9 @@ d_{i, 1} = \frac{1}{2}(c_i^0 + i c_i^1), \qquad d_{i, 2} = \frac{1}{2}(c_i^2 + i
 \end{equation}
 they satisfy $\{d_{i, a}, d_{j, b}^\dagger\} = \delta_{ij}\delta_{ab}$ and $\{d_{i, a}, d_{j, b}\} = 0$. The local unprojected Fock space $\mathcal{F}_i \cong \mathbb{C}^4$ is spanned by the occupation basis $\{|n_1, n_2\rangle\}$ with $n_a \in \{0, 1\}$.
 
+% EDITORIAL QUESTION: How does the quadratic Majorana bilinear algebra realize the so(4) = su(2)_spin + su(2)_gauge Lie algebra homomorphism?
 \section{Lie Algebra Homomorphism: \texorpdfstring{$\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$}{so(4)}}
+% CLAIM: K-003 (provenance: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md, test: test/unit/test_local_majorana_algebra.py::test_t00a_05_gauge_spin_lie_algebras_and_mutual_commutation)
 For any real skew-symmetric matrix $A \in \mathfrak{so}(4)$ ($A^T = -A$), the quadratic operator $\mathcal{O}_i[A] = \frac{i}{4} c_i^T A c_i$ is Hermitian. Using the CAR relations, the commutator between two such bilinears satisfies the exact Lie algebra homomorphism:
 \begin{equation}
 [\mathcal{O}_i[A], \mathcal{O}_i[B]] = i \mathcal{O}_i[[A, B]].
@@ -40,7 +46,9 @@ they satisfy two mutually commuting $\mathfrak{su}(2)$ Lie algebras:
 [S_i^\alpha, S_i^\beta] = i \sum_\gamma \epsilon^{\alpha\beta\gamma} S_i^\gamma, \qquad [T_i^\alpha, T_i^\beta] = -i \sum_\gamma \epsilon^{\alpha\beta\gamma} T_i^\gamma, \qquad [S_i^\alpha, T_j^\beta] = 0.
 \end{equation}
 
+% EDITORIAL QUESTION: How do the spin and gauge quadratic Casimirs relate to the local fermion parity operator, and how is the physical subspace projected?
 \section{Casimir-Parity Invariant and Exact Physical Projection}
+% CLAIM: K-002 (provenance: doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md, test: test/unit/test_local_majorana_representations.py::test_t00b_03_spin_and_gauge_casimirs_equal_parity_expressions)
 \begin{theorem}[Casimir-Parity Identity]
 Let $\mathcal{D}_i = c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_1 + n_2}$ denote the local fermion parity operator ($\mathcal{D}_i^\dagger = \mathcal{D}_i, \mathcal{D}_i^2 = \mathbb{1}$). The quadratic Casimir operators satisfy:
 \begin{equation}
@@ -62,6 +70,7 @@ The 4-dimensional local space $\mathcal{F}_i$ splits into parity eigenspaces:
 \end{equation}
 The physical spin space corresponds to the gauge-singlet sector $\mathcal{F}_{i, +} = \ker(\mathcal{D}_i - \mathbb{1}) = \bigcap_\gamma \ker T_i^\gamma$. The orthogonal Gutzwiller projector is $P_G = \prod_i \frac{\mathbb{1} + \mathcal{D}_i}{2}$.
 
+% EDITORIAL QUESTION: How does physical projection eliminate gauge leakage to recover the standard SU(2) Pauli algebra?
 \section{Recovery of the Physical Pauli Algebra}
 In the Kitaev representation, Pauli operators are represented as $\sigma_i^\gamma = i c_i^0 c_i^\gamma = \frac{i}{2} c_i^T \mathrm{N}^\gamma c_i$, where $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$. On the unprojected Fock space, they obey:
 \begin{equation}

@@ -1,3 +1,16 @@
+---
+id: RND-EXP-SADDLE-SUB
+title: "Saddle-Point Algorithms, Multi-Sublattice Order, and Parton Decoupling in the Extended Kitaev Model"
+phase: 1
+milestone: M1.6
+status: active
+questions:
+  - "How do multi-sublattice magnetic orders and isospin Lagrange multiplier saddle points couple in the extended Kitaev model?"
+contracts:
+  - T1
+  - T2
+---
+
 # Saddle-Point Algorithms, Multi-Sublattice Order, and Parton Decoupling in the Extended Kitaev Model
 
 Mean-field treatments of quantum spin liquids and proximate magnetically ordered phases in bond-directional $J\text{-}K\text{-}\Gamma\text{-}\mathbf{h}$ systems, such as $\alpha\text{-RuCl}_3$ and honeycomb iridates, require careful management of auxiliary Hilbert space redundancies. In the foundational monograph of Lu Freitas (Universidade Federal do Rio Grande do Norte / Heinrich-Heine-Universität Düsseldorf) and the associated publication Freitas et al., Majorana mean-field theory (MMFT) provides an effective framework for computing spatial polarizations and local spin correlations around $\mathbb{Z}_2$ vortex cores in the extended Kitaev model. The quantitative accuracy of these parton methods depends on how the unphysical states introduced by fractionalization are eliminated. When local spin operators are expressed in terms of four Majorana fermions per lattice site, the Hilbert space dimension doubles from $2$ to $4$, necessitating an exact or average projection via local $SO(4)$ or isospin $SU(2)$ constraints. Benchmarking these frameworks requires analyzing the mathematical formulations of the underlying saddle-point equations, the multi-sublattice geometries hosting competing magnetic structures, and the variations introduced by distinct Wick decoupling schemes.

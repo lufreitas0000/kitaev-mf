@@ -1,3 +1,24 @@
+---
+id: RND-EXP-CAR-GAUGE
+title: "Algebraic CAR C*-Algebra Formalism and Local Gauge Projection"
+phase: 1
+milestone: M1.1
+status: completed
+questions:
+  - "How is the self-dual CAR algebra over real Euclidean spaces rigorously mapped to the physical Fock space under local SO(4) gauge projection?"
+contracts:
+  - A01
+  - A02
+  - A03
+claims:
+  - K-001
+  - K-002
+  - K-003
+artifacts:
+  - src/kitaev_mf/domain/
+  - test/unit/test_local_majorana_algebra.py
+---
+
 # Algebraic CAR $C^*$-Algebra Formalism, Local Gauge Projection, and Constrained Saddle-Point Optimization in Majorana Parton Mean-Field Theories for Extended Kitaev Models
 
 ## CAR $C^*$-Algebra and Local Gauge Projection Formalism

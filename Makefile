@@ -58,6 +58,8 @@ labbook:
 manuscript:
 	@echo "[manuscript] Compiling doc/manuscript/main.pdf..."
 	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
+	@cd doc/manuscript && bibtex main > /dev/null 2>&1 || true
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
 	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
 	@echo "[manuscript] Generated doc/manuscript/main.pdf"
 

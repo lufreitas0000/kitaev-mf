@@ -1,3 +1,22 @@
+---
+id: RND-EXP-PEARSON-WALK
+title: "Pearson Random Walk and Brillouin-Zone Correlator Integral"
+phase: 1
+milestone: M1.3
+status: completed
+questions:
+  - "What is the closed-form evaluation of the pure Kitaev thermodynamic matter bond correlator?"
+contracts:
+  - A06
+claims:
+  - K-006
+artifacts:
+  - scripts/k006_quadrature.py
+  - data/processed/benchmarks/k006_quadrature.dat
+---
+
+# Pearson Random Walk and Brillouin-Zone Correlator Integral
+
 Yes. This integral is a classical object in the theory of random walks.
 
 **Identification.** Write $\theta_j = 2\pi k_j$. Then

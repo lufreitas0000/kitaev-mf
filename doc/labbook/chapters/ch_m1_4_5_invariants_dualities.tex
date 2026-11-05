@@ -1,6 +1,7 @@
 \chapter{Milestone M1.4.5: Invariants, Semidefinite Gates, and Dualities}
 \label{ch:m1_4_5}
 
+% EDITORIAL QUESTION: What kinematic sum rules, semidefinite LMI constraints, and norm bounds guarantee representability of the mean-field covariance state?
 \section{Kinematic and Semidefinite Representability Gates}
 In non-integrable parameter regimes, exact ground states are unknown. Verification relies on universal kinematic, semidefinite, and variational invariants:
 \begin{itemize}
@@ -10,6 +11,7 @@ In non-integrable parameter regimes, exact ground states are unknown. Verificati
     \item \textbf{Bloch-Ball \& Pfaffian Parity Envelopes}: $\Vert{}\langle \boldsymbol{\sigma}_s \rangle\Vert{}_2 \le 1.0$ and $-1.0 \le \operatorname{Pf}(\mathrm{V}_s) \le 1.0$.
 \end{itemize}
 
+% EDITORIAL QUESTION: How do analytically solvable 1D zigzag and isolated dimer limits provide exact non-perturbative checks of the 2D code?
 \section{Solvable Reductions and Discrete Symmetries}
 \begin{itemize}
     \item \textbf{1D Zigzag Chain Limit} ($K_x = K_y = -1, K_z = 0$): Active bond hoppings evaluate to $U_x^{00} = U_y^{00} = -2/\pi \approx -0.636620$, while $U_z \equiv \mathbf{0}$.
@@ -17,6 +19,7 @@ In non-integrable parameter regimes, exact ground states are unknown. Verificati
     \item \textbf{Discrete Selection Rules}: Time-reversal-odd correlators vanish ($U_b^{0\gamma} \equiv 0$), sublattice inversion parity holds ($V_A = V_B$), and $C_3$ ray permutation invariance is preserved.
 \end{itemize}
 
+% EDITORIAL QUESTION: Does the self-consistent stationary solution satisfy the variational Hellmann-Feynman theorem with quadratic central-difference scaling?
 \section{Variational Response and Hellmann-Feynman Error Scaling}
 At self-consistent stationarity, the energy derivative satisfies $\frac{\mathrm{d}E_{\mathrm{cell}}}{\mathrm{d}h^\gamma} = -\langle \sigma_{\mathrm{tot}}^\gamma \rangle_{\mathrm{G}}$. Truncation error under central differences scales as $\Delta_{\mathrm{HF}} \le \frac{1}{6}\vert{}E'''\vert{}\delta^2 + C_\sigma \tau + C_E \tau^2/\delta$.
 
@@ -36,7 +39,9 @@ At self-consistent stationarity, the energy derivative satisfies $\frac{\mathrm{
 ]{../../data/processed/benchmarks/hellmann_feynman_scaling.dat}
 \end{table}
 
+% EDITORIAL QUESTION: How are thermodynamic stability and 4-sublattice Klein duality verified through susceptibility curvature and boundary energy splitting?
 \section{Thermodynamic Susceptibility and Klein Duality}
+% SOURCE [VERIFIED]: Kimchi and Vishwanath (2014), PRB 89, 014414 — Four-sublattice Klein transformation on the honeycomb lattice
 Thermodynamic stability requires non-negative susceptibility $\chi^{zz} = \partial \langle \sigma_{\mathrm{tot}}^z \rangle / \partial h^z > 0$:
 
 \begin{table}[ht]

@@ -1,6 +1,7 @@
 \chapter{Milestone M1.4: Production Observables, Wilson Loops, and Energetics}
 \label{ch:m1_4}
 
+% EDITORIAL QUESTION: How are local magnetizations, spin correlators, and plaquette Wilson loops evaluated from Gaussian Majorana covariances?
 \section{Wick Contractions for Physical Spin Observables}
 Expectation values of local and two-site spin observables in the Gaussian mean-field state evaluate to:
 \begin{align}
@@ -9,6 +10,7 @@ Expectation values of local and two-site spin observables in the Gaussian mean-f
 \end{align}
 Local $\mathbb{Z}_2$ Wilson loops (plaquette fluxes) evaluate to $W_p = \prod_{b \in \partial p} u_b$. In the ground state of pure Kitaev, $W_p \equiv +1.0$.
 
+% EDITORIAL QUESTION: Why must scalar double-counting subtraction be enforced to maintain thermodynamic consistency between quadratic and physical ground-state energies?
 \section{Scalar Double-Counting Subtraction}
 Because two-body interactions are decoupled into single-particle effective fields, the single-particle ground-state energy counts exchange terms twice:
 \begin{equation}
@@ -20,6 +22,7 @@ E_{\mathrm{total}} = E_{\mathrm{quad}, 0} - C \equiv E_{\mathrm{total}}^{\mathrm
 \end{equation}
 Consistency residual $|(E_{\mathrm{quad}, 0} - C) - E_{\mathrm{total}}^{\mathrm{G}}| < 10^{-10}$ holds across all regimes.
 
+% EDITORIAL QUESTION: What anomalies and sign traps arose during observable implementation, and how were they resolved?
 \section{Incident Audit and Failure Analysis}
 During M1.4 implementation, three numerical anomalies were identified and resolved:
 \begin{enumerate}

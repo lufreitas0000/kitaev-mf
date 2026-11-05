@@ -1,3 +1,15 @@
+---
+id: RND-EXP-VISON-GAP
+title: "Analytical Calculation of the Kitaev Vison Gap via Triangular Green Functions"
+phase: 1
+milestone: M1.3
+status: active
+questions:
+  - "How can the two-vison excitation energy in the Kitaev honeycomb model be evaluated analytically via triangular lattice Green functions?"
+references:
+  - "Panigrahi, Coleman, Tsvelik, PRB 108, 045151 (2023)"
+---
+
 # Analytical rederivation of the Kitaev vison gap
 ## Research programme, mathematical framework, and development roadmap
 
