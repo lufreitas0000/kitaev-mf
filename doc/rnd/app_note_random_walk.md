@@ -308,4 +308,3 @@ Choose between two routes:
 2. Evaluate $T(\mathbf R;w)$ numerically for $w\le-3$ by a one-dimensional integral, which is stable and needs no continuation.
 
 ---
-
