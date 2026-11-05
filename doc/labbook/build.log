@@ -297,52 +297,45 @@ s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
-(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg) (./main.toc)
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/en
-c/dvips/cm-super/cm-super-t1.enc}] (./chapters/ch_m1_1_foundations_algebra.tex
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg) (./main.toc
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd)
-(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg) [1]) [2]
-(./chapters/ch_m1_2_bloch_and_folding.tex [3]) [4{/usr/share/texmf/fonts/enc/dv
-ips/cm-super/cm-super-ts1.enc}] (./chapters/ch_m1_3_spectral_projector_diis.tex
- [5]) [6] (./chapters/ch_m1_4_observables_energetics.tex [7]) [8]
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg) [1{/var/lib/texm
+f/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super
+/cm-super-t1.enc}]) [2] (./chapters/ch_m1_1_foundations_algebra.tex [1])
+[2] (./chapters/ch_m1_2_bloch_and_folding.tex [3]) [4{/usr/share/texmf/fonts/en
+c/dvips/cm-super/cm-super-ts1.enc}]
+(./chapters/ch_m1_3_spectral_projector_diis.tex [5]) [6]
+(./chapters/ch_m1_4_observables_energetics.tex [7]) [8]
 (./chapters/ch_m1_4_5_invariants_dualities.tex) [9] [10] (./main.aux
 (./chapters/ch_m1_1_foundations_algebra.aux)
 (./chapters/ch_m1_2_bloch_and_folding.aux)
 (./chapters/ch_m1_3_spectral_projector_diis.aux)
 (./chapters/ch_m1_4_observables_energetics.aux)
-(./chapters/ch_m1_4_5_invariants_dualities.aux))
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
- )</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/
-type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-supe
-r/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr
-/share/texmf/fonts/type1/public/cm-super/sfbx2074.pfb></usr/share/texmf/fonts/t
-ype1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super
-/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (11 pages, 397128 bytes).
+(./chapters/ch_m1_4_5_invariants_dualities.aux)) )</usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/euler/eufm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texm
+f/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfbx2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2488.p
+fb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf
+/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/
+cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pf
+b>
+Output written on main.pdf (12 pages, 399760 bytes).
 Transcript written on main.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
