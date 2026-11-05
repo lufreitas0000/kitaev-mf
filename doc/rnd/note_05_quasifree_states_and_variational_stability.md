@@ -14,7 +14,7 @@ To eliminate collisions between state parameters, exchange couplings, and correl
   $$H_{\mathrm{ex}} \supset \Gamma_\gamma \left( \sigma_i^{\gamma^+} \sigma_j^{\gamma^-} + \sigma_i^{\gamma^-} \sigma_j^{\gamma^+} \right).$$
 - **Local Two-Site Correlation Matrix $\mathcal{C}_{ij}$:**
   The local $8 \times 8$ two-site Majorana correlation matrix is denoted by $\mathcal{C}_{ij}$ (or $\mathcal{M}_{ij}$), never $\Gamma$:
-  $$\mathcal{C}_{ij} \equiv \langle \mathbf{c}_{ij} \mathbf{c}_{ij}^T \rangle = \begin{pmatrix} \mathbb{1}_4 + i \mathrm{V}_i & -i \mathrm{U}_b \\ i \mathrm{U}_b^T & \mathbb{1}_4 + i \mathrm{V}_j \end{pmatrix} \in \mathbb{C}^{8 \times 8}.$$
+  $$\mathcal{C}_{ij} \equiv \langle \mathbf{c}_{ij} \mathbf{c}_{ij}^T \rangle = \begin{pmatrix} \mathbb{1}_4 - i \mathrm{V}_i & -i \mathrm{U}_b \\ i \mathrm{U}_b^T & \mathbb{1}_4 - i \mathrm{V}_j \end{pmatrix} \in \mathbb{C}^{8 \times 8}.$$
 
 ---
 
@@ -46,16 +46,17 @@ Matching coefficients with the definition of $H_{\mathrm{MF}}[\Xi_1] = \sum \fra
 
 ## 3. Sampling and Stress-Testing via Random Quasi-Free States
 
-**Proposition (Uniform Sampling on the Grassmannian)** <!-- claim: CLM-M1-STAB-003 -->
-Let $W \in \mathfrak{so}(4N_{\mathrm{sub}})$ be a real skew-symmetric matrix ($W^T = -W$) with Gaussian-distributed independent entries $W_{ab} \sim \mathcal{N}(0, \sigma^2)$. The matrix exponential:
+**Proposition (Lie-Algebra Gaussian Sampling of Pure Quasi-Free States on the Grassmannian)** <!-- claim: CLM-M1-STAB-003 -->
+Let $W \in \mathfrak{so}(4N_{\mathrm{sub}})$ be a real skew-symmetric matrix ($W^T = -W$) with Gaussian-distributed independent entries $W_{ab} \sim \mathcal{N}(0, \sigma^2)$ ($a < b$). The matrix exponential:
 $$Q = \exp(W) \in \mathcal{SO}(4N_{\mathrm{sub}})$$
 is a real special orthogonal matrix. Given a canonical reference complex structure $\Omega_0 = \bigoplus_{k=1}^{2N_{\mathrm{sub}}} \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$, the transformed matrix:
 $$\Omega_{\mathrm{rand}} = Q \Omega_0 Q^T$$
 is a pure quasi-free covariance matrix satisfying $\Omega_{\mathrm{rand}}^T = -\Omega_{\mathrm{rand}}$ and $\Omega_{\mathrm{rand}}^2 = -\mathbb{1}$.
+*Note on Measure:* Pushing forward an isotropic Gaussian measure on the Lie algebra $\mathfrak{so}(n)$ via the exponential map does not produce the uniform Haar measure on $\mathcal{SO}(n)$. However, $\Omega_{\mathrm{rand}}$ constitutes a mathematically exact extremal point of $\mathcal{M}$ suitable for non-stationary stress testing.
 
 **Protocol (Non-Stationary Stress-Testing Suite):**
 Feeding $\Omega_{\mathrm{rand}}$ into the MMFT services allows non-iterative mathematical testing:
-1. **Kinematic Parseval Conservation:** Verify $\frac{1}{N_{\mathbf{k}}}\sum \mathcal{E}_n^2 = \frac{1}{16}\sum \|B_s\|_{\mathrm{F}}^2 + \frac{1}{8}\sum \|A_b\|_{\mathrm{F}}^2$ on disordered configurations with non-zero cross-hoppings $\mathrm{U}_b^{0\gamma} \neq 0$.
+1. **Kinematic Parseval Conservation:** Verify $\frac{1}{N_{\mathbf{k}}}\sum \mathcal{E}_n^2 = \frac{1}{16}\sum \Vert{}B_s\Vert{}_{\mathrm{F}}^2 + \frac{1}{8}\sum \Vert{}A_b\Vert{}_{\mathrm{F}}^2$ on disordered configurations with non-zero cross-hoppings $\mathrm{U}_b^{0\gamma} \neq 0$.
 2. **Spectral Projector Retraction:** Verify that passing a randomized Bloch Hamiltonian $\mathcal{H}_{\mathrm{rand}}(\mathbf{k})$ through `compute_spectral_projector` outputs a projector $P(\mathbf{k})$ that strictly satisfies idempotency $P^2 = 2P$ and trace filling $\operatorname{tr} P = 4N_{\mathrm{sub}}$.
 3. **Casimir-Parity Envelope:** Verify that the extracted on-site blocks satisfy $0 \le \langle \mathbf{T}_s^2 \rangle_{\mathrm{G}} = \frac{3}{8}(1 - \operatorname{Pf}(\mathrm{V}_s)) \le \frac{3}{4}$.
 
@@ -95,7 +96,7 @@ A stationary point $(\Xi^*, \boldsymbol{\lambda}^*)$ satisfying KKT conditions $
 
 ### Protocol A: Finite-Difference Thermodynamic Susceptibility
 For a converged ground state at field $\mathbf{h}_0$:
-1. Perturb the field along Cartesian direction $\alpha \in \{x, y, z\}$: $\mathbf{h}_\pm = \mathbf{h}_0 \pm \delta \hat{\mathbf{e}}_\alpha$ with $\delta = 10^{-3} |K|$.
+1. Perturb the field along Cartesian direction $\alpha \in \{x, y, z\}$: $\mathbf{h}_\pm = \mathbf{h}_0 \pm \delta \hat{\mathbf{e}}_\alpha$ with $\delta = 10^{-3} \vert{}K\vert{}$.
 2. Re-converge the solver to tolerance $10^{-8}$ yielding total magnetizations $m_\pm^\alpha = \sum_s \langle \sigma_s^\alpha \rangle_{\mathbf{h}_\pm}$.
 3. Evaluate the diagonal susceptibility:
    $$\chi^{\alpha\alpha} = \frac{m_+^\alpha - m_-^\alpha}{2\delta} \ge -10^{-6}.$$
@@ -108,7 +109,7 @@ For a converged ground state at field $\mathbf{h}_0$:
    $$\kappa_\Delta = \frac{E[\Xi^* + \epsilon \Delta] - 2E[\Xi^*] + E[\Xi^* - \epsilon \Delta]}{\epsilon^2} \ge -10^{-8}.$$
 
 ### Protocol C: Asymptotic DIIS Residual Contraction Rate
-During the self-consistency loop, record the residual history $r_n = \max(\|\Delta \mathrm{U}\|_\infty, \|\Delta \mathrm{V}\|_\infty, \|\mathbf{g}\|_\infty)$.
+During the self-consistency loop, record the residual history $r_n = \max(\Vert{}\Delta \mathrm{U}\Vert{}_\infty, \Vert{}\Delta \mathrm{V}\Vert{}_\infty, \Vert{}\mathbf{g}\Vert{}_\infty)$.
 Compute the empirical contraction quotient over the final 5 iterations:
 $$\mu \equiv \frac{1}{5} \sum_{k=0}^4 \frac{r_{N-k}}{r_{N-k-1}}.$$
 For a stable fixed point, $\mu < 1.0$. If $\mu \ge 1.0$, the solver is trapped in a limit cycle or expanding orbit.

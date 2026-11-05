@@ -20,7 +20,7 @@ help:
 	@echo "  make test     - Run pytest suite with coverage"
 	@echo "  make k006-quadrature - Run the high-resolution K-006 convergence diagnostic"
 	@echo "  make lint     - Run Ruff lint/format checks and Mypy"
-	@echo "  make format   - Automatically fix lint and reformat all files via Ruff"
+	@echo "  make format   - Automatically fix lint, format code, and sanitize whitespace"
 	@echo "  make verify   - Run tests, static checks, Git whitespace checks, and status"
 	@echo "  make snapshot - Generate uncommitted $(SNAPSHOT_FILE) for AI context ingestion"
 	@echo "  make clean    - Remove build, test caches, and temporary snapshots"
@@ -52,8 +52,12 @@ k006-quadrature:
 	@$(PYTHON) scripts/k006_quadrature.py
 
 format:
+	@echo "[format] Ruff check & fix..."
 	@$(RUFF) check --fix src test scripts
+	@echo "[format] Ruff format..."
 	@$(RUFF) format src test scripts
+	@echo "[format] Sanitizing file whitespace and EOF lines..."
+	@$(PYTHON) scripts/fix_whitespace.py
 
 lint:
 	@echo "[lint] Ruff rules across src/, test/, and scripts/..."
