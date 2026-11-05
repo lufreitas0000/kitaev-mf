@@ -17,7 +17,7 @@ help:
 	@echo "  make test          - Run pytest suite concisely with coverage"
 	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
 	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
-	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/main.pdf)"
+	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/labbook_kitaev_mf.pdf)"
 	@echo "  make manuscript    - Compile publication manuscript (doc/manuscript/main.pdf)"
 	@echo "  make blueprint     - Build static R&D Epistemic Blueprint portal (build/blueprint/)"
 	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
@@ -57,7 +57,7 @@ benchmark-check:
 	@$(PYTEST) test/unit/test_benchmark_exports.py -v
 
 figures-check: labbook
-	@echo "[figures-check] Verified that all 8 pgfplots figures compile into doc/labbook/main.pdf"
+	@echo "[figures-check] Verified that all 8 pgfplots figures compile into doc/labbook/labbook_kitaev_mf.pdf"
 
 
 labbook:

@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MAIN := main
+MAIN := labbook_kitaev_mf
 TEX_ENGINE := pdflatex
 
 # Terminal ANSI Palette
