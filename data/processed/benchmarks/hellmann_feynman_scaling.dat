@@ -1,0 +1,10 @@
+# Benchmark: hellmann_feynman_scaling.dat
+# Generated: 2026-11-05T21:04:00.403110+00:00
+# Git Commit: 37595ea
+# Description: Variational Hellmann-Feynman derivative error scaling vs central difference step delta
+# Columns: delta  de_numerical  neg_sigma_tot  discrepancy  observed_order
+#------------------------------------------------------------------------------
+ 0.00800     -0.04433944     -0.04433702    2.422559e-06         nan
+ 0.00400     -0.04433763     -0.04433702    6.049739e-07      2.0016
+ 0.00200     -0.04433717     -0.04433702    1.506767e-07      2.0054
+ 0.00100     -0.04433706     -0.04433702    3.710818e-08      2.0216

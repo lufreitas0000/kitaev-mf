@@ -1,0 +1,9 @@
+# Benchmark: wick_cumulant_check.dat
+# Generated: 2026-11-05T21:05:09.273803+00:00
+# Git Commit: 37595ea
+# Description: Fourth cumulant evaluation kappa_4 = |<c0 c1 c2 c3> - (-Pf(Omega))|
+# Columns: state_idx  state_label  exp_c0123  pfaffian  kappa_4
+#------------------------------------------------------------------------------
+   1  Pure_Gaussian            -1.000000      1.000000    0.000000e+00
+   2  Singlet_Entangled         1.000000     -1.000000    2.220446e-16
+   3  Gaussian_Mixture         -1.000000      0.000000    1.000000e+00

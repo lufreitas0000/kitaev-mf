@@ -17,6 +17,8 @@ import subprocess
 from pathlib import Path
 
 import numpy as np
+import torch
+
 
 from kitaev_mf.domain.lattice import (
     make_honeycomb_2site,
@@ -26,6 +28,12 @@ from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverConfig
 from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.infra.linalg_backend import TorchBackend
+from kitaev_mf.services.correlators import compute_correlators_from_bloch
+from kitaev_mf.services.hamiltonian import (
+    build_bloch_hamiltonian,
+    build_bond_hopping_matrices,
+    build_on_site_matrices,
+)
 from kitaev_mf.services.observables import compute_sublattice_magnetizations
 from kitaev_mf.services.quadrature import midpoint_convergence
 from kitaev_mf.services.response import (
@@ -173,11 +181,198 @@ def export_klein_duality_splitting(backend: TorchBackend) -> None:
     write_dat_file("klein_duality_splitting.dat", headers, rows)
 
 
+def export_solver_convergence(backend: TorchBackend) -> None:
+    cell = make_honeycomb_2site()
+    params_pure = ModelParameters(K=(-1.0, -1.0, -1.0))
+    params_field = ModelParameters(K=(-1.0, -1.0, -1.0), h=(0.1, 0.1, 0.1))
+
+    # Run Picard (depth=1), DIIS m=3, DIIS m=6
+    conf_picard = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=1)
+    conf_diis3 = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=3)
+    conf_diis6 = SolverConfig(k_grid_shape=(12, 12), tol_correlator=1e-12, tol_gauge=1e-12, max_iterations=30, diis_history_depth=6)
+
+    init_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0)
+    # add small seed perturbation to test convergence
+    rng = np.random.default_rng(42)
+    init_state_pert = MeanFieldState(
+        U=init_state.U + 0.05 * rng.standard_normal(init_state.U.shape),
+        V=init_state.V,
+        lambdas=init_state.lambdas,
+    )
+
+    _, res_picard = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_picard, backend)
+    _, res_diis3 = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_diis3, backend)
+    _, res_diis6 = solve_self_consistent_mean_field(cell, params_pure, init_state_pert, conf_diis6, backend)
+    _, res_field = solve_self_consistent_mean_field(cell, params_field, init_state_pert, conf_diis6, backend)
+
+
+    hist_p = list(res_picard.residual_history)
+    hist_d3 = list(res_diis3.residual_history)
+    hist_d6 = list(res_diis6.residual_history)
+    hist_f = list(res_field.residual_history)
+
+    max_len = max(len(hist_p), len(hist_d3), len(hist_d6), len(hist_f), 15)
+    headers = [
+        "Description: Fixed-point residual history for Picard vs DIIS acceleration",
+        "Columns: iter  res_picard  res_diis3  res_diis6  res_field",
+    ]
+    rows = []
+    for it in range(max_len):
+        vp = hist_p[it] if it < len(hist_p) else hist_p[-1]
+        vd3 = hist_d3[it] if it < len(hist_d3) else hist_d3[-1]
+        vd6 = hist_d6[it] if it < len(hist_d6) else hist_d6[-1]
+        vf = hist_f[it] if it < len(hist_f) else hist_f[-1]
+        rows.append(f"{it + 1:4d}  {vp:14.6e}  {vd3:14.6e}  {vd6:14.6e}  {vf:14.6e}")
+
+    write_dat_file("solver_convergence.dat", headers, rows)
+
+
+def export_dispersion_path(backend: TorchBackend) -> None:
+    cell = make_honeycomb_2site()
+    params = ModelParameters(K=(-1.0, -1.0, -1.0))
+    state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0)
+
+    # Path: Gamma (0,0) -> K (1/3, -1/3) -> M (1/2, 0) -> Gamma (0,0)
+    # High-symmetry nodes in fractional reciprocal coordinates
+    n_seg = 40
+    # Seg 1: Gamma to K
+    k_seg1 = [np.array([s / (3 * n_seg), -s / (3 * n_seg)]) for s in range(n_seg)]
+    # Seg 2: K to M
+    k_seg2 = [np.array([1/3 + s * (1/2 - 1/3) / n_seg, -1/3 + s * (0 - (-1/3)) / n_seg]) for s in range(n_seg)]
+    # Seg 3: M to Gamma
+    k_seg3 = [np.array([1/2 * (1 - s / n_seg), 0.0]) for s in range(n_seg + 1)]
+    k_path = k_seg1 + k_seg2 + k_seg3
+
+    headers = [
+        "Description: Pure-Kitaev quasiparticle band dispersion along Gamma-K-M-Gamma",
+        "Columns: s_path  k1  k2  e1  e2  e3  e4  e5  e6  e7  e8",
+    ]
+    rows = []
+    for s_idx, k_pt in enumerate(k_path):
+        k_tensor = torch.tensor([[k_pt[0], k_pt[1]]], dtype=torch.float64, device=backend.device)
+        h_k = build_bloch_hamiltonian(k_tensor, cell, params, state, backend)
+        evals, _ = backend.eigh(h_k)
+        ev = evals[0].detach().cpu().numpy()
+        row_str = f"{s_idx:4d}  {k_pt[0]:8.4f}  {k_pt[1]:8.4f}  " + "  ".join(f"{val:10.5f}" for val in ev)
+        rows.append(row_str)
+
+    write_dat_file("dispersion_path.dat", headers, rows)
+
+
+def export_parseval_sum_rule(backend: TorchBackend) -> None:
+    cell = make_honeycomb_2site()
+    params = ModelParameters(
+        J=0.08, K=(-1.0, -1.05, -0.95), Gamma=0.12, Gamma_prime=-0.04, D=0.03, h=(0.04, 0.02, 0.05)
+    )
+    rng = np.random.default_rng(101)
+    v_raw = 0.15 * rng.standard_normal((2, 4, 4))
+    v_skew = 0.5 * (v_raw - np.swapaxes(v_raw, -1, -2))
+    state = MeanFieldState(
+        U=0.25 * rng.standard_normal((3, 4, 4)),
+        V=v_skew,
+        lambdas=0.1 * rng.standard_normal((2, 3)),
+    )
+
+
+    b_tensors = build_on_site_matrices(cell, params, state, backend.device).detach().cpu().numpy()
+    a_tensors = build_bond_hopping_matrices(cell, params, state, backend.device).detach().cpu().numpy()
+    sum_b_sq = float(np.sum([np.trace(b @ b.T) for b in b_tensors]))
+    sum_a_sq = float(np.sum([np.trace(a @ a.T) for a in a_tensors]))
+    rhs_frobenius = (1.0 / 16.0) * sum_b_sq + (1.0 / 8.0) * sum_a_sq
+
+    meshes = [4, 6, 8, 12, 16, 24, 32]
+    headers = [
+        "Description: Parseval-Frobenius spectral sum rule verification across BZ mesh sizes",
+        "Columns: mesh_size  lhs_spectral  rhs_frobenius  abs_residual",
+    ]
+    rows = []
+    for m in meshes:
+        k_grid = cell.make_k_grid(m, m)
+        h_batch = build_bloch_hamiltonian(k_grid, cell, params, state, backend)
+        evals, _ = backend.eigh(h_batch)
+        ev_np = evals.detach().cpu().numpy()
+        lhs_spectral = float(np.mean(np.sum(ev_np**2, axis=-1)))
+        diff = abs(lhs_spectral - rhs_frobenius)
+        rows.append(f"{m:4d}  {lhs_spectral:14.8f}  {rhs_frobenius:14.8f}  {diff:14.6e}")
+
+    write_dat_file("parseval_sum_rule.dat", headers, rows)
+
+
+def export_wick_cumulant_check() -> None:
+    # 4-Majorana Jordan-Wigner evaluation
+    dim = 4
+    sigma_x = np.array([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex128)
+    sigma_y = np.array([[0.0, -1.0j], [1.0j, 0.0]], dtype=np.complex128)
+    sigma_z = np.array([[1.0, 0.0], [0.0, -1.0]], dtype=np.complex128)
+    eye = np.eye(2, dtype=np.complex128)
+
+    d1 = np.kron(0.5 * (sigma_x - 1.0j * sigma_y), eye)
+    d2 = np.kron(sigma_z, 0.5 * (sigma_x - 1.0j * sigma_y))
+    c_ops = [
+        d1 + d1.conj().T,
+        -1.0j * (d1 - d1.conj().T),
+        d2 + d2.conj().T,
+        -1.0j * (d2 - d2.conj().T),
+    ]
+
+    def measure_state(rho: np.ndarray) -> tuple[float, float, float]:
+        omega = np.zeros((4, 4), dtype=np.float64)
+        for a in range(4):
+            for b in range(4):
+                if a != b:
+                    omega[a, b] = float(np.imag(np.trace(rho @ c_ops[a] @ c_ops[b])))
+        op4 = c_ops[0] @ c_ops[1] @ c_ops[2] @ c_ops[3]
+        exp_4 = float(np.real(np.trace(rho @ op4)))
+        pf = float(omega[0, 1] * omega[2, 3] - omega[0, 2] * omega[1, 3] + omega[0, 3] * omega[1, 2])
+        cumulant = abs(exp_4 - (-pf))
+        return exp_4, pf, cumulant
+
+    # State 1: Pure Gaussian ground state of K_12 = 1.0, K_34 = 1.0
+    h_gauss = 0.25j * (c_ops[0] @ c_ops[1] + c_ops[2] @ c_ops[3])
+    rho_gauss = np.zeros((dim, dim), dtype=np.complex128)
+    rho_gauss[0, 0] = 1.0  # vacuum is Gaussian
+
+    # State 2: Singlet state (entangled, non-Gaussian)
+    psi_singlet = np.zeros(dim, dtype=np.complex128)
+    psi_singlet[1] = 1.0 / np.sqrt(2.0)
+    psi_singlet[2] = -1.0 / np.sqrt(2.0)
+    rho_singlet = np.outer(psi_singlet, psi_singlet.conj())
+
+    # State 3: Statistical mixture of two Gaussians
+    rho_mix = 0.5 * np.diag([1.0, 0.0, 0.0, 0.0]) + 0.5 * np.diag([0.0, 0.0, 0.0, 1.0])
+
+    headers = [
+        "Description: Fourth cumulant evaluation kappa_4 = |<c0 c1 c2 c3> - (-Pf(Omega))|",
+        "Columns: state_idx  state_label  exp_c0123  pfaffian  kappa_4",
+    ]
+    rows = []
+    cases = [
+        (1, "Pure_Gaussian", rho_gauss),
+        (2, "Singlet_Entangled", rho_singlet),
+        (3, "Gaussian_Mixture", rho_mix),
+    ]
+    for idx, label, r_mat in cases:
+        e4, pf, k4 = measure_state(r_mat)
+        rows.append(f"{idx:4d}  {label:20s}  {e4:12.6f}  {pf:12.6f}  {k4:14.6e}")
+
+    write_dat_file("wick_cumulant_check.dat", headers, rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export MMFT benchmark data files")
     parser.add_argument(
         "--benchmark",
-        choices=["all", "k006", "hellmann-feynman", "susceptibility", "klein-duality"],
+        choices=[
+            "all",
+            "k006",
+            "hellmann-feynman",
+            "susceptibility",
+            "klein-duality",
+            "solver-convergence",
+            "dispersion-path",
+            "parseval-sum-rule",
+            "wick-cumulant",
+        ],
         default="all",
         help="Benchmark to generate",
     )
@@ -192,6 +387,15 @@ def main() -> None:
         export_susceptibility_curve(backend)
     if args.benchmark in ("all", "klein-duality"):
         export_klein_duality_splitting(backend)
+    if args.benchmark in ("all", "solver-convergence"):
+        export_solver_convergence(backend)
+    if args.benchmark in ("all", "dispersion-path"):
+        export_dispersion_path(backend)
+    if args.benchmark in ("all", "parseval-sum-rule"):
+        export_parseval_sum_rule(backend)
+    if args.benchmark in ("all", "wick-cumulant"):
+        export_wick_cumulant_check()
+
 
 
 if __name__ == "__main__":
