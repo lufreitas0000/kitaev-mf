@@ -123,7 +123,7 @@ active_milestone:
   active_tasks:
   - id: M1.5-T3
     title: Living Lab Book Monograph Enrichment, Proof Restitution, and Exploratory Backlog Integration
-    status: in_progress
+    status: completed
     target_files:
     - doc/labbook/chapters/ch_m1_1_foundations_algebra.tex
     - doc/labbook/chapters/ch_m1_1b_quasifree_states_and_wick.tex
@@ -134,14 +134,19 @@ active_milestone:
     - doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md
     - doc/rnd/exploratory/PHASE2_EXPLORATORY_BACKLOG.md
     - LOG_DISCOVERY_AND_PIVOTS.md
+    - test/unit/test_quasifree_states.py
+    - test/unit/test_benchmark_exports.py
+    - scripts/generate_benchmarks.py
+    - doc/shared/plotstyles.tex
+    - doc/labbook/figures/
     contracts:
-    - Clean compilation with 0 warnings/errors under make labbook
+    - Clean compilation with 0 warnings/errors under make labbook (31 pages)
     - Complete restitution of Clifford CAR proofs, single-generator parity theorem, and projected operator equivalence
     - Zero index clashes and zero symbol collisions
     - Model-independent derivation of quasi-free states and Wick decoupling as variational Euler-Lagrange equations
-    - Full pgfplotstable rendering of K-006 and reproducible benchmark figures
+    - Full pgfplotstable rendering of K-006 and 8 reproducible benchmark figures via PGFPlots
     - Formal isolation of Phase 2 exploratory research questions in PHASE2_EXPLORATORY_BACKLOG.md
-    - Full test suite verification under make verify
+    - Full test suite verification under make verify (114 tests, 96% coverage, Ruff & Mypy clean)
     validation: make labbook && make verify
   - id: T1
     title: Grassmannian Solver Implementations (Picard, Broyden, and Newton-Krylov)
