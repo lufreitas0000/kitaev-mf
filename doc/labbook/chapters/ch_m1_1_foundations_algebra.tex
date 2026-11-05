@@ -3,77 +3,242 @@
 
 % EDITORIAL QUESTION: Why must the local spin-1/2 degree of freedom be fractionalized into four Majorana fermions, and what redundancy does this introduce?
 \section{Physical Motivation and Parton Fractionalization}
-In strongly correlated quantum magnets, conventional spin operators $\mathbf{S}_i$ are non-linear and subject to the constraint $\mathbf{S}_i^2 = \frac{3}{4}\mathbb{1}$. In the Kitaev honeycomb model, bond-directional exchange interactions lead to strong quantum frustration and topological spin-liquid behavior.
+\label{sec:m1_1_motivation}
+In strongly correlated quantum magnets, conventional spin operators $\mathbf{S}_i$ are non-linear and subject to the rigid local Casimir constraint $\mathbf{S}_i^2 = \frac{3}{4}\Id$. In the Kitaev honeycomb model and its extensions, bond-directional Ising and exchange interactions lead to extreme quantum frustration, macroscopic degeneracy, and topological quantum spin liquid (QSL) phases characterized by fractionalized excitations and emergent gauge structures.
 
-To solve such models, one fractionalizes the physical spin-$1/2$ degree of freedom into four Majorana fermions per lattice site:
+To treat such strongly entangled phases analytically and variationally, one fractionalizes the physical spin-$1/2$ degree of freedom into four self-dual Majorana fermions per lattice site:
 \begin{equation}
+\label{eq:m1_1_majorana_vector}
 c_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T \equiv (c_i, b_i^x, b_i^y, b_i^z)^T.
 \end{equation}
-Here $c_i^0$ denotes the itinerant matter Majorana, while $(c_i^1, c_i^2, c_i^3)$ represent localized gauge Majoranas assigned to the three bond directions ($x, y, z$). Because four Majorana modes define a local Hilbert space of dimension $4 = 2^2$ (equivalent to two complex Dirac fermions $d_1, d_2$), fractionalization doubles the local physical dimension from $2$ to $4$. This introduces unphysical redundant states that must be eliminated via local gauge constraints.
+Here $c_i^0$ denotes the itinerant matter Majorana carrying the physical spin degrees of freedom, while $(c_i^1, c_i^2, c_i^3) = (b_i^x, b_i^y, b_i^z)$ represent localized gauge Majoranas assigned to the three directed bond orientations ($\gamma \in \{x, y, z\}$). 
+
+Because four Majorana modes define a local Fock space of dimension $2^{4/2} = 4$ (equivalent to two canonical complex Dirac fermions $d_1, d_2$), fractionalization doubles the local physical Hilbert space dimension from $2$ to $4$:
+\begin{equation}
+\label{eq:m1_1_hilbert_doubling}
+\dim \mathcal{F}_i = 4 = 2 \times \dim \mathcal{H}_{\mathrm{phys}, i}.
+\end{equation}
+This enlargement introduces an exact local $\mathbb{Z}_2$ (and continuous $\mathrm{SU}(2)$) gauge redundancy. Unphysical states in $\mathcal{F}_i$ must be eliminated via rigorous local gauge constraints and physical projections.
 
 % EDITORIAL QUESTION: How is the local Majorana CAR algebra represented in terms of canonical Dirac fermions on the Fock space?
-\section{The Self-Dual CAR Algebra and Dirac Representation}
+\section{The Self-Dual CAR Algebra and Fock Space Representation}
+\label{sec:m1_1_car_algebra}
 % SOURCE [VERIFIED]: Kitaev (2006), Ann. Phys. 321, 2-111, Sec. 2 — Self-dual CAR algebra
 % CLAIM: K-001 (provenance: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md, test: test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car)
-On a finite periodic bipartite honeycomb graph $\Lambda = (\mathcal{V}, \mathcal{E})$, the Majorana operators satisfy the self-dual Canonical Anticommutation Relations (CAR):
+On a finite bipartite lattice graph $\Lambda = (\mathcal{V}, \mathcal{E})$, the Majorana operators generate the self-dual Canonical Anticommutation Relations (CAR) algebra $\mathcal{A}_{\mathrm{CAR}}$:
 \begin{equation}
-\{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \mathbb{1}, \qquad (c_i^\mu)^\dagger = c_i^\mu.
+\label{eq:m1_1_car_anticommutator}
+\{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \Id, \qquad (c_i^\mu)^\dagger = c_i^\mu, \qquad \forall i, j \in \mathcal{V}, \quad \mu, \nu \in \{0, 1, 2, 3\}.
 \end{equation}
 Defining two canonical Dirac annihilation operators per site:
 \begin{equation}
-d_{i, 1} = \frac{1}{2}(c_i^0 + i c_i^1), \qquad d_{i, 2} = \frac{1}{2}(c_i^2 + i c_i^3),
+\label{eq:m1_1_dirac_fermions}
+d_{i, 1} = \frac{1}{2}(c_i^0 + \ii c_i^1), \qquad d_{i, 2} = \frac{1}{2}(c_i^2 + \ii c_i^3),
 \end{equation}
-they satisfy $\{d_{i, a}, d_{j, b}^\dagger\} = \delta_{ij}\delta_{ab}$ and $\{d_{i, a}, d_{j, b}\} = 0$. The local unprojected Fock space $\mathcal{F}_i \cong \mathbb{C}^4$ is spanned by the occupation basis $\{|n_1, n_2\rangle\}$ with $n_a \in \{0, 1\}$.
+they satisfy the standard Fermi-Dirac algebra $\{d_{i, a}, d_{j, b}^\dagger\} = \delta_{ij}\delta_{ab}\Id$ and $\{d_{i, a}, d_{j, b}\} = 0$. The local unprojected Fock space $\mathcal{F}_i \cong \mathbb{C}^4$ is spanned by the occupation basis $|n_1, n_2\rangle = (d_{i,1}^\dagger)^{n_1} (d_{i,2}^\dagger)^{n_2} |0\rangle$ with $n_a \in \{0, 1\}$.
+
+From the CAR relations \eqref{eq:m1_1_car_anticommutator}, products of four Majorana operators on a single site satisfy the exact algebraic expansion:
+\begin{equation}
+\label{eq:m1_1_four_majorana_contraction}
+c_i^\mu c_i^\nu c_i^\rho c_i^\lambda = (\delta^{\mu\nu}\delta^{\rho\lambda} - \delta^{\mu\rho}\delta^{\nu\lambda} + \delta^{\mu\lambda}\delta^{\nu\rho})\Id - \epsilon^{\mu\nu\rho\lambda}\mathcal{D}_i + \mathcal{A}^{\mu\nu\rho\lambda}_i,
+\end{equation}
+where $\mathcal{A}_i$ denotes skew-symmetric bilinear pairs and $\mathcal{D}_i \equiv -c_i^0 c_i^1 c_i^2 c_i^3$ is the local fermion parity operator.
 
 % EDITORIAL QUESTION: How does the quadratic Majorana bilinear algebra realize the so(4) = su(2)_spin + su(2)_gauge Lie algebra homomorphism?
 \section{Lie Algebra Homomorphism: \texorpdfstring{$\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$}{so(4)}}
+\label{sec:m1_1_lie_homomorphism}
 % CLAIM: K-003 (provenance: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md, test: test/unit/test_local_majorana_algebra.py::test_t00a_05_gauge_spin_lie_algebras_and_mutual_commutation)
-For any real skew-symmetric matrix $A \in \mathfrak{so}(4)$ ($A^T = -A$), the quadratic operator $\mathcal{O}_i[A] = \frac{i}{4} c_i^T A c_i$ is Hermitian. Using the CAR relations, the commutator between two such bilinears satisfies the exact Lie algebra homomorphism:
+For any real skew-symmetric matrix $A \in \mathfrak{so}(4)$ ($A^T = -A$), the quadratic Majorana bilinear:
 \begin{equation}
-[\mathcal{O}_i[A], \mathcal{O}_i[B]] = i \mathcal{O}_i[[A, B]].
+\label{eq:m1_1_bilinear_def}
+\mathcal{O}_i[A] \equiv \frac{\ii}{4} c_i^T A c_i = \frac{\ii}{4}\sum_{\mu, \nu=0}^3 A_{\mu\nu} c_i^\mu c_i^\nu,
 \end{equation}
-The six generators of $\mathfrak{so}(4)$ decompose into anti-self-dual 't Hooft matrices $\mathrm{G}^\gamma$ and chiral matrices $\mathrm{M}^\gamma$:
+is manifestly Hermitian. Using the fundamental commutator identity $[c^a c^b, c^c c^d] = 2(\delta^{bc} c^a c^d - \delta^{ac} c^b c^d + \delta^{bd} c^c c^a - \delta^{ad} c^c c^b)$, one proves the exact Lie algebra homomorphism:
+\begin{equation}
+\label{eq:m1_1_lie_homomorphism}
+[\mathcal{O}_i[A], \mathcal{O}_i[B]] = \ii \mathcal{O}_i[[A, B]], \qquad \forall A, B \in \mathfrak{so}(4).
+\end{equation}
+The six generators of $\mathfrak{so}(4)$ split uniquely into self-dual chiral matrices $\mathrm{M}^\gamma$ and anti-self-dual 't Hooft matrices $\mathrm{G}^\gamma$ ($\gamma \in \{1, 2, 3\}$):
 \begin{align}
-\mathrm{G}^1 &= I_2 \otimes \epsilon, & \mathrm{G}^2 &= \epsilon \otimes \sigma_z, & \mathrm{G}^3 &= \epsilon \otimes \sigma_x,\\
+\label{eq:m1_1_G_matrices}
+\mathrm{G}^1 &= I_2 \otimes \epsilon, & \mathrm{G}^2 &= \epsilon \otimes \sigma_z, & \mathrm{G}^3 &= \epsilon \otimes \sigma_x, \\
+\label{eq:m1_1_M_matrices}
 \mathrm{M}^1 &= \sigma_z \otimes \epsilon, & \mathrm{M}^2 &= \epsilon \otimes I_2, & \mathrm{M}^3 &= \sigma_x \otimes \epsilon,
 \end{align}
-where $\epsilon = i \sigma_y = \begin{psmallmatrix} 0 & 1 \\ -1 & 0 \end{psmallmatrix}$. Defining normalized spin and gauge generators:
+where $\epsilon \equiv \ii \sigma_y = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$. Their bilinear contractions evaluate directly to:
+\begin{align}
+\label{eq:m1_1_G_contraction}
+c_i^T \mathrm{G}^\gamma c_i &= 2(c_i^0 c_i^\gamma + c_i^{\gamma^+} c_i^{\gamma^-}), \\
+\label{eq:m1_1_M_contraction}
+c_i^T \mathrm{M}^\gamma c_i &= 2(c_i^0 c_i^\gamma - c_i^{\gamma^+} c_i^{\gamma^-}),
+\end{align}
+where $(\gamma, \gamma^+, \gamma^-)$ denotes the cyclic permutation of $(1, 2, 3)$.
+
+\begin{definition}[Normalized Spin and Gauge Bilinears]
+\label{def:m1_1_spin_gauge_bilinears}
 \begin{equation}
-S_i^\gamma = \frac{i}{8} c_i^T \mathrm{M}^\gamma c_i, \qquad T_i^\gamma = \frac{i}{8} c_i^T \mathrm{G}^\gamma c_i,
+\label{eq:m1_1_spin_gauge_bilinears}
+S_i^\gamma \equiv \frac{\ii}{8} c_i^T \mathrm{M}^\gamma c_i, \qquad T_i^\gamma \equiv \frac{\ii}{8} c_i^T \mathrm{G}^\gamma c_i.
 \end{equation}
-they satisfy two mutually commuting $\mathfrak{su}(2)$ Lie algebras:
+\end{definition}
+
+\begin{proposition}[Commutation Relations and Gauge Minus Sign]
+\label{prop:m1_1_su2_algebras}
+The generator matrices satisfy:
+\begin{align}
+\label{eq:m1_1_matrix_comm}
+[\mathrm{M}^\alpha, \mathrm{M}^\beta] &= 2 \epsilon^{\alpha\beta\gamma} \mathrm{M}^\gamma, & [\mathrm{G}^\alpha, \mathrm{G}^\beta] &= -2 \epsilon^{\alpha\beta\gamma} \mathrm{G}^\gamma, & [\mathrm{M}^\alpha, \mathrm{G}^\beta] &= 0, \\
+\label{eq:m1_1_trace_ortho}
+\tr((\mathrm{M}^\alpha)^T \mathrm{M}^\beta) &= 4 \delta^{\alpha\beta}, & \tr((\mathrm{G}^\alpha)^T \mathrm{G}^\beta) &= 4 \delta^{\alpha\beta}, & \tr((\mathrm{M}^\alpha)^T \mathrm{G}^\beta) &= 0.
+\end{align}
+Consequently, the operator bilinears satisfy two mutually commuting $\mathfrak{su}(2)$ Lie algebras:
 \begin{equation}
-[S_i^\alpha, S_i^\beta] = i \sum_\gamma \epsilon^{\alpha\beta\gamma} S_i^\gamma, \qquad [T_i^\alpha, T_i^\beta] = -i \sum_\gamma \epsilon^{\alpha\beta\gamma} T_i^\gamma, \qquad [S_i^\alpha, T_j^\beta] = 0.
+\label{eq:m1_1_op_comm}
+[S_i^\alpha, S_i^\beta] = \ii \epsilon^{\alpha\beta\gamma} S_i^\gamma, \qquad [T_i^\alpha, T_i^\beta] = -\ii \epsilon^{\alpha\beta\gamma} T_i^\gamma, \qquad [S_i^\alpha, T_j^\beta] = 0.
 \end{equation}
+\end{proposition}
+\begin{remark}
+The minus sign in the gauge commutator $[T^\alpha, T^\beta] = -\ii\epsilon^{\alpha\beta\gamma} T^\gamma$ is an intrinsic feature of the anti-self-dual representation $\mathfrak{su}(2)_{\mathrm{gauge}} \subset \mathfrak{so}(4)$. Defining $J_{\mathrm{gauge}}^\alpha \equiv -T^\alpha$ restores the standard right-handed sign convention.
+\end{remark}
 
 % EDITORIAL QUESTION: How do the spin and gauge quadratic Casimirs relate to the local fermion parity operator, and how is the physical subspace projected?
-\section{Casimir-Parity Invariant and Exact Physical Projection}
+\section{Casimir-Parity Invariants, Single-Generator Theorems, and Projection}
+\label{sec:m1_1_casimir_parity}
 % CLAIM: K-002 (provenance: doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md, test: test/unit/test_local_majorana_representations.py::test_t00b_03_spin_and_gauge_casimirs_equal_parity_expressions)
-\begin{theorem}[Casimir-Parity Identity]
-Let $\mathcal{D}_i = c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_1 + n_2}$ denote the local fermion parity operator ($\mathcal{D}_i^\dagger = \mathcal{D}_i, \mathcal{D}_i^2 = \mathbb{1}$). The quadratic Casimir operators satisfy:
+The local fermion parity operator $\mathcal{D}_i$ is defined by:
 \begin{equation}
-\mathbf{T}_i^2 = \sum_{\gamma=1}^3 (T_i^\gamma)^2 = \frac{3}{8}(\mathbb{1} - \mathcal{D}_i), \qquad \mathbf{S}_i^2 = \sum_{\gamma=1}^3 (S_i^\gamma)^2 = \frac{3}{8}(\mathbb{1} + \mathcal{D}_i).
+\label{eq:m1_1_parity_def}
+\mathcal{D}_i \equiv -c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_1 + n_2}, \qquad \mathcal{D}_i^\dagger = \mathcal{D}_i, \quad \mathcal{D}_i^2 = \Id.
+\end{equation}
+
+\begin{theorem}[Single-Generator and Casimir Parity Identities]
+\label{thm:m1_1_casimir_identities}
+For each individual gauge generator $T_i^\gamma$ and spin generator $S_i^\gamma$ ($\gamma \in \{1, 2, 3\}$), the following single-generator operator identities hold exactly on $\mathcal{F}_i$:
+\begin{equation}
+\label{eq:m1_1_single_generator_parity}
+(T_i^\gamma)^2 = \frac{1}{8}(\Id - \mathcal{D}_i), \qquad (S_i^\gamma)^2 = \frac{1}{8}(\Id + \mathcal{D}_i).
+\end{equation}
+Summing over $\gamma \in \{1, 2, 3\}$, the total quadratic Casimirs satisfy:
+\begin{equation}
+\label{eq:m1_1_casimir_sums}
+\mathbf{T}_i^2 \equiv \sum_{\gamma=1}^3 (T_i^\gamma)^2 = \frac{3}{8}(\Id - \mathcal{D}_i), \qquad \mathbf{S}_i^2 \equiv \sum_{\gamma=1}^3 (S_i^\gamma)^2 = \frac{3}{8}(\Id + \mathcal{D}_i).
 \end{equation}
 \end{theorem}
-
 \begin{proof}
-Directly squaring $T_i^1 = \frac{i}{4}(c_i^0 c_i^1 + c_i^2 c_i^3)$:
+Directly evaluate $(T_i^1)^2$ using $T_i^1 = \frac{\ii}{4}(c_i^0 c_i^1 + c_i^2 c_i^3)$:
 \begin{equation}
-(T_i^1)^2 = -\frac{1}{16}\left( (c_i^0 c_i^1)^2 + (c_i^2 c_i^3)^2 + 2 c_i^0 c_i^1 c_i^2 c_i^3 \right) = -\frac{1}{16}(-\mathbb{1} - \mathbb{1} + 2 \mathcal{D}_i) = \frac{1}{8}(\mathbb{1} - \mathcal{D}_i).
+(T_i^1)^2 = -\frac{1}{16}\left( (c_i^0 c_i^1)^2 + (c_i^2 c_i^3)^2 + c_i^0 c_i^1 c_i^2 c_i^3 + c_i^2 c_i^3 c_i^0 c_i^1 \right).
 \end{equation}
-Summing over cyclic permutations $\gamma \in \{1, 2, 3\}$ yields $\mathbf{T}_i^2 = \frac{3}{8}(\mathbb{1} - \mathcal{D}_i)$. An identical calculation for $S_i^1 = \frac{i}{4}(c_i^0 c_i^1 - c_i^2 c_i^3)$ flips the cross-term sign, yielding $\mathbf{S}_i^2 = \frac{3}{8}(\mathbb{1} + \mathcal{D}_i)$.
+Since $(c_i^0 c_i^1)^2 = c_i^0 c_i^1 c_i^0 c_i^1 = -(c_i^0)^2 (c_i^1)^2 = -\Id$, and $c_i^2 c_i^3 c_i^0 c_i^1 = c_i^0 c_i^1 c_i^2 c_i^3 = -\mathcal{D}_i$:
+\begin{equation}
+(T_i^1)^2 = -\frac{1}{16}(-\Id - \Id - 2\mathcal{D}_i) = \frac{1}{8}(\Id - \mathcal{D}_i).
+\end{equation}
+By cyclic symmetry of $(1, 2, 3)$, Eq.~\eqref{eq:m1_1_single_generator_parity} holds for all $\gamma$, and summing over $\gamma$ yields $\mathbf{T}_i^2 = \frac{3}{8}(\Id - \mathcal{D}_i)$. For $S_i^1 = \frac{\ii}{4}(c_i^0 c_i^1 - c_i^2 c_i^3)$, the cross-term has the opposite sign, yielding $(S_i^1)^2 = \frac{1}{8}(\Id + \mathcal{D}_i)$ and $\mathbf{S}_i^2 = \frac{3}{8}(\Id + \mathcal{D}_i)$.
 \end{proof}
 
-The 4-dimensional local space $\mathcal{F}_i$ splits into parity eigenspaces:
+The 4-dimensional local space $\mathcal{F}_i$ therefore decomposes into orthogonal parity eigenspaces:
 \begin{equation}
+\label{eq:m1_1_fock_decomposition}
 \mathcal{F}_i = \mathcal{F}_{i, +} \oplus \mathcal{F}_{i, -} \cong \left(\tfrac{1}{2}, 0\right)_{\mathrm{spin,gauge}} \oplus \left(0, \tfrac{1}{2}\right)_{\mathrm{spin,gauge}}.
 \end{equation}
-The physical spin space corresponds to the gauge-singlet sector $\mathcal{F}_{i, +} = \ker(\mathcal{D}_i - \mathbb{1}) = \bigcap_\gamma \ker T_i^\gamma$. The orthogonal Gutzwiller projector is $P_G = \prod_i \frac{\mathbb{1} + \mathcal{D}_i}{2}$.
+The physical spin-$1/2$ Hilbert space is the gauge-singlet sector $\mathcal{F}_{i, +} = \ker(\mathcal{D}_i - \Id) = \bigcap_\gamma \ker T_i^\gamma$, on which $\mathbf{S}_i^2 = \frac{3}{4}\Id$ and $\mathbf{T}_i^2 = 0$. The exact Gutzwiller physical projector is:
+\begin{equation}
+\label{eq:m1_1_gutzwiller_projector}
+P_G = \prod_{i \in \mathcal{V}} P_{G, i}, \qquad P_{G, i} = \frac{\Id + \mathcal{D}_i}{2}.
+\end{equation}
 
 % EDITORIAL QUESTION: How does physical projection eliminate gauge leakage to recover the standard SU(2) Pauli algebra?
-\section{Recovery of the Physical Pauli Algebra}
-In the Kitaev representation, Pauli operators are represented as $\sigma_i^\gamma = i c_i^0 c_i^\gamma = \frac{i}{2} c_i^T \mathrm{N}^\gamma c_i$, where $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$. On the unprojected Fock space, they obey:
+\section{Physical Spin Operators and the Pauli Algebra Modulo Gauge}
+\label{sec:m1_1_pauli_algebra}
+In the Kitaev Majorana representation, physical spin operators are represented through:
 \begin{equation}
-\sigma_i^\alpha \sigma_i^\beta = \delta^{\alpha\beta}\mathbb{1} + i \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma} (\sigma_i^\gamma - 4 T_i^\gamma).
+\label{eq:m1_1_pauli_def}
+\sigma_i^\gamma \equiv -\ii c_i^0 c_i^\gamma = \frac{\ii}{2} c_i^T \mathrm{N}^\gamma c_i, \qquad \mathrm{N}^\gamma \equiv \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma),
 \end{equation}
-The gauge term $-4i T_i^\gamma$ acts as a penalty on unphysical states. Upon physical projection, $T_i^\gamma P_G = 0$, recovering the exact Pauli algebra $P_G \sigma_i^\alpha \sigma_i^\beta P_G = \delta^{\alpha\beta} P_G + i \epsilon^{\alpha\beta\gamma} P_G \sigma_i^\gamma P_G$.
+where $\mathrm{N}^1 = e_{11} \otimes \epsilon$, $\mathrm{N}^2 = \epsilon \otimes e_{11}$, and $\mathrm{N}^3 = \frac{1}{2}(\epsilon \otimes \sigma_x + \sigma_x \otimes \epsilon)$, with $e_{11} = \frac{1}{2}(I_2 + \sigma_z)$.
+
+\begin{proposition}[Pauli Algebra Modulo Gauge]
+\label{prop:m1_1_pauli_modulo_gauge}
+For cyclic indices $(\alpha, \beta, \gamma)$:
+\begin{equation}
+\label{eq:m1_1_pauli_cyclic}
+\sigma_i^\alpha \sigma_i^\beta = \ii \sigma_i^\gamma - 4\ii T_i^\gamma, \qquad \sigma_i^\gamma = 2(S_i^\gamma + T_i^\gamma).
+\end{equation}
+For general $\alpha, \beta \in \{1, 2, 3\}$, the operator product expands as:
+\begin{equation}
+\label{eq:m1_1_pauli_general}
+\sigma_i^\alpha \sigma_i^\beta = \delta^{\alpha\beta}\Id + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma}(\sigma_i^\gamma - 4 T_i^\gamma).
+\end{equation}
+\end{proposition}
+\begin{proof}
+For $\alpha \neq \beta$, $\sigma_i^\alpha \sigma_i^\beta = (-\ii c_i^0 c_i^\alpha)(-\ii c_i^0 c_i^\beta) = c_i^\alpha c_i^\beta$. Using Eq.~\eqref{eq:m1_1_G_contraction}, $c_i^\alpha c_i^\beta = \frac{1}{2}c_i^T \mathrm{G}^\gamma c_i - c_i^0 c_i^\gamma = -4\ii T_i^\gamma + \ii \sigma_i^\gamma$. For $\alpha = \beta$, $(\sigma_i^\alpha)^2 = -(c_i^0 c_i^\alpha)^2 = \Id$.
+\end{proof}
+
+Sandwiching Eq.~\eqref{eq:m1_1_pauli_general} with the Gutzwiller projector $P_G$ and utilizing $T_i^\gamma P_G = 0$:
+\begin{equation}
+\label{eq:m1_1_projected_pauli}
+P_G \sigma_i^\alpha \sigma_i^\beta P_G = \delta^{\alpha\beta} P_G + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma} P_G \sigma_i^\gamma P_G.
+\end{equation}
+Thus, on the physical subspace $\Ran P_G$, the operators $\sigma_{i, \mathrm{phys}}^\gamma \equiv P_G \sigma_i^\gamma P_G$ satisfy the exact $\mathrm{SU}(2)$ Pauli spin algebra with zero gauge leakage.
+
+% EDITORIAL QUESTION: How is the microscopic spin Hamiltonian parameterized on directed bonds, and what is its exact Majorana quartic form?
+\section{Directed Bonds and the 5-Parameter Exchange Tensor}
+\label{sec:m1_1_exchange_tensor}
+Let $\overrightarrow{\mathcal{E}}_{A \to B}$ denote the set of oriented honeycomb bonds directed from sublattice $A$ to sublattice $B$. The general nearest-neighbor exchange Hamiltonian reads:
+\begin{equation}
+\label{eq:m1_1_spin_hamiltonian}
+H = \sum_{b=(i,j) \in \overrightarrow{\mathcal{E}}_{A \to B}} \sum_{a, b=1}^3 \sigma_i^a \mathbf{J}_{\gamma_b}^{ab} \sigma_j^b - \sum_{i \in \mathcal{V}} \sum_{a=1}^3 h_i^a \sigma_i^a,
+\end{equation}
+where $\gamma_b \in \{x, y, z\}$ designates the bond orientation.
+
+\begin{definition}[Extended 5-Parameter Exchange Tensor]
+\label{def:m1_1_exchange_tensor}
+On a bond of type $\gamma$ with cyclic labels $(\gamma, \gamma^+, \gamma^-)$, the exchange tensor $\mathbf{J}_\gamma$ decomposes into symmetric Heisenberg ($J$), Kitaev ($K$), symmetric off-diagonal ($\Gamma, \Gamma'$), and antisymmetric Dzyaloshinskii-Moriya ($D$) interactions:
+\begin{equation}
+\label{eq:m1_1_J_tensor_components}
+\begin{aligned}
+\mathbf{J}_\gamma^{ab} ={}& J \delta^{ab} + K \delta^{a\gamma} \delta^{b\gamma} + \Gamma (\delta^{a\gamma^+} \delta^{b\gamma^-} + \delta^{a\gamma^-} \delta^{b\gamma^+}) \\
+&+ \Gamma' (\delta^{a\gamma^+} \delta^{b\gamma} + \delta^{a\gamma} \delta^{b\gamma^+} + \delta^{a\gamma^-} \delta^{b\gamma} + \delta^{a\gamma} \delta^{b\gamma^-}) \\
+&+ D (\delta^{a\gamma^+} \delta^{b\gamma^-} - \delta^{a\gamma^-} \delta^{b\gamma^+}).
+\end{aligned}
+\end{equation}
+In the canonical Cartesian basis $(x, y, z)$, the $z$-bond tensor ($\gamma = 3$) has the explicit matrix form:
+\begin{equation}
+\label{eq:m1_1_Jz_matrix}
+\mathbf{J}_z = \begin{pmatrix} J & \Gamma + D & \Gamma' \\ \Gamma - D & J & \Gamma' \\ \Gamma' & \Gamma' & J + K \end{pmatrix}.
+\end{equation}
+\end{definition}
+\begin{remark}[Bond Transposition and DM Interaction]
+Under edge reversal $j \to i$, $\mathbf{J}_{ji} = \mathbf{J}_{ij}^T$. The symmetric couplings $J, K, \Gamma, \Gamma'$ remain invariant, whereas the DM coupling flips sign: $D \to -D$. This guarantees exact angular momentum conservation across directed edges.
+\end{remark}
+
+% EDITORIAL QUESTION: How is the exact quartic Majorana Hamiltonian formulated, and why is its projected operator equivalence exact?
+\section{Exact Quartic Majorana Hamiltonian and Projected Equivalence}
+\label{sec:m1_1_quartic_hamiltonian}
+Substituting the Majorana spin representation $\sigma_i^a = \frac{\ii}{2} c_i^T \mathrm{N}^a c_i$ into the microscopic spin Hamiltonian \eqref{eq:m1_1_spin_hamiltonian} and introducing Lagrange multipliers $\lambda_i^\gamma$ to enforce the local gauge condition $\langle T_i^\gamma \rangle = 0$, we obtain the exact extended Majorana Hamiltonian:
+\begin{equation}
+\label{eq:m1_1_H_lambda_full}
+\begin{aligned}
+H_\lambda ={}& \frac{1}{8} \sum_{(i,j) \in \overrightarrow{\mathcal{E}}} \sum_{a,b=1}^3 (\ii c_i^T \mathrm{N}^a c_i) \mathbf{J}_{\gamma}^{ab} (\ii c_j^T \mathrm{N}^b c_j) \\
+&- \frac{1}{2} \sum_{i \in \mathcal{V}} \sum_{a=1}^3 h_i^a (\ii c_i^T \mathrm{N}^a c_i) - \sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma T_i^\gamma.
+\end{aligned}
+\end{equation}
+The global prefactor $\frac{1}{8} = \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2}$ is composed of the directed edge factor and the two $\frac{1}{2}$ factors from the spin representations $\sigma_i^a$ and $\sigma_j^b$.
+
+\begin{theorem}[Exact Projected Operator Equivalence]
+\label{thm:m1_1_projected_equivalence}
+Let $P_G$ be the Gutzwiller projector onto the physical parity-even gauge-singlet sector. Then $H_\lambda$ and the physical spin Hamiltonian $H$ satisfy the exact operator equivalence:
+\begin{equation}
+\label{eq:m1_1_projected_equivalence}
+P_G H_\lambda P_G = P_G H P_G.
+\end{equation}
+\end{theorem}
+\begin{proof}
+On the physical subspace, $T_i^\gamma P_G = 0$, so the Lagrange multiplier term vanishes identically: $\left(\sum_{i,\gamma}\lambda_i^\gamma T_i^\gamma\right) P_G = 0$. Furthermore, by Proposition~\ref{prop:m1_1_pauli_modulo_gauge}, $P_G \sigma_i^a P_G = P_G (\frac{\ii}{2} c_i^T \mathrm{N}^a c_i) P_G$. Since distinct site operators commute, the product of Majorana bilinears projected with $P_G$ evaluates identically to the physical spin exchange term.
+\end{proof}
+
+\section{Summary and Theoretical Transition}
+\label{sec:m1_1_summary}
+The fractionalization of spin-$1/2$ degrees of freedom into four Majorana fermions provides an exact microscopic representation of the extended Kitaev Hamiltonian via Theorem~\ref{thm:m1_1_projected_equivalence}. The representation is rigorous on the operator level.
+
+However, the Hamiltonian $H_\lambda$ is **quartic** in Majorana operators. Solving this interacting fermion problem on the full many-body Hilbert space is intractable. In the subsequent chapter (\Cref{ch:m1_1b}), we develop the model-independent theory of **quasi-free states**, showing that mean-field decoupling is not an operator approximation, but the exact restriction of the quantum variational principle to the fermionic Grassmannian manifold.
