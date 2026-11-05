@@ -9,7 +9,7 @@ RUFF := $(VENV)/bin/ruff
 MYPY := $(VENV)/bin/mypy
 SNAPSHOT_FILE := REPO_SNAPSHOT.md
 
-.PHONY: help venv lock sync install test test-verbose benchmark labbook k006-quadrature lint format verify snapshot clean
+.PHONY: help venv lock sync install test test-verbose benchmark labbook manuscript blueprint k006-quadrature lint format verify snapshot clean clean-build
 
 help:
 	@echo "kitaev-mf targets:"
@@ -18,9 +18,12 @@ help:
 	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
 	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
 	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/main.pdf)"
+	@echo "  make manuscript    - Compile publication manuscript (doc/manuscript/main.pdf)"
+	@echo "  make blueprint     - Build static R&D Epistemic Blueprint portal (build/blueprint/)"
 	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
 	@echo "  make lint          - Run Ruff check, format verification, and strict Mypy"
-	@echo "  make snapshot      - Generate REPO_SNAPSHOT.md for agent ingestion"
+	@echo "  make snapshot      - Generate REPO_SNAPSHOT.md (active mode, rnd role)"
+	@echo "  make clean-build   - Clean ephemeral LaTeX and blueprint build artifacts"
 
 venv:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -51,6 +54,16 @@ benchmark:
 
 labbook:
 	@$(MAKE) --no-print-directory -C doc/labbook pdf
+
+manuscript:
+	@echo "[manuscript] Compiling doc/manuscript/main.pdf..."
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
+	@echo "[manuscript] Generated doc/manuscript/main.pdf"
+
+blueprint:
+	@echo "[blueprint] Generating R&D Epistemic Blueprint portal..."
+	@$(PYTHON) scripts/build_blueprint.py --root . --output-dir build/blueprint
 
 k006-quadrature:
 	@$(PYTHON) scripts/k006_quadrature.py
@@ -94,9 +107,13 @@ verify:
 	printf '\nVerification completed successfully.\n'
 
 snapshot:
-	@$(PYTHON) scripts/make_snapshot.py
+	@$(PYTHON) scripts/make_snapshot.py --mode active --role rnd
 
-clean:
-	@rm -rf build/ dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/ $(SNAPSHOT_FILE) repo_snapshot.txt
-	@find . -type d -name "__pycache__" -exec rm -rf {} +
+clean-build:
+	@rm -rf build/ $(SNAPSHOT_FILE) repo_snapshot.txt
 	@$(MAKE) --no-print-directory -C doc/labbook clean || true
+	@rm -f doc/manuscript/*.aux doc/manuscript/*.log doc/manuscript/*.out doc/manuscript/*.toc doc/manuscript/*.pdf
+
+clean: clean-build
+	@rm -rf dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/
+	@find . -type d -name "__pycache__" -exec rm -rf {} +

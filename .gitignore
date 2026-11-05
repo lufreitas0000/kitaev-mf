@@ -48,17 +48,21 @@ data/processed/*
 *.npz
 
 # LaTeX compilation outputs
-doc/notes/*.aux
-doc/notes/*.bbl
-doc/notes/*.bcf
-doc/notes/*.blg
-doc/notes/*.fdb_latexmk
-doc/notes/*.fls
-doc/notes/*.log
-doc/notes/*.out
-doc/notes/*.run.xml
-doc/notes/*.synctex.gz
-doc/notes/*.toc
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.auxlock
+cache_tikz/
+build.log
+doc/labbook/build.log
 
 # Thesis reference build artifacts
 doc/reference/thesis/*.aux

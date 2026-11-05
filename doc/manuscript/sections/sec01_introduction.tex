@@ -1,0 +1,22 @@
+% EDITORIAL QUESTION: How does fractionalization of spin-1/2 into four Majorana partons resolve quantum frustration while preserving physical Hilbert space dimension?
+\section{Introduction and Physical Fractionalization}
+\label{sec:intro}
+
+Frustrated quantum magnets with bond-directional exchange interactions, epitomized by the Kitaev honeycomb model \cite{Kitaev2006}, host gapless and gapped quantum spin liquid phases with fractionalized Majorana fermion excitations and emergent $\mathbb{Z}_2$ gauge fields. In candidate materials such as $\alpha\text{-RuCl}_3$ and honeycomb iridates, additional Heisenberg ($J$), symmetric off-diagonal ($\Gamma, \Gamma'$), and Zeeman ($\mathbf{h}$) terms induce strong competing magnetic interactions.
+
+% SOURCE [VERIFIED]: Kitaev (2006), Ann. Phys. 321, 2-111, Sec. 2 — Four-Majorana representation
+To resolve these interactions at the mean-field level, we fractionalize the spin-$1/2$ operator at each site $i \in \mathcal{V}$ into four real Majorana fermions $\mathbf{c}_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T$:
+\begin{equation}
+\{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \mathbb{1}, \qquad (c_i^\mu)^\dagger = c_i^\mu.
+\label{eq:car_algebra}
+\end{equation}
+Here $c_i^0$ denotes the itinerant matter Majorana, while $\mathbf{b}_i = (c_i^1, c_i^2, c_i^3)^T$ represent the localized gauge Majoranas.
+
+% CLAIM: K-001 (provenance: doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md, test: test/unit/test_local_majorana_algebra.py::test_t00a_01_majorana_car)
+The Clifford CAR algebra (\ref{eq:car_algebra}) doubles the local dimension from $\dim \mathcal{H}_{\mathrm{phys}, i} = 2$ to $\dim \mathcal{F}_i = 4$. Unphysical states are projected out via the local gauge constraint:
+\begin{equation}
+D_i = -i c_i^0 c_i^1 c_i^2 c_i^3 = +1,
+\end{equation}
+which restricts physical states to the even fermion-parity sector.
+
+In summary, Majorana parton fractionalization replaces constrained, non-linear spin operators with bilinear fermion terms, at the cost of introducing an enlarged Hilbert space whose physical subspace is fixed by local parity projection.

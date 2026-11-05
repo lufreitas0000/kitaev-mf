@@ -93,15 +93,24 @@ milestone_history:
   status: completed
   acceptance: Refactored doc/rnd/ into phase-indexed notes with YAML frontmatter,
     established memoir living labbook with beige/charcoal theme, and compiled Chapters
-    1-5.
+    1-5. Established shared LaTeX library, Front 3 manuscript scaffold, R&D blueprint,
+    and discovery log.
   evidence:
   - doc/rnd/phase_1/
   - doc/labbook/main.pdf
   - doc/labbook/chapters/
+  - doc/shared/
+  - doc/manuscript/
+  - LOG_DISCOVERY_AND_PIVOTS.md
+  - scripts/build_blueprint.py
+  - .github/workflows/blueprint.yml
+  - .github/workflows/latex.yml
   - .agents/rules/00_workspace_hygiene.md
+  - .agents/rules/01_repository_safety.md
   - .agents/rules/03_editorial_rigor.md
   - .agents/rules/05_project_management.md
   - .agents/rules/06_milestone_progress.md
+  - .agents/rules/07_discovery_log.md
   validation: user_reported_local_wsl_pass
 active_milestone:
   id: M1.6

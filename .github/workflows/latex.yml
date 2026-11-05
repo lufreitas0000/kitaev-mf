@@ -1,0 +1,102 @@
+name: Build LaTeX Living Lab Book & Manuscript
+
+on:
+  push:
+    branches:
+      - main
+      - develop/m1-foundations-review
+    paths:
+      - 'doc/labbook/**'
+      - 'doc/manuscript/**'
+      - 'doc/shared/**'
+      - 'data/processed/benchmarks/**'
+      - '.github/workflows/latex.yml'
+  pull_request:
+    paths:
+      - 'doc/labbook/**'
+      - 'doc/manuscript/**'
+      - 'doc/shared/**'
+      - 'data/processed/benchmarks/**'
+      - '.github/workflows/latex.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: latex-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up TeX Live
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: doc/labbook
+          extra_system_packages: make
+          args: "-pdf -file-line-error -interaction=nonstopmode -halt-on-error"
+
+      - name: Compile Manuscript
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: doc/manuscript
+          args: "-pdf -file-line-error -interaction=nonstopmode -halt-on-error"
+
+      - name: Bind publication receipt to compiled PDFs
+        run: |
+          python3 - <<'PYCODE'
+          import hashlib, json, os
+          from pathlib import Path
+
+          sha = os.environ.get('GITHUB_SHA', 'local')
+          run_id = os.environ.get('GITHUB_RUN_ID', 'manual')
+          receipt = {
+              'source_sha': sha,
+              'run_id': run_id,
+              'artifacts': {}
+          }
+          for name, rel_path in [('labbook', 'doc/labbook/main.pdf'), ('manuscript', 'doc/manuscript/main.pdf')]:
+              p = Path(rel_path)
+              if p.is_file():
+                  data = p.read_bytes()
+                  receipt['artifacts'][name] = {
+                      'sha256': hashlib.sha256(data).hexdigest(),
+                      'bytes': len(data)
+                  }
+          Path('book-build.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PYCODE
+
+      - name: Upload PDF Artifacts (CI Archive)
+        uses: actions/upload-artifact@v4
+        with:
+          name: kitaev-mf-documents
+          path: |
+            doc/labbook/main.pdf
+            doc/manuscript/main.pdf
+            book-build.json
+          if-no-files-found: error
+
+      - name: Publish Direct PDF to Latest Release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp doc/labbook/main.pdf kitaev-mf-labbook.pdf
+          cp doc/manuscript/main.pdf kitaev-mf-manuscript.pdf
+
+          if gh release view latest >/dev/null 2>&1; then
+            echo "Updating existing release..."
+            gh release upload latest kitaev-mf-labbook.pdf kitaev-mf-manuscript.pdf book-build.json --clobber
+          else
+            echo "Creating initial release..."
+            gh release create latest kitaev-mf-labbook.pdf kitaev-mf-manuscript.pdf book-build.json \
+              --title "kitaev-mf Documents (Latest Build)" \
+              --notes "Automated build of Living Lab Book and Manuscript from main. book-build.json provides SHA-256 provenance receipts."
+          fi

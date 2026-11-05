@@ -1,73 +1,99 @@
-# Rule 03: Scientific Documentation, Mathematical Rigor, and Three-Tier Architecture
+# Rule 03: Three-Front R&D Architecture, Editorial Rigor, and Provenance
 
-Apply these standards to research notes, living lab books, architecture records, code documentation, and publication deliverables.
+Apply these standards to research notes, living labbooks, architecture records, code documentation, and publication-facing manuscripts.
 
-## 1. Three-tier documentation architecture
+## 1. The Three-Front R&D Document Architecture
 
-The repository maintains an explicit separation between the Context of Discovery and the Context of Justification:
+Scientific software and theoretical physics repositories organize documentation across three distinct fronts, separating machine-first discovery from human-first justification and external exposition:
 
-### Tier 1: Context of Discovery (Machine-First Agent Logs)
-- **Location**: `doc/rnd/phase_<N>/m<phase>_<milestone>_t<task>_<slug>.md`
-- **Audience**: Automated agents and LLM thought partners.
-- **Contract**: Every note must open with strict YAML frontmatter:
-  ```yaml
-  ---
-  id: RND-P<phase>-M<milestone>-T<task>
-  title: "<Descriptive Title>"
-  phase: <int>
-  milestone: "<milestone_id>"
-  task: "<task_id>"
-  status: "<planned|in_progress|completed>"
-  contracts: ["<TST-...>"]
-  claims: ["<CLM-...>"]
-  artifacts: ["<data/processed/benchmarks/...>"]
-  ---
-  ```
-- **Style**: Mathematically formal, explicit, and operational. Free of rhetorical introductions, personal development framing, or conversational filler. Must state: analytical contracts, exact parameter domains, observed contraction rates $\mu$, failed seeds, and numerical bounds.
+| Front | Canonical Path | Epistemic Role | Audience & Format |
+| :--- | :--- | :--- | :--- |
+| **Front 1: Agentic R&D Front** | `doc/rnd/phase_<N>/` & `doc/rnd/exploratory/` | **Context of Discovery:** Derivations, conventions, idealization boundaries, algorithmic edge cases, numerical experiments, and failed approaches. | Machine- and developer-first Markdown (`m<P>_<M>_t<T>_<slug>.md`) with mandatory YAML frontmatter, paired with `LOG_DISCOVERY_AND_PIVOTS.md`. |
+| **Front 2: Living Lab Book** | `doc/labbook/` | **Context of Justification:** Cumulative pedagogical synthesis integrating the motivating questions and dead ends from Front 1 with complete derivations, verified invariants, and reproducible `.dat` plots. | Human-first `memoir` LaTeX book (`doc/labbook/main.tex`) using the shared warm parchment theme (`#FAF6EE` background, `#2B2B2B` text) and `pgfplotstable`. |
+| **Front 3: Publication Manuscript** | `doc/manuscript/` (or `doc/report/`) | **Context of Exposition:** Self-contained journal paper or monograph narrative stripped of internal project scaffolding. | External referees and readers (`revtex4-2`, `article`, or `memoir` with white print toggle `\warmthemefalse`). Must never depend on unpublished `doc/rnd/` scratch notes. |
 
-### Tier 2: Context of Justification (Living Human-First Lab Book)
-- **Location**: `doc/labbook/` compiling to `doc/labbook/main.pdf`
-- **Audience**: The human investigator and project owner.
-- **Contract**:
-  - Class: `memoir` with soft parchment beige background (`#FAF6EE`) and dark charcoal font (`#2B2B2B`).
-  - Chapter files are indexed by milestone: `chapters/ch_m<phase>_<milestone>_<slug>.tex`.
-  - Updated incrementally at the completion of every milestone sprint.
-  - Focuses on narrative pedagogical exposition, physical motivation, phase stability, and failure analysis.
-  - All numerical plots and tables must load directly from `data/processed/benchmarks/*.dat` via `pgfplotstable` or deterministic figure generation—hardcoded numerical arrays in TeX are strictly forbidden.
+### 1.1 Front 1 (`doc/rnd/`) YAML Frontmatter Contract
 
-### Tier 3: Phase Monograph (Context of Exposition)
-- **Location**: `doc/report/` compiling to `doc/report/main.pdf`
-- **Audience**: External peer review, academic archive, or thesis publication.
-- **Contract**: Produced at the conclusion of a macro Phase (e.g. M1.9). Distills the verified results into a concise, definition-theorem-proof document linking claims directly to verified invariant tags (`CLM-M1-*`).
+Every milestone-indexed R&D note (`doc/rnd/phase_<P>/m<P>_<M>_t<T>_<slug>.md`) must begin with structured YAML frontmatter so `make_snapshot.py` and `build_blueprint.py` can index the epistemic graph:
 
-## 2. Mathematical claims and provenance
+```yaml
+---
+id: RND-P1-M1.1-T1
+title: "Finite-Lattice Conventions and Local Majorana Algebra"
+phase: 1
+milestone: M1.1
+task: T1
+status: completed # draft | active | blocked | completed | pivoted
+questions:
+  - "What local Majorana representation and parity projection uniquely fix the spin-1/2 algebra?"
+depends_on: []
+contracts:
+  - A01
+  - A02
+claims:
+  - K-001
+  - K-002
+artifacts:
+  - src/pkg/domain/algebra.py
+  - test/unit/test_algebra.py
+---
+```
 
-1. State definitions, domains, assumptions, conventions, and boundary conditions before relying on them.
-2. Give proofs for nontrivial claims when the note presents them as established results. Identify omitted arguments and cite a verifiable source when relying on an external result.
-3. Distinguish exact algebraic statements, analytical results, finite-volume statements, numerical evidence, approximations, extrapolations, and conjectures.
-4. Use persistent claim identifiers (`CLM-M<phase>-...`) when a result is tracked across research notes, tests, project-state invariants, or publication sources.
-5. A test passing establishes only its tested computational contract and parameter domain; it is not a proof of a theorem.
+### 1.2 Mandatory LaTeX Provenance & Editorial Comments (Fronts 2 & 3)
 
-## 3. Conventions and notation
+Every chapter and section in `doc/labbook/` and `doc/manuscript/` must obey three source-comment contracts:
+
+1. **Guiding Question (`% EDITORIAL QUESTION:`):**
+   - Place `% EDITORIAL QUESTION: <concise physical or mathematical question>` immediately before every numbered `\section` (and any `\subsection` addressing an independent question).
+   - Lead with the physical observable or concrete motivating example before introducing abstract apparatus.
+   - Explicitly answer the guiding question in the section's scientific conclusion.
+2. **External Reference Locators (`% SOURCE [STATUS]:`):**
+   - Every nonstandard or externally sourced formula/theorem requires a comment:
+     `% SOURCE [VERIFIED|UNVERIFIED]: <Author (Year), Edition, Ch/Sec/Eq locator — supported claim>`
+   - Never fabricate page numbers, equation numbers, or locators.
+3. **Internal Claim Traceability (`% CLAIM:`):**
+   - When promoting a verified project result into `doc/labbook/` or `doc/manuscript/`, annotate its provenance:
+     `% CLAIM: <ID> (note: doc/rnd/..., test: test/..., data: data/processed/benchmarks/...)`
+
+## 2. Mathematical claims, idealizations, and provenance
+
+1. State definitions, domains, idealizations (mean-field, finite-size cluster, perturbative order, gauge sector, regulator), and boundary conditions before relying on them.
+2. Give proofs for nontrivial claims when presenting them as established results. Identify omitted arguments and cite a verifiable source when relying on an external result.
+3. Strictly distinguish:
+   - exact algebraic identities and analytical theorems;
+   - finite-volume or finite-dimensional exact results;
+   - floating-point numerical benchmarks and convergence tests;
+   - approximations, extrapolations, and conjectures.
+4. Do not promote finite-size numerical agreement into a thermodynamic claim without a controlled limiting argument. A passing test certifies only its tested computational contract and parameter domain.
+5. Record limiting-case checks and independent validations when they materially support the result. Explain what those checks do and do not establish.
+
+## 3. Conventions and mathematical typography
 
 State conventions explicitly whenever they affect signs, prefactors, symmetry representations, or physical interpretation:
-
-- lattice graph, sublattice and bond orientation;
-- Fourier-transform and Brillouin-zone conventions;
-- Majorana or parton representation and normalization;
-- gauge constraints and physical-state projection;
+- lattice graph, sublattice, and bond orientation;
+- Fourier-transform and Brillouin-zone normalization;
+- operator/parton representation, normal ordering, and physical-state projection;
 - index ranges, summation conventions, and matrix ordering;
 - boundary conditions and finite-size geometry.
 
-For the production four-flavor representation, retain the established project notation:
-- $\Lambda = (\mathcal{V},\mathcal{E})$ denotes the lattice graph;
-- Latin indices $i, j$ label vertices; Greek indices $\alpha, \beta, \gamma \in \{1, 2, 3\}$ label Cartesian spin/bond directions;
-- $c_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T$ denotes the four-flavor Majorana multiplet;
-- $\sigma_i^\gamma = \frac{i}{2}c_i^T\mathrm{N}^\gamma c_i = i c_i^0c_i^\gamma$ with $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$;
-- local gauge constraint: $T_i^\gamma = \frac{i}{8}c_i^T\mathrm{G}^\gamma c_i = 0$.
+Typographical standards across Markdown and LaTeX:
+- Use upright Roman type for named operators and labels (`\Tr`, `\tr`, `\Pf`, `\sgn`, `\diag`, `\mathrm{d}k`, `\mathrm{MF}`, `\mathrm{BdG}`, `\mathrm{BZ}`).
+- Use blackboard bold for number fields and identity operators (`\mathbb{R}`, `\mathbb{C}`, `\mathbb{Z}_2`, `\mathbb{1}`).
+- Use `\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}` and `\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}` for properly scaled delimiters.
+- Punctuate displayed equations as part of the surrounding prose sentence.
 
-## 4. Single responsibility for numerical benchmark data
+## 4. Code and mathematical notation
 
-1. Numerical benchmark tables belong exclusively in `data/processed/benchmarks/<slug>.dat`.
-2. Every `.dat` file must begin with comment headers stating the benchmark title, ISO timestamp, Git commit SHA, description, and column schema.
-3. Plotting scripts, LaTeX tables (`pgfplotstable`), and regression tests must consume these `.dat` files directly. Do not duplicate floating-point data tables across multiple repositories or source files.
+1. Use descriptive English identifiers by default. Conventional uppercase names for matrices, Hamiltonians, exchange tensors, and operator representations are acceptable when they improve correspondence with the mathematical notation.
+2. Maintain strict architectural separation:
+   - `domain/`: pure mathematical entities, parameters, lattices, and port interfaces;
+   - `services/`: physics and numerical algorithms depending only on domain abstractions;
+   - `infra/`: hardware backends (CPU/CUDA), file I/O, and `.dat` tabular exporters;
+   - `app/`: CLI entrypoints and workflow orchestration.
+3. Avoid semicolon-compressed statements and minified code. Preserve readability and explicit control flow.
+
+## 5. References and bibliographic integrity
+
+1. Cite primary literature, peer-reviewed work, authoritative books, and original software documentation as appropriate to the claim.
+2. Verify bibliographic metadata against publisher records, DOI registries, arXiv records, or the cited source itself. Never invent or infer a DOI, arXiv identifier, title, author list, page range, or publication year.
+3. Use a consistent citation style appropriate to the document. Author-year citations are suitable for Markdown research notes (`doc/rnd/`); use BibTeX (`refs.bib`) and the target venue style for `doc/labbook/` and `doc/manuscript/`.

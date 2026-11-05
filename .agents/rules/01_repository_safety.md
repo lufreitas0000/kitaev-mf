@@ -1,4 +1,4 @@
-# Rule 01: Repository Safety and Data Integrity
+# Rule 01: Repository Safety, Version Control, and Four-Tier Data Integrity
 
 ## 1. Git branches and history
 
@@ -17,16 +17,21 @@
 7. Ordinary feature and research branches should normally use `main` as their integration baseline. Long-lived branches should be synchronized with `main` at deliberate, documented checkpoints.
 8. Do not merge, close, or delete branches/PRs unless authorized by the user or explicitly required by the agreed task.
 
-## 2. Simulation data and generated artifacts
+## 2. Four-Tier Version Control and Data Provenance Contract
 
-1. Treat raw simulation outputs and generated files (including HDF5, NPZ, tensor checkpoints, plots, and compiled PDFs) as generated artifacts, not source, by default. Commit them only when a reviewed, compact artifact is an explicit project deliverable.
-2. Keep raw and processed simulation data under the repository's designated data locations or an explicitly configured external storage location. Do not assume that every machine has the same local data.
-3. When writing important simulation output, avoid exposing partially written files as completed results. Prefer writing to a temporary file on the same filesystem, validating it, and atomically replacing the destination with `os.replace()`. Apply this where the file format and workflow support it.
-4. Preserve sufficient provenance for committed numerical results: source revision, model and coupling parameters, lattice/geometry, boundary conditions, precision, solver settings, and random seeds when applicable.
-5. Do not commit credentials, access tokens, private keys, personal data, or unreviewed machine-specific configuration.
+Every repository separates source, compact benchmarks, heavy binary tensors, ephemeral build caches, and published deliverables across four tiers:
 
-## 3. Review and reproducibility
+| Tier | Storage System | Permitted Contents | Rules & Provenance Contract |
+| :--- | :--- | :--- | :--- |
+| **Tier 1: Source & Compact Benchmarks** | **Git + GitHub** (`lufreitas0000`) | Code (`src/`, `test/`, `scripts/`), governance (`.agents/`, `AGENTS.md`, `PROJECT_STATE.yaml`, `LOG_DISCOVERY_AND_PIVOTS.md`), `doc/rnd/*.md`, `.tex` sources, `data/manifests/*.yaml`, and compact ASCII tables (`data/processed/benchmarks/*.dat` < 100 KB). | ASCII `.dat`/`.csv` files must start with `#` comment headers recording generator script, `git_sha`, `timestamp`, and model/mesh parameters so `pgfplots` figures are 100% traceable. |
+| **Tier 2: Heavy Scientific Data** | **DVC + Google Drive Remote** (`data/raw/`) | Heavy binary arrays (`.h5`, `.npz`, `.pt`), Monte Carlo trajectories, wavefunction checkpoints, and raw reference PDFs. | Never commit raw binary arrays directly to Git. Track them via `.dvc` pointer files and SHA-256 manifests (`data/manifests/`) backed by Google Drive or designated remote storage. |
+| **Tier 3: Ephemeral Build Cache** | **Git-Ignored Local (`build/`)** | Compiled `.aux`, `.log`, `.fls`, `cache_tikz/`, `.venv/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/`, and local scratch PDFs. | Strictly git-ignored. Clean only via targeted `make clean-build` targets; never run unrestricted `git clean -fdx` on a research checkout. |
+| **Tier 4: Certified Deliverables** | **GitHub Releases & GitHub Pages** | Compiled `labbook.pdf`, `manuscript.pdf`, `book-build.json` receipt, and the static **R&D Blueprint Portal** (`build/blueprint/`). | Published via CI workflows (`latex.yml`, `blueprint.yml`). Compiled PDFs must be accompanied by a `book-build.json` receipt binding `source_sha` to `pdf_sha256`. |
 
-1. Review staged changes with `git diff --cached` before committing.
-2. Do not use generated output as the sole source of truth when the underlying inputs and reproducible procedure can be preserved.
-3. Keep large or transient outputs out of Git history; use documented external storage or release artifacts when persistence is required.
+## 3. Atomic writes, security, and reproducibility
+
+1. When writing important simulation output, avoid exposing partially written files as completed results. Write to a temporary file on the same filesystem, validate it, and atomically replace the destination with `os.replace()`.
+2. Preserve sufficient provenance for committed numerical results: source revision, model and coupling parameters, lattice/geometry, boundary conditions, precision, solver settings, and random seeds when applicable.
+3. Do not commit credentials, access tokens, private keys, personal data, `.env` files, or unreviewed machine-specific configuration.
+4. Review staged changes with `git diff --cached` before committing.
+5. Do not use generated output as the sole source of truth when the underlying inputs and reproducible procedure can be preserved.

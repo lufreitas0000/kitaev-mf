@@ -1,0 +1,31 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\input{../shared/preamble}
+\input{../shared/macros}
+
+% Front 3: Publication Manuscript (Print Theme: Crisp White Background)
+\warmthemefalse
+\applyprojecttheme
+
+\title{\textbf{Majorana Parton Mean-Field Theory of the Extended Kitaev Honeycomb Model: Algebraic Symmetries, Grassmannian Solvers, and Kinematic Invariants}}
+
+\author{\textbf{Lu Freitas}\\[1mm]
+\small International Institute of Physics, Universidade Federal do Rio Grande do Norte, Natal, Brazil}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present a self-consistent Majorana parton mean-field framework for the extended Kitaev honeycomb model ($J\text{-}K\text{-}\Gamma\text{-}\Gamma'\text{-}\mathbf{h}$). By fractionalizing physical spin degrees of freedom into four Majorana flavors per site, we establish the local $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$ Lie algebra homomorphism and enforce local physical state projection. We formulate the saddle-point equations on the Grassmannian manifold, compare Picard, DIIS, Broyden, and Newton-Krylov solvers, and establish exact kinematic and semidefinite representability bounds that gate physical self-consistency across non-integrable regimes.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\input{sections/sec01_introduction}
+
+\end{document}

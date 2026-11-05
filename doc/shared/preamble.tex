@@ -1,0 +1,80 @@
+% ==============================================================================
+% Shared Preamble: kitaev-mf
+% Supports both Front 2 (Living Lab Book, warm parchment reading theme)
+% and Front 3 (Publication Manuscript, crisp white print theme).
+% ==============================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{braket}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+
+% Configure pgfplotstable to handle nan/empty fields gracefully
+\pgfplotstableset{
+    empty cells with={--},
+    every nan/.style={empty cells with={--}}
+}
+
+% ------------------------------------------------------------------------------
+% Theme Toggle: \warmthemetrue (Screen / Labbook) vs \warmthemefalse (Print)
+% ------------------------------------------------------------------------------
+\providecommand{\ifwarmtheme}{}
+\newif\ifwarmtheme
+\warmthemetrue % Set to \warmthemefalse in doc/manuscript/main.tex
+
+\definecolor{labbookbg}{HTML}{FAF6EE}
+\definecolor{labbooktext}{HTML}{2B2B2B}
+\definecolor{labbookaccent}{HTML}{1A365D}
+\definecolor{labbookrule}{HTML}{D1C7B7}
+
+\newcommand{\applyprojecttheme}{%
+  \ifwarmtheme
+    \pagecolor{labbookbg}%
+    \color{labbooktext}%
+  \else
+    \pagecolor{white}%
+    \color{black}%
+  \fi
+}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=labbookaccent,
+    citecolor=labbookaccent,
+    urlcolor=labbookaccent,
+    pdftitle={kitaev-mf: Scientific Record},
+    pdfauthor={Lu Freitas}
+}
+
+% ------------------------------------------------------------------------------
+% Theorem and Definition Environments (Polymorphic: chapter or section based)
+% ------------------------------------------------------------------------------
+\theoremstyle{definition}
+\makeatletter
+\@ifundefined{c@chapter}{%
+  \newtheorem{definition}{Definition}[section]
+  \newtheorem{theorem}{Theorem}[section]
+  \newtheorem{proposition}{Proposition}[section]
+  \newtheorem{lemma}{Lemma}[section]
+  \newtheorem{corollary}{Corollary}[section]
+  \newtheorem{remark}{Remark}[section]
+  \newtheorem{contract}{Contract}[section]
+}{%
+  \newtheorem{definition}{Definition}[chapter]
+  \newtheorem{theorem}{Theorem}[chapter]
+  \newtheorem{proposition}{Proposition}[chapter]
+  \newtheorem{lemma}{Lemma}[chapter]
+  \newtheorem{corollary}{Corollary}[chapter]
+  \newtheorem{remark}{Remark}[chapter]
+  \newtheorem{contract}{Contract}[chapter]
+}
+\makeatother
