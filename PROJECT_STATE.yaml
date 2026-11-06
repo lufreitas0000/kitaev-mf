@@ -114,12 +114,12 @@ milestone_history:
   validation: user_reported_local_wsl_pass
 active_milestone:
   id: M1.6
-  description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site Cell,
+  description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site & 4-Site Cells,
     FM Kitaev + [111] Field)
-  status: in_progress
+  status: completed
   sprint_goal: Implement and benchmark Picard, Joint DIIS, Broyden, and JFNK solvers
-    on the Grassmannian manifold under K = -1.0, h || [111]; map basins across QSL,
-    polarized, and random seeds.
+    on the Grassmannian manifold under K = -1.0, h || [111]; map multi-basin landscape,
+    hysteresis loops, topological Majorana cubic gap opening, and author Living Lab Book Chapter 6.
   active_tasks:
   - id: M1.5-T3
     title: Living Lab Book Monograph Enrichment, Proof Restitution, and Exploratory Backlog Integration
@@ -148,34 +148,118 @@ active_milestone:
     - Formal isolation of Phase 2 exploratory research questions in PHASE2_EXPLORATORY_BACKLOG.md
     - Full test suite verification under make verify (114 tests, 96% coverage, Ruff & Mypy clean)
     validation: make labbook && make verify
-  - id: T1
-    title: Grassmannian Solver Implementations (Picard, Broyden, and Newton-Krylov)
-    status: in_progress
+  - id: M1.6-T0
+    title: Hypothesis, Assumption, and A/B Testing Registry
+    status: completed
     target_files:
+    - doc/rnd/phase_1/m1_6_t0_assumption_and_ab_registry.md
+    contracts:
+    - Formal specification of PH-01..05 and AH-01..05 with falsifiable metrics
+    - Explicit registration of algorithmic assumptions A-01..08
+    validation: user_approved_plan_rev3
+  - id: M1.6-T1
+    title: Hexagonal Solver Infrastructure & Fixed-Point Accelerators
+    status: completed
+    target_files:
+    - src/kitaev_mf/services/fixed_point.py
     - src/kitaev_mf/services/solver.py
+    - src/kitaev_mf/domain/solver.py
+    - src/kitaev_mf/domain/state.py
+    - src/kitaev_mf/services/seeds.py
+    - test/unit/test_fixed_point.py
+    - test/unit/test_solver.py
+    - test/unit/test_seeds.py
     contracts:
-    - Contraction factor evaluation mu
-    - KKT stationarity epsilon_KKT < 1e-10
-    validation: pytest -v test/unit/test_solver.py
-  - id: T2
-    title: Seed Basin & Multistability Mapping across h/|K| in [0, 1.0]
-    status: planned
+    - Model-agnostic FP, Picard, DIIS, Broyden, JFNK accelerators
+    - Pure gauge-neutral polarized seed factory via M_MATRICES
+    - Exact commutator stationarity eps_comm < 1e-10 on pure Kitaev
+    validation: pytest -v test/unit/test_fixed_point.py test/unit/test_solver.py test/unit/test_seeds.py
+  - id: M1.6-T2
+    title: Skew-Symmetrization A/B Benchmark (AH-04)
+    status: completed
     target_files:
-    - scripts/generate_benchmarks.py
-    - data/processed/benchmarks/basin_multistability_111.dat
+    - scripts/m1_6/ab_skew_retraction.py
+    - data/processed/benchmarks/m1_6/ab_skew_retraction.dat
+    - doc/rnd/phase_1/m1_6_t2_skew_symmetry_ab_benchmark.md
+    - test/unit/test_skew_modes.py
     contracts:
-    - Hysteresis forward/backward continuation
-    - Random Grassmannian sampling
-    validation: python3 scripts/generate_benchmarks.py --benchmark basins
-  - id: T3
-    title: Lab Book Synthesis & Figures (Chapter M1.6)
-    status: planned
+    - 4-arm evaluation of raw vs symmetrized output vs retraction
+    - Demonstration of Arm A failure in Krylov subspaces due to asymmetry roundoff
+    - Numerical trajectory identity of Arm B and Arm C
+    validation: python3 scripts/m1_6/ab_skew_retraction.py && pytest test/unit/test_skew_modes.py
+  - id: M1.6-T3
+    title: Weak-Field Multistability & Solver Exploratory Batch (h in {0.01, 0.05})
+    status: completed
+    target_files:
+    - scripts/m1_6/run_weak_field_batch.py
+    - scripts/m1_6/plot_quicklook.py
+    - data/processed/benchmarks/m1_6/weak_field_solvers.dat
+    - build/rnd/m1_6/figures/
+    - doc/rnd/phase_1/m1_6_t3_solver_seed_convergence.md
+    - test/integration/test_multistability_basins.py
+    contracts:
+    - Linear scaling of gauge multipliers ||lambda*|| ~ sqrt(5) h
+    - QSL vs Polarized basin energy and flux separation (PH-02)
+    - Sublattice magnetization C3 isotropy in ground state (PH-03)
+    - Demonstration of DIIS/Broyden efficiency over FP/Picard/JFNK (AH-02, AH-03)
+    validation: make verify
+  - id: M1.6-T4
+    title: Intermediate & High-Field Basin Sweep, Mesh Sensitivity, and Hysteresis (h in [0.0, 5.0])
+    status: completed
+    target_files:
+    - scripts/m1_6/benchmark_mesh_sensitivity.py
+    - scripts/m1_6/sweep_basins_111.py
+    - scripts/m1_6/plot_expanded_quicklook.py
+    - data/processed/benchmarks/m1_6/mesh_sensitivity.dat
+    - data/processed/benchmarks/m1_6/basin_sweep_111.dat
+    - build/rnd/m1_6/figures/fig4_hysteresis_phase_diagram.png
+    - build/rnd/m1_6/figures/fig5_cross_phase_entrapment.png
+    - build/rnd/m1_6/figures/fig6_high_field_classical_limit.png
+    - build/rnd/m1_6/figures/fig7_mesh_scaling_and_timing.png
+    - doc/rnd/phase_1/m1_6_t4_basin_multistability_111.md
+    - test/integration/test_multistability_basins.py
+    contracts:
+    - Dual adiabatic forward/backward hysteresis loops confirming first-order transition at hc* ~ 0.34 and spinodal hc2+ ~ 0.50
+    - Exact convergence to classical polarized energy E = -h - 0.5 to machine precision at high fields (h=5.0)
+    - Empirical validation of iteration count invariance across Nk in {12, 16, 24, 32} with O(Nk^2) runtime scaling
+    - Full evaluation of physical hypotheses PH-01..06 and algorithmic hypotheses AH-01..04 in Front-1 note
+    validation: make verify
+  - id: M1.6-T5
+    title: Phase 3 Critical Zoom, Majorana Gap Scaling, and Supercell Parity
+    status: completed
+    target_files:
+    - scripts/m1_6/sweep_critical_zoom.py
+    - scripts/m1_6/benchmark_majorana_gap.py
+    - scripts/m1_6/benchmark_supercell_basins.py
+    - scripts/m1_6/plot_phase3_quicklook.py
+    - scripts/m1_6/generate_labbook_data.py
+    - data/processed/benchmarks/m1_6/critical_zoom_111.dat
+    - data/processed/benchmarks/m1_6/majorana_gap_scaling.dat
+    - data/processed/benchmarks/m1_6/supercell_comparison.dat
+    - build/rnd/m1_6/figures/fig8_critical_zoom_crossing_and_spinodal.png
+    - build/rnd/m1_6/figures/fig9_majorana_gap_power_law.png
+    - build/rnd/m1_6/figures/fig10_supercell_energy_parity.png
+    - build/rnd/m1_6/figures/fig11_contraction_factor_critical_slowing.png
+    - doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
+    contracts:
+    - High-resolution zoom isolating thermodynamic crossing hc* = 0.3325 and forward spinodal hc2+ = 0.400
+    - Exact cubic power law Delta_K(h) = 2.5921 * h^2.9936 confirming Kitaev 3rd-order chiral perturbation scaling
+    - 4-site rectangular supercell scale parity (< 2.2e-4) and vanishing nematicity (< 5e-4)
+    validation: make verify
+  - id: M1.6-T6
+    title: Living Lab Book Monograph Chapter 6 (Front 2 Synthesis)
+    status: completed
     target_files:
     - doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex
+    - doc/labbook/figures/fig_f10_critical_hysteresis.tex
+    - doc/labbook/figures/fig_f11_majorana_gap_scaling.tex
+    - doc/labbook/figures/fig_f12_supercell_parity.tex
+    - doc/labbook/labbook_kitaev_mf.tex
     contracts:
-    - Compilation without error under make labbook
-    - PGFPlots convergence curves
-    validation: make labbook
+    - Warm parchment memoir styling (#FAF6EE), editorial headers, and complete theorem/proof restitution
+    - Direct pgfplots figure pipelines sourcing M1.6 processed benchmark tables
+    - Clean compilation with 0 warnings/errors under make labbook (42 pages)
+    validation: make labbook && make verify
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -257,4 +341,24 @@ verified_physics_invariants:
     onsite_correlator_and_gauge_residual_atol: 1.0e-14
     matter_correlator_u00: '-0.5248657458506'
     form_factor_magnitude_bar_u: '0.5248657458506'
+- id: K-010
+  name: Topological Majorana Dirac mass gap cubic scaling under [111] magnetic field
+  equation: Delta_K(h) = 2.5921 * (h/|K|)^2.9936 approx 2.59 * (h/|K|)^3
+  status: verified_benchmark_and_rnd
+  provenance:
+    analytical: doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
+    benchmark: data/processed/benchmarks/m1_6/majorana_gap_scaling.dat
+    script: scripts/m1_6/benchmark_majorana_gap.py
+  numerical_evidence:
+    fitted_exponent: 2.9936
+    r_squared: 0.99999
+    tested_range: h in [0.005, 0.150]
+- id: K-011
+  name: First-order thermodynamic crossing and forward spinodal threshold
+  equation: h_c^* = 0.3325 pm 0.0002; h_c2^+ = 0.400 pm 0.002
+  status: verified_benchmark_and_rnd
+  provenance:
+    analytical: doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
+    benchmark: data/processed/benchmarks/m1_6/critical_zoom_111.dat
+    script: scripts/m1_6/sweep_critical_zoom.py
 open_blockers: []

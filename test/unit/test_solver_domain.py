@@ -48,6 +48,18 @@ def test_solver_config_validations() -> None:
     with pytest.raises(ValueError, match="max_iterations"):
         SolverConfig(max_iterations=0)
 
+    with pytest.raises(ValueError, match="broyden_alpha"):
+        SolverConfig(broyden_alpha=0.0)
+
+    with pytest.raises(ValueError, match="jfnk_gmres_tol"):
+        SolverConfig(jfnk_gmres_tol=0.0)
+
+    with pytest.raises(ValueError, match="jfnk_gmres_maxiter"):
+        SolverConfig(jfnk_gmres_maxiter=0)
+
+    with pytest.raises(ValueError, match="jfnk_eps"):
+        SolverConfig(jfnk_eps=0.0)
+
     with pytest.raises(ValueError, match="tolerances"):
         SolverConfig(tol_correlator=-1e-5)
 
@@ -118,4 +130,14 @@ def test_solver_metrics_defaults_and_validations() -> None:
             final_correlator_residual=0.1,
             final_onsite_residual=0.1,
             final_gauge_residual=-0.1,
+        )
+
+    with pytest.raises(ValueError, match="map_evaluations cannot be negative"):
+        SolverMetrics(
+            converged=False,
+            iterations=1,
+            final_correlator_residual=0.1,
+            final_onsite_residual=0.1,
+            final_gauge_residual=0.1,
+            map_evaluations=-1,
         )

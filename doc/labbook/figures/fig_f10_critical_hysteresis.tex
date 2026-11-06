@@ -1,0 +1,29 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xlabel={Magnetic Field $h/|K|$ ($\mathbf{h} \parallel [111]$)},
+    ylabel={Energy per Site $E_{\mathrm{site}}$},
+    legend pos=south west,
+    xmin=0.28, xmax=0.52,
+    ymin=-1.02, ymax=-0.81
+]
+    \addplot[labbookteal, thick]
+        table[x index=0, y index=1] {../../data/processed/benchmarks/m1_6/critical_zoom_plot.dat};
+    \addlegendentry{QSL Forward Branch ($W_p > 0$)}
+
+    \addplot[labbookcrimson, dashed, thick]
+        table[x index=0, y index=2] {../../data/processed/benchmarks/m1_6/critical_zoom_plot.dat};
+    \addlegendentry{Polarized Backward Branch ($W_p = 0$)}
+
+    \draw[dotted, thick, black] (axis cs:0.3325,-1.02) -- (axis cs:0.3325,-0.81)
+        node[pos=0.85, right, font=\footnotesize] {$h_c^* = 0.3325$ (Crossing)};
+
+    \draw[dashed, thick, labbookamber] (axis cs:0.4000,-1.02) -- (axis cs:0.4000,-0.81)
+        node[pos=0.15, right, font=\footnotesize] {$h_{c2}^+ = 0.400$ (Spinodal)};
+\end{axis}
+\end{tikzpicture}
+\caption{High-resolution critical region zoom ($\Delta h = 0.002$) showing the first-order thermodynamic crossing $h_c^* \approx 0.3325$ and forward spinodal breakdown $h_{c2}^+ \approx 0.400$ on the orthogonal Grassmannian manifold $\Gr(4, 8)$.}
+\label{fig:m1_6_critical_zoom}
+\end{figure}

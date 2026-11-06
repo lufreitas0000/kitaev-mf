@@ -17,12 +17,39 @@ EXPECTED_BENCHMARKS = [
     "wick_cumulant_check.dat",
 ]
 
+EXPECTED_M1_6_BENCHMARKS = [
+    "ab_skew_retraction.dat",
+    "weak_field_solvers.dat",
+    "mesh_sensitivity.dat",
+    "basin_sweep_111.dat",
+    "critical_zoom_111.dat",
+    "majorana_gap_scaling.dat",
+    "supercell_comparison.dat",
+]
+
 
 def test_benchmark_files_exist_and_have_provenance() -> None:
-    """All 8 expected benchmark files must exist with valid header metadata."""
+    """All expected Phase 1 benchmark files must exist with valid header metadata."""
     for b_name in EXPECTED_BENCHMARKS:
         path = BENCHMARK_DIR / b_name
         assert path.is_file(), f"Missing benchmark file: {path}"
+        lines = path.read_text(encoding="utf-8").strip().splitlines()
+        assert len(lines) > 5, f"Benchmark {b_name} too short"
+
+        # Check provenance headers
+        assert lines[0].startswith(f"# Benchmark: {b_name}")
+        assert lines[1].startswith("# Generated:")
+        assert lines[2].startswith("# Git Commit:")
+        assert lines[3].startswith("# Description:")
+        assert lines[4].startswith("# Columns:")
+
+
+def test_m1_6_benchmark_files_exist_and_have_provenance() -> None:
+    """All M1.6 exploratory benchmark files must exist with valid header metadata."""
+    m1_6_dir = BENCHMARK_DIR / "m1_6"
+    for b_name in EXPECTED_M1_6_BENCHMARKS:
+        path = m1_6_dir / b_name
+        assert path.is_file(), f"Missing M1.6 benchmark file: {path}"
         lines = path.read_text(encoding="utf-8").strip().splitlines()
         assert len(lines) > 5, f"Benchmark {b_name} too short"
 

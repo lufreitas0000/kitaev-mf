@@ -1,0 +1,181 @@
+\chapter{Milestone M1.6: Fixed-Point Solvers, Grassmannian Geometry, and Multi-Basin Landscape}
+\label{ch:m1_6}
+
+% EDITORIAL QUESTION: How is the non-linear self-consistent mean-field problem formulated geometrically on the orthogonal Grassmannian, and what characterizes stationarity?
+\section{Geometric Fixed-Point Formulation on the Orthogonal Grassmannian}
+\label{sec:m1_6_grassmannian_geometry}
+
+The self-consistent Hartree-Fock-Bogoliubov mean-field equations for the 4-flavor Majorana representation describe a nonlinear mapping on the orthogonal Grassmannian manifold bundle over the Brillouin zone:
+\begin{equation}
+\label{eq:m1_6_grassmannian_def}
+\Gr_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}}) \equiv \left\{ \Pi \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}} \;\middle|\; \Pi^2 = \Pi = \Pi^\dagger, \; \operatorname{Tr}(\Pi) = 2N_{\mathrm{sub}} \right\},
+\end{equation}
+subject to the particle-hole constraint $\Pi^-(-\mathbf{k}) = \Id - (\Pi^-(\mathbf{k}))^*$. For the 2-sublattice primitive cell ($N_{\mathrm{sub}} = 2$), the fiber dimension is $4N_{\mathrm{sub}} = 8$ and each occupied projector has trace $\operatorname{Tr}(\Pi^-) = 4$.
+At zero temperature ($T=0$), the physical two-point correlator $P(\mathbf{k}) = 2\Pi^-(\mathbf{k})$ projects onto the negative-energy eigenspace of the momentum-space Hamiltonian $\mathcal{H}(\mathbf{k}) \equiv \frac{\ii}{4} M(\mathbf{k})$.
+
+\begin{theorem}[Grassmannian Stationarity and KKT Commutator Condition]
+\label{thm:m1_6_kkt_condition}
+A mean-field state $X^* = (\mathrm{U}^*, \mathrm{V}^*, \boldsymbol{\lambda}^*)$ is a self-consistent Karush-Kuhn-Tucker (KKT) stationary point if and only if two conditions hold simultaneously:
+\begin{enumerate}
+\item \textbf{Spectral Commutator Stationarity:} At every wavevector $\mathbf{k} \in \mathrm{BZ}$, the single-particle density matrix $\Pi^-(\mathbf{k})$ commutes with the assembled Hamiltonian:
+\begin{equation}
+\label{eq:m1_6_kkt_comm}
+\epsilon_{\mathrm{comm}}(\mathbf{k}) \equiv \| [\mathcal{H}(\mathbf{k}; X^*), \Pi^-(\mathbf{k})] \|_F = 0, \qquad \epsilon_{\mathrm{comm}} \equiv \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \epsilon_{\mathrm{comm}}(\mathbf{k}) = 0.
+\end{equation}
+\item \textbf{Gauge Constraint Admissibility:} On every physical site $s \in \{0, \dots, N_{\mathrm{sub}}-1\}$ and for all three gauge flavors $\gamma \in \{1, 2, 3\}$, the gauge residual vanishes:
+\begin{equation}
+\label{eq:m1_6_gauge_condition}
+g_s^\gamma \equiv \operatorname{Tr}(\mathrm{G}^\gamma \mathrm{V}_s^*) = 0 \implies \epsilon_{\mathrm{gauge}} \equiv \|\mathbf{g}\|_\infty = 0.
+\end{equation}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The variational Hartree-Fock ground-state energy functional is $E_{\mathrm{MF}}[P, \boldsymbol{\lambda}] = \langle \mathcal{H}[P] \rangle_P - E_{\mathrm{exchange}}[P] - \sum_{s,\gamma} \lambda_s^\gamma g_s^\gamma$. The tangent space to the Grassmannian at $\Pi^-$ is parameterized by skew-Hermitian commutators $\delta \Pi = [\Delta, \Pi^-]$ where $\Delta^\dagger = -\Delta$. First-order stationarity $\delta E_{\mathrm{MF}} = 0$ requires $\operatorname{Tr}(\mathcal{H}(\mathbf{k}) [\Delta(\mathbf{k}), \Pi^-(\mathbf{k})]) = 0$ for all skew-Hermitian variations $\Delta(\mathbf{k})$, which holds if and only if $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = \mathbf{0}$. Stationarity with respect to the Lagrange multipliers $\lambda_s^\gamma$ yields the gauge condition $\partial E / \partial \lambda_s^\gamma = -g_s^\gamma / 4 = 0$.
+\end{proof}
+
+% EDITORIAL QUESTION: How do accelerated fixed-point solvers compare against Picard iteration and each other on this non-linear manifold?
+\section{Algorithmic Comparison: Picard, DIIS, Good Broyden, and JFNK}
+\label{sec:m1_6_solver_algorithms}
+
+Evaluating the self-consistent map $\Phi: X \mapsto \tilde{X}$ defines a non-linear fixed-point problem $R(X) \equiv \Phi(X) - X = \mathbf{0}$ in dimension $D = 16 N_{\mathrm{bonds}} + 16 N_{\mathrm{sub}} + 3 N_{\mathrm{sub}}$. Milestone M1.6 implemented and benchmarked five solver paradigms within a model-agnostic hexagonal architecture:
+
+\begin{enumerate}
+\item \textbf{Plain Fixed-Point ($\alpha=1$):} Un-damped evaluation $X^{(k+1)} = \Phi(X^{(k)})$.
+\item \textbf{Damped Picard ($\alpha \in (0, 1)$):} Damped linear combination $X^{(k+1)} = (1-\alpha) X^{(k)} + \alpha \Phi(X^{(k)})$.
+\item \textbf{Joint DIIS (Anderson Acceleration):} Computes optimal linear combination $X^{(k+1)} = \sum_{j=0}^{m-1} c_j \Phi(X^{(k-j)})$ minimizing the composite residual subject to $\sum c_j = 1$, stabilized by scale-invariant relative Tikhonov regularization $\mathbf{B}_{pq} = \langle R_{k-p}, R_{k-q} \rangle + 10^{-12} \delta_{pq} \max(\|R_{k-p}\|^2, 10^{-14})$.
+\item \textbf{Good Broyden (Rank-1 Quasi-Newton):} Vectorized secant update approximating the inverse Jacobian in $\mathbb{R}^D$ ($D=86$), followed by real skew-symmetric projection $\mathcal{P}_{\mathfrak{so}(4)}(\mathrm{V}_s) \equiv \frac{1}{2}(\mathrm{V}_s - \mathrm{V}_s^T)$ and setting $\operatorname{diag}(\mathrm{V}_s) \equiv \mathbf{0}$:
+\begin{equation}
+\label{eq:m1_6_broyden_update}
+H_{k+1} = H_k + \frac{\Delta X_k - H_k \Delta R_k}{\Delta X_k^T H_k \Delta R_k} \Delta X_k^T H_k, \qquad X^{(k+1)} = \mathcal{P}_{\mathrm{skew}}\left( X^{(k)} - \alpha_{\mathrm{Broyden}} H_{k+1} R(X^{(k)}) \right).
+\end{equation}
+\item \textbf{Jacobian-Free Newton-Krylov (JFNK):} Solves the Newton step $J(X^{(k)}) \delta X = -R(X^{(k)})$ using matrix-free GMRES, where directional derivatives are approximated by finite differences:
+\begin{equation}
+\label{eq:m1_6_jfnk_fd}
+J(X) v \approx \frac{R(X + \epsilon v) - R(X)}{\epsilon}, \qquad \epsilon = \epsilon_0 \frac{1 + \|X\|_2}{\|v\|_2}.
+\end{equation}
+\end{enumerate}
+
+\begin{proposition}[Convergence and Contraction Telemetry]
+\label{prop:m1_6_convergence_rates}
+The fixed-point contraction factor at step $k$ is defined by:
+\begin{equation}
+\label{eq:m1_6_contraction_factor}
+\mu_k \equiv \frac{\|R_{k+1}\|_F}{\|R_k\|_F}.
+\end{equation}
+Under unperturbed seeds, Joint DIIS ($m=6$) and Good Broyden achieve superlinear-to-geometric convergence ($\mu_k \le 0.01$) requiring only 8--13 map evaluations to reach $\epsilon_{\mathrm{comm}} < 10^{-10}$. In contrast, plain Fixed Point and Picard exhibit sluggish linear convergence ($\mu_k \approx 0.99$), stagnating at $\sim 10^{-6}$ after 60 iterations due to the disparity between rapid fermionic density relaxation and slow fixed-step dual gradient ascent ($\eta_\lambda = 0.2$).
+\end{proposition}
+
+% EDITORIAL QUESTION: Why is skew-symmetric retraction necessary during fixed-point updates, and how was it verified through A/B testing?
+\section{Skew-Symmetric Retraction and A/B Testing}
+\label{sec:m1_6_ab_retraction}
+
+The physical real-space covariance matrices $V_s \in \mathbb{R}^{4 \times 4}$ and bond matrices $U_b \in \mathbb{R}^{4 \times 4}$ belong strictly to the Lie algebra $\mathfrak{so}(4)$ and the affine manifold of CAR correlators. During numerical iterative updates, small floating-point roundoff errors can leak into the symmetric sector.
+
+To systematically test the necessity of skew-symmetric projection, a 4-arm A/B benchmark was executed in \texttt{doc/rnd/phase\_1/m1\_6\_t2\_skew\_symmetry\_ab\_benchmark.md}:
+\begin{itemize}
+\item \textbf{Arm A (Raw Unprojected):} Leaves iterates unconstrained.
+\item \textbf{Arm B (Output Symmetrization):} Enforces $V_s \leftarrow \frac{1}{2}(V_s - V_s^T)$ only when evaluating the Hamiltonian.
+\item \textbf{Arm C (Post-Step Retraction):} Projects $X \leftarrow \mathcal{P}_{\mathfrak{so}}(X)$ immediately after every accelerator step.
+\item \textbf{Arm D (Retraction + Symmetrization):} Dual enforcement.
+\end{itemize}
+
+\begin{theorem}[Failure of Unprojected Iteration under Krylov Subspaces]
+\label{thm:m1_6_ab_failure}
+In Arm A, finite-difference perturbations inside GMRES Arnoldi loops accumulate asymmetric roundoff error exceeding domain validation thresholds ($\|V_s + V_s^T\|_\infty > 10^{-12}$), causing hard solver crashes. In contrast, Arms B and C produce numerically identical trajectories to machine precision ($< 10^{-14}$) while enforcing $\|V_s + V_s^T\|_\infty = 0$ with 0\% computational overhead.
+\end{theorem}
+
+% EDITORIAL QUESTION: What is the global structure of the multi-basin landscape under field h || [111], and where does the thermodynamic transition occur?
+\section{The Multi-Basin Landscape and Hysteresis under Field $\mathbf{h} \parallel [111]$}
+\label{sec:m1_6_hysteresis}
+
+Under an external Zeeman field $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, the self-consistent mean-field energy functional $E_{\mathrm{MF}}[\Omega]$ exhibits a multi-basin landscape with competing local minima:
+\begin{enumerate}
+\item \textbf{Topological Quantum Spin Liquid (QSL) Basin:} Characterized by extensive flux $W_p \in [0.53, 1.0]$, vanishing magnetization at $h=0$, and preserving exact $C_3$ rotational symmetry.
+\item \textbf{Field-Polarized Basin:} Characterized by zero plaquette flux ($W_p = 0.0000$), saturated magnetization $m_x = m_y = m_z = 1/\sqrt{3}$, and exact classical product energy:
+\begin{equation}
+\label{eq:m1_6_classical_energy}
+E_{\mathrm{classical}}(h) = -h - \frac{1}{2}.
+\end{equation}
+\end{enumerate}
+
+\begin{theorem}[First-Order Thermodynamic Transition and Metastability Window]
+\label{thm:m1_6_critical_transition}
+A high-resolution zoom sweep ($\Delta h = 0.002$) across $h \in [0.280, 0.520]$ establishes:
+\begin{enumerate}
+\item \textbf{Thermodynamic Crossing:} The absolute global minimum switches at:
+\begin{equation}
+\label{eq:m1_6_hc_star}
+h_c^* = 0.3325 \pm 0.0002.
+\end{equation}
+For $h < h_c^*$, $E_{\mathrm{QSL}}(h) < E_{\mathrm{pol}}(h)$, establishing the QSL as the true physical ground state.
+\item \textbf{Forward Spinodal Breakdown:} Under forward adiabatic continuation from $h=0$, the QSL branch remains metastable for $h \in [h_c^*, h_{c2}^+]$ until the forward spinodal:
+\begin{equation}
+\label{eq:m1_6_hc2_plus}
+h_{c2}^+ = 0.400 \pm 0.002.
+\end{equation}
+At $h = 0.400$, the fixed-point Jacobian loses contractivity ($\mu_k \to 1^-$), leading to critical slowing down and an irreversible jump into the polarized fixed point.
+\item \textbf{Backward Spinodal Breakdown:} Under backward continuation from $h=5.0$, the polarized state remains a local minimum all the way down to $h_{c1}^- = 0.0$, generating a broad hysteresis loop.
+\end{enumerate}
+\end{theorem}
+
+\input{figures/fig_f10_critical_hysteresis}
+
+% EDITORIAL QUESTION: How does the topological Majorana gap open under a [111] field, and does mean-field theory recover Kitaev's chiral perturbation scaling?
+\section{Topological Majorana Gap Opening and Chiral Perturbation Scaling}
+\label{sec:m1_6_majorana_gap_scaling}
+
+In the unperturbed Kitaev honeycomb model ($h = 0$), the zero-flux sector features gapless Majorana Dirac cones at the high-symmetry points $K = (\frac{1}{3}, \frac{2}{3})$ and $K' = (\frac{2}{3}, \frac{1}{3})$. In perturbation theory, Kitaev proved that an external field $\mathbf{h} \parallel [111]$ generates an effective time-reversal-breaking three-spin interaction at third order:
+\begin{equation}
+\label{eq:m1_6_kitaev_kappa}
+H^{(3)} = -\kappa \sum_{\langle\langle j, k\rangle\rangle} \sigma_j^\alpha \sigma_l^\gamma \sigma_k^\beta, \qquad \kappa \approx \frac{h_x h_y h_z}{\Delta_{\mathrm{flux}}^2} \propto \frac{h^3}{|K|^2},
+\end{equation}
+which opens a topological Dirac mass gap $\Delta_K \approx 6\sqrt{3}\kappa \propto h^3$.
+
+\begin{theorem}[Cubic Majorana Gap Scaling in 4-Flavor Mean-Field Theory]
+\label{thm:m1_6_cubic_gap}
+Let $\Delta_K(h) \equiv \varepsilon_5(K) - \varepsilon_4(K)$ denote the single-particle excitation gap at the Dirac point. In self-consistent Gaussian mean-field theory:
+\begin{enumerate}
+\item Linear $\mathcal{O}(h)$ and quadratic $\mathcal{O}(h^2)$ contributions vanish identically due to the combination of particle-hole symmetry $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k})$ and discrete $C_3$ rotational invariance.
+\item The excitation gap opens with a strictly cubic power law over two orders of magnitude:
+\begin{equation}
+\label{eq:m1_6_cubic_fit}
+\Delta_K(h) = (2.5921 \pm 0.005) \cdot \left(\frac{h}{|K|}\right)^{2.9936 \pm 0.0010} \approx 2.59 \cdot h^3.
+\end{equation}
+\item The Dirac point $K$ remains the true global minimum bandgap throughout the Brillouin zone: $\Delta_K(h) = \min_{\mathbf{k}} \Delta(\mathbf{k})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+By time-reversal invariance $\mathcal{T}$, the Hamiltonian satisfies $\mathcal{T}\mathcal{H}(\mathbf{k}, \mathbf{h})\mathcal{T}^{-1} = \mathcal{H}(-\mathbf{k}, -\mathbf{h})$. Any time-reversal odd scalar invariant opening a gap at the Dirac point must be odd in $\mathbf{h}$. Under threefold cyclic lattice rotation $C_3$, the magnetic field transforms as $(h_x, h_y, h_z) \mapsto (h_y, h_z, h_x)$, while bond directions cycle $x \to y \to z \to x$. The lowest-order scalar polynomial invariant under both $\mathcal{T}$-odd transformation and $C_3$ permutation is the chiral triple product:
+\begin{equation}
+\mathcal{I}^{(3)}(\mathbf{h}) = h_x h_y h_z.
+\end{equation}
+Along the symmetric field direction $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mathcal{I}^{(3)}(\mathbf{h}) = \frac{h^3}{3\sqrt{3}} \propto h^3$. All lower-order terms $\mathcal{O}(h)$ and $\mathcal{O}(h^2)$ either break $C_3$ symmetry or violate time-reversal odd parity. Therefore, the single-particle Dirac mass opens strictly as $\Delta_K \propto h^3$. Numerical evaluation across $h \in [0.005, 0.150]$ using \texttt{scripts/m1\_6/benchmark\_majorana\_gap.py} confirms this analytical symmetry requirement, yielding the fitted power law $p = 2.9936 \approx 3.000$ with $R^2 > 0.99999$.
+\end{proof}
+
+\input{figures/fig_f11_majorana_gap_scaling}
+
+% EDITORIAL QUESTION: Does unit cell enlargement introduce spontaneous nematicity or alter the physical phase diagram?
+\section{Supercell Scale Parity and Absence of Spontaneous Symmetry Breaking}
+\label{sec:m1_6_supercell_parity}
+
+To verify that the 2-site unit cell ansatz does not artificially constrain the variational search or suppress competing spatial orders, Milestone M1.6 evaluated a 4-site rectangular supercell (\texttt{rectangular\_4site}, 4 sites, 6 bonds, 2 independent hexagonal plaquettes $p_0, p_1$):
+
+\begin{proposition}[Supercell Scale Parity and Stability]
+\label{prop:m1_6_supercell_parity}
+Across all fields $h \in [0, 2.0]$:
+\begin{enumerate}
+\item \textbf{Energy Scale Parity:} The ground-state variational energy per physical site matches between 2-site and 4-site representations to within BZ discretization error:
+\begin{equation}
+\label{eq:m1_6_energy_parity}
+|E_{\mathrm{site}}^{(2)}(h) - E_{\mathrm{site}}^{(4)}(h)| \le 2.2 \times 10^{-4}.
+\end{equation}
+\item \textbf{Flux Sector Uniformity:} The two independent plaquettes maintain identical fluxes: $|W_p(p_0) - W_p(p_1)| = 0.00 \times 10^0$ to machine precision.
+\item \textbf{Absence of Spontaneous Nematicity:} Sublattice magnetizations preserve $C_3$ isotropy:
+\begin{equation}
+\label{eq:m1_6_nematicity_bound}
+N_{\mathrm{nem}} \equiv \frac{1}{N_{\mathrm{sub}}} \sum_{s=0}^{N_{\mathrm{sub}}-1} \left( |\sigma_s^x - \sigma_s^y| + |\sigma_s^y - \sigma_s^z| \right) < 5 \times 10^{-4}.
+\end{equation}
+\end{enumerate}
+\end{proposition}
+
+\input{figures/fig_f12_supercell_parity}

@@ -111,3 +111,37 @@ class MeanFieldState:
         lam_arr = np.zeros((num_sub, 3), dtype=np.float64)
 
         return cls(U=u_arr, V=v_arr, lambdas=lam_arr)
+
+    @classmethod
+    def from_polarized(
+        cls,
+        cell: UnitCell,
+        n_vec: tuple[float, float, float] | np.ndarray | None = None,
+    ) -> "MeanFieldState":
+        """Initialize an unentangled, gauge-neutral polarized state with magnetization n_vec.
+
+        Using the SO(4) spin generators M^a, the on-site matrix V_s = sum_a n_a M^a satisfies:
+          <sigma_s^a> = n_a,
+          tr(G^gamma V_s) = 0 for all gamma in {1, 2, 3} (strictly gauge neutral),
+          V_s^2 = -||n||^2 * I_4 (pure state when ||n|| = 1),
+          U_b = 0, lambdas_s = 0.
+        """
+        from kitaev_mf.domain.constants import M_MATRICES
+
+        if n_vec is None:
+            inv_sqrt3 = 1.0 / float(np.sqrt(3.0))
+            n_arr = np.array([inv_sqrt3, inv_sqrt3, inv_sqrt3], dtype=np.float64)
+        else:
+            n_arr = np.asarray(n_vec, dtype=np.float64)
+        if n_arr.shape != (3,):
+            raise ValueError(f"Polarization vector must have length 3, got {n_arr.shape}")
+
+        num_bonds = len(cell.bonds)
+        num_sub = cell.num_sublattices
+
+        u_arr = np.zeros((num_bonds, 4, 4), dtype=np.float64)
+        v_single = n_arr[0] * M_MATRICES[1] + n_arr[1] * M_MATRICES[2] + n_arr[2] * M_MATRICES[3]
+        v_arr = np.stack([v_single.copy() for _ in range(num_sub)], axis=0)
+        lam_arr = np.zeros((num_sub, 3), dtype=np.float64)
+
+        return cls(U=u_arr, V=v_arr, lambdas=lam_arr)

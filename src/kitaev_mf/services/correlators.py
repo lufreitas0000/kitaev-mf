@@ -52,6 +52,7 @@ def compute_correlators_from_bloch(
     cell: UnitCell,
     k_pts: np.ndarray | torch.Tensor,
     backend: LinalgBackendPort | None = None,
+    symmetrize_onsite: bool = True,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Integrate spectral projector P(k) over the BZ returning real-space (U, V).
 
@@ -60,11 +61,12 @@ def compute_correlators_from_bloch(
         cell: Lattice unit cell geometry Lambda = (V, E).
         k_pts: Fractional coordinates of the BZ mesh, shape (N_k, 2).
         backend: Optional hardware adapter.
+        symmetrize_onsite: Whether to enforce V_s = 0.5 * (v_s - v_s^T) explicitly.
 
     Returns:
         Tuple of (U, V):
             U: Bond correlation matrices of shape (num_bonds, 4, 4), float64.
-            V: On-site skew-symmetric correlation matrices of shape (num_sublattices, 4, 4), float64.
+            V: On-site correlation matrices of shape (num_sublattices, 4, 4), float64.
     """
     p_k = compute_spectral_projector(h_k_batch, backend)
     p_np = p_k.detach().cpu().numpy()
@@ -102,8 +104,10 @@ def compute_correlators_from_bloch(
     for s in range(num_sub):
         p_diag = p_np[:, 4 * s : 4 * s + 4, 4 * s : 4 * s + 4]
         v_s = np.sum(p_diag.imag, axis=0) / float(num_k)
-        # Enforce exact floating-point skew-symmetry
-        V_out[s] = 0.5 * (v_s - v_s.T)
+        if symmetrize_onsite:
+            V_out[s] = 0.5 * (v_s - v_s.T)
+        else:
+            V_out[s] = v_s
 
     return U_out, V_out
 

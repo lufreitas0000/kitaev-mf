@@ -1,0 +1,31 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xlabel={Magnetic Field $h/|K|$ ($\mathbf{h} \parallel [111]$)},
+    ylabel={Energy per Physical Site $E_{\mathrm{site}}$},
+    legend pos=south west,
+    xmin=0.0, xmax=2.0,
+    ymin=-2.55, ymax=-0.45
+]
+    \addplot[labbookteal, thick, mark=o, mark size=2pt]
+        table[x index=0, y index=1] {../../data/processed/benchmarks/m1_6/supercell_plot.dat};
+    \addlegendentry{2-site Hexagonal QSL}
+
+    \addplot[labbookslate, dashed, thick, mark=square*, mark size=1.8pt]
+        table[x index=0, y index=2] {../../data/processed/benchmarks/m1_6/supercell_plot.dat};
+    \addlegendentry{4-site Rectangular QSL}
+
+    \addplot[labbookcrimson, thick, mark=triangle*, mark size=2pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/m1_6/supercell_plot.dat};
+    \addlegendentry{2-site Polarized}
+
+    \addplot[labbookamber, dashed, thick, mark=diamond*, mark size=1.8pt]
+        table[x index=0, y index=4] {../../data/processed/benchmarks/m1_6/supercell_plot.dat};
+    \addlegendentry{4-site Polarized}
+\end{axis}
+\end{tikzpicture}
+\caption{Scale parity comparison between the 2-site hexagonal unit cell and the 4-site rectangular cell across $h/|K| \in [0, 2]$. Ground-state energies agree to within $2.2 \times 10^{-4}$ with zero spontaneous nematicity, demonstrating structural robustness of the mean-field landscape.}
+\label{fig:m1_6_supercell_parity}
+\end{figure}

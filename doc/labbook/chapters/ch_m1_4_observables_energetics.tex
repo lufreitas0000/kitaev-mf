@@ -4,7 +4,7 @@
 % EDITORIAL QUESTION: How are local magnetizations, spin correlators, and plaquette Wilson loops evaluated from Gaussian Majorana covariances?
 \section{Wick Contractions for Physical Spin Observables}
 \label{sec:m1_4_spin_observables}
-% SOURCE [VERIFIED]: Freitas et al. (2024), Phys. Rev. B 109, Sec. III — Majorana observables and spin contractions
+% SOURCE [VERIFIED]: Freitas et al. (2024), npj Quantum Mater. 9, 33, Sec. III — Majorana observables and spin contractions
 % CLAIM: CLM-M1-OBS-001 (provenance: doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md, test: test/unit/test_production_observables.py::test_observable_t01_magnetization_and_spin_correlators)
 
 Physical spin observables are quadratic or quartic in the underlying Majorana fermions. Within the quasi-free mean-field state characterized by the covariance tuple $\Xi = (\mathrm{U}, \mathrm{V})$, expectation values evaluate via Wick's theorem (\Cref{ch:m1_1b}):
@@ -14,11 +14,16 @@ Physical spin observables are quadratic or quartic in the underlying Majorana fe
 The local expectation value of the spin operator $\sigma_s^a$ on sublattice $s$ ($a \in \{x, y, z\}$) is:
 \begin{equation}
 \label{eq:m1_4_magnetization}
-m_s^a \equiv \langle \sigma_s^a \rangle_{\mathrm{G}} = \left\langle \frac{\ii}{2} c_s^T \mathrm{N}^a c_s \right\rangle_{\mathrm{G}} = \frac{1}{2} \operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = 2 \mathrm{V}_s^{0a}.
+m_s^a \equiv \langle \sigma_s^a \rangle_{\mathrm{G}} = \left\langle \frac{\ii}{2} c_s^T \mathrm{N}^a c_s \right\rangle_{\mathrm{G}} = \frac{1}{2} \operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \mathrm{V}_s^{0a}.
 \end{equation}
+The physical spin-$1/2$ expectation value is $\langle S_s^a \rangle_{\mathrm{G}} = \frac{1}{2}\langle \sigma_s^a \rangle_{\mathrm{G}} = \frac{1}{2}\mathrm{V}_s^{0a}$.
 \end{definition}
 \begin{proof}
-By Definition~\ref{eq:m1_1_pauli_def}, $\mathrm{N}^a$ has non-zero entries connecting flavor $\mu = 0$ (matter) to $\mu = a$ (gauge). Specifically, $\mathrm{N}_{0a}^a = -\mathrm{N}_{a0}^a = 1$. Since $\mathrm{V}_s$ is real skew-symmetric, $\operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \sum_{\mu,\nu} \mathrm{V}_s^{\nu\mu} \mathrm{N}_{\mu\nu}^a = 2 \mathrm{V}_s^{0a} \mathrm{N}_{a0}^a = 4 \mathrm{V}_s^{0a}$. Multiplying by $\frac{1}{2}$ yields $m_s^a = 2\mathrm{V}_s^{0a}$.
+By Definition~\ref{eq:m1_1_pauli_def}, $\mathrm{N}^a$ has non-zero entries connecting flavor $\mu = 0$ (matter) to $\mu = a$ (gauge). Specifically, $\mathrm{N}_{0a}^a = -\mathrm{N}_{a0}^a = 1$. Since $\mathrm{V}_s$ is real skew-symmetric:
+\begin{equation}
+\operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = \sum_{\mu,\nu} \mathrm{V}_s^{\nu\mu} \mathrm{N}_{\mu\nu}^a = \mathrm{V}_s^{a0}\mathrm{N}_{0a}^a + \mathrm{V}_s^{0a}\mathrm{N}_{a0}^a = (-\mathrm{V}_s^{0a})(1) + (\mathrm{V}_s^{0a})(-1) = -2\mathrm{V}_s^{0a}.
+\end{equation}
+Using $\mathrm{V}_s^T = -\mathrm{V}_s$, $\operatorname{tr}(\mathrm{V}_s^T \mathrm{N}^a) = -\operatorname{tr}(\mathrm{V}_s \mathrm{N}^a) = 2\mathrm{V}_s^{0a}$. Multiplying by $\frac{1}{2}$ yields $m_s^a = \mathrm{V}_s^{0a}$.
 \end{proof}
 
 \begin{definition}[Two-Site Directed Bond Spin Correlator]
@@ -68,7 +73,7 @@ Let $H_\lambda$ be the microscopic quartic Majorana Hamiltonian \eqref{eq:m1_1_H
 where:
 \begin{align}
 \label{eq:m1_4_E_exchange}
-E_{\mathrm{exchange}} &= \frac{1}{8} \sum_{b=(i,j)} \sum_{a,a'=1}^3 \mathbf{J}_{\gamma_b}^{aa'} \left[ \tr(\mathrm{V}_i^T \mathrm{N}^a) \tr(\mathrm{V}_j^T \mathrm{N}^{a'}) + 2 \tr(\mathrm{U}_b^T \mathrm{N}^a \mathrm{U}_b \mathrm{N}^{a'}) \right], \\
+E_{\mathrm{exchange}} &= \frac{1}{4} \sum_{b \in \overrightarrow{\mathcal{E}}_{A \to B}} \sum_{a,a'=1}^3 \mathbf{J}_{\gamma_b}^{aa'} \left[ \tr(\mathrm{V}_{s_i(b)}^T \mathrm{N}^a) \tr(\mathrm{V}_{s_j(b)}^T \mathrm{N}^{a'}) + 2 \tr(\mathrm{U}_b^T \mathrm{N}^a \mathrm{U}_b \mathrm{N}^{a'}) \right], \\
 \label{eq:m1_4_E_field}
 E_{\mathrm{field}} &= -\sum_{i \in \mathcal{V}} \sum_{a=1}^3 h_i^a \left( \frac{1}{2} \tr(\mathrm{V}_i^T \mathrm{N}^a) \right) = -\sum_{i, a} h_i^a m_i^a, \\
 \label{eq:m1_4_E_multiplier}

@@ -44,3 +44,12 @@ The root `pyproject.toml` defines the Python package metadata and Ruff, Mypy, an
 - Include scripts in local checks when they are changed; the current CI workflow checks `src/` and `test/`, whereas the Makefile also includes `scripts/`.
 - Report exact commands and outcomes. Distinguish passed, failed, skipped, and not-run checks.
 - A passing finite test establishes only the tested property and parameter domain. It does not prove a general analytical or thermodynamic statement.
+
+## 5. Hypothesis-driven numerical experimentation and assumption registries
+
+When exploring non-integrable physical regimes or developing new solver algorithms:
+
+1. **Explicit Hypothesis Registry:** Never adopt an algorithmic rule, damping parameter, retraction step, or physical scaling conjecture based on intuition alone. Formulate explicit, falsifiable hypotheses (Physics Hypotheses `PH-xx` and Algorithm Hypotheses `AH-xx`) with clear quantitative metrics before execution, and record them in the corresponding Tier-1 Front-1 R&D note.
+2. **Mandatory A/B Testing for Algorithmic Steps:** Before enforcing any projection, retraction, or regularizing step in a solver loop, conduct an empirical A/B benchmark comparing multiple arms (e.g. raw, output-symmetrized, post-accelerator retraction). Base engineering decisions strictly on empirical stability and cost data.
+3. **Preservation of Raw Physical Data:** Benchmark tables must record raw physical observables ($E_0$, $m$, $W_p$, $\|\boldsymbol{\lambda}\|$, residuals, $n_\Phi$) without premature categorical labeling bias (such as hardcoded "QSL" or "POLARIZED" labels). Retain raw measurements and treat state categorization or clustering as downstream post-processing.
+4. **Hardware-Aware Resource Budgeting:** Inspect physical compute resources (`nvidia-smi`, CPU load, memory) prior to running extensive benchmarks. When shared accelerators (e.g. GPU) are utilized by external processes, explicitly pin benchmarks to single-threaded CPU worker pools (`TorchBackend(device="cpu")`).

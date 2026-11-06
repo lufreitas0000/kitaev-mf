@@ -1,6 +1,7 @@
-"""Test Joint Anderson Acceleration (DIIS) and self-consistent mean-field solver."""
+"""Test fixed-point solver algorithms, convergence telemetry, and KKT stationarity."""
 
 import numpy as np
+import pytest
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
@@ -40,7 +41,7 @@ def test_joint_anderson_solver_linear_system() -> None:
         residual_norm = np.linalg.norm(f_val - x_curr)
         if residual_norm < 1e-10:
             break
-        x_curr = solver.step(x_curr, f_val)
+        x_curr, _ = solver.step(x_curr, f_val)
 
     assert np.linalg.norm(x_curr - x_target) < 1e-8
 
@@ -49,7 +50,6 @@ def test_pure_kitaev_one_step_convergence(cpu_backend: TorchBackend) -> None:
     """Verify that pure Kitaev state converges within 3 iterations with zero gauge violation."""
     cell = make_honeycomb_2site()
     params = ModelParameters(K=-1.0)
-    # Seed close to analytical fixed point
     init_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0, u_matter=-0.5248645)
     config = SolverConfig(
         k_grid_shape=(24, 24),
@@ -69,6 +69,34 @@ def test_pure_kitaev_one_step_convergence(cpu_backend: TorchBackend) -> None:
     assert metrics.final_onsite_residual < 1e-12
     assert metrics.final_gauge_residual < 1e-12
     assert np.allclose(final_state.lambdas, 0.0, atol=1e-12)
+    assert len(metrics.comm_residuals) > 0
+    assert metrics.comm_residuals[-1] < 1e-10
+    assert metrics.map_evaluations >= metrics.iterations
+
+
+@pytest.mark.parametrize("method", ["fp", "picard", "diis", "broyden", "jfnk"])
+def test_all_solver_methods_pure_kitaev(cpu_backend: TorchBackend, method: str) -> None:
+    """Verify that all five solver methods converge and achieve commutator stationarity < 1e-10."""
+    cell = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0)
+    init_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0, u_matter=-0.5248645)
+    config = SolverConfig(
+        k_grid_shape=(16, 16),
+        max_iterations=15,
+        tol_correlator=1e-8,
+        tol_gauge=1e-8,
+        method=method,  # type: ignore[arg-type]
+        mixing_alpha=0.7,
+        broyden_alpha=0.7,
+    )
+
+    _, metrics = solve_self_consistent_mean_field(cell, params, init_state, config, cpu_backend)
+
+    assert metrics.converged is True
+    assert metrics.final_correlator_residual < 1e-8
+    assert metrics.final_gauge_residual < 1e-8
+    assert metrics.comm_residuals[-1] < 1e-10
+    assert metrics.map_evaluations >= metrics.iterations
 
 
 def test_finite_perturbation_convergence(cpu_backend: TorchBackend) -> None:
@@ -95,3 +123,5 @@ def test_finite_perturbation_convergence(cpu_backend: TorchBackend) -> None:
     assert metrics.final_onsite_residual < 1e-8
     assert metrics.final_gauge_residual < 1e-8
     assert np.linalg.norm(final_state.lambdas) > 1e-4
+    assert len(metrics.contraction_factors) > 0
+    assert metrics.comm_residuals[-1] < 5e-8

@@ -21,8 +21,8 @@ The repository layout is organized by the three-tier documentation and hexagonal
 
 - `.agents/rules/`: Normative operational, engineering, testing, safety, and scientific-documentation policies.
 - `data/processed/benchmarks/`: Plain text `.dat` tables with SHA-256 provenance headers, serving as the single source of truth for benchmark figures and tests.
-- `data/raw/`: Heavy binary array checkpoints and raw wavefunction tensors (tracked via DVC, ignored by Git).
-- `data/manifests/`: Run catalog and scan trajectory manifests.
+- `build/`: Ephemeral intermediate logs, run trajectories (`runs.jsonl`), quick-look diagnostic plots, and build products (strictly git-ignored).
+- `data/raw/` and `data/manifests/`: Optional storage for external heavy array checkpoints and scan manifests (not used for routine milestones).
 - `doc/adr/`: Architecture decision records, named `ADR-NNN-<slug>.md`.
 - `doc/governance/`: Governance architecture and repository-level policy records.
 - `doc/rnd/phase_<N>/`: Tier-1 Context of Discovery (machine-first R&D logs indexed as `m<phase>_<milestone>_t<task>_<slug>.md` with mandatory YAML frontmatter).

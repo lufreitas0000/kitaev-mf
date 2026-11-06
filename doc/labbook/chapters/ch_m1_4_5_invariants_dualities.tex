@@ -16,11 +16,18 @@ On any regular Brillouin-zone grid of $N_{\mathbf{k}}$ momenta with $N_1, N_2 \g
 \end{equation}
 \end{theorem}
 \begin{proof}
-Because $\mathcal{H}(\mathbf{k}) = \frac{\ii}{4}\mathcal{M}(\mathbf{k})$ is Hermitian, $\sum_n \mathcal{E}_n^2(\mathbf{k}) = \Tr(\mathcal{H}(\mathbf{k})^2) = \frac{1}{16} \Tr(\mathcal{M}(\mathbf{k})^\dagger \mathcal{M}(\mathbf{k}))$. Expanding in real-space block matrices:
+Because $\mathcal{H}(\mathbf{k}) = \frac{\ii}{4}\mathcal{M}(\mathbf{k})$ is Hermitian, $\sum_{n=1}^{4N_{\mathrm{sub}}} \mathcal{E}_n^2(\mathbf{k}) = \Tr(\mathcal{H}(\mathbf{k})^2) = \frac{1}{16} \Tr(\mathcal{M}(\mathbf{k})^\dagger \mathcal{M}(\mathbf{k})) = \frac{1}{16} \|\mathcal{M}(\mathbf{k})\|_{\mathrm{F}}^2$.
+In terms of on-site skew-symmetric blocks $\mathrm{B}_s$ and directed hopping blocks $\mathrm{A}_b$ with phase $\phi_b(\mathbf{k}) = 2\pi (k_1 n_{1,b} + k_2 n_{2,b})$:
 \begin{equation}
-\Tr(\mathcal{M}(\mathbf{k})^\dagger \mathcal{M}(\mathbf{k})) = \sum_{s=1}^{N_{\mathrm{sub}}} \|\mathrm{B}_s\|_{\mathrm{F}}^2 + \sum_{b=1}^{N_{\mathrm{bonds}}} \|\mathrm{A}_b\|_{\mathrm{F}}^2 + \sum_{b \ne b'} \Tr(\mathrm{A}_b^T \mathrm{A}_{b'}) e^{\ii (\phi_b - \phi_{b'})}.
+\mathcal{M}_{s_i, s_j}(\mathbf{k}) = \mathrm{B}_{s_i} \delta_{s_i, s_j} + \sum_{b \in \mathcal{E}} \left[ \mathrm{A}_b e^{\ii \phi_b(\mathbf{k})} \delta_{s_i, s_i(b)} \delta_{s_j, s_j(b)} - \mathrm{A}_b^T e^{-\ii \phi_b(\mathbf{k})} \delta_{s_i, s_j(b)} \delta_{s_j, s_i(b)} \right].
 \end{equation}
-Averaging over any regular mesh $N_1, N_2 \ge 2$, the cross-phase interference terms average to zero by discrete orthogonality: $\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} e^{\ii (\phi_b - \phi_{b'})} = \delta_{bb'}$. Noting that directed bonds connect pairs of sublattices, the off-diagonal contribution carries an extra factor of $2$, yielding Eq.~\eqref{eq:m1_4_5_parseval_sum_rule}.
+Taking the Frobenius norm squared:
+\begin{equation}
+\|\mathcal{M}(\mathbf{k})\|_{\mathrm{F}}^2 = \sum_{s=1}^{N_{\mathrm{sub}}} \|\mathrm{B}_s\|_{\mathrm{F}}^2 + \sum_{b=1}^{N_{\mathrm{bonds}}} \left( \|\mathrm{A}_b e^{\ii \phi_b}\|_{\mathrm{F}}^2 + \|-\mathrm{A}_b^T e^{-\ii \phi_b}\|_{\mathrm{F}}^2 \right) + \sum_{b \ne b'} \Tr(\mathrm{A}_b^T \mathrm{A}_{b'}) e^{\ii (\phi_b - \phi_{b'})}.
+\end{equation}
+Since $\|\mathrm{A}_b e^{\ii \phi_b}\|_{\mathrm{F}}^2 = \|-\mathrm{A}_b^T\|_{\mathrm{F}}^2 = \|\mathrm{A}_b\|_{\mathrm{F}}^2$, the diagonal bond contribution is identically $2 \sum_b \|\mathrm{A}_b\|_{\mathrm{F}}^2$.
+On any regular grid $N_1, N_2 \ge 2$, honeycomb bond displacement differences $\Delta\mathbf{R}_b - \Delta\mathbf{R}_{b'} \in \{-1, 0, 1\}^2$ cannot wrap to $\mathbf{0} \pmod{(N_1, N_2)}$ for distinct bonds sharing identical sublattices. Discrete orthogonality $\frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k}} e^{\ii (\phi_b - \phi_{b'})} = \delta_{bb'}$ eliminates all cross-phase interference.
+Dividing by $16$ yields Eq.~\eqref{eq:m1_4_5_parseval_sum_rule}.
 \end{proof}
 
 \begin{theorem}[Two-Site Semidefinite Covariance Positivity (LMI)]
@@ -159,29 +166,60 @@ Thermodynamic convexity requires that the longitudinal magnetic susceptibility b
 \end{table}
 
 \input{figures/fig_f4_susceptibility}
- $\mathcal{K}$ performs a canonical $\pi$-rotation around alternating spin axes on four sublattices:
+
+\subsection{Four-Sublattice Klein Duality and Finite-Cell Boundary Splitting}
+\label{subsec:m1_4_5_klein_duality}
+
+On the bipartite honeycomb lattice, the four-sublattice Klein transformation $\mathcal{K}$ performs canonical $\pi$-rotations around alternating Cartesian spin axes on sublattices $(A_1, B_1, A_2, B_2)$:
 \begin{equation}
 \label{eq:m1_4_5_klein_map}
 \mathcal{K}: (J, K, \Gamma, \Gamma') \mapsto (-J, K + 2J, -\Gamma, \Gamma').
 \end{equation}
-On an infinite honeycomb lattice, $\mathcal{K}$ is an exact unitary equivalence. On a finite periodic cell of $N_{\mathrm{sub}} = 4$ sublattices, the boundary condition introduces a finite-size splitting $\delta E_{\mathrm{site}}(\boldsymbol{\epsilon}) \equiv E_{\mathrm{site}}(\mathbf{p}) - E_{\mathrm{site}}(\mathcal{K}(\mathbf{p}))$, where $\boldsymbol{\epsilon} = (\epsilon_J, \epsilon_\Gamma)$.
+On an infinite honeycomb lattice, $\mathcal{K}$ is an exact unitary equivalence, guaranteeing identical thermodynamic energy densities $E_{\mathrm{site}}(\mathbf{p}) \equiv E_{\mathrm{site}}(\mathcal{K}(\mathbf{p}))$.
+
+To audit finite-cell boundary effects on a periodic supercell of $N_{\mathrm{sub}} = 4$ sublattices, we constrain the parameter space to the symmetric manifold slice fixing the sum $K_0 \equiv K + J = -1.0$. The parameters are parameterized by the perturbation vector $\boldsymbol{\epsilon} = (\epsilon_J, \epsilon_\Gamma)^T$:
+\begin{equation}
+\label{eq:m1_4_5_symmetric_klein_slice}
+\mathbf{p}(\boldsymbol{\epsilon}) = \begin{pmatrix} \epsilon_J \\ K_0 - \epsilon_J \\ \epsilon_\Gamma \\ \Gamma'_0 \end{pmatrix}, \qquad
+\tilde{\mathbf{p}}(\boldsymbol{\epsilon}) \equiv \mathcal{K}(\mathbf{p}(\boldsymbol{\epsilon})) = \begin{pmatrix} -\epsilon_J \\ K_0 + \epsilon_J \\ -\epsilon_\Gamma \\ \Gamma'_0 \end{pmatrix} = \mathbf{p}(-\boldsymbol{\epsilon}).
+\end{equation}
+The finite-cell energy splitting is defined as $\delta E_{\mathrm{site}}(\boldsymbol{\epsilon}) \equiv E_{\mathrm{site}}(\mathbf{p}(\boldsymbol{\epsilon})) - E_{\mathrm{site}}(\tilde{\mathbf{p}}(\boldsymbol{\epsilon}))$.
 
 \begin{theorem}[Odd-Parity Klein Boundary Splitting Law]
 \label{thm:m1_4_5_klein_cubic_law}
-Under parameter inversion $\boldsymbol{\epsilon} \mapsto -\boldsymbol{\epsilon}$, the finite-cell energy splitting satisfies the odd-parity reflection symmetry:
+Along the symmetric parameter slice Eq.~\eqref{eq:m1_4_5_symmetric_klein_slice}, the finite-cell energy splitting satisfies the odd-parity reflection symmetry:
 \begin{equation}
 \label{eq:m1_4_5_klein_odd_parity}
 \delta E_{\mathrm{site}}(-\boldsymbol{\epsilon}) = -\delta E_{\mathrm{site}}(\boldsymbol{\epsilon}).
 \end{equation}
-Because the Taylor expansion of $\delta E_{\mathrm{site}}(\boldsymbol{\epsilon})$ about the unperturbed Kitaev point contains only odd powers, $c_0 = c_2 = 0$. Furthermore, because the unperturbed Kitaev ground state possesses exact Klein dual symmetry, the linear coefficient vanishes identically: $c_1 \equiv 0$.
-Consequently, the finite-cell boundary splitting vanishes \textbf{strictly cubically}:
+Consequently, the Taylor expansion contains only odd powers of $\boldsymbol{\epsilon}$ ($c_0 = c_2 = c_{2m} \equiv 0$).
+Furthermore, because the unperturbed Kitaev ground state at $\boldsymbol{\epsilon} = \mathbf{0}$ satisfies $\langle \sigma_i^{\gamma^+} \sigma_j^{\gamma^-} \rangle_0 = 0$ and $\langle \boldsymbol{\sigma}_i \cdot \boldsymbol{\sigma}_j \rangle_0 = \langle \sigma_i^\gamma \sigma_j^\gamma \rangle_0$, the linear coefficient vanishes identically: $c_1 \equiv 0$.
+Therefore, the boundary energy splitting vanishes \textbf{strictly cubically}:
 \begin{equation}
 \label{eq:m1_4_5_klein_cubic_scaling}
 \delta E_{\mathrm{site}}(\boldsymbol{\epsilon}) = c_3 \epsilon^3 + \mathcal{O}(\epsilon^5).
 \end{equation}
 \end{theorem}
 \begin{proof}
-The Klein involution $\mathcal{K}$ satisfies $\mathcal{K}^2 = \Id$. Near the pure Kitaev point $\mathbf{p}_0 = (0, K, 0, 0)$, $\mathcal{K}(\mathbf{p}_0 + \boldsymbol{\epsilon}) = \mathbf{p}_0 - \boldsymbol{\epsilon} + \mathcal{O}(\epsilon^2)$. Under reflection $\boldsymbol{\epsilon} \to -\boldsymbol{\epsilon}$, the roles of the direct and dual parameter configurations are interchanged, enforcing $\delta E(-\boldsymbol{\epsilon}) = -\delta E(\boldsymbol{\epsilon})$. Analyticity of the ground-state energy functional implies that all even Taylor coefficients vanish ($c_{2m} = 0$). Since the pure Kitaev point is dual-invariant ($\delta E(\mathbf{0}) = 0$), the first derivative $\nabla_{\boldsymbol{\epsilon}} \delta E(\mathbf{0}) = \mathbf{0}$ by symmetry, proving that $c_1 = 0$ and the leading non-vanishing term is $\mathcal{O}(\epsilon^3)$.
+Let $f(\boldsymbol{\epsilon}) \equiv E_{\mathrm{site}}(\mathbf{p}(\boldsymbol{\epsilon}))$. Because $\tilde{\mathbf{p}}(\boldsymbol{\epsilon}) = \mathbf{p}(-\boldsymbol{\epsilon})$, the dual energy is $E_{\mathrm{site}}(\tilde{\mathbf{p}}(\boldsymbol{\epsilon})) = f(-\boldsymbol{\epsilon})$.
+The energy difference decomposes as:
+\begin{equation}
+\delta E_{\mathrm{site}}(\boldsymbol{\epsilon}) = f(\boldsymbol{\epsilon}) - f(-\boldsymbol{\epsilon}).
+\end{equation}
+Under parameter inversion $\boldsymbol{\epsilon} \mapsto -\boldsymbol{\epsilon}$, $\delta E_{\mathrm{site}}(-\boldsymbol{\epsilon}) = f(-\boldsymbol{\epsilon}) - f(\boldsymbol{\epsilon}) = -\delta E_{\mathrm{site}}(\boldsymbol{\epsilon})$, proving odd parity.
+Expanding $f(\boldsymbol{\epsilon}) = a_0 + \sum_\mu a_{1,\mu} \epsilon_\mu + a_2(\boldsymbol{\epsilon}) + a_3(\boldsymbol{\epsilon}) + \dots$, the difference cancels all even orders identically: $\delta E_{\mathrm{site}}(\boldsymbol{\epsilon}) = 2 \sum_\mu a_{1,\mu} \epsilon_\mu + 2 a_3(\boldsymbol{\epsilon}) + \mathcal{O}(\epsilon^5)$.
+
+By the Hellmann-Feynman theorem, the linear coefficient along $\epsilon_J$ is:
+\begin{equation}
+a_{1, J} = \left. \frac{\dd f}{\dd \epsilon_J} \right|_{\boldsymbol{\epsilon}=\mathbf{0}} = \left. \frac{\partial E}{\partial J} \right|_0 \frac{\dd J}{\dd \epsilon_J} + \left. \frac{\partial E}{\partial K} \right|_0 \frac{\dd K}{\dd \epsilon_J} = \left. \frac{\partial E}{\partial J} \right|_0 (1) + \left. \frac{\partial E}{\partial K} \right|_0 (-1).
+\end{equation}
+At the unperturbed Kitaev point ($J = \Gamma = 0$), the nearest-neighbor Heisenberg correlator receives contributions solely from the active Kitaev bond flavor $\langle \sigma_i^{\gamma_b} \sigma_j^{\gamma_b} \rangle_0$, while orthogonal spin correlators vanish identically. Hence $\left. \frac{\partial E}{\partial J} \right|_0 = \left. \frac{\partial E}{\partial K} \right|_0$, enforcing $a_{1, J} = 0$.
+Similarly, for the off-diagonal exchange along $\epsilon_\Gamma$:
+\begin{equation}
+a_{1, \Gamma} = \left. \frac{\dd f}{\dd \epsilon_\Gamma} \right|_{\boldsymbol{\epsilon}=\mathbf{0}} = \left. \frac{\partial E}{\partial \Gamma} \right|_0 = -\frac{1}{2} \sum_{\langle ij \rangle_\gamma} \langle \sigma_i^{\gamma^+} \sigma_j^{\gamma^-} + \sigma_i^{\gamma^-} \sigma_j^{\gamma^+} \rangle_0 = 0,
+\end{equation}
+which vanishes identically by time-reversal and $C_3$ permutation parity.
+Thus the linear gradient vanishes $\nabla_{\boldsymbol{\epsilon}} \delta E(\mathbf{0}) = \mathbf{0}$, establishing $c_1 \equiv 0$ and confirming that the leading asymptotic splitting is strictly cubic $\mathcal{O}(\epsilon^3)$.
 \end{proof}
 
 \begin{table}[htbp]
