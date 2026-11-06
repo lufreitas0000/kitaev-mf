@@ -53,7 +53,7 @@ At zero magnetic field ($h = 0$), the local flux operators commute with the unpe
 \begin{equation}
 [W_p, H_K] \equiv 0, \qquad \forall p.
 \end{equation}
-By Lieb's theorem \cite{Lieb1994}, the uniform vortex-free sector ($W_p = +1.0$ everywhere) is the unique, non-degenerate global ground state. A two-vison configuration is an exact, stationary eigenstate.
+By Lieb's flux theorem (Lieb 1994), the uniform vortex-free sector ($W_p = +1.0$ everywhere) is the unique, non-degenerate global ground state. A two-vison configuration is an exact, stationary eigenstate.
 
 \input{figures/fig_f20_vortex_energetics_and_modes.tex}
 
@@ -89,17 +89,17 @@ Two key physical phenomena emerge from these measurements (Figure~\ref{fig:f20_v
 \item \textbf{Bound Mode Decoupling:} At $R = 1$, the defect modes of the two adjacent vortices hybridize strongly into a high-energy doublet ($\epsilon_1 = 0.518$). As the vortices are pulled apart to $R = 4$, $\epsilon_1$ plunges to $0.107$, decoupling into an isolated sub-gap state that heralds the emergence of isolated Majorana bound states.
 \end{enumerate}
 
-> [!IMPORTANT]
-> **Torus Dirac Commensurability Rule ($3 \mid L$):** On torus geometries where $3 \mid L$ (such as $L = 6, 12$), the discrete momentum mesh contains the Dirac points $\mathbf{K} = (\pm 1/3, \pm 2/3)$, producing exact zero modes in the unperturbed vacuum. Inverting link variables shifts the effective twisted boundary conditions and lifts the zero modes, which can cause spurious negative Gaussian energy differences unless physical parity projection ($D_i = +1$) is explicitly enforced. On non-resonant geometries ($3 \nmid L$, e.g. $L = 4, 8, 10$), the vacuum is gapped and Gaussian defect energies are strictly positive.
-
----
+\begin{remark}[Torus Dirac Commensurability Rule ($3 \mid L$)]
+\label{rem:m1_10_dirac_commensurability}
+On torus geometries where $3 \mid L$ (such as $L = 6, 12$), the discrete momentum mesh contains the Dirac points $\mathbf{K} = (\pm 1/3, \pm 2/3)$, producing exact zero modes in the unperturbed vacuum. Inverting link variables shifts the effective twisted boundary conditions and lifts the zero modes, which can cause spurious negative Gaussian energy differences unless physical parity projection ($\mathcal{D}_i = +1$) is explicitly enforced. On non-resonant geometries ($3 \nmid L$, e.g. $L = 4, 8, 10$), the vacuum is gapped and Gaussian defect energies are strictly positive.
+\end{remark}
 
 \section{Zeeman Field Response and In-Gap Majorana Zero Modes}
 \label{sec:vortex_zero_modes}
 
 When an external Zeeman field $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)^T$ is applied, the local flux conservation is broken ($[W_p, H] \ne 0$) because the field dynamically couples gauge Majoranas $c_i^\gamma$ to itinerant matter Majoranas $c_i^0$. 
 
-Simultaneously, the bulk matter spectrum opens a topological Dirac mass gap $\Delta_{\mathrm{bulk}}(h) \approx 2.592 h^3$ characterized by Chern number $\mathcal{C} = \pm 1$. By the bulk-boundary correspondence and the index theorem for $\mathbb{Z}_2$ vortices in class $D$ topological superconductors/spin liquids \cite{Kitaev2006, ReadGreen2000}, **each isolated vortex traps an exact in-gap Majorana zero mode at its core**:
+Simultaneously, the bulk matter spectrum opens a topological Dirac mass gap $\Delta_{\mathrm{bulk}}(h) \approx 2.592 h^3$ characterized by Chern number $\mathcal{C} = \pm 1$. By the bulk-boundary correspondence and the index theorem for $\mathbb{Z}_2$ vortices in class $D$ topological superconductors/spin liquids (Kitaev 2006, Read \& Green 2000), \textbf{each isolated vortex traps an exact in-gap Majorana zero mode at its core}:
 \begin{equation}
 \label{eq:majorana_zero_mode}
 \gamma^\dagger = \gamma, \qquad \gamma^2 = \mathbf{1}, \qquad \epsilon_0 \longrightarrow 0 \quad (R \to \infty).
@@ -127,14 +127,14 @@ $0.10$ & $0.165244$ & $0.777549$ & $0.104267$ & $13.41\%$ \\
 
 \subsection{Sub-Gap Mode Robustness and Wavefunction Localization}
 As detailed in Table~\ref{tab:vortex_field_scaling} and Figure~\ref{fig:f20_vortex_energetics} (right):
-1. **Sub-Gap Seating:** Across the entire weak-field topological regime $h \le 0.10$, the lowest mode $\epsilon_1 \approx 0.105$ remains deeply seated inside the bulk gap, maintaining a near-constant ratio $\epsilon_1 / \Delta_{\mathrm{bulk}} \approx 13\%$. The finite residual value $\epsilon_1 \approx 0.105$ represents the finite-size hybridization splitting $\delta\epsilon(R) \sim \mathrm{e}^{-R/\xi(h)}$ across the $R = 4$ cluster diameter.
-2. **Exponential Core Localization:** Computing the real-space Majorana probability density:
+\begin{enumerate}
+\item \textbf{Sub-Gap Seating:} Across the entire weak-field topological regime $h \le 0.10$, the lowest mode $\epsilon_1 \approx 0.105$ remains deeply seated inside the bulk gap, maintaining a near-constant ratio $\epsilon_1 / \Delta_{\mathrm{bulk}} \approx 13\%$. The finite residual value $\epsilon_1 \approx 0.105$ represents the finite-size hybridization splitting $\delta\epsilon(R) \sim \mathrm{e}^{-R/\xi(h)}$ across the $R = 4$ cluster diameter.
+\item \textbf{Exponential Core Localization:} Computing the real-space Majorana probability density:
 \begin{equation}
 P(s) = \sum_{\alpha=0}^3 |\psi_{1}(4s + \alpha)|^2
 \end{equation}
 demonstrates that $>75\%$ of the bound-mode wavefunction is concentrated on the sites immediately adjacent to the two vortex centers $p_1 = (0, 0)$ and $p_2 = (4, 4)$, confirming genuine localized topological bound states.
-
----
+\end{enumerate}
 
 \section{Self-Consistent Fixed-Point Dynamics and Metastable Trapping}
 \label{sec:vortex_stability}
@@ -152,4 +152,4 @@ Across 10 unconstrained self-consistent iterations:
 \item The defect creation energy remains completely stationary at $\Delta E = 0.167911 |K|$.
 \end{itemize}
 
-This proves that sufficiently separated vortex pairs ($R \ge 3$) form **self-consistent, metastable topological solitons** in the multi-flavor mean-field landscape. They do not spontaneously annihilate, establishing that real-space Majorana mean-field theory is fully capable of capturing non-Abelian defect sectors and anyon bound states without artificial pinning constraints.
+This proves that sufficiently separated vortex pairs ($R \ge 3$) form \textbf{self-consistent, metastable topological solitons} in the multi-flavor mean-field landscape. They do not spontaneously annihilate, establishing that real-space Majorana mean-field theory is fully capable of capturing non-Abelian defect sectors and anyon bound states without artificial pinning constraints.

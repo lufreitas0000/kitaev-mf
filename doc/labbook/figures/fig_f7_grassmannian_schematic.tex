@@ -1,36 +1,38 @@
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[scale=1.15]
+\begin{tikzpicture}[scale=1.05]
     % Canvas background
-    \draw[thick, fill=labbookbg!80!white, draw=labbookrule] (-5.2, -3.2) rectangle (5.5, 4.4);
-    \node[anchor=north west, font=\normalsize\bfseries, color=labbookslate] at (-4.9, 4.1) {Total Quantum State Space $\mathcal{S}(\ALambda)$ (Convex)};
+    \draw[thick, fill=labbookbg!80!white, draw=labbookrule] (-6.8, -3.0) rectangle (6.8, 3.2);
+    \node[anchor=north west, font=\normalsize\bfseries\sffamily, color=labbookslate] at (-6.5, 2.95) {Total Quantum State Space $\mathcal{S}(\ALambda)$ (Convex)};
 
     % Physical Subspace (Gutzwiller Projection hyperplane)
-    \draw[very thick, labbookteal, dashed] (-4.8, 2.5) -- (5.0, 2.5);
-    \node[anchor=south west, font=\small\bfseries, color=labbookteal] at (-4.8, 3.2) {Physical Gauge-Singlet Subspace $\mathcal{F}_{\mathrm{phys}} = \Ran P_G$ ($\mathcal{D}_i = +\Id$)};
+    \draw[very thick, labbookteal, dashed] (-5.8, 1.6) -- (3.2, 1.6);
+    \node[anchor=west, font=\scriptsize\bfseries, color=labbookteal, align=left] at (3.35, 1.6) {Physical Subspace\\$\mathcal{F}_{\mathrm{phys}} = \Ran P_G$ ($\mathcal{D}_i = +\Id$)};
 
-    % Non-Convex Quasi-Free Submanifold M_QF
-    \draw[very thick, fill=labbookwarm!25!white, draw=labbookcrimson]
-        (-3.8, -2.4) [rounded corners=30pt] -- (-2.2, 0.9) [rounded corners=20pt] -- (2.5, 0.4) [rounded corners=30pt] -- (4.2, -2.0) [rounded corners=25pt] -- cycle;
-    \node[anchor=center, font=\small\bfseries, color=labbookcrimson] at (0.2, -1.5) {Quasi-Free States $\mathcal{M}_{\mathrm{QF}}$ (Non-Convex)};
+    % Non-Convex Quasi-Free Submanifold M_QF (Shaded Region)
+    \draw[very thick, fill=labbookwarm!30!white, draw=labbookcrimson]
+        (-4.6, -2.2) [rounded corners=20pt] -- (-2.4, -0.3) [rounded corners=18pt] -- (0.0, -0.9) [rounded corners=18pt] -- (2.0, -0.3) [rounded corners=20pt] -- (4.2, -2.2) [rounded corners=20pt] -- (3.6, -2.4) [rounded corners=20pt] -- (-4.0, -2.4) -- cycle;
+    \node[anchor=center, font=\small\bfseries, color=labbookcrimson] at (-0.5, -1.8) {Quasi-Free States $\mathcal{M}_{\mathrm{QF}}$ (Non-Convex)};
 
     % Pure States: Orthogonal Grassmannian Gr(n, 2n) Boundary
     \draw[very thick, labbookaccent]
-        (-4.0, -2.4) [rounded corners=25pt] to[bend left=18] (-2.2, 0.9) to[bend right=15] (2.5, 0.4) to[bend left=18] (4.4, -2.0);
-    \node[anchor=south east, font=\small\bfseries, color=labbookaccent] at (4.8, 0.6) {Grassmannian $\Gr(n, 2n)$ ($\Omega^2 = -\Id$)};
+        (-4.6, -2.2) to[out=45, in=185] (-2.4, -0.3) to[out=5, in=175] (0.0, -0.9) to[out=-5, in=185] (2.0, -0.3) to[out=5, in=135] (4.2, -2.2);
+    \node[anchor=south west, font=\footnotesize\bfseries, color=labbookaccent, align=left] at (-6.2, -0.7) {Grassmannian $\Gr(n, 2n)$\\($\Omega^2 = -\Id$)};
 
-    % State points
-    \filldraw[labbookteal] (-3.2, 2.5) circle (3.5pt) node[anchor=south, font=\small\bfseries, color=labbookteal, yshift=2pt] {$\rho_{\mathrm{exact}}$};
-    \filldraw[labbookaccent] (1.5, 0.5) circle (3.5pt) node[anchor=north, font=\small\bfseries, color=labbookaccent, yshift=-4pt] {$\Omega_{\mathrm{MF}} \in \Gr$};
-    \filldraw[labbookcrimson] (1.5, 2.5) circle (3.5pt) node[anchor=south, font=\small\bfseries, color=labbookcrimson, yshift=2pt] {$P_G \Omega_{\mathrm{MF}} P_G$};
+    % State points on Physical Hyperplane
+    \filldraw[labbookteal] (-2.5, 1.6) circle (3.5pt) node[anchor=south, font=\small\bfseries, color=labbookteal, yshift=3pt] {$\rho_{\mathrm{exact}}$};
+    \filldraw[labbookcrimson] (2.0, 1.6) circle (3.5pt) node[anchor=south, font=\small\bfseries, color=labbookcrimson, yshift=3pt] {$P_G \Omega_{\mathrm{MF}} P_G$};
+
+    % State point on Grassmannian
+    \filldraw[labbookaccent] (2.0, -0.3) circle (3.5pt) node[anchor=west, font=\small\bfseries, color=labbookaccent, xshift=6pt] {$\Omega_{\mathrm{MF}} \in \Gr$};
 
     % Projection Gap Vector (Vertical Arrow)
-    \draw[->, very thick, shorten >=4pt, shorten <=4pt, color=labbookslate] (1.5, 0.5) -- (1.5, 2.5)
-        node[midway, right=4pt, font=\footnotesize\bfseries, color=labbookslate] {Gutzwiller Gap (BL-01)};
+    \draw[->, very thick, shorten >=5pt, shorten <=5pt, color=labbookslate] (2.0, -0.3) -- (2.0, 1.6);
+    \node[anchor=west, font=\scriptsize\bfseries, color=labbookslate, align=left] at (2.15, 0.75) {Gutzwiller Projection\\Gap (BL-01)};
 
     % Non-Gaussianity Relative Entropy Distance (Dashed Diagonal Arrow)
-    \draw[->, very thick, dashed, shorten >=4pt, shorten <=4pt, color=labbookcrimson] (-3.2, 2.5) -- (1.5, 0.5)
-        node[midway, below left=2pt, font=\footnotesize\bfseries, color=labbookcrimson] {$D_{\mathrm{NG}}(\rho)$ (BL-07)};
+    \draw[<->, very thick, dashed, shorten >=6pt, shorten <=6pt, color=labbookcrimson] (-2.5, 1.6) -- (2.0, -0.3)
+        node[pos=0.42, below=5pt, sloped, font=\scriptsize\bfseries, color=labbookcrimson] {Variational Gap $D_{\mathrm{NG}}(\rho)$ (BL-07)};
 \end{tikzpicture}
 \caption{Geometry of the variational quantum state space. The full density matrix space $\mathcal{S}(\ALambda)$ is convex. Quasi-free states $\mathcal{M}_{\mathrm{QF}}$ form a non-convex embedded submanifold whose pure boundary is the real orthogonal Grassmannian $\Gr(n, 2n)$. The mean-field state $\Omega_{\mathrm{MF}}$ minimizes energy on the Grassmannian, while Gutzwiller projection maps onto the physical gauge-singlet hyperplane.}
 \label{fig:m1_1b_grassmannian_schematic}
