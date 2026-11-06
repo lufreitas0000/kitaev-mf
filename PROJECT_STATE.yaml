@@ -343,22 +343,33 @@ verified_physics_invariants:
     form_factor_magnitude_bar_u: '0.5248657458506'
 - id: K-010
   name: Topological Majorana Dirac mass gap cubic scaling under [111] magnetic field
-  equation: Delta_K(h) = 2.5921 * (h/|K|)^2.9936 approx 2.59 * (h/|K|)^3
-  status: verified_benchmark_and_rnd
+  equation: Delta_K(h) = (2.5921 pm 0.0034) * (h/|K|)^(2.9936 pm 0.0006) approx 2.59 * (h/|K|)^3
+  status: numerical_power_law_fit_with_finite_mesh_regression
   provenance:
     analytical: doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
     benchmark: data/processed/benchmarks/m1_6/majorana_gap_scaling.dat
     script: scripts/m1_6/benchmark_majorana_gap.py
   numerical_evidence:
+    fitted_prefactor: 2.5921
+    prefactor_stderr: 0.0034
     fitted_exponent: 2.9936
+    exponent_stderr: 0.0006
     r_squared: 0.99999
     tested_range: h in [0.005, 0.150]
+    mesh: [24, 24]
+    disclaimer: Finite-mesh numerical regression; distinct from analytical perturbation proof.
 - id: K-011
   name: First-order thermodynamic crossing and forward spinodal threshold
-  equation: h_c^* = 0.3325 pm 0.0002; h_c2^+ = 0.400 pm 0.002
+  equation: h_c^* = 0.3325 pm 0.0012; h_c2^+ = 0.400 pm 0.005
   status: verified_benchmark_and_rnd
   provenance:
     analytical: doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
     benchmark: data/processed/benchmarks/m1_6/critical_zoom_111.dat
     script: scripts/m1_6/sweep_critical_zoom.py
+  numerical_evidence:
+    h_c_star: 0.3325
+    h_c_uncertainty: 0.0012
+    h_c2_forward_spinodal: 0.400
+    mesh: [24, 24]
+open_blockers: []
 open_blockers: []

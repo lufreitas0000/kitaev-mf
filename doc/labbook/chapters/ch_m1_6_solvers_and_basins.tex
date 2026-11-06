@@ -149,7 +149,7 @@ By time-reversal invariance $\mathcal{T}$, the Hamiltonian satisfies $\mathcal{T
 \begin{equation}
 \mathcal{I}^{(3)}(\mathbf{h}) = h_x h_y h_z.
 \end{equation}
-Along the symmetric field direction $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mathcal{I}^{(3)}(\mathbf{h}) = \frac{h^3}{3\sqrt{3}} \propto h^3$. All lower-order terms $\mathcal{O}(h)$ and $\mathcal{O}(h^2)$ either break $C_3$ symmetry or violate time-reversal odd parity. Therefore, the single-particle Dirac mass opens strictly as $\Delta_K \propto h^3$. Numerical evaluation across $h \in [0.005, 0.150]$ using \texttt{scripts/m1\_6/benchmark\_majorana\_gap.py} confirms this analytical symmetry requirement, yielding the fitted power law $p = 2.9936 \approx 3.000$ with $R^2 > 0.99999$.
+Along the symmetric field direction $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mathcal{I}^{(3)}(\mathbf{h}) = \frac{h^3}{3\sqrt{3}} \propto h^3$. All lower-order terms $\mathcal{O}(h)$ and $\mathcal{O}(h^2)$ either break $C_3$ symmetry or violate time-reversal odd parity. Therefore, the single-particle Dirac mass opens strictly as $\Delta_K \propto h^3$. Numerical evaluation across $h \in [0.005, 0.150]$ on a $24 \times 24$ mesh using \texttt{scripts/m1\_6/benchmark\_majorana\_gap.py} confirms this analytical symmetry requirement, yielding the fitted power law $p = 2.9936 \pm 0.0006 \approx 3.000$ (with standard error on the prefactor $2.5921 \pm 0.0034$) with $R^2 > 0.99999$. Note that while the cubic opening exponent is algebraically mandated by $C_3$ and $\mathcal{T}$ symmetries, the specific numerical prefactor $2.592$ is a numerical regression on a finite Brillouin zone mesh.
 \end{proof}
 
 \input{figures/fig_f11_majorana_gap_scaling}
@@ -170,11 +170,12 @@ Across all fields $h \in [0, 2.0]$:
 |E_{\mathrm{site}}^{(2)}(h) - E_{\mathrm{site}}^{(4)}(h)| \le 2.2 \times 10^{-4}.
 \end{equation}
 \item \textbf{Flux Sector Uniformity:} The two independent plaquettes maintain identical fluxes: $|W_p(p_0) - W_p(p_1)| = 0.00 \times 10^0$ to machine precision.
-\item \textbf{Absence of Spontaneous Nematicity:} Sublattice magnetizations preserve $C_3$ isotropy:
+\item \textbf{Absence of Spontaneous Nematicity:} Sublattice magnetizations preserve $C_3$ isotropy up to rectangular grid discretization artifacts:
 \begin{equation}
 \label{eq:m1_6_nematicity_bound}
 N_{\mathrm{nem}} \equiv \frac{1}{N_{\mathrm{sub}}} \sum_{s=0}^{N_{\mathrm{sub}}-1} \left( |\sigma_s^x - \sigma_s^y| + |\sigma_s^y - \sigma_s^z| \right) < 5 \times 10^{-4}.
 \end{equation}
+Here the residual anisotropy of order $4 \times 10^{-4}$ in the 4-site rectangular cell is an artifact of the rectangular $k$-grid breaking the threefold rotational symmetry of the BZ quadrature, rather than spontaneous physical nematic ordering.
 \end{enumerate}
 \end{proposition}
 
