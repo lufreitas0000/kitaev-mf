@@ -21,6 +21,7 @@ from kitaev_mf.services.fixed_point import (
     FixedPointAccelerator,
     JFNKSolver,
     JointAndersonSolver,
+    LimitedMemoryBroydenSolver,
     PlainFixedPoint,
 )
 from kitaev_mf.services.hamiltonian import build_bloch_hamiltonian
@@ -46,6 +47,8 @@ def _create_accelerator(config: SolverConfig) -> FixedPointAccelerator:
         )
     elif config.method == "broyden":
         return BroydenSolver(alpha=config.broyden_alpha)
+    elif config.method == "lbroyden":
+        return LimitedMemoryBroydenSolver(history_size=10, alpha=config.broyden_alpha)
     elif config.method == "jfnk":
         return JFNKSolver(
             gmres_tol=config.jfnk_gmres_tol,

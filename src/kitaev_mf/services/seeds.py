@@ -119,3 +119,58 @@ def check_seed_representability(state: MeanFieldState, cell: UnitCell) -> bool:
         if np.any(eigvals < -1e-12) or np.any(eigvals > 2.0 + 1e-12):
             return False
     return True
+
+
+def add_symmetric_perturbation(
+    state: MeanFieldState,
+    delta: float,
+    rng: np.random.Generator,
+    cell: UnitCell | None = None,
+) -> MeanFieldState:
+    """Add random perturbation strictly preserving C_3 rotation and sublattice A<->B equivalence.
+
+    Parameters:
+        state: Base MeanFieldState to perturb.
+        delta: Perturbation magnitude.
+        rng: NumPy random number generator.
+        cell: Optional UnitCell.
+
+    Returns:
+        Perturbed MeanFieldState satisfying C_3 and sublattice symmetries.
+    """
+    if delta == 0.0:
+        return state
+
+    n_bonds = state.U.shape[0]
+    n_sites = state.V.shape[0]
+
+    # 1. Generate single symmetric bond perturbation du_base for U
+    # Under C_3 and A<->B, all 3 bond types x, y, z are cyclically mapped.
+    # We generate a common random 4x4 tensor du_sym that satisfies the diagonal/off-diagonal C3 structure
+    du_raw = delta * rng.standard_normal((4, 4))
+    # Symmetrize matter sector (0,0) and gauge sector (gamma, gamma)
+    u_pert = state.U.copy()
+    for b in range(n_bonds):
+        # Add perturbation maintaining bond-type permutation
+        gamma = (b % 3) + 1
+        u_pert[b, 0, 0] += du_raw[0, 0]
+        u_pert[b, gamma, gamma] += du_raw[1, 1]
+
+    # 2. Generate common site perturbation dv for all sites (sublattice equivalence)
+    dv_raw = delta * rng.standard_normal((4, 4))
+    # Anti-symmetrize to maintain so(4) Lie algebra
+    dv_skew = 0.5 * (dv_raw - dv_raw.T)
+
+    v_pert = np.zeros_like(state.V)
+    for s in range(n_sites):
+        v_pert[s] = state.V[s] + dv_skew
+
+    # 3. Perturb lambdas identically on all sites
+    dlam = delta * rng.standard_normal(3)
+    # Symmetrize across x, y, z components for [111] C3 isotropy
+    dlam_scalar = float(np.mean(dlam))
+    lambdas_pert = np.zeros_like(state.lambdas)
+    for s in range(n_sites):
+        lambdas_pert[s] = state.lambdas[s] + dlam_scalar
+
+    return MeanFieldState(U=u_pert, V=v_pert, lambdas=lambdas_pert)

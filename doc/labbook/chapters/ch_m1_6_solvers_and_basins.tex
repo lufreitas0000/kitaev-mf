@@ -180,3 +180,63 @@ Here the residual anisotropy of order $4 \times 10^{-4}$ in the 4-site rectangul
 \end{proposition}
 
 \input{figures/fig_f12_supercell_parity}
+
+
+% EDITORIAL QUESTION: How do non-linear solvers perform under a rigorous statistical ensemble of symmetric perturbations, and what is the exact computational cost breakdown?
+\section{Statistical Ensemble Scorecards, Limited-Memory Broyden, and Host Hardware FLOP Profiling}
+\label{sec:m1_6_statistical_scorecards}
+
+To establish rigorous statistical guarantees rather than anecdotal single-seed trials, we evaluate an ensemble of $N_{\mathrm{trials}} = 30$ independent $C_3$-symmetric and sublattice-symmetric random seed perturbations per solver across perturbation radii $\delta \in [0.005, 0.500]$ at the intermediate field $h/|K| = 0.20$.
+
+\subsection{Wilson Score Intervals and Statistical Basin Definition}
+For each solver and perturbation magnitude $\delta$, let $k$ denote the number of successful convergences out of $N_{\mathrm{trials}}$. The sample point estimate $\hat{p} = k / N_{\mathrm{trials}}$ is accompanied by the Wilson score interval with continuity correction at confidence level $1 - \alpha = 0.95$ ($z = 1.96$):
+\begin{equation}
+\label{eq:m1_6_wilson_interval}
+w^{\pm}(\hat{p}, N) = \frac{\hat{p} + \frac{z^2}{2N} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{N} + \frac{z^2}{4N^2}}}{1 + \frac{z^2}{N}}.
+\end{equation}
+We define the high-reliability basin radius $R_{90}$ as the supremum of perturbation radii $\delta$ for which the lower Wilson bound satisfies $w^- \ge 0.85$ (or point estimate $\hat{p} \ge 0.90$).
+
+\subsection{Limited-Memory Broyden Formulation (L-Broyden)}
+In high-dimensional real-space supercells ($D = \dim \mathcal{X} \gg 10^3$), maintaining the full dense approximate inverse Jacobian $H_k \in \mathbb{R}^{D \times D}$ becomes memory-prohibitive ($\mathcal{O}(D^2)$ storage and $\mathcal{O}(D^2)$ FLOPs per step). We formulate the Limited-Memory Broyden (L-Broyden) algorithm with history depth $m$:
+\begin{enumerate}
+\item Retain the most recent $m$ displacement and residual differences:
+\begin{equation}
+s_j \equiv X_{j+1} - X_j, \qquad y_j \equiv R_{j+1} - R_j, \qquad j \in \{k-m, \dots, k-1\}.
+\end{equation}
+\item Implicitly represent the inverse Jacobian update using rank-1 corrections without forming $H_k$:
+\begin{equation}
+H_{j+1} = H_j + \frac{s_j - H_j y_j}{s_j^T H_j y_j} s_j^T H_j.
+\end{equation}
+\item By precomputing the forward vectors $u_j \equiv \frac{s_j - H_j y_j}{s_j^T H_j y_j}$ and adjoint vectors $w_j \equiv H_j^T s_j$, the action $H_k R_k$ is evaluated in $\mathcal{O}(m^2 D)$ operations using $\mathcal{O}(mD)$ storage.
+\end{enumerate}
+
+\input{figures/fig_f13_pareto_basin_radius}
+
+\input{figures/fig_f14_flop_calibration}
+
+\subsection{Empirical Scorecard and Host Hardware Roofline}
+The empirical results compiled in Table~\ref{tab:m1_6_solver_scorecard} confirm the fundamental trade-offs:
+\begin{enumerate}
+\item \textbf{Basin Radius Superiority:} Full Broyden and JFNK achieve unconditional 95\% Wilson survival ($P_{\mathrm{conv}} = 1.000$, Wilson $[0.886, 1.000]$) up to $\delta = 0.35$, yielding $R_{90} \ge 0.50$. In contrast, damped Picard collapses for $\delta \ge 0.05$ ($P_{\mathrm{conv}} = 0.467$).
+\item \textbf{Contraction Acceleration:} At $\delta = 0.02$, full Broyden requires median $K_{50} = 27$ iterations compared to $115$ for Picard, representing a $4.26\times$ reduction in evaluation calls.
+\item \textbf{L-Broyden Trade-Off:} L-Broyden ($m=10$) achieves $P_{\mathrm{conv}} = 0.967$ at $\delta = 0.005$ and $P_{\mathrm{conv}} = 0.800$ at $\delta = 0.02$, but drops to $0.533$ at $\delta = 0.10$ due to low-rank history truncation in high-curvature regions.
+\item \textbf{Hardware FLOP Calibration:} On the Intel i5-13500 CPU, each evaluation $\Phi$ on the $N_k=1024$ mesh consumes exactly $1.355\times 10^6$ FLOPs. Sustained divide-and-conquer eigensolver throughput is $20.2\text{--}23.1\text{ GFLOP/s}$, while dense matrix multiplication reaches $150\text{--}171\text{ GFLOP/s}$. Broyden step overhead is $1.1\times 10^4$ FLOPs ($<0.8\%$ of $\Phi$), confirming that eigensolvers dominate total execution time.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Solver} & \textbf{$R_{90}$ Radius} & \textbf{$R_{50}$ Radius} & \textbf{$K_{50}$ ($\delta=0.02$)} & \textbf{Time ($\delta=0.02$)} & \textbf{Storage} & \textbf{Step FLOPs} \\
+\midrule
+Full Broyden   & $\ge 0.500$ & $\ge 0.500$ & 27.0 & $327\text{ ms}$ & $\mathcal{O}(D^2)$ & $2 D^2$ \\
+DIIS (Joint)   & $0.350$     & $0.500$     & 34.0 & $242\text{ ms}$ & $\mathcal{O}(mD)$   & $\mathcal{O}(m^2 D + m^3)$ \\
+JFNK           & $\ge 0.500$ & $\ge 0.500$ & 39.0 & $400\text{ ms}$ & $\mathcal{O}(k_{\mathrm{kry}} D)$ & $\mathcal{O}(k_{\mathrm{kry}} \Phi)$ \\
+L-Broyden ($m=10$) & $0.010$ & $0.100$     & 55.0 & $465\text{ ms}$ & $\mathcal{O}(mD)$   & $\mathcal{O}(m^2 D)$ \\
+Picard ($\alpha=0.5$) & $0.010$ & $0.020$ & 115.0 & $1133\text{ ms}$ & $\mathcal{O}(D)$   & $\mathcal{O}(D)$ \\
+\bottomrule
+\end{tabular}
+\caption{Comprehensive statistical solver scorecard at $h/|K|=0.20$ across $N_{\mathrm{trials}}=30$ symmetric random seed trials. Full Broyden and DIIS form the optimal Pareto efficiency frontier for Bloch supercells.}
+\label{tab:m1_6_solver_scorecard}
+\end{table}

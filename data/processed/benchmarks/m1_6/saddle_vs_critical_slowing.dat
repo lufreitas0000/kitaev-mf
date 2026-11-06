@@ -1,0 +1,4 @@
+# Saddle Trapping vs True Ground State (h = 0.20, delta = 0.20, N_trials = 20)
+# Columns: ARM  P_GROUND_STATE  P_SADDLE_OR_UNCONV
+ArmA_unconstrained       1.000    0.000   
+ArmB_curvature_checked   1.000    0.000   

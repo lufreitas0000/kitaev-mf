@@ -33,7 +33,7 @@ class SolverConfig:
     lambda_step: float = 0.2
     diis_history_depth: int = 6
     diis_reg: float = 1e-12
-    method: Literal["diis", "fp", "picard", "broyden", "jfnk"] = "diis"
+    method: Literal["diis", "fp", "picard", "broyden", "lbroyden", "jfnk"] = "diis"
     broyden_alpha: float = 0.5
     jfnk_gmres_tol: float = 1e-4
     jfnk_gmres_maxiter: int = 15

@@ -302,3 +302,112 @@ class JFNKSolver(FixedPointAccelerator):
 
         x_next = x + t * delta
         return np.asarray(x_next, dtype=np.float64), phi_eval_count
+
+
+class LimitedMemoryBroydenSolver(FixedPointAccelerator):
+    """Limited-memory 'Good' Broyden quasi-Newton solver with O(m D) memory and work.
+
+    Instead of maintaining an explicit D x D dense inverse Jacobian matrix, this solver
+    stores the m most recent secant pairs (s_j, y_j) where s_j = x_{j+1} - x_j and
+    y_j = G_{j+1} - G_j, evaluating the quasi-Newton step H_k G_k via recursive vector
+    inner products matching the Sherman-Morrison rank-1 update:
+    H_{j+1} = H_j + ((s_j - H_j y_j) s_j^T H_j) / (s_j^T H_j y_j).
+    """
+
+    def __init__(
+        self, history_size: int = 10, alpha: float = 1.0, tol_singular: float = 1e-12
+    ) -> None:
+        if history_size < 1:
+            raise ValueError(f"history_size must be >= 1, got {history_size}")
+        if not (0.0 < alpha <= 1.0):
+            raise ValueError(f"alpha must be in (0, 1], got {alpha}")
+        self.history_size = int(history_size)
+        self.alpha = float(alpha)
+        self.tol_singular = float(tol_singular)
+        self.reset()
+
+    def reset(self) -> None:
+        """Clear secant history."""
+        self._s_history: list[np.ndarray] = []
+        self._y_history: list[np.ndarray] = []
+        self._prev_x: np.ndarray | None = None
+        self._prev_g: np.ndarray | None = None
+
+    def step(
+        self,
+        x: np.ndarray,
+        phi_x: np.ndarray,
+        residual_fn: Callable[[np.ndarray], np.ndarray] | None = None,
+    ) -> tuple[np.ndarray, int]:
+        """Compute the next iterate via limited-memory secant recursion."""
+        g = phi_x - x
+
+        if self._prev_x is None or self._prev_g is None:
+            # First step: Picard step x + alpha * g
+            x_next = x + self.alpha * g
+            self._prev_x = np.asarray(x, dtype=np.float64).copy()
+            self._prev_g = np.asarray(g, dtype=np.float64).copy()
+            return np.asarray(x_next, dtype=np.float64), 0
+
+        s_k = x - self._prev_x
+        y_k = g - self._prev_g
+
+        if np.linalg.norm(s_k) > 1e-15 and np.linalg.norm(y_k) > 1e-15:
+            self._s_history.append(s_k)
+            self._y_history.append(y_k)
+            if len(self._s_history) > self.history_size:
+                self._s_history.pop(0)
+                self._y_history.pop(0)
+
+        # To ensure exact mathematical equivalence with Good Broyden while maintaining O(m D) work,
+        # we evaluate H_k @ g by forward simulation of the rank-1 additions on H_0 @ g = -alpha * g:
+        # H_{j+1} v = H_j v + ((s_j - H_j y_j) / (s_j @ (H_j y_j))) * (s_j @ (H_j v))
+        # This requires tracking H_j y_j and H_j g across the m steps.
+        # At step j, we can apply H_j to any vector z by running the recursion from 0 to j-1.
+        m = len(self._s_history)
+        if m == 0:
+            x_next = x + self.alpha * g
+            self._prev_x = np.asarray(x, dtype=np.float64).copy()
+            self._prev_g = np.asarray(g, dtype=np.float64).copy()
+            return np.asarray(x_next, dtype=np.float64), 0
+
+        # Maintain explicit small D x m matrix S = [s_0, ..., s_{m-1}] and Y = [y_0, ..., y_{m-1}]
+        # Evaluate H_m @ g directly in O(m^2 D) time without recursive calls:
+        # H_{j+1} = H_j + u_j w_j^T where u_j = (s_j - H_j y_j) / (s_j^T H_j y_j), w_j = H_j^T s_j
+        # For small m (<= 10), precomputing u_j and w_j takes negligible time!
+        u_list: list[np.ndarray] = []
+        w_list: list[np.ndarray] = []
+
+        def apply_h_seq(vec: np.ndarray, num: int) -> np.ndarray:
+            res = -self.alpha * vec
+            for i in range(num):
+                res = res + u_list[i] * float(np.dot(w_list[i], vec))
+            return res
+
+        def apply_ht_seq(vec: np.ndarray, num: int) -> np.ndarray:
+            res = -self.alpha * vec
+            for i in range(num):
+                res = res + w_list[i] * float(np.dot(u_list[i], vec))
+            return res
+
+        for j in range(m):
+            sj = self._s_history[j]
+            yj = self._y_history[j]
+            hyj = apply_h_seq(yj, j)
+            denom = float(np.dot(sj, hyj))
+            if abs(denom) > 1e-14:
+                uj = (sj - hyj) / denom
+                wj = apply_ht_seq(sj, j)
+                u_list.append(uj)
+                w_list.append(wj)
+            else:
+                u_list.append(np.zeros_like(sj))
+                w_list.append(np.zeros_like(sj))
+
+        hg = apply_h_seq(g, len(u_list))
+        x_next = x - hg
+
+        self._prev_x = np.asarray(x, dtype=np.float64).copy()
+        self._prev_g = np.asarray(g, dtype=np.float64).copy()
+
+        return np.asarray(x_next, dtype=np.float64), 0

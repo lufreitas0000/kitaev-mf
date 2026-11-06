@@ -1,0 +1,33 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xmode=log,
+    log basis x={2},
+    xlabel={Matrix Dimension $M$},
+    ylabel={Sustained Throughput [GFLOP/s]},
+    legend pos=north west,
+    xmin=6, xmax=1500,
+    ymin=0, ymax=190
+]
+    \addplot[labbookteal, thick, mark=*, mark size=2pt]
+        table[x index=0, y index=2] {../../data/processed/benchmarks/m1_6/hardware_flops_calibration.dat};
+    \addlegendentry{Complex GEMM (\texttt{zgemm})}
+
+    \addplot[labbookslate, thick, mark=square*, mark size=1.8pt]
+        table[x index=0, y index=1] {../../data/processed/benchmarks/m1_6/hardware_flops_calibration.dat};
+    \addlegendentry{Real GEMM (\texttt{dgemm})}
+
+    \addplot[labbookpurple, thick, mark=diamond*, mark size=2pt]
+        table[x index=0, y index=4] {../../data/processed/benchmarks/m1_6/hardware_flops_calibration.dat};
+    \addlegendentry{Complex Eigensolver (\texttt{zheevd})}
+
+    \addplot[labbookamber, thick, mark=triangle*, mark size=2pt]
+        table[x index=0, y index=3] {../../data/processed/benchmarks/m1_6/hardware_flops_calibration.dat};
+    \addlegendentry{Real Symmetric Eigensolver (\texttt{dsyevd})}
+\end{axis}
+\end{tikzpicture}
+\caption{Host CPU hardware throughput calibration on the 12-core Intel i5-13500 platform across matrix dimensions $M \in [8, 1152]$. Peak dense matrix multiplication saturates at $\sim 171\text{ GFLOP/s}$ in double precision, while divide-and-conquer eigensolvers achieve $20\text{--}23\text{ GFLOP/s}$ for large $M$.}
+\label{fig:m1_6_flop_calibration}
+\end{figure}

@@ -1,0 +1,9 @@
+# Host Hardware FLOP/s Calibration (Intel i5-13500 CPU)
+# Columns: M  GFLOPS_GEMM_REAL  GFLOPS_GEMM_COMPLEX  GFLOPS_EIGH_REAL  GFLOPS_EIGH_COMPLEX  TIME_GEMM_REAL_MS  TIME_EIGH_C_MS
+8        0.55           1.37           0.05           0.22           0.002        0.012       
+16       3.54           17.89          0.31           0.94           0.002        0.023       
+32       25.85          26.57          0.63           2.31           0.003        0.076       
+64       41.01          86.89          2.20           3.22           0.013        0.435       
+128      114.84         105.89         3.91           6.27           0.037        1.783       
+288      112.51         123.47         7.15           15.52          0.425        8.209       
+1152     150.30         171.33         20.16          23.10          20.343       352.972     
