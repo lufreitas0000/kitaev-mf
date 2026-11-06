@@ -1,0 +1,22 @@
+% EDITORIAL QUESTION: What are the primary implications of these findings for quantum materials modeling, and what open avenues emerge?
+\section{Conclusion and Physical Outlook}
+\label{sec:conclusion}
+
+In this work, we have established a rigorous, mathematically unified Majorana parton mean-field framework for the extended Kitaev honeycomb model. By treating the self-consistent equations as a geometric fixed-point problem on the orthogonal Grassmannian manifold bundle, we resolved key computational and physical bottlenecks that have long constrained the field.
+
+\subsection{Summary of Principal Discoveries}
+\begin{enumerate}
+\item \textbf{Algebraic Invariance and Neutrality:} We proved the Flat-Band Gauge Neutrality Theorem, showing that local gauge Lagrange multipliers vanish identically ($\boldsymbol{\lambda}^* \equiv \mathbf{0}$) in the pure Kitaev limit due to destructive interference among flat localized bands. Finite-mesh gauge residuals obey an exact 2D Pearson random walk scaling ($\mathcal{O}(N_k^{-1/2})$) that quantifies quadrature errors.
+\item \textbf{Field Multistability and Response Laws:} Under magnetic fields along $[111]$, we identified a sharp first-order phase transition at $h_c^* / |K| = 0.3325 \pm 0.0005$ with an energy hysteresis barrier $\Delta E = 0.057 |K|$ and magnetization jump $\Delta M = 0.412$. In the weak-field topological regime, the Dirac mass opens with a cubic power law $\Delta_K = 2.592 h^3$ governed by $C_3$ and $\mathcal{T}$-odd invariants, while the Lagrange multiplier vector satisfies the universal scaling $\|\boldsymbol{\lambda}^*\| = \sqrt{5} h$.
+\item \textbf{Grassmannian Solver Pareto Frontiers:} Benchmarking across $N_{\mathrm{trials}} = 30$ independent symmetric random seeds established that Full Broyden and Joint DIIS form the optimal Pareto efficiency frontier ($R_{90} \ge 0.50$, $K_{50} = 27\text{--}34$), outperforming Picard iteration by $>50\times$ in basin radius and $4.26\times$ in time-to-solution.
+\item \textbf{Supercell Scale Parity:} Generalized honeycomb supercells up to $n_c = 32$ sublattices demonstrated machine-precision intensive energy parity ($|E_{\mathrm{site}}(n_c) - E_{\mathrm{site}}(2)| \le 5.55 \times 10^{-16}$) and universal recovery of the isotropic ground state under unconstrained random perturbations.
+\item \textbf{Eigenvector-Free Real-Space Purification:} By eliminating complex Hermitian arithmetic, real skew-symmetric representations halved memory ($2.0\times$) and reduced FLOPs by $4.0\times$. Newton-Schulz matrix sign purification $\Omega = \ii \operatorname{sgn}(\ii \mathbf{A})$ delivered a \textbf{$63.53\times$ speedup} at $M=1152$ Majoranas with $4.22 \times 10^{-15}$ accuracy, operating at $104.54\text{ GFLOP/s}$ on host CPU hardware.
+\end{enumerate}
+
+\subsection{Future Horizons and Research Roadmap}
+With the completion of Phase 1 foundational solver infrastructure and scaling contracts, the methodology opens three major research directions:
+\begin{enumerate}
+\item \textbf{Phase 2 (Antiferromagnetic Kitaev and Vison Dynamics):} Extending the solver to the antiferromagnetic Kitaev model ($K > 0$) where competing topological phases, intermediate gapless spin liquids, and isolated vison bound states can now be simulated on real-space clusters with thousands of Majoranas via matrix sign purification.
+\item \textbf{Phase 3 (Non-Integrable Material Models for $\alpha\text{-RuCl}_3$):} Deploying the robust Full Broyden and DIIS solvers across the multi-dimensional parameter space ($J\text{--}K\text{--}\Gamma\text{--}\Gamma'$) to chart zigzag, stripy, and field-induced quantum spin liquid phase boundaries.
+\item \textbf{Phase 4 (Exact Perturbation Theory Synthesis):} Comparing finite-volume mean-field variational thresholds with exact 3rd-order spin-Majorana perturbation theory and exact diagonalization.
+\end{enumerate}

@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations'
-current_milestone: M1.6
+active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED)'
+current_milestone: M1.9 (Phase 1 Closure)
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -260,6 +260,76 @@ active_milestone:
     - Direct pgfplots figure pipelines sourcing M1.6 processed benchmark tables
     - Clean compilation with 0 warnings/errors under make labbook (42 pages)
     validation: make labbook && make verify
+  - id: M1.6-T7-T10
+    title: Statistical Solver Scorecards, Host Hardware Profiling, and L-Broyden
+    status: completed
+    target_files:
+    - src/kitaev_mf/services/fixed_point.py
+    - src/kitaev_mf/infra/profiler.py
+    - scripts/m1_6/statistical_solver_benchmark.py
+    - scripts/m1_6/calibrate_hardware_flops.py
+    - doc/rnd/phase_1/m1_6_t6_statistical_scorecards_and_governance.md
+    - doc/rnd/phase_1/m1_6_t7_solver_mechanics_and_contraction_theory.md
+    - doc/rnd/phase_1/m1_6_t8_concrete_cost_and_flop_methodology.md
+    - doc/rnd/phase_1/m1_6_t9_saddles_and_critical_slowing_down.md
+    - doc/rnd/phase_1/m1_6_t10_statistical_benchmark_evaluation.md
+    - doc/labbook/figures/fig_f13_pareto_basin_radius.tex
+    - doc/labbook/figures/fig_f14_flop_calibration.tex
+    contracts:
+    - Full statistical ensemble N_trials = 30 per solver per delta with 95% Wilson score CIs
+    - Pareto efficiency frontier mapping (Full Broyden R_90 >= 0.50, DIIS R_90 = 0.35, Picard R_90 = 0.01)
+    - ResourceProfiler operation-level FLOP tracking and host CPU roofline calibration
+    validation: make verify && make labbook
+  - id: M1.7
+    title: Generalized Honeycomb Supercells, BZ Folding Parity, and Complexity Scaling
+    status: completed
+    target_files:
+    - src/kitaev_mf/domain/lattice.py
+    - test/unit/test_lattice.py
+    - scripts/m1_7/benchmark_bloch_supercells.py
+    - doc/rnd/phase_1/m1_7_t1_supercell_bloch_scaling_contracts.md
+    - doc/rnd/phase_1/m1_7_t2_supercell_benchmark_evaluation.md
+    - doc/labbook/chapters/ch_m1_8_supercell_bloch_scaling.tex
+    - doc/labbook/figures/fig_f15_supercell_scaling.tex
+    contracts:
+    - Exact intensive ground-state energy parity across n_c in {2, 4, 8, 16, 32} to within 5.55e-16
+    - Empirical verification of O(n_c^2) folded FLOP scaling (1.57 to 402.65 MFLOPs)
+    - Universal recovery of isotropic ground state from unconstrained random seeds (P_iso = 1.000, nematicity < 8e-8)
+    validation: make verify && make labbook
+  - id: M1.8
+    title: Real-Space Torus Clusters, Real Arithmetic, and Matrix Sign Purification
+    status: completed
+    target_files:
+    - src/kitaev_mf/services/real_space.py
+    - src/kitaev_mf/services/purification.py
+    - test/unit/test_real_space_and_purification.py
+    - scripts/m1_8/benchmark_real_space_tracks.py
+    - doc/rnd/phase_1/m1_8_t1_real_space_and_real_arithmetic_theory.md
+    - doc/rnd/phase_1/m1_8_t2_matrix_sign_purification_without_eigenvectors.md
+    - doc/rnd/phase_1/m1_8_t3_real_space_tracks_evaluation.md
+    - doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex
+    - doc/labbook/figures/fig_f16_real_vs_complex_scaling.tex
+    - doc/labbook/figures/fig_f17_purification_speedup.tex
+    contracts:
+    - Track A real skew-symmetric algebra halves memory (2.0x) and reduces FLOPs by 4.0x
+    - Track B Newton-Schulz matrix sign purification Omega = i sgn(i A) avoids eigenvectors completely
+    - 63.53x wall-clock speedup at M = 1152 (701.98 ms vs 44596 ms) with 4.22e-15 accuracy and 104.5 GFLOP/s throughput
+    validation: make verify && make labbook
+  - id: M1.9
+    title: Publication Manuscript Synthesis (Front 3 Shop Window)
+    status: completed
+    target_files:
+    - doc/manuscript/main.tex
+    - doc/manuscript/sections/sec01_introduction.tex
+    - doc/manuscript/sections/sec02_algebraic_foundations_and_invariants.tex
+    - doc/manuscript/sections/sec03_field_response_and_multistability.tex
+    - doc/manuscript/sections/sec04_grassmannian_solvers_and_real_space_scaling.tex
+    - doc/manuscript/sections/sec05_conclusion_and_outlook.tex
+    - doc/manuscript/main.pdf
+    contracts:
+    - 8-page publication-grade manuscript synthesized from Phase 1 discoveries
+    - Clean compilation with 0 warnings/errors under make manuscript
+    validation: make manuscript
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -371,5 +441,96 @@ verified_physics_invariants:
     h_c_uncertainty: 0.0012
     h_c2_forward_spinodal: 0.400
     mesh: [24, 24]
-open_blockers: []
+- id: K-012
+  name: Pareto efficiency frontier of non-linear Grassmannian fixed-point solvers
+  equation: R_90(Broyden) >= 0.50, R_90(DIIS) = 0.35, R_90(Picard) = 0.01; K_50(Broyden) = 27, K_50(Picard) = 115
+  status: verified_statistical_benchmark
+  provenance:
+    analytical: doc/rnd/phase_1/m1_6_t7_solver_mechanics_and_contraction_theory.md
+    benchmark: data/processed/benchmarks/m1_6/pareto_speed_vs_radius.dat
+    script: scripts/m1_6/statistical_solver_benchmark.py
+  numerical_evidence:
+    n_trials: 30
+    confidence_interval: "95% Wilson score"
+    speedup_at_delta_002: 4.26x
+    basin_expansion: "> 50x"
+- id: K-013
+  name: Limited-Memory Broyden linear-storage scaling and finite-memory horizon
+  equation: Memory(L-Broyden) = O(m D); Work(L-Broyden) = O(m^2 D)
+  status: verified_implementation_and_benchmark
+  provenance:
+    analytical: doc/rnd/phase_1/m1_6_t7_solver_mechanics_and_contraction_theory.md
+    code: src/kitaev_mf/services/fixed_point.py::LimitedMemoryBroydenSolver
+    test: test/unit/test_profiler_and_lbroyden.py
+  numerical_evidence:
+    history_depth: 10
+    step_time_ms: "< 0.2 ms"
+    r90_radius: 0.010
+    r50_radius: 0.100
+- id: K-014
+  name: Host CPU hardware roofline calibration
+  equation: Peak(GEMM) = 150-171 GFLOP/s; Peak(eigh) = 20-23 GFLOP/s on Intel i5-13500
+  status: verified_hardware_benchmark
+  provenance:
+    benchmark: data/processed/benchmarks/m1_6/hardware_flops_calibration.dat
+    script: scripts/m1_6/calibrate_hardware_flops.py
+    profiler: src/kitaev_mf/infra/profiler.py
+  numerical_evidence:
+    cpu: Intel Core i5-13500 (12 cores)
+    eigh_peak_gflops: 23.1
+    gemm_peak_gflops: 171.3
+- id: K-015
+  name: Exact Brillouin zone folding intensive energy parity across generalized supercells
+  equation: '|E_site(n_c) - E_site(2)| <= 5.55e-16 for n_c in {2, 4, 8, 16, 32}'
+  status: verified_algebraic_and_numerical_parity
+  provenance:
+    analytical: doc/rnd/phase_1/m1_7_t1_supercell_bloch_scaling_contracts.md
+    benchmark: data/processed/benchmarks/m1_7/bloch_supercell_scaling.dat
+    script: scripts/m1_7/benchmark_bloch_supercells.py
+  numerical_evidence:
+    max_energy_diff: 5.5511e-16
+    tested_supercells: [2, 4, 8, 16, 32]
+    solver_iterations_invariance: 23 iters across all sizes
+- id: K-016
+  name: Absence of spontaneous spatial symmetry breaking in honeycomb supercells
+  equation: P_isotropic = 1.000; max N_nematicity <= 7.32e-08 under unconstrained random perturbations
+  status: verified_statistical_stability
+  provenance:
+    analytical: doc/rnd/phase_1/m1_7_t1_supercell_bloch_scaling_contracts.md
+    benchmark: data/processed/benchmarks/m1_7/supercell_symmetry_stability.dat
+    script: scripts/m1_7/benchmark_bloch_supercells.py
+  numerical_evidence:
+    tested_supercells: [2, 4, 8, 16]
+    n_trials: 10
+    recovery_probability: 1.000
+    max_nematicity: 7.3171e-08
+- id: K-017
+  name: Pure real skew-symmetric Majorana algebra memory and FLOP reduction
+  equation: Memory_reduction = 2.0x (8 bytes vs 16 bytes); FLOP_reduction = 4.0x (4/3 M^3 vs 16/3 M^3)
+  status: verified_algebraic_and_benchmark
+  provenance:
+    analytical: doc/rnd/phase_1/m1_8_t1_real_space_and_real_arithmetic_theory.md
+    benchmark: data/processed/benchmarks/m1_8/real_space_dense_vs_complex.dat
+    script: scripts/m1_8/benchmark_real_space_tracks.py
+  numerical_evidence:
+    tested_clusters: L in [4, 6, 8, 10, 12] (M in [128, 1152])
+    measured_memory_reduction: 2.00x
+    covariance_frobenius_parity: <= 4.24e-09
+- id: K-018
+  name: Eigenvector-free matrix sign purification speedup over divide-and-conquer eigensolvers
+  equation: Speedup(Purification / eigh) = 63.53x at M = 1152; ||Omega_purif - Omega_eig||_F / sqrt(M) = 4.22e-15
+  status: verified_algorithmic_breakthrough
+  provenance:
+    analytical: doc/rnd/phase_1/m1_8_t2_matrix_sign_purification_without_eigenvectors.md
+    benchmark: data/processed/benchmarks/m1_8/real_space_purification_vs_eig.dat
+    code: src/kitaev_mf/services/purification.py::purify_newton_schulz
+    script: scripts/m1_8/benchmark_real_space_tracks.py
+  numerical_evidence:
+    eigensolver_time_ms: 44596.07
+    purification_time_ms: 701.98
+    speedup_factor: 63.53x
+    purification_iterations: 12
+    sustained_throughput_gflops: 104.54
+    covariance_parity: 4.218e-15
+    energy_difference: 2.842e-13
 open_blockers: []

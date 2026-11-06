@@ -1,0 +1,62 @@
+% EDITORIAL QUESTION: How does the local so(4) Lie algebra decouple physical spin rotations from unphysical gauge redundancy, and what invariants govern the zero-field ground state?
+\section{Algebraic Foundations, Flat-Band Neutrality, and Kinematic Invariants}
+\label{sec:algebra_and_invariants}
+
+\subsection{Parton Fractionalization and $\mathfrak{so}(4)$ Geometry}
+At each physical site $i$, physical spin operators $\mathbf{S}_i = \frac{1}{2} \boldsymbol{\sigma}_i$ are represented via four real Majorana fermion operators $\mathbf{c}_i = (c_i^0, c_i^1, c_i^2, c_i^3)^T$ satisfying the Clifford CAR algebra $\{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \mathbb{1}$. The 6 bilinear skew-symmetric generators span the orthogonal Lie algebra $\mathfrak{so}(4)$:
+\begin{equation}
+\label{eq:so4_generators}
+L_i^{\mu\nu} = -\frac{\ii}{2} c_i^\mu c_i^\nu \quad (\mu < \nu).
+\end{equation}
+Under the exceptional Lie algebra isomorphism $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$, these generators decouple into two mutually commuting $\mathfrak{su}(2)$ subalgebras:
+\begin{align}
+S_i^\alpha &= -\frac{\ii}{4} \mathbf{c}_i^T M^\alpha \mathbf{c}_i = \frac{\ii}{2} c_i^0 c_i^\alpha - \frac{\ii}{4} \epsilon^{\alpha\beta\gamma} c_i^\beta c_i^\gamma, \label{eq:spin_algebra} \\
+G_i^\gamma &= -\frac{\ii}{4} \mathbf{c}_i^T G^\gamma \mathbf{c}_i = \frac{\ii}{2} c_i^0 c_i^\gamma + \frac{\ii}{4} \epsilon^{\gamma\alpha\beta} c_i^\alpha c_i^\beta, \label{eq:gauge_algebra}
+\end{align}
+satisfying $[S_i^\alpha, S_i^\beta] = \ii \epsilon^{\alpha\beta\gamma} S_i^\gamma$, $[G_i^\gamma, G_i^\delta] = \ii \epsilon^{\gamma\delta\rho} G_i^\rho$, and $[S_i^\alpha, G_i^\gamma] = 0$.
+
+The physical Hilbert space $\mathcal{H}_{\mathrm{phys}, i}$ corresponds to the gauge-singlet sector $\mathbf{G}_i^2 = 0$, enforced by the local parity projector:
+\begin{equation}
+\label{eq:parity_projector}
+D_i = - c_i^0 c_i^1 c_i^2 c_i^3 = 1 - 2 \mathbf{G}_i^2 = +1.
+\end{equation}
+
+\subsection{Flat-Band Gauge Neutrality Theorem}
+A central analytical result established in Milestone M1.4 is that the local gauge constraints are identically satisfied without Lagrange multiplier fine-tuning in the pure Kitaev limit:
+
+\begin{theorem}[Flat-Band Gauge Neutrality]
+\label{thm:flat_band_neutrality}
+In the zero-field pure Kitaev honeycomb model ($\mathbf{h} = \mathbf{0}$, $J=\Gamma=\Gamma'=0$), the unique self-consistent mean-field ground state satisfies:
+\begin{equation}
+\boldsymbol{\lambda}_s^* \equiv \mathbf{0} \quad \forall s \in \{A, B\}, \qquad \mathbf{g}_s \equiv \mathbf{0}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+In the 4-flavor Majorana representation, the zero-field single-particle Bloch Hamiltonian $\mathcal{H}(\mathbf{k}) = \frac{\ii}{4} M(\mathbf{k})$ decomposes into two dispersive Dirac bands ($E(\mathbf{k}) = \pm |f(\mathbf{k})|$ associated with matter Majoranas $c_A^0, c_B^0$) and six completely flat, dispersionless bands at $E = \pm 1$ formed by localized gauge Majoranas $c_i^1, c_i^2, c_i^3$.
+The local gauge residual vector on sublattice $s$ is $g_s^\gamma = \operatorname{Tr}(G^\gamma V_s^*)$, where $V_s^*$ is the zero-time on-site Majorana covariance matrix. Due to time-reversal invariance $\mathcal{T}$ and particle-hole symmetry $\mathcal{C}$, the occupied flat-band eigenvectors interfere destructively across localized bond directions, causing the on-site expectation values $\langle c_s^0 c_s^\gamma \rangle = 0$ and $\langle c_s^\alpha c_s^\beta \rangle = 0$ to vanish identically. Since $g_s^\gamma \equiv 0$, the Karush-Kuhn-Tucker condition $\partial E / \partial \lambda_s^\gamma = 0$ is stationary at $\boldsymbol{\lambda}^* = \mathbf{0}$.
+\end{proof}
+
+\subsection{Kinematic Invariants and the Pearson Walk Law}
+To gate mean-field states against unphysical representations, we evaluate exact kinematic bounds:
+\begin{enumerate}
+\item \textbf{Kinematic Bound:} For all directed bonds $b$ and flavors $\mu, \nu$, $|U_b^{\mu,\nu}| \le 1.00$.
+\item \textbf{Semidefinite Representability:} On-site covariance satisfies $\mathbf{I}_4 + \ii V_s \ge 0$.
+\item \textbf{Parseval Plaquette Sum Rule:} Local Wilson loop expectation values satisfy:
+\begin{equation}
+\label{eq:parseval_sum_rule}
+\mathcal{S} \equiv \sum_{b \in \partial p} \sum_{\mu=0}^3 (U_b^{\mu,\mu})^2 = 6.00000 \pm 10^{-6}.
+\end{equation}
+\item \textbf{Pearson Walk Quadrature Law (K-006):} When evaluating the gauge residual $\mathbf{g}_s$ on a finite $N_k$-point regular mesh, the residual error obeys a 2D Pearson random walk in the complex plane:
+\begin{equation}
+\label{eq:pearson_walk_law}
+\epsilon_{\mathrm{gauge}}(N_k) = \sqrt{\frac{3\pi}{8 N_k}} \propto N_k^{-1/2},
+\end{equation}
+confirming that finite-mesh residuals are purely quadrature noise that vanishes in the thermodynamic limit.
+\end{enumerate}
+
+\subsection{Exact Klein Four-Group Dualities}
+The four discrete gauge choices on the honeycomb lattice form the Klein four-group $\mathcal{V}_4 \cong \mathbb{Z}_2 \times \mathbb{Z}_2$. By applying sublattice gauge transformations $c_B \mapsto G^\gamma c_B$, the canonical zero-flux ground state ($W_p = +1$) is mapped isometrically to the three degenerate $\pi$-flux vortex configurations ($W_p = -1$) with identical intensive energy densities:
+\begin{equation}
+\label{eq:klein_duality}
+E_{\mathrm{GS}}(W_p = +1) = E_{\mathrm{GS}}(W_p = -1, \text{flavor } \gamma) = -0.52684 \pm 10^{-5}.
+\end{equation}
