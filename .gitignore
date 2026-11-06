@@ -43,7 +43,7 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 !data/processed/benchmarks/
-!data/processed/benchmarks/*.dat
+!data/processed/benchmarks/**
 
 *.h5
 *.hdf5
@@ -74,6 +74,8 @@ doc/reference/thesis/*.out
 doc/reference/thesis/*.toc
 doc/reference/thesis/*.synctex.gz
 *.pdf
+!doc/labbook/labbook_kitaev_mf.pdf
+!doc/manuscript/scipost_kitaev_mf.pdf
 *.jpeg
 *.jpg
 *.png

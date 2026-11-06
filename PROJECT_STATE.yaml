@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED)'
-current_milestone: M1.9 (Phase 1 Closure)
+active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED) -> Phase 2: FM Kitaev [111] Physics Production (IN PREPARATION)'
+current_milestone: M1.11 (Phase 1 Certified Closure)
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -138,11 +138,20 @@ milestone_history:
   - src/kitaev_mf/services/purification.py
   - scripts/m1_8/
 - id: M1.9
-  name: Publication Overhaul and 3-Agent Adversarial Peer Review
+  name: Publication Overhaul, 3-Agent Adversarial Peer Review & Hypothesis Contracts
   status: completed
-  acceptance: Rewrote manuscript to SciPost standards (scipost_kitaev_mf.tex); passed 3-round simulated peer review (referees + editor) with full acceptance.
+  acceptance: Rewrote manuscript to SciPost standards (scipost_kitaev_mf.tex); passed 3-round simulated peer review (referees + editor) with full acceptance; established formal Hypothesis Contracts registry (doc/HYPOTHESIS_CONTRACTS.md and Lab Book Chapter 11) and Front-1 theory notes m1_9_t1..t6.
   evidence:
   - doc/manuscript/scipost_kitaev_mf.tex
+  - doc/manuscript/scipost_kitaev_mf.pdf
+  - doc/labbook/chapters/ch_m1_11_hypothesis_contracts.tex
+  - doc/HYPOTHESIS_CONTRACTS.md
+  - doc/rnd/phase_1/m1_9_t1_self_consistent_purification_warm_starts.md
+  - doc/rnd/phase_1/m1_9_t2_disordered_real_space_purification.md
+  - doc/rnd/phase_1/m1_9_t3_damped_lbroyden_real_space_scaling.md
+  - doc/rnd/phase_1/m1_9_t4_finite_temperature_fermi_dirac_covariance.md
+  - doc/rnd/phase_1/m1_9_t5_spinodal_domain_wall_coexistence.md
+  - doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening_defect_clouds.md
   - doc/rnd/peer_review/
 - id: M1.10
   name: Real-Space Vortices, Vison Pairs, and In-Gap Majorana Bound States
@@ -157,233 +166,25 @@ milestone_history:
   - scripts/m1_10/
   - test/unit/test_real_space_vortices.py
 - id: M1.11
-  name: Wave 3 Advanced Solvers, Purification Scaling & Disordered Defect Clusters
+  name: Wave 3 Advanced Solvers, Purification Scaling, Disordered Defect Clusters & Final Phase 1 Audit
   status: completed
-  acceptance: Self-consistent matrix sign purification with DIIS and L-Broyden, damped L-Broyden (alpha=0.5) field robustness across h in [0.01, 0.30], and disordered cluster stability under bond disorder and site vacancies (kappa(A) ~ 3.8e4).
+  acceptance: Self-consistent matrix sign purification with DIIS and L-Broyden, damped L-Broyden (alpha=0.5) field robustness across h in [0.01, 0.30], disordered cluster stability under bond disorder and site vacancies (kappa(A) ~ 3.8e4), post-spinodal KKT saddle excursion audit (K-023), and Master Solver Selection & Hardware Resource Table (HC-P1-01..03).
   evidence:
   - src/kitaev_mf/services/real_space.py::solve_real_space_purification
   - scripts/m1_9/benchmark_wave3_advanced_solvers.py
+  - scripts/m1_9/audit_post_spinodal_and_master_table.py
   - data/processed/benchmarks/m1_9/wave3_purification_and_solvers.dat
   - data/processed/benchmarks/m1_9/wave3_disorder_scaling.dat
+  - data/processed/benchmarks/m1_9/post_spinodal_kkt_audit.dat
+  - data/processed/benchmarks/m1_9/master_solver_resource_table.dat
   - test/unit/test_real_space_and_purification.py
+  - test/unit/test_post_spinodal_kkt_audit.py
 active_milestone:
-  id: M1.6
-  description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site & 4-Site Cells,
-    FM Kitaev + [111] Field)
+  id: M1.11
+  description: Phase 1 Certified Closure — Numerical Quantification of Pure FM Kitaev (K = -1.0) under [111] Field
   status: completed
-  sprint_goal: Implement and benchmark Picard, Joint DIIS, Broyden, and JFNK solvers
-    on the Grassmannian manifold under K = -1.0, h || [111]; map multi-basin landscape,
-    hysteresis loops, topological Majorana cubic gap opening, and author Living Lab Book Chapter 6.
-  active_tasks:
-  - id: M1.5-T3
-    title: Living Lab Book Monograph Enrichment, Proof Restitution, and Exploratory Backlog Integration
-    status: completed
-    target_files:
-    - doc/labbook/chapters/ch_m1_1_foundations_algebra.tex
-    - doc/labbook/chapters/ch_m1_1b_quasifree_states_and_wick.tex
-    - doc/labbook/chapters/ch_m1_2_bloch_and_folding.tex
-    - doc/labbook/chapters/ch_m1_3_spectral_projector_diis.tex
-    - doc/labbook/chapters/ch_m1_4_observables_energetics.tex
-    - doc/labbook/chapters/ch_m1_4_5_invariants_dualities.tex
-    - doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md
-    - doc/rnd/exploratory/PHASE2_EXPLORATORY_BACKLOG.md
-    - LOG_DISCOVERY_AND_PIVOTS.md
-    - test/unit/test_quasifree_states.py
-    - test/unit/test_benchmark_exports.py
-    - scripts/generate_benchmarks.py
-    - doc/shared/plotstyles.tex
-    - doc/labbook/figures/
-    contracts:
-    - Clean compilation with 0 warnings/errors under make labbook (31 pages)
-    - Complete restitution of Clifford CAR proofs, single-generator parity theorem, and projected operator equivalence
-    - Zero index clashes and zero symbol collisions
-    - Model-independent derivation of quasi-free states and Wick decoupling as variational Euler-Lagrange equations
-    - Full pgfplotstable rendering of K-006 and 8 reproducible benchmark figures via PGFPlots
-    - Formal isolation of Phase 2 exploratory research questions in PHASE2_EXPLORATORY_BACKLOG.md
-    - Full test suite verification under make verify (114 tests, 96% coverage, Ruff & Mypy clean)
-    validation: make labbook && make verify
-  - id: M1.6-T0
-    title: Hypothesis, Assumption, and A/B Testing Registry
-    status: completed
-    target_files:
-    - doc/rnd/phase_1/m1_6_t0_assumption_and_ab_registry.md
-    contracts:
-    - Formal specification of PH-01..05 and AH-01..05 with falsifiable metrics
-    - Explicit registration of algorithmic assumptions A-01..08
-    validation: user_approved_plan_rev3
-  - id: M1.6-T1
-    title: Hexagonal Solver Infrastructure & Fixed-Point Accelerators
-    status: completed
-    target_files:
-    - src/kitaev_mf/services/fixed_point.py
-    - src/kitaev_mf/services/solver.py
-    - src/kitaev_mf/domain/solver.py
-    - src/kitaev_mf/domain/state.py
-    - src/kitaev_mf/services/seeds.py
-    - test/unit/test_fixed_point.py
-    - test/unit/test_solver.py
-    - test/unit/test_seeds.py
-    contracts:
-    - Model-agnostic FP, Picard, DIIS, Broyden, JFNK accelerators
-    - Pure gauge-neutral polarized seed factory via M_MATRICES
-    - Exact commutator stationarity eps_comm < 1e-10 on pure Kitaev
-    validation: pytest -v test/unit/test_fixed_point.py test/unit/test_solver.py test/unit/test_seeds.py
-  - id: M1.6-T2
-    title: Skew-Symmetrization A/B Benchmark (AH-04)
-    status: completed
-    target_files:
-    - scripts/m1_6/ab_skew_retraction.py
-    - data/processed/benchmarks/m1_6/ab_skew_retraction.dat
-    - doc/rnd/phase_1/m1_6_t2_skew_symmetry_ab_benchmark.md
-    - test/unit/test_skew_modes.py
-    contracts:
-    - 4-arm evaluation of raw vs symmetrized output vs retraction
-    - Demonstration of Arm A failure in Krylov subspaces due to asymmetry roundoff
-    - Numerical trajectory identity of Arm B and Arm C
-    validation: python3 scripts/m1_6/ab_skew_retraction.py && pytest test/unit/test_skew_modes.py
-  - id: M1.6-T3
-    title: Weak-Field Multistability & Solver Exploratory Batch (h in {0.01, 0.05})
-    status: completed
-    target_files:
-    - scripts/m1_6/run_weak_field_batch.py
-    - scripts/m1_6/plot_quicklook.py
-    - data/processed/benchmarks/m1_6/weak_field_solvers.dat
-    - build/rnd/m1_6/figures/
-    - doc/rnd/phase_1/m1_6_t3_solver_seed_convergence.md
-    - test/integration/test_multistability_basins.py
-    contracts:
-    - Linear scaling of gauge multipliers ||lambda*|| ~ sqrt(5) h
-    - QSL vs Polarized basin energy and flux separation (PH-02)
-    - Sublattice magnetization C3 isotropy in ground state (PH-03)
-    - Demonstration of DIIS/Broyden efficiency over FP/Picard/JFNK (AH-02, AH-03)
-    validation: make verify
-  - id: M1.6-T4
-    title: Intermediate & High-Field Basin Sweep, Mesh Sensitivity, and Hysteresis (h in [0.0, 5.0])
-    status: completed
-    target_files:
-    - scripts/m1_6/benchmark_mesh_sensitivity.py
-    - scripts/m1_6/sweep_basins_111.py
-    - scripts/m1_6/plot_expanded_quicklook.py
-    - data/processed/benchmarks/m1_6/mesh_sensitivity.dat
-    - data/processed/benchmarks/m1_6/basin_sweep_111.dat
-    - build/rnd/m1_6/figures/fig4_hysteresis_phase_diagram.png
-    - build/rnd/m1_6/figures/fig5_cross_phase_entrapment.png
-    - build/rnd/m1_6/figures/fig6_high_field_classical_limit.png
-    - build/rnd/m1_6/figures/fig7_mesh_scaling_and_timing.png
-    - doc/rnd/phase_1/m1_6_t4_basin_multistability_111.md
-    - test/integration/test_multistability_basins.py
-    contracts:
-    - Dual adiabatic forward/backward hysteresis loops confirming first-order transition at hc* ~ 0.34 and spinodal hc2+ ~ 0.50
-    - Exact convergence to classical polarized energy E = -h - 0.5 to machine precision at high fields (h=5.0)
-    - Empirical validation of iteration count invariance across Nk in {12, 16, 24, 32} with O(Nk^2) runtime scaling
-    - Full evaluation of physical hypotheses PH-01..06 and algorithmic hypotheses AH-01..04 in Front-1 note
-    validation: make verify
-  - id: M1.6-T5
-    title: Phase 3 Critical Zoom, Majorana Gap Scaling, and Supercell Parity
-    status: completed
-    target_files:
-    - scripts/m1_6/sweep_critical_zoom.py
-    - scripts/m1_6/benchmark_majorana_gap.py
-    - scripts/m1_6/benchmark_supercell_basins.py
-    - scripts/m1_6/plot_phase3_quicklook.py
-    - scripts/m1_6/generate_labbook_data.py
-    - data/processed/benchmarks/m1_6/critical_zoom_111.dat
-    - data/processed/benchmarks/m1_6/majorana_gap_scaling.dat
-    - data/processed/benchmarks/m1_6/supercell_comparison.dat
-    - build/rnd/m1_6/figures/fig8_critical_zoom_crossing_and_spinodal.png
-    - build/rnd/m1_6/figures/fig9_majorana_gap_power_law.png
-    - build/rnd/m1_6/figures/fig10_supercell_energy_parity.png
-    - build/rnd/m1_6/figures/fig11_contraction_factor_critical_slowing.png
-    - doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md
-    contracts:
-    - High-resolution zoom isolating thermodynamic crossing hc* = 0.3325 and forward spinodal hc2+ = 0.400
-    - Exact cubic power law Delta_K(h) = 2.5921 * h^2.9936 confirming Kitaev 3rd-order chiral perturbation scaling
-    - 4-site rectangular supercell scale parity (< 2.2e-4) and vanishing nematicity (< 5e-4)
-    validation: make verify
-  - id: M1.6-T6
-    title: Living Lab Book Monograph Chapter 6 (Front 2 Synthesis)
-    status: completed
-    target_files:
-    - doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex
-    - doc/labbook/figures/fig_f10_critical_hysteresis.tex
-    - doc/labbook/figures/fig_f11_majorana_gap_scaling.tex
-    - doc/labbook/figures/fig_f12_supercell_parity.tex
-    - doc/labbook/labbook_kitaev_mf.tex
-    contracts:
-    - Warm parchment memoir styling (#FAF6EE), editorial headers, and complete theorem/proof restitution
-    - Direct pgfplots figure pipelines sourcing M1.6 processed benchmark tables
-    - Clean compilation with 0 warnings/errors under make labbook (42 pages)
-    validation: make labbook && make verify
-  - id: M1.6-T7-T10
-    title: Statistical Solver Scorecards, Host Hardware Profiling, and L-Broyden
-    status: completed
-    target_files:
-    - src/kitaev_mf/services/fixed_point.py
-    - src/kitaev_mf/infra/profiler.py
-    - scripts/m1_6/statistical_solver_benchmark.py
-    - scripts/m1_6/calibrate_hardware_flops.py
-    - doc/rnd/phase_1/m1_6_t6_statistical_scorecards_and_governance.md
-    - doc/rnd/phase_1/m1_6_t7_solver_mechanics_and_contraction_theory.md
-    - doc/rnd/phase_1/m1_6_t8_concrete_cost_and_flop_methodology.md
-    - doc/rnd/phase_1/m1_6_t9_saddles_and_critical_slowing_down.md
-    - doc/rnd/phase_1/m1_6_t10_statistical_benchmark_evaluation.md
-    - doc/labbook/figures/fig_f13_pareto_basin_radius.tex
-    - doc/labbook/figures/fig_f14_flop_calibration.tex
-    contracts:
-    - Full statistical ensemble N_trials = 30 per solver per delta with 95% Wilson score CIs
-    - Pareto efficiency frontier mapping (Full Broyden R_90 >= 0.50, DIIS R_90 = 0.35, Picard R_90 = 0.01)
-    - ResourceProfiler operation-level FLOP tracking and host CPU roofline calibration
-    validation: make verify && make labbook
-  - id: M1.7
-    title: Generalized Honeycomb Supercells, BZ Folding Parity, and Complexity Scaling
-    status: completed
-    target_files:
-    - src/kitaev_mf/domain/lattice.py
-    - test/unit/test_lattice.py
-    - scripts/m1_7/benchmark_bloch_supercells.py
-    - doc/rnd/phase_1/m1_7_t1_supercell_bloch_scaling_contracts.md
-    - doc/rnd/phase_1/m1_7_t2_supercell_benchmark_evaluation.md
-    - doc/labbook/chapters/ch_m1_8_supercell_bloch_scaling.tex
-    - doc/labbook/figures/fig_f15_supercell_scaling.tex
-    contracts:
-    - Exact intensive ground-state energy parity across n_c in {2, 4, 8, 16, 32} to within 5.55e-16
-    - Empirical verification of O(n_c^2) folded FLOP scaling (1.57 to 402.65 MFLOPs)
-    - Universal recovery of isotropic ground state from unconstrained random seeds (P_iso = 1.000, nematicity < 8e-8)
-    validation: make verify && make labbook
-  - id: M1.8
-    title: Real-Space Torus Clusters, Real Arithmetic, and Matrix Sign Purification
-    status: completed
-    target_files:
-    - src/kitaev_mf/services/real_space.py
-    - src/kitaev_mf/services/purification.py
-    - test/unit/test_real_space_and_purification.py
-    - scripts/m1_8/benchmark_real_space_tracks.py
-    - doc/rnd/phase_1/m1_8_t1_real_space_and_real_arithmetic_theory.md
-    - doc/rnd/phase_1/m1_8_t2_matrix_sign_purification_without_eigenvectors.md
-    - doc/rnd/phase_1/m1_8_t3_real_space_tracks_evaluation.md
-    - doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex
-    - doc/labbook/figures/fig_f16_real_vs_complex_scaling.tex
-    - doc/labbook/figures/fig_f17_purification_speedup.tex
-    contracts:
-    - Track A real skew-symmetric algebra halves memory (2.0x) and reduces FLOPs by 4.0x
-    - Track B Newton-Schulz matrix sign purification Omega = i sgn(i A) avoids eigenvectors completely
-    - 63.53x wall-clock speedup at M = 1152 (701.98 ms vs 44596 ms) with 4.22e-15 accuracy and 104.5 GFLOP/s throughput
-    validation: make verify && make labbook
-  - id: M1.9
-    title: Publication Manuscript Synthesis (Front 3 Shop Window)
-    status: completed
-    target_files:
-    - doc/manuscript/main.tex
-    - doc/manuscript/sections/sec01_introduction.tex
-    - doc/manuscript/sections/sec02_algebraic_foundations_and_invariants.tex
-    - doc/manuscript/sections/sec03_field_response_and_multistability.tex
-    - doc/manuscript/sections/sec04_grassmannian_solvers_and_real_space_scaling.tex
-    - doc/manuscript/sections/sec05_conclusion_and_outlook.tex
-    - doc/manuscript/main.pdf
-    contracts:
-    - 8-page publication-grade manuscript synthesized from Phase 1 discoveries
-    - Clean compilation with 0 warnings/errors under make manuscript
-    validation: make manuscript
+  sprint_goal: Complete all Phase 1 solver benchmarks, hypothesis contracts (HC-P1-01..03), and Master Solver Resource Table; transition to Phase 2 physics production in the FM Kitaev [111] regime.
+  active_tasks: []
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -465,6 +266,27 @@ verified_physics_invariants:
     onsite_correlator_and_gauge_residual_atol: 1.0e-14
     matter_correlator_u00: '-0.5248657458506'
     form_factor_magnitude_bar_u: '0.5248657458506'
+- id: K-007
+  name: Scalar double-counting subtraction theorem for Gaussian mean-field energetics
+  equation: E_total = <H_quad>_G - E_exchange; E_site(h=0, K=-1) = -0.7872986187753
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md
+    test: test/unit/test_production_energetics.py
+- id: K-008
+  name: Linear weak-field gauge Lagrange multiplier counter-field scaling
+  equation: '||lambda^*(h)||_2 approx sqrt(5) * h (power-law exponent p = 1.005 pm 0.002)'
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_6_t3_solver_seed_convergence.md
+    test: test/integration/test_multistability_basins.py
+- id: K-009
+  name: Cubic Klein duality boundary energy splitting law
+  equation: delta E(-epsilon) = -delta E(epsilon); delta E(epsilon) propto epsilon^3
+  status: verified_analytical_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md
+    test: test/integration/test_dualities_and_asymptotics.py
 - id: K-010
   name: Topological Majorana Dirac mass gap cubic scaling under [111] magnetic field
   equation: Delta_K(h) = (2.5921 pm 0.0034) * (h/|K|)^(2.9936 pm 0.0006) approx 2.59 * (h/|K|)^3
@@ -623,11 +445,11 @@ verified_physics_invariants:
     script: scripts/m1_9/benchmark_wave3_advanced_solvers.py
     code: src/kitaev_mf/services/real_space.py::solve_real_space_purification
   numerical_evidence:
-    tested_clusters: L in [4, 6, 8] (M in [128, 512])
+    tested_clusters: "L in [4, 6, 8] (M in [128, 512])"
     diis_iterations: [7, 9, 7]
     lbroyden_iterations: [13, 12, 10]
-    picard_iterations: [30, 30, 30] (failed)
-    field_range: h in [0.01, 0.30] (100% convergence)
+    picard_iterations: "[30, 30, 30] (failed)"
+    field_range: "h in [0.01, 0.30] (100% convergence)"
 - id: K-022
   name: Disordered and defect cluster condition number and spectral stability under broken translation invariance
   equation: Clean cluster kappa(A) = 5.73; Dilute site vacancies induce localized Majorana zero modes spiking kappa(A) to 3.8e4; DIIS converges stably within 15-20 iterations across bond disorder delta in [0, 0.20]
@@ -641,4 +463,20 @@ verified_physics_invariants:
     vacancy_kappa: 3.82e4
     disorder_sweep: [0.00, 0.05, 0.10, 0.15, 0.20]
     convergence_rate: 100%
+- id: K-023
+  name: Post-spinodal KKT saddle excursion audit and spinodal coexistence domain-wall surface tension
+  equation: 'For h >= h_c2^+ = 0.400, KKT-admissible branch satisfies E_site(h) = -h - 0.5000, m_111 = 1.0000, eps_gauge <= 5.6e-15; coexistence domain-wall tension sigma_DW = +0.042 |K| > 0'
+  status: verified_kkt_audit_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_1/m1_9_t5_spinodal_domain_wall_coexistence.md
+    benchmark: data/processed/benchmarks/m1_9/post_spinodal_kkt_audit.dat
+    master_table: data/processed/benchmarks/m1_9/master_solver_resource_table.dat
+    script: scripts/m1_9/audit_post_spinodal_and_master_table.py
+    test: test/unit/test_post_spinodal_kkt_audit.py
+  numerical_evidence:
+    spinodal_field: 0.400
+    raw_unconverged_excursion_h_range: [0.400, 0.454]
+    stabilized_polarized_energy_h0450: -0.9500000000
+    stabilized_gauge_residual_max: 5.55e-15
+    domain_wall_surface_tension: 0.042
 open_blockers: []

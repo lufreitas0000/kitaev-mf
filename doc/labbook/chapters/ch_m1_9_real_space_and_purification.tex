@@ -77,6 +77,7 @@ establishing cubic local convergence towards $\operatorname{sgn}(x)$ for any $x 
 \input{figures/fig_f17_purification_speedup}
 \input{figures/fig_f18_dense_real_space_resonance}
 
+% EDITORIAL QUESTION: Why does Track A lose mantissa precision on 3|L lattices and why do divide-and-conquer eigensolvers stall on symmetric tori?
 \section{Physical and Numerical Mechanisms: Dirac Resonances and Deflation Stalling}
 \label{sec:m1_8_resonance_and_deflation}
 
@@ -114,6 +115,54 @@ Empirical evaluations across torus clusters $L \in \{4, 6, 8, 10, 12\}$ ($M \in 
 \begin{equation}
 \frac{\|\Omega_{\mathrm{purif}} - \Omega_{\mathrm{eig}}\|_F}{\sqrt{M}} \le 5.31 \times 10^{-15}, \qquad |E_{\mathrm{purif}} - E_{\mathrm{eig}}| \le 2.84 \times 10^{-13}.
 \end{equation}
-\item \textbf{Massive Hardware Acceleration:} At $M = 1152$, purification achieves a \textbf{$63.53\times$ speedup} over standard eigensolvers ($701.98\text{ ms}$ vs. $44596\text{ ms}$), with sustained CPU throughput reaching $104.54\text{ GFLOP/s}$ in pure \texttt{dgemm} operations.
+\item \textbf{Massive Hardware Acceleration:} At $M = 1152$, purification achieves a \textbf{$63.53\times$ speedup} over un-deflated complex eigensolvers ($701.98\text{ ms}$ vs.\ $44596\text{ ms}$, and $2.31\times$ over multi-threaded divide-and-conquer \texttt{zheevd} $613.0\text{ ms}$ vs.\ $1418.6\text{ ms}$), with sustained CPU throughput reaching $104.54\text{--}114.64\text{ GFLOP/s}$ in pure \texttt{dgemm} operations.
 \end{enumerate}
 \end{proposition}
+
+% EDITORIAL QUESTION: How does matrix sign purification couple to outer multi-secant fixed-point accelerators in self-consistent loops, and how do disorder and vacancies affect solver conditioning?
+\section{Self-Consistent Purification Mechanics, Damped L-Broyden, and Master Solver Selection}
+\label{sec:m1_9_scf_purification_and_master_table}
+% CLAIM: K-021, K-022 (provenance: doc/rnd/phase_1/m1_9_t1_self_consistent_purification_warm_starts.md, scripts/m1_9/benchmark_wave3_advanced_solvers.py, test: test/unit/test_real_space_and_purification.py)
+
+While Section~\ref{sec:m1_8_matrix_sign_purification} certified Newton-Schulz purification on a single evaluation of $\Phi$, production real-space calculations require embedding purification inside an outer self-consistent field (SCF) fixed-point loop $\Omega^{(k+1)} = \ii\operatorname{sgn}(\ii\mathbf{A}[\Omega^{(k)}])$. Milestone M1.9 (\texttt{m1\_9\_t1}--\texttt{m1\_9\_t6}) resolved four fundamental numerical mechanisms governing self-consistent real-space convergence:
+
+\subsection{The Idempotency Pitfall of Naive Inner Warm-Starting}
+In an SCF loop where the skew-symmetric Hamiltonian updates by a small increment $\delta\mathbf{A} = \mathbf{A}^{(k)} - \mathbf{A}^{(k-1)}$, it is tempting to initialize the inner Newton-Schulz iteration directly from the previous converged covariance matrix $\mathbf{Y}_0 = \Omega^{(k-1)}$. However, because any pure Grassmannian state satisfies $(\Omega^{(k-1)})^2 = -\mathbf{I}$, substituting $\mathbf{Y}_0 = \Omega^{(k-1)}$ into Eq.~\eqref{eq:m1_8_newton_schulz_step} yields:
+\begin{equation}
+\label{eq:m1_9_warm_start_freeze}
+\mathbf{Y}_1 = \frac{1}{2}\Omega^{(k-1)}\left(3\mathbf{I} + (\Omega^{(k-1)})^2\right) = \frac{1}{2}\Omega^{(k-1)}(3\mathbf{I} - \mathbf{I}) = \Omega^{(k-1)}.
+\end{equation}
+Furthermore, any polynomial $P(\mathbf{Y}_0)$ commutes with $\mathbf{Y}_0$ and preserves its eigenbasis identically, so naive inner warm-starting freezes at step 0 without sampling $\mathbf{A}^{(k)}$. Valid warm-starting requires either injecting the first-order commutator gradient perturbation $\mathbf{Y}_0 = \Omega^{(k-1)} - \tau(\mathbf{A}^{(k)} + \Omega^{(k-1)}\mathbf{A}^{(k)}\Omega^{(k-1)})$ (\texttt{m1\_9\_t1}) or shifting acceleration to the \textbf{outer multi-secant solver} (Joint DIIS or damped L-Broyden acting on the variational state $\mathbf{x}^{(k)}$ while initializing the inner sign filter from $\mathbf{Y}_0 = -\mathbf{A}(\mathbf{x}^{(k)})/\|\mathbf{A}\|_F$).
+
+\subsection{Orthogonal Complement Instability and Damped L-Broyden ($\alpha = 0.5$)}
+In Table~\ref{tab:m1_6_solver_scorecard}, undamped Limited-Memory Broyden ($\alpha = 1.0$) exhibited a narrow survival basin ($R_{90} = 0.010$). Mathematical auditing (\texttt{m1\_9\_t3}) reveals that the L-Broyden inverse Jacobian approximation acts on any vector $\mathbf{v} \in \operatorname{span}\{\mathbf{s}_0, \dots, \mathbf{s}_{m-1}\}^\perp$ in the $D - m$ unmeasured directions as a raw Picard step $H_m \mathbf{v} = -\alpha \mathbf{v}$. Because unit-step Picard ($\alpha = 1.0$) is unstable ($\rho(\nabla\Phi) > 1$), orthogonal error modes amplify exponentially. Setting the base damping to $\alpha = 0.5$ stabilizes the $D - m$ orthogonal complement, expanding the L-Broyden basin radius by more than $20\times$ ($R_{90} = 0.220\text{--}0.350$) while maintaining strict $\mathcal{O}(mD)$ memory ($1.84\text{ MB}$ vs. $1.06\text{ GB}$ for Full Broyden at $D = 11{,}520$). Across real-space torus clusters $L \in \{4, 6, 8\}$ ($M \in [128, 512]$) and fields $h \in [0.01, 0.30]$, outer-accelerated purification converges to $\epsilon < 10^{-5}$ in $7\text{--}9$ iterations under Joint DIIS and $10\text{--}13$ iterations under damped L-Broyden (\texttt{K-021}).
+
+\subsection{Disorder Conditioning, Vacancy Zero Modes, and Inhomogeneous Gauge Screening}
+When translation symmetry is broken by bond disorder $\delta K_{ij} \in [-\delta, \delta]$ or site vacancies (\texttt{m1\_9\_t2}, \texttt{m1\_9\_t6}, \texttt{K-022}):
+\begin{enumerate}
+\item \textbf{Condition Number and Vacancy Zero Modes:} A clean $L=4$ torus at $h=0.05$ has condition number $\kappa(\mathbf{A}) = 5.73$. Introducing a site vacancy binds localized zero-energy Majorana modes around the missing site, spiking the condition number by four orders of magnitude to $\kappa(\mathbf{A}) = 3.82 \times 10^4$. Despite this spectral stiffness, Newton-Schulz purification coupled with Joint DIIS converges in $15\text{--}20$ iterations across all disorder strengths $\delta \in [0.00, 0.20]$ with $100\%$ reliability.
+\item \textbf{Inhomogeneous Gauge Screening:} Unlike a uniform bulk shift $\boldsymbol{\lambda}_s = \boldsymbol{\lambda}$ (which acts purely on the flat gauge bands by Corollary~\ref{cor:m1_3_flat_neutrality}), spatially varying multipliers $\nabla_i \boldsymbol{\lambda}_i \neq \mathbf{0}$ near a defect core fail to commute with the hopping matrix and hybridize localized gauge modes with itinerant matter Majoranas, forming an exponential screening cloud of decay length $\xi_{\mathrm{gauge}} \approx 1.1\, a$.
+\end{enumerate}
+
+\subsection{Phase 1 Master Solver Selection and Hardware Resource Table}
+Combining all reciprocal-space (\texttt{M1.3}--\texttt{M1.7}) and real-space (\texttt{M1.8}--\texttt{M1.10}) benchmarks on our reference workstation (\texttt{Intel Core i5-13500}, 64 GB DDR5 RAM, sustained \texttt{dgemm} peak $171.3\text{ GFLOP/s}$, sustained \texttt{eigh} peak $23.1\text{ GFLOP/s}$), Table~\ref{tab:m1_9_master_solver_selection} establishes the certified solver selection rules for Phase 2 production runs.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Phase 1 Master Solver Selection and Hardware Resource Table across physical regimes (\texttt{HC-P1-03}).}
+\label{tab:m1_9_master_solver_selection}
+\begin{tabular}{llclcccc}
+\toprule
+\textbf{Physical Regime} & \textbf{System Size} & \textbf{Dim $D$} & \textbf{Certified Solver} & \textbf{Step Cost} & \textbf{RAM} & \textbf{Iters} & \textbf{Wall Time} \\
+\midrule
+Bulk 2-Site ($T=0$, Weak/Int. $h$) & $N_k = 24^2$ ($N=1152$) & $86$ & Joint DIIS ($m=6$) & $\mathcal{O}(N_k n_c^3)$ & $2.1\text{ MB}$ & $7\text{--}10$ & $0.18\text{ s}$ \\
+Bulk 2-Site (Near Spinodal $h_{c2}^+$) & $N_k = 24^2$ ($N=1152$) & $86$ & Full Broyden ($\alpha=0.5$) & $\mathcal{O}(D^2 + N_k n_c^3)$ & $2.4\text{ MB}$ & $10\text{--}14$ & $0.27\text{ s}$ \\
+Bloch Supercells ($n_c \in [4, 32]$) & $N_k = 12^2$, $n_c \le 32$ & $\le 1376$ & Joint DIIS ($m=8$) & $\mathcal{O}(N_k n_c^3)$ & $18.5\text{ MB}$ & $18\text{--}23$ & $1.42\text{ s}$ \\
+Real-Space Clean Torus ($T=0$) & $L=12$ ($M=1152$) & $11{,}520$ & Purif NS + DIIS ($m=8$) & $\mathcal{O}(k_{\mathrm{NS}} M^3)$ & $32.0\text{ MB}$ & $7\text{--}9$ & $5.60\text{ s}$ \\
+Real-Space Vortex Pair / Defect & $L \in [8, 12]$ ($M \le 1152$) & $\le 11{,}520$ & Purif NS + L-Broyden ($m=10$) & $\mathcal{O}(k_{\mathrm{NS}} M^3 + mD)$ & $12.4\text{ MB}$ & $10\text{--}13$ & $7.80\text{ s}$ \\
+Large Real-Space Defect Torus & $L=24$ ($M=4608$) & $46{,}080$ & Warm Purif + L-Broyden & $\mathcal{O}(k_{\mathrm{warm}} M^3)$ & $170\text{ MB}$ & $10\text{--}15$ & $48\text{ s}$ ($4\text{ s}$ GPU) \\
+Finite-Temperature Bulk ($T > 0$) & $N_k = 36^2$, $n_c=2$ & $86$ & Bloch FD \texttt{eigh} + DIIS & $\mathcal{O}(N_k n_c^3)$ & $4.5\text{ MB}$ & $6\text{--}12$ & $0.35\text{ s}$ \\
+\bottomrule
+\end{tabular}
+\end{table}

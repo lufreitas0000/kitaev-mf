@@ -19,12 +19,13 @@ Under numerical forward continuation ($h \nearrow$) and backward continuation ($
 \label{eq:critical_field}
 h_c^* / |K| = 0.3325 \pm 0.0005.
 \end{equation}
-\item \textbf{Metastable Coexistence Window:} The QSL state persists metastably up to the forward spinodal breakdown $h_{s2} \approx 0.40 |K|$, while the polarized state survives down to $h_{s1} \approx 0.28 |K|$.
+\item \textbf{Metastable Coexistence Window and Domain-Wall Tension:} The QSL state persists metastably up to the forward spinodal breakdown $h_{c2}^+ = 0.400 \pm 0.005 |K|$, while the polarized state survives as a local minimum down to $h_{c1}^- = 0.0$. Near coexistence ($h = 0.335$), a planar QSL--polarized interface exhibits a strictly positive domain-wall surface tension $\sigma_{\mathrm{DW}} = +0.042 |K| > 0$ with interface healing width $\xi_{\mathrm{DW}} \approx 1.5 a$.
 \item \textbf{Magnetization Discontinuity:} At $h_c^*$, the induced magnetization jumps discontinuously:
 \begin{equation}
 \Delta M \equiv M_{\mathrm{pol}}(h_c^*) - M_{\mathrm{QSL}}(h_c^*) = 0.412 \pm 0.005,
 \end{equation}
 confirming a discontinuous first-order transition with energy hysteresis barrier $\Delta E = 0.057 |K|$.
+\item \textbf{Post-Spinodal KKT Saddle Audit:} Immediately above the upper spinodal ($h \in [0.400, 0.454]$), unstabilized 60-step continuation experiences transient excursions into unphysical gauge-violating saddle regions (\texttt{conv = False}, $\epsilon_{\mathrm{gauge}} \in [3.3 \times 10^{-4}, 3.58 \times 10^{-1}]$, producing spurious downward energy spikes to $E_{\mathrm{site}} = -1.1904$ and Bloch-ball violations $m_{111} = 1.1249 > 1$ at $h = 0.450$). Enforcing strict KKT convergence ($\epsilon_{\mathrm{gauge}} < 10^{-9}$) and Bloch-ball admissibility eliminates these artifacts, collapsing the state at $h_{c2}^+ = 0.400$ directly onto the physical polarized branch ($E_{\mathrm{site}}(h) = -h - 0.5000$, $m_{111} = 1.0000$, $\epsilon_{\mathrm{gauge}} \le 5.6 \times 10^{-15}$).
 \end{enumerate}
 \end{proposition}
 
@@ -48,28 +49,29 @@ Along the symmetric field axis $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mat
 Under discrete lattice rotation $C_3$, bond axes permute cyclically $(x \to y \to z \to x)$, while time-reversal $\mathcal{T}$ reverses field signs $\mathbf{h} \mapsto -\mathbf{h}$ and maps $\mathbf{K} \leftrightarrow -\mathbf{K} \equiv \mathbf{K}'$. Any scalar Dirac mass term $m_D \sigma_z$ in the effective continuum Hamiltonian transforms as $\mathcal{T}$-odd and must be invariant under the little group $C_{3v}$ of the honeycomb Dirac node. The lowest-order polynomial in the field components $(h_x, h_y, h_z)$ that is odd under inversion of all components ($\mathcal{T}$-odd) and invariant under cyclic permutations ($C_3$-symmetric) is $h_x h_y h_z$. Quadratic terms $h_\alpha h_\beta$ are $\mathcal{T}$-even and merely shift the Dirac node location in momentum space without opening a mass gap. Linear terms $h_\alpha$ transform as a vector rather than a scalar, violating $C_3$ invariance unless $h_x = h_y = h_z$, where their sum shifts the chemical potential equally on both sublattices without breaking sublattice parity. Therefore, the leading gap opening is strictly cubic $\mathcal{O}(h^3)$.
 \end{proof}
 
-\begin{remark}[Exact Perturbation Mapping and Mean-Field Reconciliation]
-In exact third-order perturbation theory of the spin-1/2 Kitaev model \cite{Kitaev2006}, an external Zeeman field induces an effective three-spin chiral interaction on each triad of bonds meeting at vertex $k$:
+\begin{remark}[Operator-Level Perturbation Mapping and Mean-Field Reconciliation]
+In third-order Rayleigh-Schr\"odinger / Feshbach perturbation theory of the spin-1/2 Kitaev model \cite{Kitaev2006}, an external Zeeman field induces an effective three-spin chiral interaction on each triad of bonds meeting at vertex $k$:
 \begin{equation}
 \label{eq:kitaev_kappa_exact}
-H^{(3)} = -\kappa \sum_{\langle\langle j, k, l \rangle\rangle} \sigma_j^\alpha \sigma_k^\gamma \sigma_l^\beta, \qquad \kappa = \frac{h_x h_y h_z}{\Delta E_1 \Delta E_2}.
+H^{(3)} = -\kappa \sum_{\langle\langle j, k, l \rangle\rangle} \sigma_j^\alpha \sigma_k^\gamma \sigma_l^\beta.
 \end{equation}
-Projecting into the unperturbed flux-free physical subspace $P_{\mathrm{ff}}$, the local gauge constraint $D_k = b_k^x b_k^y b_k^z c_k = +1$ contracts the gauge Majoranas into the static background links $u_{jk} u_{kl} = (+1)(+1) = +1$, yielding the exact operator identity:
+Projecting into the unperturbed flux-free physical subspace $P_{\mathrm{ff}}$, the local gauge constraint $\mathcal{D}_k = -c_k^0 c_k^x c_k^y c_k^z = b_k^x b_k^y b_k^z c_k = +1$ contracts the internal gauge Majoranas into the static background links $u_{jk} u_{kl} = (+1)(+1) = +1$, yielding the exact operator identity:
 \begin{equation}
 \label{eq:three_spin_majorana_projection}
 P_{\mathrm{ff}} \left(\sigma_j^\alpha \sigma_k^\gamma \sigma_l^\beta\right) P_{\mathrm{ff}} = \epsilon^{\alpha\beta\gamma} (\ii c_j c_l).
 \end{equation}
-Thus, the three-spin interaction maps strictly to next-nearest-neighbor matter Majorana hopping, opening an exact Dirac gap $\Delta_{\mathrm{canonical}} = 12\sqrt{3}\kappa = \frac{4}{\Delta E^2} h^3$.
+Thus, the three-spin interaction maps strictly to next-nearest-neighbor matter Majorana hopping, opening a canonical Dirac gap $\Delta_{\mathrm{canonical}} = 12\sqrt{3}\kappa$. In Kitaev's static single-mode approximation (replacing the full two-vison plus matter Feshbach resolvent $Q(E_0 - H_K)^{-1}Q$ by the isolated two-vison threshold $\Delta_{\mathrm{flux}} \approx 0.264 |K|$), $\kappa_{\mathrm{static}} \approx h_x h_y h_z / \Delta_{\mathrm{flux}}^2$ gives the static reference scale $\Delta_{\mathrm{static}} = \frac{4}{\Delta_{\mathrm{flux}}^2} h^3 \approx 57.40 h^3/|K|^2$.
 
 In our self-consistent 4-flavor Majorana mean-field theory, numerical evaluation across $h \in [0.005, 0.150]$ yields:
 \begin{equation}
 \label{eq:mf_gap_numerical_fit}
-\Delta_K^{\mathrm{MF}}(h) = (2.592 \pm 0.003) \cdot \left(\frac{h}{|K|}\right)^{3.000 \pm 0.001}.
+\Delta_K^{\mathrm{MF}}(h) = (2.5921 \pm 0.0034) \cdot \left(\frac{h}{|K|}\right)^{2.9936 \pm 0.0006}.
 \end{equation}
-The quantitative relation between $\Delta_{\mathrm{exact}}$ and $\Delta_K^{\mathrm{MF}}$ is resolved by two factors:
+The structural relationship between the spin-perturbation mechanism and $\Delta_K^{\mathrm{MF}}$ is governed by three exact operator properties:
 \begin{enumerate}
-\item \textbf{Bloch Generator Scaling:} In the single-particle quadratic representation $H = \frac{\ii}{4}\mathbf{c}^T A \mathbf{c}$, the Bloch Hamiltonian is defined as $H_{\mathrm{Bloch}}(\mathbf{k}) = \frac{\ii}{4} A(\mathbf{k})$. Its reported eigenvalues are scaled by $1/4$ relative to the canonical physical generator $\ii A$. Restoring the canonical mode normalization yields $\Delta_{\mathrm{canonical}}^{\mathrm{MF}} = 4 \times 2.592 h^3 = 10.368 h^3$.
-\item \textbf{Virtual Energy Denominators:} In exact spin perturbation theory, the intermediate states are non-local two-vison excitations with threshold $\Delta E_{\mathrm{exact}} = 2\Delta_{\mathrm{flux}} \approx 0.264 |K|$. In mean-field theory, Hartree-Fock factorization replaces non-local vison creation with single-particle gauge Majoranas $c_i^\alpha$, which have a localized flat-band energy scale $\Delta E_{\mathrm{MF}} \approx 1.05 |K|$. The ratio of squared denominators $(1.05 / 0.264)^2 \approx 15.8$, modulated by self-consistent screening of the gauge link expectations $u_{ij}$ and Lagrange multipliers $\|\boldsymbol{\lambda}^*\| \approx \sqrt{5}h$, quantitatively reconciles the two results.
+\item \textbf{Bloch Generator Normalization (Factor of 4):} In the single-particle quadratic representation $H = \frac{\ii}{4}\mathbf{c}^T A \mathbf{c}$, the Bloch Hamiltonian is defined as $H_{\mathrm{Bloch}}(\mathbf{k}) = \frac{\ii}{4} A(\mathbf{k})$, scaling reported eigenvalues by $1/4$ relative to the canonical physical generator $\ii A$. Restoring canonical mode normalization yields $\Delta_{\mathrm{canonical}}^{\mathrm{MF}}(h) = 4 \Delta_K^{\mathrm{MF}}(h) = 10.3684 h^3/|K|^2$.
+\item \textbf{Two-Vison Continuum vs. Flat Gauge-Band Denominators:} Whereas a physical Pauli operator $\sigma_i^\gamma = \ii c_i^0 c_i^\gamma$ flips a $\mathbb{Z}_2$ bond link and excites the non-local two-vison plus matter continuum above $\Delta_{\mathrm{flux}} \approx 0.264 |K|$, unprojected Hartree-Fock factorization preserves uniform links and excites localized flat-band gauge Majoranas $c_i^\alpha$ with two-particle gap $2\Delta_{\mathrm{gauge}} = 2|K|\bar{U} \approx 1.04973 |K|$ (a bare squared-denominator ratio of $(2\Delta_{\mathrm{gauge}}/\Delta_{\mathrm{flux}})^2 = 15.8106$).
+\item \textbf{Self-Consistent KKT Multiplier and Fock Vertex Dressing:} In 4-flavor HFB theory, the bare Zeeman matrix $-\sum_\gamma h_\gamma N^\gamma$ only couples $c^0 \leftrightarrow c^\gamma$ and cannot by itself mix distinct gauge flavors $c^\alpha \leftrightarrow c^\beta$ at the intermediate vertex. Instead, the $\mathcal{O}(h^3)$ chiral Dirac mass is generated by the self-consistent $\mathcal{O}(h)$ response: the linear KKT Lagrange multiplier $\lambda_s^\gamma G^\gamma$ ($G^\gamma_{\alpha\beta} = -\epsilon_{\gamma\alpha\beta}$, mixing $c^\alpha \leftrightarrow c^\beta$) together with the off-diagonal Fock bond self-energy $\delta U_b = \mathcal{O}(h)$.
 \end{enumerate}
 \end{remark}
 

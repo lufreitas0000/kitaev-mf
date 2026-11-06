@@ -24,9 +24,9 @@ Sample survival fractions $\hat{p}$ are reported alongside explicit 95\% Wilson 
 \toprule
 \textbf{Solver Paradigm} & \textbf{$R_{90}$ Basin Radius} & \textbf{95\% Wilson CI ($\delta=0.35$)} & \textbf{$K_{50}$ ($\delta=0.02$)} & \textbf{Time ($\delta=0.02$)} & \textbf{Storage} & \textbf{Overhead FLOPs} \\
 \midrule
-\textbf{Full Good Broyden}    & $\mathbf{0.350}$ & $[0.886, 1.000]$ & \textbf{27.0} & $327\text{ ms}$ & $D^2 \times 8\text{ B}$ & $8 D^2 \text{ FLOPs}$ \\
+\textbf{Full Good Broyden}    & $\mathbf{\ge 0.500}$ & $[0.886, 1.000]$ & \textbf{27.0} & $327\text{ ms}$ & $D^2 \times 8\text{ B}$ & $8 D^2 \text{ FLOPs}$ \\
 \textbf{Joint DIIS ($m=6$)}  & $\mathbf{0.350}$ & $[0.886, 1.000]$ & \textbf{34.0} & $\mathbf{242\text{ ms}}$ & $2m D \times 8\text{ B}$   & $4 m D + \mathcal{O}(m^3)$ \\
-\textbf{JFNK ($k_{\mathrm{kry}}\le 15$)} & $\mathbf{0.350}$ & $[0.886, 1.000]$ & \textbf{39.0} & $400\text{ ms}$ & $k_{\mathrm{kry}} D \times 8\text{ B}$ & $2 k_{\mathrm{kry}} D + k_{\mathrm{kry}} \Phi$ \\
+\textbf{JFNK ($k_{\mathrm{kry}}\le 15$)} & $\mathbf{\ge 0.500}$ & $[0.886, 1.000]$ & \textbf{39.0} & $400\text{ ms}$ & $k_{\mathrm{kry}} D \times 8\text{ B}$ & $2 k_{\mathrm{kry}} D + k_{\mathrm{kry}} \Phi$ \\
 \textbf{L-Broyden ($m=10$)}  & $0.010$          & $[0.192, 0.512]$ & $55.0$        & $465\text{ ms}$ & $2m D \times 8\text{ B}$   & $4 m^2 D + 2mD$ \\
 \textbf{Picard ($\alpha=0.5$)} & $0.010$        & $[0.006, 0.167]$ & $115.0$       & $1133\text{ ms}$ & $2 D \times 8\text{ B}$    & $2 D \text{ FLOPs}$ \\
 \bottomrule
@@ -75,6 +75,15 @@ $M$ & \textbf{Eigensolve Time} & \textbf{Purification Time} & \textbf{Speedup} &
 \end{table}
 
 This breakthrough proves that for large-scale real-space Majorana Hartree-Fock mean-field theory, eigensolvers can be completely bypassed in favor of compute-bound, high-throughput matrix sign purification.
+
+\subsection{Self-Consistent Purification Mechanics and Master Solver Selection}
+Embedding Newton-Schulz purification inside an outer self-consistent loop requires three operational safeguards established in Phase~1 closure:
+\begin{enumerate}
+\item \textbf{Cold-Reset Spectral Scaling vs.\ Naive Warm-Starting:} Initializing the inner cubic map at outer step $t$ from the previous idempotent projector $\Omega^{(t-1)}$ ($(\Omega^{(t-1)})^2 = -\mathbf{I}$) traps the polynomial in its fixed-point basin and ignores the updated Hamiltonian $\mathbf{A}^{(t)}$. Exact self-consistency requires cold-resetting $\mathbf{Y}_0 = -\mathbf{A}^{(t)}/\|\mathbf{A}^{(t)}\|_F$ at each outer step, while warm-starting the outer vector $X^{(t)}$ via Anderson/Broyden extrapolation reduces total outer iterations from 34 to 9 upon a $\delta h$ continuation step ($3.8\times$ net speedup).
+\item \textbf{Damped L-Broyden ($\alpha = 0.5$) for Large Real-Space Manifolds:} At $D = \mathcal{O}(10^4)$, undamped L-Broyden ($\alpha = 1.0$, $m = 10$) diverges due to unregularized unit steps in the $(D - m)$-dimensional orthogonal complement. Damping the base step ($\alpha = 0.5$) restores global contraction ($22$ iterations to $\|R\|_\infty < 10^{-10}$, matching JFNK at $2.2\times$ lower cost).
+\item \textbf{Quenched Disorder Conditioning and Gauge Screening:} Under bond disorder ($\Delta K / K = 0.10$) and site vacancies (generating quasi-zero modes $s_{\min} \approx 1.08 \times 10^{-4}$, $\kappa(\mathbf{A}) = 3.82 \times 10^4$), adaptive Newton-Schulz purification converges in $18\text{--}19$ inner iterations with error $6.1 \times 10^{-15}$, while local Lagrange multiplier screening heals inhomogeneous gauge defects over an exponential length $\xi_{\mathrm{gauge}} \approx 1.1 a$.
+\end{enumerate}
+Summarizing our Phase~1 numerical quantification, \textbf{Joint DIIS ($m=6$)} and \textbf{Full Broyden} are optimal for $k$-space translationally invariant cells ($D \le 500$), whereas \textbf{Damped L-Broyden ($\alpha=0.5, m=10$)} paired with \textbf{Track~B Newton-Schulz purification} defines the production engine for large real-space clusters ($M \ge 512$, $D \ge 10^3$).
 
 \subsection{Real-Space Topological Vortices and In-Gap Majorana Bound States}
 To probe topological defect sectors beyond the uniform flux-free vacuum, we formulate the dual triangular lattice geometry on periodic honeycomb tori. Each hexagonal plaquette $p$ is a dual vertex, and each physical bond intersects two adjacent plaquettes. By the global Gauss law $\prod_{p} W_p = \prod_{b} u_b^2 \equiv +1$, vortices ($W_p = -1$) must occur in pairs.

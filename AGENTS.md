@@ -10,19 +10,19 @@ The long-term objective of `kitaev-mf` is structured into dedicated, model-famil
 
 1. **Phase 1: Pure Ferromagnetic Kitaev Honeycomb ($K = -1.0$) under $\mathbf{h} \parallel [111]$ (Numerical Quantification & Algorithmic Foundations)**
    * *Exclusive Scope:* Exhaustive numerical characterization of all solver algorithms (Picard, DIIS, Full Broyden, Limited-Memory Broyden, JFNK, Matrix Sign Purification) on the real orthogonal Grassmannian $\Gr(4, 8)$ and real-space torus clusters.
-   * *Deliverable:* Complete operational mastery of every numerical nuance: convergence basins, critical slowing down at spinodal transitions ($h_{c2}^+ = 0.400$), step and memory complexity, precision loss on Dirac resonances ($3 \mid L$), and explicit hardware resource/FLOP calibration on CPU/GPU.
-   * *Status:* **Completed & Certified** (11 chapters in Living Lab Book, 20 verified invariants `K-001`--`K-020`, 150/150 passing tests).
+   * *Deliverable:* Complete operational mastery of every numerical nuance: convergence basins, critical slowing down at spinodal transitions ($h_{c2}^+ = 0.400$), post-spinodal KKT saddle admissibility (`K-023`), step and memory complexity, precision loss on Dirac resonances ($3 \mid L$), disordered/vacancy conditioning (`K-022`), and the certified **Master Solver Selection & Hardware Resource Table** (`data/processed/benchmarks/m1_9/master_solver_resource_table.dat`).
+   * *Status:* **Completed & Certified** (11 chapters / 74 pages in Living Lab Book, 9-page SciPost Monograph, 22 Hypothesis Contracts in `doc/HYPOTHESIS_CONTRACTS.md`, 23 verified invariants `K-001`--`K-023`, 153/153 passing tests).
 
 2. **Phase 2: Physics of the Ferromagnetic Kitaev $[111]$ Model (Ground State, Vortices, Thermodynamics & Dynamical Response)**
-   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), selecting the optimal solver discovered in Phase 1 (Joint DIIS and warm-started matrix sign purification) to map the complete physical phase diagram and compute all physical observables.
+   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), selecting the optimal solvers certified in Phase 1 (Joint DIIS for Bloch cells and Newton-Schulz purification + damped L-Broyden $\alpha=0.5$ for large real-space clusters) to map the complete physical phase diagram and compute all physical observables (`HC-P2-01`--`05`):
    * *Core Physical Targets:*
-     - Ground-state phase diagram and critical exponents ($h \in [0, 0.6]$).
-     - Localized topological flux defects: $T=0$ states with isolated pairs of $\mathbb{Z}_2$ visons ($W_p = -1$), interaction potential $V(R)$, bound Majorana zero modes, and emergent electric polarization textures.
-     - Finite-temperature thermodynamic states: thermal flux proliferation, vison deconfinement crossover, and specific heat peaks.
-     - Static and dynamical response: two-spin dynamical correlators $S^{\alpha\beta}(\mathbf{q}, \omega)$, optical conductivity, and inelastic neutron scattering cross-sections.
+     - **$T=0$ Bulk Ground State:** Phase diagram across $h \in [0, 0.6]$, Chern number $\nu$, susceptibility tensor $\chi^{\alpha\beta}(h)$, 12-Majorana Pfaffian flux $\mathcal{W}_p$, and Gutzwiller / 2-RDM SDP lower bounds (`M2.1`).
+     - **$T=0$ Isolated Vortex Pair State:** Two-vison interaction potential $V(R, h)$ on $L \in \{12, 16, 24\}$ tori, non-Abelian Majorana zero-mode splitting $\delta\epsilon_0(R)$, and local spin/gauge screening clouds (`M2.2`).
+     - **$T > 0$ Finite-Temperature State:** Self-consistent Fermi-Dirac thermal covariance $\Omega_T = \ii\tanh(\ii\beta\mathbf{A}/2)$, two-peak specific heat $C_v(T)$, entropy release $S(T)$, and thermal melting of the spinodal hysteresis loop (`M2.3`).
+     - **Static & Dynamical Spin Correlations:** Equal-time $S^{\alpha\beta}(\mathbf{q})$ and dynamical structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ via four-Majorana Lehmann spectral convolution (`M2.4`).
 
 3. **Subsequent Phases (Dedicated Model Families):**
-   * Subsequent phases will tackle each distinct physical model family sequentially (e.g. Antiferromagnetic Kitaev $K > 0$, Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb, and 3D Kitaev lattices).
+   * Subsequent phases will tackle each distinct physical model family sequentially (Phase 3: Antiferromagnetic Kitaev $K > 0$; Phase 4: Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb; Phase 5: 3D tricoordinated Kitaev lattices).
 
 ---
 
@@ -37,6 +37,8 @@ Read the rules relevant to the task before changing files:
 - `.agents/rules/04_versioning_and_releases.md` — package versioning, changelog, and releases.
 - `.agents/rules/05_project_management.md` — phase, milestone, task, and sprint planning.
 - `.agents/rules/06_milestone_progress.md` — development-branch state updates, verification evidence, and task handover.
+- `.agents/rules/07_discovery_log.md` — discovery and failure journaling in `LOG_DISCOVERY_AND_PIVOTS.md`.
+- `.agents/rules/resource_baseline.md`, `.agents/rules/resource_routing.md`, and `.agents/rules/workspace_architecture.md` — hardware profiling and multi-agent routing.
 
 Also consult the relevant accepted ADRs in `doc/adr/`, research records in `doc/rnd/`, and project-state records when they materially affect the task. The governance architecture in `doc/governance/README.md` defines the responsibilities and precedence of repository documents.
 
@@ -132,5 +134,5 @@ For this track:
 3. Do not identify production mean-field coupling parameters or dispersion prefactors with those in the Pauli-spin/Majorana derivation by inspection. Reconcile conventions through an explicit operator-level map before quantitative comparison; consult the relevant R&D backlog and notes when present.
 4. The standard `b_i^\alpha,c_i` representation and the production four-flavor convention are scope-dependent. Do not transfer symbols or prefactors between them without an explicit map.
 5. Use transparent finite-volume calculations and, where feasible, spin-space exact diagonalization as independent checks. Numerical agreement is evidence for the tested finite systems, not a thermodynamic proof.
-6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed.
+6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed. The operator-level reconciliation between exact third-order spin perturbation theory and the production 4-flavor mean-field cubic gap prefactor is recorded in `doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md` (`K-019`).
 7. Keep generated arrays, logs, plots, and build products under the designated ignored build area (currently `build/rnd/exact-perturbation-theory/`); commit only compact, reviewed results with reproducibility metadata.

@@ -200,10 +200,10 @@ To systematically test the necessity of skew-symmetric projection, a 4-arm A/B b
 \item \textbf{Arm D (Retraction + Symmetrization):} Dual enforcement.
 \end{itemize}
 
-\begin{theorem}[Failure of Unprojected Iteration under Krylov Subspaces]
+\begin{proposition}[Failure of Unprojected Iteration under Krylov Subspaces]
 \label{thm:m1_6_ab_failure}
 In Arm A, finite-difference perturbations inside GMRES Arnoldi loops accumulate asymmetric roundoff error exceeding domain validation thresholds ($\|V_s + V_s^T\|_\infty > 10^{-12}$), causing hard solver crashes. In contrast, Arms B and C produce numerically identical trajectories to machine precision ($< 10^{-14}$) while enforcing $\|V_s + V_s^T\|_\infty = 0$ with 0\% computational overhead.
-\end{theorem}
+\end{proposition}
 
 % EDITORIAL QUESTION: What is the global structure of the multi-basin landscape under field h || [111], and where does the thermodynamic transition occur?
 \section{The Multi-Basin Landscape and Hysteresis under Field $\mathbf{h} \parallel [111]$}
@@ -219,7 +219,7 @@ E_{\mathrm{classical}}(h) = -h - \frac{1}{2}.
 \end{equation}
 \end{enumerate}
 
-\begin{theorem}[First-Order Thermodynamic Transition and Metastability Window]
+\begin{proposition}[First-Order Thermodynamic Transition and Metastability Window]
 \label{thm:m1_6_critical_transition}
 A high-resolution zoom sweep ($\Delta h = 0.002$) across $h \in [0.280, 0.520]$ establishes:
 \begin{enumerate}
@@ -237,7 +237,7 @@ h_{c2}^+ = 0.400 \pm 0.002.
 At $h = 0.400$, the fixed-point Jacobian loses contractivity ($\mu_k \to 1^-$), leading to critical slowing down and an irreversible jump into the polarized fixed point.
 \item \textbf{Backward Spinodal Breakdown:} Under backward continuation from $h=5.0$, the polarized state remains a local minimum all the way down to $h_{c1}^- = 0.0$, generating a broad hysteresis loop.
 \end{enumerate}
-\end{theorem}
+\end{proposition}
 
 \input{figures/fig_f10_critical_hysteresis}
 
@@ -252,28 +252,69 @@ H^{(3)} = -\kappa \sum_{\langle\langle j, k\rangle\rangle} \sigma_j^\alpha \sigm
 \end{equation}
 which opens a topological Dirac mass gap $\Delta_K \approx 6\sqrt{3}\kappa \propto h^3$.
 
-\begin{theorem}[Cubic Majorana Gap Scaling in 4-Flavor Mean-Field Theory]
+\begin{theorem}[Algebraic Exponent Selection Rule for Dirac Mass Opening]
 \label{thm:m1_6_cubic_gap}
-Let $\Delta_K(h) \equiv \varepsilon_5(K) - \varepsilon_4(K)$ denote the single-particle excitation gap at the Dirac point. In self-consistent Gaussian mean-field theory:
+Let $\Delta_K(\mathbf{h}) \equiv \varepsilon_5(K) - \varepsilon_4(K)$ denote the single-particle excitation gap at the Dirac point in self-consistent 4-flavor Majorana mean-field theory under spatial inversion, threefold lattice rotation $C_3$, and time-reversal $\mathcal{T}$:
 \begin{enumerate}
-\item Linear $\mathcal{O}(h)$ and quadratic $\mathcal{O}(h^2)$ contributions vanish identically due to the combination of particle-hole symmetry $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k})$ and discrete $C_3$ rotational invariance.
-\item The excitation gap opens with a strictly cubic power law over two orders of magnitude:
-\begin{equation}
-\label{eq:m1_6_cubic_fit}
-\Delta_K(h) = (2.5921 \pm 0.005) \cdot \left(\frac{h}{|K|}\right)^{2.9936 \pm 0.0010} \approx 2.59 \cdot h^3.
-\end{equation}
-\item The Dirac point $K$ remains the true global minimum bandgap throughout the Brillouin zone: $\Delta_K(h) = \min_{\mathbf{k}} \Delta(\mathbf{k})$.
+\item Linear $\mathcal{O}(h)$ and quadratic $\mathcal{O}(h^2)$ scalar Dirac mass contributions vanish identically due to the combination of particle-hole symmetry $\mathcal{H}(-\mathbf{k}) = -\mathcal{H}^*(\mathbf{k})$, time-reversal parity, and discrete $C_3$ rotational invariance.
+\item The lowest-order non-vanishing $\mathcal{T}$-odd, $C_3$-invariant scalar polynomial in the field components $(h_x, h_y, h_z)$ is the chiral triple product $\mathcal{I}^{(3)}(\mathbf{h}) = h_x h_y h_z$. Along $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mathcal{I}^{(3)}(\mathbf{h}) = \frac{h^3}{3\sqrt{3}}$, algebraically mandating a cubic asymptotic gap opening $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3 + \mathcal{O}(h^5)$.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-By time-reversal invariance $\mathcal{T}$, the Hamiltonian satisfies $\mathcal{T}\mathcal{H}(\mathbf{k}, \mathbf{h})\mathcal{T}^{-1} = \mathcal{H}(-\mathbf{k}, -\mathbf{h})$. Any time-reversal odd scalar invariant opening a gap at the Dirac point must be odd in $\mathbf{h}$. Under threefold cyclic lattice rotation $C_3$, the magnetic field transforms as $(h_x, h_y, h_z) \mapsto (h_y, h_z, h_x)$, while bond directions cycle $x \to y \to z \to x$. The lowest-order scalar polynomial invariant under both $\mathcal{T}$-odd transformation and $C_3$ permutation is the chiral triple product:
+By time-reversal invariance $\mathcal{T}$, the single-particle Bogoliubov-de Gennes generator satisfies $\mathcal{T}\mathcal{H}(\mathbf{k}, \mathbf{h})\mathcal{T}^{-1} = \mathcal{H}(-\mathbf{k}, -\mathbf{h})$, mapping $K \leftrightarrow -K \equiv K'$. Any scalar Dirac mass term $m_D \tau_z$ opening a gap at $K$ with opposite sign at $K'$ must be odd under $\mathcal{T}$ ($\mathbf{h} \mapsto -\mathbf{h}$) and invariant under the threefold point-group rotation $C_3$ that permutes field components and bond axes cyclically $(x \to y \to z \to x)$. Quadratic polynomials $h_\alpha h_\beta$ are $\mathcal{T}$-even and can only shift the Dirac node position in momentum space without opening a mass gap. Linear combinations $\sum_\alpha a_\alpha h_\alpha$ transform as a vector under $C_3$ except for the symmetric sum $h_x + h_y + h_z$, which acts identically on both sublattices A and B and therefore preserves sublattice chiral parity at $K$. Consequently, the lowest-order polynomial invariant that is simultaneously $\mathcal{T}$-odd and $C_3$-symmetric is:
 \begin{equation}
-\mathcal{I}^{(3)}(\mathbf{h}) = h_x h_y h_z.
+\mathcal{I}^{(3)}(\mathbf{h}) = h_x h_y h_z = \frac{h^3}{3\sqrt{3}},
 \end{equation}
-Along the symmetric field direction $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)$, $\mathcal{I}^{(3)}(\mathbf{h}) = \frac{h^3}{3\sqrt{3}} \propto h^3$. All lower-order terms $\mathcal{O}(h)$ and $\mathcal{O}(h^2)$ either break $C_3$ symmetry or violate time-reversal odd parity. Therefore, the single-particle Dirac mass opens strictly as $\Delta_K \propto h^3$. Numerical evaluation across $h \in [0.005, 0.150]$ on a $24 \times 24$ mesh using \texttt{scripts/m1\_6/benchmark\_majorana\_gap.py} confirms this analytical symmetry requirement, yielding the fitted power law $p = 2.9936 \pm 0.0006 \approx 3.000$ (with standard error on the prefactor $2.5921 \pm 0.0034$) with $R^2 > 0.99999$. Note that while the cubic opening exponent is algebraically mandated by $C_3$ and $\mathcal{T}$ symmetries, the specific numerical prefactor $2.592$ is a numerical regression on a finite Brillouin zone mesh.
+establishing that the leading Dirac mass gap opens strictly at cubic order $\mathcal{O}(h^3)$.
 \end{proof}
 
+\begin{proposition}[Empirical Cubic Dirac Mass Scaling in 4-Flavor Mean-Field Theory]
+\label{prop:m1_6_cubic_gap_fit}
+High-resolution numerical evaluation across $h \in [0.005, 0.150]$ on a $24 \times 24$ Brillouin-zone mesh using \texttt{scripts/m1\_6/benchmark\_majorana\_gap.py} establishes:
+\begin{enumerate}
+\item The single-particle Bloch gap $\Delta_K(h)$ follows the cubic power-law regression:
+\begin{equation}
+\label{eq:m1_6_cubic_fit}
+\Delta_K(h) = (2.5921 \pm 0.0034) \cdot \left(\frac{h}{|K|}\right)^{2.9936 \pm 0.0006} \approx 2.5921 \left(\frac{h}{|K|}\right)^3,
+\end{equation}
+with coefficient of determination $R^2 > 0.99999$.
+\item The Brillouin-zone corner $K$ remains the true global minimum bandgap throughout the weak-field regime: $\Delta_K(h) = \min_{\mathbf{k}} \Delta(\mathbf{k})$.
+\end{enumerate}
+\end{proposition}
+
 \input{figures/fig_f11_majorana_gap_scaling}
+
+\subsection{Reconciling Perturbative Vison Scaling with Self-Consistent Mean-Field Theory (K-019)}
+\label{sec:m1_6_perturbative_reconciliation}
+% CLAIM: K-019 (provenance: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md, test: test/unit/test_post_spinodal_kkt_audit.py::test_hc_p1_01_perturbative_gap_reconciliation_identities)
+
+A central theoretical question (\texttt{HC-P1-01}) is how the self-consistent mean-field prefactor $c_{\mathrm{MF}} = 2.5921 \pm 0.0034$ relates to third-order spin perturbation theory on the physical gauge-singlet subspace. Operator-level structural analysis separates this comparison into three distinct components:
+\begin{enumerate}
+\item \textbf{Canonical Bogoliubov Factor of 4 (Exact Normalization Identity):} From Proposition~\ref{prop:m1_2_spectral_symmetries}, the physical fermionic quasiparticle excitation spectrum (eigenvalues of $\ii A$) satisfies $\varepsilon_n(\mathbf{k}) = 4\mathcal{E}_n(\mathbf{k})$ relative to the code's Bloch matrix $H_{\mathrm{Bloch}}(\mathbf{k}) = \frac{\ii}{4}A(\mathbf{k})$. In canonical Majorana normalization, the self-consistent mean-field gap is therefore:
+\begin{equation}
+\label{eq:m1_6_canonical_mf_gap}
+\Delta_{\mathrm{canonical}}^{\mathrm{MF}}(h) = 4 \Delta_K^{\mathrm{MF}}(h) = 4 \times 2.5921 \left(\frac{h}{|K|}\right)^3 = 10.3684 \frac{h^3}{|K|^2}.
+\end{equation}
+\item \textbf{Feshbach Two-Vison Continuum vs. Local Gauge-Band Energy Scales:} In exact spin perturbation theory on the physical subspace $\mathcal{F}_{\mathrm{phys}}$, acting with a single Pauli operator $\sigma_i^\gamma = \ii c_i^0 c_i^\gamma$ flips the adjacent $\mathbb{Z}_2$ bond gauge link $u_{\langle ij\rangle_\gamma} \to -u_{\langle ij\rangle_\gamma}$ and nucleates a pair of localized $\mathbb{Z}_2$ visons together with dispersive matter Majorana excitations. In Kitaev's static single-mode approximation (replacing the full two-vison + matter Feshbach resolvent $Q(E_0 - H_K)^{-1}Q$ by the isolated two-vison threshold $\Delta_{\mathrm{flux}} \approx 0.264 |K|$), the third-order chiral hopping amplitude $\kappa_{\mathrm{static}} \approx h_x h_y h_z / \Delta_{\mathrm{flux}}^2$ yields a static reference scale $\Delta_{\mathrm{static}} = 12\sqrt{3}\kappa_{\mathrm{static}} = \frac{4}{\Delta_{\mathrm{flux}}^2} h^3 \approx 57.40 h^3/|K|^2$ (the exact continuum-integrated Feshbach value $\kappa_{\mathrm{exact}}$ is derived independently in the exact perturbation track). By contrast, in unprojected Gaussian mean-field theory, background $\mathbb{Z}_2$ fluxes are not flipped locally; instead, the intermediate single-particle excitations involve the localized flat gauge-Majorana bands with two-particle gap $2\Delta_{\mathrm{gauge}} = 2|K|\bar{U} \approx 1.04973 |K|$ (\texttt{K-004}, \texttt{K-006}). The bare squared-denominator ratio between these two intermediate scales is:
+\begin{equation}
+\label{eq:m1_6_denominator_ratio}
+\left(\frac{2\Delta_{\mathrm{gauge}}}{\Delta_{\mathrm{flux}}}\right)^2 = \left(\frac{1.0497315}{0.2640}\right)^2 = 15.8106.
+\end{equation}
+\item \textbf{Structural Role of Self-Consistent KKT Multipliers and Fock Dressing (Contract H6):} Unlike spin perturbation theory---where three successive Zeeman applications $\sigma_j^\alpha \sigma_k^\gamma \sigma_l^\beta$ directly contract the internal gauge fermions via the local projection identity $D_k = -c_k^0 c_k^x c_k^y c_k^z = +1$---in 4-flavor HFB mean-field theory the bare Zeeman matrix $-\sum_\gamma h_\gamma N^\gamma$ only couples the dispersive matter flavor $c^0$ to the gauge flavors $c^\gamma$ ($N^\gamma_{0\gamma} = -1$) and contains no direct $c^\alpha \leftrightarrow c^\beta$ mixing. Consequently, a naive substitution of $2\Delta_{\mathrm{gauge}}$ into the spin-perturbation formula $\frac{4}{\Delta E^2}h^3$ is structurally invalid. Instead, the $\mathcal{O}(h^3)$ chiral Dirac mass in HFB theory is generated by the \textbf{self-consistent linear response} at $\mathcal{O}(h)$: the field induces both the KKT Lagrange multiplier counter-field $\lambda_s^\gamma = \mathcal{O}(h)$---which multiplies the dual gauge generators $G^\gamma$ ($G^\gamma_{\alpha\beta} = -\epsilon_{\gamma\alpha\beta}$) that directly mix distinct gauge flavors $c^\alpha \leftrightarrow c^\beta$---and the off-diagonal Fock bond self-energy $\delta \mathrm{U}_b = \mathcal{O}(h)$. Expanding the KKT stationarity condition $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = 0$ analytically to third order in $h$ to obtain the closed-form prefactor $c_{\mathrm{MF}} = 2.59214\dots$ is formalized in Contract~\ref{con:h6_analytical_cubic_prefactor}.
+\end{enumerate}
+
+\subsection{Post-Spinodal KKT Saddle Excursions and Coexistence Domain Walls (K-023)}
+\label{sec:m1_6_post_spinodal_kkt_audit}
+% CLAIM: K-023 (provenance: scripts/m1_9/audit_post_spinodal_and_master_table.py, test: test/unit/test_post_spinodal_kkt_audit.py::test_hc_p1_02_post_spinodal_kkt_admissibility_at_h0450)
+
+In the raw 60-iteration forward sweep of Figure~\ref{fig:m1_6_critical_zoom}, the QSL continuation trace exhibits serrated downward energy dips across $h \in [0.400, 0.454]$ (reaching $E_{\mathrm{site}} = -1.1904$ and $m_{111} = 1.1249 > 1$ at $h = 0.450$). A dedicated KKT admissibility audit (\texttt{HC-P1-02}, exported to \texttt{data/processed/benchmarks/m1\_9/post\_spinodal\_kkt\_audit.dat}) proves that every serrated point in $h \in [0.400, 0.454]$ is an \textbf{unconverged saddle excursion} (\texttt{conv = False}, $n_\Phi = 60$ limit reached, $\epsilon_{\mathrm{comm}} \in [4.6 \times 10^{-4}, 1.21]$, $\epsilon_{\mathrm{gauge}} \in [3.3 \times 10^{-4}, 3.58 \times 10^{-1}]$). Because the KKT Lagrangian $\mathcal{L}(\Omega, \boldsymbol{\lambda})$ is a min-max saddle (concave in $\boldsymbol{\lambda}$ per Lemma~\ref{lem:m1_3_hf_gradient}), unconverged iterates that violate dual stationarity $g_s^\gamma = 0$ and the kinematic Bloch-ball bound $\|\mathbf{m}_s\|_2 \le 1$ artificially depress the Gaussian energy below the physical ground state. Enforcing strict KKT convergence ($\epsilon_{\mathrm{gauge}} < 10^{-9}$) and Bloch-ball admissibility eliminates all downward spikes: at $h_{c2}^+ = 0.400$, the QSL local minimum annihilates with an unstable saddle, and the trajectory jumps monotonically onto the exact polarized branch $E_{\mathrm{site}}(h) = -h - 0.5$ with $m_{111} = 1.00000$, $W_p = 0.0000$, and $\epsilon_{\mathrm{gauge}} \le 5.6 \times 10^{-15}$.
+
+Furthermore, to test whether an intermediate spatially modulated phase intervenes inside the spinodal hysteresis window $h \in [0.3325, 0.400]$, Milestone M1.9 (\texttt{m1\_9\_t5\_spinodal\_domain\_wall\_coexistence.md}) relaxed a composite spatial domain-wall seed on an $L_x \times L_y = 16 \times 8$ supercell ($N_{\mathrm{sub}} = 128$) at $h = 0.335$. The interface stabilizes into a sharp domain wall of width $\xi_{\mathrm{DW}} \approx 1.5$ lattice spacings with strictly positive surface tension:
+\begin{equation}
+\label{eq:m1_6_domain_wall_tension}
+\sigma_{\mathrm{DW}} \equiv E_{\mathrm{DW}} - \frac{1}{2}\left(E_{\mathrm{QSL}} + E_{\mathrm{POL}}\right) = +0.042\, |K| > 0,
+\end{equation}
+ruling out spontaneous domain-wall proliferation or intermediate incommensurate stripe phases.
 
 % EDITORIAL QUESTION: Does unit cell enlargement introduce spontaneous nematicity or alter the physical phase diagram?
 \section{Supercell Scale Parity and Absence of Spontaneous Symmetry Breaking}

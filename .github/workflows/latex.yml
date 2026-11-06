@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop/m1-foundations-review
+      - feat/modern-governance-and-editorial-v2
     paths:
       - 'doc/labbook/**'
       - 'doc/manuscript/**'
@@ -34,18 +35,18 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up TeX Live
+      - name: Compile Living Lab Book
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
+          root_file: labbook_kitaev_mf.tex
           working_directory: doc/labbook
           extra_system_packages: make
           args: "-pdf -file-line-error -interaction=nonstopmode -halt-on-error"
 
-      - name: Compile Manuscript
+      - name: Compile SciPost Manuscript
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
+          root_file: scipost_kitaev_mf.tex
           working_directory: doc/manuscript
           args: "-pdf -file-line-error -interaction=nonstopmode -halt-on-error"
 
@@ -62,7 +63,10 @@ jobs:
               'run_id': run_id,
               'artifacts': {}
           }
-          for name, rel_path in [('labbook', 'doc/labbook/main.pdf'), ('manuscript', 'doc/manuscript/main.pdf')]:
+          for name, rel_path in [
+              ('labbook', 'doc/labbook/labbook_kitaev_mf.pdf'),
+              ('manuscript', 'doc/manuscript/scipost_kitaev_mf.pdf'),
+          ]:
               p = Path(rel_path)
               if p.is_file():
                   data = p.read_bytes()
@@ -78,8 +82,8 @@ jobs:
         with:
           name: kitaev-mf-documents
           path: |
-            doc/labbook/main.pdf
-            doc/manuscript/main.pdf
+            doc/labbook/labbook_kitaev_mf.pdf
+            doc/manuscript/scipost_kitaev_mf.pdf
             book-build.json
           if-no-files-found: error
 
@@ -88,8 +92,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cp doc/labbook/main.pdf kitaev-mf-labbook.pdf
-          cp doc/manuscript/main.pdf kitaev-mf-manuscript.pdf
+          cp doc/labbook/labbook_kitaev_mf.pdf kitaev-mf-labbook.pdf
+          cp doc/manuscript/scipost_kitaev_mf.pdf kitaev-mf-manuscript.pdf
 
           if gh release view latest >/dev/null 2>&1; then
             echo "Updating existing release..."
@@ -98,5 +102,5 @@ jobs:
             echo "Creating initial release..."
             gh release create latest kitaev-mf-labbook.pdf kitaev-mf-manuscript.pdf book-build.json \
               --title "kitaev-mf Documents (Latest Build)" \
-              --notes "Automated build of Living Lab Book and Manuscript from main. book-build.json provides SHA-256 provenance receipts."
+              --notes "Automated build of Living Lab Book and SciPost Manuscript from main. book-build.json provides SHA-256 provenance receipts."
           fi

@@ -1,0 +1,9 @@
+# Benchmark: master_solver_resource_table.dat
+# Description: Phase 1 Master Solver Selection and Hardware Resource Table (Intel i5-13500)
+regime  system_size  dim_D  recommended_solver  complexity_step  mem_mb  iters_typ  wall_time_s  r90_radius
+Bulk_2site_WeakField     Nk=24x24(N=1152)       86  Joint_DIIS(m=6)           O(Nk*n_c^3)       2.1     7    0.18   0.350
+Bulk_2site_NearSpinodal  Nk=24x24(N=1152)       86  Full_Broyden(alpha=0.5)   O(D^2+Nk*n_c^3)   2.4    12    0.27   0.500
+Supercell_Symmetric      nc=4..32(Nk=12x12)   1376  Joint_DIIS(m=8)           O(Nk*n_c^3)      18.5    23    1.42   0.350
+RealSpace_Clean_Torus    L=12(M=1152)        11520  Purif_NS+DIIS(m=8)        O(k_NS*M^3)      32.0     8    5.60   0.350
+RealSpace_Vortex_Defect  L=8..12(M=512..1152) 11520 Purif_NS+LBroyden(m=10)   O(k_NS*M^3+m*D)  12.4    11    7.80   0.220
+RealSpace_Large_Vortex   L=24(M=4608)        46080  WarmPurif_NS+LBroyden     O(k_warm*M^3)   170.0    12   48.00   0.220
