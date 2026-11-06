@@ -1,0 +1,69 @@
+% Figure F18: Real-Space Scaling, Dirac Resonance, and Precision Loss under dsyevd on -A^2
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    width=0.48\textwidth,
+    height=6.2cm,
+    xlabel={Majorana Dimension $M = 8L^2$},
+    ylabel={Singular Value / Discrepancy},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    legend pos=north west,
+    legend cell align={left},
+    legend style={font=\footnotesize, fill=white, fill opacity=0.9},
+    tick label style={font=\footnotesize},
+    label style={font=\small},
+]
+    % Smallest singular value s_min: x=col 2 (M), y=col 4 (S_MIN)
+    \addplot[mark=square*, color=labbookblue, thick] 
+    table[x index=2, y index=4] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Smallest Singular Val $s_{\min}(A)$}
+
+    % Track A discrepancy (Frobenius error): x=col 2, y=col 10 (DIFF_TR_A)
+    \addplot[mark=triangle*, color=labbookcrimson, thick] 
+    table[x index=2, y index=10] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Track A Error ($\|\Omega_{\mathbb{R}} - \Omega_{\mathbb{C}}\|_F / \sqrt{M}$)}
+
+    % Track B discrepancy (Purification error): x=col 2, y=col 16 (DIFF_TR_B)
+    \addplot[mark=*, color=labbookteal, thick] 
+    table[x index=2, y index=16] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Track B Error ($\|\Omega_{\mathrm{purif}} - \Omega_{\mathbb{C}}\|_F / \sqrt{M}$)}
+
+\end{loglogaxis}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    width=0.48\textwidth,
+    height=6.2cm,
+    xlabel={Majorana Dimension $M = 8L^2$},
+    ylabel={Wall Time [ms]},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    legend pos=north west,
+    legend cell align={left},
+    legend style={font=\footnotesize, fill=white, fill opacity=0.9},
+    tick label style={font=\footnotesize},
+    label style={font=\small},
+]
+    % Complex zheevd: x=col 2, y=col 6 (TIME_C_MS), y error=col 7 (STD_C_MS)
+    \addplot+[color=labbookblue, thick, mark=o, error bars/.cd, y dir=both, y explicit]
+    table[x index=2, y index=6, y error index=7] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Complex \texttt{zheevd} ($\pm 1\sigma$)}
+
+    % Real dsyevd on -A^2: x=col 2, y=col 8 (TIME_R_MS), y error=col 9 (STD_R_MS)
+    \addplot+[color=labbookpurple, thick, mark=diamond*, error bars/.cd, y dir=both, y explicit]
+    table[x index=2, y index=8, y error index=9] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Real \texttt{dsyevd} on $-A^2$ ($\pm 1\sigma$)}
+
+    % Matrix Sign Purification: x=col 2, y=col 11 (TIME_P_MS), y error=col 12 (STD_P_MS)
+    \addplot+[color=labbookteal, thick, mark=square*, error bars/.cd, y dir=both, y explicit]
+    table[x index=2, y index=11, y error index=12] {../../data/processed/benchmarks/m1_8/real_space_dense_scaling_with_errors.dat};
+    \addlegendentry{Newton-Schulz Purif ($\pm 1\sigma$)}
+
+\end{loglogaxis}
+\end{tikzpicture}
+\caption{Real-space cluster benchmarks across $L \in \{4, \dots, 14\}$ ($M \in [128, 1568]$). \textbf{Left:} The $L \equiv 0 \pmod 3$ Dirac point resonance causes $s_{\min}$ to plunge to $\sim 10^{-16}$, blowing condition number $\kappa(A)$ to $6 \times 10^{15}$. Because Track A computes $S = -A^2$ and inverts $S^{1/2}$, squaring the condition number loses 5 orders of magnitude in precision ($\sim 10^{-9}$ error). Track B (Newton-Schulz purification) is completely immune to this ill-conditioning, maintaining $\approx 4 \times 10^{-15}$ across all sizes. \textbf{Right:} Wall-clock time scaling with statistical error bars ($N_{\mathrm{repeats}} = 5$). Matrix sign purification achieves sustained throughput of $114.6\text{ GFLOP/s}$ at $M=1568$.}
+\label{fig:f18_dense_real_space_resonance}
+\end{figure}

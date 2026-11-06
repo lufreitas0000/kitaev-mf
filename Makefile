@@ -64,12 +64,12 @@ labbook:
 	@$(MAKE) --no-print-directory -C doc/labbook pdf
 
 manuscript:
-	@echo "[manuscript] Compiling doc/manuscript/main.pdf..."
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
-	@cd doc/manuscript && bibtex main > /dev/null 2>&1 || true
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode main.tex > /dev/null
-	@echo "[manuscript] Generated doc/manuscript/main.pdf"
+	@echo "[manuscript] Compiling doc/manuscript/scipost_kitaev_mf.pdf..."
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
+	@cd doc/manuscript && bibtex scipost_kitaev_mf > /dev/null 2>&1 || true
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
+	@echo "[manuscript] Generated doc/manuscript/scipost_kitaev_mf.pdf"
 
 blueprint:
 	@echo "[blueprint] Generating R&D Epistemic Blueprint portal..."

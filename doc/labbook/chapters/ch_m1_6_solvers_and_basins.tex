@@ -33,27 +33,180 @@ g_s^\gamma \equiv \operatorname{Tr}(\mathrm{G}^\gamma \mathrm{V}_s^*) = 0 \impli
 The variational Hartree-Fock ground-state energy functional is $E_{\mathrm{MF}}[P, \boldsymbol{\lambda}] = \langle \mathcal{H}[P] \rangle_P - E_{\mathrm{exchange}}[P] - \sum_{s,\gamma} \lambda_s^\gamma g_s^\gamma$. The tangent space to the Grassmannian at $\Pi^-$ is parameterized by skew-Hermitian commutators $\delta \Pi = [\Delta, \Pi^-]$ where $\Delta^\dagger = -\Delta$. First-order stationarity $\delta E_{\mathrm{MF}} = 0$ requires $\operatorname{Tr}(\mathcal{H}(\mathbf{k}) [\Delta(\mathbf{k}), \Pi^-(\mathbf{k})]) = 0$ for all skew-Hermitian variations $\Delta(\mathbf{k})$, which holds if and only if $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = \mathbf{0}$. Stationarity with respect to the Lagrange multipliers $\lambda_s^\gamma$ yields the gauge condition $\partial E / \partial \lambda_s^\gamma = -g_s^\gamma / 4 = 0$.
 \end{proof}
 
-% EDITORIAL QUESTION: How do accelerated fixed-point solvers compare against Picard iteration and each other on this non-linear manifold?
-\section{Algorithmic Comparison: Picard, DIIS, Good Broyden, and JFNK}
-\label{sec:m1_6_solver_algorithms}
+% EDITORIAL QUESTION: How is the non-linear self-consistent mean-field problem formulated geometrically on the orthogonal Grassmannian, and what characterizes stationarity?
+\section{Geometric Fixed-Point Formulation on the Orthogonal Grassmannian}
+\label{sec:m1_6_grassmannian_geometry}
 
-Evaluating the self-consistent map $\Phi: X \mapsto \tilde{X}$ defines a non-linear fixed-point problem $R(X) \equiv \Phi(X) - X = \mathbf{0}$ in dimension $D = 16 N_{\mathrm{bonds}} + 16 N_{\mathrm{sub}} + 3 N_{\mathrm{sub}}$. Milestone M1.6 implemented and benchmarked five solver paradigms within a model-agnostic hexagonal architecture:
-
-\begin{enumerate}
-\item \textbf{Plain Fixed-Point ($\alpha=1$):} Un-damped evaluation $X^{(k+1)} = \Phi(X^{(k)})$.
-\item \textbf{Damped Picard ($\alpha \in (0, 1)$):} Damped linear combination $X^{(k+1)} = (1-\alpha) X^{(k)} + \alpha \Phi(X^{(k)})$.
-\item \textbf{Joint DIIS (Anderson Acceleration):} Computes optimal linear combination $X^{(k+1)} = \sum_{j=0}^{m-1} c_j \Phi(X^{(k-j)})$ minimizing the composite residual subject to $\sum c_j = 1$, stabilized by scale-invariant relative Tikhonov regularization $\mathbf{B}_{pq} = \langle R_{k-p}, R_{k-q} \rangle + 10^{-12} \delta_{pq} \max(\|R_{k-p}\|^2, 10^{-14})$.
-\item \textbf{Good Broyden (Rank-1 Quasi-Newton):} Vectorized secant update approximating the inverse Jacobian in $\mathbb{R}^D$ ($D=86$), followed by real skew-symmetric projection $\mathcal{P}_{\mathfrak{so}(4)}(\mathrm{V}_s) \equiv \frac{1}{2}(\mathrm{V}_s - \mathrm{V}_s^T)$ and setting $\operatorname{diag}(\mathrm{V}_s) \equiv \mathbf{0}$:
+The self-consistent Hartree-Fock-Bogoliubov mean-field equations for the 4-flavor Majorana representation describe a nonlinear mapping on the orthogonal Grassmannian manifold bundle over the Brillouin zone:
 \begin{equation}
-\label{eq:m1_6_broyden_update}
-H_{k+1} = H_k + \frac{\Delta X_k - H_k \Delta R_k}{\Delta X_k^T H_k \Delta R_k} \Delta X_k^T H_k, \qquad X^{(k+1)} = \mathcal{P}_{\mathrm{skew}}\left( X^{(k)} - \alpha_{\mathrm{Broyden}} H_{k+1} R(X^{(k)}) \right).
+\label{eq:m1_6_grassmannian_def}
+\Gr_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}}) \equiv \left\{ \Pi \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}} \;\middle|\; \Pi^2 = \Pi = \Pi^\dagger, \; \operatorname{Tr}(\Pi) = 2N_{\mathrm{sub}} \right\},
 \end{equation}
-\item \textbf{Jacobian-Free Newton-Krylov (JFNK):} Solves the Newton step $J(X^{(k)}) \delta X = -R(X^{(k)})$ using matrix-free GMRES, where directional derivatives are approximated by finite differences:
+subject to the particle-hole constraint $\Pi^-(-\mathbf{k}) = \Id - (\Pi^-(\mathbf{k}))^*$. For the 2-sublattice primitive cell ($N_{\mathrm{sub}} = 2$), the fiber dimension is $4N_{\mathrm{sub}} = 8$ and each occupied projector has trace $\operatorname{Tr}(\Pi^-) = 4$.
+At zero temperature ($T=0$), the physical two-point correlator $P(\mathbf{k}) = 2\Pi^-(\mathbf{k})$ projects onto the negative-energy eigenspace of the momentum-space Hamiltonian $\mathcal{H}(\mathbf{k}) \equiv \frac{\ii}{4} M(\mathbf{k})$.
+
+\begin{theorem}[Grassmannian Stationarity and KKT Commutator Condition]
+\label{thm:m1_6_kkt_condition}
+A mean-field state $X^* = (\mathrm{U}^*, \mathrm{V}^*, \boldsymbol{\lambda}^*)$ is a self-consistent Karush-Kuhn-Tucker (KKT) stationary point if and only if two conditions hold simultaneously:
+\begin{enumerate}
+\item \textbf{Spectral Commutator Stationarity:} At every wavevector $\mathbf{k} \in \mathrm{BZ}$, the single-particle density matrix $\Pi^-(\mathbf{k})$ commutes with the assembled Hamiltonian:
 \begin{equation}
-\label{eq:m1_6_jfnk_fd}
-J(X) v \approx \frac{R(X + \epsilon v) - R(X)}{\epsilon}, \qquad \epsilon = \epsilon_0 \frac{1 + \|X\|_2}{\|v\|_2}.
+\label{eq:m1_6_kkt_comm}
+\epsilon_{\mathrm{comm}}(\mathbf{k}) \equiv \| [\mathcal{H}(\mathbf{k}; X^*), \Pi^-(\mathbf{k})] \|_F = 0, \qquad \epsilon_{\mathrm{comm}} \equiv \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \epsilon_{\mathrm{comm}}(\mathbf{k}) = 0.
+\end{equation}
+\item \textbf{Gauge Constraint Admissibility:} On every physical site $s \in \{0, \dots, N_{\mathrm{sub}}-1\}$ and for all three gauge flavors $\gamma \in \{1, 2, 3\}$, the gauge residual vanishes:
+\begin{equation}
+\label{eq:m1_6_gauge_condition}
+g_s^\gamma \equiv \operatorname{Tr}(\mathrm{G}^\gamma \mathrm{V}_s^*) = 0 \implies \epsilon_{\mathrm{gauge}} \equiv \|\mathbf{g}\|_\infty = 0.
 \end{equation}
 \end{enumerate}
+\end{theorem}
+\begin{proof}
+The variational Hartree-Fock ground-state energy functional is $E_{\mathrm{MF}}[P, \boldsymbol{\lambda}] = \langle \mathcal{H}[P] \rangle_P - E_{\mathrm{exchange}}[P] - \sum_{s,\gamma} \lambda_s^\gamma g_s^\gamma$. The tangent space to the Grassmannian at $\Pi^-$ is parameterized by skew-Hermitian commutators $\delta \Pi = [\Delta, \Pi^-]$ where $\Delta^\dagger = -\Delta$. First-order stationarity $\delta E_{\mathrm{MF}} = 0$ requires $\operatorname{Tr}(\mathcal{H}(\mathbf{k}) [\Delta(\mathbf{k}), \Pi^-(\mathbf{k})]) = 0$ for all skew-Hermitian variations $\Delta(\mathbf{k})$, which holds if and only if $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = \mathbf{0}$. Stationarity with respect to the Lagrange multipliers $\lambda_s^\gamma$ yields the gauge condition $\partial E / \partial \lambda_s^\gamma = -g_s^\gamma / 4 = 0$.
+\end{proof}
+
+% EDITORIAL QUESTION: What are the mathematical foundations of fixed-point iterations, and how do contractivity and asymptotic convergence rates govern iterative solver design?
+\section{Foundations of Fixed-Point Iteration and Optimization Theory}
+\label{sec:m1_6_foundations_fixed_point}
+
+Before analyzing accelerated numerical solvers, we establish the general mathematical framework for solving non-linear algebraic systems without relying on algorithm-specific jargon.
+
+\subsection{Banach Contraction Principle and Asymptotic Rates}
+Let $\mathcal{X}$ denote a real Banach space equipped with norm $\|\cdot\|$ and dimension $D$. A self-consistent mean-field mapping $\Phi: \mathcal{X} \to \mathcal{X}$ defines a root-finding problem for the residual map:
+\begin{equation}
+G(x) \equiv \Phi(x) - x = 0.
+\end{equation}
+A point $x^* \in \mathcal{X}$ satisfying $G(x^*) = 0 \iff \Phi(x^*) = x^*$ is a fixed point.
+
+\begin{definition}[Contraction Factor and Convergence Classes]
+Let $\{x_k\}_{k=0}^\infty$ be a sequence converging to $x^*$, and let $e_k \equiv x_k - x^*$ denote the error vector at iteration $k$. The asymptotic convergence rate is classified by the limit:
+\begin{equation}
+\lim_{k \to \infty} \frac{\|e_{k+1}\|}{\|e_k\|^p} = C.
+\end{equation}
+\begin{enumerate}
+\item \textbf{Linear Convergence ($p=1, C \in (0, 1)$):} The error decreases geometrically, $\|e_{k+1}\| \le \sigma \|e_k\|$, with asymptotic contraction factor $\sigma = \rho(\nabla \Phi(x^*)) < 1$, where $\rho(\cdot)$ is the spectral radius.
+\item \textbf{Superlinear Convergence ($p=1, C=0$, or $1 < p < 2$):} The step-to-step contraction ratio $\sigma_k \equiv \|e_{k+1}\| / \|e_k\| \to 0$ as $k \to \infty$.
+\item \textbf{Quadratic Convergence ($p=2, C > 0$):} The number of correct significant digits doubles at every single iteration step: $\|e_{k+1}\| \le C \|e_k\|^2$.
+\end{enumerate}
+\end{definition}
+
+\subsection{Plain Fixed-Point and Damped Picard Iteration}
+The simplest strategy is the unaccelerated fixed-point iteration:
+\begin{equation}
+x_{k+1} = \Phi(x_k).
+\end{equation}
+By the Banach Fixed-Point Theorem, this sequence converges locally if and only if $\Phi$ is contractive in a neighborhood of $x^*$, which requires the spectral radius of the Jacobian to satisfy $\rho(\nabla \Phi(x^*)) < 1$. When $\rho(\nabla \Phi) \ge 1$, the iteration diverges geometrically.
+
+To stabilize unstable fixed points or expand the basin of attraction, \textbf{Damped Picard iteration} mixes the previous iterate with the evaluated map using a convex combination parameter $\alpha \in (0, 1]$:
+\begin{equation}
+x_{k+1} = (1 - \alpha) x_k + \alpha \Phi(x_k) = x_k + \alpha G(x_k).
+\end{equation}
+The effective iteration matrix is $T_\alpha = (1 - \alpha) I + \alpha \nabla \Phi(x^*)$. If all eigenvalues of the residual Jacobian $J_G = \nabla \Phi - I$ have negative real parts, there exists a sufficiently small damping $\alpha > 0$ such that $\rho(T_\alpha) < 1$, guaranteeing linear convergence. However, as the system size increases or near critical phase boundaries where $\rho \to 1^-$, damped Picard suffers from extreme \textit{critical slowing down}, requiring hundreds of iterations.
+
+\subsection{Newton-Raphson Method and the Jacobian Curse}
+To achieve quadratic convergence ($p=2$), the classical Newton-Raphson method expands the residual $G(x)$ to first order in a Taylor series:
+\begin{equation}
+G(x_k + \delta x) \approx G(x_k) + J_G(x_k) \delta x = 0 \implies \delta x_k = - [J_G(x_k)]^{-1} G(x_k),
+\end{equation}
+yielding the update $x_{k+1} = x_k + \delta x_k$.
+
+While Newton's method converges quadratically near $x^*$, it suffers from the \textbf{Jacobian Curse} in quantum many-body physics:
+\begin{enumerate}
+\item \textbf{Assembly Cost:} In our 4-flavor Majorana problem, assembling the exact $D \times D$ Jacobian $J_G$ requires $D$ directional evaluations of the full Brillouin-zone eigensolver, costing $\mathcal{O}(D \cdot M^3 N_{\mathbf{k}})$ FLOPs per step.
+\item \textbf{Inversion Cost:} Solving the linear system $J_G \delta x = -G$ requires dense LU factorization costing $\frac{2}{3} D^3$ FLOPs. For large supercells ($D > 10^4$), storing and factoring $J_G$ is computationally impossible.
+\end{enumerate}
+
+% EDITORIAL QUESTION: How do Quasi-Newton methods (Good Broyden, Bad Broyden, DIIS, L-Broyden) circumvent Jacobian assembly while maintaining superlinear contraction?
+\section{Quasi-Newton Methods: Broyden's Zoo, DIIS, and JFNK}
+\label{sec:m1_6_quasi_newton_zoo}
+
+Quasi-Newton methods replace the true Jacobian $J_G(x_k)$ (or its inverse $H_k \approx [J_G(x_k)]^{-1}$) with an approximation that is updated at each step using only the trajectory vectors:
+\begin{equation}
+s_k \equiv x_{k+1} - x_k, \qquad y_k \equiv G(x_{k+1}) - G(x_k).
+\end{equation}
+Every valid quasi-Newton update must satisfy the \textbf{Secant Equation}:
+\begin{equation}
+B_{k+1} s_k = y_k \iff H_{k+1} y_k = s_k.
+\end{equation}
+
+\subsection{Good Broyden (Type-I) vs. Bad Broyden (Type-II)}
+Because the secant equation under-determines the $D \times D$ matrix $B_{k+1}$ (1 vector constraint on $D^2$ entries), an optimization criterion is required:
+\begin{enumerate}
+\item \textbf{Good Broyden (Type-I):} Minimizes the change in the direct Jacobian: $\min \|B_{k+1} - B_k\|_F$ subject to $B_{k+1} s_k = y_k$. Applying the Sherman-Morrison inversion lemma yields the explicit rank-1 update on the inverse Jacobian $H_k$:
+\begin{equation}
+\label{eq:m1_6_good_broyden_def}
+H_{k+1} = H_k + \frac{s_k - H_k y_k}{s_k^T H_k y_k} s_k^T H_k.
+\end{equation}
+It is called "Good" Broyden because it preserves orthogonality properties in linear spaces and avoids direct matrix inversion.
+\item \textbf{Bad Broyden (Type-II):} Minimizes the change directly in the inverse Jacobian: $\min \|H_{k+1} - H_k\|_F$ subject to $H_{k+1} y_k = s_k$, which produces:
+\begin{equation}
+\label{eq:m1_6_bad_broyden_def}
+H_{k+1} = H_k + \frac{s_k - H_k y_k}{y_k^T y_k} y_k^T.
+\end{equation}
+While simpler, Type-II updates are known in numerical analysis to be less robust for general non-linear systems than Type-I updates, though they form the conceptual basis for multi-secant methods.
+\end{enumerate}
+
+\subsection{Joint DIIS / Anderson Acceleration (Multi-Secant)}
+Direct Inversion in the Iterative Subspace (DIIS), mathematically equivalent to Anderson Acceleration, expands the trial state over the history of the $m$ most recent iterates $\{x_{k-j}\}_{j=0}^{m-1}$:
+\begin{equation}
+x_{k+1} = \sum_{j=0}^{m-1} c_j \Phi(x_{k-j}) = \sum_{j=0}^{m-1} c_j (x_{k-j} + G_{k-j}),
+\end{equation}
+where the coefficients $\mathbf{c} = (c_0, \dots, c_{m-1})^T$ minimize the Euclidean norm of the composite residual $\| \sum c_j G_{k-j} \|_2^2$ subject to the partition-of-unity constraint $\sum_{j=0}^{m-1} c_j = 1$.
+This yields the $(m+1) \times (m+1)$ Karush-Kuhn-Tucker (KKT) linear system:
+\begin{equation}
+\begin{pmatrix}
+B & -\mathbf{1} \\
+-\mathbf{1}^T & 0
+\end{pmatrix}
+\begin{pmatrix}
+\mathbf{c} \\
+\mu
+\end{pmatrix}
+=
+\begin{pmatrix}
+\mathbf{0} \\
+-1
+\end{pmatrix},
+\qquad
+B_{pq} = \langle G_{k-p}, G_{k-q} \rangle + \epsilon_{\mathrm{reg}} \delta_{pq} \max(\|G_{k-p}\|^2, 10^{-14}).
+\end{equation}
+Because $m \ll D$ (typically $m \in [6, 10]$), factoring the small $m \times m$ Gram matrix $B$ takes microseconds, making DIIS an extremely powerful multi-secant accelerator.
+
+\subsection{Limited-Memory Broyden (L-Broyden)}
+In high dimensions ($D \gg 10^3$), storing the $D \times D$ matrix $H_k$ requires $\mathcal{O}(D^2)$ storage and $\mathcal{O}(D^2)$ work.
+L-Broyden stores only the $m$ most recent secant pairs $\{(s_j, y_j)\}_{j=0}^{m-1}$, evaluating the quasi-Newton step $H_k G_k$ via recursive vector inner products matching the Sherman-Morrison sequence.
+The memory footprint is reduced to strictly $\mathcal{O}(mD)$ and the step overhead to $\mathcal{O}(m^2 D)$, with zero matrix storage.
+
+\subsection{Jacobian-Free Newton-Krylov (JFNK)}
+Instead of building an approximate Jacobian, JFNK solves the exact Newton step $J_G(x_k) \delta x = -G(x_k)$ using the GMRES (Generalized Minimal Residual) Krylov subspace iteration. GMRES requires only matrix-vector products $J_G v$, which are evaluated via finite differences:
+\begin{equation}
+J_G(x) v \approx \frac{G(x + \epsilon v) - G(x)}{\epsilon}, \qquad \epsilon = \epsilon_0 \frac{1 + \|x\|_2}{\|v\|_2}.
+\end{equation}
+Each GMRES inner step requires one additional evaluation of the physical mean-field map $\Phi(x + \epsilon v)$. JFNK achieves true quadratic-to-superlinear convergence with zero Jacobian storage, at the cost of multiple map evaluations per outer step.
+
+\subsection{Concrete Leading-Order Computational Complexity}
+The total computational cost per iteration of each solver paradigm is summarized with exact leading-order operational prefactors in Table~\ref{tab:m1_6_solver_leading_order_flops}.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Exact leading-order arithmetic FLOP formulas and memory footprints per iteration step.}
+\label{tab:m1_6_solver_leading_order_flops}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Solver Paradigm} & \textbf{Map Evals / Step} & \textbf{Solver Overhead FLOPs} & \textbf{Dominant Evaluation FLOPs ($\Phi$)} & \textbf{Memory Footprint} \\
+\midrule
+\textbf{Plain FP / Picard} & $1$ & $2D$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2 D \times 8\text{ B}$ \\
+\textbf{Joint DIIS ($m$)} & $1$ & $2mD + \frac{1}{3}m^3$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2m D \times 8\text{ B}$ \\
+\textbf{Good Broyden (Full)} & $1$ & $2D^2 + 4D$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $D^2 \times 8\text{ B}$ \\
+\textbf{L-Broyden ($m$)} & $1$ & $4m^2 D + 2mD$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2m D \times 8\text{ B}$ \\
+\textbf{JFNK ($k_{\mathrm{gmres}}$)} & $1 + k_{\mathrm{gmres}}$ & $2 k_{\mathrm{gmres}} D$ & $(1 + k_{\mathrm{gmres}}) \cdot \frac{16}{3} M^3 N_{\mathbf{k}}$ & $k_{\mathrm{gmres}} D \times 8\text{ B}$ \\
+\midrule
+\textbf{Real Skew Eigensolve} & $1$ & -- & $\left(\frac{4}{3} M^3 + 6 M^3\right) N_{\mathbf{k}}$ & $\frac{1}{2} M^2 \times 8\text{ B}$ \\
+\textbf{Matrix Sign Purif ($k_{\mathrm{NS}}$)} & $1$ & -- & $4 k_{\mathrm{NS}} M^3$ (Real \texttt{dgemm}) & $M^2 \times 8\text{ B}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{proposition}[Convergence and Contraction Telemetry]
 \label{prop:m1_6_convergence_rates}

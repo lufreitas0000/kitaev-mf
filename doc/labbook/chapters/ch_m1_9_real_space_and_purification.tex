@@ -75,6 +75,35 @@ establishing cubic local convergence towards $\operatorname{sgn}(x)$ for any $x 
 \end{proof}
 
 \input{figures/fig_f17_purification_speedup}
+\input{figures/fig_f18_dense_real_space_resonance}
+
+\section{Physical and Numerical Mechanisms: Dirac Resonances and Deflation Stalling}
+\label{sec:m1_8_resonance_and_deflation}
+
+The extensive dense benchmarks across $L \in \{4, \dots, 14\}$ ($M \in [128, 1568]$) reveal two deep numerical phenomena that explain the behavior of eigensolvers and matrix sign purification:
+
+\subsection{The $L \equiv 0 \pmod 3$ Dirac Resonance and Mantissa Loss in Track A}
+On the honeycomb lattice, the low-energy Majorana Dirac points sit at fractional coordinates $\mathbf{K} = (\frac{1}{3}, \frac{2}{3})$ and $\mathbf{K}' = (\frac{2}{3}, \frac{1}{3})$.
+A periodic $L \times L$ torus samples the exact Dirac points in real space if and only if $L$ is an integer multiple of 3 ($L \in \{6, 9, 12, \dots\}$).
+At the Dirac points, the spectral gap is set by the tiny magnetic mass $\Delta_K \propto h^3$.
+As shown in Figure~\ref{fig:f18_dense_real_space_resonance} (Left), when $3 \mid L$, the smallest singular value of $\mathbf{A}$ plunges to the machine epsilon boundary ($s_{\min} \approx 10^{-16}$), causing the matrix condition number to explode to $\kappa(\mathbf{A}) \approx 6 \times 10^{15}$.
+
+This explains the dramatic precision anomaly observed in Track A:
+Computing the covariance matrix via $\Omega = -\mathbf{A}(-\mathbf{A}^2)^{-1/2}$ forms the matrix $\mathbf{S} = -\mathbf{A}^2$, whose condition number is \textit{squared}:
+\begin{equation}
+\kappa(\mathbf{S}) = \kappa(\mathbf{A})^2 \approx 3.6 \times 10^{31} \gg \epsilon_{\mathrm{mach}}^{-1}.
+\end{equation}
+Inverting $\mathbf{S}^{1/2}$ near the singular boundary inevitably loses half of the floating-point mantissa bits, causing the Frobenius discrepancy $\|\Omega_{\mathbb{R}} - \Omega_{\mathbb{C}}\|_F / \sqrt{M}$ to jump from $1.3 \times 10^{-14}$ (for $3 \nmid L$) up to $9.5 \times 10^{-9}$ (for $3 \mid L$).
+
+In contrast, \textbf{Track B (Newton-Schulz purification)} never squares the Hamiltonian or explicitly inverts near-zero singular values. The cubic iteration $f(x) = \frac{1}{2}x(3-x^2)$ acts as a smooth, stable sign filter, preserving machine precision ($\|\Omega_{\mathrm{purif}} - \Omega_{\mathbb{C}}\|_F / \sqrt{M} \approx 4 \times 10^{-15}$) across all lattice geometries without mantissa degradation.
+
+\subsection{Pathological Deflation Stalling in Divide-and-Conquer Eigensolvers}
+A second striking anomaly in Table~\ref{tab:m1_6_solver_leading_order_flops} and Figure~\ref{fig:f18_dense_real_space_resonance} (Right) is the pronounced non-monotonicity of LAPACK's divide-and-conquer eigensolver (\texttt{zheevd}) wall time on symmetric tori.
+For example, \texttt{zheevd} on an $L=10$ cluster ($M=800$) took $405.96 \pm 243\text{ ms}$, but spiked up to $1418.6 \pm 420\text{ ms}$ at $L=12$ ($M=1152$), exhibiting high run-to-run variance.
+
+This is caused by the high point-group symmetry of the periodic honeycomb torus, which induces massive eigenvalue degeneracies (up to 12-fold symmetry stars).
+In the Cuppen divide-and-conquer algorithm implemented in LAPACK \texttt{dlaed0}/\texttt{zlaed0}, exact degeneracies allow deflation of secular equations. However, when degeneracies are nearly but not identically equal due to floating-point rounding across parallel worker threads, deflation checks fail, triggering extensive secular equation root-finding loops and multi-threaded lock contention.
+Matrix sign purification bypasses eigenspace deflation entirely: its runtime is governed solely by dense \texttt{dgemm} operations that stream through CPU cache lines at over $114\text{ GFLOP/s}$ with minimal variance ($\pm 2\%$).
 
 \begin{proposition}[Real-Space Benchmark Results]
 \label{prop:m1_8_benchmark_results}

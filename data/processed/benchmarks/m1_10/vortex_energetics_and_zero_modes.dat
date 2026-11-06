@@ -1,0 +1,20 @@
+# Description: Two-vison pair interaction potential and in-gap Majorana zero modes (Wave 2)
+# Geometry: L = 8 periodic honeycomb torus (N_sites = 128, M = 512)
+# Generated: 2026-11-06 10:01:23
+# Section 1: Potential V(R) at h = 0
+# R  cut_len  delta_E  eps_1  eps_2
+ 1   2      0.114139      0.518440      0.596027
+ 2   4      0.133020      0.389817      0.501710
+ 3   5      0.163729      0.123325      0.637139
+ 4   4      0.167911      0.107401      0.621015
+
+
+# Section 2: In-gap mode vs Zeeman field at separation R = 4
+# h  delta_E  bulk_gap  eps_1  eps_2
+ 0.000      0.167911      0.828427      0.107401      0.621015
+ 0.010      0.167883      0.827772      0.107368      0.620729
+ 0.020      0.167802      0.825833      0.107271      0.619875
+ 0.040      0.167477      0.818451      0.106884      0.616512
+ 0.060      0.166940      0.807247      0.106246      0.611083
+ 0.080      0.166193      0.793306      0.105369      0.603822
+ 0.100      0.165244      0.777549      0.104267      0.595003

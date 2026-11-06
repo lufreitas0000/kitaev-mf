@@ -48,14 +48,16 @@ Under equivalent thermodynamic sampling, the number of supercell $k$-points is r
 \end{equation}
 
 \input{figures/fig_f15_supercell_scaling}
+\input{figures/fig_f19_dense_supercell_scaling}
 
-\begin{proposition}[Empirical Supercell Scaling]
+\begin{proposition}[Empirical Supercell Scaling and Dense Sampling with Error Bars]
 \label{prop:m1_7_empirical_scaling}
-Numerical benchmarking across $n_c \in \{2, 4, 8, 16, 32\}$ sublattices at $h/|K| = 0.20$ (\texttt{scripts/m1\_7/benchmark\_bloch\_supercells.py}) establishes:
+High-density numerical benchmarking across $n_c \in \{2, 4, 6, 8, 12, 16, 24, 32\}$ sublattices at $h/|K| = 0.20$ (\texttt{scripts/m1\_7/generate\_dense\_supercell\_data.py}) over $N_{\mathrm{repeats}} = 5$ trials per configuration establishes:
 \begin{enumerate}
-\item \textbf{Exact Intensive Energy Parity:} The ground-state energy per physical site satisfies $|E_{\mathrm{site}}(n_c) - E_{\mathrm{site}}(2)| \le 5.55 \times 10^{-16}$ across all sizes, matching primitive results to machine precision.
-\item \textbf{Cubic Eigensolver Scaling:} The FLOP count per evaluation quadruples when $n_c$ doubles ($1.57 \to 6.29 \to 25.17 \to 100.66 \to 402.65\text{ MFLOPs}$), validating the $\mathcal{O}(n_c^2)$ folded complexity law with $R^2 > 0.99999$.
-\item \textbf{Algorithmic Invariance:} The Joint DIIS solver converged in exactly $K = 23$ iterations across all five supercell sizes, demonstrating zero convergence degradation under supercell enlargement.
+\item \textbf{Exact Intensive Energy Parity:} The ground-state energy per physical site satisfies $|E_{\mathrm{site}}(n_c) - E_{\mathrm{site}}(2)| \le 8.2 \times 10^{-5}$ across general aspect ratios, with exact folding parity $|E(32) - E(2)| \le 3.33 \times 10^{-16}$ on commensurate sub-meshes.
+\item \textbf{Cubic Eigensolver Scaling:} The FLOP count per evaluation scales quadratically as $\mathcal{O}(n_c^2)$ ($1.57 \to 402.65\text{ MFLOPs}$), validating the $\mathcal{O}(N_k n_c^3)$ complexity law with $R^2 > 0.99999$.
+\item \textbf{BLAS Arithmetic Amortization:} While theoretical FLOPs grow by $256\times$, wall-clock time per evaluation increases by only $9.1\times$ ($13.49 \pm 1.7\text{ ms} \to 122.41 \pm 2.2\text{ ms}$) because sustained host CPU throughput increases from $0.12\text{ GFLOP/s}$ at $n_c = 2$ ($8 \times 8$ matrices) to $3.29\text{ GFLOP/s}$ at $n_c = 32$ ($128 \times 128$ matrices).
+\item \textbf{Algorithmic Invariance:} The Joint DIIS solver converged in identically $K = 23$ iterations across all supercell sizes, demonstrating that Brillouin zone folding introduces zero algorithmic stiffness into the non-linear fixed-point map.
 \end{enumerate}
 \end{proposition}
 

@@ -1,0 +1,72 @@
+% Figure F20: Real-Space Two-Vison Energetics, Interaction Potential, and Sub-Gap Modes
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.48\textwidth,
+    height=6.2cm,
+    xlabel={Vortex Separation $R$ [Unit Cells]},
+    ylabel={Energy $[\,|K|\, progression]$},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    legend pos=south east,
+    legend cell align={left},
+    legend style={font=\footnotesize, fill=white, fill opacity=0.9},
+    tick label style={font=\footnotesize},
+    label style={font=\small},
+    xmin=0.8, xmax=4.2,
+    xtick={1, 2, 3, 4},
+]
+    % Defect creation potential V(R): x=col 0 (R), y=col 2 (delta_E)
+    \addplot[mark=square*, color=labbookcrimson, thick] 
+    table[x index=0, y index=2] {../../data/processed/benchmarks/m1_10/vortex_potential_h0.dat};
+    \addlegendentry{Defect Potential $V(R)$}
+
+    % Lowest in-gap mode eps_1: x=col 0 (R), y=col 3 (eps_1)
+    \addplot[mark=*, color=labbookblue, thick] 
+    table[x index=0, y index=3] {../../data/processed/benchmarks/m1_10/vortex_potential_h0.dat};
+    \addlegendentry{Bound Mode $\epsilon_1(R)$}
+
+    % Second mode eps_2: x=col 0 (R), y=col 4 (eps_2)
+    \addplot[mark=triangle*, color=labbookteal, thick, dashed] 
+    table[x index=0, y index=4] {../../data/processed/benchmarks/m1_10/vortex_potential_h0.dat};
+    \addlegendentry{Second Mode $\epsilon_2(R)$}
+
+\end{axis}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.48\textwidth,
+    height=6.2cm,
+    xlabel={Zeeman Field $h / |K|$},
+    ylabel={Energy $[\,|K|\, progression]$},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    legend pos=north east,
+    legend cell align={left},
+    legend style={font=\footnotesize, fill=white, fill opacity=0.9},
+    tick label style={font=\footnotesize},
+    label style={font=\small},
+    xmin=0.0, xmax=0.105,
+]
+    % Bulk vacuum gap: x=col 0 (h), y=col 2 (bulk_gap)
+    \addplot[mark=diamond*, color=labbookslate, thick] 
+    table[x index=0, y index=2] {../../data/processed/benchmarks/m1_10/vortex_field_modes.dat};
+    \addlegendentry{Bulk Vacuum Gap $\Delta_{\mathrm{bulk}}(h)$}
+
+    % Defect pair energy: x=col 0 (h), y=col 1 (delta_E)
+    \addplot[mark=square*, color=labbookcrimson, thick] 
+    table[x index=0, y index=1] {../../data/processed/benchmarks/m1_10/vortex_field_modes.dat};
+    \addlegendentry{Vison Pair Energy $\Delta E(h)$}
+
+    % Lowest in-gap Majorana zero mode: x=col 0 (h), y=col 3 (eps_1)
+    \addplot[mark=*, color=labbookblue, thick] 
+    table[x index=0, y index=3] {../../data/processed/benchmarks/m1_10/vortex_field_modes.dat};
+    \addlegendentry{Sub-Gap Mode $\epsilon_1(h)$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Real-space two-vison pair energetics and in-gap Majorana bound modes on an $L = 8$ honeycomb torus ($N_{\mathrm{sites}} = 128$, $M = 512$ Majoranas). \textbf{(Left)} At zero field ($h = 0$), the defect interaction potential $V(R)$ increases monotonically with separation $R$, approaching the asymptotic threshold $\sim 0.168 |K|$, while the lowest bound mode $\epsilon_1$ decouples from $\epsilon_1 = 0.518$ at $R=1$ down to $\epsilon_1 = 0.107$ at $R=4$. \textbf{(Right)} Under external field along $[111]$ at maximal separation $R = 4$, the localized in-gap bound mode $\epsilon_1(h) \approx 0.105 |K|$ remains deeply seated within the bulk vacuum gap ($\epsilon_1 / \Delta_{\mathrm{bulk}} \approx 13\%$), demonstrating topological defect robustness.}
+\label{fig:f20_vortex_energetics}
+\end{figure}

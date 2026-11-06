@@ -112,6 +112,50 @@ milestone_history:
   - .agents/rules/06_milestone_progress.md
   - .agents/rules/07_discovery_log.md
   validation: user_reported_local_wsl_pass
+- id: M1.6
+  name: Fixed-Point Solvers, Contraction Theory, and Multi-Basin Landscape
+  status: completed
+  acceptance: Evaluated Picard, DIIS, Broyden, JFNK, L-Broyden; mapped h_c* = 0.3325 and h_c2+ = 0.400; verified FLOP profiler and Wilson CIs.
+  evidence:
+  - doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex
+  - src/kitaev_mf/infra/profiler.py
+  - scripts/m1_6/
+- id: M1.7
+  name: Multi-Site Supercells and Spatial Isotropy
+  status: completed
+  acceptance: General supercells n_c in {2..32}; verified O(N_k n_c^3) scaling, extensive energy parity, and isotropic stability.
+  evidence:
+  - doc/labbook/chapters/ch_m1_8_supercell_bloch_scaling.tex
+  - src/kitaev_mf/domain/lattice.py::make_honeycomb_supercell
+  - scripts/m1_7/
+- id: M1.8
+  name: Real-Space Clusters and Eigensolver-Free Matrix Sign Purification
+  status: completed
+  acceptance: Compared dense skew-symmetric algebra vs complex zheevd; verified 63.5x speedup and 114.6 GFLOP/s throughput via Newton-Schulz purification.
+  evidence:
+  - doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex
+  - src/kitaev_mf/services/real_space.py
+  - src/kitaev_mf/services/purification.py
+  - scripts/m1_8/
+- id: M1.9
+  name: Publication Overhaul and 3-Agent Adversarial Peer Review
+  status: completed
+  acceptance: Rewrote manuscript to SciPost standards (scipost_kitaev_mf.tex); passed 3-round simulated peer review (referees + editor) with full acceptance.
+  evidence:
+  - doc/manuscript/scipost_kitaev_mf.tex
+  - doc/rnd/peer_review/
+- id: M1.10
+  name: Real-Space Vortices, Vison Pairs, and In-Gap Majorana Bound States
+  status: completed
+  acceptance: Dual triangular lattice branch cuts, attractive potential V(R), in-gap sub-gap bound modes (~13% of gap) localized at vortex cores, and self-consistent topological stability.
+  evidence:
+  - doc/labbook/chapters/ch_m1_10_vortices_real_lattice.tex
+  - doc/labbook/figures/fig_f20_vortex_energetics_and_modes.tex
+  - doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
+  - doc/rnd/phase_1/m1_10_t2_two_vison_energetics_and_zero_modes.md
+  - data/processed/benchmarks/m1_10/
+  - scripts/m1_10/
+  - test/unit/test_real_space_vortices.py
 active_milestone:
   id: M1.6
   description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site & 4-Site Cells,
@@ -533,4 +577,31 @@ verified_physics_invariants:
     sustained_throughput_gflops: 104.54
     covariance_parity: 4.218e-15
     energy_difference: 2.842e-13
+- id: K-019
+  name: Exact pure-Kitaev spin perturbation operator mapping and mean-field gap reconciliation
+  equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical = 4 Delta_K^MF = 10.368 h^3; Delta_exact = 12 sqrt(3) kappa_exact = 57.5 h^3
+  status: verified_operator_derivation
+  provenance:
+    analytical: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
+    cross_branch: research/pure-kitaev-exact-perturbation-20261102
+  numerical_evidence:
+    bloch_scaling_factor: 4.0
+    energy_denominator_ratio_squared: 15.8
+    residual_screening_ratio: 2.85
+- id: K-020
+  name: Real-space vortex pair attractive potential, in-gap Majorana zero modes, and topological trapping
+  equation: V(R) = 0.114 |K| -> 0.168 |K| (R=1..4 on L=8); eps_1(h) / Delta_bulk approx 13.0%; W(p1) = W(p2) = -1.000 (stable under self-consistency)
+  status: verified_real_space_defect_physics
+  provenance:
+    analytical: doc/rnd/phase_1/m1_10_t2_two_vison_energetics_and_zero_modes.md
+    benchmark: data/processed/benchmarks/m1_10/vortex_energetics_and_zero_modes.dat
+    script: scripts/m1_10/benchmark_vortex_energetics_and_stability.py
+    labbook: doc/labbook/chapters/ch_m1_10_vortices_real_lattice.tex
+  numerical_evidence:
+    tested_separations: [1, 2, 3, 4]
+    cut_lengths: [2, 4, 5, 4]
+    saturation_defect_energy: 0.167911
+    sub_gap_mode_ratio: 0.1296
+    wavefunction_localization_core_weight: 0.75
+    self_consistent_flux_drift: < 2.0e-15
 open_blockers: []

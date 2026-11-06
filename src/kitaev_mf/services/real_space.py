@@ -6,6 +6,8 @@ Represents an L x L periodic honeycomb torus cluster with:
 - Exact real skew-symmetric matrix representation A in R^{M x M} (A^T = -A).
 """
 
+from collections import deque
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 import numpy as np
@@ -61,14 +63,24 @@ class RealSpaceTorusCluster:
         self,
         params: ModelParameters,
         state: MeanFieldState,
+        flipped_bonds: Sequence[tuple[int, int, int]] | set[tuple[int, int, int]] | None = None,
     ) -> np.ndarray:
-        """Assemble the exact real skew-symmetric M x M matrix A where H = (i/4) c^T A c."""
+        """Assemble the exact real skew-symmetric M x M matrix A where H = (i/4) c^T A c.
+
+        Args:
+            params: Exchange couplings and external field.
+            state: Mean-field correlation state.
+            flipped_bonds: Optional collection of directed bond keys (m1, m2, b_idx)
+                           whose gauge link signs are inverted (u_b -> -u_b).
+        """
         cell2 = make_honeycomb_2site(self.d_nn)
         device = torch.device("cpu")
 
         # Use canonical production services for on-site B_s and hopping A_b
         b_mat = build_on_site_matrices(cell2, params, state, device).cpu().numpy()
         a_mat = build_bond_hopping_matrices(cell2, params, state, device).cpu().numpy()
+
+        flipped_set = set(flipped_bonds) if flipped_bonds is not None else set()
 
         M = self.num_majoranas
         A = np.zeros((M, M), dtype=np.float64)
@@ -91,15 +103,125 @@ class RealSpaceTorusCluster:
                     s_B = self.site_index(m1 + d1, m2 + d2, 1)
                     sl_B = self.majorana_slice(s_B)
 
+                    sign = -1.0 if (m1, m2, b_idx) in flipped_set else 1.0
+
                     # In Bloch Hamiltonian, block (s_A, s_B) is +(i/4) * A_b
                     # In real-space Majorana form H = (i/4) c^T A c:
                     # c_A^T A_b c_B => in skew-symmetric A:
                     # A[A, B] = A_b, A[B, A] = -A_b^T
-                    A[sl_A, sl_B] += a_mat[b_idx]
-                    A[sl_B, sl_A] -= a_mat[b_idx].T
+                    A[sl_A, sl_B] += sign * a_mat[b_idx]
+                    A[sl_B, sl_A] -= sign * a_mat[b_idx].T
 
         # Enforce exact skew-symmetry
         return np.asarray(0.5 * (A - A.T), dtype=np.float64)
+
+    def build_dual_graph(
+        self,
+    ) -> dict[tuple[int, int], list[tuple[tuple[int, int], tuple[int, int, int]]]]:
+        """Construct the dual triangular lattice graph connecting hexagonal plaquettes.
+
+        Returns:
+            Dictionary mapping each plaquette coordinate (m1, m2) to a list of
+            tuples: (neighbor_plaquette, crossing_bond_key), where crossing_bond_key
+            is (m1, m2, b_idx).
+        """
+        L = self.L
+        bond_to_plaquettes: dict[tuple[int, int, int], list[tuple[int, int]]] = {}
+
+        for m2 in range(L):
+            for m1 in range(L):
+                p = (m1, m2)
+                bonds = [
+                    (m1, m2, 0),
+                    (m1, (m2 + 1) % L, 1),
+                    (m1, (m2 + 1) % L, 2),
+                    ((m1 - 1) % L, (m2 + 1) % L, 0),
+                    ((m1 - 1) % L, (m2 + 1) % L, 1),
+                    (m1, m2, 2),
+                ]
+                for b in bonds:
+                    bond_to_plaquettes.setdefault(b, []).append(p)
+
+        adj: dict[tuple[int, int], list[tuple[tuple[int, int], tuple[int, int, int]]]] = {
+            (m1, m2): [] for m2 in range(L) for m1 in range(L)
+        }
+        for b, pls in bond_to_plaquettes.items():
+            pA, pB = pls[0], pls[1]
+            adj[pA].append((pB, b))
+            adj[pB].append((pA, b))
+
+        return adj
+
+    def generate_vortex_pair_cut(
+        self,
+        p1: tuple[int, int],
+        p2: tuple[int, int],
+    ) -> list[tuple[int, int, int]]:
+        """Generate a minimal-length branch cut (string of bonds) connecting plaquettes p1 and p2.
+
+        Inverting the gauge links along this cut produces an isolated pair of vortices
+        with W_{p1} = -1 and W_{p2} = -1, leaving all other plaquettes flux-free (W = +1).
+
+        Args:
+            p1: Source plaquette (m1, m2).
+            p2: Target plaquette (m1, m2).
+
+        Returns:
+            List of directed bond keys (m1, m2, b_idx) forming the dual branch cut.
+        """
+        adj = self.build_dual_graph()
+        visited = {p1}
+        queue: deque[tuple[tuple[int, int], list[tuple[int, int, int]]]] = deque([(p1, [])])
+
+        while queue:
+            curr, path_bonds = queue.popleft()
+            if curr == p2:
+                return path_bonds
+            for nbr, b in adj[curr]:
+                if nbr not in visited:
+                    visited.add(nbr)
+                    queue.append((nbr, path_bonds + [b]))
+
+        return []
+
+    def compute_plaquette_fluxes(
+        self,
+        omega: np.ndarray,
+    ) -> dict[tuple[int, int], float]:
+        """Compute all L^2 hexagonal Wilson loops W_p from the Majorana covariance matrix Omega.
+
+        For each plaquette p, W_p = prod_{b in partial p} u_b in [-1, 1], where
+        u_b = Omega_{4 s_A + gamma, 4 s_B + gamma} is the gauge link expectation.
+
+        Args:
+            omega: Skew-symmetric Majorana covariance matrix in R^{M x M}.
+
+        Returns:
+            Dictionary mapping plaquette coordinate (m1, m2) to Wilson loop W_p.
+        """
+        L = self.L
+        disp = [(0, 0, 3), (0, -1, 1), (-1, 0, 2)]
+
+        def get_bond_u(m1: int, m2: int, b_idx: int) -> float:
+            s_A = self.site_index(m1, m2, 0)
+            d1, d2, gamma = disp[b_idx]
+            s_B = self.site_index(m1 + d1, m2 + d2, 1)
+            idx_A = 4 * s_A + gamma
+            idx_B = 4 * s_B + gamma
+            return float(omega[idx_A, idx_B])
+
+        fluxes: dict[tuple[int, int], float] = {}
+        for m2 in range(L):
+            for m1 in range(L):
+                ub1 = get_bond_u(m1, m2, 0)
+                ub2 = get_bond_u(m1, (m2 + 1) % L, 1)
+                ub3 = get_bond_u(m1, (m2 + 1) % L, 2)
+                ub4 = get_bond_u((m1 - 1) % L, (m2 + 1) % L, 0)
+                ub5 = get_bond_u((m1 - 1) % L, (m2 + 1) % L, 1)
+                ub6 = get_bond_u(m1, m2, 2)
+                fluxes[(m1, m2)] = ub1 * ub2 * ub3 * ub4 * ub5 * ub6
+
+        return fluxes
 
     def solve_covariance_complex_eigh(self, A: np.ndarray) -> tuple[np.ndarray, float]:
         """Compute ground-state covariance matrix Omega = i sgn(i A) via complex Hermitian eigensolver zheevd.
