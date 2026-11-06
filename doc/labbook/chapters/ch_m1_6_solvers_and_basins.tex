@@ -33,38 +33,6 @@ g_s^\gamma \equiv \operatorname{Tr}(\mathrm{G}^\gamma \mathrm{V}_s^*) = 0 \impli
 The variational Hartree-Fock ground-state energy functional is $E_{\mathrm{MF}}[P, \boldsymbol{\lambda}] = \langle \mathcal{H}[P] \rangle_P - E_{\mathrm{exchange}}[P] - \sum_{s,\gamma} \lambda_s^\gamma g_s^\gamma$. The tangent space to the Grassmannian at $\Pi^-$ is parameterized by skew-Hermitian commutators $\delta \Pi = [\Delta, \Pi^-]$ where $\Delta^\dagger = -\Delta$. First-order stationarity $\delta E_{\mathrm{MF}} = 0$ requires $\operatorname{Tr}(\mathcal{H}(\mathbf{k}) [\Delta(\mathbf{k}), \Pi^-(\mathbf{k})]) = 0$ for all skew-Hermitian variations $\Delta(\mathbf{k})$, which holds if and only if $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = \mathbf{0}$. Stationarity with respect to the Lagrange multipliers $\lambda_s^\gamma$ yields the gauge condition $\partial E / \partial \lambda_s^\gamma = -g_s^\gamma / 4 = 0$.
 \end{proof}
 
-% EDITORIAL QUESTION: How is the non-linear self-consistent mean-field problem formulated geometrically on the orthogonal Grassmannian, and what characterizes stationarity?
-\section{Geometric Fixed-Point Formulation on the Orthogonal Grassmannian}
-\label{sec:m1_6_grassmannian_geometry}
-
-The self-consistent Hartree-Fock-Bogoliubov mean-field equations for the 4-flavor Majorana representation describe a nonlinear mapping on the orthogonal Grassmannian manifold bundle over the Brillouin zone:
-\begin{equation}
-\label{eq:m1_6_grassmannian_def}
-\Gr_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}}) \equiv \left\{ \Pi \in \mathbb{C}^{4N_{\mathrm{sub}} \times 4N_{\mathrm{sub}}} \;\middle|\; \Pi^2 = \Pi = \Pi^\dagger, \; \operatorname{Tr}(\Pi) = 2N_{\mathrm{sub}} \right\},
-\end{equation}
-subject to the particle-hole constraint $\Pi^-(-\mathbf{k}) = \Id - (\Pi^-(\mathbf{k}))^*$. For the 2-sublattice primitive cell ($N_{\mathrm{sub}} = 2$), the fiber dimension is $4N_{\mathrm{sub}} = 8$ and each occupied projector has trace $\operatorname{Tr}(\Pi^-) = 4$.
-At zero temperature ($T=0$), the physical two-point correlator $P(\mathbf{k}) = 2\Pi^-(\mathbf{k})$ projects onto the negative-energy eigenspace of the momentum-space Hamiltonian $\mathcal{H}(\mathbf{k}) \equiv \frac{\ii}{4} M(\mathbf{k})$.
-
-\begin{theorem}[Grassmannian Stationarity and KKT Commutator Condition]
-\label{thm:m1_6_kkt_condition}
-A mean-field state $X^* = (\mathrm{U}^*, \mathrm{V}^*, \boldsymbol{\lambda}^*)$ is a self-consistent Karush-Kuhn-Tucker (KKT) stationary point if and only if two conditions hold simultaneously:
-\begin{enumerate}
-\item \textbf{Spectral Commutator Stationarity:} At every wavevector $\mathbf{k} \in \mathrm{BZ}$, the single-particle density matrix $\Pi^-(\mathbf{k})$ commutes with the assembled Hamiltonian:
-\begin{equation}
-\label{eq:m1_6_kkt_comm}
-\epsilon_{\mathrm{comm}}(\mathbf{k}) \equiv \| [\mathcal{H}(\mathbf{k}; X^*), \Pi^-(\mathbf{k})] \|_F = 0, \qquad \epsilon_{\mathrm{comm}} \equiv \frac{1}{N_{\mathbf{k}}} \sum_{\mathbf{k} \in \mathrm{BZ}} \epsilon_{\mathrm{comm}}(\mathbf{k}) = 0.
-\end{equation}
-\item \textbf{Gauge Constraint Admissibility:} On every physical site $s \in \{0, \dots, N_{\mathrm{sub}}-1\}$ and for all three gauge flavors $\gamma \in \{1, 2, 3\}$, the gauge residual vanishes:
-\begin{equation}
-\label{eq:m1_6_gauge_condition}
-g_s^\gamma \equiv \operatorname{Tr}(\mathrm{G}^\gamma \mathrm{V}_s^*) = 0 \implies \epsilon_{\mathrm{gauge}} \equiv \|\mathbf{g}\|_\infty = 0.
-\end{equation}
-\end{enumerate}
-\end{theorem}
-\begin{proof}
-The variational Hartree-Fock ground-state energy functional is $E_{\mathrm{MF}}[P, \boldsymbol{\lambda}] = \langle \mathcal{H}[P] \rangle_P - E_{\mathrm{exchange}}[P] - \sum_{s,\gamma} \lambda_s^\gamma g_s^\gamma$. The tangent space to the Grassmannian at $\Pi^-$ is parameterized by skew-Hermitian commutators $\delta \Pi = [\Delta, \Pi^-]$ where $\Delta^\dagger = -\Delta$. First-order stationarity $\delta E_{\mathrm{MF}} = 0$ requires $\operatorname{Tr}(\mathcal{H}(\mathbf{k}) [\Delta(\mathbf{k}), \Pi^-(\mathbf{k})]) = 0$ for all skew-Hermitian variations $\Delta(\mathbf{k})$, which holds if and only if $[\mathcal{H}(\mathbf{k}), \Pi^-(\mathbf{k})] = \mathbf{0}$. Stationarity with respect to the Lagrange multipliers $\lambda_s^\gamma$ yields the gauge condition $\partial E / \partial \lambda_s^\gamma = -g_s^\gamma / 4 = 0$.
-\end{proof}
-
 % EDITORIAL QUESTION: What are the mathematical foundations of fixed-point iterations, and how do contractivity and asymptotic convergence rates govern iterative solver design?
 \section{Foundations of Fixed-Point Iteration and Optimization Theory}
 \label{sec:m1_6_foundations_fixed_point}

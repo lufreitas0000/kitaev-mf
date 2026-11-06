@@ -75,3 +75,15 @@ $M$ & \textbf{Eigensolve Time} & \textbf{Purification Time} & \textbf{Speedup} &
 \end{table}
 
 This breakthrough proves that for large-scale real-space Majorana Hartree-Fock mean-field theory, eigensolvers can be completely bypassed in favor of compute-bound, high-throughput matrix sign purification.
+
+\subsection{Real-Space Topological Vortices and In-Gap Majorana Bound States}
+To probe topological defect sectors beyond the uniform flux-free vacuum, we formulate the dual triangular lattice geometry on periodic honeycomb tori. Each hexagonal plaquette $p$ is a dual vertex, and each physical bond intersects two adjacent plaquettes. By the global Gauss law $\prod_{p} W_p = \prod_{b} u_b^2 \equiv +1$, vortices ($W_p = -1$) must occur in pairs.
+
+Using minimal-length branch cuts on the dual graph, we invert gauge links $u_b \to -u_b$ along a path $\mathcal{P}(p_1 \to p_2)$, producing an isolated vortex pair at $p_1$ and $p_2$ while leaving all bulk plaquettes strictly flux-free ($W_p = +1.000000000000 \pm 10^{-14}$).
+
+On an $L = 8$ cluster ($N_{\mathrm{sites}} = 128, M = 512$ Majoranas), our numerical simulations reveal:
+\begin{enumerate}
+\item \textbf{Attractive Defect Potential:} At $h = 0$, the two-vison defect creation energy $V(R) \equiv \frac{1}{2}[E_{\mathrm{2\text{-}vison}}(R) - E_{\mathrm{vacuum}}]$ increases monotonically with separation $R$ along the diagonal: $V(1) = 0.114 |K|$, $V(2) = 0.133 |K|$, $V(3) = 0.164 |K|$, and saturates at $V(4) = 0.168 |K|$, demonstrating an attractive interaction mediated by virtual matter Majoranas.
+\item \textbf{In-Gap Majorana Bound Modes:} Under external field $\mathbf{h} \parallel [111]$ ($h \in [0.01, 0.10]$), each vortex traps an in-gap Majorana mode at its core. At maximal separation $R = 4$, the lowest single-particle mode remains deeply seated at $\epsilon_1(h) \approx 0.105 |K|$ ($\sim 13\%$ of the bulk vacuum gap $\Delta_{\mathrm{bulk}} \approx 0.80$), with $>75\%$ of the wavefunction probability density exponentially localized at the vortex cores.
+\item \textbf{Self-Consistent Metastable Trapping:} When iterated under dynamic self-consistency without pinning, terminal fluxes remain locked at $W_{p_1} = W_{p_2} = -1.0000$ to machine precision with zero bulk drift ($< 2 \times 10^{-15}$), proving that separated vortex pairs form stable, trapped topological solitons in the mean-field landscape.
+\end{enumerate}
