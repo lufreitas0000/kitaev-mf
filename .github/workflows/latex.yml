@@ -11,6 +11,7 @@ on:
       - 'doc/manuscript/**'
       - 'doc/shared/**'
       - 'data/processed/benchmarks/**'
+      - 'scripts/build_blueprint.py'
       - '.github/workflows/latex.yml'
   pull_request:
     paths:
@@ -22,11 +23,13 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: latex-${{ github.ref }}
-  cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: false
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build_latex:
@@ -104,3 +107,28 @@ jobs:
               --title "kitaev-mf Documents (Latest Build)" \
               --notes "Automated build of Living Lab Book and SciPost Manuscript from main. book-build.json provides SHA-256 provenance receipts."
           fi
+
+      - name: Build GitHub Pages Portal with Compiled PDFs
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python3 -m pip install pyyaml --break-system-packages || pip install pyyaml
+          python3 scripts/build_blueprint.py --root . --output-dir build/blueprint
+          cp book-build.json build/blueprint/book-build.json
+
+      - name: Upload GitHub Pages Artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/blueprint
+
+  deploy_pages:
+    needs: build_latex
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Compiled PDFs & Blueprint to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

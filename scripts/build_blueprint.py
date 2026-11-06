@@ -15,6 +15,7 @@ import argparse
 import datetime
 import html
 import re
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -59,7 +60,7 @@ def parse_pivot_log(log_path: Path) -> list[dict[str, str]]:
 
 def collect_dat_benchmarks(root: Path) -> list[dict[str, str]]:
     benchmarks: list[dict[str, str]] = []
-    for dat_path in sorted(root.glob("data/processed/benchmarks/*.dat")):
+    for dat_path in sorted(root.glob("data/processed/benchmarks/**/*.dat")):
         headers: list[str] = []
         try:
             for line in dat_path.read_text(encoding="utf-8").splitlines()[:10]:
@@ -169,6 +170,19 @@ def generate_blueprint(root: Path, output_dir: Path) -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Copy compiled PDFs and Hypothesis Contracts to output_dir so they are hosted directly on GitHub Pages
+    labbook_src = root / "doc/labbook/labbook_kitaev_mf.pdf"
+    manuscript_src = root / "doc/manuscript/scipost_kitaev_mf.pdf"
+    contracts_src = root / "doc/HYPOTHESIS_CONTRACTS.md"
+    if labbook_src.is_file():
+        shutil.copy2(labbook_src, output_dir / "kitaev-mf-labbook.pdf")
+        shutil.copy2(labbook_src, output_dir / "labbook_kitaev_mf.pdf")
+    if manuscript_src.is_file():
+        shutil.copy2(manuscript_src, output_dir / "kitaev-mf-manuscript.pdf")
+        shutil.copy2(manuscript_src, output_dir / "scipost_kitaev_mf.pdf")
+    if contracts_src.is_file():
+        shutil.copy2(contracts_src, output_dir / "HYPOTHESIS_CONTRACTS.md")
+
     # 1. Write Markdown summary
     md_out = output_dir / "BLUEPRINT.md"
     md_lines = [
@@ -258,14 +272,41 @@ def generate_blueprint(root: Path, output_dir: Path) -> None:
     code {{ font-family: "JetBrains Mono", "Courier New", monospace; font-size: 0.88em; background: #EAE3D2; padding: 0.1rem 0.3rem; border-radius: 3px; }}
     .badge {{ background: var(--accent); color: var(--bg); padding: 0.15rem 0.45rem; border-radius: 3px; font-size: 0.8rem; font-family: sans-serif; }}
     .graph-box {{ background: #FFFFFF; border: 1px solid var(--rule); padding: 1rem; border-radius: 6px; overflow-x: auto; }}
+    .pdf-cards {{ display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 1.25rem 0 2rem 0; }}
+    .pdf-card {{ flex: 1 1 320px; background: var(--card); border: 2px solid var(--accent); border-radius: 6px; padding: 1rem 1.25rem; }}
+    .pdf-card h3 {{ margin-top: 0; border-bottom: none; padding-bottom: 0; }}
+    .btn {{ display: inline-block; background: var(--accent); color: var(--bg); text-decoration: none; padding: 0.45rem 0.9rem; border-radius: 4px; font-family: sans-serif; font-weight: bold; font-size: 0.9rem; margin-right: 0.5rem; margin-top: 0.5rem; }}
+    .btn-secondary {{ background: transparent; color: var(--accent); border: 1px solid var(--accent); }}
   </style>
 </head>
 <body>
-  <h1>{html.escape(project_name)}: R&amp;D Epistemic Blueprint</h1>
+  <h1>{html.escape(project_name)}: R&amp;D Epistemic Blueprint &amp; Compiled Monographs</h1>
   <div class="meta">
     <strong>Active Phase:</strong> {html.escape(active_phase)} &nbsp;|&nbsp;
     <strong>Current Milestone:</strong> <code>{html.escape(current_ms)}</code> &nbsp;|&nbsp;
     <strong>Updated:</strong> <code>{html.escape(now)}</code>
+  </div>
+
+  <h2>0. Compiled PDF Monographs &amp; Key Deliverables</h2>
+  <div class="pdf-cards">
+    <div class="pdf-card">
+      <h3>Living Lab Book Monograph (PDF)</h3>
+      <p>Comprehensive <strong>74-page</strong> R&amp;D monograph (11 chapters, full proofs, Grassmannian schematics, and PGFPlots benchmarks).</p>
+      <a class="btn" href="kitaev-mf-labbook.pdf" target="_blank">View / Download PDF (GitHub Pages)</a>
+      <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-labbook.pdf" target="_blank">Release PDF</a>
+    </div>
+    <div class="pdf-card">
+      <h3>SciPost Executive Monograph (PDF)</h3>
+      <p>Publication-grade <strong>9-page</strong> executive paper synthesizing the core analytical and numerical breakthroughs of Phase 1.</p>
+      <a class="btn" href="kitaev-mf-manuscript.pdf" target="_blank">View / Download PDF (GitHub Pages)</a>
+      <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-manuscript.pdf" target="_blank">Release PDF</a>
+    </div>
+    <div class="pdf-card">
+      <h3>Hypothesis Contracts &amp; Repository</h3>
+      <p>Centralized registry of all <strong>22 Hypothesis Contracts</strong> (passed, refuted, and Phase 2 gates) and source code.</p>
+      <a class="btn" href="https://github.com/lufreitas0000/kitaev-mf/blob/main/doc/HYPOTHESIS_CONTRACTS.md" target="_blank">Hypothesis Contracts</a>
+      <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf" target="_blank">GitHub Repository</a>
+    </div>
   </div>
 
   <h2>1. Epistemic Dependency Graph (Questions &rarr; R&amp;D Notes &rarr; Claims &rarr; Pivots)</h2>

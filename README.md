@@ -9,15 +9,16 @@
 
 ## Compiled Monographs & Key Deliverables
 
-| Deliverable | Repository Path (Direct View) | Latest CI Release Artifact | Description |
-| :--- | :--- | :--- | :--- |
-| **Living Lab Book (PDF)** | [`doc/labbook/labbook_kitaev_mf.pdf`](doc/labbook/labbook_kitaev_mf.pdf) | [`kitaev-mf-labbook.pdf`](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-labbook.pdf) | **74-page** comprehensive R&D monograph (11 chapters, full proofs, TikZ schematics, and PGFPlots benchmarks). |
-| **SciPost Monograph (PDF)** | [`doc/manuscript/scipost_kitaev_mf.pdf`](doc/manuscript/scipost_kitaev_mf.pdf) | [`kitaev-mf-manuscript.pdf`](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-manuscript.pdf) | **9-page** executive publication paper synthesizing the core breakthroughs of Phase 1. |
-| **Hypothesis Contracts Registry** | [`doc/HYPOTHESIS_CONTRACTS.md`](doc/HYPOTHESIS_CONTRACTS.md) | — | Centralized registry of all **22 Hypothesis Contracts** (`PH-01`–`06`, `AH-01`–`05`, `HC-P1-01`–`03`, `C-M1.9-T1`–`T6`, `H1`–`H11` / `HC-P2-01`–`05`) with pass/refuted verdicts and post-mortems. |
-| **Master Solver Resource Table** | [`master_solver_resource_table.dat`](data/processed/benchmarks/m1_9/master_solver_resource_table.dat) | — | Certified solver selection rules, complexity, RAM footprint, iteration counts, and wall times across all physical regimes. |
-| **Verified Physics Invariants** | [`PROJECT_STATE.yaml`](PROJECT_STATE.yaml) | — | Single source of truth indexing **23 verified invariants** (`K-001` through `K-023`) and milestone provenance (`M1.1`–`M1.11`). |
-| **Milestone Roadmap** | [`doc/MILESTONE_ROADMAP.md`](doc/MILESTONE_ROADMAP.md) | — | Multi-phase strategic roadmap (Phase 1 Completed $\to$ Phase 2 FM Kitaev `[111]` Physics $\to$ Phase 3+ Model Families). |
-| **Discovery & Pivot Journal** | [`LOG_DISCOVERY_AND_PIVOTS.md`](LOG_DISCOVERY_AND_PIVOTS.md) | — | Chronological log of all mathematical obstructions, refuted conjectures, and algorithmic pivots. |
+| Deliverable | GitHub Pages (Direct Browser View) | Latest CI Release Download | Repository Path | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **Living Lab Book (PDF)** | [**Open PDF (Pages)**](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-labbook.pdf) | [`kitaev-mf-labbook.pdf`](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-labbook.pdf) | [`doc/labbook/labbook_kitaev_mf.pdf`](doc/labbook/labbook_kitaev_mf.pdf) | **74-page** comprehensive R&D monograph (11 chapters, full proofs, TikZ schematics, and PGFPlots benchmarks). |
+| **SciPost Monograph (PDF)** | [**Open PDF (Pages)**](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-manuscript.pdf) | [`kitaev-mf-manuscript.pdf`](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-manuscript.pdf) | [`doc/manuscript/scipost_kitaev_mf.pdf`](doc/manuscript/scipost_kitaev_mf.pdf) | **9-page** executive publication paper synthesizing the core breakthroughs of Phase 1. |
+| **R&D Epistemic Portal** | [**Interactive Portal**](https://lufreitas0000.github.io/kitaev-mf/) | — | [`scripts/build_blueprint.py`](scripts/build_blueprint.py) | Live GitHub Pages portal with PDF links, Mermaid epistemic DAG, 70 R&D notes, and 26 `.dat` benchmarks. |
+| **Hypothesis Contracts Registry** | [**View on Pages**](https://lufreitas0000.github.io/kitaev-mf/HYPOTHESIS_CONTRACTS.md) | — | [`doc/HYPOTHESIS_CONTRACTS.md`](doc/HYPOTHESIS_CONTRACTS.md) | Centralized registry of all **22 Hypothesis Contracts** (`PH-01`–`06`, `AH-01`–`05`, `HC-P1-01`–`03`, `C-M1.9-T1`–`T6`, `H1`–`H11` / `HC-P2-01`–`05`) with pass/refuted verdicts and post-mortems. |
+| **Master Solver Resource Table** | — | — | [`master_solver_resource_table.dat`](data/processed/benchmarks/m1_9/master_solver_resource_table.dat) | Certified solver selection rules, complexity, RAM footprint, iteration counts, and wall times across all physical regimes. |
+| **Verified Physics Invariants** | — | — | [`PROJECT_STATE.yaml`](PROJECT_STATE.yaml) | Single source of truth indexing **23 verified invariants** (`K-001` through `K-023`) and milestone provenance (`M1.1`–`M1.11`). |
+| **Milestone Roadmap** | — | — | [`doc/MILESTONE_ROADMAP.md`](doc/MILESTONE_ROADMAP.md) | Multi-phase strategic roadmap (Phase 1 Completed $\to$ Phase 2 FM Kitaev `[111]` Physics $\to$ Phase 3+ Model Families). |
+| **Discovery & Pivot Journal** | — | — | [`LOG_DISCOVERY_AND_PIVOTS.md`](LOG_DISCOVERY_AND_PIVOTS.md) | Chronological log of all mathematical obstructions, refuted conjectures, and algorithmic pivots. |
 
 ---
 
