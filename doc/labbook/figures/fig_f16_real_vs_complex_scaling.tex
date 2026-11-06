@@ -1,0 +1,32 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xmode=log,
+    ymode=log,
+    log basis x={2},
+    log basis y={10},
+    xlabel={Majorana Mode Dimension $M = 8L^2$},
+    ylabel={Execution Time [ms]},
+    legend pos=north west,
+    xmin=100, xmax=1500,
+    ymin=40, ymax=20000
+]
+    \addplot[labbookcrimson, thick, mark=*, mark size=2.5pt]
+        table[x index=2, y index=7] {../../data/processed/benchmarks/m1_8/real_space_dense_vs_complex.dat};
+    \addlegendentry{Complex Hermitian (\texttt{zheevd})}
+
+    \addplot[labbookteal, thick, mark=square*, mark size=2pt]
+        table[x index=2, y index=8] {../../data/processed/benchmarks/m1_8/real_space_dense_vs_complex.dat};
+    \addlegendentry{Real Skew-Symmetric (\texttt{dsyevd})}
+
+    % Theoretical cubic scaling guide: O(M^3)
+    \addplot[labbookslate, dashed, thick, domain=128:1152]
+        {247.93 * (x/128)^3 / 4};
+    \addlegendentry{Theoretical $\mathcal{O}(M^3)$ Scaling}
+\end{axis}
+\end{tikzpicture}
+\caption{Track A runtime scaling of real skew-symmetric eigensolver arithmetic (\texttt{dsyevd} on $A^2$) versus complex Hermitian tridiagonalization (\texttt{zheevd} on $\mathrm{i} A$) on real-space torus clusters with $M \in [128, 1152]$ Majoranas. Pure real arithmetic halves matrix memory footprint and achieves up to a $6.5\times$ wall-clock speedup.}
+\label{fig:m1_8_real_vs_complex}
+\end{figure}

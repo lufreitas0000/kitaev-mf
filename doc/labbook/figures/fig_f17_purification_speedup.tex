@@ -1,0 +1,30 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xmode=log,
+    ymode=log,
+    log basis x={2},
+    log basis y={10},
+    xlabel={Majorana Mode Dimension $M = 8L^2$},
+    ylabel={Evaluation Time [ms]},
+    legend pos=north west,
+    xmin=100, xmax=1500,
+    ymin=80, ymax=70000
+]
+    \addplot[labbookcrimson, thick, mark=*, mark size=2.5pt]
+        table[x index=1, y index=2] {../../data/processed/benchmarks/m1_8/real_space_purification_vs_eig.dat};
+    \addlegendentry{Standard Eigensolver (\texttt{zheevd})}
+
+    \addplot[labbookteal, thick, mark=square*, mark size=2pt]
+        table[x index=1, y index=3] {../../data/processed/benchmarks/m1_8/real_space_purification_vs_eig.dat};
+    \addlegendentry{Eigenvector-Free Purification (Newton--Schulz)}
+
+    % Speedup annotation node
+    \node[above, font=\small\bfseries, color=labbookteal] at (axis cs:1152, 702) {$63.5\times$ Speedup};
+\end{axis}
+\end{tikzpicture}
+\caption{Track B comparison between standard divide-and-conquer eigensolvers and eigenvector-free Newton--Schulz matrix sign purification $\Omega = \mathrm{i}\operatorname{sgn}(\mathrm{i} A)$ across real-space torus clusters ($M \in [128, 1152]$). Purification achieves a $63.53\times$ speedup at $M=1152$ ($702\text{ ms}$ vs $44.6\text{ s}$) while maintaining machine-precision covariance accuracy ($\|\Omega_{\mathrm{purif}} - \Omega_{\mathrm{eig}}\|_F / \sqrt{M} = 4.22 \times 10^{-15}$).}
+\label{fig:m1_8_purification_speedup}
+\end{figure}

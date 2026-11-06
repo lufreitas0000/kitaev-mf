@@ -1,0 +1,7 @@
+# Real-Space Track B: Eigenvector-Free Matrix Sign Purification vs Eigensolvers
+# Columns: L  M  TIME_EIG_MS  TIME_PURIF_MS  SPEEDUP  ITERS  GEMM_CALLS  THROUGHPUT_GFLOPS  DIFF_NORM  DIFF_ENERGY
+4   128    511.69       137.06         3.73      11      22          0.67               3.121e-15    0.000e+00   
+6   288    4242.19      209.80         20.22     11      22          5.01               3.839e-15    4.263e-14   
+8   512    12205.75     946.38         12.90     12      24          6.81               3.572e-15    0.000e+00   
+10  800    42552.23     1353.47        31.44     12      24          18.16              5.310e-15    5.684e-14   
+12  1152   44596.07     701.98         63.53     12      24          104.54             4.218e-15    2.842e-13   

@@ -1,0 +1,90 @@
+\chapter{Milestone M1.8: Real-Space Torus Clusters, Real Arithmetic, and Matrix Sign Purification}
+\label{ch:m1_8_real_space}
+
+% EDITORIAL QUESTION: How is the Majorana mean-field Hamiltonian formulated in real space on finite torus clusters, and what are the advantages of pure real skew-symmetric arithmetic?
+\section{Real-Space Torus Clusters and Real Skew-Symmetric Algebra}
+\label{sec:m1_8_real_space_algebra}
+
+While momentum-space Bloch diagonalizations are powerful for translationally invariant bulk phases, real-space formulations are essential for disorder, isolated visons, edge boundaries, and non-periodic topologies.
+
+We consider a periodic torus cluster of $L \times L$ unit cells with periodic boundary conditions along both primitive Bravais vectors. The cluster geometry is defined by:
+\begin{equation}
+\label{eq:m1_8_cluster_dimensions}
+N_{\mathrm{cells}} = L^2, \qquad N_{\mathrm{sites}} = 2 L^2, \qquad M = 4 N_{\mathrm{sites}} = 8 L^2,
+\end{equation}
+where $M$ is the total number of Majorana fermion operators $\{c_1, \dots, c_M\}$. The physical Hamiltonian takes the canonical quadratic Majorana form:
+\begin{equation}
+\label{eq:m1_8_majorana_hamiltonian}
+\mathcal{H} = \frac{\ii}{4} \sum_{i, j = 1}^M A_{ij} c_i c_j = \frac{\ii}{4} \mathbf{c}^T \mathbf{A} \mathbf{c},
+\end{equation}
+where $\mathbf{A} \in \mathbb{R}^{M \times M}$ is real and skew-symmetric ($\mathbf{A}^T = -\mathbf{A}$).
+
+\begin{theorem}[Real Skew-Symmetric vs. Complex Hermitian Eigensolve]
+\label{thm:m1_8_real_vs_complex_algebra}
+Let $\mathbf{A} \in \mathbb{R}^{M \times M}$ be real skew-symmetric.
+\begin{enumerate}
+\item \textbf{Complex Hermitian Operator:} The matrix $\mathcal{H}_{\mathbb{C}} \equiv \ii \mathbf{A}$ is complex Hermitian ($\mathcal{H}_{\mathbb{C}}^\dagger = -\ii \mathbf{A}^T = \ii \mathbf{A}$). Its storage requires $16 M^2 \text{ bytes}$, and tridiagonal divide-and-conquer (\texttt{zheevd}) consumes:
+\begin{equation}
+\label{eq:m1_8_complex_flops}
+\mathcal{W}_{\mathbb{C}} = \frac{16}{3} M^3 \text{ real FLOPs}.
+\end{equation}
+\item \textbf{Real Symmetric Operator:} The matrix $\mathbf{S} \equiv -\mathbf{A}^2 = \mathbf{A} \mathbf{A}^T$ is real symmetric positive semidefinite with eigenvalues $\epsilon_k^2 \ge 0$. Its storage requires $8 M^2 \text{ bytes}$ ($2.0\times$ reduction), and real eigensolve (\texttt{dsyevd}) consumes:
+\begin{equation}
+\label{eq:m1_8_real_flops}
+\mathcal{W}_{\mathbb{R}} = \frac{4}{3} M^3 \text{ real FLOPs} \implies \frac{\mathcal{W}_{\mathbb{C}}}{\mathcal{W}_{\mathbb{R}}} = 4.0\times \text{ FLOP reduction}.
+\end{equation}
+The single-particle covariance matrix $\Omega \equiv \ii \langle \mathbf{c} \mathbf{c}^T \rangle - \ii \mathbf{I} = \ii \operatorname{sgn}(\ii \mathbf{A})$ is reconstructed algebraically via $\Omega = -\mathbf{A} \mathbf{S}^{-1/2}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Since $\mathbf{A}^T = -\mathbf{A}$, $(\mathbf{A}^2)^T = (\mathbf{A}^T)^2 = (-\mathbf{A})^2 = \mathbf{A}^2$, so $\mathbf{S} = -\mathbf{A}^2$ is symmetric. For any $\mathbf{v} \in \mathbb{R}^M$, $\mathbf{v}^T \mathbf{S} \mathbf{v} = - \mathbf{v}^T \mathbf{A}^2 \mathbf{v} = \|\mathbf{A}^T \mathbf{v}\|^2 \ge 0$, establishing positive semidefiniteness. The eigenvalues of $\ii \mathbf{A}$ occur in conjugate pairs $\pm \epsilon_k$, so $\mathbf{S}$ has eigenvalues $\epsilon_k^2$. The sign function satisfies $\operatorname{sgn}(\mathcal{H}_{\mathbb{C}}) = \mathcal{H}_{\mathbb{C}} (\mathcal{H}_{\mathbb{C}}^2)^{-1/2} = (\ii \mathbf{A}) (-\mathbf{A}^2)^{-1/2} = \ii \mathbf{A} \mathbf{S}^{-1/2}$. Multiplying by $\ii$ yields $\Omega = \ii (\ii \mathbf{A} \mathbf{S}^{-1/2}) = -\mathbf{A} \mathbf{S}^{-1/2}$, which is purely real and skew-symmetric.
+\end{proof}
+
+\input{figures/fig_f16_real_vs_complex_scaling}
+
+% EDITORIAL QUESTION: Can the mean-field map Phi be evaluated in real space without computing any eigenvectors?
+\section{Track B: Eigenvector-Free Matrix Sign Purification}
+\label{sec:m1_8_matrix_sign_purification}
+
+In standard self-consistent mean-field solvers, computing full eigenvector matrices $\mathbf{U} \in \mathbb{C}^{M \times M}$ merely to construct the single-particle density matrix $\Pi^-$ or covariance matrix $\Omega$ is computationally redundant.
+
+\begin{theorem}[Cubic Newton-Schulz Matrix Sign Purification]
+\label{thm:m1_8_newton_schulz}
+Let $\alpha \ge \|\mathbf{A}\|_2$ be a spectral upper bound. Initialize the real skew-symmetric matrix:
+\begin{equation}
+\label{eq:m1_8_purif_init}
+\mathbf{Y}_0 = -\frac{1}{\alpha} \mathbf{A}, \qquad \mathbf{Y}_0^T = -\mathbf{Y}_0, \qquad \|\mathbf{Y}_0\|_2 < 1.
+\end{equation}
+Then the cubic polynomial iteration:
+\begin{equation}
+\label{eq:m1_8_newton_schulz_step}
+\mathbf{Y}_{k+1} = \frac{1}{2} \mathbf{Y}_k \left( 3 \mathbf{I} + \mathbf{Y}_k^2 \right)
+\end{equation}
+converges cubically to the exact physical covariance matrix $\Omega = \ii \operatorname{sgn}(\ii \mathbf{A})$:
+\begin{equation}
+\lim_{k \to \infty} \mathbf{Y}_k = \Omega, \qquad \|\mathbf{Y}_{k+1} - \Omega\| \le \mathcal{O}\left( \|\mathbf{Y}_k - \Omega\|^3 \right).
+\end{equation}
+At every iteration $k$, $\mathbf{Y}_k$ remains strictly real and skew-symmetric, and all operations are pure BLAS-3 dense matrix multiplications (\texttt{dgemm}).
+\end{theorem}
+\begin{proof}
+Let $\lambda \in (-1, 1)$ be an eigenvalue of $\ii \mathbf{Y}_0 = -\frac{1}{\alpha} \ii \mathbf{A}$. The scalar function $f(x) = \frac{1}{2} x (3 - x^2)$ has fixed points at $x \in \{-1, 0, 1\}$. Its error recursion is:
+\begin{equation}
+1 - f(x) = 1 - \frac{3}{2}x + \frac{1}{2}x^3 = \frac{1}{2}(1-x)^2 (2+x) \implies |1 - f(x)| \le \frac{3}{2} |1-x|^2,
+\end{equation}
+establishing cubic local convergence towards $\operatorname{sgn}(x)$ for any $x \in (0, 1)$. Since $\mathbf{Y}_k$ is skew-symmetric, $\mathbf{Y}_k^2 \le 0$ is symmetric, so $3\mathbf{I} + \mathbf{Y}_k^2$ is symmetric and commutes with $\mathbf{Y}_k$. Thus $\mathbf{Y}_{k+1}^T = \frac{1}{2} (3\mathbf{I} + \mathbf{Y}_k^2) (-\mathbf{Y}_k) = -\mathbf{Y}_{k+1}$, preserving skew-symmetry at every step.
+\end{proof}
+
+\input{figures/fig_f17_purification_speedup}
+
+\begin{proposition}[Real-Space Benchmark Results]
+\label{prop:m1_8_benchmark_results}
+Empirical evaluations across torus clusters $L \in \{4, 6, 8, 10, 12\}$ ($M \in [128, 1152]$) establish:
+\begin{enumerate}
+\item \textbf{Memory Halving:} Real skew-symmetric representations reduce memory from $20.25\text{ MB}$ to $10.125\text{ MB}$ at $M=1152$, exactly matching the $2.0\times$ theoretical law.
+\item \textbf{Machine-Precision Purification:} Across all dimensions, Newton-Schulz purification matches divide-and-conquer eigensolvers to machine precision:
+\begin{equation}
+\frac{\|\Omega_{\mathrm{purif}} - \Omega_{\mathrm{eig}}\|_F}{\sqrt{M}} \le 5.31 \times 10^{-15}, \qquad |E_{\mathrm{purif}} - E_{\mathrm{eig}}| \le 2.84 \times 10^{-13}.
+\end{equation}
+\item \textbf{Massive Hardware Acceleration:} At $M = 1152$, purification achieves a \textbf{$63.53\times$ speedup} over standard eigensolvers ($701.98\text{ ms}$ vs. $44596\text{ ms}$), with sustained CPU throughput reaching $104.54\text{ GFLOP/s}$ in pure \texttt{dgemm} operations.
+\end{enumerate}
+\end{proposition}

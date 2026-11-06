@@ -20,10 +20,15 @@ from kitaev_mf.services.observables import (
     compute_plaquette_fluxes,
     compute_sublattice_magnetizations,
 )
+from kitaev_mf.services.purification import (
+    PurificationMetrics,
+    purify_newton_schulz,
+)
 from kitaev_mf.services.quadrature import (
     midpoint_convergence,
     midpoint_form_factor_average,
 )
+from kitaev_mf.services.real_space import RealSpaceTorusCluster
 from kitaev_mf.services.response import (
     HellmannFeynmanResult,
     KleinDualResult,
@@ -58,6 +63,9 @@ __all__ = [
     "JointAndersonSolver",
     "KleinDualResult",
     "midpoint_convergence",
+    "PurificationMetrics",
+    "purify_newton_schulz",
+    "RealSpaceTorusCluster",
     "midpoint_form_factor_average",
     "solve_self_consistent_mean_field",
 ]
