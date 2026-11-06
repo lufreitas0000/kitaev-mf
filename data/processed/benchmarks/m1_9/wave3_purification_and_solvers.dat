@@ -1,0 +1,22 @@
+# Description: Wave 3 real-space cluster scaling across accelerators and fields
+# Generated: 2026-11-06 10:37:34
+# Section 1: Cluster size and accelerator comparison
+# L  M  accelerator  converged  iterations  gemm_calls  wall_time_ms  residual
+ 4   128  diis      1   7    140     95.44    6.0909e-06
+ 4   128  lbroyden  1  13    260    113.46    5.0993e-06
+ 4   128  picard    0  30    600    219.18    5.8094e-05
+ 6   288  diis      1   9    514   1004.99    1.6495e-06
+ 6   288  lbroyden  1  12    698    891.78    6.9512e-06
+ 6   288  picard    0  30   1808   2298.10    7.6607e-05
+ 8   512  diis      1   7    154    993.95    9.1823e-06
+ 8   512  lbroyden  1  10    220   1178.75    1.7090e-06
+ 8   512  picard    0  30    660   3543.86    6.1329e-05
+
+
+# Section 2: L-Broyden (alpha=0.5) vs DIIS field robustness
+# h  diis_iter  lbroyden_iter  diis_res  lbroyden_res
+ 0.01   7  10    9.2652e-07    1.0424e-06
+ 0.05   7  13    9.0979e-06    7.9783e-06
+ 0.10   9  13    2.0603e-06    6.1809e-06
+ 0.20  10  20    5.4701e-06    7.8641e-06
+ 0.30  12  21    9.1908e-06    4.7616e-06

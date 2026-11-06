@@ -156,6 +156,16 @@ milestone_history:
   - data/processed/benchmarks/m1_10/
   - scripts/m1_10/
   - test/unit/test_real_space_vortices.py
+- id: M1.11
+  name: Wave 3 Advanced Solvers, Purification Scaling & Disordered Defect Clusters
+  status: completed
+  acceptance: Self-consistent matrix sign purification with DIIS and L-Broyden, damped L-Broyden (alpha=0.5) field robustness across h in [0.01, 0.30], and disordered cluster stability under bond disorder and site vacancies (kappa(A) ~ 3.8e4).
+  evidence:
+  - src/kitaev_mf/services/real_space.py::solve_real_space_purification
+  - scripts/m1_9/benchmark_wave3_advanced_solvers.py
+  - data/processed/benchmarks/m1_9/wave3_purification_and_solvers.dat
+  - data/processed/benchmarks/m1_9/wave3_disorder_scaling.dat
+  - test/unit/test_real_space_and_purification.py
 active_milestone:
   id: M1.6
   description: Fixed-Point Solver Algorithms and Basin Multistability (2-Site & 4-Site Cells,
@@ -604,4 +614,31 @@ verified_physics_invariants:
     sub_gap_mode_ratio: 0.1296
     wavefunction_localization_core_weight: 0.75
     self_consistent_flux_drift: < 2.0e-15
+- id: K-021
+  name: Real-space self-consistent purification convergence and accelerator efficiency
+  equation: DIIS reaches res < 1e-5 in 7-9 iterations; L-Broyden (alpha=0.5) reaches res < 1e-5 in 10-13 iterations with O(m D) memory; unaccelerated Picard stalls at res ~ 6e-5
+  status: verified_computational_scaling
+  provenance:
+    benchmark: data/processed/benchmarks/m1_9/wave3_purification_and_solvers.dat
+    script: scripts/m1_9/benchmark_wave3_advanced_solvers.py
+    code: src/kitaev_mf/services/real_space.py::solve_real_space_purification
+  numerical_evidence:
+    tested_clusters: L in [4, 6, 8] (M in [128, 512])
+    diis_iterations: [7, 9, 7]
+    lbroyden_iterations: [13, 12, 10]
+    picard_iterations: [30, 30, 30] (failed)
+    field_range: h in [0.01, 0.30] (100% convergence)
+- id: K-022
+  name: Disordered and defect cluster condition number and spectral stability under broken translation invariance
+  equation: Clean cluster kappa(A) = 5.73; Dilute site vacancies induce localized Majorana zero modes spiking kappa(A) to 3.8e4; DIIS converges stably within 15-20 iterations across bond disorder delta in [0, 0.20]
+  status: verified_numerical_stability
+  provenance:
+    benchmark: data/processed/benchmarks/m1_9/wave3_disorder_scaling.dat
+    script: scripts/m1_9/benchmark_wave3_advanced_solvers.py
+    code: src/kitaev_mf/services/real_space.py::assemble_skew_hamiltonian
+  numerical_evidence:
+    clean_kappa: 5.73
+    vacancy_kappa: 3.82e4
+    disorder_sweep: [0.00, 0.05, 0.10, 0.15, 0.20]
+    convergence_rate: 100%
 open_blockers: []

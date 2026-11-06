@@ -50,7 +50,7 @@ def run_wave3_benchmarks() -> None:
                 seed,
                 max_iter=30,
                 tol=1e-5,
-                accelerator=acc,  # type: ignore[arg-type]
+                accelerator=acc,
                 mixing_alpha=0.5,
             )
             wall_ms = (time.perf_counter() - t0) * 1000.0
@@ -62,16 +62,18 @@ def run_wave3_benchmarks() -> None:
                 f"    {acc:8s} | Conv: {conv!s:5s} | Iter: {it:2d} | "
                 f"GEMMs: {gemm:4d} | Wall: {wall_ms:7.1f} ms | Res: {res:.2e}"
             )
-            cluster_results.append({
-                "L": L,
-                "M": M,
-                "acc": acc,
-                "conv": 1 if conv else 0,
-                "it": it,
-                "gemm": gemm,
-                "wall_ms": wall_ms,
-                "res": res,
-            })
+            cluster_results.append(
+                {
+                    "L": L,
+                    "M": M,
+                    "acc": acc,
+                    "conv": 1 if conv else 0,
+                    "it": it,
+                    "gemm": gemm,
+                    "wall_ms": wall_ms,
+                    "res": res,
+                }
+            )
 
     # =========================================================================
     # 2. Damped L-Broyden (alpha=0.5) vs DIIS Field Robustness (Task 3.2)
@@ -144,7 +146,9 @@ def run_wave3_benchmarks() -> None:
                 f"  Disorder delta = {d_level:4.2f}, Vacancies = {n_vac} | "
                 f"kappa(A) = {kappa:6.2f} | DIIS iters: {it_dis:2d} | Res: {res_dis:.1e}"
             )
-            disorder_results.append((d_level, n_vac, kappa, it_dis, res_dis, float(met_dis["converged"])))
+            disorder_results.append(
+                (d_level, n_vac, kappa, it_dis, res_dis, float(met_dis["converged"]))
+            )
 
     # =========================================================================
     # Export Benchmark Data

@@ -2,6 +2,30 @@
 
 This file is the repository entry point for human contributors and automated agents. It defines the operating sequence and points to the detailed policies; it is not a duplicate of those policies.
 
+---
+
+## Strategic Project Vision: Multi-Phase Architecture
+
+The long-term objective of `kitaev-mf` is structured into dedicated, model-family phases:
+
+1. **Phase 1: Pure Ferromagnetic Kitaev Honeycomb ($K = -1.0$) under $\mathbf{h} \parallel [111]$ (Numerical Quantification & Algorithmic Foundations)**
+   * *Exclusive Scope:* Exhaustive numerical characterization of all solver algorithms (Picard, DIIS, Full Broyden, Limited-Memory Broyden, JFNK, Matrix Sign Purification) on the real orthogonal Grassmannian $\Gr(4, 8)$ and real-space torus clusters.
+   * *Deliverable:* Complete operational mastery of every numerical nuance: convergence basins, critical slowing down at spinodal transitions ($h_{c2}^+ = 0.400$), step and memory complexity, precision loss on Dirac resonances ($3 \mid L$), and explicit hardware resource/FLOP calibration on CPU/GPU.
+   * *Status:* **Completed & Certified** (11 chapters in Living Lab Book, 20 verified invariants `K-001`--`K-020`, 150/150 passing tests).
+
+2. **Phase 2: Physics of the Ferromagnetic Kitaev $[111]$ Model (Ground State, Vortices, Thermodynamics & Dynamical Response)**
+   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), selecting the optimal solver discovered in Phase 1 (Joint DIIS and warm-started matrix sign purification) to map the complete physical phase diagram and compute all physical observables.
+   * *Core Physical Targets:*
+     - Ground-state phase diagram and critical exponents ($h \in [0, 0.6]$).
+     - Localized topological flux defects: $T=0$ states with isolated pairs of $\mathbb{Z}_2$ visons ($W_p = -1$), interaction potential $V(R)$, bound Majorana zero modes, and emergent electric polarization textures.
+     - Finite-temperature thermodynamic states: thermal flux proliferation, vison deconfinement crossover, and specific heat peaks.
+     - Static and dynamical response: two-spin dynamical correlators $S^{\alpha\beta}(\mathbf{q}, \omega)$, optical conductivity, and inelastic neutron scattering cross-sections.
+
+3. **Subsequent Phases (Dedicated Model Families):**
+   * Subsequent phases will tackle each distinct physical model family sequentially (e.g. Antiferromagnetic Kitaev $K > 0$, Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb, and 3D Kitaev lattices).
+
+---
+
 ## 1. Required guidance
 
 Read the rules relevant to the task before changing files:
