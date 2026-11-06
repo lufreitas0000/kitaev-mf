@@ -92,10 +92,10 @@ The local spin algebra $\mathcal{A}_{\mathrm{spin}, i}$ embeds into the parity-e
 \label{eq:m1_1b_spin_embedding}
 \mathcal{A}_{\mathrm{spin}, i} \cong P_{G, i} \mathcal{A}_{\mathrm{CAR}, i}^+ P_{G, i}, \qquad P_{G, i} = \frac{\Id + \mathcal{D}_i}{2}.
 \end{equation}
-Because physical spin operators are even quadratic monomials ($\sigma_i^a = -\ii c_i^0 c_i^a \in \mathcal{A}_{\mathrm{CAR}, i}^+$), they commute identically on distinct lattice sites:
+Because physical spin operators are even quadratic monomials ($\sigma_i^\alpha = -\ii c_i^0 c_i^\alpha \in \mathcal{A}_{\mathrm{CAR}, i}^+$), they commute identically on distinct lattice sites:
 \begin{equation}
 \label{eq:m1_1b_spin_commutativity}
-[\sigma_i^a, \sigma_j^b] = 0 \quad \forall i \ne j,
+[\sigma_i^\alpha, \sigma_j^\beta] = 0 \quad \forall i \ne j,
 \end{equation}
 recovering ordinary bosonic microcausality despite the underlying fermionic CAR grading.
 \end{theorem}
@@ -134,6 +134,9 @@ The state is pure if and only if $\Omega$ is an orthogonal complex structure:
 \end{equation}
 For any pure quasi-free state, $\operatorname{Pf}(\Omega) = \pm 1$ represents the global fermion parity.
 \end{theorem}
+\begin{proof}
+Let $\omega$ be a state on $\mathcal{A}_{\mathrm{CAR}}$. Positivity requires that for any complex vector $v \in \mathbb{C}^{2n}$, the element $A = \sum_a v_a c_a$ satisfies $\omega(A^\dagger A) \ge 0$. Direct evaluation gives $\omega(A^\dagger A) = v^\dagger (\Id + \ii\Omega) v \ge 0$, which is equivalent to the matrix operator inequality $\Id + \ii\Omega \succeq 0$. Since $\ii\Omega$ is Hermitian with eigenvalues $\pm \lambda_k$ ($\lambda_k \in \mathbb{R}$), $1 \pm \lambda_k \ge 0$ requires $|\lambda_k| \le 1$, proving Eq.~\eqref{eq:m1_1b_admissibility_bound}. Purity corresponds to extremal states in the convex set, which occurs if and only if all eigenvalues saturate the boundary $|\lambda_k| = 1$, i.e., $\Omega^2 = -\Id$.
+\end{proof}
 
 % EDITORIAL QUESTION: What is the differential geometry of the pure quasi-free state manifold?
 \section{Differential Geometry of the Real Orthogonal Grassmannian}
@@ -166,34 +169,67 @@ T_\Omega \Gr(n, 2n) = \{ X \in \mathfrak{so}(2n) : X \Omega + \Omega X = 0 \}.
 \label{prop:m1_1b_non_convexity}
 While the set of admissible covariance matrices $\{\Omega \in \mathfrak{so}(2n) : \|\Omega\|_2 \le 1\}$ is convex, the corresponding set of quasi-free states $\mathcal{M}_{\mathrm{QF}} \subset \mathcal{S}(\ALambda)$ is \textbf{not convex}. A statistical mixture of two Gaussian states $\rho_{\mathrm{mix}} = \frac{1}{2}\rho_1 + \frac{1}{2}\rho_2$ possesses a non-vanishing fourth cumulant $\kappa_4 \ne 0$.
 \end{proposition}
+\begin{proof}
+Let $\rho_1, \rho_2 \in \mathcal{M}_{\mathrm{QF}}$ be distinct Gaussian density matrices with covariances $\Omega_1 \neq \Omega_2$. The mixture $\rho_{\mathrm{mix}} = \frac{1}{2}(\rho_1 + \rho_2)$ has two-point covariance $\Omega_{\mathrm{mix}} = \frac{1}{2}(\Omega_1 + \Omega_2)$. Computing the four-point expectation $\Tr(\rho_{\mathrm{mix}} c_1 c_2 c_3 c_4) = \frac{1}{2}\operatorname{Pf}(\Omega_1) + \frac{1}{2}\operatorname{Pf}(\Omega_2)$, whereas a Gaussian state with covariance $\Omega_{\mathrm{mix}}$ would have $\operatorname{Pf}(\Omega_{\mathrm{mix}}) = \operatorname{Pf}\left(\frac{\Omega_1 + \Omega_2}{2}\right)$. Because the Pfaffian is a non-linear polynomial of degree 2 in $4 \times 4$ matrices, $\frac{1}{2}\operatorname{Pf}(\Omega_1) + \frac{1}{2}\operatorname{Pf}(\Omega_2) \neq \operatorname{Pf}\left(\frac{\Omega_1 + \Omega_2}{2}\right)$ in general, yielding non-zero fourth cumulant $\kappa_4 \ne 0$.
+\end{proof}
 
 \input{figures/fig_f7_grassmannian_schematic}
-
 
 % EDITORIAL QUESTION: How does mean-field decoupling emerge as the Euler-Lagrange stationarity condition on the Grassmannian?
 \section{The Variational Principle on the Grassmannian and Exact Mean-Field Decoupling}
 \label{sec:m1_1b_variational_principle}
 % CLAIM: CLM-M1-QF-006 (provenance: doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md, test: test/unit/test_quasifree_states.py::test_tst_qf_06_affine_tangent_property, test_tst_qf_07_grassmannian_stationarity_commutator)
-Consider a general quartic Majorana Hamiltonian $H = \frac{\ii}{4}\sum_{a,b} K_{ab} c_a c_b + \frac{1}{16}\sum_{a,b,c,d} V_{abcd} c_a c_b c_c c_d$.
+
+\begin{definition}[General Quartic Majorana Hamiltonian]
+\label{def:m1_1b_general_hamiltonian}
+Let $A \in \mathfrak{so}(2n)$ be a real skew-symmetric matrix describing one-body hoppings, and let $V_{abcd}$ be a real totally antisymmetric 4-tensor describing two-body interactions. The general microscopic Hamiltonian is:
+\begin{equation}
+\label{eq:m1_1b_general_quartic_H}
+H = \frac{\ii}{4}\sum_{a,b=1}^{2n} A_{ab} c_a c_b + \frac{1}{16}\sum_{a,b,c,d=1}^{2n} V_{abcd} c_a c_b c_c c_d.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Hartree-Fock-Bogoliubov Self-Energy and Single-Particle MF Matrix]
+\label{def:m1_1b_hfb_self_energy}
+For any covariance matrix $\Omega \in \mathfrak{so}(2n)$, the Hartree--Fock--Bogoliubov (HFB) self-energy matrix $\Sigma(\Omega) \in \mathfrak{so}(2n)$ is defined by the contraction:
+\begin{equation}
+\label{eq:m1_1b_sigma_self_energy}
+\Sigma_{ab}(\Omega) \equiv -\frac{1}{2} \sum_{c, d=1}^{2n} V_{abcd} \Omega_{cd}.
+\end{equation}
+The single-particle mean-field Hamiltonian matrix $h(\Omega) \in \mathfrak{so}(2n)$ is the sum of the bare one-body hopping matrix $A$ and the self-energy $\Sigma(\Omega)$:
+\begin{equation}
+\label{eq:m1_1b_h_omega_def}
+h(\Omega) \equiv A + \Sigma(\Omega).
+\end{equation}
+\end{definition}
 
 \begin{theorem}[Energy Functional and Gradient on the Grassmannian]
 \label{thm:m1_1b_energy_gradient}
 Restricting the state expectation $\omega_\Omega(H)$ to the quasi-free manifold via Wick's theorem yields the polynomial energy functional:
 \begin{equation}
 \label{eq:m1_1b_quasifree_energy}
-\mathcal{E}(\Omega) = E_0^{\mathrm{core}} - \frac{1}{4} \Tr(K \Omega) - \frac{1}{8} \sum_{a,b,c,d} V_{abcd} (\Omega_{ab}\Omega_{cd} - \Omega_{ac}\Omega_{bd} + \Omega_{ad}\Omega_{bc}).
+\mathcal{E}(\Omega) = E_0^{\mathrm{core}} - \frac{1}{4} \Tr(A \Omega) - \frac{1}{8} \sum_{a,b,c,d} V_{abcd} (\Omega_{ab}\Omega_{cd} - \Omega_{ac}\Omega_{bd} + \Omega_{ad}\Omega_{bc}).
 \end{equation}
-The single-particle mean-field Hamiltonian matrix $h(\Omega) \in \mathfrak{so}(2n)$ is the functional gradient of $\mathcal{E}$:
+The single-particle mean-field Hamiltonian matrix $h(\Omega) \in \mathfrak{so}(2n)$ is the functional gradient of $\mathcal{E}$ with respect to $\Omega$:
 \begin{equation}
 \label{eq:m1_1b_hmf_gradient}
-h(\Omega) \equiv 4 \frac{\partial \mathcal{E}}{\partial \Omega} = K + \Sigma(\Omega),
+h(\Omega) = 4 \frac{\partial \mathcal{E}}{\partial \Omega} = A + \Sigma(\Omega).
 \end{equation}
-where $\Sigma(\Omega)$ is the Hartree--Fock--Bogoliubov self-energy. A state $\Omega \in \Gr(n, 2n)$ is stationary on the Grassmannian if and only if the commutator vanishes:
+A state $\Omega \in \Gr(n, 2n)$ is stationary on the Grassmannian if and only if the matrix commutator vanishes:
 \begin{equation}
 \label{eq:m1_1b_euler_lagrange_stationarity}
 [h(\Omega), \Omega] = 0 \iff \Omega = -\operatorname{sgn}(\ii h(\Omega)).
 \end{equation}
 \end{theorem}
+\begin{proof}
+By Wick's theorem (Definition~\ref{def:m1_1b_quasifree_state}), $\omega_\Omega(c_a c_b) = \delta_{ab} + \ii \Omega_{ab}$, so $\omega_\Omega(\frac{\ii}{4} c^T A c) = -\frac{1}{4}\Tr(A\Omega)$. For the quartic term, $\omega_\Omega(c_a c_b c_c c_d) = -(\Omega_{ab}\Omega_{cd} - \Omega_{ac}\Omega_{bd} + \Omega_{ad}\Omega_{bc})$. Taking the derivative with respect to the skew-symmetric matrix $\Omega_{ab}$ using totally antisymmetric $V_{abcd}$, each contraction yields $4 \frac{\partial \mathcal{E}}{\partial \Omega_{ab}} = A_{ab} + \Sigma_{ab}(\Omega) = h_{ab}(\Omega)$.
+
+To establish stationarity on $\Gr(n, 2n)$, let $\Omega(t) = e^{t X} \Omega e^{-t X}$ be a smooth curve on the Grassmannian generated by tangent vector $X \in T_\Omega \Gr$. Differentiating along the curve:
+\begin{equation}
+\left.\frac{\dd}{\dd t}\mathcal{E}(\Omega(t))\right|_{t=0} = \frac{1}{4} \Tr\left( h(\Omega)^T [X, \Omega] \right) = \frac{1}{4} \Tr\left( [h(\Omega), \Omega] X \right).
+\end{equation}
+Stationarity requires $\Tr([h(\Omega), \Omega] X) = 0$ for all tangent vectors $X$. Since $T_\Omega \Gr$ consists of all skew matrices anticommuting with $\Omega$, $[h(\Omega), \Omega]$ lies in $T_\Omega \Gr$, which forces $[h(\Omega), \Omega] = 0$. Since $h(\Omega)$ is skew-symmetric, its non-zero eigenvalues are imaginary conjugate pairs $\pm \ii \epsilon_k$ ($\epsilon_k > 0$). To minimize energy, $\Omega$ must assign eigenvalue $-\ii$ to positive energy modes and $+\ii$ to negative energy modes, yielding $\Omega = -\operatorname{sgn}(\ii h(\Omega))$.
+\end{proof}
 
 \begin{theorem}[Affine Tangent Property and Scalar Double-Counting Subtraction]
 \label{thm:m1_1b_affine_tangent}
@@ -213,22 +249,40 @@ Moreover, $H_{\mathrm{MF}}[\Omega]$ defines an affine tangent plane to the energ
 \mathcal{E}(\Omega') - \left[ \omega_{\Omega'}(H_{\mathrm{MF}}[\Omega]) - C[\Omega] \right] = \mathcal{O}(\|\Omega' - \Omega\|^2).
 \end{equation}
 \end{theorem}
+\begin{proof}
+The interaction energy $E_{\mathrm{int}}(\Omega) = -\frac{1}{8}\sum V_{abcd}\Omega_{ab}\Omega_{cd}$ is a quadratic homogeneous polynomial in $\Omega$. By Euler's homogeneous function theorem, $\sum_{ab}\Omega_{ab}\frac{\partial E_{\mathrm{int}}}{\partial \Omega_{ab}} = 2 E_{\mathrm{int}}(\Omega)$. Since $h(\Omega) = A + 4 \frac{\partial E_{\mathrm{int}}}{\partial \Omega}$, contracting with $\Omega$ yields:
+\begin{equation}
+\omega_\Omega(H_{\mathrm{MF}}[\Omega]) = -\frac{1}{4}\Tr(h(\Omega)\Omega) = -\frac{1}{4}\Tr(A\Omega) - \Tr\left(\frac{\partial E_{\mathrm{int}}}{\partial \Omega}\Omega\right) = E_{\mathrm{quad}}(\Omega) + 2 E_{\mathrm{int}}(\Omega).
+\end{equation}
+Subtracting $C[\Omega] = E_{\mathrm{int}}(\Omega)$ exactly recovers $\mathcal{E}(\Omega) = E_{\mathrm{quad}}(\Omega) + E_{\mathrm{int}}(\Omega)$, proving Eq.~\eqref{eq:m1_1b_energy_subtraction}. Expanding $\mathcal{E}(\Omega')$ to first order around $\Omega$ gives $\mathcal{E}(\Omega') = \mathcal{E}(\Omega) + \frac{1}{4}\Tr(h(\Omega)(\Omega' - \Omega)) + \mathcal{O}(\|\Omega'-\Omega\|^2)$, which identically matches the linearized mean-field expectation, establishing Eq.~\eqref{eq:m1_1b_affine_tangent_bound}.
+\end{proof}
 
 % EDITORIAL QUESTION: How are local gauge constraints treated in the variational framework, and what is the Gutzwiller gap?
 \section{Gauge Constraints, KKT Stationarity, and the Projection Gap}
 \label{sec:m1_1b_gauge_kkt}
-On the physical spin space, the gauge condition $\mathcal{D}_i = \Id$ must hold strictly. Within a quasi-free state, $\omega_\Omega(\mathcal{D}_i) = \operatorname{Pf}(\Omega_i)$ is a polynomial constraint that cannot force the full state into the exact singlet sector without breaking the Gaussian structure.
+On the physical spin space, the gauge condition $\mathcal{D}_i = \Id$ must hold strictly on every site $i \in \mathcal{V}$. Within a quasi-free state, $\omega_\Omega(\mathcal{D}_i) = \operatorname{Pf}(\Omega_i)$ is a local polynomial constraint. Because a pure Gaussian state is completely fixed by its two-point correlation matrix $\Omega$, demanding $\operatorname{Pf}(\Omega_i) = 1$ on every site simultaneously while allowing non-trivial inter-site entanglement forces the state outside the quasi-free manifold.
 
 Instead, mean-field theory enforces the local gauge conditions \textbf{on average} via Lagrange multipliers $\boldsymbol{\lambda} = \{\lambda_i^\gamma\}$:
 \begin{equation}
 \label{eq:m1_1b_kkt_lagrangian}
-\mathcal{L}(\Omega, \boldsymbol{\lambda}) = \mathcal{E}(\Omega) - \sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma \omega_\Omega(T_i^\gamma).
+\mathcal{L}(\Omega, \boldsymbol{\lambda}) = \mathcal{E}(\Omega) - \sum_{i \in \mathcal{V}} \sum_{\gamma=1}^3 \lambda_i^\gamma \omega_\Omega(\tau_i^\gamma).
 \end{equation}
 The Karush--Kuhn--Tucker (KKT) stationarity conditions read:
 \begin{equation}
 \label{eq:m1_1b_kkt_stationarity}
-\nabla_\Omega \mathcal{L} \in (T_\Omega \Gr)^\perp, \qquad g_i^\gamma(\Omega) \equiv \omega_\Omega(T_i^\gamma) = 0.
+\nabla_\Omega \mathcal{L} \in (T_\Omega \Gr)^\perp, \qquad g_i^\gamma(\Omega) \equiv \omega_\Omega(\tau_i^\gamma) = 0.
 \end{equation}
+
+\begin{definition}[Expectation Value of the Gauge Generator]
+\label{def:m1_1b_gauge_expectation}
+From Definition~\ref{def:m1_1_spin_gauge_pauli}, the gauge generator on site $i$ is $\tau_i^\gamma = \frac{\ii}{4} c_i^T \mathrm{G}^\gamma c_i$. In any quasi-free state $\omega_\Omega$, its expectation value evaluates to the trace:
+\begin{equation}
+\label{eq:m1_1b_gauge_expectation_trace}
+\omega_\Omega(\tau_i^\gamma) = -\frac{1}{4} \Tr(\mathrm{G}^\gamma \Omega_{ii}) = -\frac{1}{2} (\Omega_{i}^{0\gamma} + \Omega_{i}^{\gamma^+ \gamma^-}).
+\end{equation}
+Vanishing expectation $\omega_\Omega(\tau_i^\gamma) = 0$ requires that the on-site matter-gauge covariance $\Omega_{i}^{0\gamma}$ exactly cancel the gauge-gauge cross-link covariance $\Omega_{i}^{\gamma^+ \gamma^-}$.
+\end{definition}
+
 The discrepancy between the unprojected expectation $\langle \mathcal{O} \rangle_{\mathrm{G}} = \omega_\Omega(\mathcal{O})$ and the physical Gutzwiller-projected expectation $\langle \mathcal{O} \rangle_{\mathrm{phys}} = \frac{\Tr(\rho P_G \mathcal{O} P_G)}{\Tr(\rho P_G)}$ is the \textbf{Gutzwiller Projection Gap} (cataloged as exploratory backlog item \textbf{BL-01}).
 
 % EDITORIAL QUESTION: How does the quasi-free upper bound interface with semidefinite programming (SDP) lower bounds?
@@ -240,12 +294,13 @@ The Grassmannian variational principle yields a strict \textbf{upper bound} to t
 \label{eq:m1_1b_upper_bound}
 E_0 \le \min_{\Omega \in \Gr(n, 2n)} \mathcal{E}(\Omega) = E_{\mathrm{MF}}.
 \end{equation}
-Conversely, the fermionic $N$-representability problem yields rigorous \textbf{lower bounds} via semidefinite programming (SDP). Let $\rho^{(2)}$ denote the two-body reduced density matrix. The fundamental positivity conditions:
-\begin{equation}
-\label{eq:m1_1b_sdp_conditions}
-\rho^{(2)} \succeq 0 \quad (\text{D-condition}), \qquad Q(\rho^{(2)}) \succeq 0 \quad (\text{Q-condition}), \qquad G(\rho^{(2)}) \succeq 0 \quad (\text{G-condition}),
-\end{equation}
-define a convex outer relaxation of the physical state space. Minimizing $\Tr(H \rho^{(2)})$ over this SDP spectrahedron yields a rigorous lower bound:
+Conversely, the fermionic $N$-representability problem yields rigorous \textbf{lower bounds} via semidefinite programming (SDP). Let $\rho^{(2)}$ denote the two-body reduced density matrix with matrix elements $\rho^{(2)}_{ab,cd} = \Tr(\rho c_a c_b c_c c_d)$. The fundamental positivity conditions:
+\begin{enumerate}
+    \item \textbf{D-Condition (Two-Particle Positivity):} $\langle \psi | c_a c_b (c_c c_d)^\dagger | \psi \rangle \ge 0 \implies \rho^{(2)} \succeq 0$.
+    \item \textbf{Q-Condition (Two-Hole Positivity):} $\langle \psi | (c_a c_b)^\dagger c_c c_d | \psi \rangle \ge 0 \implies Q(\rho^{(2)}) \succeq 0$.
+    \item \textbf{G-Condition (Particle-Hole Positivity):} $\langle \psi | (c_a^\dagger c_b)(c_c^\dagger c_d)^\dagger | \psi \rangle \ge 0 \implies G(\rho^{(2)}) \succeq 0$.
+\end{enumerate}
+These matrix inequalities define a convex spectrahedron $\mathcal{S}_{\mathrm{SDP}}^{(2)}$ that encloses the convex hull of all physical states. Minimizing $\Tr(H \rho^{(2)})$ over this SDP spectrahedron yields a rigorous lower bound:
 \begin{equation}
 \label{eq:m1_1b_energy_sandwich}
 E_{\mathrm{SDP}}^{(2)} \le E_0 \le E_{\mathrm{MF}}.
@@ -290,9 +345,12 @@ By Pinsker's inequality, $D_{\mathrm{NG}}(\rho)$ bounds the trace distance to th
 \section{Synthesis and Bridge to the Model-Specific Bloch Representation}
 \label{sec:m1_1b_bridge_to_model}
 The general theory developed in this chapter establishes that:
-1. Wick's theorem is a rigorous property of quasi-free states on $\mathcal{A}_{\mathrm{CAR}}$, not an operator approximation.
-2. The mean-field Hamiltonian $h(\Omega) = 4 \frac{\partial \mathcal{E}}{\partial \Omega}$ is the functional gradient on the real orthogonal Grassmannian $\Gr(n, 2n)$.
-3. Scalar double-counting subtraction $C[\Omega] = E_{\mathrm{int}}(\Omega)$ is the exact consequence of Euler's homogeneous function theorem on quadratic forms.
+\begin{enumerate}
+    \item Wick's theorem is a rigorous property of quasi-free states on $\mathcal{A}_{\mathrm{CAR}}$, not an operator approximation.
+    \item The mean-field Hamiltonian $h(\Omega) = 4 \frac{\partial \mathcal{E}}{\partial \Omega}$ is the functional gradient on the real orthogonal Grassmannian $\Gr(n, 2n)$.
+    \item Scalar double-counting subtraction $C[\Omega] = E_{\mathrm{int}}(\Omega)$ is the exact consequence of Euler's homogeneous function theorem on quadratic forms.
+    \item Local gauge invariance is enforced by KKT stationarity $\omega_\Omega(\tau_i^\gamma) = 0$, leading to the variational upper bound and the Gutzwiller projection gap.
+\end{enumerate}
 
 In the subsequent chapter (\Cref{ch:m1_2}), we apply this universal framework to the \textbf{extended Kitaev honeycomb model}. Exploiting discrete translation symmetry, the global Grassmannian decomposes into a continuous direct product of momentum-space fibers:
 \begin{equation}
