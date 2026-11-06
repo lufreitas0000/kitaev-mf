@@ -22,7 +22,7 @@
     \addlegendentry{Eigenvector-Free Purification (Newton--Schulz)}
 
     % Speedup annotation node
-    \node[above, font=\small\bfseries, color=labbookteal] at (axis cs:1152, 702) {$63.5\times$ Speedup};
+    \node[left, font=\small\bfseries, color=labbookteal] at (axis cs:1100, 702) {$63.5\times$ Speedup};
 \end{axis}
 \end{tikzpicture}
 \caption{Track B comparison between standard divide-and-conquer eigensolvers and eigenvector-free Newton--Schulz matrix sign purification $\Omega = \mathrm{i}\operatorname{sgn}(\mathrm{i} A)$ across real-space torus clusters ($M \in [128, 1152]$). Purification achieves a $63.53\times$ speedup at $M=1152$ ($702\text{ ms}$ vs $44.6\text{ s}$) while maintaining machine-precision covariance accuracy ($\|\Omega_{\mathrm{purif}} - \Omega_{\mathrm{eig}}\|_F / \sqrt{M} = 4.22 \times 10^{-15}$).}

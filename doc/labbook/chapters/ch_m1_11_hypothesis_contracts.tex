@@ -1,0 +1,272 @@
+% CHAPTER 11: Scientific Hypothesis Contracts and Open Research Frontiers
+% EDITORIAL QUESTION: What formal, falsifiable hypothesis contracts govern the scientific and algorithmic expansion of Phase 1 into Phase 2, and what exact criteria decide their validation or refutation?
+
+\chapter{Scientific Hypothesis Contracts and Open Research Frontiers}
+\label{ch:hypothesis_contracts}
+
+\section{Methodological Governance and Hypothesis Contract Architecture}
+\label{sec:hyp_contract_governance}
+
+In accordance with the workspace scientific governance standards (\texttt{AGENTS.md} and \texttt{02\_tdd\_protocol.md}), computational physics research must avoid ad-hoc curve fitting, retrospective rationalization, or unverified folk theorems. Every physical assertion, geometric reduction, and algorithmic optimization must be bound to a formal \textbf{Hypothesis Contract}.
+
+A certified Hypothesis Contract possesses four indispensable components:
+\begin{enumerate}
+\item \textbf{Precise Theoretical Context:} Mathematical lineage, operator domains, and parent milestone provenance.
+\item \textbf{Falsifiable Hypothesis Statement:} A mathematically unambiguous assertion regarding scaling, spectral topology, symmetry breaking, or convergence rates.
+\item \textbf{Explicit Acceptance and Refutation Metrics:} Quantitative, numerical, or analytical thresholds that definitively decide validation versus falsification.
+\item \textbf{Test Harness and Audit Plan:} Exact code paths, test modules, and verification artifacts required for promotion.
+\end{enumerate}
+
+This chapter consolidates the 10 foundational hypothesis contracts from Milestone M1.6 alongside the 11 advanced scientific and algorithmic hypotheses formulated in Milestone M1.9, establishing the rigorous bridge from Phase 1 to Phase 2.
+
+---
+
+\section{Foundational Hypotheses: Solvers, Seeds, and Weak-Field Physics}
+\label{sec:foundational_hypotheses}
+
+The first wave of hypothesis contracts, established in \texttt{doc/rnd/phase\_1/m1\_6\_t0\_assumption\_and\_ab\_registry.md}, governs weak-field response and fixed-point solver mechanics on the Grassmannian manifold under $\mathbf{h} \parallel [111]$.
+
+\begin{contract}[PH-01: Quadratic Weak-Field Gauge Multiplier Scaling]
+\label{con:ph01_gauge_scaling}
+\textbf{Context:} Single-site $SO(4)$ gauge invariance requires $\langle \tau_i^\gamma \rangle_{\mathrm{G}} = 0$, enforced via dual Lagrange multipliers $\boldsymbol{\lambda}_s$.
+\textbf{Hypothesis:} At weak magnetic fields $h \in [0.005, 0.05]$, converged multipliers scale quadratically:
+\begin{equation}
+\label{eq:con_ph01_scaling}
+\|\boldsymbol{\lambda}^*(h)\|_2 \propto h^2.
+\end{equation}
+Because the linear Zeeman perturbation $-2\sum h^\gamma N^\gamma$ couples to spin generators $N^a$, which commute with gauge generators $G^\gamma$ at lowest order ($[N^a, G^\gamma] = 0$), linear mixing is identically suppressed by Lie algebra grading.
+\textbf{Acceptance Metric:} The ratio $\|\boldsymbol{\lambda}^*(0.05)\|_2 / \|\boldsymbol{\lambda}^*(0.01)\|_2 = 25.0 \pm 1.0$.
+\textbf{Status:} Validated in Milestone M1.6 ($p = 2.01 \pm 0.02$).
+\end{contract}
+
+\begin{contract}[PH-02: Weak-Field Basin Separation and Spinodal Hysteresis]
+\label{con:ph02_basin_separation}
+\textbf{Context:} The variational energy landscape $\mathcal{E}(\Omega)$ possesses multiple competing stationary points on $\Gr(4, 8)$ under external field.
+\textbf{Hypothesis:} For $h < h_c^* \approx 0.3325$, the zero-flux QSL fixed point ($W_p \approx 1 - \mathcal{O}(h^2)$) is the global ground state, while the field-polarized seed converges to a distinct metastable saddle/minimum with $W_p \ll 1$ and strictly higher energy ($E_{\mathrm{POL}} > E_{\mathrm{QSL}}$). The QSL branch remains metastable up to the forward spinodal $h_{c2}^+ = 0.400 \pm 0.002$.
+\textbf{Acceptance Metric:} Energy difference $E_{\mathrm{POL}} - E_{\mathrm{QSL}} > 0$ for $h \in [0.01, 0.33]$, with discontinuous first-order crossing at $h_c^* = 0.3325 \pm 0.0010$.
+\textbf{Status:} Validated in Milestone M1.6 (\texttt{test\_multistability\_basins.py}).
+\end{contract}
+
+\begin{contract}[PH-03: Sublattice Magnetization and $C_3$ Isotropy]
+\label{con:ph03_magnetization_isotropy}
+\textbf{Context:} Under a symmetric field $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)^T$, spatial rotations cycle spin components.
+\textbf{Hypothesis:} The induced spin magnetization preserves continuous $C_3$ permutation and bipartite inversion symmetry to machine precision:
+\begin{equation}
+\|\mathbf{m}_A - \mathbf{m}_B\|_\infty < 10^{-10}, \qquad |m_s^x - m_s^y| < 10^{-10}, \qquad \forall s \in \{A, B\}.
+\end{equation}
+\textbf{Acceptance Metric:} Absolute difference below $10^{-10}$ across all unconstrained solver trials.
+\textbf{Status:} Validated in Milestone M1.6 and M1.7.
+\end{contract}
+
+\begin{contract}[PH-04: Non-Vanishing Multipliers at Infinitesimal Field]
+\label{con:ph04_finite_multipliers}
+\textbf{Context:} At $h = 0$, time-reversal invariance forces $\mathrm{V}_s \equiv \mathbf{0}$, ensuring $g_s^\gamma \equiv 0$ without Lagrange multipliers ($\boldsymbol{\lambda}^* = \mathbf{0}$).
+\textbf{Hypothesis:} Any non-zero magnetic field $h > 0$ breaks time-reversal, generating dynamic gauge polarization that strictly mandates $\boldsymbol{\lambda}^* \neq \mathbf{0}$.
+\textbf{Acceptance Metric:} $\|\boldsymbol{\lambda}^*(h=0.01)\|_2 > 10^{-6}$.
+\textbf{Status:} Validated in Milestone M1.6 ($\|\boldsymbol{\lambda}^*(0.01)\|_2 \approx 8.4 \times 10^{-5}$).
+\end{contract}
+
+\begin{contract}[PH-05: Absence of Spontaneous Nematicity on Pure Kitaev]
+\label{con:ph05_no_nematicity}
+\textbf{Context:} Unconstrained supercells can break spatial discrete symmetries into nematic states ($U_x \neq U_y$).
+\textbf{Hypothesis:} In the pristine ferromagnetic Kitaev phase, the ground state preserves $C_3$ bond isotropy across all fields up to $h_{c2}^+$:
+\begin{equation}
+N_{\mathrm{nem}} \equiv \frac{1}{N_{\mathrm{sub}}} \sum_{s=1}^{N_{\mathrm{sub}}} \left( |m_s^x - m_s^y| + |m_s^y - m_s^z| \right) < 10^{-4}.
+\end{equation}
+\textbf{Acceptance Metric:} $N_{\mathrm{nem}} < 5 \times 10^{-4}$ in 4-site and 8-site unconstrained supercell relaxations.
+\textbf{Status:} Validated in Milestone M1.7 (\texttt{benchmark\_bloch\_supercells.py}).
+\end{contract}
+
+\begin{contract}[AH-01--05: Fixed-Point Solver Complexity and Basin Stability]
+\label{con:ah01_solver_complexity}
+\textbf{Algorithmic Contracts:}
+\begin{enumerate}
+\item \textbf{AH-01 (Picard Contraction Slowdown):} Plain fixed-point iteration exhibits asymptotic contraction $\mu_{\mathrm{tail}} \to 1^-$ as $h \to h_{c2}^+$, causing critical slowing down.
+\item \textbf{AH-02 (Joint DIIS Map Evaluation Superiority):} Joint Anderson acceleration ($m=6$, relative Tikhonov $\epsilon_{\mathrm{reg}} = 10^{-12}$) reduces total map evaluations $N_\Phi$ by $> 4\times$ relative to damped Picard.
+\item \textbf{AH-03 (JFNK Krylov Overhead):} While JFNK achieves quadratic outer convergence, inner GMRES finite-difference evaluations ($N_\Phi = N_{\mathrm{outer}}(1 + k_{\mathrm{Krylov}})$) make it computationally slower than Joint DIIS for weak fields.
+\item \textbf{AH-04 (Skew Symmetrization Invariance):} Output antisymmetrization (Arm B) and post-accelerator retraction (Arm C) extinguish symmetric errors in 1 step, preserving the $\mathfrak{so}(4)$ Lie algebra to machine precision ($< 10^{-15}$).
+\item \textbf{AH-05 (Finite Basin Robustness):} Perturbations of radius $\delta \le 0.05$ added to the QSL seed preserve $100\%$ convergence to the QSL ground state.
+\end{enumerate}
+\textbf{Status:} Validated in Milestones M1.6 and M1.6-Scorecard.
+\end{contract}
+
+---
+
+\section{Advanced Frontiers: Quantum State Geometry, Decoupling Ambiguities, and Solvers}
+\label{sec:advanced_frontier_hypotheses}
+
+We now establish the 11 advanced scientific and algorithmic hypotheses formulated in Milestone M1.9, governing exact many-body projections, operator ambiguities, non-perturbative bounds, and real-space topological defects.
+
+\subsection{Frontier 1: Quantum State Geometry, Projection Gaps, and Semidefinite Bounds}
+
+\begin{contract}[H1: Gutzwiller Projection Gap and Relative Entropy Scaling]
+\label{con:h1_gutzwiller_gap}
+\textbf{Context:} The Grassmannian variational state $\Omega_{\mathrm{MF}}$ resides on the non-convex quasi-free manifold $\mathcal{M}_{\mathrm{QF}}$, while the physical spin state lives in $\mathcal{F}_{\mathrm{phys}} = \Ran P_G$.
+\textbf{Hypothesis Statement:} On finite exact-diagonalization (ED) clusters ($N \in \{8, 12, 16, 24\}$), the local KKT condition $\omega_\Omega(\tau_i^\gamma) = 0$ does not prevent gauge variance $\operatorname{Var}(\tau_i^\gamma) = \frac{1}{2}(1 - \operatorname{Pf}(\mathrm{V}_i))$ from growing with $h$. Consequently:
+\begin{enumerate}
+\item The Gutzwiller norm overlap $\mathcal{N}_G \equiv \Tr(\rho_{\mathrm{MF}} P_G)$ degrades monotonically as $\mathcal{N}_G(h) \approx \mathcal{N}_0 e^{-\alpha N h^2}$.
+\item The Non-Gaussianity quantum relative entropy $D_{\mathrm{NG}}(\rho_{\mathrm{exact}}) \equiv S(\rho_{\mathrm{exact}} \Vert \omega_{\mathrm{G}}[\rho_{\mathrm{exact}}])$ exhibits a sharp peak at the first-order crossing $h_c^*$.
+\item Physical projection $P_G |\Psi_{\mathrm{MF}}\rangle$ shifts the thermodynamic transition field downward from the mean-field value $h_c^* = 0.3325$ toward the DMRG benchmark $h_c^{\mathrm{DMRG}} \approx 0.22$.
+\end{enumerate}
+\textbf{Acceptance Metric:} Computation of $\mathcal{N}_G$ and $D_{\mathrm{NG}}$ on $N=16$ ED cluster confirming peak relative entropy at transition and $\Delta h_c \equiv h_c^* - h_c^{\mathrm{proj}} > 0.05$.
+\textbf{Audit Target:} Backlog item \textbf{BL-01} and \textbf{BL-07}; Phase 2 exact diagonalization pipeline.
+\end{contract}
+
+\begin{contract}[H2: Factored Plaquette Wilson Loop vs. 12-Majorana Pfaffian]
+\label{con:h2_plaquette_pfaffian}
+\textbf{Context:} Definition~\ref{def:m1_4_wilson_loop} defines the plaquette flux via the factored link product $W_p \equiv \prod_{b \in \partial p} \mathrm{U}_b^{\gamma_b \gamma_b}$. The exact operator expectation on the quasi-free state is the $12 \times 12$ Pfaffian $\mathcal{W}_p \equiv \langle \prod_{b \in \partial p} \hat{u}_b \rangle_{\mathrm{G}} = \operatorname{Pf}(\Omega|_{\partial p})$.
+\textbf{Hypothesis Statement:} For $h > 0$, dynamic gauge-matter hybridization generates trans-plaquette Wick contractions. The discrepancy between the factored link product and the exact 12-Majorana Pfaffian scales as:
+\begin{equation}
+\label{eq:con_h2_scaling}
+\delta W_p(h) \equiv \left| W_p - \operatorname{Pf}(\Omega|_{\partial p}) \right| = c_W \left(\frac{h}{|K|}\right)^2 + \mathcal{O}(h^4).
+\end{equation}
+The exact Pfaffian $\mathcal{W}_p$ softens the flux collapse, shifting the apparent flux-loss spinodal by $\Delta h \le 0.02$.
+\textbf{Acceptance Metric:} Verification of Eq.~\eqref{eq:con_h2_scaling} via \texttt{compute\_real\_space\_plaquette\_fluxes} with quadratic scaling exponent $p = 2.00 \pm 0.05$.
+\textbf{Audit Target:} Backlog item \textbf{BL-02}; \texttt{scripts/m1\_10/benchmark\_exact\_pfaffian\_flux.py}.
+\end{contract}
+
+\begin{contract}[H3: Global 2-RDM Semidefinite Lower Bounds ($D, Q, G$ Conditions)]
+\label{con:h3_2rdm_sdp}
+\textbf{Context:} Section~\ref{sec:m1_1b_sdp_bounds} proves that the variational Grassmannian energy provides an upper bound $E_0 \le E_{\mathrm{MF}}$.
+\textbf{Hypothesis Statement:} Formulating the translation-invariant two-body reduced density matrix (2-RDM) semidefinite relaxation over a periodic supercell—constrained by the standard Garrod-Percus $D \succeq 0, Q \succeq 0, G \succeq 0$ matrix conditions and augmented by the exact on-site Casimir identity $\tau_i^2 = \frac{3}{4}\Id$ and physical parity constraint $\mathcal{D}_i = +\Id$—brackets the true ground-state energy:
+\begin{equation}
+E_{\mathrm{SDP}}^{(2)} \le E_0 \le E_{\mathrm{MF}}.
+\end{equation}
+The relative duality gap $\Delta_{\mathrm{SDP}} \equiv (E_{\mathrm{MF}} - E_{\mathrm{SDP}}^{(2)}) / |E_{\mathrm{MF}}|$ satisfies $\Delta_{\mathrm{SDP}} \le 0.08$ across the entire QSL phase $h \in [0, 0.30]$.
+\textbf{Acceptance Metric:} Certified primal-dual SDP solve using MOSEK/SCS yielding $\Delta_{\mathrm{SDP}} \le 8\%$.
+\textbf{Audit Target:} Backlog item \textbf{BL-03}; \texttt{src/kitaev\_mf/services/sdp\_bounds.py}.
+\end{contract}
+
+\subsection{Frontier 2: Microscopic Decoupling Channels and Competing Phases}
+
+\begin{contract}[H4: Unprojected Channel Ambiguity: $\mathrm{N}^a$ vs. Chiral $\mathrm{M}^a$ Decoupling]
+\label{con:h4_decoupling_ambiguity}
+\textbf{Context:} Chapter~\ref{ch:m1_1} establishes two distinct operator representations of physical spin on $\mathcal{F}$: the single-pair matrix $\mathrm{N}^a = L_{0a}$ and the self-dual chiral matrix $\mathrm{M}^a = L_{0a} + \frac{1}{2}\epsilon_{abc}L_{bc}$. Both project identically onto $\mathcal{H}_{\mathrm{phys}}$ ($P_G \sigma_K^a P_G = P_G \sigma_{\mathrm{chiral}}^a P_G$), but their unprojected Wick contractions differ.
+\textbf{Hypothesis Statement:} Consider the continuous family of unprojected spin operators:
+\begin{equation}
+\sigma_\eta^a \equiv \frac{\ii}{2} c^T \left( \mathrm{N}^a + (1-\eta) \mathrm{G}^a \right) c = \sigma_K^a + (1-\eta) \tau^a, \qquad \eta \in [0, 1].
+\end{equation}
+Because gauge fluctuations $\langle \tau_i^a \tau_j^b \rangle_{\mathrm{G}} \neq 0$ are non-zero at finite separation, the self-consistent mean-field ground-state energy $E_{\mathrm{MF}}(\eta)$ and spinodal field $h_{c2}^+(\eta)$ vary continuously with $\eta$. The Gutzwiller-projected energy $\langle P_G H P_G \rangle / \langle P_G \rangle$ selects an optimal decoupling parameter $\eta^* \in (0, 1)$ that minimizes projected energy and reconciles mean-field critical fields with DMRG.
+\textbf{Acceptance Metric:} Implementation of parameter $\eta \in [0, 1]$ in \texttt{services/hamiltonian.py}; proof of $\eta$-dependence and identification of $\eta^*$.
+\textbf{Audit Target:} Phase 2 decoupling analysis; \texttt{test\_decoupling\_channel\_invariance.py}.
+\end{contract}
+
+\begin{contract}[H5: Competing Spatial Orders Under Full 5-Parameter Exchange]
+\label{con:h5_competing_orders}
+\textbf{Context:} The generalized extended Kitaev Hamiltonian includes $(J, K, \Gamma, \Gamma', D)$.
+\textbf{Hypothesis Statement:} Relaxing unconstrained random initial seeds on $n_c \in \{8, 16, 32\}$ supercells with finite Heisenberg $J$ and symmetric off-diagonal $\Gamma$ spontaneously breaks translation and $C_3$ symmetries into:
+\begin{enumerate}
+\item 4-sublattice zigzag magnetic order for $J > 0, K < 0$.
+\item 120-degree non-coplanar chiral order for finite DM interaction $D \neq 0$.
+\item Stripy order along the Klein-dual parameter trajectory $\mathcal{K}(J, K, \Gamma, \Gamma')$.
+\end{enumerate}
+The boundary between the gapless QSL and the zigzag state is marked by a non-zero nematic order parameter $N_{\mathrm{nem}} > 0.10$.
+\textbf{Acceptance Metric:} Reproduction of the standard $J$--$K$--$\Gamma$ phase boundaries within $15\%$ of exact DMRG boundaries on $n_c=8$ and $n_c=16$ cells.
+\textbf{Audit Target:} Milestone M2.3; \texttt{scripts/m2/sweep\_jk\_gamma\_supercells.py}.
+\end{contract}
+
+\begin{contract}[H6: Exact Analytical Derivation of the Cubic Dirac Gap Prefactor]
+\label{con:h6_analytical_cubic_prefactor}
+\textbf{Context:} Theorem~\ref{thm:m1_6_cubic_gap} proves $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3$ and extracts $c_{\mathrm{MF}} = 2.5921 \pm 0.005$ numerically.
+\textbf{Hypothesis Statement:} Expanding the KKT stationarity condition $[\mathcal{H}(\mathbf{k}; \Xi), \Pi^-(\mathbf{k})] = 0$ perturbatively to third order in $h$ around the exact pure-Kitaev fixed point ($\mathrm{U}_b^{00} = -\bar{U} = -\frac{1}{3}W_3(1)$, $\Delta_{\mathrm{gauge}} = |K|\bar{U}$):
+\begin{equation}
+\label{eq:con_h6_analytic_c}
+c_{\mathrm{MF}} = \frac{8}{3\sqrt{3} \bar{U}^2} \cdot \mathcal{J}_{\mathrm{BZ}},
+\end{equation}
+where $\mathcal{J}_{\mathrm{BZ}}$ is a dimensionless BZ convolution integral over the unperturbed Dirac Green's function. The analytical prefactor evaluates to $c_{\mathrm{MF}} = 2.59214...$, in exact agreement with the $N_k \to \infty$ Richardson extrapolation.
+\textbf{Acceptance Metric:} Closed-form derivation of Eq.~\eqref{eq:con_h6_analytic_c} with numerical match to 5 significant digits.
+\textbf{Audit Target:} Front-1 analytical note \texttt{m1\_6\_t11\_analytic\_dirac\_gap.md}.
+\end{contract}
+
+\begin{contract}[H7: Unconverged KKT Saddle Excursions in Post-Spinodal Trajectories]
+\label{con:h7_kkt_saddle_excursions}
+\textbf{Context:} In Figure~\ref{fig:m1_6_critical_zoom}, the QSL forward branch exhibits serrated oscillations in $E_{\mathrm{site}}$ across $h \in [0.400, 0.455]$ before merging with the polarized branch.
+\textbf{Hypothesis Statement:} The downward energy spikes below the polarized branch in $h \in [0.400, 0.455]$ are unphysical artifacts caused by incomplete KKT convergence ($\epsilon_{\mathrm{gauge}} = \|\mathbf{g}\|_\infty > 10^{-4}$). Because the Lagrangian $\mathcal{L}(\Omega, \boldsymbol{\lambda})$ is a saddle (concave in $\boldsymbol{\lambda}$ per Lemma~\ref{lem:m1_3_hf_gradient}), iterates with non-zero gauge residuals $g_i^\gamma \neq 0$ violate dual admissibility and artificially depress the total energy below the true variational minimum. Enforcing strict convergence $\epsilon_{\mathrm{gauge}} < 10^{-8}$ eliminates all downward serrations, producing a monotonic jump onto the polarized state.
+\textbf{Acceptance Metric:} Re-running the critical zoom with tolerance $10^{-9}$ and verifying monotonic energy curves without downward spikes.
+\textbf{Audit Target:} \texttt{scripts/m1\_6/audit\_critical\_kkt\_residuals.py}.
+\end{contract}
+
+\subsection{Frontier 3: Solver Dynamics, Preconditioning, and Linear-Algebraic Scaling}
+
+\begin{contract}[H8: Lehmann Dual Hessian Preconditioning in Joint DIIS]
+\label{con:h8_dual_hessian_diis}
+\textbf{Context:} In Joint DIIS (Proposition~\ref{prop:m1_3_diis_solver}), the residual vector couples the dual step $\alpha_\lambda$ into the Euclidean metric $R = (\Delta \mathrm{U}, \Delta \mathrm{V}, -\alpha_\lambda \mathbf{g})^T$.
+\textbf{Hypothesis Statement:} Preconditioning the dual multiplier update with the inverse of the exact $3N_{\mathrm{sub}} \times 3N_{\mathrm{sub}}$ Lehmann dual Hessian $\mathbf{H}_{\lambda\lambda} = \frac{\partial^2 E_0}{\partial \boldsymbol{\lambda}^2}$ (Lemma~\ref{lem:m1_3_hf_gradient}):
+\begin{equation}
+\Delta \boldsymbol{\lambda} = -\mathbf{H}_{\lambda\lambda}^{-1} \mathbf{g},
+\end{equation}
+removes the timescale mismatch between fast fermionic relaxation and slow multiplier ascent, eliminating critical slowing down and reducing DIIS iterations near $h_{c2}^+$ by $> 50\%$.
+\textbf{Acceptance Metric:} Implementation of `LehmannPreconditionedDIIS` in \texttt{services/solver.py}; benchmark demonstrating $2\times$ reduction in iteration count at $h = 0.395$.
+\textbf{Audit Target:} Backlog item \textbf{BL-05}; \texttt{test/unit/test\_preconditioned\_diis.py}.
+\end{contract}
+
+\begin{contract}[H9: Multi-Secant Type-II Damped L-Broyden Stabilization]
+\label{con:h9_lbroyden_stabilization}
+\textbf{Context:} In Section~\ref{sec:m1_6_statistical_scorecards}, Type-I L-Broyden collapses in basin reliability ($R_{90} = 0.010$) due to trust-region blowup under unconstrained unit step size $\alpha = 1.0$.
+\textbf{Hypothesis Statement:} Combining Type-II multi-secant updates (Anderson/DIIS formulated via limited-memory QR factorization) with Powell-style adaptive damping $\alpha_k \le 0.5$ restores high-reliability basin survival:
+\begin{equation}
+R_{90} \ge 0.350, \qquad R_{50} \ge 0.500,
+\end{equation}
+matching Full Broyden and Joint DIIS reliability while maintaining strict $\mathcal{O}(mD)$ storage and $\mathcal{O}(mD)$ step complexity.
+\textbf{Acceptance Metric:} Benchmark in \texttt{scripts/m1\_6/benchmark\_damped\_lbroyden.py} demonstrating $R_{90} \ge 0.35$ on 40 perturbed trials at $\delta = 0.10$.
+\textbf{Audit Target:} Wave 3 Task 3.2; \texttt{LimitedMemoryBroydenSolver(damping=0.5)}.
+\end{contract}
+
+\begin{contract}[H10: Newton-Schulz Complexity Near Gapless Dirac Resonances ($3 \mid L$)]
+\label{con:h10_newton_schulz_complexity}
+\textbf{Context:} Theorem~\ref{thm:m1_8_purification} proves that cubic Newton-Schulz iteration $\mathbf{Y}_{k+1} = \frac{1}{2}\mathbf{Y}_k(3\mathbf{I} + \mathbf{Y}_k^2)$ converges to $\Omega = \ii \operatorname{sgn}(\ii\mathbf{A})$. For $L \equiv 0 \pmod 3$, Dirac points fall on the discrete mesh, plunging $s_{\min}(\mathbf{A}) \to 10^{-16}$.
+\textbf{Hypothesis Statement:} Because $f(x) \approx \frac{3}{2}x$ for $|x| \ll 1$, purifying a near-zero singular value $x_0 = s_{\min}/\alpha$ to within machine precision requires:
+\begin{equation}
+\label{eq:con_h10_iterations}
+k_{\mathrm{NS}} \approx \frac{\ln(\alpha / s_{\min})}{\ln(3/2)} + \mathcal{O}(\ln\ln(\epsilon_{\mathrm{mach}}^{-1})) \approx 85\text{--}95 \text{ iterations}.
+\end{equation}
+Under fixed iteration depth $k_{\mathrm{NS}} = 18$, resonant modes with $s_k \sim 10^{-16}$ remain unpurified ($Y_k \approx 0$), implicitly implementing the neutral half-weight projector $\Theta(0) = 1/2$. A dynamically scaled Newton-Schulz iteration with adaptive Padé $[3/2]$ rational step accelerates convergence in small-gap topological regimes ($h > 0$) by $> 2.5\times$.
+\textbf{Acceptance Metric:} Measurement of $k_{\mathrm{NS}}$ vs. $\Delta_K$ confirming Eq.~\eqref{eq:con_h10_iterations} and demonstration of Padé $[3/2]$ acceleration.
+\textbf{Audit Target:} Wave 3 Task 3.1; \texttt{scripts/m1\_8/benchmark\_pade\_purification.py}.
+\end{contract}
+
+\begin{contract}[H11: Self-Consistent Vison Energetics and Local Polarization Clouds]
+\label{con:h11_vison_polarization_cloud}
+\textbf{Context:} Chapter~\ref{ch:vortices_real_lattice} constructs isolated pairs of visons on real-space tori via static branch cuts.
+\textbf{Hypothesis Statement:} Relaxing the full covariance matrix $\Omega \in \mathfrak{so}(8L^2)$ self-consistently around a two-vison defect configuration in the presence of off-diagonal exchange $\Gamma \neq 0$ and magnetic field $\mathbf{h} \parallel [111]$:
+\begin{enumerate}
+\item Renormalizes the bare vison pair creation energy $2\Delta_{\mathrm{flux}} \approx 0.26|K|$ downward by $10\text{--}20\%$.
+\item Binds an in-gap Majorana zero mode ($\epsilon_0 < \Delta_K(h)$) to each vortex core, with hybridization splitting decaying exponentially as $\delta\epsilon(R) \sim e^{-R/\xi(h)}$.
+\item Induces a localized electric polarization texture $\delta \mathbf{P}_i \propto \langle \boldsymbol{\sigma}_i \times \boldsymbol{\sigma}_j \rangle$ circulating the flux cores.
+\end{enumerate}
+\textbf{Acceptance Metric:} Full self-consistent convergence of two-vison state on $L=12$ and $L=16$ tori demonstrating bound mode $\epsilon_0 < \Delta_K$ and non-zero polarization cloud.
+\textbf{Audit Target:} Wave 2 Tasks 2.1--2.3; \texttt{scripts/m1\_10/benchmark\_vison\_polarization.py}.
+\end{contract}
+
+---
+
+\section{Summary: The Phase 1 to Phase 2 Governance Map}
+\label{sec:governance_summary_map}
+
+The 11 advanced hypothesis contracts establish an unbroken, audit-proof scientific chain linking the micro-scale algebraic invariants of Chapter~\ref{ch:m1_1} to the macro-scale defect and thermodynamic phenomena of Phase 2.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Consolidated Phase 1--Phase 2 Hypothesis Contract Governance Matrix.}
+\label{tab:hypothesis_governance_matrix}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Contract} & \textbf{Physical / Algorithmic Focus} & \textbf{Target System} & \textbf{Primary Metric} & \textbf{Phase Gate} \\
+\midrule
+\textbf{H1} & Gutzwiller Gap \& Non-Gaussianity & ED Clusters ($N \le 24$) & Norm Overlap $\mathcal{N}_G$, $D_{\mathrm{NG}}$ & Phase 2 Gate 1 \\
+\textbf{H2} & Factored vs. 12-Majorana Pfaffian & Honeycomb Plaquette & $|\mathcal{W}_p - W_p| \propto h^2$ & Phase 1 Wave 2 \\
+\textbf{H3} & Global 2-RDM Semidefinite Bounds & Supercell SDP & Duality Gap $\Delta_{\mathrm{SDP}} \le 8\%$ & Phase 2 Gate 1 \\
+\textbf{H4} & $\mathrm{N}^a$ vs. Chiral $\mathrm{M}^a$ Decoupling & Bipartite Lattice & Projected Energy Minima $\eta^*$ & Phase 2 Gate 2 \\
+\textbf{H5} & $J$--$K$--$\Gamma$ Competing Orders & $n_c \in \{8, 16, 32\}$ & Nematicity $N_{\mathrm{nem}}$, Klein Dual & Phase 2 Gate 3 \\
+\textbf{H6} & Analytical Cubic Dirac Prefactor & Dirac Cones $K, K'$ & Closed-Form $c_{\mathrm{MF}} = 2.59214$ & Phase 1 Wave 1 \\
+\textbf{H7} & Post-Spinodal KKT Excursions & Critical Region & Commutator Residual $< 10^{-8}$ & Phase 1 Wave 3 \\
+\textbf{H8} & Lehmann Dual Preconditioned DIIS & Gauge Dual Space & Iteration Count at $h_{c2}^+$ & Phase 1 Wave 3 \\
+\textbf{H9} & Damped Multi-Secant L-Broyden & Grassmannian Fiber & Reliability Radius $R_{90} \ge 0.35$ & Phase 1 Wave 3 \\
+\textbf{H10} & Dirac Resonant Sign Purification & Real-Space Torus ($3 \mid L$) & Adaptive Complexity $k_{\mathrm{NS}}$ & Phase 1 Wave 3 \\
+\textbf{H11} & Real-Space Vison Polarization & Defect Torus ($L \le 24$) & Bound Zero Mode $\epsilon_0 < \Delta_K$ & Phase 1 Wave 2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This formal registry guarantees that Phase 2 will execute with mathematical rigor, unambiguous acceptance thresholds, and zero epistemic drift.

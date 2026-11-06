@@ -4,7 +4,7 @@
 % EDITORIAL QUESTION: How do local SO(4) Majorana covariances parameterize translational-invariant states on the bipartite honeycomb lattice, and how is the A -> B directed bond orientation preserved?
 \section{Specialization of the Variational Ansatz to the Honeycomb Lattice}
 \label{sec:m1_2_honeycomb_specialization}
-In \Cref{ch:m1_1b}, we established that fermionic mean-field theory is the exact variational restriction of the energy functional $\mathcal{E}(\Omega) = \omega_\Omega(H_\lambda)$ to the real orthogonal Grassmannian manifold $\Gr(4N, 8N)$. We now specialize this model-independent framework to the extended Kitaev model on the bipartite honeycomb lattice $\Lambda = (\mathcal{V}, \mathcal{E})$.
+In Chapter~\ref{ch:m1_1b}, we established that fermionic mean-field theory is the exact variational restriction of the energy functional $\mathcal{E}(\Omega) = \omega_\Omega(H_\lambda)$ to the real orthogonal Grassmannian manifold $\Gr(4N, 8N)$. We now specialize this model-independent framework to the extended Kitaev model on the bipartite honeycomb lattice $\Lambda = (\mathcal{V}, \mathcal{E})$.
 
 The honeycomb lattice consists of two interpenetrating triangular sublattices, $\mathcal{V} = \mathcal{V}_A \cup \mathcal{V}_B$, with primitive Bravais vectors:
 \begin{equation}
@@ -35,13 +35,13 @@ Antisymmetry of the global covariance matrix mandates the directed transposition
 \end{equation}
 \item \textbf{Gauge Lagrange Multipliers $\boldsymbol{\lambda}_s \in \mathbb{R}^3$:} Auxiliary fields enforcing the on-site $\mathfrak{so}(4)$ gauge constraints $\langle c_{s, i}^T \mathrm{G}^\gamma c_{s, i} \rangle_{\mathrm{G}} = 0$ on each sublattice.
 \end{enumerate}
-In accordance with the workspace notation registry (\Cref{ch:m1_1b}), the symbol $\Xi = (\mathrm{U}, \mathrm{V}, \boldsymbol{\lambda})$ is the sole collective identifier for mean-field parameters, while $\Gamma, \Gamma'$ are reserved strictly for off-diagonal exchange coupling constants.
+The mean-field state is parameterized by the collective covariance tuple $\Xi \equiv (\mathrm{U}, \mathrm{V}, \boldsymbol{\lambda})$, while $\Gamma, \Gamma'$ are reserved strictly for off-diagonal exchange coupling constants.
 
 % EDITORIAL QUESTION: How does generalized Wick contraction on quartic exchange interactions generate the quadratic hopping matrix A_{ij}, the on-site Hartree field B_i, and the double-counting scalar subtraction C?
 \section{Hartree-Fock-Bogoliubov Assembly and Double-Counting Subtraction}
 \label{sec:m1_2_hfb_assembly}
 % SOURCE [VERIFIED]: Freitas et al. (2024), npj Quantum Mater. 9, 33, Eqs. (25)-(27) — Majorana HFB decoupling
-Applying the generalized Wick theorem (\Cref{thm:m1_1b_energy_gradient}) to the quartic Hamiltonian $H_\lambda$ decomposes each bond exchange term into Hartree and Fock channels:
+Applying the generalized Wick theorem (Theorem~\ref{thm:m1_1b_energy_gradient}) to the quartic Hamiltonian $H_\lambda$ decomposes each bond exchange term into Hartree and Fock channels:
 \begin{equation}
 \label{eq:m1_2_wick_channels}
 \langle (\ii c_i^T \mathrm{N}^a c_i)(\ii c_j^T \mathrm{N}^b c_j) \rangle_{\mathrm{G}} = \tr(\mathrm{V}_i^T \mathrm{N}^a) \tr(\mathrm{V}_j^T \mathrm{N}^b) + 2 \tr(\mathrm{U}_{ij}^T \mathrm{N}^a \mathrm{U}_{ij} \mathrm{N}^b).

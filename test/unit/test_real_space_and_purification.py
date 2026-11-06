@@ -68,3 +68,72 @@ def test_matrix_sign_purification_accuracy() -> None:
     assert diff_purif < 1e-12
     assert np.isclose(met.ground_state_energy, e_ref, atol=1e-11)
     assert met.iterations <= 15
+
+
+def test_solve_real_space_purification_accelerators() -> None:
+    """Verify that real-space self-consistent purification converges with DIIS and L-Broyden."""
+    cluster = RealSpaceTorusCluster(L=4)
+    cell2 = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0, h=(0.02, 0.02, 0.02))
+    seed = make_qsl_seed(cell2)
+
+    # 1. DIIS convergence test
+    _, state_diis, met_diis = cluster.solve_real_space_purification(
+        params, seed, max_iter=25, tol=1e-6, accelerator="diis"
+    )
+    assert met_diis["converged"] is True
+    assert met_diis["iterations"] <= 15
+    assert met_diis["final_residual"] < 1e-6
+
+    # 2. L-Broyden convergence test
+    _, state_lb, met_lb = cluster.solve_real_space_purification(
+        params, seed, max_iter=25, tol=1e-6, accelerator="lbroyden"
+    )
+    assert met_lb["converged"] is True
+    assert met_lb["iterations"] <= 20
+    assert met_lb["final_residual"] < 1e-6
+
+    # Parity between DIIS and L-Broyden solutions
+    diff_u = np.max(np.abs(state_diis.U - state_lb.U))
+    assert diff_u < 1e-5
+
+
+def test_disordered_and_vacancy_cluster_purification() -> None:
+    """Verify that real-space purification converges on clusters with bond disorder and vacancies."""
+    L = 4
+    cluster = RealSpaceTorusCluster(L=L)
+    cell2 = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0, h=(0.02, 0.02, 0.02))
+    seed = make_qsl_seed(cell2)
+
+    rng = np.random.default_rng(999)
+    # Bond disorder delta_b in [-0.05, 0.05]
+    bond_disorder = {
+        (m1, m2, b_idx): float(rng.uniform(-0.05, 0.05))
+        for m2 in range(L)
+        for m1 in range(L)
+        for b_idx in range(3)
+    }
+    # Vacancy site
+    vacancies = {1}
+
+    # Verify Hamiltonian skew-symmetry under disorder and vacancies
+    A = cluster.assemble_skew_hamiltonian(
+        params, seed, bond_disorder=bond_disorder, site_vacancies=vacancies
+    )
+    assert np.allclose(A, -A.T, atol=1e-15)
+
+    # Solve self-consistently
+    omega, state, met = cluster.solve_real_space_purification(
+        params,
+        seed,
+        max_iter=30,
+        tol=1e-5,
+        accelerator="diis",
+        bond_disorder=bond_disorder,
+        site_vacancies=vacancies,
+    )
+    assert met["converged"] is True
+    assert met["final_residual"] < 1e-5
+    # Covariance idempotency on active subspace
+    assert np.allclose(omega, -omega.T, atol=1e-15)

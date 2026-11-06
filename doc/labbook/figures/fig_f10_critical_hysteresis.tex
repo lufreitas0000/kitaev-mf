@@ -5,9 +5,9 @@
     labbook standard,
     xlabel={Magnetic Field $h/|K|$ ($\mathbf{h} \parallel [111]$)},
     ylabel={Energy per Site $E_{\mathrm{site}}$},
-    legend pos=south west,
+    legend pos=north east,
     xmin=0.28, xmax=0.52,
-    ymin=-1.02, ymax=-0.81
+    ymin=-1.08, ymax=-0.81
 ]
     \addplot[labbookteal, thick]
         table[x index=0, y index=1] {../../data/processed/benchmarks/m1_6/critical_zoom_plot.dat};
@@ -17,10 +17,10 @@
         table[x index=0, y index=2] {../../data/processed/benchmarks/m1_6/critical_zoom_plot.dat};
     \addlegendentry{Polarized Backward Branch ($W_p = 0$)}
 
-    \draw[dotted, thick, black] (axis cs:0.3325,-1.02) -- (axis cs:0.3325,-0.81)
+    \draw[dotted, thick, black] (axis cs:0.3325,-1.08) -- (axis cs:0.3325,-0.81)
         node[pos=0.85, right, font=\footnotesize] {$h_c^* = 0.3325$ (Crossing)};
 
-    \draw[dashed, thick, labbookamber] (axis cs:0.4000,-1.02) -- (axis cs:0.4000,-0.81)
+    \draw[dashed, thick, labbookamber] (axis cs:0.4000,-1.08) -- (axis cs:0.4000,-0.81)
         node[pos=0.15, right, font=\footnotesize] {$h_{c2}^+ = 0.400$ (Spinodal)};
 \end{axis}
 \end{tikzpicture}

@@ -30,7 +30,7 @@
     \addlegendentry{Picard ($\alpha=0.5$)}
 
     % 90% survival threshold line
-    \draw[gray, dotted, thick] (axis cs:0,0.9) -- (axis cs:0.52,0.9) node[above, pos=0.8, font=\tiny] {$R_{90}$ threshold};
+    \draw[gray, dotted, thick] (axis cs:0,0.9) -- (axis cs:0.52,0.9) node[above, pos=0.25, font=\tiny] {$R_{90}$ threshold};
 \end{axis}
 \end{tikzpicture}
 \caption{Empirical basin survival probability $P_{\mathrm{conv}}(\delta)$ as a function of symmetric random seed perturbation magnitude $\delta$ at $h/|K|=0.20$ ($N_{\mathrm{trials}}=30$ per solver per $\delta$). Full Broyden and JFNK maintain $P_{\mathrm{conv}} \ge 0.967$ across the entire range, whereas Picard rapidly collapses for $\delta \ge 0.05$.}

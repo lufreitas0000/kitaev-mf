@@ -7,7 +7,7 @@
 % SOURCE [VERIFIED]: Freitas et al. (2024), npj Quantum Mater. 9, 33, Sec. III — Majorana observables and spin contractions
 % CLAIM: CLM-M1-OBS-001 (provenance: doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md, test: test/unit/test_production_observables.py::test_observable_t01_magnetization_and_spin_correlators)
 
-Physical spin observables are quadratic or quartic in the underlying Majorana fermions. Within the quasi-free mean-field state characterized by the covariance tuple $\Xi = (\mathrm{U}, \mathrm{V})$, expectation values evaluate via Wick's theorem (\Cref{ch:m1_1b}):
+Physical spin observables are quadratic or quartic in the underlying Majorana fermions. Within the quasi-free mean-field state characterized by the covariance tuple $\Xi = (\mathrm{U}, \mathrm{V})$, expectation values evaluate via Wick's theorem (Chapter~\ref{ch:m1_1b}):
 
 \begin{definition}[Local Magnetization]
 \label{def:m1_4_magnetization}
@@ -86,7 +86,7 @@ E_{\mathrm{total}} = \langle H_{\mathrm{quad}} \rangle_{\mathrm{G}} - C = \langl
 \end{equation}
 \end{theorem}
 \begin{proof}
-By Euler's homogeneous function theorem on quadratic polynomials (\Cref{thm:m1_1b_affine_tangent}), the functional derivative $\mathrm{A}_{ij} = \partial E_{\mathrm{exchange}}/\partial \mathrm{U}_{ij}$ satisfies $\sum_{ij} \operatorname{tr}(\mathrm{A}_{ij} \mathrm{U}_{ij}^T) = 4 E_{\mathrm{Fock}}$, while the Hartree on-site derivative satisfies $\sum_i \operatorname{tr}(\mathrm{B}_{i, \mathrm{exchange}} \mathrm{V}_i^T) = 4 E_{\mathrm{Hartree}}$. Summing Fock and Hartree channels yields $\frac{\ii}{4}\langle \mathbf{c}^T \mathrm{M}_{\mathrm{exchange}} \mathbf{c} \rangle = 2 E_{\mathrm{exchange}}$. Because external field and Lagrange multiplier terms are strictly linear in $\mathrm{V}_s$, they enter the expectation with coefficient $1$. Subtracting the scalar $C = E_{\mathrm{exchange}}$ cancels the double-counting, yielding Eq.~\eqref{eq:m1_4_E_total_subtracted}.
+By Euler's homogeneous function theorem on quadratic polynomials (Theorem~\ref{thm:m1_1b_affine_tangent}), the functional derivative $\mathrm{A}_{ij} = \partial E_{\mathrm{exchange}}/\partial \mathrm{U}_{ij}$ satisfies $\sum_{ij} \operatorname{tr}(\mathrm{A}_{ij} \mathrm{U}_{ij}^T) = 4 E_{\mathrm{Fock}}$, while the Hartree on-site derivative satisfies $\sum_i \operatorname{tr}(\mathrm{B}_{i, \mathrm{exchange}} \mathrm{V}_i^T) = 4 E_{\mathrm{Hartree}}$. Summing Fock and Hartree channels yields $\frac{\ii}{4}\langle \mathbf{c}^T \mathrm{M}_{\mathrm{exchange}} \mathbf{c} \rangle = 2 E_{\mathrm{exchange}}$. Because external field and Lagrange multiplier terms are strictly linear in $\mathrm{V}_s$, they enter the expectation with coefficient $1$. Subtracting the scalar $C = E_{\mathrm{exchange}}$ cancels the double-counting, yielding Eq.~\eqref{eq:m1_4_E_total_subtracted}.
 \end{proof}
 
 \begin{corollary}[Numerical Energy Equivalence]
