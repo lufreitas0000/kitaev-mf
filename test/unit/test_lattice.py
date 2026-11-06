@@ -6,6 +6,7 @@ from kitaev_mf.domain.lattice import (
     DEFAULT_D_NN,
     make_honeycomb_2site,
     make_honeycomb_4site_rectangular,
+    make_honeycomb_supercell,
 )
 
 
@@ -61,3 +62,34 @@ def test_4site_rectangular_lattice_geometry_and_scale_parity() -> None:
     assert np.isclose(np.dot(cell_4.a2, b2), 2.0 * np.pi, atol=1e-15)
     assert np.isclose(np.dot(cell_4.a1, b2), 0.0, atol=1e-15)
     assert np.isclose(np.dot(cell_4.a2, b1), 0.0, atol=1e-15)
+
+
+def test_honeycomb_supercell_geometry_and_parity() -> None:
+    """Validate bond lengths, cell vectors, and plaquettes for arbitrary n1 x n2 supercells."""
+    for n1, n2 in [(1, 1), (2, 1), (2, 2), (4, 2), (4, 4)]:
+        cell = make_honeycomb_supercell(n1, n2)
+        expected_sites = 2 * n1 * n2
+        expected_bonds = 3 * n1 * n2
+        expected_plaquettes = n1 * n2
+
+        assert cell.num_sublattices == expected_sites
+        assert len(cell.edges) == expected_bonds
+        assert len(cell.plaquettes) == expected_plaquettes
+
+        # Every nearest-neighbor bond must have exact length DEFAULT_D_NN
+        for bond in cell.edges:
+            vec = cell.bond_vector(bond)
+            assert np.isclose(np.linalg.norm(vec), DEFAULT_D_NN, atol=1e-14)
+
+        # Equal distribution of x, y, z bonds
+        types = [b.bond_type for b in cell.edges]
+        assert types.count(1) == n1 * n2
+        assert types.count(2) == n1 * n2
+        assert types.count(3) == n1 * n2
+
+        # Reciprocal lattice duality
+        b1, b2 = cell.reciprocal_vectors
+        assert np.isclose(np.dot(cell.a1, b1), 2.0 * np.pi, atol=1e-14)
+        assert np.isclose(np.dot(cell.a1, b2), 0.0, atol=1e-14)
+        assert np.isclose(np.dot(cell.a2, b1), 0.0, atol=1e-14)
+        assert np.isclose(np.dot(cell.a2, b2), 2.0 * np.pi, atol=1e-14)

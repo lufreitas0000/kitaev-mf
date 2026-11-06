@@ -1,0 +1,6 @@
+# Supercell Symmetry Stability Under Unconstrained Random Seeds (h = 0.20)
+# Columns: N_C  N_TRIALS  P_CONV  P_ISOTROPIC  MAX_NEMATICITY  MAX_ENERGY_DIFF
+2    10       1.000    1.000        6.6756e-08       1.8874e-14      
+4    10       1.000    1.000        7.3171e-08       1.4433e-15      
+8    10       1.000    1.000        4.6805e-08       1.7764e-15      
+16   10       1.000    1.000        4.2433e-08       1.4433e-15      

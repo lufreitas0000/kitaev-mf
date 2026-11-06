@@ -6,6 +6,7 @@ from kitaev_mf.domain.lattice import (
     UnitCell,
     make_honeycomb_2site,
     make_honeycomb_4site_rectangular,
+    make_honeycomb_supercell,
 )
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverConfig, SolverMetrics
@@ -17,6 +18,7 @@ __all__ = [
     "UnitCell",
     "make_honeycomb_2site",
     "make_honeycomb_4site_rectangular",
+    "make_honeycomb_supercell",
     "ModelParameters",
     "EnergyBreakdown",
     "MeanFieldState",

@@ -186,3 +186,90 @@ def make_honeycomb_4site_rectangular(d_nn: float = DEFAULT_D_NN) -> UnitCell:
     )
 
     return UnitCell("rectangular_4site", 4, a1, a2, positions, bonds, plaquettes)
+
+
+def make_honeycomb_supercell(n1: int, n2: int, d_nn: float = DEFAULT_D_NN) -> UnitCell:
+    """Construct an arbitrary n1 x n2 honeycomb supercell with n_c = 2 * n1 * n2 sublattices.
+
+    Parameters:
+        n1: Supercell replication factor along primitive translation a1 (>= 1).
+        n2: Supercell replication factor along primitive translation a2 (>= 1).
+        d_nn: Nearest-neighbor bond distance (defaults to 1/sqrt(3)).
+
+    Returns:
+        UnitCell with n_c = 2 * n1 * n2 sublattices, 3 * n1 * n2 directed bonds,
+        and n1 * n2 hexagonal plaquettes, guaranteeing exact Brillouin-zone folding parity.
+    """
+    if n1 < 1 or n2 < 1:
+        raise ValueError(f"Replication factors (n1, n2) must be >= 1, got ({n1}, {n2})")
+
+    a = np.sqrt(3.0) * d_nn
+    a1_prim = np.array([0.5 * a, (np.sqrt(3.0) / 2.0) * a], dtype=np.float64)
+    a2_prim = np.array([-0.5 * a, (np.sqrt(3.0) / 2.0) * a], dtype=np.float64)
+    A1 = float(n1) * a1_prim
+    A2 = float(n2) * a2_prim
+
+    num_cells = n1 * n2
+    num_sublattices = 2 * num_cells
+
+    positions = np.zeros((num_sublattices, 2), dtype=np.float64)
+    for m2 in range(n2):
+        for m1 in range(n1):
+            cell_origin = m1 * a1_prim + m2 * a2_prim
+            i_A = 2 * (m1 + n1 * m2)
+            i_B = i_A + 1
+            positions[i_A] = cell_origin
+            positions[i_B] = cell_origin + np.array([0.0, d_nn], dtype=np.float64)
+
+    bond_map: dict[tuple[int, int, int], int] = {}
+    bonds_list: list[Bond] = []
+    disp = [(0, 0, 3), (0, -1, 1), (-1, 0, 2)]
+    idx = 0
+    for m2 in range(n2):
+        for m1 in range(n1):
+            i_A = 2 * (m1 + n1 * m2)
+            for d1, d2, gamma in disp:
+                tm1 = m1 + d1
+                tm2 = m2 + d2
+                r1 = tm1 % n1
+                N1 = tm1 // n1
+                r2 = tm2 % n2
+                N2 = tm2 // n2
+                i_B = 2 * (r1 + n1 * r2) + 1
+                b = Bond(
+                    sublattice_i=i_A,
+                    sublattice_j=i_B,
+                    cell_offset=(int(N1), int(N2)),
+                    bond_type=gamma,
+                )
+                bonds_list.append(b)
+                bond_map[(m1, m2, gamma)] = idx
+                idx += 1
+
+    plaquettes: list[Plaquette] = []
+    for m2 in range(n2):
+        for m1 in range(n1):
+            b1 = bond_map[(m1, m2, 3)]
+            b2 = bond_map[(m1 % n1, (m2 + 1) % n2, 1)]
+            b3 = bond_map[(m1 % n1, (m2 + 1) % n2, 2)]
+            b4 = bond_map[((m1 - 1) % n1, (m2 + 1) % n2, 3)]
+            b5 = bond_map[((m1 - 1) % n1, (m2 + 1) % n2, 1)]
+            b6 = bond_map[(m1, m2, 2)]
+            ori = ((b1, 1), (b2, -1), (b3, 1), (b4, -1), (b5, 1), (b6, -1))
+            plaq = Plaquette(
+                name=f"p_{m1}_{m2}",
+                bond_indices=(b1, b2, b3, b4, b5, b6),
+                oriented_bonds=ori,
+            )
+            plaquettes.append(plaq)
+
+    name = f"supercell_{num_sublattices}site_{n1}x{n2}"
+    return UnitCell(
+        name=name,
+        num_sublattices=num_sublattices,
+        a1=A1,
+        a2=A2,
+        basis_positions=positions,
+        bonds=tuple(bonds_list),
+        plaquettes=tuple(plaquettes),
+    )

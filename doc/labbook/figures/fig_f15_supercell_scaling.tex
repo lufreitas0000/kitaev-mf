@@ -1,0 +1,32 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    labbook standard,
+    xmode=log,
+    ymode=log,
+    log basis x={2},
+    log basis y={10},
+    xlabel={Supercell Size $n_c$ (Sublattices)},
+    ylabel={Cost per Map Evaluation},
+    legend pos=north west,
+    xmin=1.5, xmax=45,
+    ymin=0.5, ymax=600
+]
+    \addplot[labbookteal, thick, mark=*, mark size=2.5pt]
+        table[x index=0, y index=7] {../../data/processed/benchmarks/m1_7/bloch_supercell_scaling.dat};
+    \addlegendentry{FLOPs per Eval [MFLOP]}
+
+    \addplot[labbookamber, thick, mark=square*, mark size=2pt]
+        table[x index=0, y index=6] {../../data/processed/benchmarks/m1_7/bloch_supercell_scaling.dat};
+    \addlegendentry{Wall Time per Eval [ms]}
+
+    % Theoretical quadratic scaling guide: O(n_c^2)
+    \addplot[labbookslate, dashed, thick, domain=2:32]
+        {1.573 * (x/2)^2};
+    \addlegendentry{Theoretical $\mathcal{O}(n_c^2)$ Folding Law}
+\end{axis}
+\end{tikzpicture}
+\caption{Computational scaling of the self-consistent mean-field map evaluation across generalized honeycomb supercells $n_c \in \{2, 4, 8, 16, 32\}$ under equivalent thermodynamic sampling ($N_k \cdot n_c = 1152$). The measured computational work tracks the theoretical $\mathcal{O}(n_c^2)$ folded complexity law over two orders of magnitude, with intensive ground-state energy matching to within $5.55 \times 10^{-16}$.}
+\label{fig:m1_7_supercell_scaling}
+\end{figure}
