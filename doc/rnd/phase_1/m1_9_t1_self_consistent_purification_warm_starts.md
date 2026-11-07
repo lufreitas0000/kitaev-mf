@@ -1,15 +1,22 @@
 ---
 id: M1.9-T1
-title: Self-Consistent Field Iteration with Matrix Sign Purification and Warm-Start Gradient Corrections
-phase: Phase 1
-milestone: M1.9
-task: Task 1
+title: "Self-Consistent Field Iteration with Matrix Sign Purification and Warm-Start Gradient Corrections"
 status: Completed
-claims:
-  - id: C-M1.9-T1-01
-    statement: "Direct warm starting of Newton-Schulz purification via Y_0 = Omega_{k-1} freezes the iteration because Omega^2 = -I is already an exact fixed point; valid warm starting requires perturbing Y_0 = Omega_{k-1} + delta Y with commutator alignment [A_k, Omega_{k-1}] or Li-Nunes-Vanderbilt corrections."
-  - id: C-M1.9-T1-02
-    statement: "In self-consistent real-space loops, warm-start purification reduces Newton-Schulz iterations from 11-12 down to 3-4 steps per SCF cycle in the asymptotic contraction regime, accelerating time-to-solution by an additional 3x."
+date: "2026-11-06"
+questions:
+  - "Why does direct inner warm-starting Y_0 = Omega_{k-1} freeze Newton-Schulz matrix sign purification?"
+  - "How do outer-accelerated fixed-point updates (DIIS / damped L-Broyden) circumvent the idempotency trap in real-space self-consistent loops?"
+depends_on:
+  - M1.8-T2
+  - M1.8-T3
+contracts:
+  - K-018
+  - K-021
+  - HC-P1-03
+artifacts:
+  - src/kitaev_mf/services/purification.py
+  - src/kitaev_mf/services/real_space.py
+  - test/unit/test_real_space_and_purification.py
 ---
 
 # Self-Consistent Field Iteration with Matrix Sign Purification and Warm-Start Gradient Corrections

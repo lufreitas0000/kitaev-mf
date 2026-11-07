@@ -315,7 +315,7 @@ class LimitedMemoryBroydenSolver(FixedPointAccelerator):
     """
 
     def __init__(
-        self, history_size: int = 10, alpha: float = 1.0, tol_singular: float = 1e-12
+        self, history_size: int = 10, alpha: float = 0.5, tol_singular: float = 1e-12
     ) -> None:
         if history_size < 1:
             raise ValueError(f"history_size must be >= 1, got {history_size}")
@@ -395,7 +395,8 @@ class LimitedMemoryBroydenSolver(FixedPointAccelerator):
             yj = self._y_history[j]
             hyj = apply_h_seq(yj, j)
             denom = float(np.dot(sj, hyj))
-            if abs(denom) > 1e-14:
+            scale = max(float(np.linalg.norm(sj) * np.linalg.norm(hyj)), 1e-14)
+            if abs(denom) > self.tol_singular * scale:
                 uj = (sj - hyj) / denom
                 wj = apply_ht_seq(sj, j)
                 u_list.append(uj)

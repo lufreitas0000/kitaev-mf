@@ -60,14 +60,26 @@ def purify_newton_schulz(
     I_mat = np.eye(M, dtype=np.float64)
     gemm_count = 0
 
+    alpha = estimate_spectral_bound(A)
+
     if warm_start is not None and warm_start.shape == (M, M):
-        # Warm start: refine previous projector with the new Hamiltonian
-        # To align with current A, perform one gradient / sign alignment step:
-        # If A has changed slightly, initialize Y_0 = warm_start
-        Y = 0.5 * (warm_start - warm_start.T)
+        # Warm start: refine previous projector with the new Hamiltonian A.
+        # Direct Y_0 = warm_start freezes because Omega^2 = -I is an exact root of f(Y) = Y.
+        # To rotate the eigenbasis toward A, we inject the first-order commutator gradient:
+        # delta Y = -tau * (A + Omega_0 @ A @ Omega_0)
+        # where (A + Omega_0 A Omega_0) is the off-diagonal generator between occupied and virtual bands.
+        omega_0 = 0.5 * (warm_start - warm_start.T)
+        grad_comm = A + omega_0 @ A @ omega_0
+        gemm_count += 2
+        tau = 0.5 / max(alpha, 1e-12)
+        Y_init = omega_0 - tau * grad_comm
+        # Ensure initial spectral radius is strictly < 1
+        norm_y = float(np.linalg.norm(Y_init, ord=2))
+        if norm_y >= 0.98:
+            Y_init = (0.95 / norm_y) * Y_init
+        Y = 0.5 * (Y_init - Y_init.T)
     else:
         # Cold start: scale Hamiltonian so spectral radius is strictly < 1
-        alpha = estimate_spectral_bound(A)
         # Invert sign convention: since H = (i/4) c^T A c, the ground state covariance
         # satisfies Omega = i sgn(i A) = - A / |A|
         Y = -(A / alpha)

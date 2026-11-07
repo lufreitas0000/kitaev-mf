@@ -1,15 +1,20 @@
 ---
 id: M1.9-T5
-title: Domain Wall Metastability and Spatial Coexistence inside the Spinodal Window
-phase: Phase 1
-milestone: M1.9
-task: Task 5
+title: "Domain Wall Metastability and Spatial Coexistence inside the Spinodal Window"
 status: Completed
-claims:
-  - id: C-M1.9-T5-01
-    statement: "Inside the hysteresis window h in [0.330, 0.400], a composite seed initializing a spatial domain wall between QSL (left half) and polarized phase (right half) relaxes to an abrupt, stable domain wall with localized surface energy sigma_DW = 0.042 |K|/unit cell."
-  - id: C-M1.9-T5-02
-    statement: "No intermediate incommensurate or stripy bulk phase intervenes between the uniform QSL and polarized ground states; the first-order transition proceeds via discontinuous nucleation."
+date: "2026-11-06"
+questions:
+  - "Does a composite spatial domain wall between QSL and polarized phases possess positive surface tension sigma_DW > 0 inside the spinodal hysteresis window?"
+  - "Are intermediate modulated or stripy states stabilized between the thermodynamic crossing h_c^* = 0.3325 and upper spinodal h_{c2}^+ = 0.400?"
+depends_on:
+  - M1.6-T5
+  - M1.7-T1
+contracts:
+  - K-011
+  - K-023
+artifacts:
+  - scripts/m1_9/audit_post_spinodal_and_master_table.py
+  - data/processed/benchmarks/m1_9/post_spinodal_kkt_audit.dat
 ---
 
 # Domain Wall Metastability and Spatial Coexistence inside the Spinodal Window

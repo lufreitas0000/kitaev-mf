@@ -1,15 +1,21 @@
 ---
 id: M1.9-T3
-title: L-Broyden Damping Reconciliation and Multi-Secant Operator Theory
-phase: Phase 1
-milestone: M1.9
-task: Task 3
+title: "L-Broyden Damping Reconciliation and Multi-Secant Operator Theory"
 status: Completed
-claims:
-  - id: C-M1.9-T3-01
-    statement: "Setting base damping alpha = 0.5 in Limited-Memory Broyden expands its 90% survival basin radius from R_90 = 0.01 to R_90 = 0.22, proving that the original basin narrowing was caused by undamped unit-step Picard extrapolation in the D - m unmeasured orthogonal directions."
-  - id: C-M1.9-T3-02
-    statement: "Type-I (sequential Sherman-Morrison) Broyden is prone to truncation amnesia when secant vectors leave the active subspace, whereas Type-II multi-secant DIIS solves a simultaneous regularized L2 norm problem that guarantees monotone residual decrease."
+date: "2026-11-06"
+questions:
+  - "What is the mathematical mechanism underlying the narrow basin of attraction (R_90 = 0.010) in undamped unit-step Limited-Memory Broyden?"
+  - "Why does base damping alpha = 0.5 expand the L-Broyden survival basin by more than 20x in real-space fixed-point iterations?"
+depends_on:
+  - M1.6-T7
+  - M1.6-T10
+contracts:
+  - K-013
+  - K-021
+artifacts:
+  - src/kitaev_mf/services/fixed_point.py
+  - scripts/m1_9/benchmark_wave3_advanced_solvers.py
+  - data/processed/benchmarks/m1_9/wave3_purification_and_solvers.dat
 ---
 
 # L-Broyden Damping Reconciliation and Multi-Secant Operator Theory

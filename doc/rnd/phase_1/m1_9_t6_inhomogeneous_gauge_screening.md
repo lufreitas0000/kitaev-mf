@@ -1,15 +1,20 @@
 ---
 id: M1.9-T6
-title: Inhomogeneous Gauge Screening and Matter-Gauge Hybridization near Defect Cores
-phase: Phase 1
-milestone: M1.9
-task: Task 6
+title: "Inhomogeneous Gauge Screening and Matter-Gauge Hybridization near Defect Cores"
 status: Completed
-claims:
-  - id: C-M1.9-T6-01
-    statement: "Near open boundaries and defect cores, the Lagrange multiplier field lambda_i becomes site-dependent, exhibiting spatial screening with correlation length xi_gauge approx 1.1 lattice spacings."
-  - id: C-M1.9-T6-02
-    statement: "Local gauge gradients nabla_i lambda_i hybridize the localized flat gauge bands with bulk dispersive Majorana modes, providing an effective electrostatic-like screening that screens the defect's virtual charge."
+date: "2026-11-06"
+questions:
+  - "How do spatial gradients in the Lagrange multiplier field nabla_i lambda_i affect localized flat gauge Majorana bands near defect cores?"
+  - "What is the characteristic screening length xi_gauge over which local gauge perturbations decay back to bulk flat-band neutrality?"
+depends_on:
+  - M1.5-T1
+  - M1.9-T2
+contracts:
+  - K-008
+  - K-022
+artifacts:
+  - doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex
+  - src/kitaev_mf/services/real_space.py
 ---
 
 # Inhomogeneous Gauge Screening and Matter-Gauge Hybridization near Defect Cores

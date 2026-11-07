@@ -1,15 +1,20 @@
 ---
 id: M1.9-T4
-title: Matrix Sign Purification in Small-Gap Regimes and Zero-Mode Parity Projection
-phase: Phase 1
-milestone: M1.9
-task: Task 4
+title: "Matrix Sign Purification in Small-Gap Regimes and Zero-Mode Parity Projection"
 status: Completed
-claims:
-  - id: C-M1.9-T4-01
-    statement: "Cubic Newton-Schulz iteration count scales logarithmically with the spectral gap as k_iter ~ (1 / ln 2) ln(||A||_2 / Delta_min); near gapless Dirac points (Delta ~ 10^-4), iterations grow from 11 to 24 without numerical instability."
-  - id: C-M1.9-T4-02
-    statement: "For exact zero modes (Delta = 0), sgn(0) = 0 leaves an incomplete projector Omega^2 = -I + P_zero; physical parity projection (-1)^F = +1 is achieved via skew Pfaffian deflation in the null subspace."
+date: "2026-11-06"
+questions:
+  - "How does the spectral gap Delta_min govern the cubic Newton-Schulz iteration depth in real-space torus clusters?"
+  - "How is physical parity projection (-1)^F = +1 preserved when exact zero modes arise in the single-particle skew Hamiltonian?"
+depends_on:
+  - M1.8-T2
+  - M1.9-T1
+contracts:
+  - K-018
+  - H10
+artifacts:
+  - src/kitaev_mf/services/purification.py
+  - doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex
 ---
 
 # Matrix Sign Purification in Small-Gap Regimes and Zero-Mode Parity Projection

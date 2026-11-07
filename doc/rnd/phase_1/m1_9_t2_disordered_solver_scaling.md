@@ -1,15 +1,21 @@
 ---
 id: M1.9-T2
-title: Solver Iteration Scaling under Broken Translation Symmetry and Vacancy Disorder
-phase: Phase 1
-milestone: M1.9
-task: Task 2
+title: "Solver Iteration Scaling under Broken Translation Symmetry and Vacancy Disorder"
 status: Completed
-claims:
-  - id: C-M1.9-T2-01
-    statement: "Under localized vacancy defects and random site disorder, the fixed-point map couples all D = 8L^2 real-space variational channels, increasing Picard iterations by 3.8x while DIIS and Full Broyden increase by only 1.4x-1.6x."
-  - id: C-M1.9-T2-02
-    statement: "The memory advantage of L-Broyden (m=10) becomes decisive for D > 10^4 where full inverse Jacobian storage exceeds 800 MB, operating reliably when coupled with small parameter continuation step sizes (delta h <= 0.01)."
+date: "2026-11-06"
+questions:
+  - "How does breaking translation symmetry via dilute site vacancies and bond disorder alter the real-space variational dimension and solver conditioning?"
+  - "Can Joint DIIS and damped L-Broyden maintain rapid convergence when localized vacancy zero modes spike the condition number to kappa(A) ~ 3.8e4?"
+depends_on:
+  - M1.8-T1
+  - M1.9-T1
+contracts:
+  - K-021
+  - K-022
+artifacts:
+  - src/kitaev_mf/services/real_space.py
+  - scripts/m1_9/benchmark_wave3_advanced_solvers.py
+  - data/processed/benchmarks/m1_9/wave3_disorder_scaling.dat
 ---
 
 # Solver Iteration Scaling under Broken Translation Symmetry and Vacancy Disorder

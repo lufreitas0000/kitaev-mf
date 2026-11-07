@@ -66,6 +66,30 @@ def test_limited_memory_broyden_linear_system() -> None:
 
     assert np.allclose(x, x_true, atol=1e-8)
 
+    # Check that default alpha is 0.5
+    default_solver = LimitedMemoryBroydenSolver()
+    assert default_solver.alpha == 0.5
+    assert default_solver.history_size == 10
+    assert default_solver.tol_singular == 1e-12
+
+    # Robustness under 30 independent perturbed trials (Contract H9)
+    success_count = 0
+    for trial in range(30):
+        t_rng = np.random.default_rng(100 + trial)
+        x_init = x_true + t_rng.uniform(-0.35, 0.35, size=dim)
+        s_trial = LimitedMemoryBroydenSolver(history_size=10, alpha=0.5)
+        curr_x = x_init.copy()
+        for _ in range(50):
+            p_val = phi_fn(curr_x)
+            res_norm = float(np.linalg.norm(p_val - curr_x))
+            if res_norm < 1e-9:
+                success_count += 1
+                break
+            curr_x, _ = s_trial.step(curr_x, p_val)
+
+    # 100% convergence across all 30 perturbed trials
+    assert success_count == 30
+
 
 def test_add_symmetric_perturbation_invariance() -> None:
     """Verify that add_symmetric_perturbation preserves C3 bond permutation and sublattice equivalence."""
