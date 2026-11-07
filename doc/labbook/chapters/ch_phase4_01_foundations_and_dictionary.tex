@@ -1,0 +1,80 @@
+\chapter{Phase 4 Foundations: Literature Review, Canonical Dictionary, and Epistemic Taxonomy}
+\label{ch:phase4_foundations}
+
+% EDITORIAL QUESTION: How do we establish a single, rigorous canonical unit standard that harmonizes conflicting literature representations and eliminates the loose "gauge gap" misconception?
+\section{Motivation, Context, and Normalization Obstructions}
+\label{sec:phase4_motivation}
+
+The Kitaev honeycomb model under a weak magnetic field $\bm{h} \parallel [111]$ has become the canonical paradigm for non-Abelian topological quantum spin liquids (QSLs)~\cite{Kitaev2006}. However, independent theoretical and numerical explorations across two decades have accumulated disparate operator normalizations, exchange definitions, and heuristic approximations. In particular, two persistent obstructions hinder direct comparison:
+\begin{enumerate}
+    \item \textbf{Unit and Normalization Ambiguity:} Some works employ spin angular momentum operators $\bm{S} = \frac{1}{2}\bm{\sigma}$ with exchange coupling $J$, others set $K = 1/2$, and others use Pauli operators $\bm{\sigma} \in \{\pm 1\}$ with $K \equiv 1.0$. Because the chiral Majorana gap opens at third order in the magnetic field ($\Delta \propto h^3 / K^2$), a factor of $2$ in the spin definition induces a factor of $2^3 / 2^2 = 2$ in the gap or an overall factor of $4$ in the physical excitation spectrum.
+    \item \textbf{The "Gauge Gap" Misconception:} In informal literature discussions, the energy required to invert a $\mathbb{Z}_2$ link variable $u_{ij} \to -u_{ij}$ is frequently called the "gauge excitation gap." This terminology is physically imprecise. In the microscopic spin Hilbert space $\mathcal{H}_{\mathrm{phys}}$, a single link flip is not a physical state; it creates an isolated pair of non-local $\mathbb{Z}_2$ vortices (visons). In the unprojected Hartree-Fock-Bogoliubov (HFB) state space, an isolated link flip does not provide a stationary fixed point of the self-consistent map $\Phi$. When iterated to convergence, the surrounding matter and gauge bonds undergo dynamical screening.
+\end{enumerate}
+
+To establish absolute mathematical rigor, Phase 4 strictly enforces a \textbf{single canonical Pauli normalization} across all analytical formulas, code modules, and numerical benchmarks.
+
+% EDITORIAL QUESTION: What is the exact mathematical dictionary mapping alternative literature conventions to the canonical standard?
+\section{The Single Canonical Pauli Standard and Universal Dictionary}
+\label{sec:phase4_dictionary}
+% CLAIM: K-024 (provenance: doc/rnd/phase_4/analytical_prefactor_derivation.md, test: test/unit/test_phase4_analytical_mf.py::test_pure_kitaev_hamiltonian_and_eigenvalues)
+
+We formulate the microscopic Hamiltonian exclusively in terms of dimensionless Pauli matrices $\sigma_i^\gamma$ ($\gamma \in \{x, y, z\}$):
+\begin{equation}
+\label{eq:phase4_canonical_hamiltonian}
+\mathcal{H} = - K \sum_{\langle i, j \rangle_\gamma} \sigma_i^\gamma \sigma_j^\gamma - \sum_{i} \bm{h} \cdot \bm{\sigma}_i, \qquad K \equiv 1.0, \quad \bm{h} = \frac{h}{\sqrt{3}}\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix},
+\end{equation}
+such that the Euclidean magnitude of the magnetic field vector is precisely $\|\bm{h}\| = h$.
+
+\begin{table}[htbp]
+\centering
+\caption{Universal dictionary translating alternative literature conventions to the Phase 4 canonical Pauli standard ($K \equiv 1.0, \|\bm{\sigma}_i\| = 1$).}
+\label{tab:phase4_dictionary}
+\vspace{2mm}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Physical Observable / Parameter} & \textbf{Phase 4 Canonical} & \textbf{Spin-1/2 Convention} & \textbf{Scaling Ratio} \\
+\midrule
+Exchange Coupling & $K_{\mathrm{Pauli}} \equiv 1.0$ & $K_{\mathrm{spin}} \equiv 4.0$ & $K_{\mathrm{spin}} = 4 K_{\mathrm{Pauli}}$ \\
+Zeeman Field Vector & $\bm{h}_{\mathrm{Pauli}}$ & $\bm{h}_{\mathrm{spin}} \equiv 2 \bm{h}_{\mathrm{Pauli}}$ & $\bm{h}_{\mathrm{spin}} = 2 \bm{h}_{\mathrm{Pauli}}$ \\
+Dimensionless Field Ratio & $h / K$ & $(h/K)_{\mathrm{spin}} = \frac{1}{2} (h/K)_{\mathrm{Pauli}}$ & Ratio halved \\
+Ground Energy per Site ($h=0$) & $-0.78729862 |K|$ & $-0.19682465 K_{\mathrm{spin}}$ & $E_{\mathrm{spin}} = \frac{1}{4} E_{\mathrm{Pauli}}$ \\
+Single-Particle Majorana Energy & $\varepsilon_n = 4 \mathcal{E}_n$ & $\varepsilon_n^{\mathrm{spin}} = \mathcal{E}_n$ & $\varepsilon_{\mathrm{phys}} = 4 \mathcal{E}_{\mathrm{matrix}}$ \\
+Low-Field Dirac Gap Asymptotics & $\Delta_{\mathrm{canonical}} = 10.6536 h^3$ & $\Delta_{\mathrm{spin}} = 2.6634 h^3$ & Factor of 4 \\
+Pure-Kitaev Matter Hopping & $u_0 = -\bar{U} = -0.5248657$ & $\chi_0 = -\frac{1}{4} u_0 = 0.1312164$ & $u_0 = -4 \chi_0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{remark}[Code Sign Invariant]
+In the project codebase, the exchange bilinear is defined as $\mathcal{H} = \sum_{\langle ij \rangle_\gamma} J \sigma_i^\gamma \sigma_j^\gamma$. Therefore, the ferromagnetic model ($K = +1.0$) is parameterized by $K_{\mathrm{param}} = J = -K = -1.0$. Consequently, the ground-state matter hopping expectation is negative:
+\begin{equation}
+u_0 = -\bar{U} = -0.5248657053.
+\end{equation}
+Initializing with $u_0 > 0$ under $K_{\mathrm{param}} = -1.0$ converges to an unphysical inverted-band saddle point where the Dirac gap is an order of magnitude smaller.
+\end{remark}
+
+% EDITORIAL QUESTION: How is scientific evidence classified to avoid over-interpreting unprojected mean-field artifacts?
+\section{Epistemic Taxonomy and Intermediate Denominators}
+\label{sec:phase4_epistemic}
+
+To maintain rigorous transparency, every assertion in Phase 4 is stamped with one of four epistemic tiers:
+\begin{enumerate}
+    \item \textbf{\texttt{[Proven Theorem]}:} Analytical derivations established by exact operator algebra or group representation theory.
+    \item \textbf{\texttt{[Hypothesis Contract]}:} Physical scaling conjectures with pre-registered quantitative verification and refutation criteria.
+    \item \textbf{\texttt{[Numerical Benchmark]}:} High-precision floating-point results certified across independent algorithms (e.g., DIIS, Newton-Krylov, and Lanczos).
+    \item \textbf{\texttt{[Literature Conjecture]}:} External claims from publications that require independent scrutiny and unit harmonization.
+\end{enumerate}
+
+\subsection{Physical Intermediate Resolvents vs. Bare Matrix Hoppings}
+In perturbation theory, the effective low-energy Hamiltonian is generated by virtual transitions to high-energy intermediate states via the resolvent $\hat{R} = (E_0 - \hat{H}_0)^{-1}$. 
+\begin{itemize}
+    \item \textbf{In the Exact Spin Space (Kitaev 2006):} The intermediate state created by a third-order spin operator $\sigma_i^x \sigma_j^y \sigma_k^z$ is an isolated pair of localized $\mathbb{Z}_2$ vortices (visons). In Kitaev's static approximation, the energy denominator is approximated by the bare two-vison threshold:
+    \begin{equation}
+    \Delta E_v^{(0)} = 2 \Delta_{\mathrm{flux}} \approx 0.2641 |K| \implies (\Delta E_v^{(0)})^2 \approx 0.06975 |K|^2.
+    \end{equation}
+    \item \textbf{In the Mean-Field Majorana Space:} The intermediate state is a gauge Majorana excitation propagating through the unprojected gauge band. The bare energy denominator is the gauge hopping gap:
+    \begin{equation}
+    \Delta E_{\mathrm{gauge}}^{(0)} = 2 \bar{U} |K| \approx 1.0497 |K| \implies (\Delta E_{\mathrm{gauge}}^{(0)})^2 \approx 1.1019 |K|^2.
+    \end{equation}
+\end{itemize}
+The ratio of these unrelaxed bare denominators is $(1.0497 / 0.2641)^2 \approx 15.81$. As we prove constructively in Chapter~\ref{ch:phase4_analytical_mf}, this apparent discrepancy is resolved by self-consistent vertex dressing and the dispersive screening of the matter continuum.
