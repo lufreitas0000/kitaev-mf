@@ -10,9 +10,32 @@ CLR_BLU := \033[1;34m
 CLR_CYN := \033[1;36m
 CLR_RST := \033[0m
 
-.PHONY: all pdf clean
+.PHONY: all pdf phase4 clean
 
-all: pdf
+all: pdf phase4
+
+phase4:
+	@printf "$(CLR_CYN)==> [Phase 4 Labbook] Pass 1: Typesetting LaTeX source...$(CLR_RST)\n"
+	@START_TIME=$$(date +%s); \
+	if ! $(TEX_ENGINE) -halt-on-error -file-line-error -interaction=nonstopmode phase_4_labbook.tex > build_phase4.log 2>&1; then \
+		printf "$(CLR_RED)==> [FAIL] LaTeX compilation failed at Pass 1! Error details:$(CLR_RST)\n"; \
+		awk '/:[0-9]+: |^!/ {print "$(CLR_RED)" $$0 "$(CLR_RST)"; next} \
+		     /^(l\.[0-9]+|<argument>)/ {print "$(CLR_YEL)" $$0 "$(CLR_RST)"; next} \
+		     {print}' build_phase4.log | grep -E -A 3 -B 1 "(\.tex:[0-9]+:|!)" | head -n 35; \
+		exit 1; \
+	fi; \
+	printf "$(CLR_CYN)==> [Phase 4 Labbook] Pass 2: Resolving cross-references and Table of Contents...$(CLR_RST)\n"; \
+	if ! $(TEX_ENGINE) -halt-on-error -file-line-error -interaction=nonstopmode phase_4_labbook.tex >> build_phase4.log 2>&1; then \
+		printf "$(CLR_RED)==> [FAIL] LaTeX compilation failed at Pass 2! Error details:$(CLR_RST)\n"; \
+		awk '/:[0-9]+: |^!/ {print "$(CLR_RED)" $$0 "$(CLR_RST)"; next} \
+		     /^(l\.[0-9]+|<argument>)/ {print "$(CLR_YEL)" $$0 "$(CLR_RST)"; next} \
+		     {print}' build_phase4.log | grep -E -A 3 -B 1 "(\.tex:[0-9]+:|!)" | head -n 35; \
+		exit 1; \
+	fi; \
+	END_TIME=$$(date +%s); \
+	PAGES=$$(pdfinfo phase_4_labbook.pdf 2>/dev/null | awk '/Pages:/ {print $$2}'); \
+	ELAPSED=$$((END_TIME - START_TIME)); \
+	printf "$(CLR_GRN)==> [SUCCESS] Generated doc/labbook/phase_4_labbook.pdf ($$PAGES pages, $${ELAPSED}s)$(CLR_RST)\n"
 
 pdf:
 	@printf "$(CLR_BLU)==> [1/2] Pass 1: Typesetting LaTeX source and benchmark tables...$(CLR_RST)\n"

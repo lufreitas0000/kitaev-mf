@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper,oneside]{memoir}
+
+\input{../shared/preamble}
+\input{../shared/macros}
+\input{../shared/plotstyles}
+
+\usepackage{multirow}
+
+\warmthemetrue
+\applyprojecttheme
+
+\setlrmarginsandblock{28mm}{28mm}{*}
+\setulmarginsandblock{28mm}{28mm}{*}
+\setlength{\headheight}{28pt}
+\checkandfixthelayout
+
+\title{\Huge\bfseries\color{labbookaccent} kitaev-mf: R\&D Lab Book\\[4mm]
+\Large Phase 4: Foundational Review, Analytical Mean-Field Theory, Exact Diagonalization \& Fixed-Point Screening Synthesis}
+\author{\textbf{Lu Freitas}\\[1mm]
+International Institute of Physics / Universidade Federal do Rio Grande do Norte}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents*
+
+\mainmatter
+
+\include{chapters/ch_phase4_01_foundations_and_dictionary}
+\include{chapters/ch_phase4_02_symmetry_and_analytical_mf}
+\include{chapters/ch_phase4_03_exact_diagonalization_track_c}
+\include{chapters/ch_phase4_04_four_theory_observables}
+\include{chapters/ch_phase4_05_screening_movies_track_d}
+
+\end{document}
