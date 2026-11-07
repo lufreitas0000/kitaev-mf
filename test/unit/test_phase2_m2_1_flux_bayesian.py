@@ -12,23 +12,21 @@ Verifies:
 from __future__ import annotations
 
 import math
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 # Ensure repository root is on sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-import numpy as np
-import pytest
+import numpy as np  # noqa: E402
 
-from kitaev_mf.domain import make_honeycomb_2site, ModelParameters
-from kitaev_mf.services.seeds import make_qsl_seed
-from kitaev_mf.services.real_space import RealSpaceTorusCluster, compute_skew_pfaffian
-from scripts.phase_2.m2_1.benchmark_plaquette_flux_bayesian import compute_bic_and_aicc
-
+from kitaev_mf.domain import ModelParameters, make_honeycomb_2site  # noqa: E402
+from kitaev_mf.services.real_space import RealSpaceTorusCluster, compute_skew_pfaffian  # noqa: E402
+from kitaev_mf.services.seeds import make_qsl_seed  # noqa: E402
+from scripts.phase_2.m2_1.benchmark_plaquette_flux_bayesian import compute_bic_and_aicc  # noqa: E402
 
 DATASET_PATH = Path("data/processed/benchmarks/m2_1/plaquette_flux_bayesian_benchmark.dat")
 
@@ -61,14 +59,16 @@ def test_t2_1_2_zero_field_exact_equivalence() -> None:
     # Machine-precision identity
     assert np.isclose(w_fact, 1.0, atol=1e-12), f"Expected W_fact=1.0, got {w_fact}"
     assert np.isclose(w_pfaff, 1.0, atol=1e-12), f"Expected W_pfaff=1.0, got {w_pfaff}"
-    assert abs(w_fact - w_pfaff) < 1e-12, f"Zero-field discrepancy must vanish: {abs(w_fact - w_pfaff)}"
+    assert abs(w_fact - w_pfaff) < 1e-12, (
+        f"Zero-field discrepancy must vanish: {abs(w_fact - w_pfaff)}"
+    )
 
     # Check Parlett-Reid congruence: Pf(M)^2 == det(M)
     indices = cluster.compute_plaquette_gauge_majoranas(p0)
     sub_omega = omega[np.ix_(indices, indices)]
     pf_val = compute_skew_pfaffian(sub_omega)
     det_val = float(np.linalg.det(sub_omega))
-    assert np.isclose(pf_val ** 2, det_val, atol=1e-13), (
+    assert np.isclose(pf_val**2, det_val, atol=1e-13), (
         f"Pf(M)^2 = {pf_val**2:.15e} must equal det(M) = {det_val:.15e}"
     )
 
@@ -91,14 +91,14 @@ def test_t2_1_2_bayesian_model_selection_quadratic_scaling() -> None:
     assert n_samples >= 10, f"Need at least 10 points for robust model selection, got {n_samples}"
 
     # Candidate Model M_1: delta W_p = c_W * h^2
-    h2 = h_qsl ** 2
-    c_W = float(np.sum(diff_qsl * h2) / np.sum(h2 ** 2))
+    h2 = h_qsl**2
+    c_W = float(np.sum(diff_qsl * h2) / np.sum(h2**2))
     fit_M1 = c_W * h2
     rss_1 = float(np.sum((diff_qsl - fit_M1) ** 2))
     bic_1, aicc_1 = compute_bic_and_aicc(rss_1, n_samples, n_params=1)
 
     # Null Model M_0: delta W_p = c_1 * h
-    c_1 = float(np.sum(diff_qsl * h_qsl) / np.sum(h_qsl ** 2))
+    c_1 = float(np.sum(diff_qsl * h_qsl) / np.sum(h_qsl**2))
     fit_M0 = c_1 * h_qsl
     rss_0 = float(np.sum((diff_qsl - fit_M0) ** 2))
     bic_0, aicc_0 = compute_bic_and_aicc(rss_0, n_samples, n_params=1)
@@ -176,10 +176,14 @@ def test_t2_1_2_cli_entrypoint(tmp_path: Path) -> None:
     cmd = [
         sys.executable,
         "scripts/phase_2/m2_1/benchmark_plaquette_flux_bayesian.py",
-        "--L", "4",
-        "--num-h", "4",
-        "--h-max", "0.10",
-        "--out", str(out_file),
+        "--L",
+        "4",
+        "--num-h",
+        "4",
+        "--h-max",
+        "0.10",
+        "--out",
+        str(out_file),
     ]
     res = subprocess.run(cmd, capture_output=True, text=True, check=True)
     assert out_file.exists()

@@ -1,6 +1,7 @@
 """Test suite for Phase 2 Milestone M2.1 Task T2.1.1: Real-Space Observable Atlas."""
 
 from pathlib import Path
+
 import numpy as np
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
@@ -145,7 +146,9 @@ def test_t2_1_1_time_reversal_odd_parity() -> None:
 
 def test_t2_1_1_dataset_integrity() -> None:
     """Verify exported benchmark dataset formatting, convergence, and physical bounds."""
-    dat_path = Path("/home/lucas/Projects/kitaev-mf/data/processed/benchmarks/m2_1/real_space_observable_atlas.dat")
+    dat_path = Path(
+        "/home/lucas/Projects/kitaev-mf/data/processed/benchmarks/m2_1/real_space_observable_atlas.dat"
+    )
     assert dat_path.exists()
 
     data = np.loadtxt(dat_path)

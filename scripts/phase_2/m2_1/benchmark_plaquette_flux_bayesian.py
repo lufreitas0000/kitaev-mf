@@ -11,18 +11,17 @@ from __future__ import annotations
 
 import argparse
 import datetime
-import hashlib
-import json
 import math
-from pathlib import Path
 import subprocess
 import time
+from pathlib import Path
+from typing import Any
 
 import numpy as np
 
-from kitaev_mf.domain import make_honeycomb_2site, ModelParameters
-from kitaev_mf.services.seeds import make_qsl_seed
+from kitaev_mf.domain import ModelParameters, make_honeycomb_2site
 from kitaev_mf.services.real_space import RealSpaceTorusCluster
+from kitaev_mf.services.seeds import make_qsl_seed
 
 
 def compute_bic_and_aicc(rss: float, n_samples: int, n_params: int) -> tuple[float, float]:
@@ -54,7 +53,7 @@ def run_benchmark(
     h_max: float = 0.45,
     num_h: int = 19,
     output_path: Path | None = None,
-) -> dict:
+) -> dict[str, Any]:
     """Run the plaquette flux comparison sweep and Bayesian model selection."""
     print(f"=== Task T2.1.2 Benchmark: Plaquette Flux Representation (L={L}) ===")
     cluster = RealSpaceTorusCluster(L=L)
@@ -100,24 +99,28 @@ def run_benchmark(
 
         # Idempotency residual of covariance matrix: ||Omega^2 + I||_F / sqrt(2N)
         N_sites = 2 * L * L
-        idempotency_res = float(np.linalg.norm(omega @ omega + np.eye(8 * L * L)) / np.sqrt(2 * N_sites))
+        idempotency_res = float(
+            np.linalg.norm(omega @ omega + np.eye(8 * L * L)) / np.sqrt(2 * N_sites)
+        )
 
         # Gauge multiplier norm (KKT residual)
         lambda_norm = float(np.linalg.norm(state.lambdas))
 
-        records.append({
-            "h": float(h),
-            "w_fact": w_fact,
-            "w_pfaff": w_pfaff,
-            "diff": diff,
-            "pf_gt_fact": int(w_pfaff > w_fact),
-            "kappa_A": kappa_A,
-            "idempotency_res": idempotency_res,
-            "lambda_norm": lambda_norm,
-            "conv": int(met["converged"]),
-            "iters": met["iterations"],
-            "time_sec": elapsed,
-        })
+        records.append(
+            {
+                "h": float(h),
+                "w_fact": w_fact,
+                "w_pfaff": w_pfaff,
+                "diff": diff,
+                "pf_gt_fact": int(w_pfaff > w_fact),
+                "kappa_A": kappa_A,
+                "idempotency_res": idempotency_res,
+                "lambda_norm": lambda_norm,
+                "conv": int(met["converged"]),
+                "iters": met["iterations"],
+                "time_sec": elapsed,
+            }
+        )
 
         if met["converged"] and h < 0.38:
             curr_state = state
@@ -136,14 +139,14 @@ def run_benchmark(
 
     # Candidate Model M_1: delta W_p(h) = c_W * h^2 (k = 1 parameter)
     # Optimal unconstrained least squares fit: c_W = sum(diff * h^2) / sum(h^4)
-    h2 = h_qsl ** 2
-    c_W = float(np.sum(diff_qsl * h2) / max(np.sum(h2 ** 2), 1e-15))
+    h2 = h_qsl**2
+    c_W = float(np.sum(diff_qsl * h2) / max(np.sum(h2**2), 1e-15))
     fit_M1 = c_W * h2
     rss_1 = float(np.sum((diff_qsl - fit_M1) ** 2))
     bic_1, aicc_1 = compute_bic_and_aicc(rss_1, n_samples, n_params=1)
 
     # Null Model M_0: delta W_p(h) = c_1 * h (k = 1 parameter)
-    c_1 = float(np.sum(diff_qsl * h_qsl) / max(np.sum(h_qsl ** 2), 1e-15))
+    c_1 = float(np.sum(diff_qsl * h_qsl) / max(np.sum(h_qsl**2), 1e-15))
     fit_M0 = c_1 * h_qsl
     rss_0 = float(np.sum((diff_qsl - fit_M0) ** 2))
     bic_0, aicc_0 = compute_bic_and_aicc(rss_0, n_samples, n_params=1)
@@ -155,8 +158,12 @@ def run_benchmark(
 
     print("\n=== Bayesian Model Selection Results (h in [0.0, 0.35]) ===")
     print(f"Number of samples (n): {n_samples}")
-    print(f"Candidate M1 (c_W * h^2): c_W = {c_W:.5f}, RSS = {rss_1:.6e}, BIC = {bic_1:.2f}, AICc = {aicc_1:.2f}")
-    print(f"Null M0 (c_1 * h):        c_1 = {c_1:.5f}, RSS = {rss_0:.6e}, BIC = {bic_0:.2f}, AICc = {aicc_0:.2f}")
+    print(
+        f"Candidate M1 (c_W * h^2): c_W = {c_W:.5f}, RSS = {rss_1:.6e}, BIC = {bic_1:.2f}, AICc = {aicc_1:.2f}"
+    )
+    print(
+        f"Null M0 (c_1 * h):        c_1 = {c_1:.5f}, RSS = {rss_0:.6e}, BIC = {bic_0:.2f}, AICc = {aicc_0:.2f}"
+    )
     print(f"Delta_BIC_01:             {delta_bic_01:.2f} (Decisive > 10.0: {delta_bic_01 > 10.0})")
     print(f"Delta_AICc_01:            {delta_aicc_01:.2f}")
     print(f"Bayes Factor B_10:        {bayes_factor:.2e} (> 148: {bayes_factor > 148})")
@@ -188,7 +195,7 @@ def run_benchmark(
     header = f"""# ==============================================================================
 # ACID Provenance Header: Task T2.1.2 Plaquette Flux Representation
 # Git Commit: {git_sha} (dirty: {git_dirty})
-# Geometry: Honeycomb Torus L={L} (N_sites={2*L*L}, M_majorana={8*L*L})
+# Geometry: Honeycomb Torus L={L} (N_sites={2 * L * L}, M_majorana={8 * L * L})
 # Solvers: Newton-Schulz Matrix Sign Purification + Damped L-Broyden (m=10, alpha=0.5)
 # Invariant: Skew-Symmetry Pf(M)^2 = det(M) verified to < 1e-14
 # Bayesian Selection (h <= 0.35): Delta_BIC_01 = {delta_bic_01:.2f} | B_10 = {bayes_factor:.2e}
@@ -213,10 +220,16 @@ def run_benchmark(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run Task T2.1.2 Plaquette Flux Bayesian Benchmark")
+    parser = argparse.ArgumentParser(
+        description="Run Task T2.1.2 Plaquette Flux Bayesian Benchmark"
+    )
     parser.add_argument("--L", type=int, default=6, help="Linear torus dimension (default: 6)")
-    parser.add_argument("--h-max", type=float, default=0.45, help="Maximum field magnitude (default: 0.45)")
-    parser.add_argument("--num-h", type=int, default=19, help="Number of field points (default: 19)")
+    parser.add_argument(
+        "--h-max", type=float, default=0.45, help="Maximum field magnitude (default: 0.45)"
+    )
+    parser.add_argument(
+        "--num-h", type=int, default=19, help="Number of field points (default: 19)"
+    )
     parser.add_argument("--out", type=str, default=None, help="Output file path")
     args = parser.parse_args()
 

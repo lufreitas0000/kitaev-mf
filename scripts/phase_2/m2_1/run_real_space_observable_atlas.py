@@ -8,7 +8,6 @@ Uses Track B Newton-Schulz purification with damped L-Broyden accelerator (m=10,
 from __future__ import annotations
 
 import argparse
-import sys
 import time
 from pathlib import Path
 
@@ -30,7 +29,9 @@ def run_atlas(
     tol: float = 1e-6,
     output_path: Path | None = None,
 ) -> None:
-    print(f"=== Running Real-Space Observable Atlas: L={L} (N={2*L*L} sites, M={8*L*L} Majoranas) ===")
+    print(
+        f"=== Running Real-Space Observable Atlas: L={L} (N={2 * L * L} sites, M={8 * L * L} Majoranas) ==="
+    )
     cluster = RealSpaceTorusCluster(L=L)
     cell2 = make_honeycomb_2site()
     seed_state = make_qsl_seed(cell2)
@@ -89,25 +90,27 @@ def run_atlas(
         lambda_norm = float(np.linalg.norm(final_state.lambdas))
 
         print(
-            f"[{i+1:02d}/{num_h}] h={h_mag:.4f} | E/site={e_site:.6f} | "
+            f"[{i + 1:02d}/{num_h}] h={h_mag:.4f} | E/site={e_site:.6f} | "
             f"m_111={m_111:.5f} | W_p={w_p:.5f} | ||lambda||={lambda_norm:.4f} | "
             f"conv={conv} (iter={iters}, {elapsed:.2f}s)"
         )
 
-        records.append({
-            "h": h_mag,
-            "e_site": e_site,
-            "m_111": m_111,
-            "m_x": m_avg[0],
-            "m_y": m_avg[1],
-            "m_z": m_avg[2],
-            "u_00": u_00,
-            "u_gg": u_gg,
-            "w_p": w_p,
-            "lambda_norm": lambda_norm,
-            "conv": int(conv),
-            "iters": iters,
-        })
+        records.append(
+            {
+                "h": h_mag,
+                "e_site": e_site,
+                "m_111": m_111,
+                "m_x": m_avg[0],
+                "m_y": m_avg[1],
+                "m_z": m_avg[2],
+                "u_00": u_00,
+                "u_gg": u_gg,
+                "w_p": w_p,
+                "lambda_norm": lambda_norm,
+                "conv": int(conv),
+                "iters": iters,
+            }
+        )
 
         # Continuous continuation along the branch
         curr_state = final_state
@@ -129,8 +132,10 @@ def run_atlas(
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("# Real-space observable atlas for pure FM Kitaev (K=-1.0) under h || [111]\n")
-            f.write(f"# Lattice: Honeycomb Torus L={L} (N={2*L*L} sites)\n")
-            f.write("# Solver: Track B Newton-Schulz Purification + Damped L-Broyden (m=10, alpha=0.5)\n")
+            f.write(f"# Lattice: Honeycomb Torus L={L} (N={2 * L * L} sites)\n")
+            f.write(
+                "# Solver: Track B Newton-Schulz Purification + Damped L-Broyden (m=10, alpha=0.5)\n"
+            )
             f.write("# Generated on: 2026-11-07\n")
             f.write(
                 "# h\te_site\tm_111\tchi_111\tm_x\tm_y\tm_z\tu_00\tu_gg\tw_p\tlambda_norm\tconv\titers\n"
@@ -151,7 +156,11 @@ def main() -> None:
     parser.add_argument("--h-min", type=float, default=0.0, help="Minimum field")
     parser.add_argument("--h-max", type=float, default=0.50, help="Maximum field")
     parser.add_argument("--num-h", type=int, default=26, help="Number of field points")
-    parser.add_argument("--output", type=str, default="data/processed/benchmarks/m2_1/real_space_observable_atlas.dat")
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="data/processed/benchmarks/m2_1/real_space_observable_atlas.dat",
+    )
     args = parser.parse_args()
 
     out_p = Path(args.output)

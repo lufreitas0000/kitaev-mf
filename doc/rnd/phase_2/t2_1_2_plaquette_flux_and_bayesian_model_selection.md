@@ -79,7 +79,7 @@ The standard factored product $W_p^{\mathrm{fact}} = \prod_{k=0}^5 M_{2k, 2k+1} 
 The dominant perturbative correction arises from pairwise exchanges between adjacent bonds $k$ and $k+1$ around the hexagon:
 $$m_k = \left\{ (2k, 2k+2), (2k+1, 2k+3) \right\} \cup \prod_{j \ne k, k+1} (2j, 2j+1).$$
 - **Permutation Sign:** Bringing the pair $(2k, 2k+2)$ and $(2k+1, 2k+3)$ into canonical order requires exactly one swap of adjacent indices $(2k+1, 2k+2)$, contributing a factor of $(-1)$.
-- **Sublattice Inversion Anti-Symmetry:** 
+- **Sublattice Inversion Anti-Symmetry:**
   Indices $2k, 2k+2$ reside on sublattice $A$, while indices $2k+1, 2k+3$ reside on sublattice $B$. Under $\mathbf{h} \parallel [111]$, time-reversal symmetry is broken and bipartite sublattice inversion acts with odd parity on gauge-matter covariances:
   $$M_{2k, 2k+2} = \Omega_{A_k, A_{k+1}} = a, \qquad M_{2k+1, 2k+3} = \Omega_{B_k, B_{k+1}} = -a.$$
   Their product is strictly negative:
