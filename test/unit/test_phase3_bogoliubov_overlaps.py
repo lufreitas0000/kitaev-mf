@@ -270,8 +270,12 @@ def test_h_bog_04_particle_hole_resolution_of_singular_transformation() -> None:
         initial_parity=+1,
         overlap_phase=phase_sing,
     )
-    psi_tilde_1_0 = (b0_dag if mu != 0 else np.eye(4, dtype=np.complex128)) @ (psi_1b if mu != 0 else psi_0b)
-    psi_tilde_1_1 = (b1_dag if mu != 1 else np.eye(4, dtype=np.complex128)) @ (psi_1b if mu != 1 else psi_0b)
+    psi_tilde_1_0 = (b0_dag if mu != 0 else np.eye(4, dtype=np.complex128)) @ (
+        psi_1b if mu != 0 else psi_0b
+    )
+    psi_tilde_1_1 = (b1_dag if mu != 1 else np.eye(4, dtype=np.complex128)) @ (
+        psi_1b if mu != 1 else psi_0b
+    )
     fock_sing_0 = np.dot(psi_tilde_1_0.conj(), c_psi_0a)
     fock_sing_1 = np.dot(psi_tilde_1_1.conj(), c_psi_0a)
     assert np.isclose(fock_sing_0, res_sing_even["amplitudes"][(0,)], atol=1e-12)
