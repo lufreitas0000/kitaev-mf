@@ -14,20 +14,20 @@ Features:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
-from typing import Sequence
-import numpy as np
+
 import matplotlib
+import numpy as np
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
+from matplotlib.patches import Polygon
 from PIL import Image
 
 from kitaev_mf.domain.parameters import ModelParameters
-from kitaev_mf.services.real_space import RealSpaceTorusCluster
 from kitaev_mf.domain.state import InhomogeneousMeanFieldState
+from kitaev_mf.services.real_space import RealSpaceTorusCluster
 
 
 class FixedPointScreeningVisualizer:
@@ -113,7 +113,7 @@ class FixedPointScreeningVisualizer:
                 center = coords[0]
                 unwrapped_coords = []
                 for pt in coords:
-                    diff = pt - center
+                    _diff = pt - center
                     # If wrapped across torus, shift
                     # Simple centroid polygon
                     unwrapped_coords.append(pt)
@@ -123,7 +123,9 @@ class FixedPointScreeningVisualizer:
                 flux_colors.append((gray_val, gray_val, gray_val))
 
         # Add plaquette collection
-        p_coll = PatchCollection(patches, facecolors=flux_colors, edgecolors="#444444", linewidths=0.5)
+        p_coll = PatchCollection(
+            patches, facecolors=flux_colors, edgecolors="#444444", linewidths=0.5
+        )
         ax.add_collection(p_coll)
 
         # 2. Draw bonds with color and thickness denoting U_b
@@ -145,7 +147,7 @@ class FixedPointScreeningVisualizer:
 
                     # Diagonal matter hopping and gauge link
                     u_matter = abs(float(inhom_state.U[c, b_idx, 0, 0]))
-                    u_gauge = float(inhom_state.U[c, b_idx, gamma, gamma])
+                    _u_gauge = float(inhom_state.U[c, b_idx, gamma, gamma])
 
                     # Check if bond is in flipped gauge cut
                     bond_key = (m1, m2, b_idx)
@@ -178,7 +180,7 @@ class FixedPointScreeningVisualizer:
         min_w = float(min(plaquette_fluxes.values()))
         info_text = (
             f"{title_prefix}\n"
-            f"Frame: {frame_idx:02d} | Field h = {h_norm:.4f} | Lattice: {L}x{L} (N = {2*L*L})\n"
+            f"Frame: {frame_idx:02d} | Field h = {h_norm:.4f} | Lattice: {L}x{L} (N = {2 * L * L})\n"
             f"Energy E = {energy:.6f} | Step Residual ||Δ|| = {residual:.2e} | Min(W_p) = {min_w:.4f}"
         )
         ax.text(
@@ -190,15 +192,20 @@ class FixedPointScreeningVisualizer:
             verticalalignment="top",
             fontfamily="monospace",
             color="#FFFFFF",
-            bbox=dict(boxstyle="round,pad=0.5", facecolor="#000000", alpha=0.8, edgecolor="#666666"),
+            bbox={
+                "boxstyle": "round,pad=0.5",
+                "facecolor": "#000000",
+                "alpha": 0.8,
+                "edgecolor": "#666666",
+            },
         )
 
         # Fit display boundaries
         all_x = self.site_coords[:, 0]
         all_y = self.site_coords[:, 1]
         pad = 0.8
-        ax.set_xlim(all_x.min() - pad, all_x.max() + pad)
-        ax.set_ylim(all_y.min() - pad, all_y.max() + pad)
+        ax.set_xlim(np.min(all_x) - pad, np.max(all_x) + pad)
+        ax.set_ylim(np.min(all_y) - pad, np.max(all_y) + pad)
         ax.axis("off")
 
         frame_file = self.output_dir / f"frame_{frame_idx:03d}.png"
@@ -219,10 +226,14 @@ class FixedPointScreeningVisualizer:
         curr_state = initial_state
         frame_files: list[Path] = []
 
-        print(f"[Visualizer] Starting movie capture in {self.output_dir} (max {max_steps} frames)...")
+        print(
+            f"[Visualizer] Starting movie capture in {self.output_dir} (max {max_steps} frames)..."
+        )
 
         # Frame 0: Initial state right after defect insertion
-        a0 = self.cluster.assemble_skew_hamiltonian(self.params, curr_state, flipped_bonds=flipped_bonds)
+        a0 = self.cluster.assemble_skew_hamiltonian(
+            self.params, curr_state, flipped_bonds=flipped_bonds
+        )
         omega0, e0 = self.cluster.solve_covariance_real_eigh(a0)
         fluxes0 = self.cluster.compute_all_plaquette_pfaffian_fluxes(omega0)
 
@@ -244,7 +255,9 @@ class FixedPointScreeningVisualizer:
             curr_state = self.cluster.extract_inhomogeneous_state(prev_omega, curr_state.lambdas)
 
             # 2. Re-assemble Hamiltonian
-            a_k = self.cluster.assemble_skew_hamiltonian(self.params, curr_state, flipped_bonds=flipped_bonds)
+            a_k = self.cluster.assemble_skew_hamiltonian(
+                self.params, curr_state, flipped_bonds=flipped_bonds
+            )
 
             # 3. Diagonalize covariance
             omega_k, e_k = self.cluster.solve_covariance_real_eigh(a_k)

@@ -7,22 +7,22 @@ quench eigensystem solvers for honeycomb clusters up to L=37 (N_sites = 2738).
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 import numpy as np
 from scipy.linalg import schur
 
+from kitaev_mf.services.phase_3.bogoliubov import (
+    BogoliubovTransformation,
+    compute_bogoliubov_transformation,
+    extract_mode_wavefunctions,
+    verify_bogoliubov_unitarity,
+)
 from kitaev_mf.services.phase_3.gauge_theory import (
     DiagonalizedMatterSector,
     GaugeConfiguration,
     assemble_matter_skew_matrix,
-)
-from kitaev_mf.services.phase_3.bogoliubov import (
-    extract_mode_wavefunctions,
-    compute_bogoliubov_transformation,
-    BogoliubovTransformation,
-    verify_bogoliubov_unitarity,
 )
 
 
@@ -32,7 +32,7 @@ class ScalableSchurResult:
 
     energies: np.ndarray  # Shape (N,), positive excitation energies 0 <= eps_1 <= ... <= eps_N
     Q: np.ndarray  # Shape (2N, 2N), orthogonal canonical transformation matrix in O(2N)
-    det_Q: float  # in {-1.0, +1.0}, det(Q) = sgn(Pf(A)) in O(2N)
+    det_Q: float  # in {-1.0, +1.0}, det(Q) = sgn(Pf(A)) in O(2N)  # noqa: N815 - established mathematical field name
     orthogonality_error: float  # ||Q^T Q - I||_infty
     reconstruction_error: float  # ||Q Sigma Q^T - A||_infty
     elapsed_seconds: float

@@ -8,7 +8,7 @@ energy, excitation gap, magnetization, plaquette flux, and fidelity susceptibili
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Sequence
+
 import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
@@ -35,7 +35,7 @@ class HoneycombCluster:
     plaquettes: list[list[int]]
 
     @classmethod
-    def make_torus(cls, n1: int, n2: int) -> "HoneycombCluster":
+    def make_torus(cls, n1: int, n2: int) -> HoneycombCluster:
         """Construct a periodic honeycomb torus with n1 x n2 primitive 2-site unit cells.
 
         Sublattices: A = 2 * cell_idx, B = 2 * cell_idx + 1.
@@ -308,7 +308,7 @@ class ExactDiagonalizationSpinSolver:
         p_ops = ["x", "y", "z", "x", "y", "z"]
         vec = psi.copy()
 
-        for site, op in zip(plaquette_sites, p_ops):
+        for site, op in zip(plaquette_sites, p_ops, strict=False):
             mask = 1 << site
             s_prime = np.arange(self.dim) ^ mask
             if op == "x":

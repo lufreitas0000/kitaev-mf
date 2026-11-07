@@ -5,9 +5,10 @@ Evaluates geometric Berry phases along closed dual vortex loops, verifies topolo
 pi statistical holonomy, and performs Bayesian model selection against trivial holonomy.
 """
 
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-import subprocess
+
 import numpy as np
 
 from kitaev_mf.domain.parameters import ModelParameters
@@ -59,9 +60,9 @@ def main() -> None:
             delta_gammas.append(res.delta_gamma)
 
             print(
-                f"  L={L:2d} (N={2*L**2:3d}): gamma_enc={res.gamma_enclosing:.4f} rad, "
+                f"  L={L:2d} (N={2 * L**2:3d}): gamma_enc={res.gamma_enclosing:.4f} rad, "
                 f"gamma_non={res.gamma_non_enclosing:.4f} rad, Delta_gamma={res.delta_gamma:.4f} rad "
-                f"({res.delta_gamma_over_pi:.4f} pi, err: {res.relative_error_from_pi*100:.1f}%)"
+                f"({res.delta_gamma_over_pi:.4f} pi, err: {res.relative_error_from_pi * 100:.1f}%)"
             )
 
             all_rows.append(
@@ -92,9 +93,7 @@ def main() -> None:
             f"BayesFactor={bayes_res.bayes_factor:.2e}, FavorsPi={bayes_res.favors_pi_holonomy}\n"
         )
         f.write("#\n")
-        f.write(
-            "# L      h       gamma_enc   gamma_non   Delta_gamma  Delta_g/pi   rel_error\n"
-        )
+        f.write("# L      h       gamma_enc   gamma_non   Delta_gamma  Delta_g/pi   rel_error\n")
         for row in all_rows:
             f.write(row + "\n")
 

@@ -146,8 +146,9 @@ def test_t2_1_1_time_reversal_odd_parity() -> None:
 
 def test_t2_1_1_dataset_integrity() -> None:
     """Verify exported benchmark dataset formatting, convergence, and physical bounds."""
-    dat_path = Path(
-        "/home/lucas/Projects/kitaev-mf/data/processed/benchmarks/m2_1/real_space_observable_atlas.dat"
+    dat_path = (
+        Path(__file__).resolve().parents[2]
+        / "data/processed/benchmarks/m2_1/real_space_observable_atlas.dat"
     )
     assert dat_path.exists()
 

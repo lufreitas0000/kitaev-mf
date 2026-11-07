@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main", "dev", "develop/**", "feat/**", "fix/**", "doc/**"]
+    branches: ["main", "exploration", "research/**", "promote/**", "feat/**", "fix/**", "doc/**"]
   pull_request:
-    branches: ["main", "develop/**"]
+    branches: ["main", "exploration"]
 
 jobs:
   verify:
@@ -34,12 +34,12 @@ jobs:
 
       - name: Run Ruff linter and format check
         run: |
-          ruff check src test
-          ruff format --check src test
+          ruff check src test scripts
+          ruff format --check src test scripts
 
       - name: Run Mypy strict static type checking
         run: |
-          mypy src test
+          mypy src test scripts
 
       - name: Run Pytest suite with coverage
         run: |

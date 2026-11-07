@@ -14,6 +14,7 @@ import pytest
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
+from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.services.phase_3.mean_field_spectral import (
     compare_mean_field_vs_exact_quench_thresholds,
     compute_mean_field_spectral_poles,
@@ -24,7 +25,7 @@ from kitaev_mf.services.seeds import make_qsl_seed
 
 
 @pytest.fixture(scope="module")
-def qsl_cluster_and_state():
+def qsl_cluster_and_state() -> tuple[RealSpaceTorusCluster, ModelParameters, MeanFieldState]:
     """Shared L=4 honeycomb torus cluster with isotropic FM Kitaev QSL state."""
     cell = make_honeycomb_2site()
     cluster = RealSpaceTorusCluster(L=4)
@@ -33,7 +34,9 @@ def qsl_cluster_and_state():
     return cluster, params, state
 
 
-def test_h_mf_01_sum_rule_analytical_saturation(qsl_cluster_and_state):
+def test_h_mf_01_sum_rule_analytical_saturation(
+    qsl_cluster_and_state: tuple[RealSpaceTorusCluster, ModelParameters, MeanFieldState],
+) -> None:
     """H_MF_01: Verify analytical saturation of the 4-Majorana spin sum rule to machine precision."""
     cluster, params, state = qsl_cluster_and_state
 
@@ -57,31 +60,27 @@ def test_h_mf_01_sum_rule_analytical_saturation(qsl_cluster_and_state):
             assert p.energy > 0.0
 
 
-def test_h_mf_02_convolution_bubble_continuous_quadrature(qsl_cluster_and_state):
+def test_h_mf_02_convolution_bubble_continuous_quadrature(
+    qsl_cluster_and_state: tuple[RealSpaceTorusCluster, ModelParameters, MeanFieldState],
+) -> None:
     """H_MF_02: Verify continuous spectral broadening and numerical quadrature integral."""
     cluster, params, state = qsl_cluster_and_state
-    mf_data = compute_mean_field_spectral_poles(
-        cluster, params, state, site_j=0, spin_component=3
-    )
+    mf_data = compute_mean_field_spectral_poles(cluster, params, state, site_j=0, spin_component=3)
 
     omega_grid = np.linspace(0.0, 10.0, 1000)
-    cont_spec = evaluate_mean_field_continuous_spectrum(
-        mf_data, omega_grid=omega_grid, sigma=0.06
-    )
+    cont_spec = evaluate_mean_field_continuous_spectrum(mf_data, omega_grid=omega_grid, sigma=0.06)
 
     # Continuous integral int (d omega / 2 pi) S(omega) matches discrete sum to < 0.01
     quadrature_diff = abs(cont_spec.integrated_weight - mf_data.total_spectral_weight)
-    assert quadrature_diff < 0.01, (
-        f"Quadrature difference {quadrature_diff} exceeds tolerance 0.01"
-    )
+    assert quadrature_diff < 0.01, f"Quadrature difference {quadrature_diff} exceeds tolerance 0.01"
 
 
-def test_h_mf_03_gap_demarcation_mf_vs_exact_quench(qsl_cluster_and_state):
+def test_h_mf_03_gap_demarcation_mf_vs_exact_quench(
+    qsl_cluster_and_state: tuple[RealSpaceTorusCluster, ModelParameters, MeanFieldState],
+) -> None:
     """H_MF_03: Contrast mean-field two-particle onset against exact non-perturbative vison gap."""
     cluster, params, state = qsl_cluster_and_state
-    mf_data = compute_mean_field_spectral_poles(
-        cluster, params, state, site_j=0, spin_component=3
-    )
+    mf_data = compute_mean_field_spectral_poles(cluster, params, state, site_j=0, spin_component=3)
 
     exact_vison_threshold = 0.4564  # Two-vison creation onset from Track A
 
@@ -99,7 +98,9 @@ def test_h_mf_03_gap_demarcation_mf_vs_exact_quench(qsl_cluster_and_state):
     assert comp["relative_threshold_shift"] > 3.0
 
 
-def test_h_mf_04_c3_isotropy_and_site_invariance(qsl_cluster_and_state):
+def test_h_mf_04_c3_isotropy_and_site_invariance(
+    qsl_cluster_and_state: tuple[RealSpaceTorusCluster, ModelParameters, MeanFieldState],
+) -> None:
     """H_MF_04: Verify exact C3 spin isotropy and site translational invariance on torus."""
     cluster, params, state = qsl_cluster_and_state
 
@@ -120,9 +121,7 @@ def test_h_mf_04_c3_isotropy_and_site_invariance(qsl_cluster_and_state):
     # 2. Site translational invariance: sites 0, 1, 4, 7
     site_weights = []
     for s in (0, 1, 4, 7):
-        data = compute_mean_field_spectral_poles(
-            cluster, params, state, site_j=s, spin_component=3
-        )
+        data = compute_mean_field_spectral_poles(cluster, params, state, site_j=s, spin_component=3)
         site_weights.append(data.total_spectral_weight)
 
     assert np.allclose(site_weights, 1.0, atol=1e-12)

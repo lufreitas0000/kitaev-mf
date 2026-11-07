@@ -1,15 +1,12 @@
 """Unit tests for Phase 4 Track C: Exact Diagonalization in the spin formalism."""
 
-import numpy as np
-import pytest
-
 from kitaev_mf.services.phase_4.exact_diagonalization import (
-    HoneycombCluster,
     ExactDiagonalizationSpinSolver,
+    HoneycombCluster,
 )
 
 
-def test_cluster_topology_and_bonds():
+def test_cluster_topology_and_bonds() -> None:
     """Verify that HoneycombCluster correctly generates periodic torus bonds and plaquettes."""
     c8 = HoneycombCluster.make_torus(2, 2)
     assert c8.num_spins == 8
@@ -26,7 +23,7 @@ def test_cluster_topology_and_bonds():
     assert len(c16.plaquettes) == 8
 
 
-def test_sparse_hamiltonian_hermiticity():
+def test_sparse_hamiltonian_hermiticity() -> None:
     """Verify that the assembled sparse spin Hamiltonian is exactly Hermitian."""
     c8 = HoneycombCluster.make_torus(2, 2)
     solver = ExactDiagonalizationSpinSolver(c8, K=1.0, h=0.05)
@@ -36,7 +33,7 @@ def test_sparse_hamiltonian_hermiticity():
     assert abs(diff).max() < 1e-14
 
 
-def test_pure_kitaev_ground_state_energy_bounds():
+def test_pure_kitaev_ground_state_energy_bounds() -> None:
     """Verify that pure Kitaev ED energy per spin satisfies known variational bounds."""
     c8 = HoneycombCluster.make_torus(2, 2)
     solver = ExactDiagonalizationSpinSolver(c8, K=1.0, h=0.0)
@@ -48,7 +45,7 @@ def test_pure_kitaev_ground_state_energy_bounds():
     assert abs(obs.magnetization) < 1e-12
 
 
-def test_weak_field_magnetization_and_energy_shift():
+def test_weak_field_magnetization_and_energy_shift() -> None:
     """Verify that applying a field h > 0 induces non-zero magnetization and lowers ground-state energy."""
     c8 = HoneycombCluster.make_torus(2, 2)
     solver0 = ExactDiagonalizationSpinSolver(c8, K=1.0, h=0.0)

@@ -10,22 +10,22 @@ Verifies:
 from __future__ import annotations
 
 import time
+
 import numpy as np
 from scipy.linalg import schur
-import pytest
 
+from kitaev_mf.services.phase_3.bogoliubov import (
+    apply_particle_hole_interchange,
+    compute_majorana_matrix_elements,
+    extract_mode_wavefunctions,
+    find_optimal_particle_hole_mode_svd,
+)
 from kitaev_mf.services.phase_3.gauge_theory import (
-    build_honeycomb_torus_cluster,
+    assemble_matter_skew_matrix,
     build_honeycomb_cylinder_cluster,
+    build_honeycomb_torus_cluster,
     build_uniform_gauge_configuration,
     flip_bond_gauge_link,
-    assemble_matter_skew_matrix,
-)
-from kitaev_mf.services.phase_3.bogoliubov import (
-    extract_mode_wavefunctions,
-    apply_particle_hole_interchange,
-    find_optimal_particle_hole_mode_svd,
-    compute_majorana_matrix_elements,
 )
 from kitaev_mf.services.phase_3.scalable_skew import (
     canonical_skew_schur,
@@ -112,6 +112,7 @@ def test_h_scale_02_svd_particle_hole_mode_exactness() -> None:
 def test_h_scale_03_svd_mode_selection_speedup() -> None:
     """Verify Hypothesis H_SCALE_03: SVD mode selector achieves significant speedup over loop on singular quench."""
     import os
+
     os.environ["OPENBLAS_NUM_THREADS"] = "1"
     os.environ["MKL_NUM_THREADS"] = "1"
 

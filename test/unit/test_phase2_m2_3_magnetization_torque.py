@@ -1,6 +1,7 @@
 """Unit tests for Task T2.3.1: Global Field-Directional Magnetization Surface & Torque Discontinuities."""
 
 from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -26,7 +27,9 @@ def test_t2_3_1_high_symmetry_nodes(torque_calc: MagnetizationTorqueCalculator) 
 
     for th_deg in symm_angles:
         pt, _ = torque_calc.evaluate_point(h_mag, th_deg)
-        assert pt.tau_norm < 1e-5, f"Torque should vanish at symmetry angle {th_deg} deg, got {pt.tau_norm}"
+        assert pt.tau_norm < 1e-5, (
+            f"Torque should vanish at symmetry angle {th_deg} deg, got {pt.tau_norm}"
+        )
         assert abs(pt.tau_projection) < 1e-5
 
 
@@ -39,8 +42,12 @@ def test_t2_3_1_torque_sign_inversion(torque_calc: MagnetizationTorqueCalculator
     pt_after, _ = torque_calc.evaluate_point(h_mag, th_111 + 15.0)
 
     # In [001] to [111] quadrant, tau_proj > 0; in [111] to [110] quadrant, tau_proj < 0
-    assert pt_before.tau_projection > 5e-4, f"Expected positive torque before [111], got {pt_before.tau_projection}"
-    assert pt_after.tau_projection < -5e-4, f"Expected negative torque after [111], got {pt_after.tau_projection}"
+    assert pt_before.tau_projection > 5e-4, (
+        f"Expected positive torque before [111], got {pt_before.tau_projection}"
+    )
+    assert pt_after.tau_projection < -5e-4, (
+        f"Expected negative torque after [111], got {pt_after.tau_projection}"
+    )
 
 
 def test_t2_3_1_bayesian_model_selection() -> None:
@@ -58,14 +65,16 @@ def test_t2_3_1_bayesian_model_selection() -> None:
 
     assert bayes_res.n_samples == 39
     assert bayes_res.delta_bic > 10.0, f"Expected Delta_BIC > 10, got {bayes_res.delta_bic}"
-    assert bayes_res.bayes_factor > 148.0, f"Expected Bayes factor > 148, got {bayes_res.bayes_factor}"
+    assert bayes_res.bayes_factor > 148.0, (
+        f"Expected Bayes factor > 148, got {bayes_res.bayes_factor}"
+    )
     assert bayes_res.favors_anisotropic_torque is True
 
 
 def test_t2_3_1_synthetic_bayesian_fitter() -> None:
     """Verify TorqueBayesianFitter on synthetic data with known node structure."""
     thetas = np.linspace(0.0, np.pi / 2.0, 13)
-    basis = np.sin(2.0 * thetas) * (3.0 * np.cos(thetas)**2 - 1.0)
+    basis = np.sin(2.0 * thetas) * (3.0 * np.cos(thetas) ** 2 - 1.0)
     synthetic_tau = 0.002 * basis
 
     fitter = TorqueBayesianFitter()
@@ -84,13 +93,13 @@ def test_t2_3_1_benchmark_dataset_acid_provenance() -> None:
     with open(benchmark_path, encoding="utf-8") as f:
         lines = f.readlines()
 
-    header_lines = [l for l in lines if l.strip().startswith("#")]
-    data_lines = [l for l in lines if not l.strip().startswith("#") and l.strip()]
+    header_lines = [line for line in lines if line.strip().startswith("#")]
+    data_lines = [line for line in lines if not line.strip().startswith("#") and line.strip()]
 
     assert len(header_lines) >= 6
-    assert any("Git Commit:" in l for l in header_lines)
-    assert any("Generated:" in l for l in header_lines)
-    assert any("Bayesian Model Selection Summary:" in l for l in header_lines)
+    assert any("Git Commit:" in line for line in header_lines)
+    assert any("Generated:" in line for line in header_lines)
+    assert any("Bayesian Model Selection Summary:" in line for line in header_lines)
     assert len(data_lines) == 39  # 3 fields x 13 angles
 
     for dl in data_lines:

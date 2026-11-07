@@ -2,6 +2,7 @@
 
 from collections import deque
 from dataclasses import dataclass
+
 import numpy as np
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
@@ -88,7 +89,7 @@ class MZMLocalizationCalculator:
             p1
         ) | self.geom.compute_plaquette_boundary_sites(p2)
 
-        hop_dist: dict[int, int] = {s: -1 for s in range(self.geom.num_sites)}
+        hop_dist: dict[int, int] = dict.fromkeys(range(self.geom.num_sites), -1)
         q: deque[int] = deque()
         for s in vortex_boundary:
             hop_dist[s] = 0

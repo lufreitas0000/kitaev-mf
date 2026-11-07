@@ -70,7 +70,7 @@ def test_t2_3_2_spinodal_divergence_exponent() -> None:
     assert res.n_samples == 10
     # Pre-registered threshold: error <= 0.15 (15%)
     assert res.gamma_relative_error <= 0.15, (
-        f"Fitted exponent {res.fitted_gamma:.4f} deviated from 0.50 by {res.gamma_relative_error*100:.2f}%"
+        f"Fitted exponent {res.fitted_gamma:.4f} deviated from 0.50 by {res.gamma_relative_error * 100:.2f}%"
     )
     assert 0.45 <= res.fitted_gamma <= 0.60
 
@@ -104,7 +104,7 @@ def test_t2_3_2_bayesian_model_selection() -> None:
 def test_t2_3_2_synthetic_bayesian_fitter() -> None:
     """Verify SpinodalBayesianFitter on an exact synthetic 1/2 power-law series."""
     t_vals = np.linspace(0.005, 0.050, 10)
-    synthetic_chi = 0.25 * (t_vals**(-0.50))
+    synthetic_chi = 0.25 * (t_vals ** (-0.50))
 
     series = [
         SusceptibilityPoint(h_mid=float(0.400 - t), distance_to_spinodal=float(t), chi_111=float(c))

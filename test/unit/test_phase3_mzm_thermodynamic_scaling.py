@@ -7,25 +7,24 @@ Validates Hypothesis Contracts:
 - H_MZM_SCALE_04: Bulk-site subgap vanishing and gap protection (omega_bulk >= 0.20 |K| for L >= 12).
 """
 
-import pytest
-import numpy as np
-
 from kitaev_mf.services.phase_3.mzm_thermodynamic_scaling import (
-    measure_mzm_hybridization_scaling,
     compute_thermodynamic_zero_bias_sharpness,
+    measure_mzm_hybridization_scaling,
 )
 
 
-def test_h_mzm_scale_01_exponential_suppression_commensurate():
+def test_h_mzm_scale_01_exponential_suppression_commensurate() -> None:
     """Verify H_MZM_SCALE_01: MZM splitting decays exponentially across commensurate sizes 3 | L."""
     data, fit = measure_mzm_hybridization_scaling(L_values=[6, 12, 18, 24])
 
     assert fit.r_squared >= 0.85, f"Expected R^2 >= 0.85, got {fit.r_squared:.4f}"
     assert 1.5 <= fit.xi_M <= 4.5, f"Expected xi_M in [1.5, 4.5]a, got {fit.xi_M:.3f}"
-    assert data[-1].delta_eps_0 < 0.005, f"Expected splitting at L=24 to be < 0.005, got {data[-1].delta_eps_0}"
+    assert data[-1].delta_eps_0 < 0.005, (
+        f"Expected splitting at L=24 to be < 0.005, got {data[-1].delta_eps_0}"
+    )
 
 
-def test_h_mzm_scale_02_zero_bias_convergence():
+def test_h_mzm_scale_02_zero_bias_convergence() -> None:
     """Verify H_MZM_SCALE_02: zero-bias MZM peak energy converges toward zero with L."""
     results = compute_thermodynamic_zero_bias_sharpness(L_values=[6, 8, 12, 16, 20])
     omega_by_L = {r.L: r.omega_MZM for r in results}
@@ -36,7 +35,7 @@ def test_h_mzm_scale_02_zero_bias_convergence():
     assert omega_by_L[20] <= 0.01, f"L=20 peak should be <= 0.01: {omega_by_L[20]}"
 
 
-def test_h_mzm_scale_03_zero_bias_sharpness_saturation():
+def test_h_mzm_scale_03_zero_bias_sharpness_saturation() -> None:
     """Verify H_MZM_SCALE_03: zero-bias sharpness ratio S_subgap >= 0.15 for all L."""
     results = compute_thermodynamic_zero_bias_sharpness(L_values=[6, 8, 12, 16, 20])
     for r in results:
@@ -48,7 +47,7 @@ def test_h_mzm_scale_03_zero_bias_sharpness_saturation():
         )
 
 
-def test_h_mzm_scale_04_bulk_site_gap_protection():
+def test_h_mzm_scale_04_bulk_site_gap_protection() -> None:
     """Verify H_MZM_SCALE_04: bulk-site quench has zero subgap weight and protected gap >= 0.20."""
     results = compute_thermodynamic_zero_bias_sharpness(L_values=[6, 8, 12, 16, 20])
     for r in results:

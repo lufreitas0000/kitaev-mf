@@ -5,9 +5,10 @@ Evaluates in-gap spectral isolation, core localization enrichment, and Bayesian 
 selection of exponential finite-size MZM decoupling on honeycomb tori.
 """
 
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-import subprocess
+
 import numpy as np
 
 from kitaev_mf.domain.parameters import ModelParameters
@@ -65,7 +66,7 @@ def main() -> None:
             p_d2 = metrics.hop_profile.get(2, 0.0)
 
             print(
-                f"  L={L:2d} (N={2*L**2:3d}): eps_MZM={metrics.eps_mzm:.6f}, "
+                f"  L={L:2d} (N={2 * L**2:3d}): eps_MZM={metrics.eps_mzm:.6f}, "
                 f"eps_bulk={metrics.eps_bulk:.6f}, in-gap ratio={metrics.in_gap_ratio:.4f}, "
                 f"W_core={metrics.w_core:.4f}, ratio={metrics.enrichment_ratio:.2f}x"
             )

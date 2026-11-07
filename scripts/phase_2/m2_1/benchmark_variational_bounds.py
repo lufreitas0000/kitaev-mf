@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
+# Repository-path bootstrap must precede local imports in this standalone entrypoint.
 """Benchmark and Bayesian Model Selection: Variational Projection Bounds (Task T2.1.3).
 
 Computes across field h in [0.0, 0.40]:
@@ -15,10 +17,11 @@ Date: 2026-11-07
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from pathlib import Path
 import subprocess
 import sys
+from collections.abc import Sequence
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -83,7 +86,7 @@ def build_hexagon_skew_hamiltonian(
 
 
 def run_variational_bounds_sweep(
-    h_values: Sequence[float] | None = None,
+    h_values: Sequence[float] | np.ndarray | None = None,
 ) -> dict[str, Any]:
     """Execute rigorous variational bracket and Gutzwiller overlap sweep."""
     if h_values is None:
@@ -174,7 +177,9 @@ def run_variational_bounds_sweep(
             accelerator="lbroyden",
             mixing_alpha=0.5,
         )
-        assert met8["converged"], f"Torus purification failed to converge at h={h_mag}: res={met8['final_residual']}"
+        assert met8["converged"], (
+            f"Torus purification failed to converge at h={h_mag}: res={met8['final_residual']}"
+        )
         n_g_8 = proj8.compute_norm_overlap(omega8)
 
         print(
@@ -199,15 +204,21 @@ def run_variational_bounds_sweep(
     # 4. Bayesian Model Selection on N=8 Torus Gutzwiller Overlap N_G_8(h)
     # Fit strictly on un-clamped physical regime (h <= 0.35, N_G > 1e-10)
     h_arr = np.array([r["h"] for r in records if r["h"] <= 0.35 + 1e-5 and r["n_g_8"] > 1e-10])
-    ng8_arr = np.array([r["n_g_8"] for r in records if r["h"] <= 0.35 + 1e-5 and r["n_g_8"] > 1e-10])
+    ng8_arr = np.array(
+        [r["n_g_8"] for r in records if r["h"] <= 0.35 + 1e-5 and r["n_g_8"] > 1e-10]
+    )
     bayes_res = BayesianDecayFitter.fit_and_compare(h_arr, ng8_arr, num_sites=8)
 
     print("=" * 90)
     print("BAYESIAN MODEL SELECTION SUMMARY (N=8 Honeycomb Torus Gutzwiller Decay N_G(h)):")
     print(f"  Sample Points: n = {bayes_res['num_points']}")
-    print(f"  Candidate Model M1: N_G(h) = {bayes_res['n0_m1']:.6e} * exp(-{bayes_res['kappa_fit']:.4f} * 8 * h^2)")
+    print(
+        f"  Candidate Model M1: N_G(h) = {bayes_res['n0_m1']:.6e} * exp(-{bayes_res['kappa_fit']:.4f} * 8 * h^2)"
+    )
     print(f"    RSS_1(log) = {bayes_res['rss1_log']:.4f}, BIC_1 = {bayes_res['bic1']:.2f}")
-    print(f"  Null Model M0: N_G(h) = {bayes_res['n0_m0']:.6e} * exp(-{bayes_res['lambda_fit']:.4f} * 8 * h)")
+    print(
+        f"  Null Model M0: N_G(h) = {bayes_res['n0_m0']:.6e} * exp(-{bayes_res['lambda_fit']:.4f} * 8 * h)"
+    )
     print(f"    RSS_0(log) = {bayes_res['rss0_log']:.4f}, BIC_0 = {bayes_res['bic0']:.2f}")
     print(f"  Delta_BIC_01 = {bayes_res['delta_bic_01']:.2f}")
     print(f"  Bayes Factor B_10 = {bayes_res['bayes_factor_10']:.2e}")
@@ -227,8 +238,12 @@ def run_variational_bounds_sweep(
         f.write("# Exchange Coupling: K = -1.0 (Ferromagnetic Kitaev)\n")
         f.write("# External Field: h || [111] (symmetric sweeping)\n")
         f.write("# Variational Bracket Guarantee: E_SDP <= E_exact <= E_proj\n")
-        f.write(f"# Bayesian Model Selection (N=8): Delta_BIC_01 = {bayes_res['delta_bic_01']:.2f}, Bayes Factor = {bayes_res['bayes_factor_10']:.2e}\n")
-        f.write("# Columns: h e_sdp_6 e_exact_6 e_proj_6 n_g_6 duality_gap_6 e_exact_8 n_g_8 bracket_ok_6\n")
+        f.write(
+            f"# Bayesian Model Selection (N=8): Delta_BIC_01 = {bayes_res['delta_bic_01']:.2f}, Bayes Factor = {bayes_res['bayes_factor_10']:.2e}\n"
+        )
+        f.write(
+            "# Columns: h e_sdp_6 e_exact_6 e_proj_6 n_g_6 duality_gap_6 e_exact_8 n_g_8 bracket_ok_6\n"
+        )
         for r in records:
             f.write(
                 f"{r['h']:10.5f} {r['e_sdp_6']:12.6f} {r['e_exact_6']:12.6f} {r['e_proj_6']:12.6f} "

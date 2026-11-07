@@ -8,21 +8,23 @@ Validates Hypothesis Contracts:
 """
 
 import pytest
-import numpy as np
 
 from kitaev_mf.services.phase_3.thermodynamic_spectral_benchmarks import (
+    ThermodynamicSpectralBenchmarkDatum,
     benchmark_thermodynamic_spectral_response,
 )
 
 
 @pytest.fixture(scope="module")
-def spectral_benchmark_data():
+def spectral_benchmark_data() -> list[ThermodynamicSpectralBenchmarkDatum]:
     """Compute benchmark metrics for representative clusters."""
     # Test L in {6, 12, 18, 24, 30, 36, 37}
     return benchmark_thermodynamic_spectral_response(L_values=[6, 12, 18, 24, 30, 36, 37])
 
 
-def test_h_spec_sumrule_01_saturation(spectral_benchmark_data):
+def test_h_spec_sumrule_01_saturation(
+    spectral_benchmark_data: list[ThermodynamicSpectralBenchmarkDatum],
+) -> None:
     """Verify H_SPEC_SUMRULE_01: sum rule saturation W_tot >= 0.45 up to L=37."""
     for d in spectral_benchmark_data:
         assert d.core_sum_rule >= 0.45, (
@@ -41,7 +43,9 @@ def test_h_spec_sumrule_01_saturation(spectral_benchmark_data):
             )
 
 
-def test_h_spec_sumrule_02_energy_positivity(spectral_benchmark_data):
+def test_h_spec_sumrule_02_energy_positivity(
+    spectral_benchmark_data: list[ThermodynamicSpectralBenchmarkDatum],
+) -> None:
     """Verify H_SPEC_SUMRULE_02: physical excitation energies satisfy physical bounds (>= -0.02 |K|)."""
     for d in spectral_benchmark_data:
         assert d.omega_MZM >= -0.02, (
@@ -56,7 +60,9 @@ def test_h_spec_sumrule_02_energy_positivity(spectral_benchmark_data):
         )
 
 
-def test_h_spec_sumrule_03_demarcation_gap(spectral_benchmark_data):
+def test_h_spec_sumrule_03_demarcation_gap(
+    spectral_benchmark_data: list[ThermodynamicSpectralBenchmarkDatum],
+) -> None:
     """Verify H_SPEC_SUMRULE_03: persistent demarcation gap Delta omega >= 0.15 |K| up to L=37."""
     for d in spectral_benchmark_data:
         assert d.demarcation_gap >= 0.15, (
@@ -64,7 +70,9 @@ def test_h_spec_sumrule_03_demarcation_gap(spectral_benchmark_data):
         )
 
 
-def test_h_spec_sumrule_04_continuous_quadrature(spectral_benchmark_data):
+def test_h_spec_sumrule_04_continuous_quadrature(
+    spectral_benchmark_data: list[ThermodynamicSpectralBenchmarkDatum],
+) -> None:
     """Verify H_SPEC_SUMRULE_04: continuous quadrature error < 1e-3 across all sizes."""
     for d in spectral_benchmark_data:
         assert d.quadrature_error < 1e-3, (

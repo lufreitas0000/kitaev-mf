@@ -42,16 +42,29 @@ def main() -> None:
     calc = SpinodalScalingCalculator(k_grid=(24, 24), h_spinodal=0.400)
     fitter = SpinodalBayesianFitter()
 
-    h_fine = np.array([
-        0.350, 0.360, 0.370, 0.375, 0.380,
-        0.385, 0.390, 0.392, 0.394, 0.396, 0.398,
-    ])
+    h_fine = np.array(
+        [
+            0.350,
+            0.360,
+            0.370,
+            0.375,
+            0.380,
+            0.385,
+            0.390,
+            0.392,
+            0.394,
+            0.396,
+            0.398,
+        ]
+    )
 
     print(f"\n[1/3] Tracing forward continuation across {len(h_fine)} field points...")
     spinodal_points = calc.run_forward_continuation(h_fine)
 
     for pt in spinodal_points:
-        print(f"  h={pt.h_mag:.3f}: m_111={pt.m_111:.5f}, iters={pt.iterations:2d}, conv={pt.converged}")
+        print(
+            f"  h={pt.h_mag:.3f}: m_111={pt.m_111:.5f}, iters={pt.iterations:2d}, conv={pt.converged}"
+        )
 
     print("\n[2/3] Evaluating differential susceptibility series chi_111 = dm/dh...")
     susc_series = calc.compute_susceptibility_series(spinodal_points)
@@ -66,7 +79,7 @@ def main() -> None:
 
     print(
         f"  Fitted gamma: {bayes_res.fitted_gamma:.4f} "
-        f"(rel error vs 0.50: {bayes_res.gamma_relative_error*100:.2f}%)"
+        f"(rel error vs 0.50: {bayes_res.gamma_relative_error * 100:.2f}%)"
     )
     print(
         f"  n={bayes_res.n_samples}, RSS0={bayes_res.rss_null:.4e}, RSS1={bayes_res.rss_candidate:.4e}, "

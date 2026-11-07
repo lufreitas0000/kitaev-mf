@@ -124,7 +124,7 @@ def find_optimal_particle_hole_mode_svd(
 
     # Defensive check: if lowest singular values are nearly degenerate, check top candidates
     if len(s) > 1 and s[-2] < 1e-3:
-        top_candidates = np.argsort(weights)[-min(3, N):]
+        top_candidates = np.argsort(weights)[-min(3, N) :]
         for m in top_candidates:
             if m == best_mode:
                 continue

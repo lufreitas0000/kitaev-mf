@@ -7,7 +7,6 @@ comparing ED with Kitaev 3rd-order perturbation theory and mean-field theory.
 
 from __future__ import annotations
 
-import os
 import sys
 import time
 from pathlib import Path
@@ -18,8 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 import numpy as np
 
 from kitaev_mf.services.phase_4.exact_diagonalization import (
-    HoneycombCluster,
     ExactDiagonalizationSpinSolver,
+    HoneycombCluster,
 )
 
 
@@ -33,9 +32,13 @@ def run_track_c_ed_benchmark(
     """Run ED sweep across magnetic fields and export benchmark dat table."""
     cluster = HoneycombCluster.make_torus(n1, n2)
     num_spins = cluster.num_spins
-    print(f"\n[Track C ED Benchmark] Torus {n1}x{n2} ({num_spins} spins, dim = 2^{num_spins} = {1 << num_spins})...")
+    print(
+        f"\n[Track C ED Benchmark] Torus {n1}x{n2} ({num_spins} spins, dim = 2^{num_spins} = {1 << num_spins})..."
+    )
 
-    output_dir = Path(__file__).resolve().parents[2] / "data" / "processed" / "benchmarks" / "phase_4"
+    output_dir = (
+        Path(__file__).resolve().parents[2] / "data" / "processed" / "benchmarks" / "phase_4"
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     out_file = output_dir / output_filename
 
@@ -53,7 +56,7 @@ def run_track_c_ed_benchmark(
     prev_psi0 = None
     prev_h = None
 
-    for idx, h in enumerate(h_vals):
+    for _idx, h in enumerate(h_vals):
         t0 = time.perf_counter()
         solver = ExactDiagonalizationSpinSolver(cluster, K=1.0, h=float(h))
         # Compute lowest 4 states and observables
@@ -97,4 +100,6 @@ def run_track_c_ed_benchmark(
 
 if __name__ == "__main__":
     # Run N = 16 benchmark first
-    run_track_c_ed_benchmark(n1=2, n2=4, h_max=0.45, num_h=19, output_filename="ed_spin_scaling_n16.dat")
+    run_track_c_ed_benchmark(
+        n1=2, n2=4, h_max=0.45, num_h=19, output_filename="ed_spin_scaling_n16.dat"
+    )

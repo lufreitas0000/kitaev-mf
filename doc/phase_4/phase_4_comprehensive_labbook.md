@@ -1,5 +1,9 @@
 # Phase 4 Comprehensive R&D Lab Book: Analytical Mean-Field Theory, Exact Diagonalization & Fixed-Point Screening Synthesis
 
+> **W001 review status: disapproved by Lu Freitas.** Preserved historical
+> calculations and explanations; inherited acceptance claims below are not current
+> approval. See `doc/audits/w001_acceptance.yaml`.
+
 **Author:** Lu Freitas  
 **Affiliation:** International Institute of Physics / Universidade Federal do Rio Grande do Norte  
 **Project:** `kitaev-mf` (Phase 4 Standalone Synthesis)  

@@ -43,7 +43,9 @@ def main() -> None:
     fitter = PhaseBoundaryBayesianFitter()
 
     thetas_deg = np.linspace(0.0, 90.0, 13)
-    print(f"\n[1/2] Sweeping first-order critical field h_c*(theta) across {len(thetas_deg)} angles...")
+    print(
+        f"\n[1/2] Sweeping first-order critical field h_c*(theta) across {len(thetas_deg)} angles..."
+    )
     points = calc.sweep_boundary(thetas_deg)
 
     all_rows = []
@@ -89,7 +91,9 @@ def main() -> None:
             f"FavorsAnisotropic={bayes_res.favors_anisotropic_boundary}\n"
         )
         f.write("#\n")
-        f.write("# theta_deg  theta_rad     h_c_star     E_cross     E_qsl_330   E_pol_330   E_qsl_340   E_pol_340\n")
+        f.write(
+            "# theta_deg  theta_rad     h_c_star     E_cross     E_qsl_330   E_pol_330   E_qsl_340   E_pol_340\n"
+        )
         for row in all_rows:
             f.write(f"{row}\n")
 

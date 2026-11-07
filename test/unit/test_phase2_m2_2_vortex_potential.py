@@ -1,6 +1,7 @@
 """Unit tests for Task T2.2.1: Vortex Separation Potential V(R) & Topological Deconfinement."""
 
 from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -54,7 +55,9 @@ def test_t2_2_1_vortex_pair_energy_positivity(kitaev_params: ModelParameters) ->
         assert pt.E_2vortex > pt.E_flux_free
 
 
-def test_t2_2_1_vison_deconfinement_bayesian_model_selection(kitaev_params: ModelParameters) -> None:
+def test_t2_2_1_vison_deconfinement_bayesian_model_selection(
+    kitaev_params: ModelParameters,
+) -> None:
     """Verify that Bayesian model selection decisively rejects linear confinement (Delta_BIC > 10, BF > 148)."""
     calc = VortexSeparationPotentialCalculator(L=7)
     points = calc.scan_separation_profile(kitaev_params)
@@ -86,12 +89,14 @@ def test_t2_2_1_kitaev_analytical_vison_gap_agreement(kitaev_params: ModelParame
 
     # Kitaev exact analytical value: Delta_v = 0.1536
     assert res.vison_gap_relative_error < 0.10, (
-        f"Vison gap {res.vison_gap:.4f} deviated by {res.vison_gap_relative_error*100:.1f}% "
+        f"Vison gap {res.vison_gap:.4f} deviated by {res.vison_gap_relative_error * 100:.1f}% "
         f"from analytical 0.1536"
     )
 
 
-def test_t2_2_1_unconstrained_effective_string_tension_vanishing(kitaev_params: ModelParameters) -> None:
+def test_t2_2_1_unconstrained_effective_string_tension_vanishing(
+    kitaev_params: ModelParameters,
+) -> None:
     """Verify that unconstrained linear string tension is vanishingly small (sigma <= 0.05)."""
     calc = VortexSeparationPotentialCalculator(L=7)
     points = calc.scan_separation_profile(kitaev_params)
@@ -114,16 +119,16 @@ def test_t2_2_1_benchmark_dataset_acid_provenance() -> None:
     benchmark_path = Path("data/processed/benchmarks/m2_2/vortex_potential_benchmark.dat")
     assert benchmark_path.exists(), f"Benchmark file {benchmark_path} does not exist"
 
-    with open(benchmark_path, "r", encoding="utf-8") as f:
+    with open(benchmark_path, encoding="utf-8") as f:
         lines = f.readlines()
 
-    header_lines = [l for l in lines if l.strip().startswith("#")]
-    data_lines = [l for l in lines if not l.strip().startswith("#") and l.strip()]
+    header_lines = [line for line in lines if line.strip().startswith("#")]
+    data_lines = [line for line in lines if not line.strip().startswith("#") and line.strip()]
 
     assert len(header_lines) >= 8
-    assert any("Git Commit:" in l for l in header_lines)
-    assert any("Generated:" in l for l in header_lines)
-    assert any("Theoretical Exact Vison Gap:" in l for l in header_lines)
+    assert any("Git Commit:" in line for line in header_lines)
+    assert any("Generated:" in line for line in header_lines)
+    assert any("Theoretical Exact Vison Gap:" in line for line in header_lines)
     assert len(data_lines) >= 20
 
     for dl in data_lines:

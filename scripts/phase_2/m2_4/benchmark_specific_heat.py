@@ -75,7 +75,7 @@ def main() -> None:
         f"# Model: Pure Ferromagnetic Kitaev K=-1.0, zero field h=0.0\n"
         f"# Vison Gap Delta_v: {calc.delta_v:.4f} |K|\n"
         f"# Peak Analysis: T_L={res.t_low:.5f}, T_H={res.t_high:.5f}, Peak_Ratio={res.peak_ratio:.2f}\n"
-        f"# Entropy Stages: S(T_mid={res.t_mid:.4f})={res.s_mid:.5f} (0.5 ln 2={0.5*np.log(2):.5f}), "
+        f"# Entropy Stages: S(T_mid={res.t_mid:.4f})={res.s_mid:.5f} (0.5 ln 2={0.5 * np.log(2):.5f}), "
         f"S(T_max={res.t_max:.4f})={res.s_max:.5f} (ln 2={np.log(2):.5f})\n"
         f"# Bayesian Model Selection Summary: Delta_BIC={bayes_res.delta_bic:.2f}, BF={bayes_res.bayes_factor:.2e}, "
         f"FavorsTwoPeak={bayes_res.favors_two_peak}\n"

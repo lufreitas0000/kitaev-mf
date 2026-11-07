@@ -43,7 +43,9 @@ def test_t2_3_3_maximum_stability_at_111() -> None:
     assert abs(res.theta_max_deg - 54.74) <= 3.0, (
         f"Expected max at 54.74 deg, got {res.theta_max_deg:.2f} deg"
     )
-    assert res.delta_h > 0.0, "Expected positive Delta_h indicating enhanced QSL stability along [111]"
+    assert res.delta_h > 0.0, (
+        "Expected positive Delta_h indicating enhanced QSL stability along [111]"
+    )
 
 
 def test_t2_3_3_bayesian_model_selection() -> None:
@@ -68,7 +70,7 @@ def test_t2_3_3_synthetic_bayesian_fitter() -> None:
     """Verify PhaseBoundaryBayesianFitter on an exact synthetic modulated boundary."""
     thetas = np.linspace(0.0, 90.0, 13)
     th_rad = np.radians(thetas)
-    basis = (np.sin(th_rad)**4 * np.cos(th_rad)**2) / (4.0 / 27.0)
+    basis = (np.sin(th_rad) ** 4 * np.cos(th_rad) ** 2) / (4.0 / 27.0)
     synthetic_h_c = 0.33150 + 0.00100 * basis
 
     fitter = PhaseBoundaryBayesianFitter()

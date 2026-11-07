@@ -9,53 +9,60 @@ Provides comprehensive Lehmann representation analysis across system sizes up to
 from __future__ import annotations
 
 import dataclasses
-from typing import Dict, List, Optional, Tuple
+
 import numpy as np
 
 from kitaev_mf.services.phase_3.gauge_theory import (
-    DirectedBond,
-    GaugeConfiguration,
-    DiagonalizedMatterSector,
+    DiagonalizedMatterSector as DiagonalizedMatterSector,
+)
+
+# Preserve historical module-level project re-exports.
+from kitaev_mf.services.phase_3.gauge_theory import DirectedBond as DirectedBond
+from kitaev_mf.services.phase_3.gauge_theory import GaugeConfiguration as GaugeConfiguration
+from kitaev_mf.services.phase_3.gauge_theory import (
+    assemble_matter_skew_matrix,
     build_honeycomb_torus_cluster,
     build_uniform_gauge_configuration,
-    assemble_matter_skew_matrix,
     diagonalize_matter_hamiltonian,
+)
+from kitaev_mf.services.phase_3.spectral_engine import ContinuousSpectrum as ContinuousSpectrum
+from kitaev_mf.services.phase_3.spectral_engine import DiscreteSpectralData as DiscreteSpectralData
+from kitaev_mf.services.phase_3.spectral_engine import SpectralPole as SpectralPole
+from kitaev_mf.services.phase_3.spectral_engine import (
+    compute_local_spectral_poles,
+    evaluate_spectral_function,
 )
 from kitaev_mf.services.phase_3.vortex_engine import (
     HoneycombGeometry,
     create_two_vortex_gauge_configuration,
-    apply_local_spin_quench,
 )
-from kitaev_mf.services.phase_3.spectral_engine import (
-    DiscreteSpectralData,
-    ContinuousSpectrum,
-    SpectralPole,
-    compute_local_spectral_poles,
-    evaluate_spectral_function,
+from kitaev_mf.services.phase_3.vortex_engine import (
+    apply_local_spin_quench as apply_local_spin_quench,
 )
 
 
 @dataclasses.dataclass(frozen=True)
 class ThermodynamicSpectralBenchmarkDatum:
     """Datapoint for core vs. bulk spectral response at linear size L."""
+
     L: int
     n_sites: int
     is_singular_core: bool
     is_singular_bulk: bool
     core_sum_rule: float
     bulk_sum_rule: float
-    omega_MZM: float
+    omega_MZM: float  # noqa: N815 - established mathematical field name
     bulk_min_energy: float
     demarcation_gap: float
     quadrature_error: float
 
 
 def benchmark_thermodynamic_spectral_response(
-    L_values: Optional[List[int]] = None,
+    L_values: list[int] | None = None,
     K: float = 1.0,
     kappa: float = 0.15,
     boundary: str = "obc",
-) -> List[ThermodynamicSpectralBenchmarkDatum]:
+) -> list[ThermodynamicSpectralBenchmarkDatum]:
     """Benchmark local dynamical spin correlations on clusters up to L=37.
 
     Parameters
@@ -77,7 +84,7 @@ def benchmark_thermodynamic_spectral_response(
     if L_values is None:
         L_values = [6, 12, 18, 24, 30, 36, 37]
 
-    results: List[ThermodynamicSpectralBenchmarkDatum] = []
+    results: list[ThermodynamicSpectralBenchmarkDatum] = []
 
     for L in L_values:
         geom = HoneycombGeometry(L=L)

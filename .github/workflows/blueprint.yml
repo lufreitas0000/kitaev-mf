@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
-      - develop/m1-foundations-review
+      - exploration
+      - 'research/**'
+      - 'promote/**'
+      - 'doc/**'
     paths:
       - 'PROJECT_STATE.yaml'
       - 'LOG_DISCOVERY_AND_PIVOTS.md'
@@ -12,7 +15,21 @@ on:
       - 'data/processed/benchmarks/**'
       - 'scripts/build_blueprint.py'
       - '.github/workflows/blueprint.yml'
+  pull_request:
+    branches: [main, exploration]
+    paths:
+      - 'PROJECT_STATE.yaml'
+      - 'doc/rnd/**'
+      - 'doc/audits/**'
+      - 'scripts/build_blueprint.py'
+      - '.github/workflows/blueprint.yml'
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish reviewed main documents (explicit publication gate)
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -42,6 +59,7 @@ jobs:
         run: python3 scripts/build_blueprint.py --root . --output-dir build/blueprint
 
       - name: Upload Pages artifact
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/blueprint
@@ -49,7 +67,7 @@ jobs:
   deploy-blueprint:
     needs: build-blueprint
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

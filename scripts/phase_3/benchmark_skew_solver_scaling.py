@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
+# Repository-path bootstrap must precede local imports in this standalone entrypoint.
 """Benchmark script for Task T3.W1.1: Scalable Canonical Skew-Schur Solver and SVD Overlap Engine.
 
 Executes systematic runtime and memory profiling across cluster sizes L in {4, 6, 8, 12, 16, 20},
@@ -23,21 +25,20 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from kitaev_mf.services.phase_3.bogoliubov import (
+    apply_particle_hole_interchange,
+    extract_mode_wavefunctions,
+    find_optimal_particle_hole_mode_svd,
+)
 from kitaev_mf.services.phase_3.gauge_theory import (
-    build_honeycomb_torus_cluster,
+    assemble_matter_skew_matrix,
     build_honeycomb_cylinder_cluster,
+    build_honeycomb_torus_cluster,
     build_uniform_gauge_configuration,
     flip_bond_gauge_link,
-    assemble_matter_skew_matrix,
-)
-from kitaev_mf.services.phase_3.bogoliubov import (
-    extract_mode_wavefunctions,
-    apply_particle_hole_interchange,
-    find_optimal_particle_hole_mode_svd,
 )
 from kitaev_mf.services.phase_3.scalable_skew import (
     canonical_skew_schur,
-    solve_scalable_quench_pair,
 )
 
 
@@ -46,7 +47,9 @@ def run_benchmark(output_path: Path) -> None:
     print("=" * 88)
     print("TASK T3.W1.1: SCALABLE SKEW-SCHUR SOLVER & SVD OVERLAP BENCHMARK")
     print("=" * 88)
-    print(f"{'L':>4} | {'N_sites':>7} | {'t_Schur (s)':>12} | {'Ortho Err':>12} | {'Recon Err':>12} | {'t_SVD (ms)':>10} | {'t_Loop (ms)':>11} | {'Speedup':>8}")
+    print(
+        f"{'L':>4} | {'N_sites':>7} | {'t_Schur (s)':>12} | {'Ortho Err':>12} | {'Recon Err':>12} | {'t_SVD (ms)':>10} | {'t_Loop (ms)':>11} | {'Speedup':>8}"
+    )
     print("-" * 88)
 
     records: list[dict[str, float]] = []
@@ -100,20 +103,24 @@ def run_benchmark(output_path: Path) -> None:
             t_loop = float("nan")
             speedup = float("nan")
 
-        records.append({
-            "L": float(L),
-            "num_sites": float(num_sites),
-            "t_schur": t_schur,
-            "ortho_err": ortho_err,
-            "recon_err": recon_err,
-            "t_svd": t_svd * 1000.0,
-            "t_loop": t_loop * 1000.0,
-            "speedup": speedup,
-        })
+        records.append(
+            {
+                "L": float(L),
+                "num_sites": float(num_sites),
+                "t_schur": t_schur,
+                "ortho_err": ortho_err,
+                "recon_err": recon_err,
+                "t_svd": t_svd * 1000.0,
+                "t_loop": t_loop * 1000.0,
+                "speedup": speedup,
+            }
+        )
 
         t_loop_str = f"{t_loop * 1000.0:11.2f}" if not np.isnan(t_loop) else f"{'N/A':>11}"
         speedup_str = f"{speedup:7.1f}x" if not np.isnan(speedup) else f"{'N/A':>8}"
-        print(f"{L:4d} | {num_sites:7d} | {t_schur:12.4f} | {ortho_err:12.2e} | {recon_err:12.2e} | {t_svd * 1000.0:10.2f} | {t_loop_str} | {speedup_str}")
+        print(
+            f"{L:4d} | {num_sites:7d} | {t_schur:12.4f} | {ortho_err:12.2e} | {recon_err:12.2e} | {t_svd * 1000.0:10.2f} | {t_loop_str} | {speedup_str}"
+        )
 
     print("-" * 88)
 
@@ -126,13 +133,17 @@ def run_benchmark(output_path: Path) -> None:
         f.write("# Model: Pure FM Kitaev (K=1.0, kappa=0.1) on Honeycomb Torus\n")
         f.write("# Columns: L num_sites t_schur_s ortho_err recon_err t_svd_ms t_loop_ms speedup\n")
         for r in records:
-            f.write(f"{int(r['L']):4d}  {int(r['num_sites']):7d}  {r['t_schur']:12.6f}  {r['ortho_err']:12.4e}  {r['recon_err']:12.4e}  {r['t_svd']:10.4f}  {r['t_loop']:10.4f}  {r['speedup']:8.2f}\n")
+            f.write(
+                f"{int(r['L']):4d}  {int(r['num_sites']):7d}  {r['t_schur']:12.6f}  {r['ortho_err']:12.4e}  {r['recon_err']:12.4e}  {r['t_svd']:10.4f}  {r['t_loop']:10.4f}  {r['speedup']:8.2f}\n"
+            )
 
     print(f"Exported benchmark table: {output_path}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Benchmark scalable skew solver and SVD overlap engine.")
+    parser = argparse.ArgumentParser(
+        description="Benchmark scalable skew solver and SVD overlap engine."
+    )
     parser.add_argument(
         "--output",
         type=Path,

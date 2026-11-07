@@ -1,6 +1,7 @@
 """Unit tests for Task T2.2.3: Vortex Braiding Phases & Non-Abelian Holonomy."""
 
 from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -24,7 +25,9 @@ def test_t2_2_3_non_enclosing_loop_trivial_berry_phase(topological_params: Model
 
     # In radians, 0 mod 2pi means either near 0 or near 2*pi
     dist_to_zero = min(res.gamma_non_enclosing, 2.0 * np.pi - res.gamma_non_enclosing)
-    assert dist_to_zero < 0.05, f"Expected trivial Berry phase near 0, got {res.gamma_non_enclosing:.4f}"
+    assert dist_to_zero < 0.05, (
+        f"Expected trivial Berry phase near 0, got {res.gamma_non_enclosing:.4f}"
+    )
 
 
 def test_t2_2_3_enclosing_loop_pi_holonomy(topological_params: ModelParameters) -> None:
@@ -40,7 +43,7 @@ def test_t2_2_3_enclosing_loop_pi_holonomy(topological_params: ModelParameters) 
     assert dist_enc_to_pi < 0.50, f"gamma_enc should be near pi, got {res.gamma_enclosing:.4f}"
 
     assert res.relative_error_from_pi <= 0.18, (
-        f"L=6: Holonomy error {res.relative_error_from_pi*100:.1f}% exceeded 18% threshold "
+        f"L=6: Holonomy error {res.relative_error_from_pi * 100:.1f}% exceeded 18% threshold "
         f"(Delta_gamma = {res.delta_gamma:.4f} rad)"
     )
 
@@ -63,7 +66,9 @@ def test_t2_2_3_braiding_bayesian_model_selection() -> None:
 
     assert bayes_res.n_samples == 4
     assert bayes_res.delta_bic > 10.0, f"Expected Delta_BIC > 10, got {bayes_res.delta_bic}"
-    assert bayes_res.bayes_factor > 148.0, f"Expected Bayes factor > 148, got {bayes_res.bayes_factor}"
+    assert bayes_res.bayes_factor > 148.0, (
+        f"Expected Bayes factor > 148, got {bayes_res.bayes_factor}"
+    )
     assert bayes_res.favors_pi_holonomy is True
 
 

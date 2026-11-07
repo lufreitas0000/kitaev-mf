@@ -1,5 +1,9 @@
 # Track D: Fixed-Point Screening Dynamics, Real-Space Lattice Movies, and the Expanded 10+ Observables Comparison
 
+> **W001 review status: disapproved by Lu Freitas.** Preserved historical
+> calculations and explanations; inherited acceptance claims below are not current
+> approval. See `doc/audits/w001_acceptance.yaml`.
+
 ---
 
 ## 1. Executive Summary & Epistemic Scope

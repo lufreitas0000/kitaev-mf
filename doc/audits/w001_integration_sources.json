@@ -1,0 +1,332 @@
+{
+  "raw_integration_commit": "3e3916025f973917409d037fc6fdf854cb230704",
+  "scientific_acceptance": "not established",
+  "shared_source_selection": {
+    "phase2": {
+      "source_commit": "8b242a58f942d73d6d45a02afcf3b9930e3f8d05",
+      "differences_before_hygiene": []
+    },
+    "phase3": {
+      "source_commit": "21a27d8fa72648723191ec5178a79f7e0146cd8b",
+      "differences_before_hygiene": [
+        {
+          "path": "src/kitaev_mf/domain/__init__.py",
+          "source_blob": "d465d2efe4910afc550400529c7269b57dd232fd",
+          "selected_blob": "2098dd923467564d979154f3dd045080d0a89a25",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/domain/solver.py",
+          "source_blob": "cab9a3fade09d56ffeb1d8db13a76b2630a7c35b",
+          "selected_blob": "13f5107b4501680652e45d272aed5887db84aaea",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/domain/state.py",
+          "source_blob": "a919018e1de0248812ffea9c6857819ed60362ad",
+          "selected_blob": "69d2172f874373b9ff22742967e2ed47b3ede282",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/services/__init__.py",
+          "source_blob": "6d454467e3af38610b188aafd506ee63d3d29eb0",
+          "selected_blob": "1a36d8a6cbc5228f748e077363565dbedefc7856",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/services/purification.py",
+          "source_blob": "eeb1806090f59400b6350a801ded43c9cc35d5ab",
+          "selected_blob": "799a707b2b0316d6198add0361893afa32833cd0",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/services/real_space.py",
+          "source_blob": "aad5febd84dc41fd42517eb237a259f41ca7d553",
+          "selected_blob": "9bae0aa72c00921f1a300704e85ca49f893f41d0",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "src/kitaev_mf/services/solver.py",
+          "source_blob": "aa6901ef79c195fff2f95e4ac972874977efe542",
+          "selected_blob": "6baa4a451c38d185e0e1347593098e3b464e1ff9",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "test/unit/test_post_spinodal_kkt_audit.py",
+          "source_blob": "5d1e5f13ff161284f0c0e75a85934b67230cc6c1",
+          "selected_blob": "9c5e62f0836fe6f6b4952b4ae5eb3d7459384e9f",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "test/unit/test_real_space_and_purification.py",
+          "source_blob": "e1929359d33fa46cc25bb5957af9c9cbdefbe634",
+          "selected_blob": "cba33181d9dc0c8a5f7193a19648218a42809bd6",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        },
+        {
+          "path": "test/unit/test_real_space_vortices.py",
+          "source_blob": "4e9d664cf91c7b9499aadd63c311d2c36f290c4e",
+          "selected_blob": "35c2723e418c71e76fd1a021438f030fab64e53e",
+          "reason": "newer shared implementation from Phase 2/4 lineage"
+        }
+      ]
+    },
+    "phase4": {
+      "source_commit": "1d82e6a48e20213e208ce2c089dfc7fa423522f6",
+      "differences_before_hygiene": []
+    }
+  },
+  "software_repair_files": [
+    {
+      "path": "scripts/phase_2/m2_1/benchmark_variational_bounds.py",
+      "imported_blob": "52e28eed6948e63853242f8068497fe30edd2a63",
+      "candidate_sha256": "a1751a396f11bb5ecf36d519a31a83c10b03430f6c9ae65ef76e651fbb53ca63"
+    },
+    {
+      "path": "scripts/phase_2/m2_2/benchmark_mzm_localization.py",
+      "imported_blob": "d71d11c20188a8321a3c80760b23f66391347b99",
+      "candidate_sha256": "4666ddec1f7dcd7712035ea7c5eac7eae71ad825498b079b027e293b4e0d54e2"
+    },
+    {
+      "path": "scripts/phase_2/m2_2/benchmark_vortex_braiding.py",
+      "imported_blob": "0a85a4a81fe4fce2f98bce24f936cff125283af6",
+      "candidate_sha256": "1e6925282811f9dddd75476d630073db3b9956100a3e7053022554576eb8cb87"
+    },
+    {
+      "path": "scripts/phase_2/m2_2/benchmark_vortex_potential.py",
+      "imported_blob": "6333d062e665bab9e2144cf34ac3573e6fd48089",
+      "candidate_sha256": "c38acb99bbcc9232b77a640fbb5e6eab3e964f0ea97dd30527d68961bf17bda2"
+    },
+    {
+      "path": "scripts/phase_2/m2_3/benchmark_magnetization_torque.py",
+      "imported_blob": "e163460cf207eeea5cf16057c319aaa499862191",
+      "candidate_sha256": "a1d776e9e8bdfde7159e4bba2c1c4986d5b92140bcb057d6bcb6f9f3152eac90"
+    },
+    {
+      "path": "scripts/phase_2/m2_3/benchmark_phase_boundary.py",
+      "imported_blob": "8c749f393d3b389ea7a0c90bd09e1e8bb056754a",
+      "candidate_sha256": "a2df892d234932b8752c80be8400b03983dd48665e454c732b43443dd7d4bb82"
+    },
+    {
+      "path": "scripts/phase_2/m2_3/benchmark_spinodal_scaling.py",
+      "imported_blob": "ac4633b4bb031a2f86e7c03876fecde463d7aaff",
+      "candidate_sha256": "4c67a90295db9191cbcfcca05fef3b5e60a56d3eb3b8a079781eda4cfb1e3858"
+    },
+    {
+      "path": "scripts/phase_2/m2_4/benchmark_specific_heat.py",
+      "imported_blob": "182cbb3e5fd062e000900f5233201b8fc6860f56",
+      "candidate_sha256": "eea6b78c6f920a8f85ebc76307c82004daba14c2f6deb52f24cc1bcb38c787a4"
+    },
+    {
+      "path": "scripts/phase_3/benchmark_exact_vs_mean_field.py",
+      "imported_blob": "0a42dce7c26b105222b3742c2073ad026da82494",
+      "candidate_sha256": "792dff5036e5d386f3ffcac3ef560ade3cb73dd407b10405c9645ad3a59d1ef7"
+    },
+    {
+      "path": "scripts/phase_3/benchmark_mzm_thermodynamic_scaling.py",
+      "imported_blob": "2837cae2705be732518fc794c2e602f14257ad7c",
+      "candidate_sha256": "2e113aafeb156908ab6d73c73811d6810cb78db6195f71a81d82a7438146734b"
+    },
+    {
+      "path": "scripts/phase_3/benchmark_skew_solver_scaling.py",
+      "imported_blob": "d551c858c6f182e6e7d8df05047ece3c84d91aa7",
+      "candidate_sha256": "98a80434e702f91b228b078be021bfb5ccf9370e7a305d1b93118ce3f2cc4f45"
+    },
+    {
+      "path": "scripts/phase_3/benchmark_thermodynamic_spectral_functions.py",
+      "imported_blob": "ae8986843981bed849f1e7682fc6202a12c860ea",
+      "candidate_sha256": "285dde19206b908dd91dd2e95687adce95c922b8983c56bd60b2cc3678519ea1"
+    },
+    {
+      "path": "scripts/phase_4/benchmark_four_theories_comparison.py",
+      "imported_blob": "4fb41f32f4fc5cf853fd482e337317a0023d020f",
+      "candidate_sha256": "209acf93bd7e490f87f97f99459eedb133aab5c10af42f706ed29c066875febb"
+    },
+    {
+      "path": "scripts/phase_4/benchmark_track_c_exact_diagonalization.py",
+      "imported_blob": "0cdf42fd3a744f5ecc98f0ffbbdcbdb7ff0b1332",
+      "candidate_sha256": "f952f1aa717c3dcf7aede9b92a0c0f685aa007359f89df2fd1e8923535db4823"
+    },
+    {
+      "path": "scripts/phase_4/benchmark_ultra_low_field_asymptotics.py",
+      "imported_blob": "9d84c5f2eb21facd3b17eb5ea10f6a7e2f53fc32",
+      "candidate_sha256": "f921c34c1cfff2628ced5f5aa4ee781298739c9bf3a551faf1a830bf383c2a76"
+    },
+    {
+      "path": "scripts/phase_4/generate_fixed_point_screening_movie.py",
+      "imported_blob": "107f5e4447836d79e3e3b6d1f6cb940476c02371",
+      "candidate_sha256": "3f4cec093daea04fc107a50c887daa6a8b9280662ebd94802a39d2626772752c"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/magnetization_torque.py",
+      "imported_blob": "0e58c3ed6c5714024e7b8f2a3080cabc5f1e0a58",
+      "candidate_sha256": "b4d3df8ad821ac0b2ce55eb169ffe0d058b3800a114a016f6432887a67d8448f"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/mzm_localization.py",
+      "imported_blob": "ddebe4911a00b91146b27dc353fe4ce368525a6f",
+      "candidate_sha256": "529f4f33744f98cde0ec6e16874c0a353336966e35d4a46797625d7a0c180bc1"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/phase_diagram.py",
+      "imported_blob": "832d4cdb2c4cac1bd7c460916d9fac66e832b50b",
+      "candidate_sha256": "5cc29cc7bf3424e11d8f0eb15c879a1ad51c748bc238045f00a303a1cf2eff99"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/spinodal_scaling.py",
+      "imported_blob": "d231924294b67df30db3799233573865fc735e4e",
+      "candidate_sha256": "61da0a9520012ed5361cc5f2ba4dc31ae0c394234051e8dd4972de4801b582c3"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/thermodynamics.py",
+      "imported_blob": "f718be04a0ee579931176d5faec0efd38f0ee0a1",
+      "candidate_sha256": "9d3b85884e6a0a0aa3daa43bf5bc12ad58a4d3fde797286bebec2eb7785d1d4c"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/variational_bounds.py",
+      "imported_blob": "8fa858adf2d49ad0adb2532a00f56c0ff9236971",
+      "candidate_sha256": "cbad73466a566b289a063769c52fccbbfd00153cd47cf94597f00e12261dc4a4"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/vortex_braiding.py",
+      "imported_blob": "ac967eee275baaa2782e465acba8081e9ef8e7a9",
+      "candidate_sha256": "ff4fabc6fb138db45a7443871f642ede5d73061121ff85b32438e5a99cdf4f93"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_2/vortex_potential.py",
+      "imported_blob": "5b75072a5ec449323eb8d8aa0126e0860c236554",
+      "candidate_sha256": "f80dae234f376a95f5b074ad467eba6eff5b65f347be22b576a9c683ceb8ff3d"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_3/bogoliubov.py",
+      "imported_blob": "676af9d50f48ce988b2a7058f6826a8c1ac72d92",
+      "candidate_sha256": "622a0303a8bf2b2336449a23f9836eae0b431b1757fd16bd4db26323bffc52c5"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_3/mean_field_spectral.py",
+      "imported_blob": "994145b808eb8c8d0d3abd22d4876e06524b491b",
+      "candidate_sha256": "7e445e6ae9fc94c11cb63730df3c454f9ff8b52ee5c46acbe4cf1d237e868d73"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_3/mzm_thermodynamic_scaling.py",
+      "imported_blob": "56a2bbd9f330c8fd4c033d8f505f15eb25979be6",
+      "candidate_sha256": "6e8aea2f061c020f9da96c5de8ca582168500372ab812d58c3c8d3e8e42eb594"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_3/scalable_skew.py",
+      "imported_blob": "573b65dfaf9adfefb5b0bd251bbc776096eea4e5",
+      "candidate_sha256": "42cc17bcacf5a7fc7404303913d9c9eba139b5429c9b2d85613b7dd3d919d1e4"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_3/thermodynamic_spectral_benchmarks.py",
+      "imported_blob": "764d2d28bb7b975e7c4f41fb420c121704f962b9",
+      "candidate_sha256": "c9e3efc62a1e49a1c34c5e0ed138409732b4f385543c1117e8a8518e5949f39f"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_4/comprehensive_observables.py",
+      "imported_blob": "22694b2c1b4e73c57779a5883e6e68aa55c66a88",
+      "candidate_sha256": "c07ee6ded00701cf85bcfd740647fb7816cebee48b29a927385495a1bf7b264b"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_4/exact_diagonalization.py",
+      "imported_blob": "df48a31cf70182a1b7b7350c7dd7cb0c9930fee4",
+      "candidate_sha256": "b882750572b9b34db67cc95fdb6e40460093f106560f950e9048d9d848768a21"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_4/fixed_point_visualizer.py",
+      "imported_blob": "77ee497b6e5fab279971df5157a44eff310942cb",
+      "candidate_sha256": "95974fd64da463ff8ccb2551e5c6cab806ad981c7345866a14ad66543534b1aa"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_4/symmetrized_solver.py",
+      "imported_blob": "7772482cdd480f2fdcf9e34b02b1028bcaf98704",
+      "candidate_sha256": "9a14d82f78da82ce16c8b04b0ef38927672b317062bee72c32448089fca519f9"
+    },
+    {
+      "path": "src/kitaev_mf/services/phase_4/symmetry_reduction.py",
+      "imported_blob": "b5fc87cefe177676e327305b047fd1b14c2aab44",
+      "candidate_sha256": "7e4305c9028614fd59667dde9be08b18830a11be1e26f2f41b7d0e306d3e9413"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_1_atlas.py",
+      "imported_blob": "204ae5883bf92a1604033aa4cabc45e90d6c2a76",
+      "candidate_sha256": "17af57d46dac7d2e607ef765d8a366ad21a491ed3f7c228eab918dea91d5a0e5"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_1_variational_bounds.py",
+      "imported_blob": "f6c629e8a69cde8cff0e59e54ddcbad9c84b6d08",
+      "candidate_sha256": "bc27d3c475e3d7cb606f70f40226987c5efa5e836ad38ab3dcbacf137af935d3"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_2_mzm_localization.py",
+      "imported_blob": "48df5eb991c80876725ed8fa70d4c79dc6c95c1e",
+      "candidate_sha256": "6bb3b00101de7251ff1b96cef4e5fb998921e9b7b2d6a9bcffb5334af97065b3"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_2_vortex_braiding.py",
+      "imported_blob": "8d00ffae9554d27203a7b49c4d214ea4543e221a",
+      "candidate_sha256": "2f7765968d447e32eb25c76a3722755f39cf5229bf6fde0c04adc002adc45055"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_2_vortex_potential.py",
+      "imported_blob": "d3bf9287121f282503bb7fe89d9434c83672a1d9",
+      "candidate_sha256": "b6b4b6f6d0c060dd9fcaa52fe0b37790b83c61578c48133cf1be8116db87fdeb"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_3_magnetization_torque.py",
+      "imported_blob": "b1cb7592de2c963da1e299305f78a2c87baa2204",
+      "candidate_sha256": "c92af1782935109ee5d4f99e0098bd6d2b95c8220297700a4ac85a3c9675a273"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_3_phase_diagram.py",
+      "imported_blob": "4669601d3be11f86539a40ff28c19b2011edfb5f",
+      "candidate_sha256": "3aef300990caf234c3ae7399e6383f8dc83af718811da9dfa34b988b3699d57b"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_3_spinodal_scaling.py",
+      "imported_blob": "4a7e0e8ea232d3449722db74a932ae8a6dbbb12d",
+      "candidate_sha256": "a7097469cdf73882d325d4c0ecfc29f56b49b5068e4076151284db1e1441c366"
+    },
+    {
+      "path": "test/unit/test_phase2_m2_4_thermodynamics.py",
+      "imported_blob": "6bdf5d218d66a7a0b10f70d1187c70eb5553fe98",
+      "candidate_sha256": "67ecbd9d00f146e54e692bd1642fcd8e9a2fda04c9c2000f625d0f3e1fef2595"
+    },
+    {
+      "path": "test/unit/test_phase3_cross_validation.py",
+      "imported_blob": "042148f5e99f8465683717c934eec6390e60942a",
+      "candidate_sha256": "188c81882f14a24fbe7c2851b15f22fbe5f5d06d9c57da180283d2b4d0822ccb"
+    },
+    {
+      "path": "test/unit/test_phase3_mean_field_spectral.py",
+      "imported_blob": "99960deb8271b90618b0ae1366b8e26deb283fb1",
+      "candidate_sha256": "6478ec2fd2e6977535f3e8372743b0bff6b283a764cccbc2896e4c8cefbb1259"
+    },
+    {
+      "path": "test/unit/test_phase3_mzm_thermodynamic_scaling.py",
+      "imported_blob": "6585edc163024b6596b8313fa8bae3be73e48ab6",
+      "candidate_sha256": "4814228a49938652e537b66b8a874f0d9356384643f476eb9e973d16aa9f3bbf"
+    },
+    {
+      "path": "test/unit/test_phase3_scalable_skew_solver.py",
+      "imported_blob": "f5aac3317b0546df33676adbbf3216fe12f952f8",
+      "candidate_sha256": "0e8a4ce5d3b2444febdc6db6d2d6b5ee310b8455355999c4a71aa9dc8b1552e9"
+    },
+    {
+      "path": "test/unit/test_phase3_thermodynamic_spectral_benchmarks.py",
+      "imported_blob": "7ce60b5e3b87fefa32c88c107ac0b39fea70d39a",
+      "candidate_sha256": "1df1af719efa7ef614b6c0e72b0a96eaee93b6060fd01a65eecae065014eee04"
+    },
+    {
+      "path": "test/unit/test_phase4_analytical_mf.py",
+      "imported_blob": "8b0367dea694396c6c4dac9f15831a415a026600",
+      "candidate_sha256": "3605b3d7c7ddbf3ca648383e0ffdd62a16fb619743b9da78117a905cadab3943"
+    },
+    {
+      "path": "test/unit/test_phase4_ed.py",
+      "imported_blob": "bb21bde9ddf354d5fc735a92cfedd874d0e31763",
+      "candidate_sha256": "16837ee8c961bd58390fcd396e1e399473483ac3939ed0eda853b8fee86526a2"
+    }
+  ],
+  "repair_scope": "format/import/typing, shared metrics tuple adapter, repository-relative paths; original formulas and thresholds retained"
+}

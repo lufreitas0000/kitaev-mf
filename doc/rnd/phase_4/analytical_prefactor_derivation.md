@@ -1,5 +1,9 @@
 # Analytical Schrieffer-Wolff Reduction, Symmetrized Fixed-Point Solution, and the Exact Mean-Field Cubic Dirac Gap Prefactor
 
+> **W001 review status: disapproved by Lu Freitas.** Preserved historical
+> calculations and explanations; inherited acceptance claims below are not current
+> approval. See `doc/audits/w001_acceptance.yaml`.
+
 ---
 
 ## 1. Introduction and Scope

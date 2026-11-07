@@ -6,7 +6,6 @@ and extracts the asymptotic prefactor C_MF with high precision.
 
 from __future__ import annotations
 
-import os
 import sys
 import time
 from pathlib import Path
@@ -28,11 +27,15 @@ def run_ultra_low_field_benchmark() -> None:
     # Logarithmically spaced grid from 1e-5 to 1e-2 (13 points)
     h_vals = np.logspace(-5, -2, 13)
 
-    output_dir = Path(__file__).resolve().parents[2] / "data" / "processed" / "benchmarks" / "phase_4"
+    output_dir = (
+        Path(__file__).resolve().parents[2] / "data" / "processed" / "benchmarks" / "phase_4"
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     out_file = output_dir / "ultra_low_field_scaling.dat"
 
-    print(f"[Phase 4 Benchmark] Sweeping {len(h_vals)} points from h = {h_vals[0]:.1e} to {h_vals[-1]:.1e}...")
+    print(
+        f"[Phase 4 Benchmark] Sweeping {len(h_vals)} points from h = {h_vals[0]:.1e} to {h_vals[-1]:.1e}..."
+    )
 
     headers = [
         "# Benchmark: ultra_low_field_scaling.dat",

@@ -9,11 +9,11 @@ Exports ACID-compliant benchmark table with metadata provenance:
 import datetime
 import os
 import subprocess
-import numpy as np
+from pathlib import Path
 
 from kitaev_mf.services.phase_3.mzm_thermodynamic_scaling import (
-    measure_mzm_hybridization_scaling,
     compute_thermodynamic_zero_bias_sharpness,
+    measure_mzm_hybridization_scaling,
 )
 
 
@@ -24,10 +24,10 @@ def get_git_revision() -> str:
         return "unknown"
 
 
-def main():
+def main() -> None:
     git_rev = get_git_revision()
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    out_dir = "/home/lucas/Projects/kitaev-mf-phase3/data/processed/benchmarks/phase_3"
+    out_dir = Path(__file__).resolve().parents[2] / "data/processed/benchmarks/phase_3"
     os.makedirs(out_dir, exist_ok=True)
 
     # 1. Hybridization scaling across commensurate sizes L in {6, 12, 18, 24}
@@ -37,11 +37,15 @@ def main():
     path_hyb = os.path.join(out_dir, "mzm_hybridization_scaling.dat")
     with open(path_hyb, "w") as f:
         f.write("# ACID DATA PROVENANCE HEADER\n")
-        f.write(f"# Task: T3.W1.2 MZM Hybridization Thermodynamic Scaling\n")
+        f.write("# Task: T3.W1.2 MZM Hybridization Thermodynamic Scaling\n")
         f.write(f"# Date: {now_iso}\n")
         f.write(f"# Git-Commit: {git_rev}\n")
-        f.write(f"# Fit: xi_M = {fit_hyb.xi_M:.4f} +/- {fit_hyb.xi_M_stderr:.4f} a, R^2 = {fit_hyb.r_squared:.4f}\n")
-        f.write(f"# Intercept: alpha = {fit_hyb.intercept_alpha:.4f}, p_value = {fit_hyb.p_value:.4e}\n")
+        f.write(
+            f"# Fit: xi_M = {fit_hyb.xi_M:.4f} +/- {fit_hyb.xi_M_stderr:.4f} a, R^2 = {fit_hyb.r_squared:.4f}\n"
+        )
+        f.write(
+            f"# Intercept: alpha = {fit_hyb.intercept_alpha:.4f}, p_value = {fit_hyb.p_value:.4e}\n"
+        )
         f.write("# Schema: L dy R_units_a delta_eps_0\n")
         for d in data_hyb:
             f.write(f"{d.L:4d} {d.dy:4d} {d.R_units_a:10.4f} {d.delta_eps_0:14.8e}\n")
@@ -54,11 +58,13 @@ def main():
     path_sharp = os.path.join(out_dir, "mzm_thermodynamic_sharpness.dat")
     with open(path_sharp, "w") as f:
         f.write("# ACID DATA PROVENANCE HEADER\n")
-        f.write(f"# Task: T3.W1.2 Zero-Bias Sharpness and Thermodynamic Convergence\n")
+        f.write("# Task: T3.W1.2 Zero-Bias Sharpness and Thermodynamic Convergence\n")
         f.write(f"# Date: {now_iso}\n")
         f.write(f"# Git-Commit: {git_rev}\n")
-        f.write(f"# Parameters: K=1.0, kappa=0.15, boundary=obc\n")
-        f.write("# Schema: L boundary omega_MZM tot_weight subgap_weight sharpness_ratio bulk_min_E bulk_subgap_weight\n")
+        f.write("# Parameters: K=1.0, kappa=0.15, boundary=obc\n")
+        f.write(
+            "# Schema: L boundary omega_MZM tot_weight subgap_weight sharpness_ratio bulk_min_E bulk_subgap_weight\n"
+        )
         for r in results_sharp:
             f.write(
                 f"{r.L:4d} {r.boundary:>8s} {r.omega_MZM:10.6f} {r.total_spectral_weight:10.6f} "

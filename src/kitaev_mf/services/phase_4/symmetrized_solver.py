@@ -9,6 +9,7 @@ to ultra-low fields h in [1e-6, 1e-2].
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 import numpy as np
 
 from kitaev_mf.domain.lattice import UnitCell, make_honeycomb_2site
@@ -16,16 +17,16 @@ from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverMetrics
 from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.infra.linalg_backend import TorchBackend
-from kitaev_mf.services.hamiltonian import build_bloch_hamiltonian
+from kitaev_mf.services.correlators import (
+    compute_correlators_from_bloch,
+    compute_gauge_residuals,
+)
 from kitaev_mf.services.fixed_point import JointAndersonSolver
+from kitaev_mf.services.hamiltonian import build_bloch_hamiltonian
 from kitaev_mf.services.phase_4.symmetry_reduction import (
     SymmetricParameters,
     extract_symmetric_parameters,
     pack_symmetric_state,
-)
-from kitaev_mf.services.correlators import (
-    compute_correlators_from_bloch,
-    compute_gauge_residuals,
 )
 
 
@@ -82,7 +83,7 @@ def solve_symmetrized_fixed_point(
     residual_history: list[float] = []
     converged = False
 
-    for it in range(1, max_iter + 1):
+    for _it in range(1, max_iter + 1):
         # 1. Assemble symmetric state
         state = pack_symmetric_state(current_sym, cell)
 
@@ -148,13 +149,13 @@ def solve_symmetrized_fixed_point(
 
     metrics = SolverMetrics(
         converged=converged,
-        iterations=it,
+        iterations=_it,
         final_correlator_residual=diff,
         final_onsite_residual=float(abs(current_sym.v0 - extracted_sym.v0)),
         final_gauge_residual=max_gauge_res,
-        residual_history=residual_history,
-        contraction_factors=[],
-        comm_residuals=[],
+        residual_history=tuple(residual_history),
+        contraction_factors=(),
+        comm_residuals=(),
     )
 
     return SymmetrizedSolverResult(

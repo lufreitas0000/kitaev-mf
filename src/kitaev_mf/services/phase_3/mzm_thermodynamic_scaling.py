@@ -10,35 +10,42 @@ Services for quantifying:
 from __future__ import annotations
 
 import dataclasses
-from typing import Dict, List, Optional, Tuple
+
 import numpy as np
 import scipy.stats
 
 from kitaev_mf.services.phase_3.gauge_theory import (
-    DirectedBond,
-    GaugeConfiguration,
-    DiagonalizedMatterSector,
-    build_honeycomb_torus_cluster,
-    build_honeycomb_cylinder_cluster,
-    build_uniform_gauge_configuration,
+    DiagonalizedMatterSector as DiagonalizedMatterSector,
+)
+
+# Preserve historical module-level project re-exports.
+from kitaev_mf.services.phase_3.gauge_theory import DirectedBond as DirectedBond
+from kitaev_mf.services.phase_3.gauge_theory import GaugeConfiguration as GaugeConfiguration
+from kitaev_mf.services.phase_3.gauge_theory import (
     assemble_matter_skew_matrix,
-    flip_bond_gauge_link,
+    build_honeycomb_torus_cluster,
+    build_uniform_gauge_configuration,
     diagonalize_matter_hamiltonian,
+)
+from kitaev_mf.services.phase_3.gauge_theory import (
+    build_honeycomb_cylinder_cluster as build_honeycomb_cylinder_cluster,
+)
+from kitaev_mf.services.phase_3.gauge_theory import flip_bond_gauge_link as flip_bond_gauge_link
+from kitaev_mf.services.phase_3.spectral_engine import DiscreteSpectralData as DiscreteSpectralData
+from kitaev_mf.services.phase_3.spectral_engine import SpectralPole as SpectralPole
+from kitaev_mf.services.phase_3.spectral_engine import (
+    compute_local_spectral_poles,
 )
 from kitaev_mf.services.phase_3.vortex_engine import (
     HoneycombGeometry,
     create_two_vortex_gauge_configuration,
-)
-from kitaev_mf.services.phase_3.spectral_engine import (
-    DiscreteSpectralData,
-    SpectralPole,
-    compute_local_spectral_poles,
 )
 
 
 @dataclasses.dataclass(frozen=True)
 class MZMHybridizationDatum:
     """Datapoint for MZM hybridization splitting at separation R."""
+
     L: int
     dy: int
     R_units_a: float
@@ -48,8 +55,9 @@ class MZMHybridizationDatum:
 @dataclasses.dataclass(frozen=True)
 class MZMExponentialFitResult:
     """Results of log-linear regression for MZM hybridization splitting."""
-    xi_M: float
-    xi_M_stderr: float
+
+    xi_M: float  # noqa: N815 - established mathematical field name
+    xi_M_stderr: float  # noqa: N815 - established mathematical field name
     intercept_alpha: float
     r_squared: float
     p_value: float
@@ -59,9 +67,10 @@ class MZMExponentialFitResult:
 @dataclasses.dataclass(frozen=True)
 class ThermodynamicSharpnessDatum:
     """Datapoint for dynamical quench spectral sharpness at linear dimension L."""
+
     L: int
     boundary: str
-    omega_MZM: float
+    omega_MZM: float  # noqa: N815 - established mathematical field name
     total_spectral_weight: float
     subgap_weight: float
     sharpness_ratio: float
@@ -70,10 +79,10 @@ class ThermodynamicSharpnessDatum:
 
 
 def measure_mzm_hybridization_scaling(
-    L_values: Optional[List[int]] = None,
+    L_values: list[int] | None = None,
     K: float = 1.0,
     kappa: float = 0.15,
-) -> Tuple[List[MZMHybridizationDatum], MZMExponentialFitResult]:
+) -> tuple[list[MZMHybridizationDatum], MZMExponentialFitResult]:
     """Measure MZM hybridization splitting delta_eps_0(R_max) across commensurate sizes 3 | L.
 
     Parameters
@@ -95,7 +104,7 @@ def measure_mzm_hybridization_scaling(
     if L_values is None:
         L_values = [6, 12, 18, 24]
 
-    data: List[MZMHybridizationDatum] = []
+    data: list[MZMHybridizationDatum] = []
 
     for L in L_values:
         geom = HoneycombGeometry(L=L)
@@ -118,13 +127,13 @@ def measure_mzm_hybridization_scaling(
 
     slope, intercept, r_val, p_val, stderr = scipy.stats.linregress(Rs, y_vals)
     xi_M = float(-1.0 / slope) if slope < 0 else float("inf")
-    xi_M_err = float(stderr / (slope ** 2)) if slope < 0 else float("inf")
+    xi_M_err = float(stderr / (slope**2)) if slope < 0 else float("inf")
 
     fit = MZMExponentialFitResult(
         xi_M=xi_M,
         xi_M_stderr=xi_M_err,
         intercept_alpha=float(intercept),
-        r_squared=float(r_val ** 2),
+        r_squared=float(r_val**2),
         p_value=float(p_val),
         n_points=len(data),
     )
@@ -132,12 +141,12 @@ def measure_mzm_hybridization_scaling(
 
 
 def compute_thermodynamic_zero_bias_sharpness(
-    L_values: List[int],
+    L_values: list[int],
     K: float = 1.0,
     kappa: float = 0.15,
     boundary: str = "obc",
     delta_subgap_cutoff: float = 0.18,
-) -> List[ThermodynamicSharpnessDatum]:
+) -> list[ThermodynamicSharpnessDatum]:
     """Compute local dynamical quench response and spectral sharpness across L values.
 
     Parameters
@@ -162,7 +171,7 @@ def compute_thermodynamic_zero_bias_sharpness(
         Sharpness and peak energy metrics for each size L.
     """
     subgap_window = delta_subgap_cutoff
-    results: List[ThermodynamicSharpnessDatum] = []
+    results: list[ThermodynamicSharpnessDatum] = []
 
     for L in L_values:
         geom = HoneycombGeometry(L=L)
@@ -193,7 +202,11 @@ def compute_thermodynamic_zero_bias_sharpness(
         subgap_poles_core = [p for p in spec_core.poles if p.energy <= subgap_window]
         subgap_weight_core = float(sum(p.weight for p in subgap_poles_core))
         sharpness = subgap_weight_core / tot_weight_core if tot_weight_core > 0 else 0.0
-        omega_mzm = float(subgap_poles_core[0].energy) if len(subgap_poles_core) > 0 else float(spec_core.poles[0].energy)
+        omega_mzm = (
+            float(subgap_poles_core[0].energy)
+            if len(subgap_poles_core) > 0
+            else float(spec_core.poles[0].energy)
+        )
 
         # 2. Bulk site quench: find site with maximal distance from both vortex cores on torus
         best_dist = -1.0

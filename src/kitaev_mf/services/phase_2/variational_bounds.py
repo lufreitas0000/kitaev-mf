@@ -9,12 +9,15 @@ Provides:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
+
 import numpy as np
 from scipy.linalg import schur
 
-from kitaev_mf.domain.constants import G_MATRICES, M_MATRICES
+# Preserve historical module-level project re-exports.
+from kitaev_mf.domain.constants import G_MATRICES as G_MATRICES
+from kitaev_mf.domain.constants import M_MATRICES as M_MATRICES
 from kitaev_mf.services.real_space import compute_skew_pfaffian
 
 
@@ -111,7 +114,7 @@ class ExactDiagonalizationKitaev:
 
     def _site_op(self, op: np.ndarray, site: int) -> np.ndarray:
         """Construct full 2^N x 2^N tensor product operator acting non-trivially on site."""
-        res = np.array([[1.0]], dtype=np.complex128)
+        res: np.ndarray = np.array([[1.0]], dtype=np.complex128)
         for s in range(self.num_spins):
             res = np.kron(res, op if s == site else self.id2)
         return res
@@ -193,7 +196,7 @@ class GutzwillerProjector:
         """
         N = self.num_spins
         if omega.shape != (4 * N, 4 * N):
-            raise ValueError(f"Omega shape must be ({4*N}, {4*N}), got {omega.shape}")
+            raise ValueError(f"Omega shape must be ({4 * N}, {4 * N}), got {omega.shape}")
 
         # Ensure pure even-parity sector: check total Pfaffian
         omega_eval = omega.copy()
@@ -242,7 +245,11 @@ class GutzwillerProjector:
             T[2 * N + k, 2 * k + 1] = -0.5j
 
         # Dirac covariance: D = T (I - i Omega) T^dag
-        D = T @ (np.eye(4 * N, dtype=np.complex128) - 1.0j * omega.astype(np.complex128)) @ T.conj().T
+        D = (
+            T
+            @ (np.eye(4 * N, dtype=np.complex128) - 1.0j * omega.astype(np.complex128))
+            @ T.conj().T
+        )
         G = D[: 2 * N, : 2 * N]  # <f f^dag>
         F = D[: 2 * N, 2 * N :]  # <f f>
 
@@ -281,7 +288,7 @@ class GutzwillerProjector:
 # ---------------------------------------------------------------------------
 
 
-class TwoRDM_SDP_Solver:
+class TwoRDM_SDP_Solver:  # noqa: N801 - preserve the existing public API
     """Semidefinite relaxation bounding ground-state energy strictly from below (E_SDP <= E_exact)."""
 
     def __init__(
@@ -312,7 +319,9 @@ class TwoRDM_SDP_Solver:
         I2 = np.eye(2, dtype=np.complex128)
         self.B_ia = [np.kron(self._paulis[a], I2) for a in range(3)]
         self.B_jb = [np.kron(I2, self._paulis[b]) for b in range(3)]
-        self.B_ab = [[np.kron(self._paulis[a], self._paulis[b]) for b in range(3)] for a in range(3)]
+        self.B_ab = [
+            [np.kron(self._paulis[a], self._paulis[b]) for b in range(3)] for a in range(3)
+        ]
 
         # Assemble linear cost matrix C on moment matrix M_1
         self.C = self._build_cost_matrix()

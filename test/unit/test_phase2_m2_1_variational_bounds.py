@@ -1,3 +1,5 @@
+# ruff: noqa: E402
+# Repository-path bootstrap must precede local imports in this standalone entrypoint.
 """Unit test suite for Phase 2 Milestone M2.1 Task T2.1.3: Variational Projection Bounds.
 
 Verifies:
@@ -12,11 +14,10 @@ Verifies:
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import numpy as np
-import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT / "src") not in sys.path:
@@ -29,7 +30,9 @@ from kitaev_mf.services.phase_2.variational_bounds import (
     TwoRDM_SDP_Solver,
 )
 
-DATASET_PATH = REPO_ROOT / "data" / "processed" / "benchmarks" / "m2_1" / "variational_bounds_benchmark.dat"
+DATASET_PATH = (
+    REPO_ROOT / "data" / "processed" / "benchmarks" / "m2_1" / "variational_bounds_benchmark.dat"
+)
 
 
 def test_t2_1_3_ed_exactness_and_commutation() -> None:
@@ -45,11 +48,16 @@ def test_t2_1_3_ed_exactness_and_commutation() -> None:
     ]
     ed6 = ExactDiagonalizationKitaev(num_spins=6, bonds=hex_bonds, K=-1.0, h=(0.0, 0.0, 0.0))
     e6, _ = ed6.solve_ground_state()
-    assert np.isclose(e6, -4.000000, atol=1e-10), f"Expected E_exact = -4.000000 on hexagon, got {e6:.6f}"
+    assert np.isclose(e6, -4.000000, atol=1e-10), (
+        f"Expected E_exact = -4.000000 on hexagon, got {e6:.6f}"
+    )
 
     # Verify field lowering of ground state energy
     ed6_field = ExactDiagonalizationKitaev(
-        num_spins=6, bonds=hex_bonds, K=-1.0, h=(0.1 / np.sqrt(3.0), 0.1 / np.sqrt(3.0), 0.1 / np.sqrt(3.0))
+        num_spins=6,
+        bonds=hex_bonds,
+        K=-1.0,
+        h=(0.1 / np.sqrt(3.0), 0.1 / np.sqrt(3.0), 0.1 / np.sqrt(3.0)),
     )
     e6_f, _ = ed6_field.solve_ground_state()
     assert e6_f < e6, "Ground state energy must decrease monotonically with field"
@@ -96,7 +104,9 @@ def test_t2_1_3_sdp_semidefinite_lower_bound() -> None:
         sdp = TwoRDM_SDP_Solver(num_spins=6, bonds=hex_bonds, K=-1.0, h=h_vec)
         e_sdp, met = sdp.solve(max_iter=200, tol=1e-5)
 
-        assert met["psd_min_eigenvalue"] >= -1e-10, "Moment matrix must remain positive semidefinite"
+        assert met["psd_min_eigenvalue"] >= -1e-10, (
+            "Moment matrix must remain positive semidefinite"
+        )
         assert e_sdp <= e_exact + 1e-10, (
             f"SDP lower bound violated at h={h_mag}: E_SDP={e_sdp:.6f} > E_exact={e_exact:.6f}"
         )
@@ -188,19 +198,23 @@ def test_t2_1_3_dataset_provenance_and_integrity() -> None:
     data = np.loadtxt(DATASET_PATH, comments="#")
     assert len(data) == 17, f"Expected 17 field points in sweep, got {len(data)}"
 
-    h = data[:, 0]
+    _h = data[:, 0]
     e_sdp_6 = data[:, 1]
     e_exact_6 = data[:, 2]
     e_proj_6 = data[:, 3]
     bracket_ok_6 = data[:, 8]
 
     # Every single point must satisfy E_SDP <= E_exact <= E_proj
-    assert np.all(bracket_ok_6 == 1), "Variational bracket must be strictly valid at all field points"
+    assert np.all(bracket_ok_6 == 1), (
+        "Variational bracket must be strictly valid at all field points"
+    )
     assert np.all(e_sdp_6 <= e_exact_6 + 1e-10), "SDP lower bound violated in benchmark"
     assert np.all(e_proj_6 >= e_exact_6 - 1e-10), "Rayleigh-Ritz upper bound violated in benchmark"
 
     # Energy monotonicity with field:
-    assert np.all(np.diff(e_exact_6) < 0), "Exact ground state energy must strictly decrease with field"
+    assert np.all(np.diff(e_exact_6) < 0), (
+        "Exact ground state energy must strictly decrease with field"
+    )
 
 
 def test_t2_1_3_bayesian_model_selection_decay() -> None:
@@ -218,6 +232,10 @@ def test_t2_1_3_bayesian_model_selection_decay() -> None:
     assert bayes["rss1_log"] < bayes["rss0_log"], (
         f"Candidate quadratic model M1 must have lower RSS than linear M0 (RSS1={bayes['rss1_log']:.4f}, RSS0={bayes['rss0_log']:.4f})"
     )
-    assert bayes["delta_bic_01"] > 10.0, f"Expected decisive Delta_BIC_01 > 10.0, got {bayes['delta_bic_01']:.2f}"
-    assert bayes["bayes_factor_10"] > 148.0, f"Expected Bayes factor > 148.0, got {bayes['bayes_factor_10']:.2e}"
+    assert bayes["delta_bic_01"] > 10.0, (
+        f"Expected decisive Delta_BIC_01 > 10.0, got {bayes['delta_bic_01']:.2f}"
+    )
+    assert bayes["bayes_factor_10"] > 148.0, (
+        f"Expected Bayes factor > 148.0, got {bayes['bayes_factor_10']:.2e}"
+    )
     assert bayes["candidate_favored"], "Candidate quadratic decay model must be decisively favored"

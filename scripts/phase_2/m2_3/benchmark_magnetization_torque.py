@@ -5,9 +5,10 @@ Evaluates field-directional magnetization surfaces, magnetic torque profiles,
 and computes Bayesian evidence comparing anisotropic Kitaev torque against isotropic null.
 """
 
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-import subprocess
+
 import numpy as np
 
 from kitaev_mf.services.phase_2.magnetization_torque import (
@@ -85,7 +86,9 @@ def main() -> None:
     tmp_file = out_file.with_suffix(".tmp")
 
     with open(tmp_file, "w", encoding="utf-8") as f:
-        f.write("# Task T2.3.1: Global Field-Directional Magnetization Surface & Torque Discontinuities\n")
+        f.write(
+            "# Task T2.3.1: Global Field-Directional Magnetization Surface & Torque Discontinuities\n"
+        )
         f.write(f"# Git Commit: {git_hash}\n")
         f.write(f"# Generated: {timestamp}\n")
         f.write("# Model: Pure Ferromagnetic Kitaev K=-1.0 under Directional Magnetic Field\n")
@@ -95,7 +98,9 @@ def main() -> None:
             f"BayesFactor={bayes_res.bayes_factor:.2e}, FavorsAnisotropic={bayes_res.favors_anisotropic_torque}\n"
         )
         f.write("#\n")
-        f.write("# h_mag   theta_deg  theta_rad     ||m||       tau_proj       tau_norm       E_site\n")
+        f.write(
+            "# h_mag   theta_deg  theta_rad     ||m||       tau_proj       tau_norm       E_site\n"
+        )
         for row in all_rows:
             f.write(f"{row}\n")
 

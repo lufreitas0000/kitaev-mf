@@ -82,9 +82,9 @@ def test_t2_4_1_synthetic_bayesian_fitter() -> None:
     temps = np.logspace(-2.5, 0.8, 30)
     # Synthetic double Schottky with well-separated gaps D1=0.08, D2=1.2
     x1 = 0.08 / temps
-    cv1 = 0.25 * (x1**2) * np.exp(-x1) / ((1.0 + np.exp(-x1))**2)
+    cv1 = 0.25 * (x1**2) * np.exp(-x1) / ((1.0 + np.exp(-x1)) ** 2)
     x2 = 1.20 / temps
-    cv2 = 0.20 * (x2**2) * np.exp(-x2) / ((1.0 + np.exp(-x2))**2)
+    cv2 = 0.20 * (x2**2) * np.exp(-x2) / ((1.0 + np.exp(-x2)) ** 2)
     synthetic_cv = cv1 + cv2
 
     fitter = ThermodynamicBayesianFitter()

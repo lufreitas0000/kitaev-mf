@@ -13,18 +13,23 @@ Evaluates the extended suite of 10+ physical quantities on the 3x3 torus (N=18 s
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 import numpy as np
 
+from kitaev_mf.domain.parameters import ModelParameters
+
+# Preserve historical module-level project re-exports.
+from kitaev_mf.services.phase_4.exact_diagonalization import EDObservables as EDObservables
 from kitaev_mf.services.phase_4.exact_diagonalization import (
-    HoneycombCluster,
     ExactDiagonalizationSpinSolver,
-    EDObservables,
+    HoneycombCluster,
+)
+from kitaev_mf.services.phase_4.symmetrized_solver import (
+    SymmetrizedSolverResult as SymmetrizedSolverResult,
 )
 from kitaev_mf.services.phase_4.symmetrized_solver import (
     solve_symmetrized_fixed_point,
-    SymmetrizedSolverResult,
 )
-from kitaev_mf.domain.parameters import ModelParameters
 
 
 @dataclass(frozen=True)

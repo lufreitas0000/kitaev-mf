@@ -10,7 +10,6 @@ Simulates the relaxation under the self-consistent map Phi for:
 from __future__ import annotations
 
 import sys
-import time
 from pathlib import Path
 
 # Ensure local package takes precedence
@@ -20,22 +19,26 @@ import numpy as np
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
-from kitaev_mf.domain.state import MeanFieldState, InhomogeneousMeanFieldState
-from kitaev_mf.services.real_space import RealSpaceTorusCluster
+from kitaev_mf.domain.state import InhomogeneousMeanFieldState, MeanFieldState
 from kitaev_mf.services.phase_4.fixed_point_visualizer import FixedPointScreeningVisualizer
+from kitaev_mf.services.real_space import RealSpaceTorusCluster
 
 
 def run_all_movie_scenarios(L: int = 8, max_steps: int = 12) -> None:
     """Execute all 4 movie scenarios on an L x L real-space cluster."""
     cell = make_honeycomb_2site()
     cluster = RealSpaceTorusCluster(L=L, d_nn=1.0 / np.sqrt(3.0))
-    print(f"\n[Movie Generator] Initializing L={L} Torus ({2*L*L} sites, M={8*L*L} Majoranas)...")
+    print(
+        f"\n[Movie Generator] Initializing L={L} Torus ({2 * L * L} sites, M={8 * L * L} Majoranas)..."
+    )
 
     # Pure Kitaev converged reference state
     hom_state = MeanFieldState.from_pure_kitaev(cell, u_gauge=1.0, u_matter=-0.5248657)
     base_inhom = InhomogeneousMeanFieldState.from_homogeneous(hom_state, cluster.num_cells)
 
-    base_output_dir = Path(__file__).resolve().parents[2] / "data" / "processed" / "movies" / "phase_4"
+    base_output_dir = (
+        Path(__file__).resolve().parents[2] / "data" / "processed" / "movies" / "phase_4"
+    )
 
     # =========================================================================
     # Scenario 1: Single Bond Flip at h = 0.0
@@ -76,7 +79,7 @@ def run_all_movie_scenarios(L: int = 8, max_steps: int = 12) -> None:
     # =========================================================================
     # Scenario 3: L/2 Gauge String (Maximally Separated Vortices) at h = 0.0
     # =========================================================================
-    print(f"\n--- Running Scenario 3: L/2 Gauge String (d = {L//2}, h = 0.0) ---")
+    print(f"\n--- Running Scenario 3: L/2 Gauge String (d = {L // 2}, h = 0.0) ---")
     s3_dir = base_output_dir / "scenario_3_string_h0"
     vis_s3 = FixedPointScreeningVisualizer(cluster, params_h0, s3_dir)
 
@@ -88,13 +91,13 @@ def run_all_movie_scenarios(L: int = 8, max_steps: int = 12) -> None:
         flipped_bonds=flipped_s3,
         max_steps=max_steps,
         gif_filename="screening_string_h0.gif",
-        title_prefix=f"Gauge String d={L//2} (h=0)",
+        title_prefix=f"Gauge String d={L // 2} (h=0)",
     )
 
     # =========================================================================
     # Scenario 4: L/2 Gauge String at h = 0.02
     # =========================================================================
-    print(f"\n--- Running Scenario 4: L/2 Gauge String (d = {L//2}, h = 0.02) ---")
+    print(f"\n--- Running Scenario 4: L/2 Gauge String (d = {L // 2}, h = 0.02) ---")
     s4_dir = base_output_dir / "scenario_4_string_h002"
     vis_s4 = FixedPointScreeningVisualizer(cluster, params_h002, s4_dir)
 
@@ -103,7 +106,7 @@ def run_all_movie_scenarios(L: int = 8, max_steps: int = 12) -> None:
         flipped_bonds=flipped_s3,
         max_steps=max_steps,
         gif_filename="screening_string_h002.gif",
-        title_prefix=f"Gauge String d={L//2} (h=0.02)",
+        title_prefix=f"Gauge String d={L // 2} (h=0.02)",
     )
 
     print(f"\n[Movie Generator] All 4 scenarios completed! Artifacts saved to: {base_output_dir}")

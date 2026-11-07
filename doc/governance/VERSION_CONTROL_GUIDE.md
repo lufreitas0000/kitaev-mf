@@ -38,9 +38,17 @@ that the code works. Worktree files remain untouched until explicit integration.
 
 ## Current transition
 
-Local main and remote main are not identical. W001 T1/T2 are stacked documentation
-work from the recorded local-main baseline. Their pushes are review backups;
-main-targeted PRs must not silently carry the seven inherited commits. T3 will
-reconcile this baseline, create exploration, and update workflow filters before
-routine research PRs use the new destinations. Server protection settings have
-not been changed by this guide.
+W001 T3 preserved the former local main under `archive/w001-local-main` and its
+archive tag, then aligned local main with the existing remote baseline. No reset
+or discard was used. The seven inherited local commits are collected with all
+research sources in `research/w001-t3-source-integration`, intended for exploration.
+
+The exploration branch exists at the remote-main baseline. Its integration PR
+remains draft because one original braiding test fails on the untouched source;
+the PI chose foundation review before that merge. Thus there is one active
+combined candidate, not parallel phase development. Original worktrees are
+preservation inputs and have not been cleaned or deleted.
+
+Candidate workflow filters cover the new branch/PR destinations, with publication
+separate from ordinary checks. Remote main retains its old workflows until a
+separately reviewed promotion. No server protection settings were changed.

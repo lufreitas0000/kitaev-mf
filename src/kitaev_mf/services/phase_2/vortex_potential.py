@@ -1,9 +1,8 @@
 """Pure physics service for vortex separation potential V(R), vison deconfinement and screening."""
 
 from dataclasses import dataclass
-from typing import Any
+
 import numpy as np
-from scipy.optimize import curve_fit
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
@@ -237,11 +236,11 @@ class DeconfinementBayesianFitter:
 
         # 6. Vison gap evaluation
         vison_gap = float(v_inf / 2.0)
-        rel_error = float(abs(vison_gap - self.KITAEV_EXACT_VISON_GAP) / self.KITAEV_EXACT_VISON_GAP)
-
-        favors_deconfinement = bool(
-            delta_bic > 10.0 and bayes_factor > 148.0 and rel_error < 0.15
+        rel_error = float(
+            abs(vison_gap - self.KITAEV_EXACT_VISON_GAP) / self.KITAEV_EXACT_VISON_GAP
         )
+
+        favors_deconfinement = bool(delta_bic > 10.0 and bayes_factor > 148.0 and rel_error < 0.15)
 
         return DeconfinementBayesianResult(
             n_samples=n,

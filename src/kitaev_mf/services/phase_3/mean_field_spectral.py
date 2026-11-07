@@ -14,7 +14,6 @@ Date: 2026-11-07
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
 from scipy.linalg import schur

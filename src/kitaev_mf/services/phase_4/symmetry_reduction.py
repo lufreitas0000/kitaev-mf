@@ -13,9 +13,12 @@ projections, block-diagonalization, and Dirac point spectra.
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 import numpy as np
 
-from kitaev_mf.domain.constants import G_MATRICES, N_MATRICES
+# Preserve historical module-level project re-exports.
+from kitaev_mf.domain.constants import G_MATRICES as G_MATRICES
+from kitaev_mf.domain.constants import N_MATRICES as N_MATRICES
 from kitaev_mf.domain.lattice import UnitCell, make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.state import MeanFieldState
@@ -44,7 +47,7 @@ class SymmetricParameters:
     ucross: float
 
     @classmethod
-    def pure_kitaev(cls, u_matter: float = -0.52486574585) -> "SymmetricParameters":
+    def pure_kitaev(cls, u_matter: float = -0.52486574585) -> SymmetricParameters:
         """Reference unperturbed pure-Kitaev state at zero field (u_matter = -0.5248657 for K = -1.0)."""
         return cls(
             lambda_val=0.0,
@@ -72,7 +75,7 @@ class SymmetricParameters:
         )
 
     @classmethod
-    def from_vector(cls, vec: np.ndarray) -> "SymmetricParameters":
+    def from_vector(cls, vec: np.ndarray) -> SymmetricParameters:
         """Reconstruct from 7D vector."""
         v = np.asarray(vec, dtype=np.float64).ravel()
         return cls(
@@ -232,7 +235,9 @@ def extract_symmetric_parameters(state: MeanFieldState) -> SymmetricParameters:
     )
 
 
-def project_state_to_symmetric(state: MeanFieldState, cell: UnitCell | None = None) -> MeanFieldState:
+def project_state_to_symmetric(
+    state: MeanFieldState, cell: UnitCell | None = None
+) -> MeanFieldState:
     """Project an arbitrary MeanFieldState onto the exact C3 and sublattice symmetric manifold."""
     sym = extract_symmetric_parameters(state)
     return pack_symmetric_state(sym, cell)
@@ -255,7 +260,7 @@ def build_dirac_bloch_hamiltonian(
     k_pts = np.array([[1.0 / 3.0, 2.0 / 3.0]])
     h_bloch = build_bloch_hamiltonian(k_pts, cell, model_params, state)
     if hasattr(h_bloch, "numpy"):
-        return h_bloch.numpy()[0]
+        return np.asarray(h_bloch.numpy()[0])
     return np.asarray(h_bloch[0])
 
 

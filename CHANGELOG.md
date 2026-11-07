@@ -9,6 +9,9 @@ for the SemVer policy and release procedure.
 ## [Unreleased]
 
 ### Changed
+- Collected historical research on the provisional exploration line with explicit
+  acceptance status; isolated document publication from ordinary verification.
+
 - Added a concrete Git/PR/data workflow and preservation checkpoints; verified
   original perturbation notes remain unchanged at compared refs and corrected the
   earlier concern from possible alteration to neglect of the original contracts.

@@ -1,6 +1,7 @@
 """Pure physics service for vortex braiding, Berry phases, and non-Abelian anyonic holonomy."""
 
 from dataclasses import dataclass
+
 import numpy as np
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
@@ -117,9 +118,7 @@ class VortexBraidingCalculator:
                 curr_cut.add(b_flip)
 
         # Final state closing the path
-        A_final = self.geom.assemble_skew_hamiltonian(
-            params, self.qsl_seed, flipped_bonds=curr_cut
-        )
+        A_final = self.geom.assemble_skew_hamiltonian(params, self.qsl_seed, flipped_bonds=curr_cut)
         u_final = self.get_occupied_frame(A_final)
 
         # Local gauge alignment operator G for enclosed plaquettes

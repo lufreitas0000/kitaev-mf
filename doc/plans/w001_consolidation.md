@@ -19,7 +19,8 @@
   project-local governance review; global sync preview only.
 - Stop: reviewed policy and inventory commit; no whole-branch merge or deletion.
 
-The local main baseline includes seven commits beyond the observed origin/main.
+T1 baseline observation (operationally superseded by T3): local main included
+seven commits beyond the observed origin/main.
 This task branch preserves that lineage. Do not open a main-targeted PR that
 silently includes those inherited commits; T2/T3 must select or reconcile the
 baseline before promotion. The policy commit can be isolated after dependency
@@ -105,3 +106,17 @@ question for already authorized preservation, review, or reversible integration
 preparation. Surface scientific decisions or material scope changes explicitly;
 do not silently change criteria or publish unreviewed results. Keep the goal
 active until its actual deliverables are complete or a user-directed pause applies.
+
+## T3 integration intake and baseline
+
+Intake, source accounting, conflict decisions, and verification are recorded in
+`doc/audits/w001_integration.md`. The task integrates sources into exploration
+only; main stays at its reviewed remote baseline. Original local-main history is
+preserved under an archive branch/tag. Candidate workflows support exploration
+and temporary branch PRs while requiring explicit manual publication from main.
+
+T3 verification gate: original braiding test fails unchanged on its source tip.
+PI chose to keep the claim unresolved and the integration PR in draft while
+foundation review continues. T3 remains in progress for final merge; T4 may run
+on the unified candidate first. No test threshold/xfail change is authorized by
+this scheduling decision.

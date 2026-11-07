@@ -89,7 +89,7 @@ class SpecificHeatCalculator:
         res = np.zeros_like(safe_x, dtype=np.float64)
         x_valid = safe_x[mask]
         exp_neg = np.exp(-x_valid)
-        res[mask] = (x_valid**2) * exp_neg / ((1.0 + exp_neg)**2)
+        res[mask] = (x_valid**2) * exp_neg / ((1.0 + exp_neg) ** 2)
         return float(res) if np.isscalar(x) else res
 
     @staticmethod
@@ -133,9 +133,7 @@ class SpecificHeatCalculator:
             s_total=s_tot,
         )
 
-    def compute_thermodynamic_curve(
-        self, temps: np.ndarray | None = None
-    ) -> SpecificHeatResult:
+    def compute_thermodynamic_curve(self, temps: np.ndarray | None = None) -> SpecificHeatResult:
         """Compute thermodynamic observables across temperatures and extract peak structure."""
         if temps is None:
             temps = np.logspace(-2.5, 0.8, 40)
@@ -193,7 +191,7 @@ class ThermodynamicBayesianFitter:
         res = np.zeros_like(safe_x, dtype=np.float64)
         x_valid = safe_x[mask]
         exp_neg = np.exp(-x_valid)
-        res[mask] = a * (x_valid**2) * exp_neg / ((1.0 + exp_neg)**2)
+        res[mask] = a * (x_valid**2) * exp_neg / ((1.0 + exp_neg) ** 2)
         return res
 
     @classmethod
@@ -230,7 +228,7 @@ class ThermodynamicBayesianFitter:
             bounds=([0.0, 0.001], [1.0, 5.0]),
         )
         fit_null = cls._single_schottky(temps, *popt_null)
-        rss_null = float(np.sum((cv_values - fit_null)**2))
+        rss_null = float(np.sum((cv_values - fit_null) ** 2))
         bic_null = float(n * np.log(rss_null / n) + 2 * np.log(n))
 
         # Model 1: Double Schottky (k=4)
@@ -243,7 +241,7 @@ class ThermodynamicBayesianFitter:
             bounds=([0.0, 0.01, 0.0, 0.2], [1.0, 0.5, 1.0, 5.0]),
         )
         fit_cand = cls._double_schottky(temps, *popt_cand)
-        rss_cand = float(np.sum((cv_values - fit_cand)**2))
+        rss_cand = float(np.sum((cv_values - fit_cand) ** 2))
         bic_cand = float(n * np.log(rss_cand / n) + 4 * np.log(n))
 
         delta_bic = float(bic_null - bic_cand)

@@ -1,6 +1,7 @@
 """Unit tests for Task T2.2.2: Majorana Zero Modes Bound to Isolated Vortices."""
 
 from pathlib import Path
+
 import numpy as np
 import pytest
 

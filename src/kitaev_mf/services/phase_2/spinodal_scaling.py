@@ -79,17 +79,30 @@ class SpinodalScalingCalculator:
     ) -> list[SpinodalPoint]:
         """Trace forward adiabatic continuation from weak field up to the spinodal limit."""
         if h_values is None:
-            h_values = np.array([
-                0.350, 0.360, 0.370, 0.375, 0.380,
-                0.385, 0.390, 0.392, 0.394, 0.396, 0.398,
-            ])
+            h_values = np.array(
+                [
+                    0.350,
+                    0.360,
+                    0.370,
+                    0.375,
+                    0.380,
+                    0.385,
+                    0.390,
+                    0.392,
+                    0.394,
+                    0.396,
+                    0.398,
+                ]
+            )
 
         curr_state: MeanFieldState = make_qsl_seed(self.cell)
         points: list[SpinodalPoint] = []
         h_dir = (1.0 / np.sqrt(3.0), 1.0 / np.sqrt(3.0), 1.0 / np.sqrt(3.0))
 
         for h_mag in h_values:
-            params = ModelParameters(K=-1.0, h=(h_mag * h_dir[0], h_mag * h_dir[1], h_mag * h_dir[2]))
+            params = ModelParameters(
+                K=-1.0, h=(h_mag * h_dir[0], h_mag * h_dir[1], h_mag * h_dir[2])
+            )
             state, metrics = solve_self_consistent_mean_field(
                 self.cell, params, curr_state, self.solver_config
             )
@@ -159,15 +172,15 @@ class SpinodalBayesianFitter:
 
         # Null Model M0: Regular constant crossover chi(h) = c0 (k=1)
         c0 = float(np.mean(chi_arr))
-        rss_null = float(np.sum((chi_arr - c0)**2))
+        rss_null = float(np.sum((chi_arr - c0) ** 2))
 
         # Candidate Model M1: Mean-field spinodal scaling with exact gamma=0.50 (k=1)
         # chi(h) = A * t^(-0.50)
-        basis = t_arr**(-0.50)
+        basis = t_arr ** (-0.50)
         norm_sq = float(np.dot(basis, basis))
         amp_a = float(np.dot(chi_arr, basis) / norm_sq) if norm_sq > 1e-12 else 0.0
         fit_1 = amp_a * basis
-        rss_cand = float(np.sum((chi_arr - fit_1)**2))
+        rss_cand = float(np.sum((chi_arr - fit_1) ** 2))
 
         bic_null = float(n * np.log(max(rss_null / n, 1e-30)) + 1.0 * np.log(n))
         bic_cand = float(n * np.log(max(rss_cand / n, 1e-30)) + 1.0 * np.log(n))

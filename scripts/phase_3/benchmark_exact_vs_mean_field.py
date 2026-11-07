@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
+# Repository-path bootstrap must precede local imports in this standalone entrypoint.
 """Systematic Cross-Validation Benchmark: Track A (Exact Gauge Quench) vs Track B (4-Majorana Mean-Field).
 
 Evaluates and compares:
@@ -13,9 +15,9 @@ Date: 2026-11-07
 
 from __future__ import annotations
 
-from pathlib import Path
 import shutil
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -99,7 +101,9 @@ def run_cross_validation_sweep(
     # 3. Export structured tabular dataset (.dat)
     dat_path = out_dir / "benchmark_exact_vs_mf.dat"
     with dat_path.open("w", encoding="utf-8") as f:
-        f.write("# Systematic Cross-Validation Benchmark: Track A (Exact Quench) vs Track B (4-Majorana MF)\n")
+        f.write(
+            "# Systematic Cross-Validation Benchmark: Track A (Exact Quench) vs Track B (4-Majorana MF)\n"
+        )
         f.write(f"# Parameters: L_exact={L_exact}, L_mf={L_mf}, K=1.0\n")
         f.write(
             f"# {'kappa':<10} {'exact_core':<16} {'exact_vison':<16} {'mf_threshold':<16} "
@@ -117,7 +121,9 @@ def run_cross_validation_sweep(
 
     # Panel A: Spectral Density Comparison at kappa = 0.15
     sys_ref = build_two_vortex_mzm_system(L=L_exact, p1=(1, 1), p2=(4, 4), K=1.0, kappa=0.15)
-    fig3_ref = reproduce_figure_3_spectrogram(sys_ref, kappa=0.15, omega_grid=np.linspace(0.0, 6.0, 600))
+    fig3_ref = reproduce_figure_3_spectrogram(
+        sys_ref, kappa=0.15, omega_grid=np.linspace(0.0, 6.0, 600)
+    )
     omega_grid = np.linspace(0.0, 6.0, 600)
     mf_spec = evaluate_mean_field_continuous_spectrum(mf_data, omega_grid=omega_grid, sigma=0.06)
 
@@ -148,10 +154,14 @@ def run_cross_validation_sweep(
     ax_a.set_xlim(0.0, 5.5)
     ax_a.set_ylim(-0.2, 14.0)
     ax_a.set_xlabel(r"Excitation Frequency $\omega / |K|$", fontsize=11.5)
-    ax_a.set_ylabel(r"Local Spin Structure Factor $S_{jj}^{\gamma\gamma}(\omega)\; [1/|K|]$", fontsize=11.5)
+    ax_a.set_ylabel(
+        r"Local Spin Structure Factor $S_{jj}^{\gamma\gamma}(\omega)\; [1/|K|]$", fontsize=11.5
+    )
     ax_a.set_title(r"$\bf{(a)}$ Spectral Response: Exact Quench vs. 4-Majorana MF", fontsize=12)
     ax_a.grid(True, linestyle=":", alpha=0.6)
-    ax_a.legend(frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.2, loc="upper right")
+    ax_a.legend(
+        frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.2, loc="upper right"
+    )
 
     # Panel B: Threshold Discrepancy Scaling vs. Kappa
     kaps = [r["kappa"] for r in records]
@@ -191,14 +201,16 @@ def run_cross_validation_sweep(
     ax_b.set_ylabel(r"Spectral Threshold Energy $\omega_{\mathrm{onset}} / |K|$", fontsize=11.5)
     ax_b.set_title(r"$\bf{(b)}$ Threshold Discrepancy Scaling vs. Chirality $\kappa$", fontsize=12)
     ax_b.grid(True, linestyle=":", alpha=0.6)
-    ax_b.legend(frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.2, loc="center right")
+    ax_b.legend(
+        frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.2, loc="center right"
+    )
 
     fig.suptitle(
         r"$\bf{Phase\ 3\ Master\ Benchmark:}$ Exact Gauge Quench vs. 4-Majorana Mean-Field Response",
         fontsize=13.5,
         y=0.98,
     )
-    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
 
     png_path = out_dir / "fig5_exact_vs_mean_field.png"
     pdf_path = out_dir / "fig5_exact_vs_mean_field.pdf"

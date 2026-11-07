@@ -216,7 +216,7 @@ active_milestone:
         - doc/audits/w001_t2_verification.md
     - id: T3
       title: Reconcile baseline and integrate provisional sources into exploration
-      status: planned
+      status: in_progress
       target_files:
         - doc/plans/w001_consolidation.md
         - .github/workflows/ci.yml
@@ -226,6 +226,21 @@ active_milestone:
         - No main promotion containing unreviewed inherited changes
       validation:
         - Inspect candidate diffs, conflicts, workflow routing, and affected interface checks
+      evidence:
+        - doc/audits/w001_integration.md
+        - doc/audits/w001_t3_verification.md
+      merge_gate: Draft pending unresolved original braiding failure; PI chose foundation review first
+    - id: T4
+      title: Review earlier perturbative contracts and highest-risk foundational claims
+      status: planned
+      target_files:
+        - doc/audits/w001_foundation_review.md (planned)
+        - doc/audits/w001_acceptance.yaml
+      contracts:
+        - Reuse original projection and resolvent requirements without importing a scalar-gap explanation
+        - No unreviewed physical threshold changes or automatic braiding certification
+      validation:
+        - Claim-to-derivation and source/test-scope audit with independent review
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -526,6 +541,7 @@ verified_physics_invariants:
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
 open_blockers:
+  - Original braiding test fails unchanged; integration PR remains draft while foundation review continues
   - Historical Phase 4 calculations disapproved by PI; acceptance register controls their disposition
   - Use earlier perturbation contracts previously ignored; do not presume alteration before integration
   - Existing completion labels do not substitute for claim-level acceptance

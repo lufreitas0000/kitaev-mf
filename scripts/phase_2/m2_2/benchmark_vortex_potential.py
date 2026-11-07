@@ -6,10 +6,10 @@ verifies gauge flux pinning (W_p = -1), and conducts Bayesian model comparison
 falsifying linear confinement in favor of topological vison deconfinement.
 """
 
-from datetime import datetime, timezone
-import os
-from pathlib import Path
 import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
 import numpy as np
 
 from kitaev_mf.domain.parameters import ModelParameters
@@ -48,7 +48,7 @@ def main() -> None:
     summary_results = []
 
     for L in clusters:
-        print(f"\n--- Cluster L={L} (N={2*L**2} sites, {L**2} plaquettes) ---")
+        print(f"\n--- Cluster L={L} (N={2 * L**2} sites, {L**2} plaquettes) ---")
         calc = VortexSeparationPotentialCalculator(L=L)
 
         for h_mag in fields:
@@ -65,7 +65,7 @@ def main() -> None:
 
             print(
                 f"  h={h_mag:.2f}: n={res.n_samples}, V_inf={res.v_inf:.4f}, "
-                f"Delta_v={res.vison_gap:.4f} (err: {res.vison_gap_relative_error*100:.1f}%), "
+                f"Delta_v={res.vison_gap:.4f} (err: {res.vison_gap_relative_error * 100:.1f}%), "
                 f"Delta_BIC={res.delta_bic:.2f}, BF={res.bayes_factor:.2e}, "
                 f"Deconfined={res.favors_deconfinement}"
             )
@@ -97,7 +97,7 @@ def main() -> None:
             )
         f.write("#\n")
         f.write(
-            f"# L      h    p1_1  p1_2  p2_1  p2_2  ncut         R           E_0          E_2v         V_R    w_p1    w_p2\n"
+            "# L      h    p1_1  p1_2  p2_1  p2_2  ncut         R           E_0          E_2v         V_R    w_p1    w_p2\n"
         )
         for row in all_rows:
             f.write(row + "\n")

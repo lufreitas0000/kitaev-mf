@@ -5,6 +5,7 @@ vectors tau = m x h, and performs Bayesian model comparison against isotropic re
 """
 
 from dataclasses import dataclass
+
 import numpy as np
 
 from kitaev_mf.domain.lattice import UnitCell, make_honeycomb_2site
@@ -66,11 +67,14 @@ class MagnetizationTorqueCalculator:
 
         At theta = arccos(1/sqrt(3)) (~54.74 deg), h is aligned with [111].
         """
-        return np.array([
-            np.sin(theta_rad) / np.sqrt(2.0),
-            np.sin(theta_rad) / np.sqrt(2.0),
-            np.cos(theta_rad),
-        ], dtype=np.float64)
+        return np.array(
+            [
+                np.sin(theta_rad) / np.sqrt(2.0),
+                np.sin(theta_rad) / np.sqrt(2.0),
+                np.cos(theta_rad),
+            ],
+            dtype=np.float64,
+        )
 
     def evaluate_point(
         self,
@@ -86,9 +90,7 @@ class MagnetizationTorqueCalculator:
         params = ModelParameters(K=-1.0, h=tuple(h_vec))
         seed = warm_seed or make_qsl_seed(self.cell)
 
-        state, _ = solve_self_consistent_mean_field(
-            self.cell, params, seed, self.solver_config
-        )
+        state, _ = solve_self_consistent_mean_field(self.cell, params, seed, self.solver_config)
 
         sigma_mag, _ = compute_sublattice_magnetizations(state, self.cell)
         m_mean = np.mean(sigma_mag, axis=0)
@@ -156,7 +158,7 @@ class TorqueBayesianFitter:
 
         # Candidate model M1: tau = C(h) * basis(theta)
         # Basis vanishes at theta=0 ([001]), theta=arccos(1/sqrt(3)) ([111]), theta=pi/2 ([110])
-        basis = np.sin(2.0 * thetas_rad) * (3.0 * np.cos(thetas_rad)**2 - 1.0)
+        basis = np.sin(2.0 * thetas_rad) * (3.0 * np.cos(thetas_rad) ** 2 - 1.0)
 
         if h_magnitudes is not None and len(np.unique(h_magnitudes)) > 1:
             unique_h = np.unique(h_magnitudes)
@@ -164,7 +166,7 @@ class TorqueBayesianFitter:
             fit = np.zeros_like(tau_projections)
             amps = []
             for h_val in unique_h:
-                mask = (h_magnitudes == h_val)
+                mask = h_magnitudes == h_val
                 b_slice = basis[mask]
                 t_slice = tau_projections[mask]
                 norm_sq = float(np.dot(b_slice, b_slice))
@@ -178,7 +180,7 @@ class TorqueBayesianFitter:
             c_rep = float(np.dot(tau_projections, basis) / norm_sq) if norm_sq > 1e-12 else 0.0
             fit = c_rep * basis
 
-        rss_cand = float(np.sum((tau_projections - fit)**2))
+        rss_cand = float(np.sum((tau_projections - fit) ** 2))
 
         # BIC calculation
         bic_0 = float(n * np.log(max(rss_null / n, 1e-30)))

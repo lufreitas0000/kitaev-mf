@@ -67,11 +67,14 @@ class PhaseBoundaryCalculator:
     @staticmethod
     def field_direction_in_110_plane(theta_rad: float) -> np.ndarray:
         """Unit vector in the (1, 1, 0) plane connecting [001] (theta=0) and [110] (theta=pi/2)."""
-        return np.array([
-            np.sin(theta_rad) / np.sqrt(2.0),
-            np.sin(theta_rad) / np.sqrt(2.0),
-            np.cos(theta_rad),
-        ], dtype=np.float64)
+        return np.array(
+            [
+                np.sin(theta_rad) / np.sqrt(2.0),
+                np.sin(theta_rad) / np.sqrt(2.0),
+                np.cos(theta_rad),
+            ],
+            dtype=np.float64,
+        )
 
     def find_critical_field(self, theta_deg: float) -> PhaseBoundaryPoint:
         """Find thermodynamic crossing h_c^*(theta) where E_qsl(h) = E_pol(h)."""
@@ -80,21 +83,37 @@ class PhaseBoundaryCalculator:
 
         # Evaluate at brackets h=0.330 and h=0.340
         p1 = ModelParameters(K=-1.0, h=(0.330 * h_dir[0], 0.330 * h_dir[1], 0.330 * h_dir[2]))
-        s_q1, m_q1 = solve_self_consistent_mean_field(self.cell, p1, make_qsl_seed(self.cell), self.solver_config)
+        s_q1, m_q1 = solve_self_consistent_mean_field(
+            self.cell, p1, make_qsl_seed(self.cell), self.solver_config
+        )
         assert m_q1.converged, f"QSL solver failed to converge at h=0.330, theta={theta_deg}"
-        e_q1 = float(compute_gaussian_energy(s_q1, self.cell, p1).E_total / self.cell.num_sublattices)
-        s_p1, m_p1 = solve_self_consistent_mean_field(self.cell, p1, make_polarized_seed(self.cell), self.solver_config)
+        e_q1 = float(
+            compute_gaussian_energy(s_q1, self.cell, p1).E_total / self.cell.num_sublattices
+        )
+        s_p1, m_p1 = solve_self_consistent_mean_field(
+            self.cell, p1, make_polarized_seed(self.cell), self.solver_config
+        )
         assert m_p1.converged, f"Polarized solver failed to converge at h=0.330, theta={theta_deg}"
-        e_p1 = float(compute_gaussian_energy(s_p1, self.cell, p1).E_total / self.cell.num_sublattices)
+        e_p1 = float(
+            compute_gaussian_energy(s_p1, self.cell, p1).E_total / self.cell.num_sublattices
+        )
         d1 = e_q1 - e_p1
 
         p2 = ModelParameters(K=-1.0, h=(0.340 * h_dir[0], 0.340 * h_dir[1], 0.340 * h_dir[2]))
-        s_q2, m_q2 = solve_self_consistent_mean_field(self.cell, p2, make_qsl_seed(self.cell), self.solver_config)
+        s_q2, m_q2 = solve_self_consistent_mean_field(
+            self.cell, p2, make_qsl_seed(self.cell), self.solver_config
+        )
         assert m_q2.converged, f"QSL solver failed to converge at h=0.340, theta={theta_deg}"
-        e_q2 = float(compute_gaussian_energy(s_q2, self.cell, p2).E_total / self.cell.num_sublattices)
-        s_p2, m_p2 = solve_self_consistent_mean_field(self.cell, p2, make_polarized_seed(self.cell), self.solver_config)
+        e_q2 = float(
+            compute_gaussian_energy(s_q2, self.cell, p2).E_total / self.cell.num_sublattices
+        )
+        s_p2, m_p2 = solve_self_consistent_mean_field(
+            self.cell, p2, make_polarized_seed(self.cell), self.solver_config
+        )
         assert m_p2.converged, f"Polarized solver failed to converge at h=0.340, theta={theta_deg}"
-        e_p2 = float(compute_gaussian_energy(s_p2, self.cell, p2).E_total / self.cell.num_sublattices)
+        e_p2 = float(
+            compute_gaussian_energy(s_p2, self.cell, p2).E_total / self.cell.num_sublattices
+        )
         d2 = e_q2 - e_p2
 
         # Verify bracketing
@@ -142,13 +161,13 @@ class PhaseBoundaryBayesianFitter:
 
         # Model 0: Isotropic boundary (k=1)
         h_0 = float(np.mean(h_c_values))
-        rss_null = float(np.sum((h_c_values - h_0)**2))
+        rss_null = float(np.sum((h_c_values - h_0) ** 2))
 
         # Model 1: Anisotropic boundary (k=2)
         # Basis peaks at theta = arccos(1/sqrt(3)) ~ 54.74 deg ([111] direction):
         # sin^4(th)*cos^2(th) = (2/3)^2 * (1/3) = 4/27.
         th_rad = np.radians(thetas_deg)
-        basis = (np.sin(th_rad)**4) * (np.cos(th_rad)**2)
+        basis = (np.sin(th_rad) ** 4) * (np.cos(th_rad) ** 2)
         max_basis = 4.0 / 27.0
         basis_norm = basis / max_basis
 
@@ -158,7 +177,7 @@ class PhaseBoundaryBayesianFitter:
         delta_h = float(coeffs[1])
 
         fit_cand = x_mat @ coeffs
-        rss_cand = float(np.sum((h_c_values - fit_cand)**2))
+        rss_cand = float(np.sum((h_c_values - fit_cand) ** 2))
 
         bic_null = float(n * np.log(max(rss_null / n, 1e-30)) + 1.0 * np.log(n))
         bic_cand = float(n * np.log(max(rss_cand / n, 1e-30)) + 2.0 * np.log(n))
