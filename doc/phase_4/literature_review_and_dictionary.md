@@ -1,12 +1,18 @@
-# Literature Review, Epistemic Matrix, and Universal Conversion Dictionary: Kitaev Honeycomb Physics in a [111] Magnetic Field
+# Literature Review, Epistemic Matrix, and Canonical Normalization Dictionary: Kitaev Honeycomb Physics in a [111] Magnetic Field
 
 ---
 
 ## 1. Executive Summary & Epistemic Taxonomy
 
-The Kitaev honeycomb model under a magnetic field $\mathbf{h} \parallel [111]$ has generated an extensive, multifaceted literature across exactly solvable models, fermionic slave-particle mean-field theories, quantum Monte Carlo (QMC), exact diagonalization (ED), and density matrix renormalization group (DMRG). However, comparisons across different publications are notoriously plagued by inconsistent spin definitions ($\mathbf{S} = \frac{1}{2}\boldsymbol{\sigma}$ vs. Pauli $\boldsymbol{\sigma}$), field parameterizations ($|\mathbf{h}|$ vs. Cartesian component $h_0$), and Hamiltonian normalization prefactors ($1/4$ vs. $1/2$). Furthermore, literature claims frequently blur the distinction between rigorous algebraic theorems, unprojected mean-field artifacts, and finite-size DMRG extrapolations.
+The Kitaev honeycomb model under a magnetic field $\mathbf{h} \parallel [111]$ has generated an extensive, multifaceted literature across exactly solvable models, fermionic slave-particle mean-field theories, quantum Monte Carlo (QMC), exact diagonalization (ED), and density matrix renormalization group (DMRG). However, comparisons across different publications are notoriously plagued by inconsistent spin definitions ($\mathbf{S} = \frac{1}{2}\boldsymbol{\sigma}$ vs. Pauli $\boldsymbol{\sigma}$), field parameterizations ($|\mathbf{h}|$ vs. Cartesian component $h_0$), and Hamiltonian normalization prefactors ($1/4$ vs. $1/2$).
 
-To establish absolute mathematical clarity, this document enforces a **Four-Tier Epistemic Taxonomy**:
+### 1.1 Canonical Standard Normalization
+To prevent any ambiguity, this document and the entire Phase 4 project adopt **one single canonical normalization**:
+$$\boxed{K \equiv 1.0 \quad (\text{Ferromagnetic Pauli units}), \quad \boldsymbol{\sigma}_i \in \{\pm 1\}, \quad \mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)^T \implies \|\mathbf{h}\| = h}$$
+All formulas, tables, and comparisons throughout the rest of this document and subsequent reports are expressed strictly in these units. Conversion factors to alternative conventions are defined in Section 2 for reference, after which only the canonical standard is employed.
+
+### 1.2 Epistemic Taxonomy
+We enforce a **Four-Tier Epistemic Taxonomy**:
 
 | Epistemic Tier | Code Tag | Operational Definition |
 | :--- | :---: | :--- |
@@ -125,10 +131,11 @@ While the **cubic power law exponent $\alpha = 3$ is identical** between both th
 $$\frac{\Delta_{\mathrm{exact}}}{\Delta_{\mathrm{canonical}}^{\mathrm{MF}}} = \frac{28.68}{10.368} \approx 2.77$$
 
 #### Why the Prefactor is Renormalized in Mean-Field Theory
-1. **Unprojected Gauge Resolvent vs. Non-Local Vison Gap:** In unprojected mean-field theory, the intermediate virtual excitations are not physical pairs of $\mathbb{Z}_2$ visons (which are non-local string fluxes with gap $2\Delta_{\mathrm{flux}} \approx 0.264 |K|$), but rather **localized flat-band gauge Majoranas** $c_i^1, c_i^2, c_i^3$ with single-particle excitation energy $\bar{U} |K| \approx 0.525 |K|$. The two-particle gauge excitation energy is:
-   $$\Delta E_{\mathrm{gauge}} = 2 \bar{U} |K| \approx 1.050 |K|$$
-   Because perturbation theory scales inversely with the squared denominator $\Delta E^2$, replacing the small vison gap ($0.264$) with the large gauge gap ($1.050$) suppresses the bare virtual transition amplitude by:
-   $$\left(\frac{\Delta E_{\mathrm{gauge}}}{\Delta E_{\mathrm{flux}}}\right)^2 = \left(\frac{1.0497}{0.2641}\right)^2 \approx 15.80$$
+1. **Unprojected Gaussian Majorana Denominator vs. Non-Local Vison Gap:**
+   In exact spin space, a physical spin flip $\sigma_j^x$ creates a pair of non-local topological $\mathbb{Z}_2$ flux excitations (visons) with self-consistent creation gap $2\Delta_{\mathrm{flux}} \approx 0.2641 |K|$. In unprojected 4-Majorana Hartree-Fock-Bogoliubov (HFB) theory, the virtual intermediate states in the bare resolvent $(z - H_{\mathrm{MF}})^{-1}$ are not physical visons (a localized link flip $u_b = -1$ does not constitute an isolated eigenstate or fixed point without global self-consistent relaxation of the matter field and gauge multipliers). Instead, the intermediate states are localized flat-band gauge Majorana excitations $c_i^\gamma$ whose bare eigenvalue in the quadratic Hamiltonian is $\pm \frac{1}{2}\bar{U} |K|$, yielding a two-particle quadratic matrix energy denominator:
+   $$\Delta E_{\mathrm{gauge}}^{(0)} = 2 \bar{U} |K| \approx 1.0497 |K|$$
+   Because perturbation theory scales inversely with the squared denominator $\Delta E^2$, replacing the physical two-vison threshold $(0.2641 |K|)$ with the bare unrelaxed Majorana dimer denominator $(1.0497 |K|)$ suppresses the bare transition amplitude by:
+   $$\left(\frac{\Delta E_{\mathrm{gauge}}^{(0)}}{\Delta E_{\mathrm{flux}}}\right)^2 = \left(\frac{1.0497}{0.2641}\right)^2 \approx 15.80$$
 2. **Self-Consistent Multiplier Dressing & Fock Vertex:** Unlike static perturbation theory, mean-field theory allows the state to relax self-consistently:
    - The Lagrange multipliers shift linearly: $\|\boldsymbol{\lambda}^*\| \approx \sqrt{5} h$.
    - The on-site correlators $V_i$ and bond Fock fields $\delta U_b$ relax proportionally to $h$.
