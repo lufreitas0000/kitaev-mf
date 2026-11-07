@@ -166,11 +166,11 @@ The total computational cost per iteration of each solver paradigm is summarized
 \midrule
 \textbf{Plain FP / Picard} & $1$ & $2D$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2 D \times 8\text{ B}$ \\
 \textbf{Joint DIIS ($m$)} & $1$ & $2mD + \frac{1}{3}m^3$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2m D \times 8\text{ B}$ \\
-\textbf{Good Broyden (Full)} & $1$ & $2D^2 + 4D$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $D^2 \times 8\text{ B}$ \\
+\textbf{Good Broyden (Full)} & $1$ & $6D^2 + 4D$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $D^2 \times 8\text{ B}$ \\
 \textbf{L-Broyden ($m$)} & $1$ & $4m^2 D + 2mD$ & $\frac{16}{3} M^3 N_{\mathbf{k}}$ & $2m D \times 8\text{ B}$ \\
 \textbf{JFNK ($k_{\mathrm{gmres}}$)} & $1 + k_{\mathrm{gmres}}$ & $2 k_{\mathrm{gmres}} D$ & $(1 + k_{\mathrm{gmres}}) \cdot \frac{16}{3} M^3 N_{\mathbf{k}}$ & $k_{\mathrm{gmres}} D \times 8\text{ B}$ \\
 \midrule
-\textbf{Real Skew Eigensolve} & $1$ & -- & $\left(\frac{4}{3} M^3 + 6 M^3\right) N_{\mathbf{k}}$ & $\frac{1}{2} M^2 \times 8\text{ B}$ \\
+\textbf{Real Skew Eigensolve} & $1$ & -- & $\left(\frac{8}{3} M^3 + 6 M^3\right) N_{\mathbf{k}}$ & $\frac{1}{2} M^2 \times 8\text{ B}$ \\
 \textbf{Matrix Sign Purif ($k_{\mathrm{NS}}$)} & $1$ & -- & $4 k_{\mathrm{NS}} M^3$ (Real \texttt{dgemm}) & $M^2 \times 8\text{ B}$ \\
 \bottomrule
 \end{tabular}
@@ -392,7 +392,7 @@ The empirical results compiled in Table~\ref{tab:m1_6_solver_scorecard} confirm 
 \toprule
 \textbf{Solver} & \textbf{$R_{90}$ Radius} & \textbf{$R_{50}$ Radius} & \textbf{$K_{50}$ ($\delta=0.02$)} & \textbf{Time ($\delta=0.02$)} & \textbf{Storage} & \textbf{Step FLOPs} \\
 \midrule
-Full Broyden   & $\ge 0.500$ & $\ge 0.500$ & 27.0 & $327\text{ ms}$ & $\mathcal{O}(D^2)$ & $2 D^2$ \\
+Full Broyden   & $\ge 0.500$ & $\ge 0.500$ & 27.0 & $327\text{ ms}$ & $\mathcal{O}(D^2)$ & $6 D^2 + 4D$ \\
 DIIS (Joint)   & $0.350$     & $0.500$     & 34.0 & $242\text{ ms}$ & $\mathcal{O}(mD)$   & $\mathcal{O}(m^2 D + m^3)$ \\
 JFNK           & $\ge 0.500$ & $\ge 0.500$ & 39.0 & $400\text{ ms}$ & $\mathcal{O}(k_{\mathrm{kry}} D)$ & $\mathcal{O}(k_{\mathrm{kry}} \Phi)$ \\
 L-Broyden ($m=10$) & $0.010$ & $0.100$     & 55.0 & $465\text{ ms}$ & $\mathcal{O}(mD)$   & $\mathcal{O}(m^2 D)$ \\

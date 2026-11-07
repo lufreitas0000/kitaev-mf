@@ -24,7 +24,7 @@ Sample survival fractions $\hat{p}$ are reported alongside explicit 95\% Wilson 
 \toprule
 \textbf{Solver Paradigm} & \textbf{$R_{90}$ Basin Radius} & \textbf{95\% Wilson CI ($\delta=0.35$)} & \textbf{$K_{50}$ ($\delta=0.02$)} & \textbf{Time ($\delta=0.02$)} & \textbf{Storage} & \textbf{Overhead FLOPs} \\
 \midrule
-\textbf{Full Good Broyden}    & $\mathbf{\ge 0.500}$ & $[0.886, 1.000]$ & \textbf{27.0} & $327\text{ ms}$ & $D^2 \times 8\text{ B}$ & $8 D^2 \text{ FLOPs}$ \\
+\textbf{Full Good Broyden}    & $\mathbf{\ge 0.500}$ & $[0.886, 1.000]$ & \textbf{27.0} & $327\text{ ms}$ & $D^2 \times 8\text{ B}$ & $6 D^2 + 4D\text{ FLOPs}$ \\
 \textbf{Joint DIIS ($m=6$)}  & $\mathbf{0.350}$ & $[0.886, 1.000]$ & \textbf{34.0} & $\mathbf{242\text{ ms}}$ & $2m D \times 8\text{ B}$   & $4 m D + \mathcal{O}(m^3)$ \\
 \textbf{JFNK ($k_{\mathrm{kry}}\le 15$)} & $\mathbf{\ge 0.500}$ & $[0.886, 1.000]$ & \textbf{39.0} & $400\text{ ms}$ & $k_{\mathrm{kry}} D \times 8\text{ B}$ & $2 k_{\mathrm{kry}} D + k_{\mathrm{kry}} \Phi$ \\
 \textbf{L-Broyden ($m=10$)}  & $0.010$          & $[0.192, 0.512]$ & $55.0$        & $465\text{ ms}$ & $2m D \times 8\text{ B}$   & $4 m^2 D + 2mD$ \\

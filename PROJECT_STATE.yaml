@@ -381,8 +381,8 @@ verified_physics_invariants:
     recovery_probability: 1.000
     max_nematicity: 7.3171e-08
 - id: K-017
-  name: Pure real skew-symmetric Majorana algebra memory and FLOP reduction
-  equation: Memory_reduction = 2.0x (8 bytes vs 16 bytes); FLOP_reduction = 4.0x (4/3 M^3 vs 16/3 M^3)
+  name: Pure real skew-symmetric Majorana algebra memory reduction and Track A arithmetic complexity
+  equation: Memory_reduction = 2.0x (8 M^2 bytes vs 16 M^2 bytes); W_TrackA = (8/3 + 6) M^3 = 26/3 M^3 real FLOPs vs W_C = 16/3 M^3 real FLOPs
   status: verified_algebraic_and_benchmark
   provenance:
     analytical: doc/rnd/phase_1/m1_8_t1_real_space_and_real_arithmetic_theory.md
@@ -391,10 +391,12 @@ verified_physics_invariants:
   numerical_evidence:
     tested_clusters: L in [4, 6, 8, 10, 12] (M in [128, 1152])
     measured_memory_reduction: 2.00x
+    total_track_a_flops: 26/3 M^3
+    bare_tridiagonal_reduction_flops: 4/3 M^3 (eigenvalues only) / 8/3 M^3 (with eigenvectors)
     covariance_frobenius_parity: <= 4.24e-09
 - id: K-018
   name: Eigenvector-free matrix sign purification speedup over divide-and-conquer eigensolvers
-  equation: Speedup(Purification / eigh) = 63.53x at M = 1152; ||Omega_purif - Omega_eig||_F / sqrt(M) = 4.22e-15
+  equation: Speedup(Purification / zheevd) = 2.31x mean over N_repeats=5 at M = 1152 (613.0 ms vs 1418.6 ms; up to 63.53x vs single-run deflation stalls); ||Omega_purif - Omega_eig||_F / sqrt(M) = 4.01e-15
   status: verified_algorithmic_breakthrough
   provenance:
     analytical: doc/rnd/phase_1/m1_8_t2_matrix_sign_purification_without_eigenvectors.md
@@ -402,24 +404,26 @@ verified_physics_invariants:
     code: src/kitaev_mf/services/purification.py::purify_newton_schulz
     script: scripts/m1_8/benchmark_real_space_tracks.py
   numerical_evidence:
-    eigensolver_time_ms: 44596.07
-    purification_time_ms: 701.98
-    speedup_factor: 63.53x
-    purification_iterations: 12
-    sustained_throughput_gflops: 104.54
-    covariance_parity: 4.218e-15
+    eigensolver_mean_time_ms: 1418.6
+    purification_mean_time_ms: 613.0
+    mean_speedup_factor_m1152: 2.31x
+    worst_case_deflation_stall_speedup: 63.53x
+    purification_iterations: 11
+    sustained_throughput_gflops_m1152: 109.73
+    sustained_throughput_gflops_m1568: 114.64
+    covariance_parity: 4.01e-15
     energy_difference: 2.842e-13
 - id: K-019
   name: Exact pure-Kitaev spin perturbation operator mapping and mean-field gap reconciliation
-  equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical = 4 Delta_K^MF = 10.368 h^3; Delta_exact = 12 sqrt(3) kappa_exact = 57.5 h^3
+  equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical^MF = 4 Delta_K^MF = 10.3684 h^3; Delta_static = (4 / Delta_flux^2) h^3 = 57.3921 h^3
   status: verified_operator_derivation
   provenance:
     analytical: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
     cross_branch: research/pure-kitaev-exact-perturbation-20261102
   numerical_evidence:
     bloch_scaling_factor: 4.0
-    energy_denominator_ratio_squared: 15.8
-    residual_screening_ratio: 2.85
+    bare_energy_denominator_ratio_squared: 15.8106
+    static_vison_gap_prefactor: 57.3921
 - id: K-020
   name: Real-space vortex pair attractive potential, in-gap Majorana zero modes, and topological trapping
   equation: V(R) = 0.114 |K| -> 0.168 |K| (R=1..4 on L=8); eps_1(h) / Delta_bulk approx 13.0%; W(p1) = W(p2) = -1.000 (stable under self-consistency)

@@ -13,16 +13,22 @@ The long-term objective of `kitaev-mf` is structured into dedicated, model-famil
    * *Deliverable:* Complete operational mastery of every numerical nuance: convergence basins, critical slowing down at spinodal transitions ($h_{c2}^+ = 0.400$), post-spinodal KKT saddle admissibility (`K-023`), step and memory complexity, precision loss on Dirac resonances ($3 \mid L$), disordered/vacancy conditioning (`K-022`), and the certified **Master Solver Selection & Hardware Resource Table** (`data/processed/benchmarks/m1_9/master_solver_resource_table.dat`).
    * *Status:* **Completed & Certified** (11 chapters / 74 pages in Living Lab Book, 9-page SciPost Monograph, 22 Hypothesis Contracts in `doc/HYPOTHESIS_CONTRACTS.md`, 23 verified invariants `K-001`--`K-023`, 153/153 passing tests).
 
-2. **Phase 2: Physics of the Ferromagnetic Kitaev $[111]$ Model (Ground State, Vortices, Thermodynamics & Dynamical Response)**
-   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), selecting the optimal solvers certified in Phase 1 (Joint DIIS for Bloch cells and Newton-Schulz purification + damped L-Broyden $\alpha=0.5$ for large real-space clusters) to map the complete physical phase diagram and compute all physical observables (`HC-P2-01`--`05`):
+2. **Phase 2: Physics of the Ferromagnetic Kitaev $[111]$ Model (Ground State, Vortices, Thermodynamics & Static Response)**
+   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), focusing on real-space lattice calculations with Bloch momentum space used for comparison/reality check.
    * *Core Physical Targets:*
      - **$T=0$ Bulk Ground State:** Phase diagram across $h \in [0, 0.6]$, Chern number $\nu$, susceptibility tensor $\chi^{\alpha\beta}(h)$, 12-Majorana Pfaffian flux $\mathcal{W}_p$, and Gutzwiller / 2-RDM SDP lower bounds (`M2.1`).
      - **$T=0$ Isolated Vortex Pair State:** Two-vison interaction potential $V(R, h)$ on $L \in \{12, 16, 24\}$ tori, non-Abelian Majorana zero-mode splitting $\delta\epsilon_0(R)$, and local spin/gauge screening clouds (`M2.2`).
      - **$T > 0$ Finite-Temperature State:** Self-consistent Fermi-Dirac thermal covariance $\Omega_T = \ii\tanh(\ii\beta\mathbf{A}/2)$, two-peak specific heat $C_v(T)$, entropy release $S(T)$, and thermal melting of the spinodal hysteresis loop (`M2.3`).
-     - **Static & Dynamical Spin Correlations:** Equal-time $S^{\alpha\beta}(\mathbf{q})$ and dynamical structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ via four-Majorana Lehmann spectral convolution (`M2.4`).
+     - **Static Spin Correlations:** Equal-time $S^{\alpha\beta}(\mathbf{q})$ across the ground state, two-vortex state, and thermal ensemble (`M2.4`).
 
-3. **Subsequent Phases (Dedicated Model Families):**
-   * Subsequent phases will tackle each distinct physical model family sequentially (Phase 3: Antiferromagnetic Kitaev $K > 0$; Phase 4: Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb; Phase 5: 3D tricoordinated Kitaev lattices).
+3. **Phase 3: Dynamical Spin Correlations & Majorana Zero Mode Spectroscopy (arXiv:2209.12930 Reproducing & Generalization)**
+   * *Exclusive Scope:* Full reproduction and generalization of the dynamical spin correlation functions and STM tunneling spectroscopy of Majorana zero modes in the pure FM Kitaev $[111]$ model on real-space clusters (with Bloch comparison as reality check):
+     - **Exact Benchmark in Pure Kitaev Limit:** Implementation of exact gauge quench dynamics (Knolle et al. 2014, Baskaran et al. 2007) with strict physical matter-parity constraints (Pedrocchi et al. 2011, Zschocke & Vojta 2015), where a local spin flip flips adjacent $\mathbb{Z}_2$ gauge links and excites vison pairs, computing $S^{\alpha\beta}(\mathbf{r}, \omega)$ via Bogoliubov rotations, many-body Pfaffians/determinants, and Lehmann representation.
+     - **Majorana Mean-Field Generalization:** Formulation and evaluation of dynamical spin response $S^{\alpha\beta}(\mathbf{q}, \omega)$ within the 4-Majorana mean-field approximation developed in Phase 1, benchmarked directly against the exact pure-Kitaev result.
+     - **Scanning Tunneling Spectroscopy (STS) of MZMs:** Probing localized zero-bias conductance peaks and in-gap Majorana bound states in vortex sectors as formulated in arXiv:2209.12930.
+
+4. **Subsequent Strategic Phases (Dedicated Model Families):**
+   * Subsequent phases will tackle each distinct physical model family sequentially (Phase 4: Antiferromagnetic Kitaev $K > 0$; Phase 5: Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb; Phase 6: 3D tricoordinated Kitaev lattices).
 
 ---
 

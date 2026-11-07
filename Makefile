@@ -18,7 +18,7 @@ help:
 	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
 	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
 	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/labbook_kitaev_mf.pdf)"
-	@echo "  make manuscript    - Compile publication manuscript (doc/manuscript/main.pdf)"
+	@echo "  make manuscript    - Compile publication manuscript (doc/manuscript/scipost_kitaev_mf.pdf)"
 	@echo "  make blueprint     - Build static R&D Epistemic Blueprint portal (build/blueprint/)"
 	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
 	@echo "  make lint          - Run Ruff check, format verification, and strict Mypy"

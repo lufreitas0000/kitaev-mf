@@ -35,7 +35,7 @@ The first wave of hypothesis contracts, established in \texttt{doc/rnd/phase\_1/
 \label{eq:con_ph01_scaling}
 \|\boldsymbol{\lambda}^*(h)\|_2 \approx \sqrt{5}\, h.
 \end{equation}
-Because the Zeeman perturbation $-\frac{\ii}{2}h^\gamma c_i^T \mathrm{N}^\gamma c_i$ couples matter Majoranas $c_i^0$ directly to gauge Majoranas $c_i^\gamma$ across asymmetric bond expectations ($\mathrm{U}_b^{00} = -\bar{U} \neq \mathrm{U}_b^{\gamma\gamma} = +1$), a linear field induces an immediate $\mathcal{O}(h)$ gauge residual $\delta g_s^\gamma \propto h$ that requires a proportional $\mathcal{O}(h)$ counter-field multiplier (\texttt{m1\_6\_t3}, \texttt{K-019}).
+Because the Zeeman perturbation $-\frac{\ii}{2}h^\gamma c_i^T \mathrm{N}^\gamma c_i$ couples matter Majoranas $c_i^0$ directly to gauge Majoranas $c_i^\gamma$ across asymmetric bond expectations ($\mathrm{U}_b^{00} = -\bar{U} \neq \mathrm{U}_b^{\gamma\gamma} = +1$), a linear field induces an immediate $\mathcal{O}(h)$ gauge residual $\delta g_s^\gamma \propto h$ that requires a proportional $\mathcal{O}(h)$ counter-field multiplier (\texttt{m1\_6\_t3}, \texttt{K-008}).
 \end{contract}
 
 \begin{contract}[PH-02: Weak-Field Basin Separation and Spinodal Hysteresis]
@@ -165,7 +165,7 @@ The boundary between the gapless QSL and the zigzag state is marked by a non-zer
 
 \begin{contract}[H6: Exact Analytical Derivation of the Cubic Dirac Gap Prefactor]
 \label{con:h6_analytical_cubic_prefactor}
-\textbf{Context:} Theorem~\ref{thm:m1_6_cubic_gap} proves $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3$ and extracts $c_{\mathrm{MF}} = 2.5921 \pm 0.005$ numerically.
+\textbf{Context:} Theorem~\ref{thm:m1_6_cubic_gap} proves $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3 + \mathcal{O}(h^5)$ by symmetry selection rules, and Proposition~\ref{prop:m1_6_cubic_gap_fit} extracts $c_{\mathrm{MF}} = 2.5921 \pm 0.0034$ numerically.
 \textbf{Hypothesis Statement:} Expanding the KKT stationarity condition $[\mathcal{H}(\mathbf{k}; \Xi), \Pi^-(\mathbf{k})] = 0$ perturbatively to third order in $h$ around the exact pure-Kitaev fixed point ($\mathrm{U}_b^{00} = -\bar{U} = -\frac{1}{3}W_3(1)$, $\Delta_{\mathrm{gauge}} = |K|\bar{U}$):
 \begin{equation}
 \label{eq:con_h6_analytic_c}
@@ -259,7 +259,7 @@ The 11 advanced hypothesis contracts establish an unbroken, audit-proof scientif
 \textbf{H3} & Global 2-RDM Semidefinite Bounds & Supercell SDP & Duality Gap $\Delta_{\mathrm{SDP}} \le 8\%$ & Phase 2 Gate 1 \\
 \textbf{H4} & $\mathrm{N}^a$ vs. Chiral $\mathrm{M}^a$ Decoupling & Bipartite Lattice & Projected Energy Minima $\eta^*$ & Phase 2 Gate 2 \\
 \textbf{H5} & $J$--$K$--$\Gamma$ Competing Orders & $n_c \in \{8, 16, 32\}$ & Nematicity $N_{\mathrm{nem}}$, Klein Dual & Phase 4 Gate \\
-\textbf{H6} & Perturbative vs. MF Cubic Prefactor & Dirac Cones $K, K'$ & $4c_{\mathrm{MF}} = 10.368$ ($15.81\times / 2.85\times$) & \textbf{Passed (K-019)} \\
+\textbf{H6} & Perturbative vs. MF Cubic Prefactor & Dirac Cones $K, K'$ & $4c_{\mathrm{MF}} = 10.368$ (KKT Dressing) & \textbf{Passed (K-019)} \\
 \textbf{H7} & Post-Spinodal KKT Saddle Excursions & Critical Region & Stabilized $E = -h-0.5$, $m=1.0$ & \textbf{Passed (K-023)} \\
 \textbf{H8} & Lehmann Dual Preconditioned DIIS & Gauge Dual Space & Iteration Count at $h_{c2}^+$ & Phase 2 Gate 1 \\
 \textbf{H9} & Damped Multi-Secant L-Broyden & Real-Space Torus & $\alpha=0.5$ expands $R_{90}$ $>20\times$ & \textbf{Passed (K-021)} \\

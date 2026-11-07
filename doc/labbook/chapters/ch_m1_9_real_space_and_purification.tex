@@ -28,10 +28,10 @@ Let $\mathbf{A} \in \mathbb{R}^{M \times M}$ be real skew-symmetric.
 \label{eq:m1_8_complex_flops}
 \mathcal{W}_{\mathbb{C}} = \frac{16}{3} M^3 \text{ real FLOPs}.
 \end{equation}
-\item \textbf{Real Symmetric Operator:} The matrix $\mathbf{S} \equiv -\mathbf{A}^2 = \mathbf{A} \mathbf{A}^T$ is real symmetric positive semidefinite with eigenvalues $\epsilon_k^2 \ge 0$. Its storage requires $8 M^2 \text{ bytes}$ ($2.0\times$ reduction), and real eigensolve (\texttt{dsyevd}) consumes:
+\item \textbf{Real Symmetric Operator:} The matrix $\mathbf{S} \equiv -\mathbf{A}^2 = \mathbf{A} \mathbf{A}^T$ is real symmetric positive semidefinite with eigenvalues $\epsilon_k^2 \ge 0$. Its storage requires $8 M^2 \text{ bytes}$ ($2.0\times$ memory reduction). While the bare real symmetric tridiagonal reduction and divide-and-conquer eigensolve (\texttt{dsyevd}) consumes $\frac{8}{3} M^3 \text{ real FLOPs}$ (or $\frac{4}{3} M^3$ for eigenvalues only, a $4.0\times$ reduction in bare tridiagonal reduction relative to $\frac{16}{3} M^3$), assembling $\mathbf{S} = -\mathbf{A}^2$, forming $\mathbf{S}^{-1/2}$, and reconstructing $\Omega = -\mathbf{A} \mathbf{S}^{-1/2}$ adds $6 M^3 \text{ real FLOPs}$ of Level-3 BLAS matrix multiplications, yielding a total Track~A arithmetic count of:
 \begin{equation}
 \label{eq:m1_8_real_flops}
-\mathcal{W}_{\mathbb{R}} = \frac{4}{3} M^3 \text{ real FLOPs} \implies \frac{\mathcal{W}_{\mathbb{C}}}{\mathcal{W}_{\mathbb{R}}} = 4.0\times \text{ FLOP reduction}.
+\mathcal{W}_{\mathbb{R},\text{total}} = \frac{8}{3} M^3 + 6 M^3 = \frac{26}{3} M^3 \approx 8.67 M^3 \text{ real FLOPs}.
 \end{equation}
 The single-particle covariance matrix $\Omega \equiv \ii \langle \mathbf{c} \mathbf{c}^T \rangle - \ii \mathbf{I} = \ii \operatorname{sgn}(\ii \mathbf{A})$ is reconstructed algebraically via $\Omega = -\mathbf{A} \mathbf{S}^{-1/2}$.
 \end{enumerate}
@@ -115,7 +115,7 @@ Empirical evaluations across torus clusters $L \in \{4, 6, 8, 10, 12\}$ ($M \in 
 \begin{equation}
 \frac{\|\Omega_{\mathrm{purif}} - \Omega_{\mathrm{eig}}\|_F}{\sqrt{M}} \le 5.31 \times 10^{-15}, \qquad |E_{\mathrm{purif}} - E_{\mathrm{eig}}| \le 2.84 \times 10^{-13}.
 \end{equation}
-\item \textbf{Massive Hardware Acceleration:} At $M = 1152$, purification achieves a \textbf{$63.53\times$ speedup} over un-deflated complex eigensolvers ($701.98\text{ ms}$ vs.\ $44596\text{ ms}$, and $2.31\times$ over multi-threaded divide-and-conquer \texttt{zheevd} $613.0\text{ ms}$ vs.\ $1418.6\text{ ms}$), with sustained CPU throughput reaching $104.54\text{--}114.64\text{ GFLOP/s}$ in pure \texttt{dgemm} operations.
+\item \textbf{Hardware Acceleration and Deflation Immunity:} Across $N_{\mathrm{repeats}} = 5$ statistical trials at $M = 1152$, Newton-Schulz purification achieves a \textbf{$2.31\times$ mean speedup} over multi-threaded divide-and-conquer \texttt{zheevd} ($613.0 \pm 42\text{ ms}$ vs.\ $1418.6 \pm 420\text{ ms}$, and up to $63.53\times$ against worst-case single-run secular-equation deflation stalls at $44596\text{ ms}$), with sustained CPU throughput reaching $109.73\text{ GFLOP/s}$ at $M=1152$ and $114.64\text{ GFLOP/s}$ at $M=1568$ in pure \texttt{dgemm} operations.
 \end{enumerate}
 \end{proposition}
 

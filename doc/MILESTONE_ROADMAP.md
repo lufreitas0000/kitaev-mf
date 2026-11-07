@@ -39,12 +39,12 @@ Phase 1 established the mathematical foundations, verified algebraic invariants 
 
 ---
 
-## Phase 2: Pure Ferromagnetic Kitaev ($K = -1.0$) in $[111]$ Field — Low-Energy Physics, Phase Diagram, Vortices, Thermodynamics & Dynamical Correlations (ACTIVE PREPARATION)
+## Phase 2: Pure Ferromagnetic Kitaev ($K = -1.0$) in $[111]$ Field — Low-Energy Physics, Phase Diagram, Vortices, Thermodynamics & Static Correlations (ACTIVE PREPARATION)
 
-Phase 2 is the direct physical continuation of Phase 1 in the **identical model regime** ($K = -1.0$, $\mathbf{h} \parallel [111]$). Deploying the certified optimal solvers from Phase 1 (**Joint DIIS** for reciprocal-space Bloch cells and **Newton–Schulz purification + damped L-Broyden $\alpha=0.5$** for large real-space clusters), Phase 2 focuses entirely on extracting the complete low-energy physics and observables across four physical settings (`HC-P2-01` through `HC-P2-05`):
+Phase 2 is the direct physical continuation of Phase 1 in the **identical model regime** ($K = -1.0$, $\mathbf{h} \parallel [111]$). Deploying the certified optimal solvers from Phase 1 (**Newton–Schulz purification + damped L-Broyden $\alpha=0.5$** for large real-space clusters, with **Joint DIIS** on reciprocal-space Bloch cells used for comparison and reality checks), Phase 2 focuses entirely on extracting the low-energy physics, vortex bound states, thermodynamics, and static observables (`HC-P2-01` through `HC-P2-04`):
 
 - **M2.1: $T = 0$ Bulk Ground-State Phase Diagram, Complete Observable Atlas & Variational Bounds (`HC-P2-01`, `HC-P2-02`)**
-  - *Scope*: High-resolution mapping of the $T=0$ phase diagram across $h \in [0, 0.60]$ using Joint DIIS ($N_k = 36^2\text{--}64^2$):
+  - *Scope*: High-resolution mapping of the $T=0$ phase diagram across $h \in [0, 0.60]$ primarily on real-space clusters and verified against Bloch grids ($N_k = 36^2\text{--}64^2$):
     1. Complete observable atlas: sublattice magnetization $\mathbf{m}_s(h)$, magnetic susceptibility tensor $\chi^{\alpha\beta}(h) = \partial m^\alpha / \partial h^\beta$, matter and gauge bond expectations $\mathrm{U}_b^{\mu\nu}(h)$, spectral gap $\Delta(\mathbf{k}, h)$, and bulk Chern number $\nu \in \{-1, 0\}$ via Fukui–Hatsugai–Suzuki lattice Berry curvature.
     2. Comparison of factored 6-link Wilson loop $W_p(h)$ versus exact 12-Majorana Pfaffian $\mathcal{W}_p(h) = \operatorname{Pf}(\Omega|_{\partial p})$ (`H2` / `HC-P2-01`).
     3. Gutzwiller projection norm overlap $\mathcal{N}_G(h) = \operatorname{Tr}(\rho_{\mathrm{MF}} P_G)$ on finite ED clusters ($N \le 24$) and global 2-RDM semidefinite programming ($D, Q, G$) lower bounds $E_{\mathrm{SDP}}^{(2)} \le E_0 \le E_{\mathrm{MF}}$ (`H1`, `H3` / `HC-P2-02`).
@@ -56,28 +56,47 @@ Phase 2 is the direct physical continuation of Phase 1 in the **identical model 
     3. Spatial profile of local spin magnetization $\delta\mathbf{m}_i$, bond energy density $\delta E_b$, and inhomogeneous gauge multiplier screening cloud $\delta\boldsymbol{\lambda}_i$ ($\xi_{\mathrm{gauge}} \approx 1.1 a$) around vortex cores (`H11` / `HC-P2-03`).
 
 - **M2.3: Finite-Temperature ($T > 0$) States & Thermal Crossover Thermodynamics (`HC-P2-04`)**
-  - *Scope*: Self-consistent finite-temperature Fermi–Dirac covariance solver $\Omega_T = \mathrm{i}\tanh(\mathrm{i}\beta\mathbf{A}/2)$ minimizing the variational Helmholtz free energy $\mathcal{F}(\Omega_T, \boldsymbol{\lambda}; T) = \mathcal{E}(\Omega_T, \boldsymbol{\lambda}) - T S_{\mathrm{FD}}(\Omega_T)$:
+  - *Scope*: Self-consistent finite-temperature Fermi–Dirac covariance solver $\Omega_T = \mathrm{i}\tanh(\mathrm{i}\beta\mathbf{A}/2)$ minimizing the variational Helmholtz free energy $\mathcal{F}(\Omega_T, \boldsymbol{\lambda}; T) = \mathcal{E}(\Omega_T, \boldsymbol{\lambda}) - T S_{\mathrm{FD}}(\Omega_T)$ on real-space clusters (with Bloch comparison):
     1. Two-stage specific heat $C_v(T)$ and entropy release $S(T)$ from $S(\infty) = \ln 2$ per spin across the high-temperature itinerant Majorana crossover ($T_H \approx 0.375|K|$) and low-temperature gauge/vison scale ($T_L$).
     2. Thermal melting of the first-order spinodal hysteresis loop $[h_{c1}^-(T), h_{c2}^+(T)]$ terminating at a finite-temperature critical end point $(h_{\mathrm{CEP}}, T_{\mathrm{CEP}})$.
 
-- **M2.4: Static and Dynamical Spin Correlations $S^{\alpha\beta}(\mathbf{q})$ and $S^{\alpha\beta}(\mathbf{q}, \omega)$ (`HC-P2-05`)**
-  - *Scope*: Connected four-Majorana Wick contraction and Lehmann spectral representation across the $(h, T, \mathbf{q}, \omega)$ manifold:
-    1. Equal-time static structure factor $S^{\alpha\beta}(\mathbf{q})$ across the Brillouin zone in the $T=0$ ground state, two-vortex state, and $T>0$ thermal ensemble.
-    2. Dynamical spin structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$, verifying the exact sum rule $\int \frac{\mathrm{d}\omega}{2\pi} S^{\alpha\alpha}(\mathbf{q}, \omega) = S^{\alpha\alpha}(\mathbf{q})$, the sharp single-vison + matter-fermion excitation gap threshold at $h=0$, and field-induced magnon-like collective modes in the polarized phase ($h > h_c^*$).
+- **M2.4: Static Spin Correlations $S^{\alpha\beta}(\mathbf{q})$ and Local Real-Space Spin Structure**
+  - *Scope*: Connected four-Majorana Wick contraction and equal-time spatial correlations:
+    1. Equal-time static structure factor $S^{\alpha\beta}(\mathbf{q})$ and real-space correlation functions $\langle \sigma_i^\alpha \sigma_j^\beta \rangle$ across the Brillouin zone and real-space cluster in the $T=0$ ground state, two-vortex state, and $T>0$ thermal ensemble.
+    2. Verification of sum rules and spatial anisotropy induced by the $[111]$ magnetic field.
+
+---
+
+## Phase 3: Dynamical Spin Correlations & Majorana Zero Mode Spectroscopy (arXiv:2209.12930 Reproducing & Generalization)
+
+Phase 3 is dedicated to the formulation, exact benchmarking, and mean-field calculation of the **dynamical spin correlation functions** $S^{\alpha\beta}(\mathbf{r}, \omega)$ and $S^{\alpha\beta}(\mathbf{q}, \omega)$, focusing on reproducing the scanning tunneling spectroscopy (STS) signatures of Majorana zero modes in the pure FM Kitaev $[111]$ model (arXiv:2209.12930) on real-space lattices with Bloch comparisons as reality checks:
+
+- **M3.1: Exact Gauge-Quench Dynamical Correlator in the Pure Kitaev Limit**
+  - *Theoretical Foundation:* Local spin operator $\sigma_j^\gamma$ flips adjacent gauge links $\hat{u}_{jk}$, creating a pair of $\mathbb{Z}_2$ visons (Baskaran et al. 2007). The dynamical spin correlator $S_{\mathrm{loc}}^{\gamma\gamma}(t) = \langle 0 | \sigma_j^\gamma(t) \sigma_j^\gamma(0) | 0 \rangle$ maps to an exact many-body quantum quench between the zero-flux ground state $|0_{\{u\}}\rangle$ and the two-flux sector Hamiltonian $H_{\{u'\}}$ (Knolle et al. 2014).
+  - *Physical Parity Constraints:* Implementation of explicit projection onto the physical fermion parity sector $P = \frac{1}{2}(1 + \mathcal{P})$ (Pedrocchi, Chesi, Loss 2011; Zschocke & Vojta 2015), ensuring proper selection rules for transition matrix elements in finite systems.
+  - *Computational Core:* Evaluation of transition amplitudes $\langle \lambda_{\{u'\}} | c_j | 0_{\{u\}} \rangle$ via single-particle Bogoliubov transformations and many-body determinants/Pfaffians, reproducing the clean bulk vison gap threshold ($\Delta_v \approx 0.26 |K|$) and the continuous matter-fermion shakeup spectrum.
+
+- **M3.2: Majorana Mean-Field Generalization of Dynamical Response**
+  - *Mean-Field Formulation:* Generalization of the dynamical spin structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ within the 4-Majorana mean-field theory of `kitaev-mf`, evaluating connected two-particle bubble convolutions and RPA/TD-HFB gauge-matter response.
+  - *Cross-Validation & Benchmark:* Direct comparison between the exact gauge-quench result (M3.1) and the mean-field approximation in the pure Kitaev limit to establish the quantitative accuracy, spectral shift, and screening effects of the mean-field treatment.
+
+- **M3.3: Scanning Tunneling Spectroscopy of Majorana Zero Modes in Vortex Sectors**
+  - *STS Modeling:* Real-space evaluation of the local tunneling density of states (LDOS) and differential conductance $\mathrm{d}I/\mathrm{d}V$ in reference gauge configurations containing isolated pairs of well-separated vortices (arXiv:2209.12930).
+  - *MZM Signatures:* Characterization of the localized zero-bias conductance peak, finite-frequency vison shakeup threshold, and spatial decay of the zero-mode wavefunction away from the vortex cores under $\mathbf{h} \parallel [111]$.
 
 ---
 
 ## Subsequent Strategic Phases (Organized by Model Family)
 
-Once the pure ferromagnetic Kitaev $[111]$ physics program of Phase 2 is complete, subsequent phases will be developed sequentially—one dedicated phase per model family:
+Once the pure ferromagnetic Kitaev $[111]$ physics and dynamical spectroscopy programs of Phases 2 and 3 are complete, subsequent phases will be developed sequentially—one dedicated phase per model family:
 
-### Phase 3: Antiferromagnetic Kitaev Honeycomb Model ($K = +1.0$) under Magnetic Field
-- **M3.1:** Intermediate field-induced gapless quantum spin liquid phase ($h_{c1} < h < h_{c2}$), emergent neutral spinon Fermi surfaces, and U(1) gauge fluctuations.
-- **M3.2:** Vison energetics, chiral gap scaling, and dynamical structure factors in the AFM Kitaev regime.
+### Phase 4: Antiferromagnetic Kitaev Honeycomb Model ($K = +1.0$) under Magnetic Field
+- **M4.1:** Intermediate field-induced gapless quantum spin liquid phase ($h_{c1} < h < h_{c2}$), emergent neutral spinon Fermi surfaces, and U(1) gauge fluctuations.
+- **M4.2:** Vison energetics, chiral gap scaling, and dynamical structure factors in the AFM Kitaev regime.
 
-### Phase 4: Extended Non-Integrable Honeycomb Models ($J\text{--}K\text{--}\Gamma\text{--}\Gamma'\text{--}D$)
-- **M4.1:** Competing zigzag, stripy, Néel, and 120° magnetic orders on $n_c \in \{4, 8, 16, 32\}$ supercells (`H5`).
-- **M4.2:** Field-induced quantum spin liquid stability windows and inelastic neutron scattering modeling for candidate materials ($\alpha\text{-RuCl}_3$, $\text{Na}_2\text{IrO}_3$).
+### Phase 5: Extended Non-Integrable Honeycomb Models ($J\text{--}K\text{--}\Gamma\text{--}\Gamma'\text{--}D$)
+- **M5.1:** Competing zigzag, stripy, Néel, and 120° magnetic orders on $n_c \in \{4, 8, 16, 32\}$ supercells (`H5`).
+- **M5.2:** Field-induced quantum spin liquid stability windows and inelastic neutron scattering modeling for candidate materials ($\alpha\text{-RuCl}_3$, $\text{Na}_2\text{IrO}_3$).
 
-### Phase 5: Three-Dimensional Tricoordinated Kitaev Lattices
-- **M5.1:** Hyperhoneycomb and stripyhoneycomb 3D Kitaev models with Majorana nodal loops and Fermi surfaces using Track B matrix sign purification.
+### Phase 6: Three-Dimensional Tricoordinated Kitaev Lattices
+- **M6.1:** Hyperhoneycomb and stripyhoneycomb 3D Kitaev models with Majorana nodal loops and Fermi surfaces using Track B matrix sign purification.

@@ -2,6 +2,9 @@
 
 [![CI](https://github.com/lufreitas0000/kitaev-mf/actions/workflows/ci.yml/badge.svg)](https://github.com/lufreitas0000/kitaev-mf/actions/workflows/ci.yml)
 [![Build LaTeX Living Lab Book & Manuscript](https://github.com/lufreitas0000/kitaev-mf/actions/workflows/latex.yml/badge.svg)](https://github.com/lufreitas0000/kitaev-mf/actions/workflows/latex.yml)
+[![Hypothesis Contracts](https://img.shields.io/badge/Hypothesis_Contracts-22_Audited_(Pass_%2F_Refuted)-1A365D)](doc/HYPOTHESIS_CONTRACTS.md)
+[![Living Lab Book PDF](https://img.shields.io/badge/Living_Lab_Book-74_Pages_PDF-8B2635)](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-labbook.pdf)
+[![SciPost Monograph PDF](https://img.shields.io/badge/SciPost_Monograph-9_Pages_PDF-2E6F40)](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-manuscript.pdf)
 
 `kitaev-mf` is a high-performance computational and analytical research library for Majorana parton mean-field theories of Kitaev quantum magnets on honeycomb lattices, formulated as a nonlinear fixed-point problem on the orthogonal Grassmannian manifold bundle $\mathrm{Gr}_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}})$.
 
@@ -49,19 +52,27 @@ The research program is organized into dedicated model-family phases:
 ---
 
 ### 2. Phase 2: Low-Energy Physics of the Pure Ferromagnetic Kitaev $[111]$ Model (**ACTIVE PREPARATION**)
-Phase 2 is the direct physical continuation of Phase 1 in the **identical model regime** ($K = -1.0$, $\mathbf{h} \parallel [111]$). Using the optimal solvers certified in Phase 1, Phase 2 maps the complete phase diagram and computes all physical observables across four regimes (`HC-P2-01`–`05` in [`doc/HYPOTHESIS_CONTRACTS.md`](doc/HYPOTHESIS_CONTRACTS.md)):
+Phase 2 is the direct physical continuation of Phase 1 in the **identical model regime** ($K = -1.0$, $\mathbf{h} \parallel [111]$), conducting calculations primarily on real-space clusters with Bloch momentum space used for reality checks:
 1. **$T = 0$ Bulk Ground State (`M2.1`):** High-resolution phase diagram ($h \in [0, 0.60]$), magnetic susceptibility tensor $\chi^{\alpha\beta}(h)$, topological Chern number $\nu \in \{-1, 0\}$, factored 6-link vs. exact 12-Majorana Pfaffian flux $\mathcal{W}_p = \operatorname{Pf}(\Omega|_{\partial p})$, and Gutzwiller / 2-RDM semidefinite lower bounds.
 2. **$T = 0$ State with Isolated Pairs of $\mathbb{Z}_2$ Vortices (`M2.2`):** Self-consistent two-vison interaction potential $V(R, h)$ on large real-space tori ($L \in \{12, 16, 24\}$), non-Abelian Majorana bound-mode hybridization splitting $\delta\epsilon_0(R) \propto e^{-R/\xi(h)}$, and local spin/gauge screening clouds ($\xi_{\mathrm{gauge}} \approx 1.1 a$).
 3. **Finite-Temperature ($T > 0$) States (`M2.3`):** Self-consistent Fermi–Dirac thermal covariance $\Omega_T = \mathrm{i}\tanh(\mathrm{i}\beta\mathbf{A}/2)$, two-peak specific heat $C_v(T)$, entropy release $S(T)$ from $\ln 2$, and thermal melting of the first-order spinodal hysteresis loop.
-4. **Static & Dynamical Spin Correlations (`M2.4`):** Equal-time structure factor $S^{\alpha\beta}(\mathbf{q})$ and dynamical spin structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ via four-Majorana Lehmann spectral convolution across the ground state, two-vortex state, and thermal ensemble.
+4. **Static Spin Correlations (`M2.4`):** Equal-time structure factor $S^{\alpha\beta}(\mathbf{q})$ and real-space correlation functions $\langle \sigma_i^\alpha \sigma_j^\beta \rangle$ across the ground state, two-vortex state, and thermal ensemble.
 
 ---
 
-### 3. Subsequent Phases (Dedicated Model Families)
-Following Phase 2, each distinct model family is developed in its own dedicated phase:
-- **Phase 3:** Antiferromagnetic Kitaev Honeycomb Model ($K = +1.0$) in $[111]$ Field (intermediate gapless U(1) spin liquid candidate, emergent spinon Fermi surfaces).
-- **Phase 4:** Extended Non-Integrable Honeycomb Exchange ($J\text{--}K\text{--}\Gamma\text{--}\Gamma'\text{--}D$) for $\alpha\text{-RuCl}_3$ and $\text{Na}_2\text{IrO}_3$.
-- **Phase 5:** Three-Dimensional Tricoordinated Kitaev Lattices (hyperhoneycomb and stripyhoneycomb).
+### 3. Phase 3: Dynamical Spin Correlations & Majorana Zero Mode Spectroscopy (arXiv:2209.12930 Reproducing & Generalization)
+Phase 3 focuses on reproducing the dynamical spin correlations and STM tunneling spectroscopy of Majorana zero modes in the pure FM Kitaev $[111]$ model (arXiv:2209.12930), benchmarked exactly in the pure Kitaev limit and evaluated via 4-Majorana mean field:
+1. **Exact Gauge-Quench Dynamical Correlator (`M3.1`):** Exact gauge quench dynamics (Knolle et al. 2014, Baskaran et al. 2007) with physical matter-parity constraints (Pedrocchi et al. 2011, Zschocke & Vojta 2015), Bogoliubov rotations, many-body Pfaffians/determinants, and Lehmann representation.
+2. **Majorana Mean-Field Generalization (`M3.2`):** Dynamical spin structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ within the 4-Majorana mean-field theory of `kitaev-mf`, benchmarked against the exact pure-Kitaev result.
+3. **Scanning Tunneling Spectroscopy of MZMs (`M3.3`):** Local tunneling density of states (LDOS), differential conductance $\mathrm{d}I/\mathrm{d}V$, and zero-bias peak spatial decay in isolated vortex pair sectors.
+
+---
+
+### 4. Subsequent Phases (Dedicated Model Families)
+Following Phase 3, subsequent model families are developed sequentially:
+- **Phase 4:** Antiferromagnetic Kitaev Honeycomb Model ($K = +1.0$) in $[111]$ Field (intermediate gapless U(1) spin liquid candidate, emergent spinon Fermi surfaces).
+- **Phase 5:** Extended Non-Integrable Honeycomb Exchange ($J\text{--}K\text{--}\Gamma\text{--}\Gamma'\text{--}D$) for $\alpha\text{-RuCl}_3$ and $\text{Na}_2\text{IrO}_3$.
+- **Phase 6:** Three-Dimensional Tricoordinated Kitaev Lattices (hyperhoneycomb and stripyhoneycomb).
 
 ---
 
