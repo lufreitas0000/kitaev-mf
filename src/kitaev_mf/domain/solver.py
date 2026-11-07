@@ -39,6 +39,7 @@ class SolverConfig:
     jfnk_gmres_maxiter: int = 15
     jfnk_eps: float = 1e-7
     skew_mode: Literal["raw", "symmetrize_output", "retract_step", "intrinsic"] = "retract_step"
+    precondition_dual: bool = False
 
     def __post_init__(self) -> None:
         if len(self.k_grid_shape) != 2 or any(n <= 0 for n in self.k_grid_shape):
