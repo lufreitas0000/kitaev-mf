@@ -9,6 +9,10 @@ for the SemVer policy and release procedure.
 ## [Unreleased]
 
 ### Changed
+- Added a concrete Git/PR/data workflow and preservation checkpoints; verified
+  original perturbation notes remain unchanged at compared refs and corrected the
+  earlier concern from possible alteration to neglect of the original contracts.
+
 - Established model-agnostic main/exploration PR routing, wave/task planning,
   mandatory task intake, multiple classification tags, and claim-level acceptance.
 - Recorded PI disapproval of historical Phase 4 calculations and scheduled

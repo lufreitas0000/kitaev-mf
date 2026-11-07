@@ -5,6 +5,9 @@
 
 This document defines how repository guidance, executable configuration, scientific records, and project planning relate to one another.
 
+Git terms and examples: `doc/governance/VERSION_CONTROL_GUIDE.md`; operating
+procedure: `.agents/rules/10_version_control_workflow.md`.
+
 ## W001 accepted transition
 
 ADR-002 and Rules 05/09 govern new waves, multi-tag classification, branch targets,

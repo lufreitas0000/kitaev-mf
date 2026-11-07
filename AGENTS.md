@@ -38,6 +38,7 @@ Read the rules relevant to the task before changing files:
 - `.agents/rules/04_versioning_and_releases.md` — package versioning, changelog, and releases.
 - `.agents/rules/05_project_management.md` — phase, milestone, task, and sprint planning.
 - `.agents/rules/06_milestone_progress.md` — development-branch state updates, verification evidence, and task handover.
+- `.agents/rules/10_version_control_workflow.md` — branch/PR procedure, backups, data, and publication gates.
 - `.agents/rules/09_research_intake_and_acceptance.md` — task intake, tags, acceptance, and publication ownership.
 - `.agents/rules/07_discovery_log.md` — discovery and failure journaling in `LOG_DISCOVERY_AND_PIVOTS.md`.
 - `.agents/rules/resource_baseline.md`, `.agents/rules/resource_routing.md`, and `.agents/rules/workspace_architecture.md` — hardware profiling and multi-agent routing.

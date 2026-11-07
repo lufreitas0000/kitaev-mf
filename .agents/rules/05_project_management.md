@@ -7,7 +7,10 @@ A research program identifies a model family and physical questions. A wave
 working interval within a wave; it does not imply acceptance. Tasks (`T1`, `T2`,
 ...) are atomic units within a wave. Execute one atomic task per turn, including
 internal revisions and review. Leave a 10-minute reading interval between tasks;
-do not advance automatically merely because the interval has elapsed.
+without a continuous-goal instruction, do not advance automatically merely because
+the interval has elapsed. An explicit continuous goal authorizes the next task
+after that interval and a steering/prerequisite check; new scientific decisions
+still require PI input under Rule 10.
 
 New work uses wave IDs, not new numbered phases. Historical phase/milestone IDs,
 paths, and citations remain stable aliases. Do not mechanically relabel archives.

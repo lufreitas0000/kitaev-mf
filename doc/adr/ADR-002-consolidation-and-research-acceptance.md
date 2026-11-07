@@ -21,3 +21,12 @@
 Rules 01, 05, and 09 implement this decision. W001 sequences the transition;
 branch integration, publication-source migration, scientific acceptance, and
 release remain separate tasks. No server branch protections are claimed changed.
+
+## T2 clarification
+
+The PI clarified that earlier perturbation work was ignored, not believed
+altered. Seven original notes are byte-identical across the inventoried source
+tips. Rule 10 and VERSION_CONTROL_GUIDE make the branch procedure explicit;
+archive tags preserve inputs without adding active development streams. The
+continuous goal authorizes sequential tasks after reading and steering checks,
+with scientific decision and publication gates retained.

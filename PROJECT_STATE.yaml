@@ -204,14 +204,28 @@ active_milestone:
         - doc/audits/w001_verification.md
     - id: T2
       title: Preserve inputs and recover exact-perturbation chronology
-      status: planned
+      status: completed
       target_files:
         - doc/audits/w001_source_inventory.json
-        - doc/audits/w001_perturbation_recovery.md (planned)
+        - doc/audits/w001_perturbation_recovery.md
       contracts:
         - Compare original and later sources; no automatic acceptance or destructive recovery
       validation:
         - Commit/blob provenance and untouched-source hash comparison; review before T3
+      evidence:
+        - doc/audits/w001_t2_verification.md
+    - id: T3
+      title: Reconcile baseline and integrate provisional sources into exploration
+      status: planned
+      target_files:
+        - doc/plans/w001_consolidation.md
+        - .github/workflows/ci.yml
+        - doc/audits/w001_integration.md (planned)
+      contracts:
+        - Preserve archive inputs and exclude disapproved conclusions from accepted narrative
+        - No main promotion containing unreviewed inherited changes
+      validation:
+        - Inspect candidate diffs, conflicts, workflow routing, and affected interface checks
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -513,5 +527,5 @@ verified_physics_invariants:
     domain_wall_surface_tension: 0.042
 open_blockers:
   - Historical Phase 4 calculations disapproved by PI; acceptance register controls their disposition
-  - Recover earlier perturbation findings and identify later alterations before integration
+  - Use earlier perturbation contracts previously ignored; do not presume alteration before integration
   - Existing completion labels do not substitute for claim-level acceptance

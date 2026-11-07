@@ -25,6 +25,9 @@
     exploration is created. Record that base in the dated audit. Creating the two
     branch names does not certify inherited main content.
 
+For the step-by-step procedure and Git terms, see Rule 10 and
+`doc/governance/VERSION_CONTROL_GUIDE.md`.
+
 ## 2. Four-Tier Version Control and Data Provenance Contract
 
 Every repository separates source, compact benchmarks, heavy binary tensors, ephemeral build caches, and published deliverables across four tiers:

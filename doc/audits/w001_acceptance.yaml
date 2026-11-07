@@ -18,14 +18,15 @@ entries:
     subject: Earlier exact pure-Kitaev perturbation research
     scientific_status: unreviewed
     implementation_status: original-notes-and-later-modifications-present
-    priority: recover-before-integration
+    priority: reinstate-contracts-before-integration
     evidence:
       - doc/rnd/exact-perturbation-theory/ROADMAP.md
       - doc/rnd/exact-perturbation-theory/notes/03_low_energy_projector_and_feshbach.md
     limitations:
-      - User reports earlier findings may have been altered; exact damage not yet determined
+      - PI clarified earlier work was ignored; alteration is not established
       - Neither all-orders completion nor scalar-gap replacement of resolvents is accepted here
-    disposition: Compare original derivations to later changes without overwriting either
+    preservation_evidence: doc/audits/w001_perturbation_recovery.md
+    disposition: Bring the earlier contracts into active review; preserve original and later artifacts separately
   - id: W001-REVIEW-03
     subject: K-019 inherited perturbative-prefactor reconciliation
     scientific_status: needs-revision

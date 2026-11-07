@@ -1178,6 +1178,41 @@
     "No source branch merged or deleted",
     "No arbitrary-order perturbative correctness established",
     "Historical Phase 4 contents are disapproved by PI, preserved for audit",
-    "Original-versus-later mathematical changes require W001 T2 review"
-  ]
+    "PI concern is ignored earlier work, not presumed alteration; validity review remains separate"
+  ],
+  "preservation_checkpoints": {
+    "policy_base": {
+      "ref": "refs/tags/archive/w001/policy-base",
+      "commit": "39e733e8e920f24702a1e3413b9ec9f187ddfb09"
+    },
+    "phase2": {
+      "ref": "refs/tags/archive/w001/phase2",
+      "commit": "8b242a58f942d73d6d45a02afcf3b9930e3f8d05"
+    },
+    "phase3": {
+      "ref": "refs/tags/archive/w001/phase3",
+      "commit": "21a27d8fa72648723191ec5178a79f7e0146cd8b"
+    },
+    "phase4": {
+      "ref": "refs/tags/archive/w001/phase4",
+      "commit": "1d82e6a48e20213e208ce2c089dfc7fa423522f6"
+    },
+    "earlier_perturbation_ref": {
+      "ref": "refs/tags/archive/w001/earlier-perturbation-ref",
+      "commit": "13db8f2cc50c43cbe893e251bd6e09ea29456820"
+    },
+    "phase3_untracked": {
+      "ref": "refs/tags/archive/w001/phase3-untracked-inputs",
+      "commit": "a152ea50df5977bcfac44e4a1d6d2c6cf73e752a",
+      "parent": "21a27d8fa72648723191ec5178a79f7e0146cd8b",
+      "files": {
+        "data/processed/benchmarks/phase_3/mzm_thermodynamic_spectral_benchmarks.dat": "5800ddc875298caee40893b85df1ea6285ec14a3",
+        "doc/rnd/phase_3_dynamical_spin_correlations/theory/t3_w1_3_thermodynamic_sum_rules_and_spectral_functions.md": "8bfe23949e4ed0b92a18652704fc012874e75be3",
+        "scripts/phase_3/benchmark_thermodynamic_spectral_functions.py": "ae8986843981bed849f1e7682fc6202a12c860ea",
+        "src/kitaev_mf/services/phase_3/thermodynamic_spectral_benchmarks.py": "764d2d28bb7b975e7c4f41fb420c121704f962b9",
+        "test/unit/test_phase3_thermodynamic_spectral_benchmarks.py": "7ce60b5e3b87fefa32c88c107ac0b39fea70d39a"
+      },
+      "acceptance": "unreviewed; preservation only"
+    }
+  }
 }

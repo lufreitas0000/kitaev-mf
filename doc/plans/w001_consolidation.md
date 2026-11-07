@@ -29,12 +29,38 @@ T1 completed: policy and preservation inventory passed focused validation and an
 adversarial internal review after revisions. Evidence: `doc/audits/w001_verification.md`.
 This does not mark any physics claim accepted or any branch integrated.
 
+## Task T2 intake: preservation, provenance, and version-control procedure
+
+- Question: where is the earlier perturbation framework, and how will it actually
+  constrain subsequent research and branch integration?
+- PI correction: earlier work was ignored; alteration/corruption is not alleged
+  or established. Inspect differences without assuming damaged derivations.
+- Prerequisites: T1 inventory, original research ref/checkpoints, untouched Phase 3
+  preservation inputs, and the latest user correction.
+- Contract: preserve original tracked and untracked inputs without changing other
+  worktrees; document chronology, content identity/differences, and missing use of
+  earlier assumptions. No new scientific correctness or all-orders completion claim.
+- Evidence: immutable archive tags, untracked snapshot commit, note blob comparison,
+  `doc/audits/w001_perturbation_recovery.md`, and the version-control procedure.
+- Destination: governance guide and chronological consolidation appendix. Tags:
+  perturbation, conventions, physical-state-space; no publication result.
+- Verification: compare snapshot tree to source commits and five recorded hashes;
+  parse registers/state; inspect changed-file scope and git diff --check; internal review.
+- Branch: temporary documentation branch stacked on T1 during the documented W001
+  transition; no direct main push or main-targeted PR containing inherited commits.
+- Stop: preservation/provenance and procedure commit; T3 owns branch integration.
+
+T2 completed: seven original notes were identical across the compared tips;
+six preservation tags were pushed and their remote targets inspected; Rule 10
+and the version-control guide passed internal review. No physics was accepted.
+Evidence: `doc/audits/w001_t2_verification.md`.
+
 ## Subsequent atomic tasks
 
 | Task | Scope | Exit gate |
 |---|---|---|
 | T1 | Policy, source inventory, initial acceptance register | Internally reviewed records; no physics altered |
-| T2 | Preserve untracked work; recover exact-perturbation history and source deltas | Explicit preservation checkpoints; original vs later claims distinguished |
+| T2 | Preserve untracked work; recover exact-perturbation history and previously ignored contracts | Explicit preservation checkpoints; original vs later claims distinguished |
 | T3 | Create exploration and integrate source branches sequentially | Reconciled tree and records; disapproved material visibly separated |
 | T4 | Recover perturbative contracts and review highest-risk foundational claims | Operator/projector/resolvent assumptions and actual implemented orders known |
 | T5 | Define canonical labbook include map and incremental-note template | Logical main narrative and wave appendices cross-reference stable claims |
@@ -69,3 +95,13 @@ Use reviewed sessions, not automatic deadlines: inventory/policy 1-2; branch
 transition 1-2; foundational/contested-claim review 4-6; References pilot 1-2;
 labbook integration 3-5; first promotions and manuscript selection 1-2. Re-estimate
 from measured work. No new bulk physics benchmarks during preservation inventory.
+
+## Continuous goal authorization
+
+On 2026-11-07 Lu Freitas requested continuous execution through this chronogram,
+subject to strategy/PI decision gates. Continue across atomic task turns after the
+10-minute reading interval and steering check. Do not require a new permission
+question for already authorized preservation, review, or reversible integration
+preparation. Surface scientific decisions or material scope changes explicitly;
+do not silently change criteria or publish unreviewed results. Keep the goal
+active until its actual deliverables are complete or a user-directed pause applies.
