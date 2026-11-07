@@ -274,3 +274,71 @@ def build_honeycomb_torus_cluster(
             triplets.append((nbrs[alpha], sa, nbrs[beta], -1))
 
     return num_sites, bonds, triplets
+
+
+def build_honeycomb_cylinder_cluster(
+    Lx: int,
+    Ly: int,
+) -> tuple[int, list[DirectedBond], list[tuple[int, int, int, int]]]:
+    """Generate geometry for an Lx x Ly unit-cell honeycomb cluster on a cylinder.
+
+    Periodic along m1 (direction a1, size Lx); open along m2 (direction a2, size Ly).
+    Boundary truncation ensures that bonds crossing m2 < 0 or m2 >= Ly and NNN triplets
+    traversing missing boundary links are strictly omitted, maintaining exact skew-symmetry.
+
+    Returns:
+        num_sites: Total physical sites 2 * Lx * Ly
+        bonds: List of DirectedBond (site_a, site_b, alpha)
+        triplets: List of (j, k, l, nu) for NNN chiral interaction
+    """
+    if Lx < 2 or Ly < 2:
+        raise ValueError(f"Cylinder dimensions Lx and Ly must be >= 2, got Lx={Lx}, Ly={Ly}")
+
+    num_sites = 2 * Lx * Ly
+
+    def site_idx(m1: int, m2: int, sub: int) -> int:
+        return 2 * ((m1 % Lx) + Lx * m2) + sub
+
+    nbr_A: dict[int, dict[int, int]] = {s: {} for s in range(0, num_sites, 2)}
+    nbr_B: dict[int, dict[int, int]] = {s: {} for s in range(1, num_sites, 2)}
+    bonds: list[DirectedBond] = []
+
+    for m2 in range(Ly):
+        for m1 in range(Lx):
+            sa = site_idx(m1, m2, 0)
+
+            # 1. Bond z: (m1, m2, A) -> (m1, m2, B) [always internal]
+            sb_z = site_idx(m1, m2, 1)
+            bonds.append(DirectedBond(site_a=sa, site_b=sb_z, bond_type=3))
+            nbr_A[sa][3] = sb_z
+            nbr_B[sb_z][3] = sa
+
+            # 2. Bond y: (m1, m2, A) -> (m1 - 1, m2, B) [periodic along m1, always internal]
+            sb_y = site_idx((m1 - 1) % Lx, m2, 1)
+            bonds.append(DirectedBond(site_a=sa, site_b=sb_y, bond_type=2))
+            nbr_A[sa][2] = sb_y
+            nbr_B[sb_y][2] = sa
+
+            # 3. Bond x: (m1, m2, A) -> (m1, m2 - 1, B) [open along m2: only exists for m2 >= 1]
+            if m2 > 0:
+                sb_x = site_idx(m1, m2 - 1, 1)
+                bonds.append(DirectedBond(site_a=sa, site_b=sb_x, bond_type=1))
+                nbr_A[sa][1] = sb_x
+                nbr_B[sb_x][1] = sa
+
+    triplets: list[tuple[int, int, int, int]] = []
+    pairs = [(1, 3), (3, 2), (2, 1)]
+
+    # Sublattice A triangles through intermediate site k in B: nu = +1
+    for sb, nbrs in nbr_B.items():
+        for alpha, beta in pairs:
+            if alpha in nbrs and beta in nbrs:
+                triplets.append((nbrs[alpha], sb, nbrs[beta], +1))
+
+    # Sublattice B triangles through intermediate site k in A: nu = -1
+    for sa, nbrs in nbr_A.items():
+        for alpha, beta in pairs:
+            if alpha in nbrs and beta in nbrs:
+                triplets.append((nbrs[alpha], sa, nbrs[beta], -1))
+
+    return num_sites, bonds, triplets
