@@ -232,15 +232,30 @@ active_milestone:
       merge_gate: Draft pending unresolved original braiding failure; PI chose foundation review first
     - id: T4
       title: Review earlier perturbative contracts and highest-risk foundational claims
-      status: planned
+      status: completed
       target_files:
-        - doc/audits/w001_foundation_review.md (planned)
+        - doc/audits/w001_foundation_review.md
         - doc/audits/w001_acceptance.yaml
       contracts:
         - Reuse original projection and resolvent requirements without importing a scalar-gap explanation
         - No unreviewed physical threshold changes or automatic braiding certification
       validation:
         - Claim-to-derivation and source/test-scope audit with independent review
+      evidence:
+        - doc/audits/w001_foundation_review.md
+        - doc/audits/w001_foundation_observations.json
+        - doc/audits/w001_t4_verification.md
+    - id: T5
+      title: Build the canonical labbook narrative and chronological technical appendices
+      status: planned
+      target_files:
+        - doc/labbook/labbook_kitaev_mf.tex
+        - doc/audits/w001_labbook_map.md (planned)
+      contracts:
+        - Only scoped accepted statements enter the logical narrative
+        - Preserve technical proofs and historical waves with visible current status
+      validation:
+        - Source/include and claim mapping, LaTeX build, and rendered PDF inspection
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)

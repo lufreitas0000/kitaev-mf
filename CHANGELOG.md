@@ -9,6 +9,10 @@ for the SemVer policy and release procedure.
 ## [Unreleased]
 
 ### Changed
+- Audited perturbative foundation claims against the original contracts and pinned
+  primary source; retained conditional finite algebra and recorded bounded
+  diagnostic mismatches without repairing or recertifying production routines.
+
 - Collected historical research on the provisional exploration line with explicit
   acceptance status; isolated document publication from ordinary verification.
 

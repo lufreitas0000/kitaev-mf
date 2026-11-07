@@ -26,3 +26,9 @@ their presence as a fresh publication or claim review.
 Ordinary pushes/PRs build previews and run checks. Pages/release publication is
 separate: a manual main workflow dispatch with publish=true is required by the
 candidate workflows. Remote main has not yet received these workflow changes.
+
+Foundation review: `doc/audits/w001_foundation_review.md` distinguishes the
+conditional finite Schur/Feshbach identity from the legacy service behavior,
+scalar-gap assumptions, and unsupported quantitative error claims. The original
+blanket zero-second-order inference is excluded from accepted exposition. Current
+production behavior is preserved pending explicit repair contracts.

@@ -120,3 +120,13 @@ PI chose to keep the claim unresolved and the integration PR in draft while
 foundation review continues. T3 remains in progress for final merge; T4 may run
 on the unified candidate first. No test threshold/xfail change is authorized by
 this scheduling decision.
+
+## T4 outcome
+
+Completed the bounded foundation audit and reviewed conditional finite algebra.
+Primary Kitaev source and finite diagnostics show why later completion claims
+cannot certify full-Q resolvents, exact bulk prefactors, or truncation bounds.
+The earlier notes remain unchanged and operative. Evidence and acceptance scope:
+`doc/audits/w001_foundation_review.md`, `doc/audits/w001_acceptance.yaml`, and
+`doc/audits/w001_t4_verification.md`. T3 merge stays draft-gated under PI steering;
+T5 can integrate accepted statements and visibly qualified historical material.

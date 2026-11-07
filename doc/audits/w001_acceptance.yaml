@@ -39,7 +39,7 @@ entries:
   - id: W001-REVIEW-04
     subject: Historical Phase 2 and Phase 3 completion and reproduction claims
     scientific_status: unreviewed
-    implementation_status: separate-source-branches
+    implementation_status: unified-candidate-under-review
     priority: after-convention-recovery
     disposition: Inventory each claim and evidence; no bulk certification or rejection
   - id: W001-REVIEW-05
@@ -54,3 +54,69 @@ entries:
       - Enclosing phase 0.5904 radians fails the original near-pi assertion
       - No conclusion about a general physical braid theorem follows from this failure
     disposition: PI chose unresolved claim and draft integration PR; preserve test without loosening or xfail
+  - id: W001-FND-01
+    subject: Conditional finite-dimensional Schur/Feshbach reduction and fixed-energy Neumann series
+    scientific_status: supported-within-scope
+    implementation_status: proof-reviewed-services-not-certified
+    epistemic_kind: finite-dimensional-algebra
+    assumptions:
+      - Finite Hilbert space, self-adjoint H0 and V, orthogonal P, Q=I-P, and [P,H0]=0
+      - Invertibility on Ran(Q); Neumann norm condition required for series convergence
+    evidence:
+      - doc/audits/w001_foundation_review.md
+    limitations:
+      - No evaluated honeycomb coefficient or volume-uniform limit is established
+    disposition: Retain the conditional theorem with proof and explicit domains in the labbook
+  - id: W001-FND-02
+    subject: Inference that PVP=0 forces second order to vanish
+    scientific_status: refuted
+    implementation_status: original-claims-preserved-for-audit
+    epistemic_kind: finite-dimensional-counterexample-and-source-contradiction
+    evidence:
+      - doc/audits/w001_foundation_review.md
+      - doc/audits/w001_foundation_observations.json
+    limitations:
+      - Open-ring numerical witness is not a periodic bulk result
+      - This does not negate a third-order time-reversal-breaking mass mechanism
+    disposition: Exclude the inference and blanket zero-second-order claim from accepted exposition
+  - id: W001-FND-03
+    subject: Legacy threshold helpers as full physical eliminated-block certificates
+    scientific_status: needs-revision
+    implementation_status: finite-diagnostic-mismatches-observed
+    evidence:
+      - src/kitaev_mf/services/feshbach.py
+      - scripts/audits/w001_foundation_checks.py
+      - doc/audits/w001_foundation_observations.json
+    limitations:
+      - One plaquette and one pair pattern are not the full joint flux complement
+      - Genuine zero sector eigenvalues and fixed P/Q labels must be retained
+    disposition: Do not use these outputs as certified full-Q lower gaps or upper resolvent bounds
+  - id: W001-FND-04
+    subject: Exact bulk prefactor and quantitative fifth-order or finite-size bounds from scalar-gap routines
+    scientific_status: needs-revision
+    implementation_status: assumed-formulas-present-no-coefficient-or-remainder-evaluation
+    evidence:
+      - src/kitaev_mf/services/exact_perturbation.py
+      - test/unit/test_exact_perturbation.py
+      - doc/audits/w001_foundation_review.md
+    disposition: Retain only as declared heuristic/static-denominator calculations pending independent derivation
+  - id: W001-FND-05
+    subject: One-spin Zeeman generator under the standard Pauli convention
+    scientific_status: needs-revision
+    implementation_status: exact-Y-sign-mismatch
+    evidence:
+      - src/kitaev_mf/services/exact_perturbation.py
+      - doc/audits/w001_foundation_observations.json
+    disposition: Separate repair contract required; do not silently transfer odd-order signs
+  - id: W001-FND-06
+    subject: Pauli versus spin-half coupling and field substitution
+    scientific_status: supported-within-scope
+    implementation_status: algebraic-convention-map-only
+    epistemic_kind: exact-substitution
+    statement: S=sigma/2 maps J_spin=4*K_Pauli and h_spin=2*h_Pauli for the same Hamiltonian
+    evidence:
+      - doc/rnd/exact-perturbation-theory/notes/02_normalization_and_bloch_conventions.md
+      - doc/audits/w001_foundation_review.md
+    limitations:
+      - Does not identify a matrix band separation with a physical many-body spin gap
+    disposition: Retain the explicit operator-level unit map; compare all other observables separately

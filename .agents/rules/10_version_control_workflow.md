@@ -42,6 +42,8 @@ remain exploration. The PR must state its intended target explicitly.
 2. Create the temporary branch from the recorded intended base. Record dependencies
    on other unmerged work. During W001 only, T2 may stack on T1 before exploration
    exists; record the inherited baseline and do not submit it wholesale to main.
+   The PI-authorized T4 prerequisite review remains on the T3 candidate while its
+   merge gate is unresolved; it must not open a competing research stream.
 3. Work, test, and obtain internal review. Keep scientific status separate from
    software status. Inspect the staged diff and commit with Lu Freitas's requested
    identity. Push the temporary branch as a backup/review candidate.
