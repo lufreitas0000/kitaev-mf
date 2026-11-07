@@ -8,7 +8,6 @@ Audits:
 """
 
 import numpy as np
-import pytest
 
 from kitaev_mf.services.phase_3.gauge_theory import (
     assemble_matter_skew_matrix,

@@ -10,14 +10,12 @@ Implements the geometric and gauge-theoretic engine for:
 from __future__ import annotations
 
 from collections import deque
-from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
 
 from kitaev_mf.services.phase_3.gauge_theory import (
-    DirectedBond,
     GaugeConfiguration,
     compute_plaquette_flux,
     flip_bond_gauge_link,
@@ -288,7 +286,7 @@ def categorize_spin_quench(
         "transition_type": transition_type,
         "initial_vortex_count": num_init,
         "quenched_vortex_count": num_quenched,
-        "initial_vortices": sorted(list(vortices_init)),
-        "quenched_vortices": sorted(list(vortices_quenched)),
+        "initial_vortices": sorted(vortices_init),
+        "quenched_vortices": sorted(vortices_quenched),
         "displaced_vortices": (moved_from, moved_to),
     }
