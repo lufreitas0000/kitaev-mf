@@ -81,7 +81,9 @@ def build_honeycomb_cylinder_system(
     # Bulk ribbon in middle third
     m2_min = Ly // 3
     m2_max = 2 * Ly // 3
-    bulk = [site_idx(m1, m2, sub) for m2 in range(m2_min, m2_max) for m1 in range(Lx) for sub in (0, 1)]
+    bulk = [
+        site_idx(m1, m2, sub) for m2 in range(m2_min, m2_max) for m1 in range(Lx) for sub in (0, 1)
+    ]
 
     bulk_gap = float(6.0 * np.sqrt(3.0) * kappa)
 

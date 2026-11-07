@@ -11,7 +11,6 @@ Audits:
 from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from kitaev_mf.services.phase_3.gauge_theory import (
     build_honeycomb_torus_cluster,
@@ -103,13 +102,37 @@ def test_h_spec_03_c3_spatial_isometry() -> None:
     kappa = 0.15
 
     spec_x = compute_local_spectral_poles(
-        gauge=gauge_0, site_j=0, bond_type=1, geom=geom, K=K, kappa=kappa, boundary="obc", bonds=bonds, triplets=triplets
+        gauge=gauge_0,
+        site_j=0,
+        bond_type=1,
+        geom=geom,
+        K=K,
+        kappa=kappa,
+        boundary="obc",
+        bonds=bonds,
+        triplets=triplets,
     )
     spec_y = compute_local_spectral_poles(
-        gauge=gauge_0, site_j=0, bond_type=2, geom=geom, K=K, kappa=kappa, boundary="obc", bonds=bonds, triplets=triplets
+        gauge=gauge_0,
+        site_j=0,
+        bond_type=2,
+        geom=geom,
+        K=K,
+        kappa=kappa,
+        boundary="obc",
+        bonds=bonds,
+        triplets=triplets,
     )
     spec_z = compute_local_spectral_poles(
-        gauge=gauge_0, site_j=0, bond_type=3, geom=geom, K=K, kappa=kappa, boundary="obc", bonds=bonds, triplets=triplets
+        gauge=gauge_0,
+        site_j=0,
+        bond_type=3,
+        geom=geom,
+        K=K,
+        kappa=kappa,
+        boundary="obc",
+        bonds=bonds,
+        triplets=triplets,
     )
 
     # Total weights must match to machine precision
@@ -118,7 +141,7 @@ def test_h_spec_03_c3_spatial_isometry() -> None:
 
     # Poles must match entry-by-entry
     assert len(spec_x.poles) == len(spec_y.poles) == len(spec_z.poles)
-    for px, py, pz in zip(spec_x.poles, spec_y.poles, spec_z.poles):
+    for px, py, pz in zip(spec_x.poles, spec_y.poles, spec_z.poles, strict=False):
         assert np.isclose(px.energy, py.energy, atol=1e-12)
         assert np.isclose(px.energy, pz.energy, atol=1e-12)
         assert np.isclose(px.weight, py.weight, atol=1e-12)
@@ -126,9 +149,15 @@ def test_h_spec_03_c3_spatial_isometry() -> None:
 
     # Continuous spectra must match across entire grid
     omega_grid = np.linspace(0.0, 8.0, 500)
-    cont_x = evaluate_spectral_function(spec_x, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05)
-    cont_y = evaluate_spectral_function(spec_y, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05)
-    cont_z = evaluate_spectral_function(spec_z, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05)
+    cont_x = evaluate_spectral_function(
+        spec_x, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05
+    )
+    cont_y = evaluate_spectral_function(
+        spec_y, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05
+    )
+    cont_z = evaluate_spectral_function(
+        spec_z, omega_grid=omega_grid, broadening_type="gaussian", broadening_param=0.05
+    )
 
     max_diff_xy = float(np.max(np.abs(cont_x.spectral_density - cont_y.spectral_density)))
     max_diff_xz = float(np.max(np.abs(cont_x.spectral_density - cont_z.spectral_density)))
@@ -244,9 +273,7 @@ def test_h_spec_07_singular_quench_spectral_poles() -> None:
     gauge_0 = build_uniform_gauge_configuration(num_sites=num_sites, bonds=bonds)
 
     # Background with two vortices at (0, 0) and (0, 1) produces a singular quench on bond_type 2
-    gauge_2v, _ = create_two_vortex_gauge_configuration(
-        gauge_0, p1=(0, 0), p2=(0, 1), geom=geom
-    )
+    gauge_2v, _ = create_two_vortex_gauge_configuration(gauge_0, p1=(0, 0), p2=(0, 1), geom=geom)
 
     spec_sing = compute_local_spectral_poles(
         gauge=gauge_2v,

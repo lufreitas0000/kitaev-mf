@@ -13,6 +13,7 @@ import numpy as np
 import pytest
 
 from kitaev_mf.services.phase_3.mzm_spectroscopy import (
+    TwoVortexMZMSystem,
     build_two_vortex_mzm_system,
 )
 from kitaev_mf.services.phase_3.spectral_engine import (
@@ -23,12 +24,12 @@ from kitaev_mf.services.phase_3.spectral_engine import (
 
 
 @pytest.fixture(scope="module")
-def shared_vortex_system():
+def shared_vortex_system() -> TwoVortexMZMSystem:
     """Shared L=6 two-vortex cluster for thermal tests."""
     return build_two_vortex_mzm_system(L=6, p1=(1, 1), p2=(4, 4), K=1.0, kappa=0.15)
 
 
-def test_h_temp_01_kms_detailed_balance(shared_vortex_system):
+def test_h_temp_01_kms_detailed_balance(shared_vortex_system: TwoVortexMZMSystem) -> None:
     """H_TEMP_01: Verify exact KMS detailed balance relation S(-omega) = exp(-beta * omega) S(omega)."""
     sys = shared_vortex_system
     p1_bonds = sys.geom.plaquette_bonds(1, 1)
@@ -64,11 +65,15 @@ def test_h_temp_01_kms_detailed_balance(shared_vortex_system):
             tol=1e-10,
         )
 
-        assert res["is_valid"], f"KMS detailed balance violated at T={T}: max error = {res['max_relative_error']}"
+        assert res["is_valid"], (
+            f"KMS detailed balance violated at T={T}: max error = {res['max_relative_error']}"
+        )
         assert res["max_relative_error"] < 1e-10
 
 
-def test_h_temp_02_thermal_mzm_peak_suppression(shared_vortex_system):
+def test_h_temp_02_thermal_mzm_peak_suppression(
+    shared_vortex_system: TwoVortexMZMSystem,
+) -> None:
     """H_TEMP_02: Verify monotonic decrease of MZM zero-bias peak height with increasing temperature."""
     sys = shared_vortex_system
     p1_bonds = sys.geom.plaquette_bonds(1, 1)
@@ -113,7 +118,9 @@ def test_h_temp_02_thermal_mzm_peak_suppression(shared_vortex_system):
     )
 
 
-def test_h_temp_03_thermal_subgap_infill(shared_vortex_system):
+def test_h_temp_03_thermal_subgap_infill(
+    shared_vortex_system: TwoVortexMZMSystem,
+) -> None:
     """H_TEMP_03: Verify that bulk subgap spectral weight increases monotonically with temperature."""
     sys = shared_vortex_system
     geom = sys.geom
@@ -164,7 +171,9 @@ def test_h_temp_03_thermal_subgap_infill(shared_vortex_system):
     assert ratio > 10.0, f"Expected subgap infill ratio > 10x, got {ratio:.1f}x"
 
 
-def test_h_temp_04_sum_rule_conservation(shared_vortex_system):
+def test_h_temp_04_sum_rule_conservation(
+    shared_vortex_system: TwoVortexMZMSystem,
+) -> None:
     """H_TEMP_04: Verify conservation of two-sided integrated spectral weight across temperatures."""
     sys = shared_vortex_system
     p1_bonds = sys.geom.plaquette_bonds(1, 1)

@@ -10,7 +10,6 @@ Implements the MZM detection and spatial spectroscopy engine for arXiv:2209.1293
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
 
@@ -18,9 +17,9 @@ from kitaev_mf.services.phase_3.bogoliubov import (
     extract_mode_wavefunctions,
 )
 from kitaev_mf.services.phase_3.gauge_theory import (
+    DiagonalizedMatterSector,
     DirectedBond,
     GaugeConfiguration,
-    DiagonalizedMatterSector,
     assemble_matter_skew_matrix,
     build_honeycomb_torus_cluster,
     build_uniform_gauge_configuration,
@@ -28,7 +27,6 @@ from kitaev_mf.services.phase_3.gauge_theory import (
 )
 from kitaev_mf.services.phase_3.spectral_engine import (
     ContinuousSpectrum,
-    DiscreteSpectralData,
     SpectralPole,
     compute_local_spectral_poles,
     evaluate_spectral_function,
@@ -65,7 +63,9 @@ class Figure3Spectrogram:
     omega: np.ndarray  # Frequency grid
     core_spectrum: ContinuousSpectrum  # Tip on vortex core boundary (dominant zero-bias peak)
     ring_spectrum: ContinuousSpectrum  # Tip on first neighbor ring (suppressed zero-bias peak)
-    bulk_spectrum: ContinuousSpectrum  # Tip in bulk far from vortices (zero subgap weight, vison onset)
+    bulk_spectrum: (
+        ContinuousSpectrum  # Tip in bulk far from vortices (zero subgap weight, vison onset)
+    )
     core_site: int
     ring_site: int
     bulk_site: int
@@ -83,7 +83,7 @@ class Figure4SpatialDecay:
     radial_distances: np.ndarray  # Binned Euclidean distances r from nearest vortex core
     low_energy_weights: np.ndarray  # Mean low-bias spectral weight I_low(r)
     mzm_densities: np.ndarray  # Mean wavefunction density rho_MZM(r)
-    fitted_xi_M: float  # Fitted Majorana localization length xi_M in units of lattice constant a
+    fitted_xi_M: float  # noqa: N815  # Fitted Majorana localization length xi_M in units of lattice constant a
     fit_slope: float  # Linear regression slope d(ln rho) / dr
     fit_r_squared: float  # Coefficient of determination R^2
     omega_cutoff: float  # Energy threshold separating MZM from bulk continuum
@@ -108,9 +108,7 @@ def build_two_vortex_mzm_system(
     geom = HoneycombGeometry(L=L)
     gauge_0 = build_uniform_gauge_configuration(num_sites=num_sites, bonds=bonds)
 
-    gauge_2v, _ = create_two_vortex_gauge_configuration(
-        base_gauge=gauge_0, p1=p1, p2=p2, geom=geom
-    )
+    gauge_2v, _ = create_two_vortex_gauge_configuration(base_gauge=gauge_0, p1=p1, p2=p2, geom=geom)
 
     A_2v = assemble_matter_skew_matrix(gauge_2v, K=K, kappa=kappa, triplets=triplets)
     diag_2v = diagonalize_matter_hamiltonian(A_2v, gauge=gauge_2v, boundary="obc", L=L)
@@ -301,7 +299,7 @@ def reproduce_figure_4_spatial_decay(
         low_weights.append(w_low)
 
     # Bin by rounded distance
-    unique_dists = sorted(list(set(round(d, 3) for d in site_distances)))
+    unique_dists = sorted({round(d, 3) for d in site_distances})
     binned_r: list[float] = []
     binned_w: list[float] = []
     binned_rho: list[float] = []

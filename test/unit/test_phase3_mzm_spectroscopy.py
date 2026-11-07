@@ -10,7 +10,6 @@ Audits:
 from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from kitaev_mf.services.phase_3.mzm_spectroscopy import (
     build_two_vortex_mzm_system,

@@ -9,35 +9,41 @@ Verifies contracts:
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Ensure repository root is on sys.path for scripts importing
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-import pytest
-import numpy as np
 
-from kitaev_mf.services.phase_3.mzm_spectroscopy import (
+import numpy as np  # noqa: E402
+import pytest  # noqa: E402
+
+from kitaev_mf.services.phase_3.mzm_spectroscopy import (  # noqa: E402
+    TwoVortexMZMSystem,
     build_two_vortex_mzm_system,
 )
-from scripts.phase_3.plot_arxiv2209_12930_reproduction import (
+from scripts.phase_3.plot_arxiv2209_12930_reproduction import (  # noqa: E402
     FIGURES_DIR,
     generate_figure_3_assets,
     generate_figure_4_assets,
+)
+from scripts.phase_3.plot_arxiv2209_12930_reproduction import (  # noqa: E402
     main as run_visualization_main,
 )
 
 
 @pytest.fixture(scope="module")
-def shared_mzm_system():
+def shared_mzm_system() -> TwoVortexMZMSystem:
     """Construct shared L=6 two-vortex MZM system for visualization tests."""
     return build_two_vortex_mzm_system(L=6, p1=(1, 1), p2=(4, 4), K=1.0, kappa=0.15)
 
 
-def test_h_vis_01_figure_3_spectrogram_assets(shared_mzm_system, tmp_path):
+def test_h_vis_01_figure_3_spectrogram_assets(
+    shared_mzm_system: TwoVortexMZMSystem, tmp_path: Path
+) -> None:
     """H_VIS_01: Verify Figure 3 asset generation, file sizes, and physics content."""
     png_path, pdf_path, dat_path = generate_figure_3_assets(shared_mzm_system, out_dir=tmp_path)
 
@@ -52,11 +58,13 @@ def test_h_vis_01_figure_3_spectrogram_assets(shared_mzm_system, tmp_path):
     # Validate data file contents
     data = np.loadtxt(dat_path, comments="#")
     assert data.shape[0] >= 100, f"Expected >= 100 frequency points, got {data.shape[0]}"
-    assert data.shape[1] == 4, f"Expected 4 columns (omega, S_core, S_ring, S_bulk), got {data.shape[1]}"
+    assert data.shape[1] == 4, (
+        f"Expected 4 columns (omega, S_core, S_ring, S_bulk), got {data.shape[1]}"
+    )
 
     omega = data[:, 0]
     s_core = data[:, 1]
-    s_ring = data[:, 2]
+    data[:, 2]
     s_bulk = data[:, 3]
 
     # Peak validation
@@ -69,12 +77,18 @@ def test_h_vis_01_figure_3_spectrogram_assets(shared_mzm_system, tmp_path):
 
     # Bulk subgap suppression: strictly vanishing at low bias and < 0.50 for omega <= 0.30
     subgap_bulk_low = s_bulk[omega <= 0.20]
-    assert np.all(subgap_bulk_low < 0.01), f"Bulk low-bias weight must be < 0.01, got max {np.max(subgap_bulk_low)}"
+    assert np.all(subgap_bulk_low < 0.01), (
+        f"Bulk low-bias weight must be < 0.01, got max {np.max(subgap_bulk_low)}"
+    )
     subgap_bulk = s_bulk[omega <= 0.30]
-    assert np.all(subgap_bulk < 0.50), f"Bulk subgap weight must be < 0.50, got max {np.max(subgap_bulk)}"
+    assert np.all(subgap_bulk < 0.50), (
+        f"Bulk subgap weight must be < 0.50, got max {np.max(subgap_bulk)}"
+    )
 
 
-def test_h_vis_02_figure_4_spatial_decay_assets(shared_mzm_system, tmp_path):
+def test_h_vis_02_figure_4_spatial_decay_assets(
+    shared_mzm_system: TwoVortexMZMSystem, tmp_path: Path
+) -> None:
     """H_VIS_02: Verify Figure 4 asset generation, regression fit consistency, and xi_M."""
     png_path, pdf_path, dat_path = generate_figure_4_assets(shared_mzm_system, out_dir=tmp_path)
 
@@ -91,7 +105,7 @@ def test_h_vis_02_figure_4_spatial_decay_assets(shared_mzm_system, tmp_path):
     assert data.shape[0] >= 5, f"Expected >= 5 radial bins, got {data.shape[0]}"
     assert data.shape[1] == 4, f"Expected 4 columns (r, rho, I_low, rho_fit), got {data.shape[1]}"
 
-    r_vals = data[:, 0]
+    data[:, 0]
     rho_vals = data[:, 1]
 
     # Monotonic decay over the first 3 bins
@@ -117,7 +131,9 @@ def test_h_vis_02_figure_4_spatial_decay_assets(shared_mzm_system, tmp_path):
             assert r2_val >= 0.90, f"Fit R^2 must be >= 0.90, got {r2_val}"
 
 
-def test_h_vis_03_figure_4b_2d_conductance_contrast(shared_mzm_system):
+def test_h_vis_03_figure_4b_2d_conductance_contrast(
+    shared_mzm_system: TwoVortexMZMSystem,
+) -> None:
     """H_VIS_03: Verify real-space MZM wavefunction contrast between vortex core and bulk."""
     mzm_density = shared_mzm_system.mzm_density
     max_core_density = float(np.max(mzm_density))
@@ -130,7 +146,7 @@ def test_h_vis_03_figure_4b_2d_conductance_contrast(shared_mzm_system):
     )
 
 
-def test_h_vis_04_pipeline_execution_and_asset_integrity():
+def test_h_vis_04_pipeline_execution_and_asset_integrity() -> None:
     """H_VIS_04: Full pipeline execution and production directory validation."""
     exit_code = run_visualization_main()
     assert exit_code == 0, f"Visualization main() failed with code {exit_code}"

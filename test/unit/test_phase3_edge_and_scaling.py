@@ -10,7 +10,6 @@ Verifies contracts:
 from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from kitaev_mf.services.phase_3.edge_and_scaling import (
     analyze_cylinder_edge_modes,
@@ -25,7 +24,7 @@ from kitaev_mf.services.phase_3.gauge_theory import (
 )
 
 
-def test_h_edge_01_cylinder_geometry_and_skew_symmetry():
+def test_h_edge_01_cylinder_geometry_and_skew_symmetry() -> None:
     """H_EDGE_01: Verify cylinder cluster generation, bond counts, and skew-symmetry to machine precision."""
     Lx, Ly = 6, 8
     num_sites, bonds, triplets = build_honeycomb_cylinder_cluster(Lx=Lx, Ly=Ly)
@@ -50,14 +49,13 @@ def test_h_edge_01_cylinder_geometry_and_skew_symmetry():
     assert herm_error < 1e-15, f"Hermiticity of i*A violated: {herm_error}"
 
 
-def test_h_edge_02_chiral_edge_mode_boundary_localization():
+def test_h_edge_02_chiral_edge_mode_boundary_localization() -> None:
     """H_EDGE_02: Verify emergence of in-gap chiral edge states localized on cylinder boundaries."""
     Lx, Ly = 6, 12
     system = build_honeycomb_cylinder_system(Lx=Lx, Ly=Ly, K=1.0, kappa=0.15)
     modes = analyze_cylinder_edge_modes(system, max_modes=4)
 
     # 1. In-gap mode existence below bulk gap
-    bulk_gap = system.bulk_gap_estimate  # ~1.5588
     assert modes["in_gap_count"] >= 4, f"Expected >= 4 in-gap modes, got {modes['in_gap_count']}"
 
     # 2. Lowest excitation energy is nearly gapless chiral edge branch
@@ -71,7 +69,7 @@ def test_h_edge_02_chiral_edge_mode_boundary_localization():
     )
 
 
-def test_h_edge_03_edge_vs_bulk_dynamic_spin_response():
+def test_h_edge_03_edge_vs_bulk_dynamic_spin_response() -> None:
     """H_EDGE_03: Verify edge STS low-bias conductance vs bulk subgap silence."""
     Lx, Ly = 4, 6
     system = build_honeycomb_cylinder_system(Lx=Lx, Ly=Ly, K=1.0, kappa=0.15)
@@ -97,7 +95,7 @@ def test_h_edge_03_edge_vs_bulk_dynamic_spin_response():
     assert contrast > 50.0, f"Expected edge/bulk contrast > 50x, got {contrast:.1f}x"
 
 
-def test_h_edge_04_finite_size_mzm_exponential_decoupling():
+def test_h_edge_04_finite_size_mzm_exponential_decoupling() -> None:
     """H_EDGE_04: Verify monotonic decrease of MZM splitting delta_eps as cluster size L increases."""
     records = sweep_finite_size_mzm_scaling(L_values=[4, 6, 8], K=1.0, kappa=0.15)
 

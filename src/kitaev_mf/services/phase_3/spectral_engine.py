@@ -9,20 +9,21 @@ Implements the spectral summation engine for arXiv:2209.12930:
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
 
 from kitaev_mf.services.phase_3.bogoliubov import (
-    extract_mode_wavefunctions,
     compute_bogoliubov_transformation,
     compute_majorana_matrix_elements,
+    extract_mode_wavefunctions,
 )
 from kitaev_mf.services.phase_3.gauge_theory import (
+    DiagonalizedMatterSector,
     DirectedBond,
     GaugeConfiguration,
-    DiagonalizedMatterSector,
     assemble_matter_skew_matrix,
     build_honeycomb_torus_cluster,
     diagonalize_matter_hamiltonian,
@@ -115,9 +116,7 @@ def compute_local_spectral_poles(
     )
 
     # 3. Diagonalize quenched sector G'
-    A_quenched = assemble_matter_skew_matrix(
-        quenched_gauge, K=K, kappa=kappa, triplets=triplets
-    )
+    A_quenched = assemble_matter_skew_matrix(quenched_gauge, K=K, kappa=kappa, triplets=triplets)
     diag_quenched = diagonalize_matter_hamiltonian(
         A_quenched, gauge=quenched_gauge, boundary=boundary, L=L
     )
@@ -196,7 +195,9 @@ def compute_local_spectral_poles(
     # Sort poles in ascending energy order
     poles.sort(key=lambda p: p.energy)
     total_w = float(sum(p.weight for p in poles))
-    flux_gap = float(diag_quenched.unprojected_vacuum_energy - diag_initial.unprojected_vacuum_energy)
+    flux_gap = float(
+        diag_quenched.unprojected_vacuum_energy - diag_initial.unprojected_vacuum_energy
+    )
 
     return DiscreteSpectralData(
         site_j=site_j,
@@ -230,7 +231,9 @@ def evaluate_spectral_function(
       => S(omega) = 2 sum_lambda w_lambda * eta / ((omega - omega_lambda)^2 + eta^2)
     """
     if broadening_type not in ("gaussian", "lorentzian"):
-        raise ValueError(f"Invalid broadening_type {broadening_type}, must be 'gaussian' or 'lorentzian'")
+        raise ValueError(
+            f"Invalid broadening_type {broadening_type}, must be 'gaussian' or 'lorentzian'"
+        )
     if broadening_param <= 0.0:
         raise ValueError(f"Broadening parameter must be positive, got {broadening_param}")
 

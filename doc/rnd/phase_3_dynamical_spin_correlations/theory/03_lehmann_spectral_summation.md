@@ -21,7 +21,7 @@ guiding_questions:
 ## 1. Scope & Mathematical Objectives
 In **arXiv:2209.12930** (Phys. Rev. B **107**, 054432), the zero-temperature local dynamical spin correlation function:
 $$S_{jj}^{\alpha\alpha}(\omega) = 2\pi \sum_\lambda |\langle \lambda(G_j^\alpha) | \sigma_j^\alpha | \phi_0(G) \rangle|^2 \delta(\omega - \Delta E_\lambda)$$
-measures the local inelastic spin excitation spectrum under a local spin flip $\sigma_j^\alpha$. 
+measures the local inelastic spin excitation spectrum under a local spin flip $\sigma_j^\alpha$.
 
 In the Kitaev parton formulation ($\sigma_j^\alpha = \mathrm{i} c_j b_j^\alpha$):
 1. The spin operator flips the static $\mathbb{Z}_2$ gauge link on the $\alpha$-bond adjacent to site $j$: $u_{jk}^\alpha \to -u_{jk}^\alpha$, transforming the gauge sector from $G$ to $G' = G_j^\alpha$.

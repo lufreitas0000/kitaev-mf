@@ -13,10 +13,9 @@ Date: 2026-11-07
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
 import shutil
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,7 +25,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from kitaev_mf.services.phase_3.mzm_spectroscopy import (
+from kitaev_mf.services.phase_3.mzm_spectroscopy import (  # noqa: E402
     Figure3Spectrogram,
     Figure4SpatialDecay,
     TwoVortexMZMSystem,
@@ -34,7 +33,6 @@ from kitaev_mf.services.phase_3.mzm_spectroscopy import (
     reproduce_figure_3_spectrogram,
     reproduce_figure_4_spatial_decay,
 )
-
 
 ARTIFACT_DIR = Path("/home/lucas/.gemini/antigravity/brain/c1344f54-6bcf-45cd-b35a-ebf1dd03b975")
 FIGURES_DIR = PROJECT_ROOT / "doc" / "labbook" / "figures" / "phase_3"
@@ -56,14 +54,19 @@ def generate_figure_3_assets(
     with dat_path.open("w", encoding="utf-8") as f:
         f.write("# arXiv:2209.12930 Figure 3 Reproduction Data\n")
         f.write(f"# Parameters: L={system.L}, K=1.0, kappa=0.15, sigma=0.06\n")
-        f.write(f"# Core Site: {fig3.core_site}, Ring Site: {fig3.ring_site}, Bulk Site: {fig3.bulk_site}\n")
-        f.write(f"# Lowest Core Energy: {fig3.core_lowest_energy:.6f}, Lowest Bulk Energy: {fig3.bulk_lowest_energy:.6f}\n")
+        f.write(
+            f"# Core Site: {fig3.core_site}, Ring Site: {fig3.ring_site}, Bulk Site: {fig3.bulk_site}\n"
+        )
+        f.write(
+            f"# Lowest Core Energy: {fig3.core_lowest_energy:.6f}, Lowest Bulk Energy: {fig3.bulk_lowest_energy:.6f}\n"
+        )
         f.write(f"# {'omega/K':<12} {'S_core':<16} {'S_ring':<16} {'S_bulk':<16}\n")
         for w, c, r, b in zip(
             fig3.omega,
             fig3.core_spectrum.spectral_density,
             fig3.ring_spectrum.spectral_density,
             fig3.bulk_spectrum.spectral_density,
+            strict=False,
         ):
             f.write(f"{w:12.6f} {c:16.8e} {r:16.8e} {b:16.8e}\n")
 
@@ -103,7 +106,7 @@ def generate_figure_3_assets(
         f"MZM Zero-Bias Peak\n$\\omega = {w_peak:.3f}|K|$",
         xy=(w_peak, s_peak),
         xytext=(w_peak + 0.45, s_peak * 0.85),
-        arrowprops=dict(facecolor="#D9381E", edgecolor="#D9381E", width=1.5, headwidth=7),
+        arrowprops={"facecolor": "#D9381E", "edgecolor": "#D9381E", "width": 1.5, "headwidth": 7},
         fontsize=10,
         fontweight="bold",
         color="#9E200C",
@@ -121,7 +124,7 @@ def generate_figure_3_assets(
         f"Bulk Vison Threshold\n$\\Delta E_{{2v}} = {fig3.bulk_lowest_energy:.3f}|K|$",
         xy=(fig3.bulk_lowest_energy, 0.5),
         xytext=(fig3.bulk_lowest_energy + 0.35, 2.5),
-        arrowprops=dict(facecolor="#505050", edgecolor="#505050", width=1.2, headwidth=6),
+        arrowprops={"facecolor": "#505050", "edgecolor": "#505050", "width": 1.2, "headwidth": 6},
         fontsize=9.5,
         color="#333333",
     )
@@ -129,7 +132,9 @@ def generate_figure_3_assets(
     ax.set_xlim(0.0, 3.5)
     ax.set_ylim(-0.2, max(s_peak * 1.15, 14.0))
     ax.set_xlabel(r"Excitation Frequency $\omega / |K|$", fontsize=12)
-    ax.set_ylabel(r"Local Dynamical Spin Correlation $S_{jj}^{\gamma\gamma}(\omega)\; [1/|K|]$", fontsize=12)
+    ax.set_ylabel(
+        r"Local Dynamical Spin Correlation $S_{jj}^{\gamma\gamma}(\omega)\; [1/|K|]$", fontsize=12
+    )
     ax.set_title(
         r"$\bf{arXiv:2209.12930\ Fig.\ 3\ Reproduction:}$ Local STS Spin Correlations"
         f"\n($L={system.L}$, $K=1.0$, $\\kappa={system.bulk_gap_estimate / (6 * np.sqrt(3)):.2f}$, $\\sigma=0.06$)",
@@ -137,7 +142,9 @@ def generate_figure_3_assets(
         pad=10,
     )
     ax.grid(True, linestyle=":", alpha=0.6)
-    ax.legend(frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=10.5, loc="upper right")
+    ax.legend(
+        frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=10.5, loc="upper right"
+    )
 
     fig.tight_layout()
 
@@ -168,7 +175,9 @@ def generate_figure_4_assets(
         f.write(f"# Fitted Localization Length xi_M: {fig4.fitted_xi_M:.6f} a\n")
         f.write(f"# Fit Slope: {fig4.fit_slope:.6f}, R^2: {fig4.fit_r_squared:.6f}\n")
         f.write(f"# {'r/a':<12} {'rho_MZM':<16} {'I_low':<16} {'rho_fit':<16}\n")
-        for r, rho, w in zip(fig4.radial_distances, fig4.mzm_densities, fig4.low_energy_weights):
+        for r, rho, w in zip(
+            fig4.radial_distances, fig4.mzm_densities, fig4.low_energy_weights, strict=False
+        ):
             fit_val = float(np.exp(fig4.fit_slope * r + np.log(fig4.mzm_densities[0])))
             f.write(f"{r:12.6f} {rho:16.8e} {w:16.8e} {fit_val:16.8e}\n")
 
@@ -224,7 +233,7 @@ def generate_figure_4_assets(
         f"Fit $R^2 = {fig4.fit_r_squared:.3f}$",
         transform=ax_a.transAxes,
         fontsize=10.5,
-        bbox=dict(boxstyle="round,pad=0.5", facecolor="#FCFAF5", edgecolor="#DDDDDD"),
+        bbox={"boxstyle": "round,pad=0.5", "facecolor": "#FCFAF5", "edgecolor": "#DDDDDD"},
     )
 
     ax_a.set_xlim(-0.2, 3.8)
@@ -233,11 +242,12 @@ def generate_figure_4_assets(
     ax_a.set_ylabel(r"Local Spectral Weight & Density (log scale)", fontsize=11.5)
     ax_a.set_title(r"$\bf{(a)}$ Spatial Radial Decay of MZM Wavefunction", fontsize=12)
     ax_a.grid(True, linestyle=":", alpha=0.6)
-    ax_a.legend(frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.5, loc="upper right")
+    ax_a.legend(
+        frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.5, loc="upper right"
+    )
 
     # --- Panel B: 2D Real-Space Honeycomb Conductance Map ---
     geom = system.geom
-    L = geom.L
 
     # Honeycomb lattice vectors for regular hexagons
     a1 = np.array([np.sqrt(3.0) / 2.0, 1.5])
@@ -284,7 +294,7 @@ def generate_figure_4_assets(
         bonds = geom.plaquette_bonds(m1, m2)
         p_sites = list({s for b in bonds for s in b})
         # Use positions relative to first site to avoid torus wrap jumps
-        ref = site_positions[p_sites[0]]
+        site_positions[p_sites[0]]
         coords = []
         for s in p_sites:
             pos = site_positions[s]
@@ -321,14 +331,16 @@ def generate_figure_4_assets(
     ax_b.set_xlabel(r"$x / a$", fontsize=11.5)
     ax_b.set_ylabel(r"$y / a$", fontsize=11.5)
     ax_b.set_title(r"$\bf{(b)}$ 2D Real-Space MZM Conductance Map", fontsize=12)
-    ax_b.legend(frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.5, loc="lower left")
+    ax_b.legend(
+        frameon=True, facecolor="#FCFAF5", edgecolor="#CCCCCC", fontsize=9.5, loc="lower left"
+    )
 
     fig.suptitle(
         r"$\bf{arXiv:2209.12930\ Fig.\ 4\ Reproduction:}$ MZM Localization & Real-Space Topology",
         fontsize=13.5,
         y=0.98,
     )
-    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.tight_layout(rect=(0.0, 0.0, 1.0, 0.95))
 
     png_path = out_dir / "fig4_mzm_spatial_decay.png"
     pdf_path = out_dir / "fig4_mzm_spatial_decay.pdf"
@@ -347,7 +359,9 @@ def main() -> int:
 
     print("Building two-vortex MZM system (L=6, p1=(1,1), p2=(4,4), K=1.0, kappa=0.15)...")
     system = build_two_vortex_mzm_system(L=6, p1=(1, 1), p2=(4, 4), K=1.0, kappa=0.15)
-    print(f"Mid-gap MZM energies: eps_0 = {system.mzm_energies[0]:.4f}, eps_1 = {system.mzm_energies[1]:.4f}")
+    print(
+        f"Mid-gap MZM energies: eps_0 = {system.mzm_energies[0]:.4f}, eps_1 = {system.mzm_energies[1]:.4f}"
+    )
     print(f"Bulk gap estimate:    Delta_bulk = {system.bulk_gap_estimate:.4f}")
     print(f"In-gap ratio:         eps_1 / eps_2 = {system.in_gap_ratio:.4f}")
 

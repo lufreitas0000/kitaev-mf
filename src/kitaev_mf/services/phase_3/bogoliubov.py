@@ -157,7 +157,7 @@ def compute_majorana_matrix_elements(
     phi_b: np.ndarray,
     site_j: int,
     initial_parity: int = -1,  # -1 for one-fermion ground state (torus), +1 for vacuum
-    occupied_mode: int = 0,  # Mode occupied when initial_parity == -1
+    occupied_mode: int | None = None,  # Mode occupied when initial_parity == -1
     overlap_phase: complex = 1.0 + 0.0j,
 ) -> dict[str, Any]:
     """Compute analytical transition matrix elements <lambda(G') | c_j | phi_0(G)>.
