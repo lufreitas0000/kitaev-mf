@@ -6,6 +6,12 @@
 [![Living Lab Book PDF](https://img.shields.io/badge/Living_Lab_Book-74_Pages_PDF-8B2635)](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-labbook.pdf)
 [![SciPost Monograph PDF](https://img.shields.io/badge/SciPost_Monograph-9_Pages_PDF-2E6F40)](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-manuscript.pdf)
 
+> ### 📄 Quick Access to Compiled PDFs & Key Deliverables
+> - **Living Lab Book Monograph (74 pages, 11 chapters):** [**Read Online (GitHub Pages)**](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-labbook.pdf) &nbsp;|&nbsp; [Download from Latest Release](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-labbook.pdf) &nbsp;|&nbsp; [Repository PDF Source](doc/labbook/labbook_kitaev_mf.pdf)
+> - **SciPost Executive Monograph (9 pages):** [**Read Online (GitHub Pages)**](https://lufreitas0000.github.io/kitaev-mf/kitaev-mf-manuscript.pdf) &nbsp;|&nbsp; [Download from Latest Release](https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-manuscript.pdf) &nbsp;|&nbsp; [Repository PDF Source](doc/manuscript/scipost_kitaev_mf.pdf)
+> - **Centralized Hypothesis Contracts Registry (22 contracts):** [**View Contracts Registry**](doc/HYPOTHESIS_CONTRACTS.md) &nbsp;|&nbsp; [View on GitHub Pages](https://lufreitas0000.github.io/kitaev-mf/HYPOTHESIS_CONTRACTS.md)
+> - **Interactive R&D Epistemic Portal:** [**Browse Live Portal**](https://lufreitas0000.github.io/kitaev-mf/) (includes dynamic Mermaid DAG, 71 R&D notes, 23 verified invariants, and 37 `.dat` benchmark tables)
+
 `kitaev-mf` is a high-performance computational and analytical research library for Majorana parton mean-field theories of Kitaev quantum magnets on honeycomb lattices, formulated as a nonlinear fixed-point problem on the orthogonal Grassmannian manifold bundle $\mathrm{Gr}_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}})$.
 
 ---
