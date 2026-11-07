@@ -123,7 +123,9 @@ def test_h_dyn_03_physical_matter_parity_pedrocchi_zschocke_theorem() -> None:
     gauge_flipped = flip_bond_gauge_link(gauge0, site_i=sa, site_j=sb)
 
     A_flipped = assemble_matter_skew_matrix(gauge_flipped, K=1.0, kappa=kappa, triplets=triplets)
-    diag_flipped = diagonalize_matter_hamiltonian(A_flipped, gauge=gauge_flipped, boundary="torus", L=L)
+    diag_flipped = diagonalize_matter_hamiltonian(
+        A_flipped, gauge=gauge_flipped, boundary="torus", L=L
+    )
 
     # Both sectors yield valid orthogonal Schur transformations Q in O(2N)
     assert np.allclose(diag_flipped.Q @ diag_flipped.Q.T, np.eye(num_sites), atol=1e-12)

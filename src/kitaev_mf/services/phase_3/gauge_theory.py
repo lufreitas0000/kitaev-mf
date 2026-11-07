@@ -120,15 +120,15 @@ def assemble_matter_skew_matrix(
 
     # 2. Next-nearest-neighbor 3-spin chiral interaction:
     if kappa != 0.0 and triplets is not None:
-        for j, k, l, nu in triplets:
+        for j, k, l_site, nu in triplets:
             # Directed traversal: j -> k -> l
             u_jk = gauge.get_link(j, k)
-            u_kl = gauge.get_link(k, l)
+            u_kl = gauge.get_link(k, l_site)
             u_tilde = u_jk * u_kl  # In uniform gauge, u_{AB}=1, u_{BA}=-1 => u_tilde = -1
             # Mass contribution: -nu * kappa * u_tilde = +nu * kappa
             val = -nu * kappa * u_tilde
-            A[j, l] += val
-            A[l, j] -= val
+            A[j, l_site] += val
+            A[l_site, j] -= val
 
     # Verify skew-symmetry
     assert np.allclose(A, -A.T, atol=1e-12)
@@ -141,7 +141,7 @@ class DiagonalizedMatterSector:
 
     energies: np.ndarray  # Sorted non-negative excitation energies 0 <= eps_1 <= ... <= eps_N
     Q: np.ndarray  # Orthogonal transformation matrix Q in O(2N)
-    det_Q: float  # Determinant det(Q) in {-1, +1}
+    det_Q: float  # noqa: N815  # Determinant det(Q) in {-1, +1}
     unprojected_vacuum_energy: float  # E_0 = -1/2 sum eps_mu
     physical_matter_parity: int  # pi_G in {-1, +1}
     physical_ground_energy: float  # E_0 + (0 if pi_G == +1 else eps_1)
