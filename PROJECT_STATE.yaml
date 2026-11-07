@@ -1,7 +1,9 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED) -> Phase 2: FM Kitaev [111] Physics Production (IN PREPARATION)'
-current_milestone: M1.11 (Phase 1 Certified Closure)
+active_phase: Consolidation (legacy compatibility field; new planning uses waves)
+current_milestone: W001
+active_wave: W001
+acceptance_register: doc/audits/w001_acceptance.yaml
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -180,11 +182,36 @@ milestone_history:
   - test/unit/test_real_space_and_purification.py
   - test/unit/test_post_spinodal_kkt_audit.py
 active_milestone:
-  id: M1.11
-  description: Phase 1 Certified Closure — Numerical Quantification of Pure FM Kitaev (K = -1.0) under [111] Field
-  status: completed
-  sprint_goal: Complete all Phase 1 solver benchmarks, hypothesis contracts (HC-P1-01..03), and Master Solver Resource Table; transition to Phase 2 physics production in the FM Kitaev [111] regime.
-  active_tasks: []
+  id: W001
+  description: All-track consolidation and acceptance recovery
+  objective: Preserve earlier research, unify development, and separate acceptance from exploration
+  status: active
+  sprint_goal: Establish reviewed policy and inventory before integrating historical branches
+  active_tasks:
+    - id: T1
+      title: Consolidation policy and preservation inventory
+      status: completed
+      target_files:
+        - .agents/rules/09_research_intake_and_acceptance.md
+        - doc/plans/w001_consolidation.md
+        - doc/audits/w001_source_inventory.json
+        - doc/audits/w001_acceptance.yaml
+      contracts:
+        - No physics source edits, numerical recertification, deletion, or branch merge
+      validation:
+        - JSON/YAML parsing, inventory hash checks, local links, and git diff --check
+      evidence:
+        - doc/audits/w001_verification.md
+    - id: T2
+      title: Preserve inputs and recover exact-perturbation chronology
+      status: planned
+      target_files:
+        - doc/audits/w001_source_inventory.json
+        - doc/audits/w001_perturbation_recovery.md (planned)
+      contracts:
+        - Compare original and later sources; no automatic acceptance or destructive recovery
+      validation:
+        - Commit/blob provenance and untouched-source hash comparison; review before T3
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -416,7 +443,7 @@ verified_physics_invariants:
 - id: K-019
   name: Exact pure-Kitaev spin perturbation operator mapping and mean-field gap reconciliation
   equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical^MF = 4 Delta_K^MF = 10.3684 h^3; Delta_static = (4 / Delta_flux^2) h^3 = 57.3921 h^3
-  status: verified_operator_derivation
+  status: needs_revision_pending_provenance_and_resolvent_audit
   provenance:
     analytical: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
     cross_branch: research/pure-kitaev-exact-perturbation-20261102
@@ -424,6 +451,7 @@ verified_physics_invariants:
     bloch_scaling_factor: 4.0
     bare_energy_denominator_ratio_squared: 15.8106
     static_vison_gap_prefactor: 57.3921
+  acceptance_override: doc/audits/w001_acceptance.yaml#W001-REVIEW-03
 - id: K-020
   name: Real-space vortex pair attractive potential, in-gap Majorana zero modes, and topological trapping
   equation: V(R) = 0.114 |K| -> 0.168 |K| (R=1..4 on L=8); eps_1(h) / Delta_bulk approx 13.0%; W(p1) = W(p2) = -1.000 (stable under self-consistency)
@@ -483,4 +511,7 @@ verified_physics_invariants:
     stabilized_polarized_energy_h0450: -0.9500000000
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
-open_blockers: []
+open_blockers:
+  - Historical Phase 4 calculations disapproved by PI; acceptance register controls their disposition
+  - Recover earlier perturbation findings and identify later alterations before integration
+  - Existing completion labels do not substitute for claim-level acceptance

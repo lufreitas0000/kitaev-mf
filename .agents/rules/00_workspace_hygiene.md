@@ -1,5 +1,9 @@
 # Rule 00: Workspace Hygiene and Repository Layout
 
+> W001 transition: Rules 05 and 09 govern new wave/task names, note paths,
+> research acceptance, and labbook ownership. Phase/milestone examples below
+> describe legacy records; preserve their identifiers rather than bulk-renaming.
+
 ## 1. Working-tree hygiene
 
 1. Inspect `git status --short --branch` and the existing diff before editing. Preserve unrelated user changes.
@@ -11,7 +15,7 @@
 ## 2. File and module granularity
 
 1. Give each source, test, script, and documentation file a coherent primary responsibility.
-2. Arbitrary or unindexed note filenames (such as `note_04g.md`) are strictly prohibited. Every note in `doc/rnd/` must carry a deterministic phase, milestone, and task index (e.g. `doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md`).
+2. Arbitrary or unindexed note filenames (such as `note_04g.md`) are strictly prohibited. New notes must carry a deterministic wave/task index (`doc/rnd/waves/w001_t1_<slug>.md`). Existing phase/milestone filenames (e.g. `doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md`) remain stable historical paths.
 3. Keep tests focused on a behavior or contract. Use separate test modules when their subject matter or fixtures differ materially.
 4. Avoid monolithic audit scripts. Reuse the repository's existing scripts and test structure before adding new tooling.
 

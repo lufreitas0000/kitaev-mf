@@ -6,6 +6,16 @@ The package version is maintained in `pyproject.toml`. See
 [Rule 04: Versioning, Changelog, and Releases](.agents/rules/04_versioning_and_releases.md)
 for the SemVer policy and release procedure.
 
+## [Unreleased]
+
+### Changed
+- Established model-agnostic main/exploration PR routing, wave/task planning,
+  mandatory task intake, multiple classification tags, and claim-level acceptance.
+- Recorded PI disapproval of historical Phase 4 calculations and scheduled
+  independent recovery of earlier exact-perturbation work.
+- Specified one canonical labbook and optional incremental review notes;
+  neutral PRL manuscript migration remains a separate task.
+
 ## [1.0.0] - 2026-11-06
 
 ### Phase 1: Analytical Rigor & Algorithmic Foundations (Certified Closure)

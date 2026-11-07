@@ -1,0 +1,43 @@
+schema_version: 1
+wave: W001
+scope: Initial selection decisions; not a complete scientific audit
+entries:
+  - id: W001-REVIEW-01
+    subject: Historical Phase 4 analytical, semi-analytical, and ED calculations and interpretations
+    historical_ref: feat/phase-4-review-and-analytical-mf
+    scientific_status: disapproved-by-PI
+    implementation_status: inherited-artifacts-present
+    priority: preservation-and-audit
+    decision_basis: Lu Freitas explicitly disapproved these calculations on 2026-11-07
+    limitations:
+      - Dirac-point evaluation does not supply full-Brillouin-zone self-consistency
+      - ED versus perturbative gap identification and prefactor explanation are not accepted
+      - Disapproval is not an analytical refutation of every underlying component
+    disposition: Preserve for provenance; exclude from accepted narrative and promotion
+  - id: W001-REVIEW-02
+    subject: Earlier exact pure-Kitaev perturbation research
+    scientific_status: unreviewed
+    implementation_status: original-notes-and-later-modifications-present
+    priority: recover-before-integration
+    evidence:
+      - doc/rnd/exact-perturbation-theory/ROADMAP.md
+      - doc/rnd/exact-perturbation-theory/notes/03_low_energy_projector_and_feshbach.md
+    limitations:
+      - User reports earlier findings may have been altered; exact damage not yet determined
+      - Neither all-orders completion nor scalar-gap replacement of resolvents is accepted here
+    disposition: Compare original derivations to later changes without overwriting either
+  - id: W001-REVIEW-03
+    subject: K-019 inherited perturbative-prefactor reconciliation
+    scientific_status: needs-revision
+    implementation_status: inherited-claim-in-project-state
+    priority: foundational-review
+    evidence:
+      - doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
+      - src/kitaev_mf/services/exact_perturbation.py
+    disposition: Inherited verified label is suspended pending an operator/resolvent audit
+  - id: W001-REVIEW-04
+    subject: Historical Phase 2 and Phase 3 completion and reproduction claims
+    scientific_status: unreviewed
+    implementation_status: separate-source-branches
+    priority: after-convention-recovery
+    disposition: Inventory each claim and evidence; no bulk certification or rejection
