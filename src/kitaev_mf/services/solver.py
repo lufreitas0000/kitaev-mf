@@ -29,8 +29,62 @@ from kitaev_mf.services.hamiltonian import build_bloch_hamiltonian
 __all__ = [
     "JointAndersonSolver",
     "compute_commutator_stationarity",
+    "compute_lehmann_dual_hessian",
     "solve_self_consistent_mean_field",
 ]
+
+
+def compute_lehmann_dual_hessian(
+    cell: UnitCell,
+    params: ModelParameters,
+    state: MeanFieldState,
+    k_grid: np.ndarray,
+    backend: LinalgBackendPort | None = None,
+    eps: float = 1e-5,
+) -> np.ndarray:
+    """Compute the 3*N_sub x 3*N_sub dual Hessian H_lambda_lambda = dg / dlambda.
+
+    Parameters:
+        cell: Lattice unit cell geometry.
+        params: Model exchange couplings and magnetic field.
+        state: Active variational state (U, V, lambdas).
+        k_grid: Reciprocal momentum mesh.
+        backend: Optional linear algebra backend.
+        eps: Finite difference step for multiplier perturbation.
+
+    Returns:
+        Symmetric positive-definite matrix H of shape (3*N_sub, 3*N_sub).
+    """
+    num_sub = cell.num_sublattices
+    dim_lam = 3 * num_sub
+    H = np.zeros((dim_lam, dim_lam), dtype=np.float64)
+    lam_flat = state.lambdas.ravel()
+
+    def get_g(lam_vec: np.ndarray) -> np.ndarray:
+        st = MeanFieldState(
+            U=state.U,
+            V=state.V,
+            lambdas=lam_vec.reshape(state.lambdas.shape),
+        )
+        h_b = build_bloch_hamiltonian(k_grid, cell, params, st, backend)
+        _, v_out = compute_correlators_from_bloch(
+            h_b,
+            cell,
+            k_grid,
+            backend=backend,
+            symmetrize_onsite=True,
+        )
+        return compute_gauge_residuals(v_out).ravel()
+
+    for i in range(dim_lam):
+        dlam = np.zeros(dim_lam, dtype=np.float64)
+        dlam[i] = eps
+        g_plus = get_g(lam_flat + dlam)
+        g_minus = get_g(lam_flat - dlam)
+        H[:, i] = (g_plus - g_minus) / (2.0 * eps)
+
+    h_sym: np.ndarray = np.asarray(0.5 * (H + H.T), dtype=np.float64)
+    return h_sym
 
 
 def _create_accelerator(config: SolverConfig) -> FixedPointAccelerator:
@@ -118,7 +172,14 @@ def solve_self_consistent_mean_field(
             symmetrize_onsite=symmetrize_output,
         )
         g_res = compute_gauge_residuals(v_out)
-        lam_out = state_in.lambdas - config.lambda_step * g_res
+        if config.precondition_dual:
+            h_ll = compute_lehmann_dual_hessian(cell, params, state_in, k_grid, backend)
+            g_flat = g_res.ravel()
+            eye_dim = np.eye(len(g_flat), dtype=np.float64)
+            dlam = np.linalg.solve(h_ll + 1e-10 * eye_dim, g_flat)
+            lam_out = state_in.lambdas - dlam.reshape(state_in.lambdas.shape)
+        else:
+            lam_out = state_in.lambdas - config.lambda_step * g_res
         return u_out, v_out, lam_out, p_k
 
     for _ in range(config.max_iterations):

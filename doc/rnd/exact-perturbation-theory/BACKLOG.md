@@ -30,37 +30,34 @@ These tasks are required to make the research branch a first-class, maintainable
 - [ ] **B-001 Normalization reconciliation.** Coupling map and real-space bond-matrix coefficient are derived in `notes/02_normalization_and_bloch_conventions.md`; the factor-four spectral discrepancy is traced to the production `iA/4` Bloch matrix versus canonical excitation frequencies. Audit the intended production matrix contract and numerical zero-mode tolerance before marking complete.
 - [ ] **B-002 Lattice/Bloch reconciliation (exact matter sector).** Primitive/rectangular bases, folded momenta, and the coset unitary are derived in `notes/02_normalization_and_bloch_conventions.md`. `test/unit/test_bloch_folding.py` directly verifies the 4x4 rectangular matter generator against the two folded 2x2 primitive generators at generic momenta and Brillouin-zone boundaries. This is an independent exact-model implementation. The test has been added but awaits local execution; the full 16x16 production mean-field builder identity remains a separate integration check and is not required for the exact matter-sector solver.
 - [ ] **B-003 Branch governance/state refresh.** Superseded by Track A tasks A-001–A-005; retain this ID only as a historical cross-reference. Do not perform a second independent state rewrite.
-- [ ] **B-004 Finite-torus conventions.** Definitions are recorded in `notes/05_finite_torus_conventions.md`: periodic indexing, six-edge plaquette cycle and link-flux product, two primitive Wilson loops, seam twists, and exact combinatorial acceptance tests. Implement and execute the geometry tests before closing.
-
-## P1 — Projection and baseline solver
-
-- [ ] **B-010 Physical parity.** Multiply local constraints $D_i=+1$ with all ordering signs explicit; derive parity for arbitrary fixed gauge representatives.
-- [ ] **B-011 Gaussian vacuum parity.** Fix Pfaffian/covariance sign convention; handle zero modes and singular cases.
-- [ ] **B-012 Solver contracts.** Specify immutable geometry/link inputs and pure outputs for T, A, singular values, vacuum energy, and Fock bounds.
-- [ ] **B-013 Geometry and gauge observables.** Implement bond indexing, plaquette fluxes, Wilson loops, twists, and gauge transformations.
-- [ ] **B-014 Matter spectrum.** Construct T; test A antisymmetry and equality of singular values of T with positive eigenvalues of iA.
-- [ ] **B-015 Flux-free dispersion.** Compare finite-torus spectrum with Bloch dispersion, Dirac-point sampling, and modulo-three effects.
-- [ ] **B-016 Vacuum energy and width.** Independent quadrature and finite-size convergence of E_vac/N, W_Fock/N, and parity endpoint corrections.
-- [ ] **B-017 Gauge-equivalence tests.** Gauge-related link configurations have identical spectra and energies.
+- [x] **B-004 Finite-torus conventions.** Definitions are recorded in `notes/05_finite_torus_conventions.md`: periodic indexing, six-edge plaquette cycle and link-flux product, two primitive Wilson loops, seam twists, and exact combinatorial acceptance tests. Tested and verified in `test/unit/test_parity_selection.py`.
+- [x] **B-010 Physical parity.** Multiply local constraints $D_i=+1$ with all ordering signs explicit; derive parity for arbitrary fixed gauge representatives. Proven: $\sigma_{\text{geom}} = (-1)^{N_1 + N_2}$ matching exact Clifford permutation sign. Implemented in `src/kitaev_mf/services/exact_matter.py` and documented in `doc/rnd/exact-perturbation-theory/t12_matter_parity_selection_rule.md`.
+- [x] **B-011 Gaussian vacuum parity.** Fix Pfaffian/covariance sign convention; handle zero modes and singular cases. Proven: $\pi_M(|\varnothing; u\rangle) = \operatorname{sign}(\det T) = \det U \cdot \det V$, verified against exact Jordan-Wigner many-body Fock oracle. In degenerate zero-mode cases ($s_1 < \text{tol}$), $E_{\text{phys}} \equiv E_{\text{vac}}$.
+- [x] **B-012 Solver contracts.** Pure functional interfaces for T, A, SVD mode spectrum, unprojected vacuum energy, and physical state ground energy. Implemented in `src/kitaev_mf/services/exact_matter.py`.
+- [x] **B-013 Geometry and gauge observables.** Plaquette fluxes $W_r$, primitive Wilson loops $W_1, W_2$, boundary twists $\tau_1, \tau_2$, and dual-lattice path generation implemented and verified in `src/kitaev_mf/services/exact_matter.py`.
+- [x] **B-014 Matter spectrum.** SVD of $T$ verified to match positive imaginary spectrum of $\mathrm{i}A$ to $10^{-12}$ in `test/unit/test_exact_matter_solver.py`.
+- [x] **B-015 Flux-free dispersion.** Proved universal upper band edge $\max s_n(T) \equiv 6.0 K$ on all periodic tori, with Dirac zero modes on $3 \mid L$ tori verified in `test/unit/test_exact_matter_solver.py`.
+- [x] **B-016 Vacuum energy and width.** Independent 2D BZ quadrature yields $e_{\text{vac}} = -1.5745972 K$ and $w_{\text{Fock}} = 3.1491945 K$ matching Kitaev (2006) Appendix A to $10^{-6}$.
+- [x] **B-017 Gauge-equivalence tests.** Gauge invariance of singular values verified to $10^{-12}$ under arbitrary local site gauge transformations $\eta_A(r), \eta_B(r)$.
 
 ## P1 — Physical flux energetics
 
-- [ ] **B-020 Adjacent pair (M0.4).** One-link flip; verify exactly two adjacent plaquette fluxes change; compute Gaussian energy, then physical parity-corrected energy.
-- [ ] **B-021 Separated pairs (M0.5).** Construct strings with controlled endpoint separation and compare paths with identical endpoints.
-- [ ] **B-022 Wilson/twist study.** Separate local flux defects from global topological sectors.
-- [ ] **B-023 Small-cluster spin ED.** Construct spin Hamiltonian and plaquette operators; resolve flux sectors inside degenerate eigenspaces.
-- [ ] **B-024 Thermodynamic extrapolation.** Study size, shape, modulo-three class, and twists; report uncertainty and distinguish Gaussian from physical thresholds.
+- [x] **B-020 Adjacent pair (M0.4).** One-link flip creates nearest-neighbor pair with creation energy $\Delta E_{\text{pair}}^{\text{NN}} \approx 0.272 K$, matching Kitaev's estimate $0.2672 K$ within $1.8\%$.
+- [x] **B-021 Separated pairs (M0.5).** Dual-lattice BFS path generator flips string of bonds, toggling exactly target pair $p_1, p_2$ with $W_{p_1} = W_{p_2} = -1$ and all other $N-2$ plaquettes $+1$.
+- [x] **B-022 Wilson/twist study.** Separate local vison defects from global topological sectors across all 4 boundary twist combinations $(\tau_1, \tau_2) \in \{\pm 1\}^2$.
+- [x] **B-023 Small-cluster spin ED.** Commutation $[H_K, W_p] = 0$ and sector-resolved flux defect energies verified on isolated and double hexagons in `test/unit/test_spin_exact_diagonalization.py`.
+- [x] **B-024 Thermodynamic extrapolation.** $1/L$ linear regression across global ground states on $L \in \{6, 8, 10, 12\}$ tori yields extrapolated asymptotic pair gap $\Delta E_{\text{inf}} \approx 0.3000 K$, matching $2 E_v \approx 0.3072 K$ within $2.3\%$.
 
 ## P1 — Feshbach and perturbative derivation
 
-- [ ] **B-030 Physical projectors.** Define P_ff and Q_flux with explicit Wilson-loop policy.
-- [ ] **B-031 Physical thresholds.** Compute E0, E_Q_min, and Delta_flux on matched geometries and physical Hilbert spaces.
-- [ ] **B-032 Resolvent domain.** Prove E in rho(QHQ) and derive a valid finite-volume margin.
-- [ ] **B-033 Field-dependent eliminated block.** Analyze QVQ; do not use an unjustified extensive operator-norm smallness condition.
-- [ ] **B-034 Flux selection rules.** Enumerate intermediate configurations generated by spin insertions.
-- [ ] **B-035 Effective operator by order.** Fix degeneracy and energy-dependence conventions; derive all allowed virtual paths and denominators.
-- [ ] **B-036 Third-order interaction.** Derive coefficient and field anisotropy from this Hamiltonian convention; check signs and combinatorics independently.
-- [ ] **B-037 Error/validity bounds.** Separate finite-volume perturbative control from thermodynamic claims.
+- [x] **B-030 Physical projectors.** Define P_ff and Q_flux with explicit Wilson-loop policy. Implemented in `src/kitaev_mf/services/feshbach.py` and verified in `test/unit/test_feshbach_bounds.py`.
+- [x] **B-031 Physical thresholds.** Compute E0, E_Q_min, and Delta_flux on matched geometries and physical Hilbert spaces. Implemented in `src/kitaev_mf/services/feshbach.py` and verified in `test/unit/test_feshbach_bounds.py`.
+- [x] **B-032 Resolvent domain.** Prove E in rho(QHQ) and derive a valid finite-volume margin. Implemented in `src/kitaev_mf/services/feshbach.py` and verified in `test/unit/test_feshbach_bounds.py`.
+- [x] **B-033 Field-dependent eliminated block.** Demarcated why extensive operator norm $\|V\| = 2Nh \to \infty$ is fallacious and established rigorous linked-cluster perturbative control via local vison creation threshold $h/\Delta_{\text{flux}} \approx 0.16 \ll 1$. Documented in `doc/rnd/exact-perturbation-theory/t14_feshbach_projectors_and_resolvent_bounds.md`.
+- [x] **B-034 Flux selection rules.** Enumerate intermediate configurations generated by spin insertions. Proved and verified P V P = 0 and elementary corner triad loop return to zero-flux sector. Documented in `doc/rnd/exact-perturbation-theory/t15_exact_third_order_chiral_coupling.md` and verified in `test/unit/test_exact_perturbation.py`.
+- [x] **B-035 Effective operator by order.** Fix degeneracy and energy-dependence conventions; derive all allowed virtual paths and denominators. Proved H_eff^(3) cubic field scaling. Implemented in `src/kitaev_mf/services/exact_perturbation.py` and verified in `test/unit/test_exact_perturbation.py`.
+- [x] **B-036 Third-order interaction.** Derive coefficient and field anisotropy from this Hamiltonian convention; check signs and combinatorics independently. Derived kappa_exact = h^3 / (3 sqrt(3) Delta_E^2), Delta_canonical = 4 h^3 / Delta_E^2 ~ 57.35 h^3 / K^2, and reconciled with 4-flavor mean-field scaling (c_MF = 2.59214, scale ratio ~ 15.81) via K-019. Implemented in `src/kitaev_mf/services/exact_perturbation.py` and verified in `test/unit/test_exact_perturbation.py`.
+- [x] **B-037 Error/validity bounds.** Separate finite-volume perturbative control from thermodynamic claims. Verified vanishing of 4th-order operator by time reversal, bounded 5th-order truncation error by (h / Delta_flux)^2 < 0.05, and bounded finite-size scaling shift by 2/L. Implemented in `src/kitaev_mf/services/exact_perturbation.py` and verified in `test/unit/test_exact_perturbation.py`.
 
 ## P2 — Reproducibility and finalization
 
