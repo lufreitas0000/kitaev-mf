@@ -292,3 +292,115 @@ def verify_spectral_sum_rule(
         result["is_continuous_valid"] = bool(abs(cont_integral - 1.0) < tol)
 
     return result
+
+
+def evaluate_thermal_spectral_function(
+    spectral_data: DiscreteSpectralData,
+    omega_grid: np.ndarray,
+    temperature: float = 0.0,
+    broadening_param: float = 0.06,
+    broadening_type: str = "gaussian",
+) -> ContinuousSpectrum:
+    """Evaluate finite-temperature dynamical spin correlation spectrum S_{jj}(omega).
+
+    Incorporates:
+    - Effective thermal broadening sigma_eff(T) = sqrt(sigma_0^2 + T^2).
+    - Kubo-Martin-Schwinger (KMS) detailed balance factor:
+      S_T(omega) = 1 / (1 + exp(-beta * omega)) * S_0(|omega|)
+      satisfying S_T(-omega) = exp(-beta * omega) S_T(omega) and total sum rule conservation.
+
+    Parameters:
+        spectral_data: Discrete poles and weights from gauge quench.
+        omega_grid: Frequency grid (supports both negative and positive frequencies).
+        temperature: Temperature T >= 0 in units of |K|.
+        broadening_param: Zero-temperature broadening parameter (sigma_0 or eta_0).
+        broadening_type: 'gaussian' or 'lorentzian'.
+    """
+    if temperature < 0.0:
+        raise ValueError(f"Temperature must be non-negative, got {temperature}")
+
+    if temperature <= 1e-12:
+        # Standard zero-temperature limit (vanishing for omega < 0)
+        s_pos = evaluate_spectral_function(
+            spectral_data,
+            omega_grid=omega_grid,
+            broadening_type=broadening_type,
+            broadening_param=broadening_param,
+        )
+        density = np.where(omega_grid >= 0.0, s_pos.spectral_density, 0.0)
+        eff_broadening = broadening_param
+    else:
+        beta = 1.0 / temperature
+        eff_broadening = (
+            float(np.sqrt(broadening_param**2 + temperature**2))
+            if broadening_type == "gaussian"
+            else float(broadening_param + np.pi * temperature)
+        )
+        # Positive and negative frequency absorption profiles: S_sym(omega) = S_pos(omega) + S_pos(-omega)
+        s_pos = evaluate_spectral_function(
+            spectral_data,
+            omega_grid=omega_grid,
+            broadening_type=broadening_type,
+            broadening_param=eff_broadening,
+        )
+        s_neg = evaluate_spectral_function(
+            spectral_data,
+            omega_grid=-omega_grid,
+            broadening_type=broadening_type,
+            broadening_param=eff_broadening,
+        )
+        s_sym = s_pos.spectral_density + s_neg.spectral_density
+
+        # KMS thermal factor with numerically stable clipping: S_T(omega) = 1 / (1 + exp(-beta * omega)) * S_sym(omega)
+        arg = -beta * omega_grid
+        arg_clipped = np.clip(arg, -100.0, 100.0)
+        kms_factor = 1.0 / (1.0 + np.exp(arg_clipped))
+        density = kms_factor * s_sym
+
+    if len(omega_grid) > 1:
+        integrated_w = float(np.trapezoid(density, omega_grid) / (2.0 * np.pi))
+    else:
+        integrated_w = 0.0
+
+    return ContinuousSpectrum(
+        omega=omega_grid,
+        spectral_density=density,
+        broadening_type=f"{broadening_type}_thermal",
+        broadening_param=eff_broadening,
+        integrated_weight=integrated_w,
+    )
+
+
+def verify_kms_detailed_balance(
+    spec: ContinuousSpectrum,
+    temperature: float,
+    omega_test_points: Sequence[float] | None = None,
+    tol: float = 1e-10,
+) -> dict[str, Any]:
+    """Verify KMS detailed balance relation S(-omega) = exp(-beta * omega) S(omega)."""
+    if temperature <= 1e-12:
+        return {"is_valid": True, "temperature": 0.0, "max_relative_error": 0.0}
+
+    beta = 1.0 / temperature
+    if omega_test_points is None:
+        omega_test_points = [0.05, 0.10, 0.20, 0.30, 0.50, 1.00]
+
+    max_err = 0.0
+    point_errors = {}
+    for w in omega_test_points:
+        s_pos = float(np.interp(w, spec.omega, spec.spectral_density))
+        s_neg = float(np.interp(-w, spec.omega, spec.spectral_density))
+        expected_ratio = float(np.exp(-beta * w))
+        if s_pos > 1e-12:
+            ratio = s_neg / s_pos
+            err = abs(ratio - expected_ratio)
+            point_errors[w] = err
+            if err > max_err:
+                max_err = err
+
+    return {
+        "is_valid": bool(max_err < tol),
+        "temperature": temperature,
+        "max_relative_error": max_err,
+        "point_errors": point_errors,
+    }
