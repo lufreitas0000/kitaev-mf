@@ -81,3 +81,14 @@ Lu Freitas chose: continue the foundation review, keep braiding unresolved, and
 leave this integration PR in draft. Thus T3 source assembly is ready for review,
 but final merge into exploration is deliberately gated. T4 foundation review may
 proceed on this single candidate line without returning to parallel phase branches.
+
+## Review candidate
+
+Draft PR: https://github.com/lufreitas0000/kitaev-mf/pull/4
+Head at creation: `bda0c35d1613b2d7cffeaf93ff253ecc4896b4ca`.
+Target: exploration at `dd7cb44044a6c1fe6b760b92c102001144dc427b`.
+Remote main was independently inspected at that same baseline and was unchanged.
+No merge was performed. All source histories are assembled in the one candidate;
+exploration remains at its base until the draft's verification gate is resolved.
+The next authorized work is foundation review with braiding unresolved, as
+requested by the PI; this does not authorize skipping or weakening the failure.
