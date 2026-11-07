@@ -254,7 +254,8 @@ class ExactDiagonalizationSpinSolver:
             h_sparse,
             k=min(num_states, self.dim - 2),
             which="SA",
-            tol=1e-10,
+            tol=1e-8,
+            ncv=min(max(24, 4 * num_states), self.dim - 1),
             maxiter=1000,
         )
         idx = np.argsort(evals.real)

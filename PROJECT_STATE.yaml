@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED) -> Phase 2: FM Kitaev [111] Physics Production (IN PREPARATION)'
-current_milestone: M1.11 (Phase 1 Certified Closure)
+active_phase: 'Phase 4: Review, Analytical & Semi-Analytical Mean-Field vs Exact Diagonalization Synthesis (CERTIFIED COMPLETION)'
+current_milestone: M4.4 (Phase 4 Certified Closure: Four-Theory Synthesis, Asymptotic Prefactors & Screening Movies)
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -483,4 +483,65 @@ verified_physics_invariants:
     stabilized_polarized_energy_h0450: -0.9500000000
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
+- id: K-024
+  name: Canonical Pauli normalization and FM Kitaev parameter sign invariance
+  equation: 'K_param = -1.0 with H = \sum J \sigma \sigma (J = -K) fixes pure-Kitaev matter hopping to u_0 = -\bar{U} = -0.5248657 and E_0/N = -0.78729862'
+  status: verified_canonical_normalization
+  provenance:
+    dictionary: doc/phase_4/literature_review_and_dictionary.md
+    analytical: doc/rnd/phase_4/analytical_prefactor_derivation.md
+    test: test/unit/test_phase4_analytical_mf.py::test_pure_kitaev_hamiltonian_and_eigenvalues
+  numerical_evidence:
+    u0_matter: -0.5248657053
+    e0_per_spin: -0.7872986200
+- id: K-025
+  name: Symmetrized D_sym=5 Schrieffer-Wolff reduction and cubic Dirac gap prefactor
+  equation: 'Under G = C_3 \times \mathcal{I} \times \mathcal{T}_{[111]}, m_D^{(1)} = m_D^{(2)} = 0, C_MF = 2.6634, \Delta_canonical = 4 C_MF h^3 \approx 10.6536 h^3'
+  status: verified_analytical_derivation_and_symmetrized_solver
+  provenance:
+    analytical: doc/rnd/phase_4/analytical_prefactor_derivation.md
+    code: src/kitaev_mf/services/phase_4/symmetry_reduction.py
+    benchmark: data/processed/benchmarks/phase_4/ultra_low_field_scaling.dat
+    script: scripts/phase_4/benchmark_ultra_low_field_asymptotics.py
+    test: test/unit/test_phase4_analytical_mf.py::test_schrieffer_wolff_matter_reduction
+  numerical_evidence:
+    c_mf_fitted: 2.6634
+    scaling_exponent: 3.00002
+    lambda_over_h: 0.91415
+    bare_vison_resolvent_ratio: 15.81
+    vertex_dressing_factor: 5.71
+    net_screening_ratio: 2.77
+- id: K-026
+  name: Spin-space physical two-Majorana selection rule and screened ED gap
+  equation: '\Delta E_spin^ED = 2 \Delta_Majorana = \Delta_canonical = 4 \Delta_K^MF; on N=18 torus at h=0.010, \Delta E_spin/h^3 = 12.52 confirms screened MF (10.65) and refutes static vison (28.68)'
+  status: verified_exact_diagonalization
+  provenance:
+    report: doc/rnd/phase_4/track_c_exact_diagonalization_analysis.md
+    code: src/kitaev_mf/services/phase_4/exact_diagonalization.py
+    benchmark: data/processed/benchmarks/phase_4/ed_spin_scaling_n18.dat
+    four_theory_benchmark: data/processed/benchmarks/phase_4/four_theory_observables_comparison.dat
+    script: scripts/phase_4/benchmark_four_theories_comparison.py
+    test: test/unit/test_phase4_ed.py
+  numerical_evidence:
+    n18_gap_h0010: 1.251882e-05
+    n18_prefactor: 12.5188
+    mf_canonical_prefactor: 10.6536
+    kitaev_static_prefactor: 28.6806
+    entanglement_entropy_n18_h0: 3.2289
+- id: K-027
+  name: Real-space fixed-point stationary defect stability and screening dynamics
+  equation: 'Single-link flip and L/2 string are exact stationary fixed points (\|\Delta P\| < 10^-15) under \Phi at h=0; at h=0.02 they screen within \xi_gauge \approx 1.1 a without flux annihilation'
+  status: verified_real_space_screening_movies
+  provenance:
+    report: doc/rnd/phase_4/track_d_screening_dynamics_and_observables_survey.md
+    visualizer: src/kitaev_mf/services/phase_4/fixed_point_visualizer.py
+    movie_script: scripts/phase_4/generate_fixed_point_screening_movie.py
+    movies: data/processed/movies/phase_4/
+  numerical_evidence:
+    scenarios_rendered: 4
+    cluster_sites: 128
+    flux_drift_h0: < 1.0e-15
+    energy_shift_single_flip: 0.1691
+    energy_shift_string_cut: 0.5224
+    movie_formats: [gif, png_frames]
 open_blockers: []
