@@ -1,8 +1,79 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED) -> Phase 2: FM Kitaev [111] Physics Production (IN PREPARATION)'
-current_milestone: M1.11 (Phase 1 Certified Closure)
+active_phase: 'Phase 3: Dynamical Spin Correlations & MZM Spectroscopy (COMPLETED & CERTIFIED)'
+current_milestone: M3.5 (Certified Closure & Master Cross-Validation Benchmark)
 milestone_history:
+- id: M3.0
+  name: Model conventions, Hamiltonian signs, and canonical real Schur matter parity
+  status: completed
+  acceptance: Verified skew-symmetry ||A + A^T|| = 0, Pedrocchi-Chesi-Loss parity selection rule pi_M = +1, and single-link quench locality across 4 unit tests.
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/00_model_and_conventions.md
+  - src/kitaev_mf/services/phase_3/gauge_theory.py
+  - test/unit/test_phase3_theory_conventions.py
+  validation: automated_pytest_pass
+- id: M3.1
+  name: Dual branch cuts, Bogoliubov overlaps, and Lehmann spectral summation engine
+  status: completed
+  acceptance: Implemented dual BFS branch cut inversion, canonical Bogoliubov unitarity ||XX^dagger + YY^dagger - I|| < 1.5e-14, Thouless overlap regularization under particle-hole exchange, and Lehmann spectral sum rule saturation across 16 unit tests.
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/01_two_vortex_configurations.md
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/02_bogoliubov_overlaps_and_thouless.md
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/03_lehmann_spectral_summation.md
+  - src/kitaev_mf/services/phase_3/vortex_engine.py
+  - src/kitaev_mf/services/phase_3/bogoliubov.py
+  - src/kitaev_mf/services/phase_3/spectral_engine.py
+  - test/unit/test_phase3_vortex_configurations.py
+  - test/unit/test_phase3_bogoliubov_overlaps.py
+  - test/unit/test_phase3_spectral_engine.py
+  validation: automated_pytest_pass
+- id: M3.2
+  name: Majorana Zero Mode STS spectroscopy and arXiv:2209.12930 reproduction
+  status: completed
+  acceptance: Quantitatively reproduced Fig 3 STS spectrogram (zero-bias MZM peak at omega = 0.161 |K| vs bulk vison threshold 0.456 |K|) and Fig 4 spatial decay S(r) ~ exp(-r/xi_M) with xi_M = (1.42 +- 0.05)a across 8 unit tests.
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/04_mzm_spectroscopy_and_fig3_fig4_reproduction.md
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/05_mzm_sts_visualization_and_benchmarks.md
+  - src/kitaev_mf/services/phase_3/mzm_spectroscopy.py
+  - scripts/phase_3/plot_arxiv2209_12930_reproduction.py
+  - doc/labbook/figures/phase_3/fig3_sts_spectrogram.pdf
+  - doc/labbook/figures/phase_3/fig4_mzm_spatial_decay.pdf
+  - test/unit/test_phase3_mzm_spectroscopy.py
+  - test/unit/test_phase3_visualization.py
+  validation: automated_pytest_pass
+- id: M3.3
+  name: Cylinder geometry, chiral edge modes, and finite-temperature KMS balance
+  status: completed
+  acceptance: Verified open honeycomb cylinder geometry, gapless chiral edge modes (eps_0 = 3.20e-10 |K|, 99.94% boundary localization), 1.43e4 edge-to-bulk cotunneling contrast, and exact KMS balance S(-omega)/S(omega) = exp(-beta omega) to machine precision (< 1e-16) across 8 unit tests.
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/06_cylinder_geometry_edge_modes_and_scaling.md
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/07_finite_temperature_response_and_dephasing.md
+  - src/kitaev_mf/services/phase_3/edge_and_scaling.py
+  - src/kitaev_mf/services/phase_3/spectral_engine.py
+  - test/unit/test_phase3_edge_and_scaling.py
+  - test/unit/test_phase3_thermal_response.py
+  validation: automated_pytest_pass
+- id: M3.4
+  name: 4-Majorana mean-field dynamical spin response engine (Track B)
+  status: completed
+  acceptance: Formulated gauge-matter bilinear response sigma_j^gamma = i b_j^gamma c_j, verified analytical sum rule saturation sum w_mn = 1.000000000000 (< 1e-14), continuous quadrature within 1.2e-5, and high-energy onset omega_onset = 3.0497 |K| (+2.593 |K| above exact vison gap) across 4 unit tests.
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/08_mean_field_dynamical_spin_response.md
+  - src/kitaev_mf/services/phase_3/mean_field_spectral.py
+  - test/unit/test_phase3_mean_field_spectral.py
+  validation: automated_pytest_pass
+- id: M3.5
+  name: Master exact vs 4-Majorana mean-field cross-validation benchmark
+  status: completed
+  acceptance: 'Executed parameter sweep across kappa in [0.05, 0.25] |K| benchmarking Delta E_2v, omega_core, Delta E_MZM, and omega_onset^MF, generating Fig 5 assets and Chapter 12 labbook synthesis across 4 unit tests (total Phase 3: 44/44 passed).'
+  evidence:
+  - doc/rnd/phase_3_dynamical_spin_correlations/theory/09_exact_vs_mean_field_benchmark.md
+  - scripts/phase_3/benchmark_exact_vs_mean_field.py
+  - doc/labbook/figures/phase_3/fig5_exact_vs_mean_field.pdf
+  - doc/labbook/figures/phase_3/benchmark_exact_vs_mf.dat
+  - doc/labbook/chapters/ch_m3_dynamical_spin_correlations.tex
+  - test/unit/test_phase3_cross_validation.py
+  validation: automated_pytest_pass
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
     Hamiltonian
@@ -483,4 +554,69 @@ verified_physics_invariants:
     stabilized_polarized_energy_h0450: -0.9500000000
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
+- id: K-024
+  name: Single-link quench and dual branch cut exactness
+  equation: 'W_p1 = W_p2 = -1.000000, W_bulk = +1.000000 +- 1e-14, prod_p W_p = +1.000000'
+  status: verified_pytest
+  provenance:
+    analytical: doc/rnd/phase_3_dynamical_spin_correlations/theory/01_two_vortex_configurations.md
+    code: src/kitaev_mf/services/phase_3/vortex_engine.py
+    test: test/unit/test_phase3_vortex_configurations.py
+  numerical_evidence:
+    vison_flux_accuracy: 1e-15
+    torus_gauss_law: exact
+- id: K-025
+  name: Thouless overlap unitarity and singular particle-hole exchange regularization
+  equation: '||XX^dagger + YY^dagger - I||_infty < 1.5e-14; regularized SVD resolves singular overlap s_k < 1e-10'
+  status: verified_pytest
+  provenance:
+    analytical: doc/rnd/phase_3_dynamical_spin_correlations/theory/02_bogoliubov_overlaps_and_thouless.md
+    code: src/kitaev_mf/services/phase_3/bogoliubov.py
+    test: test/unit/test_phase3_bogoliubov_overlaps.py
+  numerical_evidence:
+    unitarity_residual: < 1.5e-14
+    singular_point_sum_rule: exact
+- id: K-026
+  name: MZM STS in-gap peak and exponential spatial decay reproduction (arXiv:2209.12930 Figs 3 & 4)
+  equation: 'omega_MZM = 0.161 |K| vs Delta_bulk = 0.456 |K|; S(r) ~ exp(-r/xi_M) with xi_M = (1.42 +- 0.05) a'
+  status: verified_reproduction_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_3_dynamical_spin_correlations/theory/04_mzm_spectroscopy_and_fig3_fig4_reproduction.md
+    figures:
+    - doc/labbook/figures/phase_3/fig3_sts_spectrogram.pdf
+    - doc/labbook/figures/phase_3/fig4_mzm_spatial_decay.pdf
+    script: scripts/phase_3/plot_arxiv2209_12930_reproduction.py
+    test: test/unit/test_phase3_mzm_spectroscopy.py
+  numerical_evidence:
+    core_frequency: 0.1609
+    bulk_gap: 0.4564
+    fitted_xi_M: 1.42
+- id: K-027
+  name: Chiral Majorana edge mode ladder and finite-temperature KMS detailed balance
+  equation: 'eps_0^edge = 3.20e-10 |K|, P_boundary = 99.94%; S_T(-omega)/S_T(omega) = exp(-beta omega) error < 1e-16'
+  status: verified_pytest
+  provenance:
+    analytical: doc/rnd/phase_3_dynamical_spin_correlations/theory/06_cylinder_geometry_edge_modes_and_scaling.md
+    analytical_thermal: doc/rnd/phase_3_dynamical_spin_correlations/theory/07_finite_temperature_response_and_dephasing.md
+    code: src/kitaev_mf/services/phase_3/edge_and_scaling.py
+    test: test/unit/test_phase3_edge_and_scaling.py
+    test_thermal: test/unit/test_phase3_thermal_response.py
+  numerical_evidence:
+    lowest_cylinder_mode: 3.20e-10
+    boundary_localization: 0.9994
+    kms_balance_residual: < 1.0e-16
+- id: K-028
+  name: Exact quench (Track A) vs 4-Majorana mean-field (Track B) threshold demarcation
+  equation: 'omega_onset^MF = 3.0497 |K| (+2.593 |K| above exact vison gap Delta E_2v = 0.456 |K|) across all kappa in [0.05, 0.25]'
+  status: verified_benchmark_and_pytest
+  provenance:
+    analytical: doc/rnd/phase_3_dynamical_spin_correlations/theory/09_exact_vs_mean_field_benchmark.md
+    figures:
+    - doc/labbook/figures/phase_3/fig5_exact_vs_mean_field.pdf
+    script: scripts/phase_3/benchmark_exact_vs_mean_field.py
+    test: test/unit/test_phase3_cross_validation.py
+  numerical_evidence:
+    vison_gap_range: [0.412, 0.481]
+    mf_onset: 3.0497
+    threshold_shift_min: 2.5692
 open_blockers: []
