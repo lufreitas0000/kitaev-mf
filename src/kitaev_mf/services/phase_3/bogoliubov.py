@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
+import scipy.linalg
 
 
 def extract_mode_wavefunctions(Q: np.ndarray) -> np.ndarray:
@@ -99,6 +100,43 @@ def apply_particle_hole_interchange(
     return X_prime, Y_prime
 
 
+def find_optimal_particle_hole_mode_svd(
+    X: np.ndarray,
+    Y: np.ndarray,
+) -> tuple[int, float]:
+    """Identify the optimal particle-hole interchange mode in O(N^3) via SVD of X.
+
+    When det(X) ~ 0, exactly one singular value of X vanishes (s_min -> 0).
+    The left singular vector u_1 in X = U Sigma Vh spans ker(X^dagger), so that
+    the cofactor expansion of row replacement X_m satisfies:
+        |det(X_m)| = |u_{m, 1}|^2 * prod_{k >= 2} s_k.
+    Thus, the mode m that maximizes |det(X_m)| is argmax_m |u_{m, 1}|.
+    """
+    N = X.shape[0]
+    # Use scipy.linalg.svd with gesvd driver to avoid OpenBLAS multithread contention on gesdd
+    u, s, _ = scipy.linalg.svd(X, lapack_driver="gesvd")
+    weights = np.abs(u[:, -1])
+    best_mode = int(np.argmax(weights))
+
+    # Evaluate exact transformed determinant for the identified optimal mode
+    X_best, _ = apply_particle_hole_interchange(X, Y, mode_idx=best_mode)
+    best_det = float(np.abs(np.linalg.det(X_best)))
+
+    # Defensive check: if lowest singular values are nearly degenerate, check top candidates
+    if len(s) > 1 and s[-2] < 1e-3:
+        top_candidates = np.argsort(weights)[-min(3, N):]
+        for m in top_candidates:
+            if m == best_mode:
+                continue
+            X_m, _ = apply_particle_hole_interchange(X, Y, mode_idx=int(m))
+            d_m = float(np.abs(np.linalg.det(X_m)))
+            if d_m > best_det:
+                best_det = d_m
+                best_mode = int(m)
+
+    return best_mode, best_det
+
+
 def compute_bogoliubov_transformation(
     phi_a: np.ndarray,
     phi_b: np.ndarray,
@@ -119,16 +157,8 @@ def compute_bogoliubov_transformation(
     if is_singular:
         # Transformation between opposite fermion-parity sectors: vacuum overlap vanishes
         vacuum_overlap = 0.0
-        # Identify mode whose particle-hole flip maximizes det(X')
-        N = X.shape[0]
-        best_mode = 0
-        best_det = 0.0
-        for m in range(N):
-            X_m, _ = apply_particle_hole_interchange(X, Y, mode_idx=m)
-            d_m = float(np.abs(np.linalg.det(X_m)))
-            if d_m > best_det:
-                best_det = d_m
-                best_mode = m
+        # Fast SVD-based particle-hole mode identification in O(N^3)
+        best_mode, best_det = find_optimal_particle_hole_mode_svd(X, Y)
         singular_mode = best_mode
         singular_overlap = float(np.sqrt(best_det))
     else:
@@ -203,20 +233,24 @@ def compute_majorana_matrix_elements(
         amplitudes[()] = elem_0
 
         # 2. Two-quasiparticle transitions (m1, m2): <m1, m2 | c_j | a_p^dagger 0_a>
-        # where <m1, m2| = <0_b| b_{m2} b_{m1} = - <0_b| b_{m1} b_{m2}
+        # Vectorized contraction: precompute scalar v_overlap and vector w = Z_b @ phi_b^*
+        phi_star = phi_b_eff[:, site_j].conj()
+        phi_val = phi_b_eff[:, site_j]
+        v_overlap = complex(np.dot(phi_star, X_inv_H[:, p]))
+        w_vec = Z_b @ phi_star  # Shape (N,)
+
         for m1 in range(N):
+            x1 = X_inv_H[m1, p]
+            phi1 = phi_val[m1]
+            w1 = w_vec[m1]
             for m2 in range(m1 + 1, N):
-                t1 = 2.0 * phi_b_eff[m2, site_j] * overlap_0 * X_inv_H[m1, p]
-                t2 = -2.0 * phi_b_eff[m1, site_j] * overlap_0 * X_inv_H[m2, p]
-                t3 = 0.0j
-                for k in range(N):
-                    wick_4 = overlap_0 * (
-                        X_inv_H[k, p] * Z_b[m1, m2]
-                        - X_inv_H[m2, p] * Z_b[m1, k]
-                        + X_inv_H[m1, p] * Z_b[m2, k]
-                    )
-                    t3 += 2.0 * phi_b_eff[k, site_j].conj() * wick_4
-                amplitudes[(m1, m2)] = -(t1 + t2 + t3)
+                x2 = X_inv_H[m2, p]
+                phi2 = phi_val[m2]
+                w2 = w_vec[m2]
+
+                t12 = 2.0 * overlap_0 * (phi2 * x1 - phi1 * x2)
+                t3 = 2.0 * overlap_0 * (v_overlap * Z_b[m1, m2] - x2 * w1 + x1 * w2)
+                amplitudes[(m1, m2)] = -(t12 + t3)
 
     else:
         # Initial state is vacuum: |phi_0> = |0_a> (even parity)
