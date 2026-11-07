@@ -33,7 +33,8 @@ This document provides the centralized registry of **all hypothesis contracts** 
 | **`H4`** | Phase 2 Gate 2 | Unprojected Spin Channel Ambiguity ($\mathrm{N}^a$ vs. Chiral $\mathrm{M}^a$) | Variational optimization of $\sigma_\eta^a = \sigma_K^a + (1-\eta)\tau^a$ under $P_G$ | **PHASE 2 ACTIVE CONTRACT** | [`ch_m1_11`](labbook/chapters/ch_m1_11_hypothesis_contracts.tex) |
 | **`HC-P2-03`** | Phase 2 Gate 2 | Continuum Two-Vison Potential $V(R, h)$ & Screening Clouds | Large-torus ($L \in \{12, 18, 24\}$) Yukawa crossover & $\varepsilon_1(R) \sim \Delta_K e^{-R/\xi(h)}$ | **PHASE 2 ACTIVE CONTRACT** | [`MILESTONE_ROADMAP.md`](MILESTONE_ROADMAP.md) |
 | **`HC-P2-04`** | Phase 2 Gate 3 | Finite-Temperature ($T > 0$) Fermi-Dirac Grassmannian Solver | $\Omega(T) = \mathrm{i}\tanh(\mathrm{i}\mathbf{A}/2T)$, two-peak $C_V(T)$, and critical endpoint $(T_{\mathrm{cep}}, h_{\mathrm{cep}})$ | **PHASE 2 ACTIVE CONTRACT** | [`MILESTONE_ROADMAP.md`](MILESTONE_ROADMAP.md) |
-| **`HC-P2-05`** | Phase 2 Gate 3 | Static & Dynamical Spin Structure Factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ | Two-particle bubble convolution & RPA/TD-HFB linear response across $h$ and $T$ | **PHASE 2 ACTIVE CONTRACT** | [`MILESTONE_ROADMAP.md`](MILESTONE_ROADMAP.md) |
+| **`HC-P2-05`** | Phase 2 Gate 4 | Static Spin Structure Factor $S^{\alpha\beta}(\mathbf{q})$ on Real Clusters | Equal-time Wick contraction, nearest-neighbor confinement at $h=0$, and anisotropic tails under $[111]$ | **PHASE 2 ACTIVE CONTRACT** | [`MILESTONE_ROADMAP.md`](MILESTONE_ROADMAP.md) |
+| **`H_DYN_01..10`** | Phase 3 Core Gates | Dynamical Spin Correlators & MZM Spectroscopy (arXiv:2209.12930) | Exact gauge quench, singular Thouless ($\det W=-1$), MZM zero-bias peak, and MF response comparison | **PHASE 3 STRATEGIC CONTRACTS** | [`doc/rnd/phase_3_dynamical_spin_correlations/blueprint.md`](rnd/phase_3_dynamical_spin_correlations/blueprint.md) |
 
 ---
 

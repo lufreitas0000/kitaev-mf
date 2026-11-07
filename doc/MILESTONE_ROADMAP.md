@@ -60,29 +60,42 @@ Phase 2 is the direct physical continuation of Phase 1 in the **identical model 
     1. Two-stage specific heat $C_v(T)$ and entropy release $S(T)$ from $S(\infty) = \ln 2$ per spin across the high-temperature itinerant Majorana crossover ($T_H \approx 0.375|K|$) and low-temperature gauge/vison scale ($T_L$).
     2. Thermal melting of the first-order spinodal hysteresis loop $[h_{c1}^-(T), h_{c2}^+(T)]$ terminating at a finite-temperature critical end point $(h_{\mathrm{CEP}}, T_{\mathrm{CEP}})$.
 
-- **M2.4: Static Spin Correlations $S^{\alpha\beta}(\mathbf{q})$ and Local Real-Space Spin Structure**
-  - *Scope*: Connected four-Majorana Wick contraction and equal-time spatial correlations:
-    1. Equal-time static structure factor $S^{\alpha\beta}(\mathbf{q})$ and real-space correlation functions $\langle \sigma_i^\alpha \sigma_j^\beta \rangle$ across the Brillouin zone and real-space cluster in the $T=0$ ground state, two-vortex state, and $T>0$ thermal ensemble.
-    2. Verification of sum rules and spatial anisotropy induced by the $[111]$ magnetic field.
+- **M2.4: Static Spin Correlations $S^{\alpha\beta}(\mathbf{q})$, Static Structure Factor & Local Correlation Lengths**
+  - *Scope*: Pure FM Kitaev $[111]$ static spin correlations evaluated primarily on real-space clusters (with Bloch comparison as reality check):
+    1. Connected four-Majorana Wick contractions for equal-time spatial spin correlators $\langle \sigma_i^\alpha \sigma_j^\beta \rangle$ and on-site tensor expectations $\langle \mathbf{S}_i \mathbf{S}_j \rangle$.
+    2. Real-space static spin structure factor $S^{\alpha\beta}(\mathbf{q}) = \frac{1}{N} \sum_{ij} \mathrm{e}^{\mathrm{i}\mathbf{q}\cdot(\mathbf{r}_i - \mathbf{r}_j)} \langle \sigma_i^\alpha \sigma_j^\beta \rangle$ across high-symmetry BZ paths ($\Gamma\text{--}M\text{--}K\text{--}\Gamma$) across fields $h \in [0, h_c^*)$.
+    3. Spatial correlation decay length $\xi_{\mathrm{spin}}(h)$, verifying strict nearest-neighbor confinement at $h=0$ and emergence of anisotropic correlation tails under $[111]$ magnetic field.
+    4. Reality-check comparison between reciprocal-space Bloch covariance integration and real-space torus clusters ($L \in \{12, 18, 24\}$).
+  - *Boundary Contract*: **Phase 2 computes exclusively STATIC spin correlations.** All dynamical spin correlations $S^{\alpha\beta}(\mathbf{q}, \omega)$, gauge quenches, and frequency-dependent spectroscopy are strictly reserved for Phase 3.
 
 ---
 
 ## Phase 3: Dynamical Spin Correlations & Majorana Zero Mode Spectroscopy (arXiv:2209.12930 Reproducing & Generalization)
 
-Phase 3 is dedicated to the formulation, exact benchmarking, and mean-field calculation of the **dynamical spin correlation functions** $S^{\alpha\beta}(\mathbf{r}, \omega)$ and $S^{\alpha\beta}(\mathbf{q}, \omega)$, focusing on reproducing the scanning tunneling spectroscopy (STS) signatures of Majorana zero modes in the pure FM Kitaev $[111]$ model (arXiv:2209.12930) on real-space lattices with Bloch comparisons as reality checks:
+Phase 3 is dedicated to the formulation, exact benchmarking, and mean-field calculation of the **dynamical spin correlation functions** $S^{\alpha\beta}(\mathbf{r}, \omega)$ and $S^{\alpha\beta}(\mathbf{q}, \omega)$, focusing on reproducing the scanning tunneling spectroscopy (STS) signatures of Majorana zero modes in the pure FM Kitaev $[111]$ model (arXiv:2209.12930) primarily on real-space clusters with Bloch comparisons as reality checks (see detailed blueprint in `doc/rnd/phase_3_dynamical_spin_correlations/blueprint.md`):
 
-- **M3.1: Exact Gauge-Quench Dynamical Correlator in the Pure Kitaev Limit**
-  - *Theoretical Foundation:* Local spin operator $\sigma_j^\gamma$ flips adjacent gauge links $\hat{u}_{jk}$, creating a pair of $\mathbb{Z}_2$ visons (Baskaran et al. 2007). The dynamical spin correlator $S_{\mathrm{loc}}^{\gamma\gamma}(t) = \langle 0 | \sigma_j^\gamma(t) \sigma_j^\gamma(0) | 0 \rangle$ maps to an exact many-body quantum quench between the zero-flux ground state $|0_{\{u\}}\rangle$ and the two-flux sector Hamiltonian $H_{\{u'\}}$ (Knolle et al. 2014).
-  - *Physical Parity Constraints:* Implementation of explicit projection onto the physical fermion parity sector $P = \frac{1}{2}(1 + \mathcal{P})$ (Pedrocchi, Chesi, Loss 2011; Zschocke & Vojta 2015), ensuring proper selection rules for transition matrix elements in finite systems.
-  - *Computational Core:* Evaluation of transition amplitudes $\langle \lambda_{\{u'\}} | c_j | 0_{\{u\}} \rangle$ via single-particle Bogoliubov transformations and many-body determinants/Pfaffians, reproducing the clean bulk vison gap threshold ($\Delta_v \approx 0.26 |K|$) and the continuous matter-fermion shakeup spectrum.
+- **M3.0: Theoretical Foundations, Gauge Conventions & Parity Specifications**
+  - *Scope*: Fix all signs, normalizations, and conventions for $H_K = -K \sum \sigma_j^\alpha \sigma_l^\alpha - \kappa \sum \sigma_j^\alpha \sigma_k^\gamma \sigma_l^\beta$ in canonical Majorana representation; derive physical fermion parity projection $P = \frac{1}{2}(1 + \mathcal{P})$ for open/cylindrical boundaries and tori; freeze benchmark identity registry (`H_DYN_01`–`H_DYN_03`).
 
-- **M3.2: Majorana Mean-Field Generalization of Dynamical Response**
-  - *Mean-Field Formulation:* Generalization of the dynamical spin structure factor $S^{\alpha\beta}(\mathbf{q}, \omega)$ within the 4-Majorana mean-field theory of `kitaev-mf`, evaluating connected two-particle bubble convolutions and RPA/TD-HFB gauge-matter response.
-  - *Cross-Validation & Benchmark:* Direct comparison between the exact gauge-quench result (M3.1) and the mean-field approximation in the pure Kitaev limit to establish the quantitative accuracy, spectral shift, and screening effects of the mean-field treatment.
+- **M3.1: Exact Gauge-Quench Real-Space Engine in Pure Kitaev Limit**
+  - *Theoretical Foundation:* Local spin operator $\sigma_j^\gamma = \mathrm{i} b_j^\gamma c_j$ flips adjacent static gauge link $\hat{u}_{jk}^\gamma \to -\hat{u}_{jk}^\gamma$, creating a pair of $\mathbb{Z}_2$ visons (Baskaran et al. 2007). The dynamical spin correlator maps to an exact many-body quantum quench between the reference state $|0_G\rangle$ and bond-flipped Hamiltonian $H_{G_j^\alpha}$ (Knolle et al. 2014; arXiv:2209.12930).
+  - *Real-Space Implementation:* Skew-symmetric BdG solvers on real-space honeycomb lattices (torus and cylinder geometries up to $N = 2 \times 37 \times 37$ sites) for both vortex-free ($G_0$) and isolated two-vortex ($G$) configurations.
+  - *Physical Parity Constraints:* Enforce physical parity selection rules ($E_{G,0}^{\mathrm{phys}} = E_{G,0} + \epsilon_1$ when $\pi_G = -1$; Pedrocchi et al. 2011; Zschocke & Vojta 2015).
 
-- **M3.3: Scanning Tunneling Spectroscopy of Majorana Zero Modes in Vortex Sectors**
-  - *STS Modeling:* Real-space evaluation of the local tunneling density of states (LDOS) and differential conductance $\mathrm{d}I/\mathrm{d}V$ in reference gauge configurations containing isolated pairs of well-separated vortices (arXiv:2209.12930).
-  - *MZM Signatures:* Characterization of the localized zero-bias conductance peak, finite-frequency vison shakeup threshold, and spatial decay of the zero-mode wavefunction away from the vortex cores under $\mathbf{h} \parallel [111]$.
+- **M3.2: Bogoliubov Overlaps & Pfaffian Matrix Elements**
+  - *Computational Core:* Construct Bogoliubov transformation matrix $W = U_{G_j^\alpha}^\dagger U_G$; verify canonical identities ($XX^\dagger + YY^\dagger = I$, etc.); evaluate vacuum overlap $|\langle 0_{\{u'\}} | 0_{\{u\}} \rangle|^2 = \sqrt{\det(X^\dagger X)}$ for regular transformations ($\det W = +1$) and particle-hole interchange for singular cases ($\det W = -1$; Eq. 29 of arXiv:2209.12930); benchmark against exact Fock-space ED on small clusters ($N \le 16$, `H_DYN_04`, `H_DYN_05`).
+
+- **M3.3: Reproduction of Published Spectrograms (arXiv:2209.12930 Figs. 3 & 4)**
+  - *Lehmann Spectral Summation:* Evaluate $S_{\mathrm{loc}}^{\gamma\gamma}(\omega)$ with excitation cutoff $n_{\max} \in \{0, 1, 2, 3, 4\}$; verify strict selection rules ($S_{jl}^{\alpha\beta} = 0$ unless $\alpha=\beta$ and $j=l$ or $\langle jl \rangle_\alpha$, `H_DYN_02`); verify equal-time sum rule $\int_0^\infty S_{jj}^{\alpha\alpha}(\omega)\mathrm{d}\omega = 1.000$ (`H_DYN_09`).
+  - *Reproduction of Published Figures:* Reproduce Fig. 3 (vortex-translation MZM peak at $\omega \approx 0$, vison pair threshold $\Delta E_{2v} \approx 0.1|K|$, bound-fermion peak at $\approx 0.25|K|$, and continuum onset $\Delta E_{2f} = \frac{3\sqrt{3}}{2}|\kappa|$) and Fig. 4 (spatial decay map of zero-bias conductance $\sim \mathrm{e}^{-r/\xi_M}$ around vortex core).
+
+- **M3.4: Majorana Mean-Field Generalization of Dynamical Response**
+  - *Mean-Field Formulation:* Generalization to the 4-Majorana mean-field framework of `kitaev-mf`, evaluating connected two-particle bubble convolutions and RPA/TD-HFB gauge-matter response on real-space clusters.
+  - *Response Characterization:* Determine whether mean-field spin operators connect distinct mean-field sectors or produce two-quasiparticle excitations within a single self-consistent state.
+
+- **M3.5: Systematic Exact vs. Mean-Field Cross-Validation Benchmark**
+  - *Comparative Analysis:* Direct quantitative comparison of peak locations, spectral thresholds, and sum rules between exact quench (M3.3) and mean-field response (M3.4) at identical parameters ($K=-1.0$, $\mathbf{h} \parallel [111]$).
+  - *Diagnosis:* Rigorous documentation of mean-field accuracy, gauge projection artifacts, and residual interaction effects (`H_DYN_10`).
 
 ---
 
