@@ -1,0 +1,14 @@
+# ACID DATA PROVENANCE HEADER
+# Task: T3.W1.3 Thermodynamic Spectral Sum Rules and Demarcation Gap
+# Date: 2026-11-07T16:48:18.692182+00:00
+# Git-Commit: 21a27d8fa72648723191ec5178a79f7e0146cd8b
+# Parameters: K=1.0, kappa=0.15, boundary=obc
+# Evaluated L values: [6, 12, 18, 24, 30, 36, 37]
+# Schema: L n_sites is_sing_core is_sing_bulk core_sum_rule bulk_sum_rule omega_MZM bulk_min_energy demarcation_gap quad_err
+   6      72        False        False       0.934837       0.963020   0.156425        0.456372        0.299947   0.0000e+00
+  12     288        False        False       0.887972       0.935468   0.094022        0.312359        0.218337   0.0000e+00
+  18     648        False        False       0.825096       0.823498   0.039784        0.202987        0.163203   1.1102e-16
+  24    1152         True         True       0.479036       0.725793  -0.015291        0.180911        0.196202   5.5511e-17
+  30    1800        False         True       0.764324       0.620589   0.023234        0.188738        0.165503   1.1102e-16
+  36    2592        False        False       0.759924       0.875045   0.018058        0.198063        0.180005   1.1102e-16
+  37    2738         True        False       0.733689       0.866951   0.006207        0.211637        0.205430   1.1102e-16
