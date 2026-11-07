@@ -1,0 +1,11 @@
+# ACID DATA PROVENANCE HEADER
+# Task: T3.W1.2 MZM Hybridization Thermodynamic Scaling
+# Date: 2026-11-07T16:03:10.435871+00:00
+# Git-Commit: 6db02f33ff19ed91ed86668708a53a2f8a77a9d8
+# Fit: xi_M = 2.9605 +/- 0.6472 a, R^2 = 0.9128
+# Intercept: alpha = 1.3181, p_value = 4.4618e-02
+# Schema: L dy R_units_a delta_eps_0
+   6    3     5.1962 4.04488280e-01
+  12    6    10.3923 1.46666688e-01
+  18    9    15.5885 4.55920822e-02
+  24   12    20.7846 1.71882865e-03

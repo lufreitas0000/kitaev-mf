@@ -1,0 +1,11 @@
+# ACID DATA PROVENANCE HEADER
+# Task: T3.W1.2 Zero-Bias Sharpness and Thermodynamic Convergence
+# Date: 2026-11-07T16:03:10.435871+00:00
+# Git-Commit: 6db02f33ff19ed91ed86668708a53a2f8a77a9d8
+# Parameters: K=1.0, kappa=0.15, boundary=obc
+# Schema: L boundary omega_MZM tot_weight subgap_weight sharpness_ratio bulk_min_E bulk_subgap_weight
+   6      obc   0.156425   0.934837   0.306797   0.328182   0.456372 0.00000000e+00
+   8      obc   0.097661   0.907694   0.149034   0.164190   0.273657 0.00000000e+00
+  12      obc   0.094022   0.887972   0.201548   0.226976   0.312359 0.00000000e+00
+  16      obc   0.027626   0.874735   0.144712   0.165436   0.213433 0.00000000e+00
+  20      obc   0.003170   0.749364   0.203875   0.272065   0.209403 0.00000000e+00
