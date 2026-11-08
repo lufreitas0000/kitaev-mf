@@ -56,3 +56,34 @@ build/w001/bundle-blueprint` passed (116 notes, 55 tables). Both workflow YAML
 structures parsed; manual-main publication gates and cancel-in-progress=false
 were checked unchanged. Independent referee PASS for the two-line concurrency
 change; remote execution remains the executable validation.
+
+## Phase 3 finite decomposition and fixture follow-up
+
+The first repaired remote run e570c2c (42437696341) reached pytest and reported
+3 failed, 352 passed, 1 skipped. The failures were inherited cylinder singularity
+and odd-state spectral golden checks; new bundle tests passed. It is not
+represented as a passing run. Later source changes repair the mathematical
+block-parsing defect and specify the test states, as detailed in the review.
+
+- Exact Schur witness diag(0,2J,0): new regression first failed against the old
+  parser with energies [0,0] and reconstruction error 2; shared parser returns
+  [0,2] and reconstructs it. No assertion threshold was loosened.
+- 21 focused Schur/spectral/convention tests passed in 0.66 seconds, including
+  separated null columns, both null-vacuum orientations, independent Hermitian
+  spectra for rank-deficient matrices, and two independent 512D Fock projections.
+- Full required suite with coverage in the isolated copy after the source fix:
+  **362 passed in 137.77 seconds**, 96% coverage. The remote GPU-only check may
+  be skipped on its CPU runner; this is separate from scientific acceptance.
+- Ruff lint/format and strict Mypy passed for 174 files, including scripts and
+  the isolated quadrature prototype. YAML parsing and the existing W001 source
+  preservation validator passed. Git diff --check passed.
+- Independent Terra 6.1 referee PASS for the scoped fixture repair and shared
+  Schur parser; reviewer did not rerun tests. Physical degenerate-state policy
+  remains unresolved and is explicitly qualified in production documentation.
+- Prototype LR docstring now correctly refers to bounded eigenvalues rather than
+  real matrix entries. This wording change does not alter the earlier observed
+  quadrature values or their archived source hash.
+
+Current-head remote outcomes are recorded on PR #4 after pushing this follow-up;
+those results must be read at the exact source SHA, not inferred from this local
+receipt. The draft integration PR is not a main promotion or publication.

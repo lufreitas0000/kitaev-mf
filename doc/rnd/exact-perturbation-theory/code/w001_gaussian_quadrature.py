@@ -44,7 +44,7 @@ def build_matter_generator(
 
 
 def make_LR(w: RealArray, u: ComplexArray, tau: float) -> tuple[ComplexArray, ComplexArray]:
-    """Bounded left/right decomposition e^{tau W} = L(tau)^{-1} R(tau) with entries in [0, 1]."""
+    """Bounded left/right decomposition e^{tau W} = L(tau)^{-1} R(tau) with eigenvalues in [0, 1]."""
     if not np.isfinite(tau) or tau < 0:
         raise ValueError("Euclidean time must be finite and nonnegative")
     exp_neg = np.exp(-tau * np.abs(w))

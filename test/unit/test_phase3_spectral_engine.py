@@ -10,11 +10,16 @@ Audits:
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import numpy as np
+from scipy.sparse import csr_matrix
 
 from kitaev_mf.services.phase_3.gauge_theory import (
+    assemble_matter_skew_matrix,
     build_honeycomb_torus_cluster,
     build_uniform_gauge_configuration,
+    diagonalize_matter_hamiltonian,
 )
 from kitaev_mf.services.phase_3.spectral_engine import (
     compute_local_spectral_poles,
@@ -23,6 +28,7 @@ from kitaev_mf.services.phase_3.spectral_engine import (
 )
 from kitaev_mf.services.phase_3.vortex_engine import (
     HoneycombGeometry,
+    apply_local_spin_quench,
     create_two_vortex_gauge_configuration,
 )
 
@@ -235,34 +241,93 @@ def test_h_spec_05_two_vortex_mzm_quench_response() -> None:
     assert spec_vortex.total_spectral_weight > 0.90
 
 
-def test_h_spec_06_odd_initial_parity_0qp_and_2qp_channels() -> None:
-    """Verify compute_local_spectral_poles when initial state has odd parity (pi_G = -1).
+def _finite_fock_truncated_weight(q0: np.ndarray, q1: np.ndarray, site: int) -> float:
+    """Independent occupation-basis projection onto 0/2 quenched quasiparticles.
 
-    Exercises the 0-quasiparticle and 2-quasiparticle transition channels in sector G'.
+    Uses explicit CAR operators in 2^9 dimensions, not Thouless determinants
+    or the production matrix-element formulas. The initial state is exactly
+    the declared mode-zero one-particle state; degenerate modes are not averaged.
     """
+    n = q0.shape[0] // 2
+    dimension = 1 << n
+    annihilation = []
+    for mode in range(n):
+        cols = [s for s in range(dimension) if s & (1 << mode)]
+        rows = [s ^ (1 << mode) for s in cols]
+        signs = [(-1.0) ** ((s & ((1 << mode) - 1)).bit_count()) for s in cols]
+        annihilation.append(
+            csr_matrix((signs, (rows, cols)), shape=(dimension, dimension), dtype=complex)
+        )
+    relative = q1.T @ q0
+    number = csr_matrix((dimension, dimension), dtype=complex)
+    for mode in range(n):
+        operator = csr_matrix((dimension, dimension), dtype=complex)
+        for k in range(n):
+            even = relative[2 * mode, 2 * k] - 1j * relative[2 * mode + 1, 2 * k]
+            odd = relative[2 * mode, 2 * k + 1] - 1j * relative[2 * mode + 1, 2 * k + 1]
+            operator += 0.5 * (even + 1j * odd) * annihilation[k]
+            operator += 0.5 * (even - 1j * odd) * annihilation[k].conj().T
+        number += operator.conj().T @ operator
+    values, vectors = np.linalg.eigh(number.toarray())
+    keep = np.isclose(values, 0, atol=1e-9) | np.isclose(values, 2, atol=1e-9)
+    assert np.count_nonzero(keep) == 1 + n * (n - 1) // 2
+    probe = csr_matrix((dimension, dimension), dtype=complex)
+    for k in range(n):
+        probe += (q0[site, 2 * k] + 1j * q0[site, 2 * k + 1]) * annihilation[k]
+        probe += (q0[site, 2 * k] - 1j * q0[site, 2 * k + 1]) * annihilation[k].conj().T
+    state = np.zeros(dimension, dtype=complex)
+    state[1] = 1  # Exactly a_0^dagger |0_a> in least-significant-bit occupation order.
+    return float(np.linalg.norm(vectors[:, keep].conj().T @ (probe @ state)) ** 2)
+
+
+def test_h_spec_06_odd_initial_parity_0qp_and_2qp_channels() -> None:
+    """Compare to full Fock projection for two declared states in the degenerate ground space."""
     L = 3
     num_sites, bonds, triplets = build_honeycomb_torus_cluster(L=L)
     geom = HoneycombGeometry(L=L)
     gauge_0 = build_uniform_gauge_configuration(num_sites=num_sites, bonds=bonds)
-
-    spec_torus = compute_local_spectral_poles(
-        gauge=gauge_0,
-        site_j=0,
-        bond_type=3,
-        geom=geom,
-        K=1.0,
-        kappa=0.15,
-        boundary="torus",  # pi_G = -1 on clean torus
-        bonds=bonds,
-        triplets=triplets,
+    matrix = assemble_matter_skew_matrix(gauge_0, kappa=0.15, triplets=triplets)
+    initial = diagonalize_matter_hamiltonian(matrix, gauge_0, boundary="torus", L=L)
+    assert abs(initial.energies[0] - initial.energies[1]) < 1e-12
+    assert initial.physical_matter_parity == -1
+    quenched_gauge, _ = apply_local_spin_quench(gauge_0, 0, 3, geom)
+    quenched = diagonalize_matter_hamiltonian(
+        assemble_matter_skew_matrix(quenched_gauge, kappa=0.15, triplets=triplets),
+        quenched_gauge,
+        boundary="torus",
+        L=L,
     )
-
-    # Must contain 0-qp vacuum and 2-qp excitation states
-    state_lens = {len(p.quasiparticle_state) for p in spec_torus.poles}
-    assert 0 in state_lens
-    assert 2 in state_lens
-    assert len(spec_torus.poles) == 37  # 1 vacuum + 9*8/2 = 36 two-particle pairs
-    assert np.isclose(spec_torus.total_spectral_weight, 0.99825, rtol=1e-3)
+    for angle in (0.0, 0.37):
+        # A unitary mixing of equal-energy complex modes is a simultaneous real
+        # rotation of their even and odd Majorana columns. It changes the chosen
+        # one-particle state, while leaving the Hamiltonian unchanged.
+        rotation = np.eye(num_sites)
+        for pair in ((0, 2), (1, 3)):
+            rotation[np.ix_(pair, pair)] = [
+                [np.cos(angle), -np.sin(angle)],
+                [np.sin(angle), np.cos(angle)],
+            ]
+        q0 = initial.Q @ rotation
+        assert np.linalg.norm(q0.T @ matrix @ q0 - initial.Q.T @ matrix @ initial.Q) < 1e-12
+        declared = replace(initial, Q=q0)
+        spectrum = compute_local_spectral_poles(
+            gauge=gauge_0,
+            site_j=0,
+            bond_type=3,
+            geom=geom,
+            K=1.0,
+            kappa=0.15,
+            boundary="torus",
+            bonds=bonds,
+            triplets=triplets,
+            diag_initial=declared,
+        )
+        assert {len(p.quasiparticle_state) for p in spectrum.poles} == {0, 2}
+        assert len(spectrum.poles) == 37
+        expected = _finite_fock_truncated_weight(q0, quenched.Q, 0)
+        # Direct well-conditioned finite-matrix agreement, much tighter than
+        # the former 1e-3 relative tolerance on a basis-specific golden weight.
+        assert np.isclose(spectrum.total_spectral_weight, expected, atol=1e-10, rtol=0)
 
 
 def test_h_spec_07_singular_quench_spectral_poles() -> None:

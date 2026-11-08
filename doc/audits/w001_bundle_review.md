@@ -115,3 +115,38 @@ earlier seven notes or endorsing disapproved historical Phase 4 results.
 T5 canonical book assembly remains in progress with separately committed chapter
 drafts; its include map and PDF are not yet complete. T6 PRL migration and T7
 bounded main promotion follow. No main merge or publication is part of this fix.
+
+## Remote numerical follow-up
+
+After the dependency repair, CI run 42437696341 exposed three inherited Phase 3
+failures (352 passed, one skipped). The new bundle tests passed. The failed
+assertions assumed a unique null-mode vacuum on a cylinder and a basis-specific
+truncated weight for one of two degenerate lowest torus modes. Local runs with
+1/2/4 BLAS threads did not reproduce the same mismatch, so no thread-only cause
+is asserted or used to mask the issue.
+
+An independent exact counterexample also established a shared solver defect:
+for a real Schur form diag(0,2J,0), blind consecutive pairing returned [0,0] and
+reconstruction error 2. The new common canonical-skew helper collects actual
+rotation blocks and null columns before pairing. Both existing entry points use
+it, preserving the scalable-module public imports. Rank-deficient spectra are
+checked against an independent Hermitian diagonalization. A relative numerical
+cutoff is explicit; returned basis orientation at zero is not a physical parity
+certificate. The exact-arithmetic reason is that a matrix which is both skew and
+real quasi-upper-triangular has only 2x2 skew rotation blocks and 1x1 zeros. Its
+null columns span an invariant nullspace and can be paired after collection.
+
+The cylinder SVD fixture now declares its null-mode vacuum and verifies that
+swapping the chosen pair acts inside the actual nullspace. It retains the exact
+SVD/exhaustive equivalence and overlap thresholds; a regression exercises both
+returned null orientations. Environment-dependent wall-clock speed is no longer
+a required algebraic assertion. The historical timing measurement is not renewed
+as a performance certification.
+
+The torus test now compares the same explicitly chosen one-particle state to an
+independent 512-dimensional sparse-CAR construction and projection onto quenched
+number 0 or 2. It checks both the returned degenerate basis and a 0.37-radian
+rotation inside it. Agreement uses absolute 1e-10, tighter than the old relative
+1e-3 golden comparison. This is a truncated finite-Fock check, not proof of a
+full physical spin sum rule. A production policy for degenerate physical states
+remains research work.

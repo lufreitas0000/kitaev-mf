@@ -15,6 +15,9 @@ for the SemVer policy and release procedure.
   source manifest for the PI-supplied perturbation bundle.
 
 ### Fixed
+- Parse separated Schur null blocks correctly in both matter diagonalizers;
+  compare degenerate-state spectral tests with an independent finite-Fock
+  reference and make the singular-test vacuum explicit.
 - Include the already-declared matplotlib runtime dependency in CI lockfiles so
   plotting tests can be collected in a clean environment.
 

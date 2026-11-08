@@ -11,7 +11,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 
 import numpy as np
-from scipy.linalg import schur
+
+from kitaev_mf.services.phase_3.canonical_skew import canonical_skew_schur
 
 
 @dataclass(frozen=True)
@@ -157,35 +158,15 @@ def diagonalize_matter_hamiltonian(
 
     Enforces canonical 2x2 blocks: [[0, eps_k], [-eps_k, 0]] with eps_k >= 0,
     sorted in ascending order 0 <= eps_1 <= ... <= eps_N.
-    Computes exact physical matter-fermion parity per Pedrocchi et al. (2011) and
-    Zschocke & Vojta (2015).
+    Applies the inherited finite-sector parity convention using det(Q).
+    At a null pair det(Q) is a basis orientation, not the sign of a nonzero
+    Pfaffian; physical zero-mode state selection requires an additional policy.
+    The canonical spectral decomposition alone does not certify that choice.
     """
-    N2 = A.shape[0]
-    N = N2 // 2
-    T, Z = schur(A, output="real")
-
-    # 1. Standardize 2x2 blocks: ensure upper-right element is non-negative
-    Z_std = Z.copy()
-    omegas: list[float] = []
-    for k in range(N):
-        w = T[2 * k, 2 * k + 1]
-        if w < 0.0:
-            # Swap column 2k and 2k+1 to flip sign of the 2x2 block
-            Z_std[:, [2 * k, 2 * k + 1]] = Z_std[:, [2 * k + 1, 2 * k]]
-            w = -w
-        omegas.append(float(w))
-
-    # 2. Sort positive energies in ascending order
-    idx = np.argsort(omegas)
-    sorted_energies = np.array(omegas, dtype=np.float64)[idx]
-
-    # Reorder columns of Z
-    col_idx: list[int] = []
-    for i in idx:
-        col_idx.extend([2 * i, 2 * i + 1])
-    Q = Z_std[:, col_idx]
-
-    det_Q = float(np.round(np.linalg.det(Q)))
+    canonical = canonical_skew_schur(A)
+    sorted_energies = canonical.energies
+    Q = canonical.Q
+    det_Q = canonical.det_Q
     unprojected_E0 = float(-0.5 * np.sum(sorted_energies))
 
     # 3. Physical matter parity

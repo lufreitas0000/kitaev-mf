@@ -146,3 +146,17 @@ entries:
     - doc/audits/w001_bundle_review.md
     disposition: Do not accept physical exactness, parity, prefactor, stability or all-orders claims; single-slice
       finite Fock check has narrower scope
+  - id: W001-NUM-01
+    subject: Canonical real-skew decomposition with separated Schur null blocks
+    scientific_status: supported-within-scope
+    epistemic_kind: finite-linear-algebra-and-regression
+    implementation_status: shared-parser-with-reconstruction-check
+    evidence:
+      - src/kitaev_mf/services/phase_3/canonical_skew.py
+      - test/unit/test_phase3_scalable_skew_solver.py
+      - test/unit/test_phase3_spectral_engine.py
+      - doc/audits/w001_bundle_review.md
+    limitations:
+      - Relative numerical cutoff is explicit; no physical zero-mode vacuum is uniquely selected
+      - Degenerate-state physical response and parity policies need separate review
+    disposition: Retain finite decomposition and declared-state tests; do not renew inherited physical certification

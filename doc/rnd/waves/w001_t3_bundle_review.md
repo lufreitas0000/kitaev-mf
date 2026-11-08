@@ -57,3 +57,27 @@ chiral transport and isolated unprojected quadrature are implemented and reviewe
 No physical SW coefficient, parity map, all-orders closure, or mean-field braid
 is accepted. Local full-suite and focused-check evidence is in the verification
 receipt; current-head GitHub outcomes must be inspected after push.
+
+## CI follow-up: Phase 3 degenerate-state fixtures
+
+Remote CI after collection repair exposes three inherited failures, while new
+bundle tests pass. Cylinder quenched H has an exact null pair, so its vacuum
+orientation and det(X) singularity are not fixed by H alone. Torus L=3 has a
+twofold-degenerate lowest positive energy; occupied_mode=0 is a chosen state,
+not a basis-invariant observable. Do not loosen the original numerical tolerances
+or set a backend flag to hide this. Register explicit null-vacuum selection for
+the singular-path fixture and replace its arbitrary golden spectral weight by
+an independent finite-Fock projection for the same declared initial state.
+Keep performance measurements separate from required algebraic correctness.
+These fixture contracts do not establish projected-spin or thermodynamic claims.
+
+### Schur block parsing regression contract
+
+A real Schur form can contain separated 1x1 null blocks. Pairing columns in
+positions (0,1),(2,3),... is invalid if a null block precedes a 2x2 rotation.
+Register an exact 4x4 witness T=diag(0,2J,0), Z=I; it must reconstruct T with
+energies [0,2]. Group actual nonzero 2x2 Schur blocks and pair the collected null
+columns only afterwards. Reuse one low-level implementation for both existing
+entry points, retaining public exports. At a zero mode det(Q) is a chosen basis
+orientation, not sign(Pf(A))=0. Verify reconstruction on singular matrices and
+reject malformed matrices; do not assume null-state physics is uniquely fixed.
