@@ -1,0 +1,70 @@
+\chapter{Bulk states, flux measurements, and defects}
+\label{narr:defects}
+
+A plaquette observable can serve several different roles: an exact conserved
+sector label, a fluctuating measurement, or a diagnostic evaluated in an
+approximate state. Distinguishing these roles is necessary before interpreting
+a decrease of flux expectation as a density of thermal vortices or interpreting
+a local low-energy mode as a physical non-Abelian excitation.
+
+% EDITORIAL QUESTION: When is a Wilson plaquette value a sector label?
+\section{An involution and its measurement probabilities}
+For a physical Hermitian plaquette operator with $W_p^2=\Id$, define
+\begin{equation}
+ P_{p,\pm}=\frac{\Id\pm W_p}{2},\qquad
+ \rho_{p,-}=\Tr(\rho_sP_{p,-})=\frac{1-\langle W_p\rangle}{2}.
+ \label{eq:narr:flux_probability}
+\end{equation}
+This identity is exact in any physical state. At zero field, the pure Kitaev
+Hamiltonian commutes with its plaquette operators, so simultaneous eigenspaces
+can label conserved flux sectors~\cite{Kitaev2006}. A generic magnetic field
+breaks this conservation. The probability in Eq.~\eqref{eq:narr:flux_probability}
+still exists, but interpreting it as an equilibrium gas of independent visons
+requires a further physical model.
+
+In a Majorana calculation the ordered physical spin product must first be
+mapped into the chosen convention. A Pfaffian of a covariance evaluates a
+Gaussian expectation only after that map is established. A product of six
+mean link values is another approximation, not an operator-level replacement
+for the physical plaquette in all states. These alternatives may agree in a
+special frozen sector and disagree once correlations or projection matter.
+
+% EDITORIAL QUESTION: What must be held fixed when a vortex interaction is compared?
+\section{Defect states and energy differences}
+Let $E_{2v}(R;L)$ denote the energy of a declared two-defect construction and
+$E_{\rm ref}(L)$ a reference computed with the same Hamiltonian and geometry.
+The excess $E_{2v}(R;L)-E_{\rm ref}(L)$ includes a pair-creation cost. An interaction
+normalized to vanish at a large reference separation is instead
+\begin{equation}
+ V(R;L)=E_{2v}(R;L)-E_{2v}(R_{\rm ref};L).
+ \label{eq:narr:interaction}
+\end{equation}
+The two quantities should not share a label without stating the subtraction.
+On a torus $R_{\rm ref}$ is finite and the defects interact with periodic images;
+a thermodynamic interaction requires additional size control.
+
+A frozen gauge-link flip, a constrained relaxed saddle, and an unconstrained
+self-consistent solution define different state constructions. Relaxation may
+change the local texture or even erase the intended defect. To interpret an
+energy comparison one must record which degrees of freedom were fixed, which
+were varied, how flux was checked, and whether physical parity was enforced.
+A localized auxiliary eigenvector alone supplies none of these conditions.
+
+% EDITORIAL QUESTION: What separates a localized low mode from a braiding claim?
+\section{Localization and transport are separate tests}
+A small positive matrix eigenvalue can indicate a candidate localized mode.
+Its spatial weight, separation dependence, and isolation from other modes must
+be inspected in the same geometry. Physical parity can exclude a nominal
+single-fermion excitation. Distinguishing splitting from an actual zero mode
+also requires a size or separation limit rather than a display tolerance.
+
+Braiding adds a family of states and a transport prescription. A computed
+holonomy depends on how the relevant subspace is identified, how its gauge is
+matched along the path, and whether the path remains separated from unwanted
+states. It cannot be inferred from a static localization plot. The inherited
+enclosing-loop test currently returns about $0.5904$ radians and fails its
+original near-$\pi$ assertion. This failure is reproduced on the original
+source; its unchanged assertions are retained as an opt-in failing research check after
+the PI retired the unsupported guarantee from required CI. It does
+not disprove a general theorem about physical Kitaev vortices, but it prevents
+this implementation from being offered as its numerical certification.

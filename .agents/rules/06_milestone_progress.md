@@ -1,12 +1,21 @@
 # Rule 06: Milestone Progress and Commit-Level Handover
 
+> W001 transition: Rules 05 and 09 govern new wave/task names, note paths,
+> research acceptance, and labbook ownership. Phase/milestone examples below
+> describe legacy records; preserve their identifiers rather than bulk-renaming.
+
 The planning hierarchy and task lifecycle are defined by Rule 05: Project Management. This rule specifies how milestone state is maintained on development branches.
 
-## State and roadmap ownership
+## Wave ownership and legacy milestone compatibility
+
+For new work, `active_wave` identifies the wave. The legacy keys
+`current_milestone` and `active_milestone.id` carry that same wave ID, with tasks
+in `active_milestone.active_tasks`. Historical phase/milestone records below
+retain their original IDs; they do not define a second current planning hierarchy.
 
 1. The roadmap at doc/MILESTONE_ROADMAP.md owns the persistent Phase/Milestone backlog and milestone acceptance gates.
 2. PROJECT_STATE.yaml records the active phase, active milestone, current active tasks, completed milestone evidence, verified invariants, and blockers.
-3. The state and roadmap describe the development branch that owns the active milestone. Do not copy in-progress state to unrelated branches or governance/project-governance.
+3. State and roadmap describe the active wave on its working branch. Promotion to main records only accepted work and its dependencies; do not copy provisional acceptance states wholesale.
 4. Do not store branch name, working-tree cleanliness, HEAD, or live CI status in PROJECT_STATE.yaml.
 
 ## Atomic progress updates

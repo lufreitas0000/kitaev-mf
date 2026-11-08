@@ -1,5 +1,15 @@
 # Project Roadmap & Milestone Backlog: kitaev-mf
 
+## Active planning: W001 consolidation
+
+New work uses waves/sprints/tasks; old phase/milestone sections below are retained
+as historical backlog and inherited completion claims, not renewed acceptance.
+The historical Phase 4 FM-versus-ED study is disapproved by the PI; AFM remains a
+future model scope, not another concurrent Phase 4. Acceptance decisions are in
+`doc/audits/w001_acceptance.yaml`; execution and gates are in
+`doc/plans/w001_consolidation.md`. W001 status: active; T1 policy/inventory and T2 preservation/provenance completed with internal review; T3 source integration remains draft-gated; T4 foundation review completed; T5 labbook integration planned.
+
+
 ## Taxonomy
 - **Phase**: Macro model-family and methodological regimes.
 - **Milestone (`M<Phase>.<Index>`)**: Strategic deliverable gates and persistent backlog units.

@@ -4,31 +4,26 @@ This file is the repository entry point for human contributors and automated age
 
 ---
 
-## Strategic Project Vision: Multi-Phase Architecture
+## Active direction: consolidation in waves
 
-The long-term objective of `kitaev-mf` is structured into dedicated, model-family phases:
+Lu Freitas approved a consolidation workflow on 2026-11-07. New planning uses
+waves, sprints, and atomic tasks, not numbered phases. Existing phase/milestone
+paths and claim IDs remain historical provenance; do not rename them in bulk.
 
-1. **Phase 1: Pure Ferromagnetic Kitaev Honeycomb ($K = -1.0$) under $\mathbf{h} \parallel [111]$ (Numerical Quantification & Algorithmic Foundations)**
-   * *Exclusive Scope:* Exhaustive numerical characterization of all solver algorithms (Picard, DIIS, Full Broyden, Limited-Memory Broyden, JFNK, Matrix Sign Purification) on the real orthogonal Grassmannian $\Gr(4, 8)$ and real-space torus clusters.
-   * *Deliverable:* Complete operational mastery of every numerical nuance: convergence basins, critical slowing down at spinodal transitions ($h_{c2}^+ = 0.400$), post-spinodal KKT saddle admissibility (`K-023`), step and memory complexity, precision loss on Dirac resonances ($3 \mid L$), disordered/vacancy conditioning (`K-022`), and the certified **Master Solver Selection & Hardware Resource Table** (`data/processed/benchmarks/m1_9/master_solver_resource_table.dat`).
-   * *Status:* **Completed & Certified** (11 chapters / 74 pages in Living Lab Book, 9-page SciPost Monograph, 22 Hypothesis Contracts in `doc/HYPOTHESIS_CONTRACTS.md`, 23 verified invariants `K-001`--`K-023`, 153/153 passing tests).
+The project currently concentrates on pure FM Kitaev in a [111] field. AFM,
+extended couplings, other field directions, and other lattices remain distinct
+model scopes requiring explicit contracts. No result transfers between scopes
+without a justified bridge.
 
-2. **Phase 2: Physics of the Ferromagnetic Kitaev $[111]$ Model (Ground State, Vortices, Thermodynamics & Static Response)**
-   * *Exclusive Scope:* Direct physical continuation of Phase 1 in the *identical* model family ($K = -1.0$, $\mathbf{h} \parallel [111]$), focusing on real-space lattice calculations with Bloch momentum space used for comparison/reality check.
-   * *Core Physical Targets:*
-     - **$T=0$ Bulk Ground State:** Phase diagram across $h \in [0, 0.6]$, Chern number $\nu$, susceptibility tensor $\chi^{\alpha\beta}(h)$, 12-Majorana Pfaffian flux $\mathcal{W}_p$, and Gutzwiller / 2-RDM SDP lower bounds (`M2.1`).
-     - **$T=0$ Isolated Vortex Pair State:** Two-vison interaction potential $V(R, h)$ on $L \in \{12, 16, 24\}$ tori, non-Abelian Majorana zero-mode splitting $\delta\epsilon_0(R)$, and local spin/gauge screening clouds (`M2.2`).
-     - **$T > 0$ Finite-Temperature State:** Self-consistent Fermi-Dirac thermal covariance $\Omega_T = \ii\tanh(\ii\beta\mathbf{A}/2)$, two-peak specific heat $C_v(T)$, entropy release $S(T)$, and thermal melting of the spinodal hysteresis loop (`M2.3`).
-     - **Static Spin Correlations:** Equal-time $S^{\alpha\beta}(\mathbf{q})$ across the ground state, two-vortex state, and thermal ensemble (`M2.4`).
+The recent historical Phase 4 analytical/MF-versus-ED calculations and their
+prefactor explanation are **disapproved by the PI**. Preserve their source and
+history for audit; do not promote their conclusions or use them to overwrite
+the earlier exact-perturbation research. Earlier completion labels are inherited
+claims, not fresh acceptance evidence. See the W001 plan and acceptance register.
 
-3. **Phase 3: Dynamical Spin Correlations & Majorana Zero Mode Spectroscopy (arXiv:2209.12930 Reproducing & Generalization)**
-   * *Exclusive Scope:* Full reproduction and generalization of the dynamical spin correlation functions and STM tunneling spectroscopy of Majorana zero modes in the pure FM Kitaev $[111]$ model on real-space clusters (with Bloch comparison as reality check):
-     - **Exact Benchmark in Pure Kitaev Limit:** Implementation of exact gauge quench dynamics (Knolle et al. 2014, Baskaran et al. 2007) with strict physical matter-parity constraints (Pedrocchi et al. 2011, Zschocke & Vojta 2015), where a local spin flip flips adjacent $\mathbb{Z}_2$ gauge links and excites vison pairs, computing $S^{\alpha\beta}(\mathbf{r}, \omega)$ via Bogoliubov rotations, many-body Pfaffians/determinants, and Lehmann representation.
-     - **Majorana Mean-Field Generalization:** Formulation and evaluation of dynamical spin response $S^{\alpha\beta}(\mathbf{q}, \omega)$ within the 4-Majorana mean-field approximation developed in Phase 1, benchmarked directly against the exact pure-Kitaev result.
-     - **Scanning Tunneling Spectroscopy (STS) of MZMs:** Probing localized zero-bias conductance peaks and in-gap Majorana bound states in vortex sectors as formulated in arXiv:2209.12930.
-
-4. **Subsequent Strategic Phases (Dedicated Model Families):**
-   * Subsequent phases will tackle each distinct physical model family sequentially (Phase 4: Antiferromagnetic Kitaev $K > 0$; Phase 5: Extended $J$--$K$--$\Gamma$--$\Gamma'$--$D$ models on honeycomb; Phase 6: 3D tricoordinated Kitaev lattices).
+- Policy: `.agents/rules/09_research_intake_and_acceptance.md`.
+- Durable architecture: `doc/adr/ADR-002-consolidation-and-research-acceptance.md`.
+- Current work: `doc/plans/w001_consolidation.md`.
 
 ---
 
@@ -43,6 +38,8 @@ Read the rules relevant to the task before changing files:
 - `.agents/rules/04_versioning_and_releases.md` — package versioning, changelog, and releases.
 - `.agents/rules/05_project_management.md` — phase, milestone, task, and sprint planning.
 - `.agents/rules/06_milestone_progress.md` — development-branch state updates, verification evidence, and task handover.
+- `.agents/rules/10_version_control_workflow.md` — branch/PR procedure, backups, data, and publication gates.
+- `.agents/rules/09_research_intake_and_acceptance.md` — task intake, tags, acceptance, and publication ownership.
 - `.agents/rules/07_discovery_log.md` — discovery and failure journaling in `LOG_DISCOVERY_AND_PIVOTS.md`.
 - `.agents/rules/resource_baseline.md`, `.agents/rules/resource_routing.md`, and `.agents/rules/workspace_architecture.md` — hardware profiling and multi-agent routing.
 
@@ -63,9 +60,12 @@ For a small, self-contained task, keep this inspection proportional; do not perf
 
 ## 3. Branch and change discipline
 
-- Use a dedicated branch for routine development and integrate through a reviewed pull request to `main`. Follow Rule 01 for branch naming and history protection.
-- Ordinary feature and research branches should use `main` as their integration baseline unless a task explicitly requires otherwise.
-- `governance/project-governance` is reserved for developing repository governance. It is not a parent branch for ordinary feature or research work.
+- Long-lived branches are `main` (consolidated) and `exploration` (provisional).
+- Research tasks start from and send PRs to `exploration`; accepted promotions,
+  consolidated fixes, and repository policy tasks start from and send PRs to `main`.
+- Use model-agnostic temporary names from Rule 01. Never merge the entire
+  exploration branch into main as a substitute for scientific acceptance.
+- Existing phase branches are preservation inputs, pending inventoried integration.
 - Do not push routine development changes directly to `main`.
 - Do not reset, force-push, clean, delete branches, or discard user changes without explicit authorization.
 - Keep each change set coherent and commits focused. Avoid mixing physics implementation, governance, dependency changes, and unrelated cleanup.
@@ -140,5 +140,5 @@ For this track:
 3. Do not identify production mean-field coupling parameters or dispersion prefactors with those in the Pauli-spin/Majorana derivation by inspection. Reconcile conventions through an explicit operator-level map before quantitative comparison; consult the relevant R&D backlog and notes when present.
 4. The standard `b_i^\alpha,c_i` representation and the production four-flavor convention are scope-dependent. Do not transfer symbols or prefactors between them without an explicit map.
 5. Use transparent finite-volume calculations and, where feasible, spin-space exact diagonalization as independent checks. Numerical agreement is evidence for the tested finite systems, not a thermodynamic proof.
-6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed. The operator-level reconciliation between exact third-order spin perturbation theory and the production 4-flavor mean-field cubic gap prefactor is recorded in `doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md` (`K-019`).
+6. Do not integrate exploratory code into production until its mathematical contract, tests, and compatibility with domain/backend interfaces have been reviewed. An inherited reconciliation claim, requiring a new provenance and validity audit, is recorded in `doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md` (`K-019`).
 7. Keep generated arrays, logs, plots, and build products under the designated ignored build area (currently `build/rnd/exact-perturbation-theory/`); commit only compact, reviewed results with reproducibility metadata.

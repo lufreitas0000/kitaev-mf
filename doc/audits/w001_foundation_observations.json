@@ -1,0 +1,82 @@
+{
+  "scope": "finite diagnostic observations; no production repair or bulk certification",
+  "source_commit": "91d59bde6bf3b96e8ac221134d1a64dd659379ae",
+  "git_dirty": true,
+  "source_sha256": {
+    "src/kitaev_mf/services/feshbach.py": "69faa6c18805e241de19a5daba0a9b6ecdeb6cccc341fd8178d13eebe6f0b1ee",
+    "src/kitaev_mf/services/exact_perturbation.py": "c914e58a9c730da0275468cac51222efcaaa66ec39a97030cd34e96262444a7c",
+    "scripts/audits/w001_foundation_checks.py": "d0e36fed2678ef9e14f919e4afc69d0f1f5458133e3b2d20d93627d3b68e5da4"
+  },
+  "numpy_version": "2.5.4",
+  "machine_epsilon": 2.220446049250313e-16,
+  "energy_shift": [
+    {
+      "shift": 0.0,
+      "reference_E0": -3.0,
+      "reference_E_Q_min": -1.0,
+      "reference_gap": 2.0,
+      "legacy": {
+        "outcome": "returned",
+        "E0": -3.0,
+        "E_Q_min": -1.0,
+        "delta_flux": 2.0
+      }
+    },
+    {
+      "shift": 3.0,
+      "reference_E0": 0.0,
+      "reference_E_Q_min": 2.0,
+      "reference_gap": 2.0,
+      "legacy": {
+        "outcome": "exception",
+        "exception": "ValueError",
+        "message": "zero-size array to reduction operation minimum which has no identity"
+      }
+    }
+  ],
+  "joint_projector": {
+    "reference_gap": 1.0,
+    "single_W_legacy": {
+      "outcome": "returned",
+      "E0": -4.0,
+      "E_Q_min": -2.0,
+      "delta_flux": 2.0
+    }
+  },
+  "sector_order": {
+    "fixed_P_E0": -1.0,
+    "fixed_Q_E_min": -3.0,
+    "legacy": {
+      "outcome": "returned",
+      "E0": -3.0,
+      "E_Q_min": -1.0,
+      "delta_flux": 2.0
+    }
+  },
+  "pauli_Y": {
+    "matches_standard_Zeeman_minus_Y": false,
+    "equals_plus_Y": true,
+    "difference_frobenius_norm": 2.8284271247461903
+  },
+  "hexagon_second_order": {
+    "geometry": "isolated 6-spin ring, six typed bonds; not a periodic bulk torus",
+    "field_components": [
+      0.02,
+      0.02,
+      0.02
+    ],
+    "E0": -4.000000000000005,
+    "ground_rank": 4,
+    "gap_above_ground": 0.5358983848622474,
+    "PVP_norm": 2.528955589143607e-16,
+    "second_order_norm": 0.03812400818382003,
+    "second_order_scalar_residual": 0.023525305524051982,
+    "second_order_eigenvalues": [
+      -0.03439999999999972,
+      -0.014399999999999916,
+      -0.00559999999999996,
+      -0.005599999999999951
+    ],
+    "projector_residual": 6.096404562460554e-16
+  }
+}

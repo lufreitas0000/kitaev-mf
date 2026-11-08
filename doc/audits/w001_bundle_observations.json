@@ -1,0 +1,51 @@
+{
+  "scope": "unprojected finite candidate diagnostics, not accepted physical coefficients",
+  "source_sha256": "5b03cd53f8137fe285cec10c1e681d33e7bc901cedb957db3415504bbe85177f",
+  "L3_projectors": {
+    "min_abs_eigenvalue": 1.3060074489178924e-16,
+    "zero_within_1e-10": 4,
+    "transpose_complement_residual": 1.9825059047917557
+  },
+  "L4_projectors": {
+    "min_abs_eigenvalue": 1.999999999999997,
+    "zero_within_1e-10": 0,
+    "transpose_complement_residual": 5.1521799111247335e-15
+  },
+  "(12, 6)": {
+    "L": 4,
+    "Delta_v": 0.3402180989268295,
+    "S0_bond": 0.5295084971874737,
+    "I_00": -0.8890830631689874,
+    "I_01": -0.7794425603277274,
+    "I_Z": 2.4929795128697267,
+    "E2_bond_coeff": -3.33705124699343,
+    "eta_2_bond_renorm": 1.5588851206554548,
+    "eff_inv_gap_2nd": 1.4720114303505953,
+    "kappa_I": 3.1743110348315513,
+    "kappa_II": 2.7404324573404493,
+    "kappa_a_2f": 8.655175949512449,
+    "kappa_b_tadpole": 5.0263403468281895,
+    "kappa_eff_total": 13.68151629634064,
+    "kappa_static_1_over_dv2": 8.639431648120553
+  },
+  "(24, 10)": {
+    "L": 4,
+    "Delta_v": 0.3402180989268295,
+    "S0_bond": 0.5295084971874737,
+    "I_00": -0.8891832779274773,
+    "I_01": -0.7795427408195521,
+    "I_Z": 2.4956916689991977,
+    "E2_bond_coeff": -3.337452037494059,
+    "eta_2_bond_renorm": 1.5590854816391042,
+    "eff_inv_gap_2nd": 1.4722006255993152,
+    "kappa_I": 3.1458779630696454,
+    "kappa_II": 2.7164281098216363,
+    "kappa_a_2f": 8.578734182712914,
+    "kappa_b_tadpole": 4.982384672488722,
+    "kappa_eff_total": 13.561118855201636,
+    "kappa_static_1_over_dv2": 8.639431648120553
+  },
+  "baseline_commit": "f4a5910faffbc6e67dfc4fd1737abe217002c798",
+  "adapted_source_sha256": "7b125df3875bc20a26ee6437ac2481a4df9b557270c6c381824d9e429bcc679c",
+  "reproduction": "Raw source preservation .txt loaded after removing only unavailable WALK_SRC/sys.path/moments/walk import lines, compute_torus_perturbation(4,12,6) and (4,24,10). Adapted CLI independently run at (24,10); not physical coefficient certification."
+}

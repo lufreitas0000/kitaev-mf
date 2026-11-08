@@ -1,0 +1,17 @@
+# Task T2.3.2: Critical Exponents & Scaling at Polarized Breakdown Transition
+# Git Commit: f2e2c22
+# Generated: 2026-11-07T15:50:02.866895+00:00
+# Model: Pure Ferromagnetic Kitaev K=-1.0 under [111] Magnetic Field
+# Bayesian Model Selection Summary: fitted_gamma=0.5445, RSS_null=1.2223e+01, RSS_cand=1.1212e-01, Delta_BIC=46.92, BayesFactor=1.54e+10, FavorsSpinodal=True
+#
+# h_mid     t=(h_sp-h)    chi_111
+  0.3550    0.0450      1.0740
+  0.3650    0.0350      1.2298
+  0.3725    0.0275      1.3964
+  0.3775    0.0225      1.5550
+  0.3825    0.0175      1.7798
+  0.3875    0.0125      2.1357
+  0.3910    0.0090      2.5370
+  0.3930    0.0070      2.9096
+  0.3950    0.0050      3.5097
+  0.3970    0.0030      4.7528

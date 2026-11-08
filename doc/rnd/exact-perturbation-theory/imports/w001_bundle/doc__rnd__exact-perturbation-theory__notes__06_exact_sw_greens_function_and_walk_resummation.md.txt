@@ -1,0 +1,119 @@
+# 06 — Exact 2nd- and 3rd-Order Green's Function Perturbation Theory, Random-Walk Resolvents, and All-Orders Diagrammatic Resummation
+
+## 1. Exact Multi-Slice Blankenbecler–Scalapino–Sugar (BSS) Resolvent Formalism
+
+In the pure isotropic Kitaev honeycomb model ($H_K = -K \sum_{\langle ij\rangle_\alpha} \sigma_i^\alpha \sigma_j^\alpha$, $K>0$) perturbed by a general magnetic field $V = -\sum_{i,\alpha} h_\alpha \sigma_i^\alpha$, the unperturbed Hamiltonian in any static $\mathbb{Z}_2$ gauge sector $u = \{u_{ij}^\alpha = \pm 1\}$ is quadratic in the matter Majorana fermions $\{c_m, c_n\} = 2\delta_{mn}$:
+$$
+H_0(u) = -\frac{\mathrm{i}K}{2} \sum_{\langle i\in A, j\in B\rangle_\alpha} u_{ij}^\alpha c_i c_j = \frac{1}{4} c^T W(u) c, \qquad W(u) = \mathrm{i} A(u) = W(u)^\dagger = -W(u)^T.
+$$
+Let $\Pi_0$ project onto the physical vortex-free sector ($W_p = +1$ for all hexagonal plaquettes $p$), with unperturbed ground state $|\Psi_0\rangle = |u^{(0)}\rangle \otimes |\Phi_0\rangle$ and energy $E_0 = -\frac{1}{2}\sum_{w_k^{(0)} > 0} w_k^{(0)}$.
+
+Because $\Pi_0 V \Pi_0 = 0$ (every single spin operator $\sigma_i^\alpha = \mathrm{i} b_i^\alpha c_i$ flips the two plaquette fluxes sharing the $\alpha$-bond at site $i$, creating an adjacent vison pair with minimum threshold $\Delta_v = E_1 - E_0 > 0$), the canonical Schrieffer–Wolff effective Hamiltonian ([Bravyi, DiVincenzo, and Loss, 2011](https://doi.org/10.1016/j.aop.2011.06.004)) and the Dyson self-energy $\Sigma(E_0)$ coincide identically through third order:
+$$
+H_{\mathrm{eff}}^{(2)} = \Pi_0 V G_0'(E_0) V \Pi_0, \qquad
+H_{\mathrm{eff}}^{(3)} = \Pi_0 V G_0'(E_0) V G_0'(E_0) V \Pi_0,
+$$
+where the reduced resolvent in each intermediate flux sector $u_{\mathrm{int}} \neq u^{(0)}$ admits the convergent Laplace representation ([Kitaev, 2006](https://arxiv.org/abs/cond-mat/0506438)):
+$$
+G_0'(E_0)\big|_{u_{\mathrm{int}}} = \frac{1}{E_0 - H_0(u_{\mathrm{int}})} = -\int_0^\infty \mathrm{d}\tau \, \mathrm{e}^{-\tau (H_0(u_{\mathrm{int}}) - E_0)}.
+$$
+
+### 1.1 Exact Overflow-Free Single-Particle Reduction
+Let $P_{\mathrm{cre}} = U_- U_-^\dagger$ project onto the negative-eigenvalue subspace ($w_k^{(0)} < 0$) of $W_0 = \mathrm{i}A(u^{(0)})$, and $P_{\mathrm{ann}} = P_{\mathrm{cre}}^T = I - P_{\mathrm{cre}}$ project onto $w_k^{(0)} > 0$. In Fock space, $P_{\mathrm{ann}} c |\Phi_0\rangle = 0$ and $\langle\Phi_0| c P_{\mathrm{cre}} = 0$, with two-point ground-state contraction $\langle\Phi_0| c_m c_n |\Phi_0\rangle = 2 (P_{\mathrm{ann}})_{mn}$.
+
+For any intermediate single-particle generator $W_1 = \mathrm{i} A(u^{(1)})$ with spectral decomposition $W_1 = U_1 \operatorname{diag}(w_1) U_1^\dagger$, we factor the Euclidean single-particle propagator $\mathrm{e}^{\tau W_1} = L_1(\tau)^{-1} R_1(\tau)$ into bounded operators whose eigenvalues lie strictly in $[0, 1]$ for all $\tau \in [0, \infty)$:
+$$
+L_1(\tau) = U_1 \operatorname{diag}\!\left(\begin{cases} \mathrm{e}^{-\tau w_{1,q}} & w_{1,q} > 0 \\ 1 & w_{1,q} \le 0 \end{cases}\right) U_1^\dagger, \qquad
+R_1(\tau) = U_1 \operatorname{diag}\!\left(\begin{cases} 1 & w_{1,q} > 0 \\ \mathrm{e}^{-\tau |w_{1,q}|} & w_{1,q} \le 0 \end{cases}\right) U_1^\dagger.
+$$
+Defining the conditioned $2N \times 2N$ matrix $M_1(\tau) = P_{\mathrm{cre}} L_1(\tau) + P_{\mathrm{ann}} R_1(\tau)$, the vacuum overlap and intermediate two-point Green's function are given without numerical overflow at any $\tau \in [0, \infty)$ by:
+$$
+Z_1(\tau) = \langle\Phi_0| \mathrm{e}^{-\tau (H_1 - E_0)} |\Phi_0\rangle = \mathrm{e}^{-\tau \Delta_v} \sqrt{\det M_1(\tau)}, \qquad
+C_1(\tau)_{mn} = \frac{\langle\Phi_0| c_m \mathrm{e}^{-\tau H_1} c_n |\Phi_0\rangle}{\langle\Phi_0| \mathrm{e}^{-\tau H_1} |\Phi_0\rangle} = 2 \left[ L_1(\tau) M_1(\tau)^{-1} P_{\mathrm{ann}} \right]_{mn}.
+$$
+
+---
+
+## 2. Exact Second-Order Effective Hamiltonian ($\mathcal{O}(h^2)$)
+
+At second order, the two spin insertions must act on the same $\alpha$-bond $b = \langle i_A, j_B\rangle_\alpha$ to annihilate the intermediate vison pair:
+$$
+H_{\mathrm{eff}}^{(2)} = \sum_{\langle i_A, j_B\rangle_\alpha} \frac{h_\alpha^2}{K} \left[ \varepsilon_2 \, \mathbb{I} - \frac{\mathrm{i}}{2} \eta_2 \, u_{ij}^\alpha c_{i_A} c_{j_B} + :(\text{4-fermion}): \right].
+$$
+Integrating $Z_1(\tau) C_1(\tau)$ over $\tau \in [0, \infty)$ yields the two fundamental integrals:
+$$
+I_{00} = -\int_0^\infty \mathrm{d}\tau \, Z_1(\tau) \Re C_1(\tau)_{i_A, i_A}, \qquad
+I_{01} = -\int_0^\infty \mathrm{d}\tau \, Z_1(\tau) \Re\!\left[\mathrm{i} C_1(\tau)_{i_A, j_B}\right].
+$$
+On an $L=8$ periodic honeycomb torus ($\Delta_v = 0.272200 K$, $S_0 = \langle \mathrm{i}c_A c_B\rangle_0 = 0.525005$):
+- $I_{00} = -1.052816 K^{-1}$, $I_{01} = -0.933914 K^{-1}$.
+- **Ground-State Energy Shift per $\alpha$-Bond:** $\Delta E_b^{(2)} / (h_\alpha^2 / K) = 2(I_{00} + I_{01}) = \mathbf{-3.973459}$.
+- **Effective Exchange Renormalization:** $K_\alpha^{\mathrm{eff}} = K + \eta_2 \frac{h_\alpha^2}{K}$ with $\eta_2 = -2 I_{01} = \mathbf{+1.867828}$ (corresponding to an effective inverse energy denominator $\Delta_{\mathrm{eff}}^{-1} = -I_{01}/S_0 = 1.778867 K^{-1}$, compared to the bare static inverse vison gap $\Delta_v^{-1} = 3.67377 K^{-1}$).
+
+---
+
+## 3. Exact Third-Order Effective Hamiltonian ($\mathcal{O}(h_x h_y h_z)$) and the 4-Fermion Star Tadpole
+
+At third order, two distinct geometric spin configurations return to the vortex-free sector ([Kitaev, 2006, Eq. 47](https://arxiv.org/abs/cond-mat/0506438)):
+
+### 3.1 Configuration (a): Three Consecutive Sites $(j_x, l, k_y)$
+Using the local physical gauge identity $D_l = -\mathrm{i} b_l^x b_l^y b_l^z c_l = +1$ at the middle site $l$, the middle spin operator is a pure dual-bond flip with **no matter fermion insertion**:
+$$
+\sigma_l^z = \mathrm{i} b_l^z c_l = -\mathrm{i} b_l^x b_l^y D_l = -\mathrm{i} b_l^x b_l^y.
+$$
+Furthermore, flipping the two bonds $\{b_x, b_y\}$ incident on vertex $l$ is unitarily equivalent to flipping the third bond $\{b_z\}$ and reflecting $c_l \to -c_l$, yielding the exact operator identity across Fock space:
+$$
+R_{xy}(E_0) = c_l R_z(E_0) c_l,
+$$
+where $R_x, R_y, R_z$ are the **even-parity** single-bond-flipped resolvents ($\operatorname{sgn}\det(M_1/M_0) = +1$). This completely eliminates parity-orthogonality singularities at large $\tau$. Evaluating the $3N \times 3N$ three-slice BSS block matrix $M_{AB}(\tau_1, \tau_2)$ and projecting onto the normal-ordered bilinear $(-\mathrm{i} u_{lj}^x u_{lk}^y c_j c_k)$ via the graded commutator $\frac{1}{4\mathrm{i}}\langle\Phi_0| \{c_k, [c_j, H_{\mathrm{eff}}^{(3)}]\} |\Phi_0\rangle$ yields:
+- **Class I (middle operator $\sigma_l^z$):** $\kappa_{\mathrm{I}} = 4.520578 \, h_x h_y h_z / K^2$ (at $L=8$).
+- **Class II + III (boundary operator $\sigma_l^z$):** $2\kappa_{\mathrm{II}} = 2 \times 3.907421 = 7.814843 \, h_x h_y h_z / K^2$.
+- **Total Configuration (a) 2-Fermion Coupling:** $\kappa_{(a)} = \kappa_{\mathrm{I}} + 2\kappa_{\mathrm{II}} = \mathbf{12.335421} \, \frac{h_x h_y h_z}{K^2}$.
+
+### 3.2 Configuration (b): Three-Neighbor Star $(j_x, k_y, m_z)$ Around Central Site $l$
+In Configuration (b), the product of three spin operators on the three neighbors of site $l$ flips all three bonds $\{b_x, b_y, b_z\}$ incident on $l$, which is a pure $\mathbb{Z}_2$ gauge transformation at vertex $l$, restored by $c_l \to -c_l$. The resulting operator is the 4-fermion star interaction:
+$$
+\sigma_{j_x}^x \sigma_{k_y}^y \sigma_{m_z}^z D_l = u_{lj_x}^x u_{lk_y}^y u_{lm_z}^z \, c_l c_{j_x} c_{k_y} c_{m_z}.
+$$
+When normal-ordered with respect to the unperturbed Dirac sea $|\Phi_0\rangle$:
+$$
+c_l c_{j_x} c_{k_y} c_{m_z} = :c_l c_{j_x} c_{k_y} c_{m_z}: + \langle c_l c_{m_z}\rangle_0 c_{j_x} c_{k_y} - \langle c_l c_{k_y}\rangle_0 c_{j_x} c_{m_z} + \langle c_l c_{j_x}\rangle_0 c_{k_y} c_{m_z}.
+$$
+Because $\langle \mathrm{i} c_l c_{m_z}\rangle_0 = S_0 = \frac{1}{3} W_3(1) \approx 0.524866 \neq 0$, **contracting the central fermion $c_l$ with any of its three nearest neighbors produces a next-nearest-neighbor chiral hopping $-\mathrm{i} c_{j_x} c_{k_y}$ with the exact same symmetry and sign as Configuration (a)!**
+Evaluating the six time-orderings of Configuration (b) via the 6-point Pfaffian gives:
+- **Configuration (b) Hartree–Fock Tadpole Contribution:** $\kappa_{(b)}^{\mathrm{tadpole}} = \mathbf{+7.247803} \, \frac{h_x h_y h_z}{K^2}$ (at $L=8$).
+- **Combined Chiral Mass Coupling:**
+  $$
+  \kappa_{\mathrm{eff}} = \kappa_{(a)} + \kappa_{(b)}^{\mathrm{tadpole}} = (12.335421 + 7.247803)\frac{h_x h_y h_z}{K^2} = \mathbf{19.583224} \, \frac{h_x h_y h_z}{K^2}.
+  $$
+
+---
+
+## 4. Connection to `kitaev-walk-geometry` and All-Orders Diagrammatic Resummation
+
+### 4.1 Exact Random-Walk Resolvent Representation
+From `kitaev-walk-geometry`, the unperturbed single-particle dispersion $E(\mathbf{q}) = 2K |1 + \mathrm{e}^{\mathrm{i}q_1} + \mathrm{e}^{\mathrm{i}q_2}| = 2K r$ maps Brillouin-zone integrals to 1D integrals against Pearson's three-step radial density $p_3(r)$ ($r \in [0, 3]$). Using the $S_3$ permutation projection identity $\langle f_1(\mathbf{q}) F(r)\rangle_{\mathrm{BZ}} = \frac{1}{3}\langle r^2 F(r)\rangle_{\mathrm{BZ}}$, the unperturbed Euclidean propagators on a bond are exact Laplace-Pearson transforms:
+$$
+g_{\mathrm{onsite}}(\tau) = \int_0^3 \mathrm{d}r \, p_3(r) \mathrm{e}^{-2K r \tau}, \qquad
+g_{\mathrm{bond}}(\tau) = \frac{1}{3} \int_0^3 \mathrm{d}r \, r \, p_3(r) \mathrm{e}^{-2K r \tau}.
+$$
+Integrating against the two-vison threshold $\mathrm{e}^{-\Delta_v \tau}$ yields closed-form 1D elliptic integrals:
+$$
+\mathcal{I}_{\mathrm{onsite}}(\Delta_v) = \int_0^3 \frac{p_3(r) \, \mathrm{d}r}{\Delta_v + 2Kr} = 0.371681 \, K^{-1}, \qquad
+\mathcal{I}_{\mathrm{bond}}(\Delta_v) = \frac{1}{3} \int_0^3 \frac{r \, p_3(r) \, \mathrm{d}r}{\Delta_v + 2Kr} = 0.150114 \, K^{-1} \quad (\Delta_v = 0.2672 K),
+$$
+with the $\Delta_v \to 0$ limits given analytically by the exact Ramanujan moments $W_3(-1)/(2K) = 0.448220 K^{-1}$ and $W_3(0)/(6K) = \frac{1}{6} K^{-1}$.
+
+### 4.2 Renormalization Group Flow and All-Orders Resummation of $K_{\mathrm{eff}}(h)$ and $\kappa_{\mathrm{eff}}(h)$
+Around the $(2+1)$D massless Dirac fixed point ($z=1$, $[\psi]=1$), a $2n$-fermion operator with $k$ spatial derivatives has RG scaling dimension $[g_{2n, k}] = 3 - 2n - k$:
+- **Normal-ordered $2n$-fermion interactions ($2n \ge 4$):** $[g_{4,0}] = -1 < 0$ (irrelevant) and $[g_{2n,k}] \le -3$ for $2n \ge 6$. Thus, the normal-ordered part $:c_l c_{j_x} c_{k_y} c_{m_z}:$ cannot close the gap or alter the topological Chern number $\nu = \operatorname{sgn}(\kappa_{\mathrm{eff}}) = \pm 1$; it only produces $\mathcal{O}(h^6)$ corrections to the quasiparticle residue $Z$ and lifetime $\Gamma(\omega) \propto h^6 \omega^3$.
+- **All-orders renormalization of the two low-energy EFT parameters $(K_{\mathrm{eff}}, \kappa_{\mathrm{eff}})$:**Assuming $C_3$ symmetry ($\mathbf{h} \parallel [111]$, $h_x = h_y = h_z = h/\sqrt{3}$), all higher perturbative orders project onto $(K_{\mathrm{eff}}(h), \kappa_{\mathrm{eff}}(h))$ via three resummable diagram families:
+  1. **Self-consistent Schwinger–Dyson Bond Dressings:** Replacing bare $K \to K_{\mathrm{eff}}(h)$ inside the intermediate propagators gives the self-consistent Dyson equation:
+     $$
+     K_{\mathrm{eff}}(h) = K + \frac{\eta_2 h^2}{3 K_{\mathrm{eff}}(h)} + \mathcal{O}(h^4) \implies K_{\mathrm{eff}}(h) = \frac{K + \sqrt{K^2 + \frac{4}{3}\eta_2 h^2}}{2}.
+     $$
+  2. **RPA / T-Matrix Ladder Resummation of Vison-Pair Hopping:** At $\mathcal{O}(h^2)$, virtual spin flips hop the intermediate vison pair across nearest-neighbor bonds with amplitude $t_{2v} \propto h^2 / K$, softening the intermediate vison-pair threshold $\Delta_v(h) \simeq \Delta_v - z_{\mathrm{eff}} t_{2v}(h)$ and enhancing $\kappa_{\mathrm{eff}}(h)$ as $h$ approaches the spinodal breakdown scale:
+     $$
+     \kappa_{\mathrm{eff}}(h) \simeq \frac{h_x h_y h_z}{K_{\mathrm{eff}}(h)^2} \, \frac{\tilde{\kappa}_3}{\left(1 - c_2 (h/K)^2\right)^2}, \qquad \tilde{\kappa}_3 = 19.5832.
+     $$
+  3. **All-Orders Hartree–Fock Tadpole Closure:** Every $2n$-fermion cluster operator generated at order $h^m$ contracts $(n-1)$ pairs of fermions against the self-consistent ground-state covariance $\Omega_{\mathrm{eff}}(h)$, dressing $(K_{\mathrm{eff}}, \kappa_{\mathrm{eff}})$ in a closed BPHZ tadpole hierarchy.

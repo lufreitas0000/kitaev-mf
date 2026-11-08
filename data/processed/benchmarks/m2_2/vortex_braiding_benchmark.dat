@@ -1,0 +1,11 @@
+# Task T2.2.3: Vortex Braiding Phases & Non-Abelian Statistical Holonomy
+# Git Commit: 1205855
+# Generated: 2026-11-07T14:30:58.041771+00:00
+# Model: Pure Ferromagnetic Kitaev K=-1.0 under [111] Magnetic Field
+# Bayesian Model Selection Summary: RSS_null=45.7641, RSS_cand=0.4587, Delta_BIC=18.41, BayesFactor=9.95e+03, FavorsPi=True
+#
+# L      h       gamma_enc   gamma_non   Delta_gamma  Delta_g/pi   rel_error
+   6   0.020      3.0146      6.2832      3.0146      0.9596      0.0404
+   6   0.030      3.6297      0.0000      3.6297      1.1554      0.1554
+   6   0.050      3.5731      6.2832      3.5731      1.1373      0.1373
+   6   0.100      3.2764      0.0000      3.2764      1.0429      0.0429

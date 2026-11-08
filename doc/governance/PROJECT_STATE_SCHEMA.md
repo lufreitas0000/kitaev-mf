@@ -75,3 +75,13 @@ Before committing a state update, verify:
 5. Every completed claim has a resolvable evidence path.
 6. No transient Git/CI dashboard fields remain.
 7. YAML parses successfully and git diff --check is clean.
+
+## W001 transition compatibility
+
+New plans use waves. `active_wave` identifies the current wave and
+`acceptance_register` points to claim decisions. During migration, `active_phase`
+is a compatibility description; `current_milestone` and `active_milestone.id`
+carry the wave ID, and `active_milestone.active_tasks` remains the task interface
+for existing tools. Old milestone histories remain historical evidence records.
+An acceptance-register override takes precedence over an inherited verified label;
+this does not erase the earlier statement or certify its negation.

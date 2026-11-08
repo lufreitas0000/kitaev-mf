@@ -1,0 +1,1218 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-11-07",
+  "scope": "W001 T1 preservation inventory; Git blobs identify contents, not scientific validity",
+  "source_refs": {
+    "phase2": {
+      "ref": "feat/phase-2-real-space-physics",
+      "commit": "8b242a58f942d73d6d45a02afcf3b9930e3f8d05"
+    },
+    "phase3": {
+      "ref": "feat/phase-3-dynamical-spin-correlations",
+      "commit": "21a27d8fa72648723191ec5178a79f7e0146cd8b"
+    },
+    "phase4": {
+      "ref": "feat/phase-4-review-and-analytical-mf",
+      "commit": "1d82e6a48e20213e208ce2c089dfc7fa423522f6"
+    },
+    "policy_base": {
+      "ref": "main",
+      "commit": "39e733e8e920f24702a1e3413b9ec9f187ddfb09"
+    },
+    "remote_main_observed": {
+      "ref": "origin/main",
+      "commit": "dd7cb44044a6c1fe6b760b92c102001144dc427b"
+    },
+    "earlier_perturbation_ref": {
+      "ref": "origin/research/pure-kitaev-exact-perturbation-20261102",
+      "commit": "13db8f2cc50c43cbe893e251bd6e09ea29456820",
+      "limitation": "Observed retained ref, not presumed pristine; audit earlier commits independently"
+    }
+  },
+  "documentation": {
+    "unique_paths": 210,
+    "divergent_shared_paths": [
+      "doc/labbook/labbook_kitaev_mf.tex",
+      "doc/rnd/exact-perturbation-theory/BACKLOG.md",
+      "doc/rnd/phase_2/t2_1_3_variational_overlaps_and_2rdm_bounds.md"
+    ],
+    "files": {
+      "doc/HYPOTHESIS_CONTRACTS.md": {
+        "phase2": "62e18c8fddcfc04eb09a6fbc8cfa86ca6dc69660",
+        "phase3": "62e18c8fddcfc04eb09a6fbc8cfa86ca6dc69660",
+        "phase4": "62e18c8fddcfc04eb09a6fbc8cfa86ca6dc69660"
+      },
+      "doc/MILESTONE_ROADMAP.md": {
+        "phase2": "edb2909344828286d4a9fa8c1f0a38a82223db83",
+        "phase3": "edb2909344828286d4a9fa8c1f0a38a82223db83",
+        "phase4": "edb2909344828286d4a9fa8c1f0a38a82223db83"
+      },
+      "doc/adr/ADR-001-algebraic-gauge-and-solver-architecture.md": {
+        "phase2": "fa07bf727c823f6243a970ed30eb87ed5e3f1546",
+        "phase3": "fa07bf727c823f6243a970ed30eb87ed5e3f1546",
+        "phase4": "fa07bf727c823f6243a970ed30eb87ed5e3f1546"
+      },
+      "doc/governance/PROJECT_STATE_SCHEMA.md": {
+        "phase2": "2e53cc89ea61b4f27af534fa7cb7460159065d29",
+        "phase3": "2e53cc89ea61b4f27af534fa7cb7460159065d29",
+        "phase4": "2e53cc89ea61b4f27af534fa7cb7460159065d29"
+      },
+      "doc/governance/README.md": {
+        "phase2": "ad30429698ecd0fb162aacca4451718d7c990f71",
+        "phase3": "ad30429698ecd0fb162aacca4451718d7c990f71",
+        "phase4": "ad30429698ecd0fb162aacca4451718d7c990f71"
+      },
+      "doc/labbook/chapters/ch_m1_10_vortices_real_lattice.tex": {
+        "phase2": "5073116cd95852a479b60cff61738a1f515978d6",
+        "phase3": "5073116cd95852a479b60cff61738a1f515978d6",
+        "phase4": "5073116cd95852a479b60cff61738a1f515978d6"
+      },
+      "doc/labbook/chapters/ch_m1_11_hypothesis_contracts.tex": {
+        "phase2": "72c3ecd485d79487100b56bf72eab89f8ba5c37e",
+        "phase3": "72c3ecd485d79487100b56bf72eab89f8ba5c37e",
+        "phase4": "72c3ecd485d79487100b56bf72eab89f8ba5c37e"
+      },
+      "doc/labbook/chapters/ch_m1_1_foundations_algebra.tex": {
+        "phase2": "042631d8d56f9ca4b97a285a8af78b211e5dc22e",
+        "phase3": "042631d8d56f9ca4b97a285a8af78b211e5dc22e",
+        "phase4": "042631d8d56f9ca4b97a285a8af78b211e5dc22e"
+      },
+      "doc/labbook/chapters/ch_m1_1b_quasifree_states_and_wick.tex": {
+        "phase2": "84221834b40b2fce0c3404d6baf22fd0ea34d232",
+        "phase3": "84221834b40b2fce0c3404d6baf22fd0ea34d232",
+        "phase4": "84221834b40b2fce0c3404d6baf22fd0ea34d232"
+      },
+      "doc/labbook/chapters/ch_m1_2_bloch_and_folding.tex": {
+        "phase2": "4aebf7e88a2d0f635e899874db2fad25f3dee389",
+        "phase3": "4aebf7e88a2d0f635e899874db2fad25f3dee389",
+        "phase4": "4aebf7e88a2d0f635e899874db2fad25f3dee389"
+      },
+      "doc/labbook/chapters/ch_m1_3_spectral_projector_diis.tex": {
+        "phase2": "cae3ee1784c1c2966cd7172d83475b9652e19924",
+        "phase3": "cae3ee1784c1c2966cd7172d83475b9652e19924",
+        "phase4": "cae3ee1784c1c2966cd7172d83475b9652e19924"
+      },
+      "doc/labbook/chapters/ch_m1_4_5_invariants_dualities.tex": {
+        "phase2": "67fb8a992136ad9d6c4049ca530334b29e1796a9",
+        "phase3": "67fb8a992136ad9d6c4049ca530334b29e1796a9",
+        "phase4": "67fb8a992136ad9d6c4049ca530334b29e1796a9"
+      },
+      "doc/labbook/chapters/ch_m1_4_observables_energetics.tex": {
+        "phase2": "59b62542055ea04ea6dba41bc67558e9d065252d",
+        "phase3": "59b62542055ea04ea6dba41bc67558e9d065252d",
+        "phase4": "59b62542055ea04ea6dba41bc67558e9d065252d"
+      },
+      "doc/labbook/chapters/ch_m1_6_solvers_and_basins.tex": {
+        "phase2": "c3793e545fbcdaa83a0c66e3d11c82161673a174",
+        "phase3": "c3793e545fbcdaa83a0c66e3d11c82161673a174",
+        "phase4": "c3793e545fbcdaa83a0c66e3d11c82161673a174"
+      },
+      "doc/labbook/chapters/ch_m1_8_supercell_bloch_scaling.tex": {
+        "phase2": "b3b44fb3ac642caeeb8742777270b176c55298f3",
+        "phase3": "b3b44fb3ac642caeeb8742777270b176c55298f3",
+        "phase4": "b3b44fb3ac642caeeb8742777270b176c55298f3"
+      },
+      "doc/labbook/chapters/ch_m1_9_real_space_and_purification.tex": {
+        "phase2": "0e650f9bcc345834c6d308280806981f60257a2b",
+        "phase3": "0e650f9bcc345834c6d308280806981f60257a2b",
+        "phase4": "0e650f9bcc345834c6d308280806981f60257a2b"
+      },
+      "doc/labbook/figures/fig_f10_critical_hysteresis.tex": {
+        "phase2": "fd8d4ccce1591852a78f826f261b58df322a7974",
+        "phase3": "fd8d4ccce1591852a78f826f261b58df322a7974",
+        "phase4": "fd8d4ccce1591852a78f826f261b58df322a7974"
+      },
+      "doc/labbook/figures/fig_f11_majorana_gap_scaling.tex": {
+        "phase2": "c6c5937f67b6a3be9017fe4e85ac0ab5cc5a3caa",
+        "phase3": "c6c5937f67b6a3be9017fe4e85ac0ab5cc5a3caa",
+        "phase4": "c6c5937f67b6a3be9017fe4e85ac0ab5cc5a3caa"
+      },
+      "doc/labbook/figures/fig_f12_supercell_parity.tex": {
+        "phase2": "ff6b4b37f00a66b9b57ea452462ca65139136205",
+        "phase3": "ff6b4b37f00a66b9b57ea452462ca65139136205",
+        "phase4": "ff6b4b37f00a66b9b57ea452462ca65139136205"
+      },
+      "doc/labbook/figures/fig_f13_pareto_basin_radius.tex": {
+        "phase2": "8151d5a4527d708f10c85d1118286f9bc1a2e00a",
+        "phase3": "8151d5a4527d708f10c85d1118286f9bc1a2e00a",
+        "phase4": "8151d5a4527d708f10c85d1118286f9bc1a2e00a"
+      },
+      "doc/labbook/figures/fig_f14_flop_calibration.tex": {
+        "phase2": "f2279ef955e48c3067465f59d29a582c7dde2d5d",
+        "phase3": "f2279ef955e48c3067465f59d29a582c7dde2d5d",
+        "phase4": "f2279ef955e48c3067465f59d29a582c7dde2d5d"
+      },
+      "doc/labbook/figures/fig_f15_supercell_scaling.tex": {
+        "phase2": "dda0baff087111967bce883a223c7fc187b88ccc",
+        "phase3": "dda0baff087111967bce883a223c7fc187b88ccc",
+        "phase4": "dda0baff087111967bce883a223c7fc187b88ccc"
+      },
+      "doc/labbook/figures/fig_f16_real_vs_complex_scaling.tex": {
+        "phase2": "f2c71b7bfa00afe7008c90b1c1cbf4d977f02c3a",
+        "phase3": "f2c71b7bfa00afe7008c90b1c1cbf4d977f02c3a",
+        "phase4": "f2c71b7bfa00afe7008c90b1c1cbf4d977f02c3a"
+      },
+      "doc/labbook/figures/fig_f17_purification_speedup.tex": {
+        "phase2": "3f21565dcf2503a303c0c2092b6047cc2cc56898",
+        "phase3": "3f21565dcf2503a303c0c2092b6047cc2cc56898",
+        "phase4": "3f21565dcf2503a303c0c2092b6047cc2cc56898"
+      },
+      "doc/labbook/figures/fig_f18_dense_real_space_resonance.tex": {
+        "phase2": "10d5b72ebdc87ecbe62b5a4c269e857aac00129f",
+        "phase3": "10d5b72ebdc87ecbe62b5a4c269e857aac00129f",
+        "phase4": "10d5b72ebdc87ecbe62b5a4c269e857aac00129f"
+      },
+      "doc/labbook/figures/fig_f19_dense_supercell_scaling.tex": {
+        "phase2": "9739c93e7b73394d17aedcc365f971d510e11542",
+        "phase3": "9739c93e7b73394d17aedcc365f971d510e11542",
+        "phase4": "9739c93e7b73394d17aedcc365f971d510e11542"
+      },
+      "doc/labbook/figures/fig_f1_k006_convergence.tex": {
+        "phase2": "826bffdb254d5ff20812d62e17bd80dbec2cd75e",
+        "phase3": "826bffdb254d5ff20812d62e17bd80dbec2cd75e",
+        "phase4": "826bffdb254d5ff20812d62e17bd80dbec2cd75e"
+      },
+      "doc/labbook/figures/fig_f20_vortex_energetics_and_modes.tex": {
+        "phase2": "740e50b237625b1053b41c91fb7edd94cbea2411",
+        "phase3": "740e50b237625b1053b41c91fb7edd94cbea2411",
+        "phase4": "740e50b237625b1053b41c91fb7edd94cbea2411"
+      },
+      "doc/labbook/figures/fig_f2_solver_convergence.tex": {
+        "phase2": "5e3db7eebc6296db0830d3ab98a9bb276ce4a327",
+        "phase3": "5e3db7eebc6296db0830d3ab98a9bb276ce4a327",
+        "phase4": "5e3db7eebc6296db0830d3ab98a9bb276ce4a327"
+      },
+      "doc/labbook/figures/fig_f3_hellmann_feynman.tex": {
+        "phase2": "afc78c6d4817a1905dadac141d8a5a17359cec8b",
+        "phase3": "afc78c6d4817a1905dadac141d8a5a17359cec8b",
+        "phase4": "afc78c6d4817a1905dadac141d8a5a17359cec8b"
+      },
+      "doc/labbook/figures/fig_f4_susceptibility.tex": {
+        "phase2": "6c8ca987c11affc770ab4e5385ca1fc76ee28589",
+        "phase3": "6c8ca987c11affc770ab4e5385ca1fc76ee28589",
+        "phase4": "6c8ca987c11affc770ab4e5385ca1fc76ee28589"
+      },
+      "doc/labbook/figures/fig_f5_klein_splitting.tex": {
+        "phase2": "eb9ef971af341deeeecd250b60f06376d3809c46",
+        "phase3": "eb9ef971af341deeeecd250b60f06376d3809c46",
+        "phase4": "eb9ef971af341deeeecd250b60f06376d3809c46"
+      },
+      "doc/labbook/figures/fig_f6_band_dispersion.tex": {
+        "phase2": "5666db46d425ddabeb8e295384bfe9f4c3e0d194",
+        "phase3": "5666db46d425ddabeb8e295384bfe9f4c3e0d194",
+        "phase4": "5666db46d425ddabeb8e295384bfe9f4c3e0d194"
+      },
+      "doc/labbook/figures/fig_f7_grassmannian_schematic.tex": {
+        "phase2": "b87687e2ec7fffeb406379323b24b74f488af461",
+        "phase3": "b87687e2ec7fffeb406379323b24b74f488af461",
+        "phase4": "b87687e2ec7fffeb406379323b24b74f488af461"
+      },
+      "doc/labbook/figures/fig_f8_parseval_sum_rule.tex": {
+        "phase2": "4a2007f8e613b5ee92b3445ddf39688e95791a11",
+        "phase3": "4a2007f8e613b5ee92b3445ddf39688e95791a11",
+        "phase4": "4a2007f8e613b5ee92b3445ddf39688e95791a11"
+      },
+      "doc/labbook/labbook_kitaev_mf.tex": {
+        "phase2": "f7fccca255e31776a1bdb54d475bbf2aeafb8390",
+        "phase3": "8e6771cce3b2cb14562fb4fef4aa76a49f71cd69",
+        "phase4": "f7fccca255e31776a1bdb54d475bbf2aeafb8390"
+      },
+      "doc/labbook/preamble.tex": {
+        "phase2": "35e4e84769f9d6e746c0a2869c866714b4fbf18c",
+        "phase3": "35e4e84769f9d6e746c0a2869c866714b4fbf18c",
+        "phase4": "35e4e84769f9d6e746c0a2869c866714b4fbf18c"
+      },
+      "doc/manuscript/refs.bib": {
+        "phase2": "9ae5e3cba4dac6643be21915eb277f4a6277e8ee",
+        "phase3": "9ae5e3cba4dac6643be21915eb277f4a6277e8ee",
+        "phase4": "9ae5e3cba4dac6643be21915eb277f4a6277e8ee"
+      },
+      "doc/manuscript/scipost_kitaev_mf.tex": {
+        "phase2": "6879950af04679921aae39e77cb0b6436498c84d",
+        "phase3": "6879950af04679921aae39e77cb0b6436498c84d",
+        "phase4": "6879950af04679921aae39e77cb0b6436498c84d"
+      },
+      "doc/manuscript/sections/sec01_introduction.tex": {
+        "phase2": "0175d6c98781fe2ba60d5f575309e997e6f00307",
+        "phase3": "0175d6c98781fe2ba60d5f575309e997e6f00307",
+        "phase4": "0175d6c98781fe2ba60d5f575309e997e6f00307"
+      },
+      "doc/manuscript/sections/sec02_algebraic_foundations_and_invariants.tex": {
+        "phase2": "cf37b0737206a7d0136b6b66bd05f32e14ffbe5b",
+        "phase3": "cf37b0737206a7d0136b6b66bd05f32e14ffbe5b",
+        "phase4": "cf37b0737206a7d0136b6b66bd05f32e14ffbe5b"
+      },
+      "doc/manuscript/sections/sec03_field_response_and_multistability.tex": {
+        "phase2": "b60094dc7c829c7bd32e3f1b145294d6f7121270",
+        "phase3": "b60094dc7c829c7bd32e3f1b145294d6f7121270",
+        "phase4": "b60094dc7c829c7bd32e3f1b145294d6f7121270"
+      },
+      "doc/manuscript/sections/sec04_grassmannian_solvers_and_real_space_scaling.tex": {
+        "phase2": "dc676ac6c8a425b8014e364fc2018a54c2b0dc9a",
+        "phase3": "dc676ac6c8a425b8014e364fc2018a54c2b0dc9a",
+        "phase4": "dc676ac6c8a425b8014e364fc2018a54c2b0dc9a"
+      },
+      "doc/manuscript/sections/sec05_conclusion_and_outlook.tex": {
+        "phase2": "985b78752ea44deee2783f658f98f314d70b49b4",
+        "phase3": "985b78752ea44deee2783f658f98f314d70b49b4",
+        "phase4": "985b78752ea44deee2783f658f98f314d70b49b4"
+      },
+      "doc/reference/thesis/Chapters/1-Intro(0).tex": {
+        "phase2": "cd1147e4217ddfddb41ea4c258318a2e6c728e0b",
+        "phase3": "cd1147e4217ddfddb41ea4c258318a2e6c728e0b",
+        "phase4": "cd1147e4217ddfddb41ea4c258318a2e6c728e0b"
+      },
+      "doc/reference/thesis/Chapters/1-Intro.tex": {
+        "phase2": "da08fb49517782008ad89a40d7b792ec6cc08aab",
+        "phase3": "da08fb49517782008ad89a40d7b792ec6cc08aab",
+        "phase4": "da08fb49517782008ad89a40d7b792ec6cc08aab"
+      },
+      "doc/reference/thesis/Chapters/2-Kitaev.tex": {
+        "phase2": "10900eeb8026bd00a97ca6e1d352b3c2156506ab",
+        "phase3": "10900eeb8026bd00a97ca6e1d352b3c2156506ab",
+        "phase4": "10900eeb8026bd00a97ca6e1d352b3c2156506ab"
+      },
+      "doc/reference/thesis/Chapters/3-Micro.tex": {
+        "phase2": "636cbfa9378fd94d62845103dc6f268074551a22",
+        "phase3": "636cbfa9378fd94d62845103dc6f268074551a22",
+        "phase4": "636cbfa9378fd94d62845103dc6f268074551a22"
+      },
+      "doc/reference/thesis/Chapters/6-KMF.tex": {
+        "phase2": "73295f07ba1fe60bac2e58f32aac89a3523cf781",
+        "phase3": "73295f07ba1fe60bac2e58f32aac89a3523cf781",
+        "phase4": "73295f07ba1fe60bac2e58f32aac89a3523cf781"
+      },
+      "doc/reference/thesis/Chapters/7-Z2.tex": {
+        "phase2": "1d1eeec23c7bfd87ec756aa26cd627fd96603c76",
+        "phase3": "1d1eeec23c7bfd87ec756aa26cd627fd96603c76",
+        "phase4": "1d1eeec23c7bfd87ec756aa26cd627fd96603c76"
+      },
+      "doc/reference/thesis/Chapters/Appendix/mf.tex": {
+        "phase2": "ceb57bbc612f69bb37a3e7f2e9a291a2e5bc322a",
+        "phase3": "ceb57bbc612f69bb37a3e7f2e9a291a2e5bc322a",
+        "phase4": "ceb57bbc612f69bb37a3e7f2e9a291a2e5bc322a"
+      },
+      "doc/reference/thesis/Chapters/Appendix/micro.tex": {
+        "phase2": "20ef2ef986e95872ec629c24197e3cd6d6dd967f",
+        "phase3": "20ef2ef986e95872ec629c24197e3cd6d6dd967f",
+        "phase4": "20ef2ef986e95872ec629c24197e3cd6d6dd967f"
+      },
+      "doc/reference/thesis/Chapters/Appendix/parton.tex": {
+        "phase2": "b4ebc097b0c9c66829e11e25b8781cac10caabff",
+        "phase3": "b4ebc097b0c9c66829e11e25b8781cac10caabff",
+        "phase4": "b4ebc097b0c9c66829e11e25b8781cac10caabff"
+      },
+      "doc/reference/thesis/Chapters/Appendix/perturbation.tex": {
+        "phase2": "6deadd2125391b4aa7f8536c7c1f4358743c4782",
+        "phase3": "6deadd2125391b4aa7f8536c7c1f4358743c4782",
+        "phase4": "6deadd2125391b4aa7f8536c7c1f4358743c4782"
+      },
+      "doc/reference/thesis/Chapters/Appendix/quadrupole.tex": {
+        "phase2": "862ca3dd761814e6a36d1f04b6f1f2e270a004c9",
+        "phase3": "862ca3dd761814e6a36d1f04b6f1f2e270a004c9",
+        "phase4": "862ca3dd761814e6a36d1f04b6f1f2e270a004c9"
+      },
+      "doc/reference/thesis/Chapters/Appendix/translational-inv.tex": {
+        "phase2": "3805d0893f8698246918ecb397b043d22bc53c3c",
+        "phase3": "3805d0893f8698246918ecb397b043d22bc53c3c",
+        "phase4": "3805d0893f8698246918ecb397b043d22bc53c3c"
+      },
+      "doc/reference/thesis/Chapters/Conclusion.tex": {
+        "phase2": "f98b2279dfeb476526ad8af7aef000b027667846",
+        "phase3": "f98b2279dfeb476526ad8af7aef000b027667846",
+        "phase4": "f98b2279dfeb476526ad8af7aef000b027667846"
+      },
+      "doc/reference/thesis/Chapters/abstract.tex": {
+        "phase2": "7ab1cee662efaad9d9ac14aadab733d655d1d48f",
+        "phase3": "7ab1cee662efaad9d9ac14aadab733d655d1d48f",
+        "phase4": "7ab1cee662efaad9d9ac14aadab733d655d1d48f"
+      },
+      "doc/reference/thesis/Figures/1/tikz1.tex": {
+        "phase2": "230cab403fcd5bc8e2b89a3977e1ac94159877b7",
+        "phase3": "230cab403fcd5bc8e2b89a3977e1ac94159877b7",
+        "phase4": "230cab403fcd5bc8e2b89a3977e1ac94159877b7"
+      },
+      "doc/reference/thesis/Figures/1/trig.tex": {
+        "phase2": "d0025a536b6dc93e170f6565feb5be26cdbf2b59",
+        "phase3": "d0025a536b6dc93e170f6565feb5be26cdbf2b59",
+        "phase4": "d0025a536b6dc93e170f6565feb5be26cdbf2b59"
+      },
+      "doc/reference/thesis/Figures/2/tikz/1vortex.tex": {
+        "phase2": "db3cd4e8de28d448b7c2dee5a5ac66909a2094eb",
+        "phase3": "db3cd4e8de28d448b7c2dee5a5ac66909a2094eb",
+        "phase4": "db3cd4e8de28d448b7c2dee5a5ac66909a2094eb"
+      },
+      "doc/reference/thesis/Figures/2/tikz/2vortices.tex": {
+        "phase2": "4467634fe26d4b6017ff8a1fab97eb7338ef79f5",
+        "phase3": "4467634fe26d4b6017ff8a1fab97eb7338ef79f5",
+        "phase4": "4467634fe26d4b6017ff8a1fab97eb7338ef79f5"
+      },
+      "doc/reference/thesis/Figures/2/tikz/BZ.tex": {
+        "phase2": "44140be49c6a446ae5654df7f171d37aa2373af7",
+        "phase3": "44140be49c6a446ae5654df7f171d37aa2373af7",
+        "phase4": "44140be49c6a446ae5654df7f171d37aa2373af7"
+      },
+      "doc/reference/thesis/Figures/2/tikz/T-operators.tex": {
+        "phase2": "07c4fdec2317059a4950c121d91506f7d300181c",
+        "phase3": "07c4fdec2317059a4950c121d91506f7d300181c",
+        "phase4": "07c4fdec2317059a4950c121d91506f7d300181c"
+      },
+      "doc/reference/thesis/Figures/2/tikz/basis_vectors.tex": {
+        "phase2": "38f324df51ee338abf3369959cf8835fb91df86a",
+        "phase3": "38f324df51ee338abf3369959cf8835fb91df86a",
+        "phase4": "38f324df51ee338abf3369959cf8835fb91df86a"
+      },
+      "doc/reference/thesis/Figures/2/tikz/halfBZ.tex": {
+        "phase2": "09b9fdc2df3c25f3d7015a6ad4007eee9a370b5d",
+        "phase3": "09b9fdc2df3c25f3d7015a6ad4007eee9a370b5d",
+        "phase4": "09b9fdc2df3c25f3d7015a6ad4007eee9a370b5d"
+      },
+      "doc/reference/thesis/Figures/2/tikz/lattice-basis-vec.tex": {
+        "phase2": "a0e41a268e0e3d388d0e156053beef6fb80d2817",
+        "phase3": "a0e41a268e0e3d388d0e156053beef6fb80d2817",
+        "phase4": "a0e41a268e0e3d388d0e156053beef6fb80d2817"
+      },
+      "doc/reference/thesis/Figures/2/tikz/lattice.tex": {
+        "phase2": "dc58a53a8f9f261774ac074c3ed3988cc3049dae",
+        "phase3": "dc58a53a8f9f261774ac074c3ed3988cc3049dae",
+        "phase4": "dc58a53a8f9f261774ac074c3ed3988cc3049dae"
+      },
+      "doc/reference/thesis/Figures/2/tikz/plaquette.tex": {
+        "phase2": "4ffa83e8a8f2a345ea32c4bf23575c0bf1a503d7",
+        "phase3": "4ffa83e8a8f2a345ea32c4bf23575c0bf1a503d7",
+        "phase4": "4ffa83e8a8f2a345ea32c4bf23575c0bf1a503d7"
+      },
+      "doc/reference/thesis/Figures/2/tikz/wilson-loops.tex": {
+        "phase2": "0824b1a072531430d4a15b0c6ca3b4e7cee6ea84",
+        "phase3": "0824b1a072531430d4a15b0c6ca3b4e7cee6ea84",
+        "phase4": "0824b1a072531430d4a15b0c6ca3b4e7cee6ea84"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/3D-lattice.tex": {
+        "phase2": "2414dd7127ca2e7ae3dc35c280d6abcbddc6992b",
+        "phase3": "2414dd7127ca2e7ae3dc35c280d6abcbddc6992b",
+        "phase4": "2414dd7127ca2e7ae3dc35c280d6abcbddc6992b"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/3D-octahedras.tex": {
+        "phase2": "0e88eba45e1cf3972eec8774a4085f4e57e2c370",
+        "phase3": "0e88eba45e1cf3972eec8774a4085f4e57e2c370",
+        "phase4": "0e88eba45e1cf3972eec8774a4085f4e57e2c370"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/d-orbitals-SO.tex": {
+        "phase2": "f705352e63a7609b0b185ab1fcae370422d5e2b0",
+        "phase3": "f705352e63a7609b0b185ab1fcae370422d5e2b0",
+        "phase4": "f705352e63a7609b0b185ab1fcae370422d5e2b0"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/d-orbitals.tex": {
+        "phase2": "c8aff12d3cc516c4650a85078a65dcbeea041bac",
+        "phase3": "c8aff12d3cc516c4650a85078a65dcbeea041bac",
+        "phase4": "c8aff12d3cc516c4650a85078a65dcbeea041bac"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/edge-sharing-octahedra.tex": {
+        "phase2": "8102c84ce53472cc37a2b20febe986bc4488dd18",
+        "phase3": "8102c84ce53472cc37a2b20febe986bc4488dd18",
+        "phase4": "8102c84ce53472cc37a2b20febe986bc4488dd18"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/h-orbtials-SO.tex": {
+        "phase2": "40b0ef54d47ca51fa9702d31bdb9475d0fc8c05d",
+        "phase3": "40b0ef54d47ca51fa9702d31bdb9475d0fc8c05d",
+        "phase4": "40b0ef54d47ca51fa9702d31bdb9475d0fc8c05d"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/octahedra.tex": {
+        "phase2": "2be6348944d72a34b9a50195f85d8a7965155de4",
+        "phase3": "2be6348944d72a34b9a50195f85d8a7965155de4",
+        "phase4": "2be6348944d72a34b9a50195f85d8a7965155de4"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/plaquette.tex": {
+        "phase2": "562b5f6566361c70059f25332a98d7771f0f3ee5",
+        "phase3": "562b5f6566361c70059f25332a98d7771f0f3ee5",
+        "phase4": "562b5f6566361c70059f25332a98d7771f0f3ee5"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/virtual-process-1.tex": {
+        "phase2": "e37fba334edc111776c183bb76ebdc1baa2762f6",
+        "phase3": "e37fba334edc111776c183bb76ebdc1baa2762f6",
+        "phase4": "e37fba334edc111776c183bb76ebdc1baa2762f6"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/virtual-process-2.tex": {
+        "phase2": "59a95c3e66965c7aef34cfe969009d42b6137add",
+        "phase3": "59a95c3e66965c7aef34cfe969009d42b6137add",
+        "phase4": "59a95c3e66965c7aef34cfe969009d42b6137add"
+      },
+      "doc/reference/thesis/Figures/3/Tikz/virtual-process-3.tex": {
+        "phase2": "c447d6e7ac360abe847e1b82ba4ced1b783fa63d",
+        "phase3": "c447d6e7ac360abe847e1b82ba4ced1b783fa63d",
+        "phase4": "c447d6e7ac360abe847e1b82ba4ced1b783fa63d"
+      },
+      "doc/reference/thesis/Figures/7/TikZ/4vortices.tex": {
+        "phase2": "69ee889820628ebe1a8d473eb7ae9c06cffa446b",
+        "phase3": "69ee889820628ebe1a8d473eb7ae9c06cffa446b",
+        "phase4": "69ee889820628ebe1a8d473eb7ae9c06cffa446b"
+      },
+      "doc/reference/thesis/Figures/7/TikZ/vortex-at-the-center.tex": {
+        "phase2": "c7c3b9d3fef3789a95f556c7631beed1eeaa8e75",
+        "phase3": "c7c3b9d3fef3789a95f556c7631beed1eeaa8e75",
+        "phase4": "c7c3b9d3fef3789a95f556c7631beed1eeaa8e75"
+      },
+      "doc/reference/thesis/main.tex": {
+        "phase2": "e7c00ba31dd8aadc3aef26451fa62cd68e78a7b5",
+        "phase3": "e7c00ba31dd8aadc3aef26451fa62cd68e78a7b5",
+        "phase4": "e7c00ba31dd8aadc3aef26451fa62cd68e78a7b5"
+      },
+      "doc/reference/thesis/preamble.tex": {
+        "phase2": "b8e7f99e5936822911dcf20645eb6d248ee366c9",
+        "phase3": "b8e7f99e5936822911dcf20645eb6d248ee366c9",
+        "phase4": "b8e7f99e5936822911dcf20645eb6d248ee366c9"
+      },
+      "doc/reference/thesis/refs.bib": {
+        "phase2": "2791cdcec973b3467d4eb2e863aac061f04dbba9",
+        "phase3": "2791cdcec973b3467d4eb2e863aac061f04dbba9",
+        "phase4": "2791cdcec973b3467d4eb2e863aac061f04dbba9"
+      },
+      "doc/rnd/exact-perturbation-theory/BACKLOG.md": {
+        "phase2": "33ff6cb4a9e78c7f1e226aea4241b9d188581b09",
+        "phase3": "27c451c0e3082a2ee4a8be7009d66ceb1b1bbadc",
+        "phase4": "33ff6cb4a9e78c7f1e226aea4241b9d188581b09"
+      },
+      "doc/rnd/exact-perturbation-theory/INTEGRATION_PLAN.md": {
+        "phase2": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f",
+        "phase3": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f",
+        "phase4": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f"
+      },
+      "doc/rnd/exact-perturbation-theory/README.md": {
+        "phase2": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa",
+        "phase3": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa",
+        "phase4": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa"
+      },
+      "doc/rnd/exact-perturbation-theory/ROADMAP.md": {
+        "phase2": "0a743e30e15373fd433f5b301390f6a037e7e896",
+        "phase3": "0a743e30e15373fd433f5b301390f6a037e7e896",
+        "phase4": "0a743e30e15373fd433f5b301390f6a037e7e896"
+      },
+      "doc/rnd/exact-perturbation-theory/STATUS.md": {
+        "phase2": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599",
+        "phase3": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599",
+        "phase4": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599"
+      },
+      "doc/rnd/exact-perturbation-theory/code/README.md": {
+        "phase2": "60435d1071a8ed5834896b965b8a3851ab63c3dc",
+        "phase3": "60435d1071a8ed5834896b965b8a3851ab63c3dc",
+        "phase4": "60435d1071a8ed5834896b965b8a3851ab63c3dc"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/00_model_and_conventions.md": {
+        "phase2": "2255bd043d528cb311e094fbc2ee8bdbc569fa87",
+        "phase3": "2255bd043d528cb311e094fbc2ee8bdbc569fa87",
+        "phase4": "2255bd043d528cb311e094fbc2ee8bdbc569fa87"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/01_flux_sectors_and_spectrum.md": {
+        "phase2": "d8363aa689452366c8c1504c301eac24571d1ebd",
+        "phase3": "d8363aa689452366c8c1504c301eac24571d1ebd",
+        "phase4": "d8363aa689452366c8c1504c301eac24571d1ebd"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/02_normalization_and_bloch_conventions.md": {
+        "phase2": "c9338ad549040e64eb45e1c3a621c74b3fa72aed",
+        "phase3": "c9338ad549040e64eb45e1c3a621c74b3fa72aed",
+        "phase4": "c9338ad549040e64eb45e1c3a621c74b3fa72aed"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/02_vortex_energies.md": {
+        "phase2": "bee469983f88078c97588a76c9d36111dc9aa9fe",
+        "phase3": "bee469983f88078c97588a76c9d36111dc9aa9fe",
+        "phase4": "bee469983f88078c97588a76c9d36111dc9aa9fe"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/03_low_energy_projector_and_feshbach.md": {
+        "phase2": "f97cf42527ec6a10dea87696418f8b16872ea009",
+        "phase3": "f97cf42527ec6a10dea87696418f8b16872ea009",
+        "phase4": "f97cf42527ec6a10dea87696418f8b16872ea009"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/04_numerical_validation.md": {
+        "phase2": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3",
+        "phase3": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3",
+        "phase4": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3"
+      },
+      "doc/rnd/exact-perturbation-theory/notes/05_finite_torus_conventions.md": {
+        "phase2": "f376b18f1e466133c414cb89233560fc1703ff31",
+        "phase3": "f376b18f1e466133c414cb89233560fc1703ff31",
+        "phase4": "f376b18f1e466133c414cb89233560fc1703ff31"
+      },
+      "doc/rnd/exact-perturbation-theory/results/README.md": {
+        "phase2": "b5b8307ce58852068d461b449299c0c3f1f0bcfe",
+        "phase3": "b5b8307ce58852068d461b449299c0c3f1f0bcfe",
+        "phase4": "b5b8307ce58852068d461b449299c0c3f1f0bcfe"
+      },
+      "doc/rnd/exact-perturbation-theory/t12_matter_parity_selection_rule.md": {
+        "phase2": "c33e57410ef2af84a8e15146a53b65073ed886d4",
+        "phase4": "c33e57410ef2af84a8e15146a53b65073ed886d4"
+      },
+      "doc/rnd/exact-perturbation-theory/t13_exact_matter_solver_and_vison_extrapolation.md": {
+        "phase2": "9426586dc5a0064378d97bdeda4644453c039c48",
+        "phase4": "9426586dc5a0064378d97bdeda4644453c039c48"
+      },
+      "doc/rnd/exact-perturbation-theory/t14_feshbach_projectors_and_resolvent_bounds.md": {
+        "phase2": "117b6788ef747e0d1756b409b64aae255812d4ef",
+        "phase4": "117b6788ef747e0d1756b409b64aae255812d4ef"
+      },
+      "doc/rnd/exact-perturbation-theory/t15_exact_third_order_chiral_coupling.md": {
+        "phase2": "540b50c1ca062b33e69ef4498c50a0c122eed8ae",
+        "phase4": "540b50c1ca062b33e69ef4498c50a0c122eed8ae"
+      },
+      "doc/rnd/exploratory/PHASE2_EXPLORATORY_BACKLOG.md": {
+        "phase2": "b14b73365533d7b19dedc00c2c7646153009c80a",
+        "phase3": "b14b73365533d7b19dedc00c2c7646153009c80a",
+        "phase4": "b14b73365533d7b19dedc00c2c7646153009c80a"
+      },
+      "doc/rnd/exploratory/car_gauge_formalism_survey.md": {
+        "phase2": "44619daf4ff5ca2b496e8e29eea03735a7958a00",
+        "phase3": "44619daf4ff5ca2b496e8e29eea03735a7958a00",
+        "phase4": "44619daf4ff5ca2b496e8e29eea03735a7958a00"
+      },
+      "doc/rnd/exploratory/multisublattice_saddle_survey.md": {
+        "phase2": "f381e56c0dfc8f34dae88e097f04a1cdfec681b3",
+        "phase3": "f381e56c0dfc8f34dae88e097f04a1cdfec681b3",
+        "phase4": "f381e56c0dfc8f34dae88e097f04a1cdfec681b3"
+      },
+      "doc/rnd/exploratory/pearson_random_walk_integral.md": {
+        "phase2": "e3707069a44415ddf992c87b810b977e1179edc4",
+        "phase3": "e3707069a44415ddf992c87b810b977e1179edc4",
+        "phase4": "e3707069a44415ddf992c87b810b977e1179edc4"
+      },
+      "doc/rnd/exploratory/vison_gap_triangular_green_survey.md": {
+        "phase2": "da4a0e22a2bc27167a39907ff59feefd2b079dbe",
+        "phase3": "da4a0e22a2bc27167a39907ff59feefd2b079dbe",
+        "phase4": "da4a0e22a2bc27167a39907ff59feefd2b079dbe"
+      },
+      "doc/rnd/peer_review/round1_editor_decision.md": {
+        "phase2": "844ca0c8cef3ba849adae46dbff27aa80b7fd7de",
+        "phase3": "844ca0c8cef3ba849adae46dbff27aa80b7fd7de",
+        "phase4": "844ca0c8cef3ba849adae46dbff27aa80b7fd7de"
+      },
+      "doc/rnd/peer_review/round1_referee1_report.md": {
+        "phase2": "96def660d41e13b91e8c74515e213ccc992004b5",
+        "phase3": "96def660d41e13b91e8c74515e213ccc992004b5",
+        "phase4": "96def660d41e13b91e8c74515e213ccc992004b5"
+      },
+      "doc/rnd/peer_review/round1_referee2_report.md": {
+        "phase2": "d28c07fd1fc86463c0c9066e054c16742d6fa956",
+        "phase3": "d28c07fd1fc86463c0c9066e054c16742d6fa956",
+        "phase4": "d28c07fd1fc86463c0c9066e054c16742d6fa956"
+      },
+      "doc/rnd/peer_review/round2_author_response.md": {
+        "phase2": "899a50b709b82c6c549a723ce4703f415684fd7e",
+        "phase3": "899a50b709b82c6c549a723ce4703f415684fd7e",
+        "phase4": "899a50b709b82c6c549a723ce4703f415684fd7e"
+      },
+      "doc/rnd/peer_review/round2_referee1_report.md": {
+        "phase2": "db5918ad4a2c595ab31655325f05a7be4fda09ac",
+        "phase3": "db5918ad4a2c595ab31655325f05a7be4fda09ac",
+        "phase4": "db5918ad4a2c595ab31655325f05a7be4fda09ac"
+      },
+      "doc/rnd/peer_review/round2_referee2_report.md": {
+        "phase2": "b34b6e27e91f701bfc3d8f992ddbed307ef7083b",
+        "phase3": "b34b6e27e91f701bfc3d8f992ddbed307ef7083b",
+        "phase4": "b34b6e27e91f701bfc3d8f992ddbed307ef7083b"
+      },
+      "doc/rnd/peer_review/round3_editor_acceptance.md": {
+        "phase2": "1572e5fc2bfa6f502e1278796c44e8607815fb41",
+        "phase3": "1572e5fc2bfa6f502e1278796c44e8607815fb41",
+        "phase4": "1572e5fc2bfa6f502e1278796c44e8607815fb41"
+      },
+      "doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md": {
+        "phase2": "f0c91e071c81623d5e35dd929b62495fa732dd5c",
+        "phase3": "f0c91e071c81623d5e35dd929b62495fa732dd5c",
+        "phase4": "f0c91e071c81623d5e35dd929b62495fa732dd5c"
+      },
+      "doc/rnd/phase_1/m1_10_t2_two_vison_energetics_and_zero_modes.md": {
+        "phase2": "d7e74e89ac537eaeccdc087814edbd89c5a1e678",
+        "phase3": "d7e74e89ac537eaeccdc087814edbd89c5a1e678",
+        "phase4": "d7e74e89ac537eaeccdc087814edbd89c5a1e678"
+      },
+      "doc/rnd/phase_1/m1_1_t0_algebraic_foundations_parton_rep.md": {
+        "phase2": "8d3d1e2e4175cd4f77e817bc1a74a282108e14bd",
+        "phase3": "8d3d1e2e4175cd4f77e817bc1a74a282108e14bd",
+        "phase4": "8d3d1e2e4175cd4f77e817bc1a74a282108e14bd"
+      },
+      "doc/rnd/phase_1/m1_1_t1_local_majorana_algebra_conventions.md": {
+        "phase2": "31ea4c39174de90f87d043910739da4ba07c5fad",
+        "phase3": "31ea4c39174de90f87d043910739da4ba07c5fad",
+        "phase4": "31ea4c39174de90f87d043910739da4ba07c5fad"
+      },
+      "doc/rnd/phase_1/m1_1_t2_spin_gauge_representation.md": {
+        "phase2": "de2638ce2bd34d30b678f3580110f6fa2cc1cf20",
+        "phase3": "de2638ce2bd34d30b678f3580110f6fa2cc1cf20",
+        "phase4": "de2638ce2bd34d30b678f3580110f6fa2cc1cf20"
+      },
+      "doc/rnd/phase_1/m1_1_t3_physical_projection_pauli_algebra.md": {
+        "phase2": "98f21c7071640bf247ac6faba6e960c090d2d13b",
+        "phase3": "98f21c7071640bf247ac6faba6e960c090d2d13b",
+        "phase4": "98f21c7071640bf247ac6faba6e960c090d2d13b"
+      },
+      "doc/rnd/phase_1/m1_1_t4_exchange_tensor_quartic_hamiltonian.md": {
+        "phase2": "55dd211260167532c4d9c411871efd8b0d89cf7b",
+        "phase3": "55dd211260167532c4d9c411871efd8b0d89cf7b",
+        "phase4": "55dd211260167532c4d9c411871efd8b0d89cf7b"
+      },
+      "doc/rnd/phase_1/m1_1_t5_test_specification_and_validation.md": {
+        "phase2": "2347ab3ad52ca9fc7a081d92ed1e24249a77884c",
+        "phase3": "2347ab3ad52ca9fc7a081d92ed1e24249a77884c",
+        "phase4": "2347ab3ad52ca9fc7a081d92ed1e24249a77884c"
+      },
+      "doc/rnd/phase_1/m1_2_t1_majorana_mean_field_decoupling.md": {
+        "phase2": "a356cb49020bc08fd7113b666c19ca370f2fee81",
+        "phase3": "a356cb49020bc08fd7113b666c19ca370f2fee81",
+        "phase4": "a356cb49020bc08fd7113b666c19ca370f2fee81"
+      },
+      "doc/rnd/phase_1/m1_2_t2_bloch_momentum_and_folding_parity.md": {
+        "phase2": "c0522d1ebcc36761fc74de9ec19b7306504daf4c",
+        "phase3": "c0522d1ebcc36761fc74de9ec19b7306504daf4c",
+        "phase4": "c0522d1ebcc36761fc74de9ec19b7306504daf4c"
+      },
+      "doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md": {
+        "phase2": "58e8c44c1fb6de4ae655d653b5f27a2398741b33",
+        "phase3": "58e8c44c1fb6de4ae655d653b5f27a2398741b33",
+        "phase4": "58e8c44c1fb6de4ae655d653b5f27a2398741b33"
+      },
+      "doc/rnd/phase_1/m1_3_t2_project_state_synchronization.md": {
+        "phase2": "d9894049fcbf5256fa14b04688033b50e173fdb3",
+        "phase3": "d9894049fcbf5256fa14b04688033b50e173fdb3",
+        "phase4": "d9894049fcbf5256fa14b04688033b50e173fdb3"
+      },
+      "doc/rnd/phase_1/m1_3_t3_k006_quadrature_provenance.md": {
+        "phase2": "6e474f53f462ac23990ff3055733824a95ff1ce4",
+        "phase3": "6e474f53f462ac23990ff3055733824a95ff1ce4",
+        "phase4": "6e474f53f462ac23990ff3055733824a95ff1ce4"
+      },
+      "doc/rnd/phase_1/m1_4_5_t1_kinematic_and_semidefinite_invariants.md": {
+        "phase2": "1c47531bff5f37bb63aa06d62b31bdb7d3a43757",
+        "phase3": "1c47531bff5f37bb63aa06d62b31bdb7d3a43757",
+        "phase4": "1c47531bff5f37bb63aa06d62b31bdb7d3a43757"
+      },
+      "doc/rnd/phase_1/m1_4_5_t2_kkt_stationarity_and_response_asymptotics.md": {
+        "phase2": "56b551e9ca0a76f44f0575b2b5932578150fc45d",
+        "phase3": "56b551e9ca0a76f44f0575b2b5932578150fc45d",
+        "phase4": "56b551e9ca0a76f44f0575b2b5932578150fc45d"
+      },
+      "doc/rnd/phase_1/m1_4_5_t3_quasifree_manifolds_and_stability.md": {
+        "phase2": "3d3b0eb3edf27ddf79cfcce1e0086b6243f9611e",
+        "phase3": "3d3b0eb3edf27ddf79cfcce1e0086b6243f9611e",
+        "phase4": "3d3b0eb3edf27ddf79cfcce1e0086b6243f9611e"
+      },
+      "doc/rnd/phase_1/m1_4_t1_observables_and_energetics_theory.md": {
+        "phase2": "445f6c3eec5baf4ef6b6554e19e8daf8e02140a4",
+        "phase3": "445f6c3eec5baf4ef6b6554e19e8daf8e02140a4",
+        "phase4": "445f6c3eec5baf4ef6b6554e19e8daf8e02140a4"
+      },
+      "doc/rnd/phase_1/m1_4_t2_observable_test_specification.md": {
+        "phase2": "a5dbe3042eaaf4cb1197083da603e11204728f7c",
+        "phase3": "a5dbe3042eaaf4cb1197083da603e11204728f7c",
+        "phase4": "a5dbe3042eaaf4cb1197083da603e11204728f7c"
+      },
+      "doc/rnd/phase_1/m1_4_t3_energetics_test_specification.md": {
+        "phase2": "6e46fe20a048eb408333b6e731f37f3f2dcb49db",
+        "phase3": "6e46fe20a048eb408333b6e731f37f3f2dcb49db",
+        "phase4": "6e46fe20a048eb408333b6e731f37f3f2dcb49db"
+      },
+      "doc/rnd/phase_1/m1_4_t4_energy_normalization_audit.md": {
+        "phase2": "109093ed1db99cc4caf11457f290fae5e3e49846",
+        "phase3": "109093ed1db99cc4caf11457f290fae5e3e49846",
+        "phase4": "109093ed1db99cc4caf11457f290fae5e3e49846"
+      },
+      "doc/rnd/phase_1/m1_4_t5_integration_audit_and_anomalies.md": {
+        "phase2": "63613b54a6d097ca942b62d523632060fd06b7c6",
+        "phase3": "63613b54a6d097ca942b62d523632060fd06b7c6",
+        "phase4": "63613b54a6d097ca942b62d523632060fd06b7c6"
+      },
+      "doc/rnd/phase_1/m1_5_t3_quasifree_states_wick_variational.md": {
+        "phase2": "7cb8bae1c730d8d40e43847b402488ee7cdbfff0",
+        "phase3": "7cb8bae1c730d8d40e43847b402488ee7cdbfff0",
+        "phase4": "7cb8bae1c730d8d40e43847b402488ee7cdbfff0"
+      },
+      "doc/rnd/phase_1/m1_6_t0_assumption_and_ab_registry.md": {
+        "phase2": "6d791e5cc1e6827297b046e951395d3645e219b4",
+        "phase3": "6d791e5cc1e6827297b046e951395d3645e219b4",
+        "phase4": "6d791e5cc1e6827297b046e951395d3645e219b4"
+      },
+      "doc/rnd/phase_1/m1_6_t10_statistical_benchmark_evaluation.md": {
+        "phase2": "ba558276e085af428149ee227c2254bfe45887da",
+        "phase3": "ba558276e085af428149ee227c2254bfe45887da",
+        "phase4": "ba558276e085af428149ee227c2254bfe45887da"
+      },
+      "doc/rnd/phase_1/m1_6_t2_skew_symmetry_ab_benchmark.md": {
+        "phase2": "fe123881d7e8c338aa341418257ef50e63e7835e",
+        "phase3": "fe123881d7e8c338aa341418257ef50e63e7835e",
+        "phase4": "fe123881d7e8c338aa341418257ef50e63e7835e"
+      },
+      "doc/rnd/phase_1/m1_6_t3_solver_seed_convergence.md": {
+        "phase2": "a333576fb7388506348b9367f513346e6b79ab14",
+        "phase3": "a333576fb7388506348b9367f513346e6b79ab14",
+        "phase4": "a333576fb7388506348b9367f513346e6b79ab14"
+      },
+      "doc/rnd/phase_1/m1_6_t4_basin_multistability_111.md": {
+        "phase2": "8a22cfa58d5979404ac1f9e38901b959c10deaa1",
+        "phase3": "8a22cfa58d5979404ac1f9e38901b959c10deaa1",
+        "phase4": "8a22cfa58d5979404ac1f9e38901b959c10deaa1"
+      },
+      "doc/rnd/phase_1/m1_6_t5_critical_zoom_and_supercells.md": {
+        "phase2": "d0a2c29fa018349d824dc9ce563a8b553b5f163c",
+        "phase3": "d0a2c29fa018349d824dc9ce563a8b553b5f163c",
+        "phase4": "d0a2c29fa018349d824dc9ce563a8b553b5f163c"
+      },
+      "doc/rnd/phase_1/m1_6_t6_statistical_scorecards_and_governance.md": {
+        "phase2": "c330b4ea71089fc1b9af133abe687cdb98f5ce5d",
+        "phase3": "c330b4ea71089fc1b9af133abe687cdb98f5ce5d",
+        "phase4": "c330b4ea71089fc1b9af133abe687cdb98f5ce5d"
+      },
+      "doc/rnd/phase_1/m1_6_t7_solver_mechanics_and_contraction_theory.md": {
+        "phase2": "6f943395f83ca69a2a4b8b9ffe3b8271c8b4a367",
+        "phase3": "6f943395f83ca69a2a4b8b9ffe3b8271c8b4a367",
+        "phase4": "6f943395f83ca69a2a4b8b9ffe3b8271c8b4a367"
+      },
+      "doc/rnd/phase_1/m1_6_t8_concrete_cost_and_flop_methodology.md": {
+        "phase2": "2c47eb358854ab784434079175e1908efabd2ca6",
+        "phase3": "2c47eb358854ab784434079175e1908efabd2ca6",
+        "phase4": "2c47eb358854ab784434079175e1908efabd2ca6"
+      },
+      "doc/rnd/phase_1/m1_6_t9_saddles_and_critical_slowing_down.md": {
+        "phase2": "b7ca93e7b82b4154b524665a6632cce75e0dc1cb",
+        "phase3": "b7ca93e7b82b4154b524665a6632cce75e0dc1cb",
+        "phase4": "b7ca93e7b82b4154b524665a6632cce75e0dc1cb"
+      },
+      "doc/rnd/phase_1/m1_7_t1_supercell_bloch_scaling_contracts.md": {
+        "phase2": "4f3cb91a809e2e8a8958c1ba9bdee3e55e31c649",
+        "phase3": "4f3cb91a809e2e8a8958c1ba9bdee3e55e31c649",
+        "phase4": "4f3cb91a809e2e8a8958c1ba9bdee3e55e31c649"
+      },
+      "doc/rnd/phase_1/m1_7_t2_supercell_benchmark_evaluation.md": {
+        "phase2": "9c28325ee45f009592382b0d5cd489879a248249",
+        "phase3": "9c28325ee45f009592382b0d5cd489879a248249",
+        "phase4": "9c28325ee45f009592382b0d5cd489879a248249"
+      },
+      "doc/rnd/phase_1/m1_8_t1_real_space_and_real_arithmetic_theory.md": {
+        "phase2": "fbd98242d5c0142e53d1f9684c64173d891bdae6",
+        "phase3": "fbd98242d5c0142e53d1f9684c64173d891bdae6",
+        "phase4": "fbd98242d5c0142e53d1f9684c64173d891bdae6"
+      },
+      "doc/rnd/phase_1/m1_8_t2_matrix_sign_purification_without_eigenvectors.md": {
+        "phase2": "e9181cbaf52979a4cdf3e75c293a31d47758e67b",
+        "phase3": "e9181cbaf52979a4cdf3e75c293a31d47758e67b",
+        "phase4": "e9181cbaf52979a4cdf3e75c293a31d47758e67b"
+      },
+      "doc/rnd/phase_1/m1_8_t3_real_space_tracks_evaluation.md": {
+        "phase2": "7f0cf87734a17e2d5436e50da1698597b9cc5143",
+        "phase3": "7f0cf87734a17e2d5436e50da1698597b9cc5143",
+        "phase4": "7f0cf87734a17e2d5436e50da1698597b9cc5143"
+      },
+      "doc/rnd/phase_1/m1_9_t1_self_consistent_purification_warm_starts.md": {
+        "phase2": "9f594bc8cb5f3048d72c00135c2133b693e1d855",
+        "phase3": "9f594bc8cb5f3048d72c00135c2133b693e1d855",
+        "phase4": "9f594bc8cb5f3048d72c00135c2133b693e1d855"
+      },
+      "doc/rnd/phase_1/m1_9_t2_disordered_solver_scaling.md": {
+        "phase2": "e0347ebd9d98c4b34bcef26be7e00595c6074802",
+        "phase3": "e0347ebd9d98c4b34bcef26be7e00595c6074802",
+        "phase4": "e0347ebd9d98c4b34bcef26be7e00595c6074802"
+      },
+      "doc/rnd/phase_1/m1_9_t3_lbroyden_damping_and_multisecant_reconciliation.md": {
+        "phase2": "22da338688ba6224c454eb84e4b62aa1b79df636",
+        "phase3": "22da338688ba6224c454eb84e4b62aa1b79df636",
+        "phase4": "22da338688ba6224c454eb84e4b62aa1b79df636"
+      },
+      "doc/rnd/phase_1/m1_9_t4_small_gap_and_zero_mode_purification.md": {
+        "phase2": "d1b73b9ec7188ad4670f7b2d74299f68d17e5139",
+        "phase3": "d1b73b9ec7188ad4670f7b2d74299f68d17e5139",
+        "phase4": "d1b73b9ec7188ad4670f7b2d74299f68d17e5139"
+      },
+      "doc/rnd/phase_1/m1_9_t5_spinodal_domain_wall_coexistence.md": {
+        "phase2": "29b0ba3c6cb0d7ff047773e4c951faa48218e210",
+        "phase3": "29b0ba3c6cb0d7ff047773e4c951faa48218e210",
+        "phase4": "29b0ba3c6cb0d7ff047773e4c951faa48218e210"
+      },
+      "doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening.md": {
+        "phase2": "151a7ca4f9bce87cba16f9238fbb98c8fd1cc251",
+        "phase3": "151a7ca4f9bce87cba16f9238fbb98c8fd1cc251",
+        "phase4": "151a7ca4f9bce87cba16f9238fbb98c8fd1cc251"
+      },
+      "doc/rnd/phase_1/t01_epistemic_demarcation_and_gap_reconciliation.md": {
+        "phase2": "07266f9ed29b49c2c48dff4627f6d83da12089ec",
+        "phase3": "07266f9ed29b49c2c48dff4627f6d83da12089ec",
+        "phase4": "07266f9ed29b49c2c48dff4627f6d83da12089ec"
+      },
+      "doc/rnd/phase_1/t02_cross_front_harmonization_and_hygiene.md": {
+        "phase2": "0aef323707897f350eaa62224fd771a3e64da822",
+        "phase3": "0aef323707897f350eaa62224fd771a3e64da822",
+        "phase4": "0aef323707897f350eaa62224fd771a3e64da822"
+      },
+      "doc/rnd/phase_1/t03_front1_audit_and_pointer_sync.md": {
+        "phase2": "1397b5796da29425a08e41b0547fc268af3b7d61",
+        "phase3": "1397b5796da29425a08e41b0547fc268af3b7d61",
+        "phase4": "1397b5796da29425a08e41b0547fc268af3b7d61"
+      },
+      "doc/rnd/phase_1/t04_purification_and_lbroyden_safeguards.md": {
+        "phase2": "e0fa174a2720c84e7a5820b22a66291a3896bb27",
+        "phase3": "e0fa174a2720c84e7a5820b22a66291a3896bb27",
+        "phase4": "e0fa174a2720c84e7a5820b22a66291a3896bb27"
+      },
+      "doc/rnd/phase_1/t05_inhomogeneous_state_and_local_extraction.md": {
+        "phase2": "b9f05a968abda0d9f494c4cbfe3ebf1951ace0b5",
+        "phase4": "b9f05a968abda0d9f494c4cbfe3ebf1951ace0b5"
+      },
+      "doc/rnd/phase_1/t06_unpinned_vortex_self_consistency_and_relaxation.md": {
+        "phase2": "6c58764f96e1d16c1a61eec19b9feda8186ecf0d",
+        "phase4": "6c58764f96e1d16c1a61eec19b9feda8186ecf0d"
+      },
+      "doc/rnd/phase_1/t07_vortex_modes_core_weight_and_gap_demarcation.md": {
+        "phase2": "377b778a9431652c2569a30ae501241e405edab0",
+        "phase4": "377b778a9431652c2569a30ae501241e405edab0"
+      },
+      "doc/rnd/phase_1/t08_analytical_kkt_perturbation_and_cubic_gap.md": {
+        "phase2": "37fc8f472e11bce8d1504d9da569b59214121e21",
+        "phase4": "37fc8f472e11bce8d1504d9da569b59214121e21"
+      },
+      "doc/rnd/phase_1/t09_pfaffian_flux_vs_factored_wilson_loop.md": {
+        "phase2": "00858f711af2d76803108694006d32efd29e0db3",
+        "phase4": "00858f711af2d76803108694006d32efd29e0db3"
+      },
+      "doc/rnd/phase_1/t10_lehmann_preconditioning_and_post_spinodal_kkt_audit.md": {
+        "phase2": "bf6d32f52366e40aec01948852d5d4fd696873e1",
+        "phase4": "bf6d32f52366e40aec01948852d5d4fd696873e1"
+      },
+      "doc/rnd/phase_1/t11_pade_rational_purification_on_dirac_resonances.md": {
+        "phase2": "c7fb5077b988fd8360f32ae4f39101f754b4ec0b",
+        "phase4": "c7fb5077b988fd8360f32ae4f39101f754b4ec0b"
+      },
+      "doc/rnd/phase_1/t16_final_cross_workspace_audit_and_signoff.md": {
+        "phase2": "c72836dee29cc89ac5b992ef928813af1e4184aa",
+        "phase4": "c72836dee29cc89ac5b992ef928813af1e4184aa"
+      },
+      "doc/rnd/phase_2/t2_1_1_real_space_observable_atlas.md": {
+        "phase2": "e56ed53d9fdc9184cfb16377dfc526854264ae0e",
+        "phase4": "e56ed53d9fdc9184cfb16377dfc526854264ae0e"
+      },
+      "doc/rnd/phase_2/t2_1_2_plaquette_flux_and_bayesian_model_selection.md": {
+        "phase2": "7054cbd156b5cb97765e8780a4fd35d6e885ab0e",
+        "phase4": "7054cbd156b5cb97765e8780a4fd35d6e885ab0e"
+      },
+      "doc/rnd/phase_2/t2_1_3_variational_overlaps_and_2rdm_bounds.md": {
+        "phase2": "1f891557cf3215dc5312d49b4e5c04068e16d923",
+        "phase4": "ef94661df29830275b4a8939d1e2e18397f84549"
+      },
+      "doc/rnd/phase_2/t2_2_1_vortex_separation_potential.md": {
+        "phase2": "28d1c027e5bfe0bc034ebcdb37f2133cc44b56fe"
+      },
+      "doc/rnd/phase_2/t2_2_2_majorana_zero_modes_localization_and_splitting.md": {
+        "phase2": "1d6f34f389bbbfdb322a17075ad82582f5ce3ffb"
+      },
+      "doc/rnd/phase_2/t2_2_3_vortex_braiding_and_holonomy.md": {
+        "phase2": "5e244c087791ed4de8dbfb435b3d4fda2ccd810a"
+      },
+      "doc/rnd/phase_2/t2_3_1_magnetization_surface_and_torque.md": {
+        "phase2": "c452b733b854652e7b2e3e2d4d1d53f77a33cecd"
+      },
+      "doc/rnd/phase_2/t2_3_2_critical_exponents_and_scaling.md": {
+        "phase2": "0e1f684adad05eb9386bf8c8df9dcf2c04cf005d"
+      },
+      "doc/rnd/phase_2/t2_3_3_phase_diagram_and_boundary_anisotropy.md": {
+        "phase2": "34a1be616ab96d33ebcef4caf23a92cef9b18c0e"
+      },
+      "doc/rnd/phase_2/t2_4_1_specific_heat_and_fractionalization_entropy.md": {
+        "phase2": "e1721581b5852ed56e5da80d9eb79275a96db0f5"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/blueprint.md": {
+        "phase2": "eaf80712f5794d4f6b68ecef23cdc397c776daa4",
+        "phase3": "eaf80712f5794d4f6b68ecef23cdc397c776daa4",
+        "phase4": "eaf80712f5794d4f6b68ecef23cdc397c776daa4"
+      },
+      "doc/shared/NOTATION.md": {
+        "phase2": "af988b6cef595334d535bebd5a59a42b1598cd0c",
+        "phase3": "af988b6cef595334d535bebd5a59a42b1598cd0c",
+        "phase4": "af988b6cef595334d535bebd5a59a42b1598cd0c"
+      },
+      "doc/shared/macros.tex": {
+        "phase2": "34d12c9fc5029a7f459aea3dcb2f929f4add6449",
+        "phase3": "34d12c9fc5029a7f459aea3dcb2f929f4add6449",
+        "phase4": "34d12c9fc5029a7f459aea3dcb2f929f4add6449"
+      },
+      "doc/shared/plotstyles.tex": {
+        "phase2": "e7cd8c4bf659589b58f2bc4ec146746cfc004751",
+        "phase3": "e7cd8c4bf659589b58f2bc4ec146746cfc004751",
+        "phase4": "e7cd8c4bf659589b58f2bc4ec146746cfc004751"
+      },
+      "doc/shared/preamble.tex": {
+        "phase2": "ebce289148a42818b8ebe78a249c1e01d43b1aa1",
+        "phase3": "ebce289148a42818b8ebe78a249c1e01d43b1aa1",
+        "phase4": "ebce289148a42818b8ebe78a249c1e01d43b1aa1"
+      },
+      "doc/labbook/chapters/ch_m3_dynamical_spin_correlations.tex": {
+        "phase3": "f39d1def8aeadd10286136b8dd7a2273a53f6be5"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/00_model_and_conventions.md": {
+        "phase3": "99b5c9cebe32bef757661cc0861e81c564dc80c6"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/01_two_vortex_configurations.md": {
+        "phase3": "0c927d72bfb9628bec147cc3129b2f1a21af74b9"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/02_bogoliubov_overlaps_and_thouless.md": {
+        "phase3": "8e4cb3a76ca87672fd45e5bb507c064cfd679e52"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/03_lehmann_spectral_summation.md": {
+        "phase3": "98963e174831562846db6249ad298729c575f654"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/04_mzm_spectroscopy_and_fig3_fig4_reproduction.md": {
+        "phase3": "4941efb417e647646b9c764ead0909aca372f800"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/05_mzm_sts_visualization_and_benchmarks.md": {
+        "phase3": "cbe533eabcece2afc088eaba7f6f419ea2946fd9"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/06_cylinder_geometry_edge_modes_and_scaling.md": {
+        "phase3": "a3beb20bd1b24b1eb9380e13a1ec6ae2d9838c0d"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/07_finite_temperature_response_and_dephasing.md": {
+        "phase3": "5634fa76346bf6f39676b16cebd596b07047fcd7"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/08_mean_field_dynamical_spin_response.md": {
+        "phase3": "eddb8ba8d41fad0080d6dcb6c99dd4ca8e244dc8"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/09_exact_vs_mean_field_benchmark.md": {
+        "phase3": "d9b5bd82f9cb29a59cf33e9569d4df219206913d"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/t3_w1_1_scalable_skew_schur_and_overlap_engine.md": {
+        "phase3": "820527718c5ce631f683a2a06302dd976de94559"
+      },
+      "doc/rnd/phase_3_dynamical_spin_correlations/theory/t3_w1_2_mzm_thermodynamic_scaling_and_sharpness.md": {
+        "phase3": "8b9233bbaf845b056ea63fa9725499ddb1301647"
+      },
+      "doc/labbook/chapters/ch_phase4_01_foundations_and_dictionary.tex": {
+        "phase4": "4b0dbfb1921adbe597302f4b81d5e582f5d976f6"
+      },
+      "doc/labbook/chapters/ch_phase4_02_symmetry_and_analytical_mf.tex": {
+        "phase4": "df88f90079ef11c24868e35ad305155d6fbe4981"
+      },
+      "doc/labbook/chapters/ch_phase4_03_exact_diagonalization_track_c.tex": {
+        "phase4": "7b19d93fc34b5f362570f027ef1bf21c9bb89451"
+      },
+      "doc/labbook/chapters/ch_phase4_04_four_theory_observables.tex": {
+        "phase4": "d5a71f4faa00e9f50357a9138c64474ff00d0273"
+      },
+      "doc/labbook/chapters/ch_phase4_05_screening_movies_track_d.tex": {
+        "phase4": "c3d5be2d16396e76ddead81afab44dc5cf1fdfed"
+      },
+      "doc/labbook/phase_4_labbook.tex": {
+        "phase4": "f25ad6e109cb4d81b4230bad34aaf62064321629"
+      },
+      "doc/phase_4/literature_review_and_dictionary.md": {
+        "phase4": "98e8655bc4efe57cec16b25a9ba7853e172d1790"
+      },
+      "doc/phase_4/phase_4_comprehensive_labbook.md": {
+        "phase4": "f6559f3c53845f4ef68269e698ff7240b5c3155d"
+      },
+      "doc/rnd/phase_4/analytical_prefactor_derivation.md": {
+        "phase4": "2d179b6961afe73fce927f20dd6e60c109719276"
+      },
+      "doc/rnd/phase_4/track_c_exact_diagonalization_analysis.md": {
+        "phase4": "0bc759e89db4c67657556f3de13ffa53fbad3632"
+      },
+      "doc/rnd/phase_4/track_d_screening_dynamics_and_observables_survey.md": {
+        "phase4": "d830b24e806a945ea4b45114eb2ed54d73d04f34"
+      }
+    }
+  },
+  "untracked_preservation_inputs": [
+    {
+      "worktree": "/home/lucas/Projects/kitaev-mf-phase3",
+      "path": "data/processed/benchmarks/phase_3/mzm_thermodynamic_spectral_benchmarks.dat",
+      "sha256": "2820b8d191257674e544abb1b3bb86448f07d727372d678df144173c3f3c00c7",
+      "disposition": "preserve-before-integration"
+    },
+    {
+      "worktree": "/home/lucas/Projects/kitaev-mf-phase3",
+      "path": "doc/rnd/phase_3_dynamical_spin_correlations/theory/t3_w1_3_thermodynamic_sum_rules_and_spectral_functions.md",
+      "sha256": "2def26afbdee45c10b707173413bf6a739bf3326173e7ddc770553d1b3a089e3",
+      "disposition": "preserve-before-integration"
+    },
+    {
+      "worktree": "/home/lucas/Projects/kitaev-mf-phase3",
+      "path": "scripts/phase_3/benchmark_thermodynamic_spectral_functions.py",
+      "sha256": "8e39638a3cb4a5dda10e55d5c3d47b4c7e6d0b4ebb908fa8b157567064eb08c0",
+      "disposition": "preserve-before-integration"
+    },
+    {
+      "worktree": "/home/lucas/Projects/kitaev-mf-phase3",
+      "path": "src/kitaev_mf/services/phase_3/thermodynamic_spectral_benchmarks.py",
+      "sha256": "d861071275487835e70d9db076741736510e6608d665d3a4238d0e287368b02b",
+      "disposition": "preserve-before-integration"
+    },
+    {
+      "worktree": "/home/lucas/Projects/kitaev-mf-phase3",
+      "path": "test/unit/test_phase3_thermodynamic_spectral_benchmarks.py",
+      "sha256": "ecbadb77ffeb2055484d2186f24e58d82a01c39b7301aee5a6ca3e23f328cb31",
+      "disposition": "preserve-before-integration"
+    }
+  ],
+  "exact_perturbation_history_checkpoints": [
+    {
+      "commit": "a8847eadc1b55768d9334ac730de4a019569203d",
+      "subject": "docs(research): establish exact Kitaev perturbation framework",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "1c4e2a83bfbc79bbf14c73b4c7877c10b8878067",
+      "subject": "Complete M0.1 flux-free dispersion derivation",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "deb52c88cbc0706e28335a31238ab774b014ec05",
+      "subject": "Complete M0.2 thermodynamic vacuum-energy derivation",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "22b4b24004cf1a4e33a4efc70a9905e8861204b3",
+      "subject": "Derive finite-size and thermodynamic matter Fock widths",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "f79ae1a5cac386a2d0ff63f74534507839e4080b",
+      "subject": "Add prioritized exact perturbation research backlog",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "13db8f2cc50c43cbe893e251bd6e09ea29456820",
+      "subject": "docs(readme): add prominent quick-access block for compiled PDFs and deliverables",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "4127d0e77f76c6b86df754a478d38ce42faac94f",
+      "subject": "feat(perturbation): complete Tasks T12-T15 exact pure-Kitaev spin perturbation theory",
+      "acceptance": "not-recertified"
+    },
+    {
+      "commit": "7c75e70b92ff4d4338a6568c25d17a8ee71597e2",
+      "subject": "Merge branch 'research/pure-kitaev-exact-perturbation-20261102' into feat/phase-2-real-space-physics (Track 4 Exact Perturbation Theory Synthesis)",
+      "acceptance": "not-recertified"
+    }
+  ],
+  "exact_perturbation_note_blobs": {
+    "doc/rnd/exact-perturbation-theory/BACKLOG.md": {
+      "phase2": "33ff6cb4a9e78c7f1e226aea4241b9d188581b09",
+      "phase3": "27c451c0e3082a2ee4a8be7009d66ceb1b1bbadc",
+      "phase4": "33ff6cb4a9e78c7f1e226aea4241b9d188581b09"
+    },
+    "doc/rnd/exact-perturbation-theory/INTEGRATION_PLAN.md": {
+      "phase2": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f",
+      "phase3": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f",
+      "phase4": "dd9062c7b95113bc85297f3ff02018b2eed7aa5f"
+    },
+    "doc/rnd/exact-perturbation-theory/README.md": {
+      "phase2": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa",
+      "phase3": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa",
+      "phase4": "35f29c459a7f103bf2811f4020b5a6ded3f2ebfa"
+    },
+    "doc/rnd/exact-perturbation-theory/ROADMAP.md": {
+      "phase2": "0a743e30e15373fd433f5b301390f6a037e7e896",
+      "phase3": "0a743e30e15373fd433f5b301390f6a037e7e896",
+      "phase4": "0a743e30e15373fd433f5b301390f6a037e7e896"
+    },
+    "doc/rnd/exact-perturbation-theory/STATUS.md": {
+      "phase2": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599",
+      "phase3": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599",
+      "phase4": "39fcd53261e96df0eb2f6d8b3fdbbe2bcdb19599"
+    },
+    "doc/rnd/exact-perturbation-theory/code/README.md": {
+      "phase2": "60435d1071a8ed5834896b965b8a3851ab63c3dc",
+      "phase3": "60435d1071a8ed5834896b965b8a3851ab63c3dc",
+      "phase4": "60435d1071a8ed5834896b965b8a3851ab63c3dc"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/00_model_and_conventions.md": {
+      "phase2": "2255bd043d528cb311e094fbc2ee8bdbc569fa87",
+      "phase3": "2255bd043d528cb311e094fbc2ee8bdbc569fa87",
+      "phase4": "2255bd043d528cb311e094fbc2ee8bdbc569fa87"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/01_flux_sectors_and_spectrum.md": {
+      "phase2": "d8363aa689452366c8c1504c301eac24571d1ebd",
+      "phase3": "d8363aa689452366c8c1504c301eac24571d1ebd",
+      "phase4": "d8363aa689452366c8c1504c301eac24571d1ebd"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/02_normalization_and_bloch_conventions.md": {
+      "phase2": "c9338ad549040e64eb45e1c3a621c74b3fa72aed",
+      "phase3": "c9338ad549040e64eb45e1c3a621c74b3fa72aed",
+      "phase4": "c9338ad549040e64eb45e1c3a621c74b3fa72aed"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/02_vortex_energies.md": {
+      "phase2": "bee469983f88078c97588a76c9d36111dc9aa9fe",
+      "phase3": "bee469983f88078c97588a76c9d36111dc9aa9fe",
+      "phase4": "bee469983f88078c97588a76c9d36111dc9aa9fe"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/03_low_energy_projector_and_feshbach.md": {
+      "phase2": "f97cf42527ec6a10dea87696418f8b16872ea009",
+      "phase3": "f97cf42527ec6a10dea87696418f8b16872ea009",
+      "phase4": "f97cf42527ec6a10dea87696418f8b16872ea009"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/04_numerical_validation.md": {
+      "phase2": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3",
+      "phase3": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3",
+      "phase4": "5bde0af6152eff4cfa8e719ac4e77e0b02ed04d3"
+    },
+    "doc/rnd/exact-perturbation-theory/notes/05_finite_torus_conventions.md": {
+      "phase2": "f376b18f1e466133c414cb89233560fc1703ff31",
+      "phase3": "f376b18f1e466133c414cb89233560fc1703ff31",
+      "phase4": "f376b18f1e466133c414cb89233560fc1703ff31"
+    },
+    "doc/rnd/exact-perturbation-theory/results/README.md": {
+      "phase2": "b5b8307ce58852068d461b449299c0c3f1f0bcfe",
+      "phase3": "b5b8307ce58852068d461b449299c0c3f1f0bcfe",
+      "phase4": "b5b8307ce58852068d461b449299c0c3f1f0bcfe"
+    },
+    "doc/rnd/exact-perturbation-theory/t12_matter_parity_selection_rule.md": {
+      "phase2": "c33e57410ef2af84a8e15146a53b65073ed886d4",
+      "phase4": "c33e57410ef2af84a8e15146a53b65073ed886d4"
+    },
+    "doc/rnd/exact-perturbation-theory/t13_exact_matter_solver_and_vison_extrapolation.md": {
+      "phase2": "9426586dc5a0064378d97bdeda4644453c039c48",
+      "phase4": "9426586dc5a0064378d97bdeda4644453c039c48"
+    },
+    "doc/rnd/exact-perturbation-theory/t14_feshbach_projectors_and_resolvent_bounds.md": {
+      "phase2": "117b6788ef747e0d1756b409b64aae255812d4ef",
+      "phase4": "117b6788ef747e0d1756b409b64aae255812d4ef"
+    },
+    "doc/rnd/exact-perturbation-theory/t15_exact_third_order_chiral_coupling.md": {
+      "phase2": "540b50c1ca062b33e69ef4498c50a0c122eed8ae",
+      "phase4": "540b50c1ca062b33e69ef4498c50a0c122eed8ae"
+    }
+  },
+  "limitations": [
+    "No source branch merged or deleted",
+    "No arbitrary-order perturbative correctness established",
+    "Historical Phase 4 contents are disapproved by PI, preserved for audit",
+    "PI concern is ignored earlier work, not presumed alteration; validity review remains separate"
+  ],
+  "preservation_checkpoints": {
+    "policy_base": {
+      "ref": "refs/tags/archive/w001/policy-base",
+      "commit": "39e733e8e920f24702a1e3413b9ec9f187ddfb09"
+    },
+    "phase2": {
+      "ref": "refs/tags/archive/w001/phase2",
+      "commit": "8b242a58f942d73d6d45a02afcf3b9930e3f8d05"
+    },
+    "phase3": {
+      "ref": "refs/tags/archive/w001/phase3",
+      "commit": "21a27d8fa72648723191ec5178a79f7e0146cd8b"
+    },
+    "phase4": {
+      "ref": "refs/tags/archive/w001/phase4",
+      "commit": "1d82e6a48e20213e208ce2c089dfc7fa423522f6"
+    },
+    "earlier_perturbation_ref": {
+      "ref": "refs/tags/archive/w001/earlier-perturbation-ref",
+      "commit": "13db8f2cc50c43cbe893e251bd6e09ea29456820"
+    },
+    "phase3_untracked": {
+      "ref": "refs/tags/archive/w001/phase3-untracked-inputs",
+      "commit": "a152ea50df5977bcfac44e4a1d6d2c6cf73e752a",
+      "parent": "21a27d8fa72648723191ec5178a79f7e0146cd8b",
+      "files": {
+        "data/processed/benchmarks/phase_3/mzm_thermodynamic_spectral_benchmarks.dat": "5800ddc875298caee40893b85df1ea6285ec14a3",
+        "doc/rnd/phase_3_dynamical_spin_correlations/theory/t3_w1_3_thermodynamic_sum_rules_and_spectral_functions.md": "8bfe23949e4ed0b92a18652704fc012874e75be3",
+        "scripts/phase_3/benchmark_thermodynamic_spectral_functions.py": "ae8986843981bed849f1e7682fc6202a12c860ea",
+        "src/kitaev_mf/services/phase_3/thermodynamic_spectral_benchmarks.py": "764d2d28bb7b975e7c4f41fb420c121704f962b9",
+        "test/unit/test_phase3_thermodynamic_spectral_benchmarks.py": "7ce60b5e3b87fefa32c88c107ac0b39fea70d39a"
+      },
+      "acceptance": "unreviewed; preservation only"
+    }
+  }
+}

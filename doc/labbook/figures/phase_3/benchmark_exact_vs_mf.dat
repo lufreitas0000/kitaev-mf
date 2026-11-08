@@ -1,0 +1,8 @@
+# Systematic Cross-Validation Benchmark: Track A (Exact Quench) vs Track B (4-Majorana MF)
+# Parameters: L_exact=6, L_mf=4, K=1.0
+# kappa      exact_core       exact_vison      mf_threshold     shift            rel_shift    mzm_split     
+    0.0500     1.962783e-01     4.805301e-01     3.049729e+00     2.569199e+00       5.3466   3.104006e-02
+    0.1000     1.744756e-01     4.714337e-01     3.049729e+00     2.578295e+00       5.4691   1.687339e-02
+    0.1500     1.564252e-01     4.563719e-01     3.049729e+00     2.593357e+00       5.6826   1.201643e-02
+    0.2000     1.538073e-01     4.361062e-01     3.049729e+00     2.613623e+00       5.9931   2.843780e-02
+    0.2500     1.711320e-01     4.116548e-01     3.049729e+00     2.638074e+00       6.4085   6.592748e-02

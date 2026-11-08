@@ -1,0 +1,52 @@
+{
+  "archive_sha256": "e34f26cf74933db5f2a0235121c32b76c64bf9661ec3fbcede1c62afcd16ed41",
+  "entries": [
+    {
+      "archive_path": "doc/rnd/exact-perturbation-theory/notes/06_exact_sw_greens_function_and_walk_resummation.md",
+      "bytes": 12358,
+      "sha256": "3ff0cc2d784201ced6421d4d694780a4545d33263a1f01ef5768112554b3397a",
+      "disposition": "preserved-unreviewed-source",
+      "local_path": "doc/rnd/exact-perturbation-theory/imports/w001_bundle/doc__rnd__exact-perturbation-theory__notes__06_exact_sw_greens_function_and_walk_resummation.md.txt"
+    },
+    {
+      "archive_path": "src/kitaev_mf/services/__pycache__/exact_perturbation_sw.cpython-311.pyc",
+      "bytes": 19955,
+      "sha256": "4a55ac2614f05f375493e591ae10c42fb9a9361aa6512a03f3e4f38fa14c6278",
+      "disposition": "ignored-bytecode-not-imported"
+    },
+    {
+      "archive_path": "src/kitaev_mf/services/exact_perturbation_sw.py",
+      "bytes": 10520,
+      "sha256": "5b03cd53f8137fe285cec10c1e681d33e7bc901cedb957db3415504bbe85177f",
+      "disposition": "preserved-unreviewed-source",
+      "local_path": "doc/rnd/exact-perturbation-theory/imports/w001_bundle/src__kitaev_mf__services__exact_perturbation_sw.py.txt"
+    },
+    {
+      "archive_path": "src/kitaev_mf/services/phase_2/__pycache__/vortex_braiding.cpython-311.pyc",
+      "bytes": 16211,
+      "sha256": "5a6f53af73f4c9488528230cdfd80d9ccd49737c96598b5c7fc9981b20babfd7",
+      "disposition": "ignored-bytecode-not-imported"
+    },
+    {
+      "archive_path": "src/kitaev_mf/services/phase_2/vortex_braiding.py",
+      "bytes": 10516,
+      "sha256": "35039bf2016519a0d66fb5efff063bb477b2d9737d1fd04a72ec147e602703dc",
+      "disposition": "preserved-unreviewed-source",
+      "local_path": "doc/rnd/exact-perturbation-theory/imports/w001_bundle/src__kitaev_mf__services__phase_2__vortex_braiding.py.txt"
+    },
+    {
+      "archive_path": "test/unit/test_exact_perturbation_sw.py",
+      "bytes": 1289,
+      "sha256": "7d5aac7769bae2e320d3c8761d76d6a6d1ae77e5ddcb0d5afd45a77c00a8abef",
+      "disposition": "preserved-unreviewed-source",
+      "local_path": "doc/rnd/exact-perturbation-theory/imports/w001_bundle/test__unit__test_exact_perturbation_sw.py.txt"
+    },
+    {
+      "archive_path": "test/unit/test_phase2_m2_2_vortex_braiding.py",
+      "bytes": 1376,
+      "sha256": "bb4eb59f4c3811f8dd50389ba6ecacb93bb61439a21e2fd10c8077f562a2ad11",
+      "disposition": "preserved-unreviewed-source",
+      "local_path": "doc/rnd/exact-perturbation-theory/imports/w001_bundle/test__unit__test_phase2_m2_2_vortex_braiding.py.txt"
+    }
+  ]
+}

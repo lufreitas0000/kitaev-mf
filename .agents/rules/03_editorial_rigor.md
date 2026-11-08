@@ -1,5 +1,9 @@
 # Rule 03: Three-Front R&D Architecture, Editorial Rigor, and Provenance
 
+> W001 transition: Rules 05 and 09 govern new wave/task names, note paths,
+> research acceptance, and labbook ownership. Phase/milestone examples below
+> describe legacy records; preserve their identifiers rather than bulk-renaming.
+
 Apply these standards to research notes, living labbooks, architecture records, code documentation, and publication-facing manuscripts.
 
 ## 1. The Three-Front R&D Document Architecture

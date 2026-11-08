@@ -5,6 +5,23 @@
 
 This document defines how repository guidance, executable configuration, scientific records, and project planning relate to one another.
 
+Git terms and examples: `doc/governance/VERSION_CONTROL_GUIDE.md`; operating
+procedure: `.agents/rules/10_version_control_workflow.md`.
+
+## W001 accepted transition
+
+ADR-002 and Rules 05/09 govern new waves, multi-tag classification, branch targets,
+claim acceptance, and publication ownership. Phase-indexed areas below remain
+historical locations. New R&D notes use `doc/rnd/waves/`; their creation is task
+scoped. The canonical existing labbook root is
+`doc/labbook/labbook_kitaev_mf.tex`; `main.pdf` below is a stale legacy example.
+Current publication sources live in `doc/manuscript/`; `doc/report/` below is
+historical/planned, not a second required book. Manuscript filename/PRL migration
+is W001-T6 and has not yet run. See `doc/plans/w001_consolidation.md`.
+
+These rules are project-local. The workspace synchronizer has no project selector;
+only a dry-run preview is appropriate here, with no propagation to other projects.
+
 ## 1. Document authority and precedence
 
 | Artifact | Authoritative for | Not authoritative for |

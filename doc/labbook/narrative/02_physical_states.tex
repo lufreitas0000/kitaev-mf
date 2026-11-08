@@ -1,0 +1,87 @@
+\chapter{Spin states, auxiliary fermions, and projection}
+\label{narr:physical}
+
+A ground-state energy is a statement about a Hamiltonian \emph{and} its state
+space. Enlarging the state space may simplify a calculation while changing the
+minimum being computed. We first make the enlargement explicit, so that a later
+Gaussian approximation cannot be mistaken for an exact solution of the spin
+problem.
+
+% EDITORIAL QUESTION: What is a physical trial state and why does it give an upper bound?
+\section{The physical variational problem}
+The spin Hilbert space is $\mathcal H_s=(\CC^2)^{\otimes N}$. A state is a positive
+operator $\rho_s$ of trace one. For a self-adjoint $H$ on this space,
+\begin{equation}
+ E_0=\min\spec H,\qquad \Tr(\rho_s H)\geq E_0.
+ \label{eq:narr:variational}
+\end{equation}
+The inequality follows by expanding in an energy eigenbasis: the expectation
+is a convex combination of eigenvalues. It is exact for any trial density
+operator on this Hilbert space. It does not require Gaussianity, convergence of
+an iteration, or a small residual.
+
+Restricting the trial states can only increase the infimum, provided they remain
+physical states of the same Hamiltonian. An enlarged-space density operator
+need not satisfy that proviso. Consequently, the phrase ``variational mean-field
+energy'' must specify the space over which variation was performed.
+
+% EDITORIAL QUESTION: How does a four-Majorana enlargement recover a spin algebra?
+\section{A local representation and its physical subspace}
+% SOURCE [VERIFIED]: Kitaev, cond-mat/0506438v3, Majorana representation; local signs derived in Appendix finite foundations.
+Introduce four Hermitian Majoranas per site, ordered locally as
+$(b_i^x,b_i^y,b_i^z,c_i)$, satisfying the global canonical anticommutation
+relations $\{\gamma_a,\gamma_b\}=2\delta_{ab}\Id$. Define
+\begin{equation}
+ D_i=b_i^x b_i^y b_i^z c_i,\qquad
+ \widetilde\sigma_i^\alpha=\ii b_i^\alpha c_i,\qquad
+ P_G=\prod_i\frac{\Id+D_i}{2}.
+ \label{eq:narr:projection}
+\end{equation}
+The $D_i$ are commuting Hermitian involutions. The auxiliary Fock space has
+dimension $4^N$; $P_G$ has rank $2^N$. Each spin representative commutes with
+all $D_j$, and direct multiplication gives
+\begin{equation}
+ \widetilde\sigma_i^x\widetilde\sigma_i^y
+   =\ii D_i\widetilde\sigma_i^z.
+ \label{eq:narr:pauli}
+\end{equation}
+Thus the usual Pauli algebra holds on $\Ran P_G$. The auxiliary representation
+contains redundant states; Eq.~\eqref{eq:narr:pauli} explains exactly which
+restriction restores the physical local algebra.
+
+The sign relating $D_i$ to fermion parity depends on the declared ordering and
+pairing. With $f_1=(b^x+\ii b^y)/2$ and $f_2=(b^z+\ii c)/2$ at one site,
+$D=-(1-2n_1)(1-2n_2)$. In this convention the physical local sector has odd
+occupation parity. This statement must not be transferred to another basis by
+inspection. On a fixed gauge background, matter-parity selection also depends
+on the gauge, labeling, and boundary conditions; the primary-source parity
+formula requires those data~\cite{Pedrocchi2011}.
+
+% EDITORIAL QUESTION: Does enforcing an average constraint make an auxiliary state physical?
+\section{Projection and the meaning of an energy bound}
+For an auxiliary density operator with
+$Z_G=\Tr(P_G\rho_{\rm aux})>0$, the normalized projected state is
+\begin{equation}
+ \rho_G=\frac{P_G\rho_{\rm aux}P_G}{Z_G}.
+ \label{eq:narr:normalized_projection}
+\end{equation}
+An identified spin representation on $\Ran P_G$ makes its energy a physical
+variational upper bound. Both the normalization and the condition $Z_G>0$
+are necessary. A zero projection cannot define a trial state.
+
+Average constraints generally give less information than support in a joint
+kernel. For example, an observable with eigenvalues $+1$ and $-1$ has zero mean
+in their equal mixture, though that mixture is not supported in its zero
+eigenspace. There is a useful sharper fact for an involution: $\langle D\rangle=1$
+\emph{does} force support in its $+1$ eigenspace, because $\Id-D$ is positive.
+One must identify which constraint the algorithm actually imposes, rather than
+using these different statements interchangeably.
+
+Projection can destroy Gaussianity. At one site the maximally mixed auxiliary
+state has zero covariance and obeys Wick's rule. Project it onto $D=+1$ using
+the ordering above. The resulting equal mixture of $|01\rangle$ and
+$|10\rangle$ still has zero covariance, but its four-Majorana expectation is
+$\langle D\rangle=1$, while a Wick contraction of that covariance is zero.
+A projected calculation therefore requires more than reusing an unprojected
+covariance in the same Wick formulas. Appendix~\ref{app:finite_foundations}
+gives the explicit construction and the variational proof.

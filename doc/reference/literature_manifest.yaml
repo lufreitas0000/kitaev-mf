@@ -1,0 +1,33 @@
+schema_version: 1
+references_root: ../References
+scope: Pinned primary-source spans used by W001 foundation review; not a full bibliography
+  or transcript certification
+papers:
+- key: kitaev_2006_anyons_honeycomb
+  arxiv_id: cond-mat/0506438v3
+  title: Anyons in an exactly solved model and beyond
+  source_archive: reference-source/1-latex_source_queue/arXiv-cond-mat0506438v3/source.original
+  archive_sha256: 63c11cc6d83cb6a1f3311ac9c7e456af5aad870a748518c5b24be4a20fc7da7e
+  tex_file: hexagon.tex
+  tex_sha256: 765bb66b750aa7c5d79c97de0905f85e187290829ca830634e1f1ff83df77188
+  reviewed_locators:
+  - Section 6
+  - magperturb
+  - Hmageff
+  - spectrum1
+  - maggap
+  review_scope: Original TeX spans and identities inspected; rendered numbering and
+    full-paper fidelity not certified
+- key: pedrocchi_2011_physical_solutions
+  arxiv_id: 1105.4573v2
+  title: Physical solutions of the Kitaev honeycomb model
+  source_archive: reference-source/1-latex_source_queue/arXiv-1105.4573v2/source.original
+  tex_file: HoneycombPhysical_Arxiv.tex
+  tex_sha256: 5ed17bffbe93544c031085a49aff844822e2814f0cccd1bfa46cdf32037e8c7c
+  reviewed_locators:
+  - eq:P0
+  - c_product
+  - P_factorization
+  review_scope: Parity dependence on labeling, boundary, and gauge; no convention
+    transfer without a map
+  archive_sha256: 0bc7e187578715aa7e475647e6a505bde2a56bff5a5cb6c9458dd24624211a93

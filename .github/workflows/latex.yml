@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - main
-      - develop/m1-foundations-review
-      - feat/modern-governance-and-editorial-v2
+      - exploration
+      - 'research/**'
+      - 'promote/**'
+      - 'doc/**'
     paths:
       - 'doc/labbook/**'
       - 'doc/manuscript/**'
@@ -14,6 +16,7 @@ on:
       - 'scripts/build_blueprint.py'
       - '.github/workflows/latex.yml'
   pull_request:
+    branches: [main, exploration]
     paths:
       - 'doc/labbook/**'
       - 'doc/manuscript/**'
@@ -21,9 +24,15 @@ on:
       - 'data/processed/benchmarks/**'
       - '.github/workflows/latex.yml'
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish reviewed main documents (explicit publication gate)
+        type: boolean
+        required: false
+        default: false
 
 concurrency:
-  group: "pages"
+  group: ${{ github.event_name == 'workflow_dispatch' && inputs.publish && 'pages' || format('{0}-{1}-{2}', github.workflow, github.event_name, github.ref) }}
   cancel-in-progress: false
 
 permissions:
@@ -91,7 +100,7 @@ jobs:
           if-no-files-found: error
 
       - name: Publish Direct PDF to Latest Release
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -109,14 +118,14 @@ jobs:
           fi
 
       - name: Build GitHub Pages Portal with Compiled PDFs
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
         run: |
           python3 -m pip install pyyaml --break-system-packages || pip install pyyaml
           python3 scripts/build_blueprint.py --root . --output-dir build/blueprint
           cp book-build.json build/blueprint/book-build.json
 
       - name: Upload GitHub Pages Artifact
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/blueprint
@@ -124,7 +133,7 @@ jobs:
   deploy_pages:
     needs: build_latex
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

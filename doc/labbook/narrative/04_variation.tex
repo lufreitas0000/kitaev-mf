@@ -1,0 +1,85 @@
+\chapter{Self-consistency and numerical reliability}
+\label{narr:variation}
+
+A self-consistency equation characterizes a candidate state in a specified
+approximation. Solving it accurately is necessary for that approximation, but
+does not by itself identify the physical ground state. This chapter separates
+three questions: whether the state is admissible, whether it is stationary, and
+whether it is energetically or dynamically stable under the variations allowed.
+
+% EDITORIAL QUESTION: What is the geometric stationarity equation for a pure Gaussian trial state?
+\section{Variation on the pure covariance manifold}
+Let $E_G(\Omega)$ be the expectation of a declared auxiliary Hamiltonian in a
+pure Gaussian state, evaluated with the convention of Chapter~\ref{narr:gaussian}.
+Suppose smooth constraints $g_a(\Omega)=0$ are imposed and define
+$\mathcal L=E_G+\sum_a\lambda_ag_a$. Define the real skew gradient $A_{\mathcal L}$
+by the differential convention
+\begin{equation}
+ \delta\mathcal L=\tfrac14\Tr(A_{\mathcal L}^T\delta\Omega).
+ \label{eq:narr:gradient}
+\end{equation}
+An allowed unconstrained orbit variation is
+$\Omega(t)=e^{tX}\Omega e^{-tX}$ with $X^T=-X$, so its tangent is $[X,\Omega]$.
+Stationarity of the Lagrangian gives
+\begin{equation}
+ [A_{\mathcal L},\Omega]=0,\qquad g_a(\Omega)=0.
+ \label{eq:narr:stationarity}
+\end{equation}
+Appendix~\ref{app:finite_foundations} derives the tangent description and this
+commutator condition. The multiplier formulation presupposes the usual
+constraint regularity needed to represent constrained stationarity this way.
+A singular constraint set may require a direct tangent-cone analysis instead.
+
+Equation~\eqref{eq:narr:stationarity} is necessary, not a minimum certificate.
+Commuting matrices may describe maxima or saddles, and a spectral occupation
+choice is additional information. Even a local minimum within Gaussian states
+need not be a global Gaussian minimum or a physical spin minimum. In particular,
+weak local constraints do not automatically implement Eq.~\eqref{eq:narr:projection}.
+
+% EDITORIAL QUESTION: What does a converged iteration establish?
+\section{Residuals, competing branches, and stability}
+An iteration chooses a map $\Phi$ and searches for a zero of
+$R(\Omega)=\Phi(\Omega)-\Omega$. Its step count measures the chosen algorithm,
+not physical relaxation time. Damping or mixing changes iteration stability
+without changing the intended stationary equations when implemented consistently.
+A small update can also result from a small damping factor while the true
+residual remains large.
+
+A useful verification records the equation residual, constraint residual,
+antisymmetry/purity defects, energy, geometry, and stopping rule separately.
+The relevant norm and its normalization matter as the system size grows.
+Near a small spectral gap, perturbations can rotate an occupied subspace much
+more than the eigenvalues suggest. Precision and tolerances should therefore
+be tied to conditioning and observed numerical error rather than chosen once
+for every calculation.
+
+Multiple seeds and continuation from different directions can find competing
+stationary branches. Hysteresis of a solver is evidence about branch tracking;
+a thermodynamic first-order transition additionally requires a comparison of
+the appropriate free energies and controlled size dependence. A branch losing
+iteration convergence is not automatically the physical spinodal. A second
+variation on admissible directions is the separate local stability question.
+The historical solver chapters retain detailed experiments, but their numeric
+thresholds are not recertified by this structural explanation.
+
+% EDITORIAL QUESTION: When do upper and lower energy estimates bound the same problem?
+\section{A matched bracketing problem}
+A physical projected trial state gives an upper bound through
+Eq.~\eqref{eq:narr:variational}. A lower bound can instead arise from relaxing
+the physical moment constraints. For chosen operators $O_a$, every physical
+state has a positive moment matrix
+\begin{equation}
+ M_{ab}=\Tr(\rho_s O_a^\dagger O_b),\qquad M\succeq0.
+ \label{eq:narr:moment}
+\end{equation}
+If a feasible set contains all physical moment data and the objective equals
+the physical energy on those data, its \emph{infimum} cannot exceed $E_0$.
+This inclusion is the mathematical reason for a relaxation lower bound.
+
+A numerical feasible point in the relaxed primal problem is an upper bound
+on that relaxed infimum; it need not be a lower bound on the physical energy.
+A certified dual-feasible value, with numerical errors controlled, is one route
+to an actual reported lower bound. Thus a table headed ``SDP lower bound'' needs
+both the relaxation contract and a valid certificate. Bracketing is meaningful
+only when upper and lower constructions refer to the same Hamiltonian, physical
+space, geometry, units, and sector restrictions.

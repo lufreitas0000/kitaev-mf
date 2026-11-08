@@ -1,0 +1,162 @@
+schema_version: 1
+wave: W001
+scope: Initial selection decisions; not a complete scientific audit
+entries:
+  - id: W001-REVIEW-01
+    subject: Historical Phase 4 analytical, semi-analytical, and ED calculations and interpretations
+    historical_ref: feat/phase-4-review-and-analytical-mf
+    scientific_status: disapproved-by-PI
+    implementation_status: inherited-artifacts-present
+    priority: preservation-and-audit
+    decision_basis: Lu Freitas explicitly disapproved these calculations on 2026-11-07
+    limitations:
+      - Dirac-point evaluation does not supply full-Brillouin-zone self-consistency
+      - ED versus perturbative gap identification and prefactor explanation are not accepted
+      - Disapproval is not an analytical refutation of every underlying component
+    disposition: Preserve for provenance; exclude from accepted narrative and promotion
+  - id: W001-REVIEW-02
+    subject: Earlier exact pure-Kitaev perturbation research
+    scientific_status: unreviewed
+    implementation_status: original-notes-and-later-modifications-present
+    priority: reinstate-contracts-before-integration
+    evidence:
+      - doc/rnd/exact-perturbation-theory/ROADMAP.md
+      - doc/rnd/exact-perturbation-theory/notes/03_low_energy_projector_and_feshbach.md
+    limitations:
+      - PI clarified earlier work was ignored; alteration is not established
+      - Neither all-orders completion nor scalar-gap replacement of resolvents is accepted here
+    preservation_evidence: doc/audits/w001_perturbation_recovery.md
+    disposition: Bring the earlier contracts into active review; preserve original and later artifacts separately
+  - id: W001-REVIEW-03
+    subject: K-019 inherited perturbative-prefactor reconciliation
+    scientific_status: needs-revision
+    implementation_status: inherited-claim-in-project-state
+    priority: foundational-review
+    evidence:
+      - doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
+      - src/kitaev_mf/services/exact_perturbation.py
+    disposition: Inherited verified label is suspended pending an operator/resolvent audit
+  - id: W001-REVIEW-04
+    subject: Historical Phase 2 and Phase 3 completion and reproduction claims
+    scientific_status: unreviewed
+    implementation_status: unified-candidate-under-review
+    priority: after-convention-recovery
+    disposition: Inventory each claim and evidence; no bulk certification or rejection
+  - id: W001-REVIEW-05
+    subject: Historical Phase 2 enclosing-loop pi braiding phase
+    scientific_status: needs-revision
+    implementation_status: legacy-failing-research-check-preserved-new-chiral-model-tested-separately
+    priority: retired-guarantee-requires-separate-research
+    evidence:
+    - test/unit/test_phase2_m2_2_vortex_braiding.py
+    - doc/audits/w001_integration.md
+    - test/research_checks/check_legacy_mean_field_braiding.py
+    - doc/audits/w001_bundle_review.md
+    limitations:
+    - Enclosing phase 0.5904 radians fails the original near-pi assertion
+    - No conclusion about a general physical braid theorem follows from this failure
+    disposition: PI retired unsupported guarantee from required CI on 2026-11-08; original assertions remain
+      opt-in and failing, with no physical acceptance
+  - id: W001-FND-01
+    subject: Conditional finite-dimensional Schur/Feshbach reduction and fixed-energy Neumann series
+    scientific_status: supported-within-scope
+    implementation_status: proof-reviewed-services-not-certified
+    epistemic_kind: finite-dimensional-algebra
+    assumptions:
+      - Finite Hilbert space, self-adjoint H0 and V, orthogonal P, Q=I-P, and [P,H0]=0
+      - Invertibility on Ran(Q); Neumann norm condition required for series convergence
+    evidence:
+      - doc/audits/w001_foundation_review.md
+    limitations:
+      - No evaluated honeycomb coefficient or volume-uniform limit is established
+    disposition: Retain the conditional theorem with proof and explicit domains in the labbook
+  - id: W001-FND-02
+    subject: Inference that PVP=0 forces second order to vanish
+    scientific_status: refuted
+    implementation_status: original-claims-preserved-for-audit
+    epistemic_kind: finite-dimensional-counterexample-and-source-contradiction
+    evidence:
+      - doc/audits/w001_foundation_review.md
+      - doc/audits/w001_foundation_observations.json
+    limitations:
+      - Open-ring numerical witness is not a periodic bulk result
+      - This does not negate a third-order time-reversal-breaking mass mechanism
+    disposition: Exclude the inference and blanket zero-second-order claim from accepted exposition
+  - id: W001-FND-03
+    subject: Legacy threshold helpers as full physical eliminated-block certificates
+    scientific_status: needs-revision
+    implementation_status: finite-diagnostic-mismatches-observed
+    evidence:
+      - src/kitaev_mf/services/feshbach.py
+      - scripts/audits/w001_foundation_checks.py
+      - doc/audits/w001_foundation_observations.json
+    limitations:
+      - One plaquette and one pair pattern are not the full joint flux complement
+      - Genuine zero sector eigenvalues and fixed P/Q labels must be retained
+    disposition: Do not use these outputs as certified full-Q lower gaps or upper resolvent bounds
+  - id: W001-FND-04
+    subject: Exact bulk prefactor and quantitative fifth-order or finite-size bounds from scalar-gap routines
+    scientific_status: needs-revision
+    implementation_status: assumed-formulas-present-no-coefficient-or-remainder-evaluation
+    evidence:
+      - src/kitaev_mf/services/exact_perturbation.py
+      - test/unit/test_exact_perturbation.py
+      - doc/audits/w001_foundation_review.md
+    disposition: Retain only as declared heuristic/static-denominator calculations pending independent derivation
+  - id: W001-FND-05
+    subject: One-spin Zeeman generator under the standard Pauli convention
+    scientific_status: needs-revision
+    implementation_status: exact-Y-sign-mismatch
+    evidence:
+      - src/kitaev_mf/services/exact_perturbation.py
+      - doc/audits/w001_foundation_observations.json
+    disposition: Separate repair contract required; do not silently transfer odd-order signs
+  - id: W001-FND-06
+    subject: Pauli versus spin-half coupling and field substitution
+    scientific_status: supported-within-scope
+    implementation_status: algebraic-convention-map-only
+    epistemic_kind: exact-substitution
+    statement: S=sigma/2 maps J_spin=4*K_Pauli and h_spin=2*h_Pauli for the same Hamiltonian
+    evidence:
+      - doc/rnd/exact-perturbation-theory/notes/02_normalization_and_bloch_conventions.md
+      - doc/audits/w001_foundation_review.md
+    limitations:
+      - Does not identify a matrix band separation with a physical many-body spin gap
+    disposition: Retain the explicit operator-level unit map; compare all other observables separately
+  - id: W001-BUNDLE-01
+    subject: Gauge-closed rank-two transport in the fixed-kappa chiral matter model
+    scientific_status: supported-within-scope
+    implementation_status: separate-service-and-finite-tests
+    epistemic_kind: finite-numerical-checks
+    evidence:
+    - src/kitaev_mf/services/phase_2/chiral_vortex_transport.py
+    - test/unit/test_phase2_chiral_vortex_transport.py
+    - doc/audits/w001_bundle_review.md
+    limitations:
+    - Specified L=10 paths and parameters only; sampled isolation, no continuous or thermodynamic proof
+    - Not a projected many-body braid and not the finite-field four-flavor MF model
+    disposition: Retain separately with explicit admission guards and model scope
+  - id: W001-BUNDLE-02
+    subject: Supplied SW numerical coefficients and all-orders resummation claims
+    scientific_status: needs-revision
+    implementation_status: original-preserved-and-unprojected-research-prototype
+    evidence:
+    - doc/rnd/exact-perturbation-theory/imports/w001_bundle/manifest.json
+    - doc/rnd/exact-perturbation-theory/code/w001_gaussian_quadrature.py
+    - doc/audits/w001_bundle_review.md
+    disposition: Do not accept physical exactness, parity, prefactor, stability or all-orders claims; single-slice
+      finite Fock check has narrower scope
+  - id: W001-NUM-01
+    subject: Canonical real-skew decomposition with separated Schur null blocks
+    scientific_status: supported-within-scope
+    epistemic_kind: finite-linear-algebra-and-regression
+    implementation_status: shared-parser-with-reconstruction-check
+    evidence:
+      - src/kitaev_mf/services/phase_3/canonical_skew.py
+      - test/unit/test_phase3_scalable_skew_solver.py
+      - test/unit/test_phase3_spectral_engine.py
+      - doc/audits/w001_bundle_review.md
+    limitations:
+      - Relative numerical cutoff is explicit; no physical zero-mode vacuum is uniquely selected
+      - Degenerate-state physical response and parity policies need separate review
+    disposition: Retain finite decomposition and declared-state tests; do not renew inherited physical certification
