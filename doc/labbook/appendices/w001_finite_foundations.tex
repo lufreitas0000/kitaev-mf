@@ -1,0 +1,258 @@
+\chapter{W001: finite-state foundations and complete proofs}
+\label{app:finite_foundations}
+\HistoricalStatus{New finite-dimensional foundation proofs. These statements
+require the hypotheses given here; they do not certify the inherited numerical
+services, a bulk prefactor, or a thermodynamic limit.}
+
+This appendix supplies the mathematical details used in the logical narrative.
+The Majorana ordering and covariance sign are fixed here rather than inferred
+from legacy code. The statements concern finite-dimensional Hilbert spaces.
+The perturbative part reconstructs the conditional theorem reviewed in W001-T4;
+the remaining identities are proved explicitly for the W001-T5 foundation.
+
+% EDITORIAL QUESTION: Why does physical projection preserve a variational upper bound?
+\section{Variational states and exact local projection}
+\label{app:projection_proof}
+\begin{proposition}
+Let $H$ be self-adjoint on a finite Hilbert space, with minimum eigenvalue $E_0$.
+Every density operator $\rho$ on that space obeys $\Tr\rho H\geq E_0$.
+If $P$ is an orthogonal projector and $\Tr P\rho>0$, then
+$P\rho P/\Tr P\rho$ is a density operator on $\Ran P$.
+\end{proposition}
+\begin{proof}
+In an eigenbasis $H|j\rangle=E_j|j\rangle$, the diagonal entries
+$p_j=\langle j|\rho|j\rangle$ are nonnegative and sum to one. Thus
+$\Tr\rho H-E_0=\sum_jp_j(E_j-E_0)\geq0$. For the projection,
+$\langle v|P\rho P|v\rangle=\langle Pv|\rho|Pv\rangle\geq0$,
+its trace is $\Tr P\rho$, and its range lies in $\Ran P$.
+Normalizing proves the statement. Applying the first result to a Hamiltonian
+restricted to an identified physical subspace gives its variational bound.
+No bound on that physical problem follows for a state outside that subspace.
+\end{proof}
+
+Let $\gamma_1=b^x,\gamma_2=b^y,\gamma_3=b^z,\gamma_4=c$ at one site.
+Anticommuting distinct Majoranas gives
+$D^\dagger=(-1)^6D=D$ and $D^2=(-1)^6\Id=\Id$.
+Each Majorana anticommutes with $D$, so every bilinear commutes with $D$.
+For $\widetilde\sigma^\alpha=\ii b^\alpha c$, its square is one and
+\begin{align}
+ \widetilde\sigma^x\widetilde\sigma^y&=b^xb^y,\\
+ D\widetilde\sigma^z&=\ii b^xb^yb^zc\,b^zc=-\ii b^xb^y.
+\end{align}
+Therefore $\widetilde\sigma^x\widetilde\sigma^y=\ii D\widetilde\sigma^z$;
+cyclic permutations give the other products. Even bilinears on disjoint sites
+commute because interchanging their four constituent pairs gives a positive
+sign. These facts prove the Pauli relations on the $D_i=+1$ joint subspace.
+
+To count its dimension, expand $P_G=2^{-N}\prod_i(\Id+D_i)$. Every nonempty
+product of $D_i$ has zero trace: conjugating by a Majorana at one included site
+changes its sign. Hence $\Tr P_G=2^{-N}4^N=2^N$.
+With $f_1=(b^x+\ii b^y)/2$, $f_2=(b^z+\ii c)/2$, one has
+$\ii b^xb^y=2n_1-1$ and $\ii b^zc=2n_2-1$. Consequently
+$D=-(2n_1-1)(2n_2-1)$ and the physical local subspace is spanned by
+$|01\rangle,|10\rangle$ in this ordering.
+
+The projected state of $\rho_{\rm aux}=\Id_4/4$ is
+$\rho_G=(|01\rangle\langle01|+|10\rangle\langle10|)/2$.
+Both occupations equal one half, all hopping/pairing bilinears have zero mean,
+and therefore all entries of $\Omega$ vanish. But $\langle D\rangle=1$.
+A Gaussian state with that covariance has vanishing four-distinct-Majorana
+expectation, proving that this projected state is not Gaussian.
+Finally, for an involution $D$,
+$\Tr\rho(\Id-D)=0$ implies no weight in its negative sector, since
+$\Id-D=2P_-\succeq0$. This proves the special support statement used in the
+main chapter, without asserting it for arbitrary zero-mean constraints.
+
+% EDITORIAL QUESTION: How do positivity, Wick factorization, and purity follow in a canonical mode basis?
+\section{Gaussian covariances and the pure-state orbit}
+\label{app:gaussian_proof}
+The CAR imply that $\Omega$ in Eq.~\eqref{eq:narr:covariance} is real skew.
+For any complex vector $z$, positivity of
+$\langle(\sum_a z_a\gamma_a)^\dagger(\sum_bz_b\gamma_b)\rangle$
+means $\Id-\ii\Omega\succeq0$. A real skew matrix admits an orthogonal canonical
+form $O\bigoplus_j\lambda_jJ_2\,O^T$; the eigenvalues of
+$\Id-\ii\lambda_jJ_2$ are $1\pm\lambda_j$. Thus any state has
+$|\lambda_j|\leq1$.
+
+Conversely, in this basis let independent complex-mode occupations have
+probabilities $p_j=(1+\lambda_j)/2$. The product density operator
+\begin{equation}
+ \rho=\bigotimes_j\bigl((1-p_j)|0_j\rangle\langle0_j|
+                         +p_j|1_j\rangle\langle1_j|\bigr)
+\end{equation}
+is a Gaussian state with that covariance. For $0<p_j<1$ it is the exponential
+of a quadratic number operator; endpoints are its pure or partially pure
+limits. Orthogonal changes of a finite Majorana basis are unitarily implementable
+on the full Fock space (the Pin representation), so the construction applies
+to the original basis. It is pure exactly when all $p_j$ are endpoints, which
+is equivalent to $\Omega^2=-\Id$.
+
+For completeness the Wick signs can be checked without assuming a spin
+factorization. Introduce anticommuting auxiliary variables $\theta_a$. In the
+canonical product state, the generating polynomial for ordered distinct
+correlations factors into the independent pairs. Only the empty term and the
+pair term survive in each mode, so it equals the Grassmann Gaussian with
+pair coefficients $C_{ab}=\langle\gamma_a\gamma_b\rangle=-\ii\Omega_{ab}$ for
+$a<b$. Expanding this exponential, a coefficient with $2m$ distinct indices
+is the signed sum over all pairings,
+\begin{equation}
+ \Pf C_I=\frac{1}{2^m m!}\sum_{\pi\in S_{2m}}\sgn(\pi)
+             \prod_{j=1}^m C_{a_{\pi(2j-1)},a_{\pi(2j)}}.
+\end{equation}
+The pair contractions transform multilinearly under an orthogonal basis
+change, so the same identity holds in every real Majorana basis. It gives
+$\Pf(-\ii\Omega_I)=(-\ii)^m\Pf\Omega_I$ as stated. Endpoint limits preserve
+this polynomial identity. Multiplying the ordered $2n$-point result by
+$(-\ii)^n$ gives $\langle\mathcal P\rangle=(-1)^n\Pf\Omega$.
+
+All pure covariances are orthogonally conjugate to a fixed complex structure.
+The orthogonal transformations preserving it are precisely the complex-linear
+isometries $U(n)$. The orbit is therefore $O(2n)/U(n)$, of dimension
+$n(2n-1)-n^2=n(n-1)$. Since $U(n)$ embeds in $SO(2n)$ and is connected, the
+orbit has the two components inherited from $O(2n)$. Squaring
+$\Pi=(\Id+\ii\Omega)/2$ using $\Omega^2=-\Id$ gives $\Pi^2=\Pi$; it is
+Hermitian and has trace $n$, proving the one-particle projector claim.
+
+% EDITORIAL QUESTION: Why is a covariance commutator a stationarity condition rather than a stability theorem?
+\section{Tangent variations and constrained stationarity}
+\label{app:stationarity_proof}
+Differentiating $\Omega^T=-\Omega$ and $\Omega^2=-\Id$ shows that a tangent
+$Y$ satisfies $Y^T=-Y$ and $Y\Omega+\Omega Y=0$. Conversely set
+$X=-Y\Omega/2$. Anticommutation gives $X^T=-X$ and
+$[X,\Omega]=Y$, so every such tangent arises from the orthogonal orbit.
+Using Eq.~\eqref{eq:narr:gradient} and cyclicity,
+\begin{equation}
+ 4\delta\mathcal L=\Tr\bigl((\Omega A_{\mathcal L}^T
+                  -A_{\mathcal L}^T\Omega)X\bigr)
+             =\Tr([A_{\mathcal L},\Omega]X).
+\end{equation}
+The commutator of two real skew matrices is real skew. If this trace is zero
+for every skew $X$, choosing $X=[A_{\mathcal L},\Omega]^T$ proves the
+commutator vanishes. Conversely its vanishing makes every orbit variation
+zero. Multipliers require constraint regularity as stated in the main chapter;
+the calculation provides no sign for the second variation.
+
+For moment positivity, choose arbitrary coefficients $z_a$ and
+$B=\sum_a z_aO_a$. Then $z^\dagger Mz=\Tr\rho B^\dagger B\geq0$.
+If $\mathcal M_{\rm phys}\subseteq\mathcal M_{\rm rel}$ and the objective
+$\ell$ equals energy on physical moments, then
+\begin{equation}
+ \inf_{M\in\mathcal M_{\rm rel}}\ell(M)
+ \leq\inf_{M\in\mathcal M_{\rm phys}}\ell(M)=E_0.
+\end{equation}
+A single feasible relaxed point satisfies the opposite-direction inequality
+relative to the relaxed infimum, explaining why it alone is not a certified
+physical lower bound.
+
+% EDITORIAL QUESTION: What exact assumptions make a Schur reduction and its expansion valid?
+\section{Finite Feshbach map, norm control, and second order}
+\label{app:feshbach_proof}
+% CLAIM: W001-FND-01, W001-FND-02 (note: doc/audits/w001_foundation_review.md).
+Let $H_0,V$ be self-adjoint on a finite Hilbert space, $P=P^\dagger=P^2$,
+$Q=\Id-P$, $[P,H_0]=0$, and $\lambda$ real. Write an eigenvector of
+$H=H_0+\lambda V$ as $\psi=p+q$, $p=P\psi$, $q=Q\psi$. Its block equations are
+\begin{equation}
+ PHPp+PHQq=Ep,\qquad QHPp+QHQq=Eq.
+\end{equation}
+If $E-QHQ$ is invertible on $\Ran Q$, the second equation gives
+$q=(E-QHQ)^{-1}QHPp$. Substitution gives $F(E,\lambda)p=Ep$ with
+Eq.~\eqref{eq:narr:feshbach}. Conversely a nonzero solution $p$ of that
+reduced equation reconstructs an eigenvector by this formula. A full eigenvector
+in this resolvent domain cannot have $p=0$, since then invertibility forces
+$q=0$. No inverse on the ambient $P$ block is being taken.
+
+At $\lambda=0$ set $B=E-QH_0Q$ on $\Ran Q$ and $R_0=B^{-1}$.
+Factor, preserving operator order,
+\begin{equation}
+ B-\lambda QVQ=(\Id-\lambda QVQ R_0)B.
+\end{equation}
+If $|\lambda|\|QVQ R_0\|<1$, the inverse is
+$R_0\sum_{r\geq0}(\lambda QVQ R_0)^r$, convergent in operator norm.
+Using $PH_0Q=0$ proves Eq.~\eqref{eq:narr:neumann}. A remainder after $r=s$
+has norm bounded by
+\begin{equation}
+ |\lambda|^2\|PVQ\|\,\|R_0\|\,\|QVP\|
+ \frac{(|\lambda|\|QVQ R_0\|)^{s+1}}
+      {1-|\lambda|\|QVQ R_0\|}.
+\end{equation}
+This is a conditional bound for the \emph{fixed-energy reduced operator},
+not automatically a remainder for an energy-independent effective Hamiltonian
+or for the solution $E(\lambda)$ of the nonlinear spectral equation.
+
+The spectral theorem gives
+$\|R_0\|=1/\operatorname{dist}(E,\spec(QH_0Q|_{\Ran Q}))$ for real $E$
+outside that spectrum. If its true lower edge is $b$ and $E<b$, this is
+$1/(b-E)$. A flux external window below $E_0+\Lambda$ therefore has the bound
+$1/(\Delta_{\rm flux}-\Lambda)$ only when the \emph{true chosen physical}
+eliminated edge is $E_0+\Delta_{\rm flux}$ and $\Lambda<\Delta_{\rm flux}$.
+Replacing this edge by one sampled sector has no such guarantee.
+
+Finally take $P$ to be the complete ground eigenspace of $H_0$ at $E_0$,
+with $QH_0Q-E_0>0$ on $\Ran Q$. Then
+$R_0=-(QH_0Q-E_0)^{-1}$ and for $\psi\in\Ran P$,
+\begin{equation}
+ \langle\psi|PVQ R_0 QVP|\psi\rangle
+ =-\langle QV\psi|(QH_0Q-E_0)^{-1}|QV\psi\rangle.
+\end{equation}
+Taking a positive square root proves Eq.~\eqref{eq:narr:second_order} and shows
+that the second-order operator vanishes exactly when $QVP=0$. The explicit
+two-state example in the main chapter disproves the inference from $PVP=0$.
+This sign theorem does not assume a flux projector is the ground projector.
+
+% EDITORIAL QUESTION: Which thermal statements depend on holding the Hamiltonian fixed?
+\section{Gibbs identities and the free-energy principle}
+\label{app:gibbs_proof}
+For finite fixed $H$, differentiating its spectral sum gives
+$\partial_\beta\ln Z=-E$ and
+$\partial_\beta E=-\langle H^2\rangle+E^2$. Since
+$\partial_T=-\beta^2\partial_\beta$, Eq.~\eqref{eq:narr:gibbs} follows.
+The identity $\ln\rho_\beta=-\beta H-\ln Z$ gives its entropy formula.
+As $\beta\to0$, $\rho_\beta\to\Id/d$ and $S\to\ln d$; use $d=2^N$ for
+physical spins and $d=4^N$ for the unprojected four-Majorana space.
+A positive finite sum $Z(T)$ is analytic for real $T>0$, so its logarithm is
+analytic there. A finite sample consequently has no thermodynamic singularity
+at positive real temperature.
+
+For any density $\rho$, the trial free energy satisfies
+\begin{equation}
+ \Tr\rho H-T S(\rho)-F_\beta
+    =T D(\rho\Vert\rho_\beta)\geq0.
+\end{equation}
+Here is a finite proof of the inequality. Diagonalize $\rho$ and the positive
+$\sigma=\rho_\beta$ with eigenvalues $p_i\geq0$, $q_j>0$ and set
+$t_{ij}=|\langle i|j\rangle|^2$. Row and column sums of $t$ are one, so
+\begin{equation}
+ D(\rho\Vert\sigma)=\sum_{ij}t_{ij}
+    \left[p_i\ln\frac{p_i}{q_j}-p_i+q_j\right]\geq0.
+\end{equation}
+The scalar bracket equals $q_j(x\ln x-x+1)$ at $x=p_i/q_j$ and is nonnegative
+by convexity, including $x=0$ by continuity. This proves the claim and shows
+where the state space enters a thermal variational construction.
+
+For a quadratic block, $Z_j=2\cosh(\beta\varepsilon_j/2)$ and
+$p_j=(1+e^{\beta\varepsilon_j})^{-1}$. Thus
+$\Omega_j=-\tanh(\beta\varepsilon_j/2)J_2$. Since $(\ii J_2)^2=\Id$,
+$\ii\tanh(\ii\beta\varepsilon_jJ_2/2)$ has exactly that value.
+Orthogonal covariance proves Eq.~\eqref{eq:narr:thermal_covariance} for all
+real skew $A$, including its zero blocks. This proves the fixed-$A$ identity,
+not the derivative of a temperature-dependent mean-field functional.
+For the binary flux toy, dividing the difference of its two Boltzmann weights
+by their sum immediately gives Eq.~\eqref{eq:narr:binary_flux}.
+
+% EDITORIAL QUESTION: How are detailed balance and the integrated spectral weight derived?
+\section{Lehmann expansion and exact spectral sum}
+\label{app:lehmann_proof}
+In an energy eigenbasis,
+\begin{equation}
+ \Tr\rho_\beta A(t)A=Z^{-1}\sum_{mn}e^{-\beta E_m}
+             e^{\ii(E_m-E_n)t}A_{mn}A_{nm}.
+\end{equation}
+Hermiticity makes $A_{mn}A_{nm}=|A_{mn}|^2$. Fourier transforming the
+exponential with the stated convention yields Eq.~\eqref{eq:narr:lehmann}.
+Integrating over $\omega/(2\pi)$ and using completeness gives
+$Z^{-1}\sum_m e^{-\beta E_m}\langle m|A^2|m\rangle$.
+For detailed balance, exchange $m,n$ in the expression for $S(-\omega)$.
+On the support $\omega=E_n-E_m$, one has
+$e^{-\beta E_n}=e^{-\beta\omega}e^{-\beta E_m}$, proving the distributional
+identity in Eq.~\eqref{eq:narr:kms}, including degeneracies and elastic weight.
+No statement about a tunneling current follows without a probe model.

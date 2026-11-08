@@ -1,0 +1,83 @@
+\chapter{Gaussian states and the covariance description}
+\label{narr:gaussian}
+
+Gaussian states replace exponentially many amplitudes by a two-point matrix.
+This economy is powerful because higher correlations then follow by a specified
+factorization. It is also the approximation's boundary: the factorization is a
+property of the chosen state, not an operator identity obeyed by every spin
+state or every projected fermion state.
+
+% EDITORIAL QUESTION: Which signs and occupations does our covariance convention encode?
+\section{Fixing the convention with one complex mode}
+For $2n$ Majoranas define
+\begin{equation}
+ \Omega_{ab}=\frac{\ii}{2}\Tr\rho[\gamma_a,\gamma_b],
+ \qquad \langle\gamma_a\gamma_b\rangle=\delta_{ab}-\ii\Omega_{ab}.
+ \label{eq:narr:covariance}
+\end{equation}
+Then $\Omega$ is real and antisymmetric. For one mode
+$f=(\gamma_1+\ii\gamma_2)/2$, write
+$J_2=\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$.
+If $p=\langle f^\dagger f\rangle$, then
+\begin{equation}
+ \Omega=(2p-1)J_2,\qquad
+ H=\frac{\ii}{4}\bm\gamma^T(\varepsilon J_2)\bm\gamma
+   =\varepsilon(f^\dagger f-\tfrac12).
+ \label{eq:narr:one_mode}
+\end{equation}
+For $\varepsilon>0$ the empty mode is the ground state and has $\Omega=-J_2$.
+This small example fixes the thermal sign and the factor between matrix bands
+and occupation energies without referring to a dispersion plot.
+
+% EDITORIAL QUESTION: Which two-point matrices describe Gaussian states, and when are they pure?
+\section{Positivity, purity, and the state manifold}
+Here Gaussian means a parity-even quasifree state, including singular pure
+limits, determined by its covariance and Wick rule. Orthogonal block reduction
+gives $\Omega=O\bigoplus_j\lambda_jJ_2\,O^T$. Such a Gaussian density operator
+exists precisely when $|\lambda_j|\leq1$; its independent-mode probabilities
+are $(1+\lambda_j)/2$. It is pure precisely when every probability is zero or
+one, equivalently
+\begin{equation}
+ \Omega^2=-\Id.
+ \label{eq:narr:purity}
+\end{equation}
+The pure covariances form the space of orthogonal complex structures
+\begin{equation}
+ \mathcal J_{2n}=\{\Omega\in\RR^{2n\times2n}:\Omega^T=-\Omega,
+       \ \Omega^2=-\Id\}\simeq O(2n)/U(n).
+ \label{eq:narr:complex_structures}
+\end{equation}
+Its real dimension is $n(n-1)$, and it has two connected components. This is
+not the ordinary real Grassmannian of $n$-planes in $\RR^{2n}$, whose dimension
+is $n^2$. Older records used the same name for these different objects; the
+explicit defining equations avoid that ambiguity.
+
+For a pure covariance, $\Pi_{\rm occ}=(\Id+\ii\Omega)/2$ is a rank-$n$
+\emph{one-particle} projector. It is not a many-body ground-space or flux-sector
+projector. In a Fourier representation the reality of real-space Majoranas
+links $\bk$ and $-\bk$. A decomposition into momentum blocks must retain that
+relation, including special momenta fixed by inversion; one cannot simply
+assign an independent real covariance manifold to every generic momentum.
+
+% EDITORIAL QUESTION: What does Wick factorization compute and what can it miss?
+\section{Ordered correlations and Pfaffians}
+For distinct indices in the stated order, the Gaussian Wick rule reads
+\begin{equation}
+ \langle\gamma_{a_1}\cdots\gamma_{a_{2m}}\rangle
+       =(-\ii)^m\Pf\Omega_{\{a_1,\ldots,a_{2m}\}}.
+ \label{eq:narr:wick}
+\end{equation}
+For four indices this is
+$-(\Omega_{ab}\Omega_{cd}-\Omega_{ac}\Omega_{bd}+\Omega_{ad}\Omega_{bc})$.
+Permuting the Majoranas changes the sign according to the CAR. For repeated
+indices first reduce the product with the CAR; Eq.~\eqref{eq:narr:wick} was
+stated for distinct ones.
+
+This rule allows a spin correlator represented by an even Majorana product to
+be evaluated in an unprojected Gaussian state. It does not justify replacing
+an exact expectation by a product of link expectations, nor does it turn an
+auxiliary flux into a conserved physical sector. For the canonical ordered
+parity operator $\mathcal P=(-\ii)^n\gamma_1\cdots\gamma_{2n}$,
+$\langle\mathcal P\rangle=(-1)^n\Pf\Omega$. Ordering is part of this formula.
+The projection example in Chapter~\ref{narr:physical} shows why a covariance
+alone need not determine a physical projected four-point function.

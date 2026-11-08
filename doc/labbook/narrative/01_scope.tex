@@ -1,0 +1,88 @@
+\chapter{Physical questions and comparison conventions}
+\label{narr:scope}
+
+The central question is how much of a quantum spin system can be described by a
+self-consistent Gaussian state, and which physical predictions survive comparison
+with exact finite systems. The Kitaev honeycomb model provides a useful testing
+ground: its zero-field integrable structure exposes distinctions between spin
+states, auxiliary fermions, and flux sectors that an approximation can obscure.
+A magnetic field makes these distinctions more consequential, because it couples
+sectors that were conserved at zero field.
+
+This book separates the argument a reader needs from the historical route by
+which it was developed. The main chapters establish conventions, finite-state
+identities, and the requirements for interpreting a calculation. Technical
+appendices give their proofs and preserve older derivations and experiments.
+An archived assertion is a record of a research decision, not a renewed theorem.
+The current acceptance register takes precedence over old words such as
+``certified'' in those records.
+
+% EDITORIAL QUESTION: Which Hamiltonian and parameter domain are discussed here?
+\section{The finite physical model}
+\label{narr:model}
+For a finite honeycomb graph with $N$ sites, take one Pauli algebra at each site
+and count each undirected bond once. The reference Hamiltonian is
+\begin{equation}
+ H(K,\bm h)=-K\sum_{\langle ij\rangle_\alpha}
+ \sigma_i^\alpha\sigma_j^\alpha-\sum_i\bm h\cdot\bm\sigma_i,
+ \qquad K>0,\qquad \bm h=\frac{h}{\sqrt3}(1,1,1).
+ \label{eq:narr:model}
+\end{equation}
+Here $K>0$ means ferromagnetic exchange, and $h$ is the Euclidean field magnitude,
+not one Cartesian component. We set $k_B=\hbar=1$. A periodic sample needs its
+primitive vectors, bond list, sizes, and boundary identifications specified in
+addition to $N$. An isolated hexagon with missing exterior bonds is a different
+Hamiltonian from a honeycomb torus with the same number of sites.
+
+Equation~\eqref{eq:narr:model} fixes the convention for this narrative. It does
+not silently identify every inherited parameter named \texttt{K} with $K$.
+If a program implements $+K_{\rm code}\sum\sigma_i^\alpha\sigma_j^\alpha$ using
+the same spin operators and bonds, equality of Hamiltonians requires
+$K_{\rm code}=-K$. A fermionic implementation needs its operator map checked as
+well; a parameter name cannot establish that equality.
+
+The present research concerns the pure ferromagnetic model and a [111] field.
+Antiferromagnetic exchange, additional couplings, other field directions, and
+other lattices introduce new physical questions. The finite-state foundations
+below can be reused, but a measured phase boundary or excitation coefficient
+cannot be transferred by changing a label.
+
+% EDITORIAL QUESTION: What does changing from Pauli operators to spin-half operators actually change?
+\section{Units before numerical comparison}
+% CLAIM: W001-FND-06 (note: doc/audits/w001_foundation_review.md).
+If $S_i^\alpha=\sigma_i^\alpha/2$, the same operator is written
+\begin{equation}
+ H=-J\sum_{\langle ij\rangle_\alpha} S_i^\alpha S_j^\alpha
+       -\sum_i\bm h_S\cdot\bm S_i,
+ \qquad J=4K,\qquad \bm h_S=2\bm h.
+ \label{eq:narr:units}
+\end{equation}
+The energy spectrum is unchanged when the parameters and operators are changed
+together. Numerical coefficients quoted in different energy units can change;
+that is a separate substitution. In particular, Eq.~\eqref{eq:narr:units} by
+itself says nothing about whether a plotted quantity is a positive fermion
+energy, a separation between two matrix bands, or a physical spin excitation.
+Those observables are distinguished in Chapter~\ref{narr:comparisons}.
+
+A meaningful comparison therefore carries a short dictionary: Hamiltonian,
+geometry, state space, field components, energy units, observable, and limiting
+procedure. This is the scientific content of a convention map. Agreement of one
+number after a rescaling is weaker evidence than agreement of the mapped
+operators and several independent observables.
+
+% EDITORIAL QUESTION: How should the reader interpret the evidence in this edition?
+\section{What is established and what remains research}
+The new logical narrative uses exact finite-dimensional identities with explicit
+proofs in Appendix~\ref{app:finite_foundations}. Conditional perturbative results
+retain their invertibility and norm hypotheses. Numerical values inherited from
+older waves appear in historical appendices with their current review status.
+They are not used here to certify a phase diagram or an exact prefactor.
+
+The original perturbation framework is an essential prerequisite: it distinguishes
+the physical flux-free projector, a ground-eigenspace projector, an external
+energy window, and a one-particle occupied projector. These distinctions were
+ignored in some later interpretations; the records have been preserved rather
+than rewritten to conceal that problem. The historical analytical/MF-versus-ED
+study called Phase 4 is disapproved by the principal investigator. Its appendix
+is retained so that its assumptions can be inspected, not used as an accepted
+explanation of a discrepancy.

@@ -1,0 +1,107 @@
+\chapter{Thermal ensembles and response functions}
+\label{narr:thermal}
+
+At finite temperature the choice of ensemble is as important as the choice of
+Hamiltonian. A fixed flux-sector matter calculation, a sum over physical flux
+sectors, and an unprojected four-flavor Gaussian ensemble count different states.
+A two-peak curve alone cannot identify which of these has been computed.
+
+% EDITORIAL QUESTION: What thermodynamic identities hold for a fixed physical Hamiltonian?
+\section{Finite physical Gibbs states}
+For a fixed $H$ on $\mathcal H_s$, $T>0$, and $\beta=1/T$, define
+\begin{equation}
+ Z=\Tr_{\mathcal H_s}e^{-\beta H},\quad
+ \rho_\beta=Z^{-1}e^{-\beta H},\quad
+ F=-T\ln Z,\quad E=\Tr(\rho_\beta H).
+\end{equation}
+The finite Gibbs identities are
+\begin{equation}
+ S=-\Tr\rho_\beta\ln\rho_\beta=\beta E+\ln Z,
+ \qquad C_V=\frac{\dd E}{\dd T}=\beta^2(\langle H^2\rangle-E^2)\geq0.
+ \label{eq:narr:gibbs}
+\end{equation}
+At infinite temperature $S/N\to\ln2$ for $N$ spins. The maximally mixed
+four-Majorana auxiliary space instead has $S/N=\ln4$ before projection.
+An entropy plateau therefore needs a declared state count and normalization,
+not only a comparison to a familiar fraction of $\ln2$.
+
+For a \emph{fixed} quadratic auxiliary matrix $A$, the independent-mode thermal
+state of Eq.~\eqref{eq:narr:one_mode} has
+\begin{equation}
+ \Omega_T=\ii\tanh(\ii\beta A/2).
+ \label{eq:narr:thermal_covariance}
+\end{equation}
+At a zero eigenvalue the finite-temperature occupation is one half, not a
+specified pure-state choice. In a self-consistent approximation $A=A(T)$, the
+energy functional also contains interaction/double-counting terms. Its total
+$T$ derivative cannot be replaced by the variance formula for a fixed quadratic
+$A$. A thermodynamically consistent variational free energy and its stationary
+derivatives must be derived for that approximation.
+
+% EDITORIAL QUESTION: What can a binary plaquette toy establish about a flux crossover?
+\section{A diagnostic toy and the missing ensemble}
+An isolated binary variable with energies $0$ for $W=+1$ and $\Delta_v>0$ for
+$W=-1$ has partition function $1+e^{-\beta\Delta_v}$ and
+\begin{equation}
+ \langle W\rangle=\tanh\frac{\Delta_v}{2T},\qquad
+ \rho_-=(1+e^{\beta\Delta_v})^{-1}.
+ \label{eq:narr:binary_flux}
+\end{equation}
+This smooth crossover is an exact result for that toy. With $\Delta_v=0.137$
+it gives approximately $0.9979$ at $T=0.02$ and $0.4274$ at $T=0.15$.
+It does not give a 90\% loss across that window. On a physical torus the flux
+constraints, matter spectrum, and parity restrictions couple the weights;
+Eq.~\eqref{eq:narr:binary_flux} cannot be adopted as their derivation.
+
+For any finite Hilbert space and real $T>0$, $Z$ is a positive finite sum of
+exponentials, so $F(T)$ is analytic. A true first-order nonanalyticity concerns
+a controlled thermodynamic limit. A finite-system model comparison can assess
+which finite curves describe the data, but a large BIC difference cannot supply
+that limit or repair a wrong ensemble. This is a prerequisite for reopening the
+proposed thermal Wilson-loop task.
+
+% EDITORIAL QUESTION: Which response normalization and selection rule define a probe threshold?
+\section{Lehmann weights, detailed balance, and observables}
+For a Hermitian physical probe $A$, use the Fourier convention
+$S_{AA}(\omega)=\int_{\RR}\dd t\,e^{\ii\omega t}
+\Tr(\rho_\beta A(t)A)$, with $A(t)=e^{\ii Ht}Ae^{-\ii Ht}$. Then
+\begin{equation}
+ S_{AA}(\omega)=\frac{2\pi}{Z}\sum_{m,n}e^{-\beta E_m}|A_{mn}|^2
+  \delta\bigl(\omega-(E_n-E_m)\bigr).
+ \label{eq:narr:lehmann}
+\end{equation}
+Completeness and exchanging $m,n$ give
+\begin{equation}
+ \int\frac{\dd\omega}{2\pi}S_{AA}(\omega)=\langle A^2\rangle,
+ \qquad S_{AA}(-\omega)=e^{-\beta\omega}S_{AA}(\omega).
+ \label{eq:narr:kms}
+\end{equation}
+For a Pauli spin component the full integrated weight is one; for $S^\alpha$
+it is one quarter. A broadened, truncated frequency window need not integrate
+to that value unless its omitted tails are accounted for. Conversely, imposing
+the sum rule by normalization does not verify the positions or physical origin
+of spectral peaks.
+
+A local spectral peak becomes an STS prediction only after specifying the
+probe coupling, tunneling kernel, and experimental observable. Effective
+three-spin-coupling spectra and finite-field spin spectra also need their
+Hamiltonian bridge. The historical dynamics appendix preserves exploratory
+calculations and reproduction language with explicit review warnings. This
+book does not present them as a completed reproduction of arXiv:2209.12930.
+
+% EDITORIAL QUESTION: How will this narrative grow beyond the current model scope?
+\section{Next questions without inherited certification}
+The foundation now supplies tests that a new result must satisfy: the same
+physical state space, an explicit convention map, the correct variational or
+thermal functional, and a matched observable. Future chapters can extend the
+bulk and defect physics as those results are reviewed. New model families can
+become separate parts sharing the finite-state foundations. Chapters are
+therefore destinations for an evolving argument, while claim identifiers and
+source records remain stable across reordering.
+
+The immediate unresolved work includes physical-sector resolvent thresholds,
+the sign convention in the legacy Zeeman generator, the exact versus mean-field
+prefactor comparison, and the braiding transport test. None is settled by
+assembling a book. Their current status and evidence remain in the wave audit
+and acceptance register; the appendices retain the route needed to investigate
+them without discarding earlier findings.
