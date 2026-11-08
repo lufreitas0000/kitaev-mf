@@ -40,3 +40,19 @@
 
 Remote verification after push will be appended with the exact source SHA and
 run outcomes. No main merge, Pages publication, or release occurred.
+
+## Preview concurrency follow-up
+
+At e570c2c, blueprint run 42437696303 was cancelled before its build job ran,
+while LaTeX used the same repository-wide `pages` group. Push and PR events also
+shared that group. Both workflow preview groups now include workflow/event/ref;
+manual publish=true runs retain the shared `pages` group and the existing main
+publication gates. This prevents unrelated preview workflows/events replacing
+one another's pending run; it is not an unlimited queue guarantee within one
+group. See [GitHub concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
+
+Local `python3 scripts/build_blueprint.py --root . --output-dir
+build/w001/bundle-blueprint` passed (116 notes, 55 tables). Both workflow YAML
+structures parsed; manual-main publication gates and cancel-in-progress=false
+were checked unchanged. Independent referee PASS for the two-line concurrency
+change; remote execution remains the executable validation.
