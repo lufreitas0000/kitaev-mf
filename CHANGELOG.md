@@ -8,6 +8,21 @@ for the SemVer policy and release procedure.
 
 ## [Unreleased]
 
+### Added
+- Separate finite chiral-matter transport with gauge, spectral, overlap, and
+  closure diagnostics; retain the legacy mean-field braiding API.
+- Isolated, explicitly unaccepted Gaussian quadrature prototype and byte-faithful
+  source manifest for the PI-supplied perturbation bundle.
+
+### Fixed
+- Include the already-declared matplotlib runtime dependency in CI lockfiles so
+  plotting tests can be collected in a clean environment.
+
+### Changed
+- Retire the unsupported mean-field enclosing-loop guarantee from required CI by
+  PI decision, preserving its unchanged failing assertions as an opt-in research
+  check. This does not accept the old physical claim.
+
 ### Changed
 - Audited perturbative foundation claims against the original contracts and pinned
   primary source; retained conditional finite algebra and recorded bounded

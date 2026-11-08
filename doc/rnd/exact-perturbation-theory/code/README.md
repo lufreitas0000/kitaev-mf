@@ -1,8 +1,12 @@
 # Numerical implementation boundary
 
-No solver module is implemented yet. The first implementation should be a
-small NumPy/SciPy fixed-gauge solver, independent of the existing mean-field
-backend.
+The physical projected solver architecture below remains a plan. W001 adds
+`w001_gaussian_quadrature.py`, an isolated **unprojected numerical candidate**
+adapted from the PI-supplied bundle. It is not the completed physical solver.
+Its output has no accepted physical prefactor/all-orders interpretation. See
+`doc/audits/w001_bundle_review.md` from the repository root for scope and checks.
+The intended physical implementation remains independent of the production
+mean-field backend.
 
 ## Proposed modules
 

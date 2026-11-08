@@ -130,3 +130,16 @@ The earlier notes remain unchanged and operative. Evidence and acceptance scope:
 `doc/audits/w001_foundation_review.md`, `doc/audits/w001_acceptance.yaml`, and
 `doc/audits/w001_t4_verification.md`. T3 merge stays draft-gated under PI steering;
 T5 can integrate accepted statements and visibly qualified historical material.
+
+## T3 bundle steering, 2026-11-08 UTC
+
+PI supplied a candidate repair bundle and explicitly retired the unsupported
+four-flavor pi-holonomy guarantee from required CI, while retaining its failing
+research reproduction unchanged. This supersedes the earlier blocking-test
+schedule; it does not accept the old claim. New fixed-kappa chiral transport has
+a separate model scope. Perturbative numerical proposals remain unprojected,
+with raw source preserved and no all-orders or physical-prefactor acceptance.
+The collection failure due to omitted matplotlib is repaired in the lockfiles.
+Evidence: `doc/audits/w001_bundle_review.md` and its verification receipt. PR #4
+stays draft until current checks and provisional integration review are assessed.
+T5 assembly resumes after this user-requested bounded repair.

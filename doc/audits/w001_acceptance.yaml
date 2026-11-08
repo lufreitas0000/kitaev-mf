@@ -45,15 +45,18 @@ entries:
   - id: W001-REVIEW-05
     subject: Historical Phase 2 enclosing-loop pi braiding phase
     scientific_status: needs-revision
-    implementation_status: failing-test-reproduced-on-original-source
-    priority: deferred-while-foundation-review-continues
+    implementation_status: legacy-failing-research-check-preserved-new-chiral-model-tested-separately
+    priority: retired-guarantee-requires-separate-research
     evidence:
-      - test/unit/test_phase2_m2_2_vortex_braiding.py
-      - doc/audits/w001_integration.md
+    - test/unit/test_phase2_m2_2_vortex_braiding.py
+    - doc/audits/w001_integration.md
+    - test/research_checks/check_legacy_mean_field_braiding.py
+    - doc/audits/w001_bundle_review.md
     limitations:
-      - Enclosing phase 0.5904 radians fails the original near-pi assertion
-      - No conclusion about a general physical braid theorem follows from this failure
-    disposition: PI chose unresolved claim and draft integration PR; preserve test without loosening or xfail
+    - Enclosing phase 0.5904 radians fails the original near-pi assertion
+    - No conclusion about a general physical braid theorem follows from this failure
+    disposition: PI retired unsupported guarantee from required CI on 2026-11-08; original assertions remain
+      opt-in and failing, with no physical acceptance
   - id: W001-FND-01
     subject: Conditional finite-dimensional Schur/Feshbach reduction and fixed-energy Neumann series
     scientific_status: supported-within-scope
@@ -120,3 +123,26 @@ entries:
     limitations:
       - Does not identify a matrix band separation with a physical many-body spin gap
     disposition: Retain the explicit operator-level unit map; compare all other observables separately
+  - id: W001-BUNDLE-01
+    subject: Gauge-closed rank-two transport in the fixed-kappa chiral matter model
+    scientific_status: supported-within-scope
+    implementation_status: separate-service-and-finite-tests
+    epistemic_kind: finite-numerical-checks
+    evidence:
+    - src/kitaev_mf/services/phase_2/chiral_vortex_transport.py
+    - test/unit/test_phase2_chiral_vortex_transport.py
+    - doc/audits/w001_bundle_review.md
+    limitations:
+    - Specified L=10 paths and parameters only; sampled isolation, no continuous or thermodynamic proof
+    - Not a projected many-body braid and not the finite-field four-flavor MF model
+    disposition: Retain separately with explicit admission guards and model scope
+  - id: W001-BUNDLE-02
+    subject: Supplied SW numerical coefficients and all-orders resummation claims
+    scientific_status: needs-revision
+    implementation_status: original-preserved-and-unprojected-research-prototype
+    evidence:
+    - doc/rnd/exact-perturbation-theory/imports/w001_bundle/manifest.json
+    - doc/rnd/exact-perturbation-theory/code/w001_gaussian_quadrature.py
+    - doc/audits/w001_bundle_review.md
+    disposition: Do not accept physical exactness, parity, prefactor, stability or all-orders claims; single-slice
+      finite Fock check has narrower scope

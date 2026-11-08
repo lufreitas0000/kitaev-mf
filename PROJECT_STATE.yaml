@@ -229,7 +229,7 @@ active_milestone:
       evidence:
         - doc/audits/w001_integration.md
         - doc/audits/w001_t3_verification.md
-      merge_gate: Draft pending unresolved original braiding failure; PI chose foundation review first
+      merge_gate: PI retired unsupported legacy guarantee; draft pending bounded bundle review and current CI
     - id: T4
       title: Review earlier perturbative contracts and highest-risk foundational claims
       status: completed
@@ -556,7 +556,7 @@ verified_physics_invariants:
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
 open_blockers:
-  - Original braiding test fails unchanged; integration PR remains draft while foundation review continues
+  - Legacy braiding guarantee retired from required CI by PI; original failing research check preserved; new chiral model has separate scope
   - Historical Phase 4 calculations disapproved by PI; acceptance register controls their disposition
   - Use earlier perturbation contracts previously ignored; do not presume alteration before integration
   - Existing completion labels do not substitute for claim-level acceptance
