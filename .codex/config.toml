@@ -1,0 +1,13 @@
+# OpenAI Codex CLI / IDE Workspace Configuration (November 2026)
+# Starting hypothesis defaults: gpt-6.1-terra (medium) for W2 implementation;
+# launch gpt-6.1-sol explicitly for W1/W4 high-risk scientific work: codex -m gpt-6.1-sol
+model = "gpt-6.1-terra"
+model_reasoning_effort = "medium"
+
+[agents]
+enabled = true
+# Caps concurrently open spawned subagent threads (excluding the primary thread):
+max_concurrent_threads_per_session = 2
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "medium"
+interrupt_message = true
