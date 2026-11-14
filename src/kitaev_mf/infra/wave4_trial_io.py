@@ -44,9 +44,7 @@ def write_trial_records(path: Path, records: Sequence[TrialRecord]) -> None:
         raise ValueError("raw trial output must have .jsonl extension")
     if not records:
         raise ValueError("refusing to write an empty trial file")
-    identities = {
-        (r.protocol_id, r.stratum_id, r.cohort, r.method, r.case_id) for r in records
-    }
+    identities = {(r.protocol_id, r.stratum_id, r.cohort, r.method, r.case_id) for r in records}
     if len(identities) != len(records):
         raise ValueError("duplicate method/case trial identity")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -103,9 +101,7 @@ def read_trial_records(path: Path) -> list[TrialRecord]:
     if not lines or any(not line.strip() for line in lines):
         raise ValueError("empty line or empty trial file")
     records = [_decode_record(line) for line in lines]
-    identities = {
-        (r.protocol_id, r.stratum_id, r.cohort, r.method, r.case_id) for r in records
-    }
+    identities = {(r.protocol_id, r.stratum_id, r.cohort, r.method, r.case_id) for r in records}
     if len(identities) != len(records):
         raise ValueError("duplicate method/case trial identity")
     return records

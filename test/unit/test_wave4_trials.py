@@ -115,22 +115,34 @@ def test_reject_nonfinite_dtype_and_mutated_skew() -> None:
     bad.U[0, 0, 0] = np.nan
     with pytest.raises(ValueError, match="nonfinite"):
         PairedCase.from_state(
-            protocol_id="p", case_id="a", stratum_id="s",
-            cohort="synthetic", measure_ref="m", state=bad
+            protocol_id="p",
+            case_id="a",
+            stratum_id="s",
+            cohort="synthetic",
+            measure_ref="m",
+            state=bad,
         )
     source = _state()
     bad = MeanFieldState(U=source.U.astype(np.float32), V=source.V, lambdas=source.lambdas)
     with pytest.raises(ValueError, match="float64"):
         PairedCase.from_state(
-            protocol_id="p", case_id="a", stratum_id="s",
-            cohort="synthetic", measure_ref="m", state=bad
+            protocol_id="p",
+            case_id="a",
+            stratum_id="s",
+            cohort="synthetic",
+            measure_ref="m",
+            state=bad,
         )
     bad = _state()
     bad.V[0, 0, 1] = 1.0
     with pytest.raises(ValueError, match="skew-symmetric"):
         PairedCase.from_state(
-            protocol_id="p", case_id="a", stratum_id="s",
-            cohort="synthetic", measure_ref="m", state=bad
+            protocol_id="p",
+            case_id="a",
+            stratum_id="s",
+            cohort="synthetic",
+            measure_ref="m",
+            state=bad,
         )
 
 

@@ -171,9 +171,16 @@ class TrialRecord:
 
     def __post_init__(self) -> None:
         for name in (
-            "protocol_id", "case_id", "stratum_id", "measure_ref",
-            "population_id", "initial_state_hash", "method", "config_ref",
-            "source_commit", "stop_reason",
+            "protocol_id",
+            "case_id",
+            "stratum_id",
+            "measure_ref",
+            "population_id",
+            "initial_state_hash",
+            "method",
+            "config_ref",
+            "source_commit",
+            "stop_reason",
         ):
             _require_nonempty(getattr(self, name), name)
         if self.cohort not in ("synthetic", "pilot", "confirmatory"):
@@ -198,9 +205,7 @@ class TrialRecord:
             self.convergence_check_ref is None or not self.convergence_check_ref.strip()
         ):
             raise ValueError("convergence requires a validation reference")
-        if self.branch != "unknown" and (
-            self.oracle_ref is None or not self.oracle_ref.strip()
-        ):
+        if self.branch != "unknown" and (self.oracle_ref is None or not self.oracle_ref.strip()):
             raise ValueError("classified branch requires an oracle reference")
 
 
