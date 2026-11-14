@@ -7,9 +7,10 @@ from __future__ import annotations
 
 import hashlib
 import math
+from collections.abc import Sequence
 from dataclasses import dataclass
 from statistics import mean
-from typing import Literal, Protocol, Sequence
+from typing import Literal, Protocol
 
 import numpy as np
 from numpy.typing import NDArray

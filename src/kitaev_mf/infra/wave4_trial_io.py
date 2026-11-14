@@ -5,9 +5,10 @@ from __future__ import annotations
 import json
 import os
 import tempfile
+from collections.abc import Sequence
 from dataclasses import asdict, fields
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 from kitaev_mf.domain.wave4_trials import TrialRecord
 
