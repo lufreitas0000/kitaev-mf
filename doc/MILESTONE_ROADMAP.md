@@ -1,5 +1,7 @@
 # Project Roadmap & Milestone Backlog: kitaev-mf
 
+**Planning roles:** this file remains the authoritative ordered *milestone* roadmap. Current bounded work is explained in [CURRENT_SPRINT.md](../CURRENT_SPRINT.md) and tracked in [PROJECT_STATE.yaml](../PROJECT_STATE.yaml); deferred and speculative ideas live in [BACKLOG.md](../BACKLOG.md); discoveries and negative evidence live in [LOG_DISCOVERY_AND_PIVOTS.md](../LOG_DISCOVERY_AND_PIVOTS.md). The [migration crosswalk](PLANNING_RECORDS_MIGRATION.md) maps the owner-supplied 2026-11-14 inventory. This navigation does not change the historical or future milestone statuses below.
+
 ## Taxonomy
 - **Phase**: Macro model-family and methodological regimes.
 - **Milestone (`M<Phase>.<Index>`)**: Strategic deliverable gates and persistent backlog units.
