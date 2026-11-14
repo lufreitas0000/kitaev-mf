@@ -186,7 +186,7 @@ def test_nonconverged_and_unproven_classification_rejected() -> None:
         replace(record, oracle_ref=None)
     with pytest.raises(ValueError, match="convergence"):
         replace(record, convergence_check_ref=None)
-    with pytest.raises(ValueError, match="population"):
+    with pytest.raises(ValueError, match="certification"):
         replace(record, population_id="gaussian_certified")
     with pytest.raises(ValueError, match="negative"):
         replace(record, map_evaluations=-1)
