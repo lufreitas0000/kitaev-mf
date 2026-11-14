@@ -16,13 +16,14 @@ import numpy as np
 from numpy.typing import NDArray
 
 from kitaev_mf.domain.state import MeanFieldState
+from kitaev_mf.domain.wave4_contract import ExperimentContract, SolverConfiguration
 
 BranchLabel = Literal["target", "other", "unknown"]
 Cohort = Literal["synthetic", "pilot", "confirmatory"]
 
 
 def _require_nonempty(value: str, field_name: str) -> None:
-    if not value or not value.strip():
+    if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field_name} must be nonempty")
 
 
@@ -41,6 +42,8 @@ class PairedCase:
     measure_ref: str
     initial_state_hash: str
     population_id: str
+    experiment: ExperimentContract
+    sample_seed: int | None
     _shapes: tuple[tuple[int, ...], tuple[int, ...], tuple[int, ...]]
     _payload: tuple[bytes, bytes, bytes]
 
@@ -53,7 +56,9 @@ class PairedCase:
         stratum_id: str,
         cohort: Cohort,
         measure_ref: str,
+        experiment: ExperimentContract,
         state: MeanFieldState,
+        sample_seed: int | None = None,
     ) -> PairedCase:
         for field_name, field_value in (
             ("protocol_id", protocol_id),
@@ -64,6 +69,12 @@ class PairedCase:
             _require_nonempty(field_value, field_name)
         if cohort not in ("synthetic", "pilot", "confirmatory"):
             raise ValueError("invalid cohort")
+        if not isinstance(experiment, ExperimentContract):
+            raise ValueError("an immutable experiment contract is required")
+        if measure_ref != experiment.measure_definition:
+            raise ValueError("measure reference must match the embedded experiment contract")
+        if sample_seed is not None and (type(sample_seed) is not int or sample_seed < 0):
+            raise ValueError("sample_seed must be a nonnegative integer or None")
 
         arrays: list[NDArray[np.float64]] = []
         digest = hashlib.sha256(b"wave4-algebraic-initial-state-v1")
@@ -96,7 +107,9 @@ class PairedCase:
             cohort=cohort,
             measure_ref=measure_ref,
             initial_state_hash=digest.hexdigest(),
-            population_id="algebraic_unverified",
+            population_id=experiment.population_id,
+            experiment=experiment,
+            sample_seed=sample_seed,
             _shapes=(shapes[0], shapes[1], shapes[2]),
             _payload=(payload[0], payload[1], payload[2]),
         )
@@ -132,6 +145,22 @@ class BranchOracle(Protocol):
 
 
 @dataclass(frozen=True)
+class FinalDiagnostics:
+    """Reported residuals; None means not measured, not the number zero."""
+
+    correlator: float | None = None
+    onsite: float | None = None
+    gauge: float | None = None
+
+    def __post_init__(self) -> None:
+        for value in (self.correlator, self.onsite, self.gauge):
+            if value is not None and (
+                type(value) not in (float, int) or not math.isfinite(value) or value < 0
+            ):
+                raise ValueError("final residual must be finite, nonnegative, or absent")
+
+
+@dataclass(frozen=True)
 class TrialObservation:
     """Telemetry supplied by an external runner, including work on failures."""
 
@@ -143,6 +172,9 @@ class TrialObservation:
     residual_history: tuple[float, ...]
     convergence_check_ref: str | None
     final_state: MeanFieldState | None = None
+    final_diagnostics: FinalDiagnostics = FinalDiagnostics()
+    warnings: tuple[str, ...] = ()
+    error_detail: str | None = None
 
 
 @dataclass(frozen=True)
@@ -159,6 +191,10 @@ class TrialRecord:
     method: str
     config_ref: str
     source_commit: str
+    experiment_json: str
+    experiment_digest: str
+    solver_configuration_json: str
+    sample_seed: int | None
     converged: bool
     branch: BranchLabel
     oracle_ref: str | None
@@ -168,6 +204,14 @@ class TrialRecord:
     stop_reason: str
     residual_history: tuple[float, ...]
     convergence_check_ref: str | None
+    final_correlator_residual: float | None
+    final_onsite_residual: float | None
+    final_gauge_residual: float | None
+    final_state_hash: str | None
+    warnings: tuple[str, ...]
+    error_detail: str | None
+    map_evaluations_source: Literal["reported_unverified"] = "reported_unverified"
+    convergence_source: Literal["reported_unverified"] = "reported_unverified"
 
     def __post_init__(self) -> None:
         for name in (
@@ -183,6 +227,42 @@ class TrialRecord:
             "stop_reason",
         ):
             _require_nonempty(getattr(self, name), name)
+        contract = ExperimentContract(self.experiment_json)
+        config = SolverConfiguration(self.solver_configuration_json)
+        if self.experiment_digest != contract.digest:
+            raise ValueError("experiment contract checksum mismatch")
+        if self.source_commit != contract.source_commit:
+            raise ValueError("source commit differs from experiment contract")
+        if self.population_id != contract.population_id or self.measure_ref != contract.measure_definition:
+            raise ValueError("population/measure differs from experiment contract")
+        if self.method != config.method or self.config_ref != config.digest:
+            raise ValueError("solver configuration mismatch")
+        if self.sample_seed is not None and (
+            type(self.sample_seed) is not int or self.sample_seed < 0
+        ):
+            raise ValueError("sample_seed must be a nonnegative integer or None")
+        if type(self.converged) is not bool:
+            raise ValueError("converged must be a boolean")
+        if self.map_evaluations_source != "reported_unverified" or (
+            self.convergence_source != "reported_unverified"
+        ):
+            raise ValueError("numerical telemetry is reported/unverified until independently instrumented")
+        FinalDiagnostics(
+            correlator=self.final_correlator_residual,
+            onsite=self.final_onsite_residual,
+            gauge=self.final_gauge_residual,
+        )
+        if self.final_state_hash is not None and (
+            len(self.final_state_hash) != 64
+            or any(c not in "0123456789abcdef" for c in self.final_state_hash)
+        ):
+            raise ValueError("invalid final_state_hash")
+        if not isinstance(self.warnings, tuple) or any(
+            not isinstance(w, str) for w in self.warnings
+        ):
+            raise ValueError("warnings must be strings")
+        if self.error_detail is not None and not isinstance(self.error_detail, str):
+            raise ValueError("error_detail must be text or None")
         if self.cohort not in ("synthetic", "pilot", "confirmatory"):
             raise ValueError("invalid cohort")
         if self.population_id != "algebraic_unverified":
@@ -213,15 +293,31 @@ def make_trial_record(
     *,
     case: PairedCase,
     method: str,
-    config_ref: str,
+    solver_configuration: SolverConfiguration,
     source_commit: str,
     observation: TrialObservation,
     oracle: BranchOracle | None = None,
 ) -> TrialRecord:
     """Build a record without executing a solver or choosing physical tolerances."""
+    if not isinstance(solver_configuration, SolverConfiguration):
+        raise ValueError("immutable solver configuration required")
+    if source_commit != case.experiment.source_commit:
+        raise ValueError("source commit is inconsistent with experiment contract")
     decision = BranchDecision("unknown")
     if observation.converged and oracle is not None and observation.final_state is not None:
         decision = oracle.classify(observation.final_state, case)
+    final_hash: str | None = None
+    if observation.final_state is not None:
+        final_hash = PairedCase.from_state(
+            protocol_id=case.protocol_id,
+            case_id=case.case_id,
+            stratum_id=case.stratum_id,
+            cohort=case.cohort,
+            measure_ref=case.measure_ref,
+            experiment=case.experiment,
+            state=observation.final_state,
+            sample_seed=case.sample_seed,
+        ).initial_state_hash
     return TrialRecord(
         protocol_id=case.protocol_id,
         case_id=case.case_id,
@@ -231,8 +327,12 @@ def make_trial_record(
         population_id=case.population_id,
         initial_state_hash=case.initial_state_hash,
         method=method,
-        config_ref=config_ref,
+        config_ref=solver_configuration.digest,
         source_commit=source_commit,
+        experiment_json=case.experiment.document_json,
+        experiment_digest=case.experiment.digest,
+        solver_configuration_json=solver_configuration.document_json,
+        sample_seed=case.sample_seed,
         converged=observation.converged,
         branch=decision.label if observation.converged else "unknown",
         oracle_ref=decision.oracle_ref if observation.converged else None,
@@ -242,6 +342,12 @@ def make_trial_record(
         stop_reason=observation.stop_reason,
         residual_history=observation.residual_history,
         convergence_check_ref=observation.convergence_check_ref,
+        final_correlator_residual=observation.final_diagnostics.correlator,
+        final_onsite_residual=observation.final_diagnostics.onsite,
+        final_gauge_residual=observation.final_diagnostics.gauge,
+        final_state_hash=final_hash,
+        warnings=observation.warnings,
+        error_detail=observation.error_detail,
     )
 
 
@@ -267,7 +373,8 @@ def summarize_trials(records: Sequence[TrialRecord]) -> DescriptiveSummary:
     if not records:
         raise ValueError("cannot summarize an empty cohort")
     keys = {
-        (r.protocol_id, r.stratum_id, r.cohort, r.measure_ref, r.population_id, r.method)
+        (r.protocol_id, r.stratum_id, r.cohort, r.measure_ref, r.population_id, r.method,
+         r.experiment_digest, r.config_ref)
         for r in records
     }
     if len(keys) != 1:
@@ -327,6 +434,10 @@ def compare_paired_trials(
     for a, b in pairs:
         if (
             a.initial_state_hash != b.initial_state_hash
+            or a.experiment_json != b.experiment_json
+            or a.experiment_digest != b.experiment_digest
+            or a.source_commit != b.source_commit
+            or a.sample_seed != b.sample_seed
             or a.protocol_id != b.protocol_id
             or a.stratum_id != b.stratum_id
             or a.cohort != b.cohort
