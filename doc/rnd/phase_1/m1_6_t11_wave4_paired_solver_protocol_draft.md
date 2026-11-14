@@ -44,32 +44,30 @@ Retain the legacy tables and claims unchanged as dated exploratory artifacts. Th
 
 ## 2. Mathematical estimands (proposed)
 
-Fix model and numerical contract `theta=(K,h,cell,BZ_mesh,precision,branch,solver_configs,stopping_rule,resource_cap)`. Let `mu_{theta,delta}` be a **specified probability measure on admissible initial states** `x0` at amplitude `delta`; a raw integer seed is a reproducibility identifier, not the measure itself. For algorithm `a`, denote the completed/capped run `R_a(x0;theta)`.
+Fix model and numerical contract `theta=(K,h,cell,BZ_mesh,precision,branch,solver_configs,stopping_rule,resource_cap)`. Let `mu_{theta,delta}^{(E)}` be a **specified probability measure on one declared initial-state population** `E` at amplitude `delta`; a raw integer seed is a reproducibility identifier, not the measure itself. The algebraically valid, explicitly symmetry-restricted, and globally Gaussian-representable populations must be treated as **distinct ensembles**. Their probability measures and results cannot be pooled without a separately justified mixture estimand. For algorithm `a`, denote the completed/capped run `R_a(x0;theta)`.
 
-Define distinct binary events, using predeclared validation routines:
+Define convergence and the **three-way** independent branch decision:
 
-$$
-C_a(x_0)=1\{\text{all required solver residuals satisfy approved tolerances within a common resource budget}\},
-$$
+$
+C_a(x_0)=1\{\text{approved residuals meet tolerances within the approved budget}\},
+\qquad
+B_a(x_0)\in\{\mathrm{target},\mathrm{other},\mathrm{unknown}\}.
+$
 
-$$
-T_a(x_0)=1\{\text{converged endpoint is equivalent to the independently identified target stationary branch}\}.
-$$
+The oracle is applied **only to converged endpoints**. For a nonconverged run record `B=unknown` with a separate `converged=false` field; this is not an identified competing branch. When the oracle is absent, ambiguous, or lacks an independent reference, it must return `unknown`. The indicator of **confirmed target recovery** is `I_T=1{C=1 and B=target}`; it must not interpret unknown as other.
 
-An unknown or ambiguous branch must be recorded `unknown`, not forcibly assigned to `target` or `non-target`.
+For each fixed stratum and population measure, let `n` be the number of trials, `n_C` the number converged, `n_T` confirmed-target converged, `n_O` confirmed-other converged and `n_U` converged but unclassified, so `n_C=n_T+n_O+n_U`. The identifiable empirical quantities are
 
-The primary proposed estimands are
+$
+\widehat P_{\mathrm{conv}}=\frac{n_C}{n},
+\quad
+\widehat P_{\mathrm{target}}\in\left[\frac{n_T}{n},\frac{n_T+n_U}{n}\right],
+\quad
+\widehat P_{\mathrm{same}\mid\mathrm{conv}}\in
+\left[\frac{n_T}{n_C},\frac{n_T+n_U}{n_C}\right]\quad(n_C>0).
+$
 
-$$
-P_{\mathrm{conv},a}(\delta;\theta)=\mathbb E_{\mu_{\theta,\delta}}[C_a],\quad
-P_{\mathrm{same}|conv},a =\Pr_{\mu}(T_a=1\mid C_a=1),
-$$
-
-$$
-P_{\mathrm{target},a}=\Pr_{\mu}(C_a=1,T_a=1)=P_{\mathrm{conv},a}P_{\mathrm{same}|conv},a
-$$
-
-when the conditional probability is defined. Report numerators and denominators for all three; when no runs converge, `P_same|conv` is **undefined**, not zero. If branch classification is `unknown`, report the unknown fraction and an identified interval for `P_target` (at minimum, definite-target to definite-target-plus-unknown), not falsely precise point estimates.
+The intervals above are **partial-identification bounds**, not statistical confidence intervals. When `n_C=0`, the conditional probability is **undefined**, not zero. The exact product identity `P_target=P_conv P_same|conv` is meaningful for the **underlying well-defined events**; with unknown labels, report the bounds rather than substituting a point estimate. The observed unknown rate `n_U/n_C` is reported explicitly when defined.
 
 The primary **resource** statistic is the actual `map_evaluations` and CPU/wall time recorded for **every run**, including failures, with a **common predeclared cap** or a justified algorithm-specific comparison budget. Report both total cost paid up to the cap and cost conditional on target success. A failure's observed cost is not a fictitious `K_max`. Iteration count is a separate metric and does not represent equal work for JFNK, where a single outer step may require multiple map evaluations. Time-to-success beyond an imposed cap is right-censored; cost *actually spent until stopping* is observed, not censored.
 
@@ -78,6 +76,10 @@ Comparisons between algorithms `a,b` use paired initial states `x0_j` and the jo
 ## 3. Paired experimental unit and branch admissibility
 
 **Unit:** one saved initial-state realization `(case_id, theta, delta, seed_id, initial_state_hash)`, run *unchanged* through each configured algorithm. Share the initial `U,V,lambda` **bytes/values**, not merely equal RNG seeds inside different methods. Distinct `case_id` values are independent only to the extent justified by the perturbation sampler; share their IDs across algorithm arms, and avoid artificial independence across repeated fields or amplitudes derived from the same direction.
+
+**Population definitions (not approved sampling distributions):** Let $\mathcal X_{\mathrm{alg}}$ be the documented finite real coordinate arrays $(U,V,\lambda)$ satisfying the package's shape, finiteness and onsite skew relations. Let a *separately defined* group representation $\rho:G\to\mathrm{Aut}(\mathcal X_{\mathrm{alg}})$ determine $\mathcal X_{\mathrm{sym}}=\{x\in\mathcal X_{\mathrm{alg}}:\rho(g)x=x\ \forall g\in G\}$; this subset is not certified by naively applying a common $4\times4$ skew matrix across sites. Let $\mathcal X_{\mathrm{Gauss}}$ denote those correlator coordinates for which a **global CAR covariance** exists with consistent Fourier/bond/site marginals and the claimed Gaussian purity/mixed-state constraints. For a real antisymmetric covariance $\Gamma$, spectral admissibility requires $-\mathbb 1\preceq i\Gamma\preceq\mathbb 1$ in the compatible Majorana normalization (pure Gaussian states additionally obey the corresponding purity relation). Checking only selected two-site blocks is not a certificate of membership in $\mathcal X_{\mathrm{Gauss}}$; $\lambda$ are auxiliary multipliers rather than covariance entries.
+
+A future sampling design must declare **one** population and an explicit distribution $\mu^{(E)}_{\theta,\delta}$ on it; a generator that only checks $\mathcal X_{\mathrm{alg}}$ must label its output **algebraic/unverified**, never symmetry-certified or Gaussian-certified. A separately checked invariant ensemble may be analyzed independently; broader algebraic robustness and physically admissible Gaussian robustness answer different questions. No physical population, global covariance construction or measure is chosen by this draft.
 
 Before running a comparison, independently verify (or explicitly delimit) the intended symmetry orbit, physical/variational admissibility of the seed state, and the target branch. Target identification must specify allowable gauge/orientation transformations, boundary and momentum-space conventions, and an independent criterion beyond the solver's own `converged` flag. A stationary solution is not necessarily the global variational minimum or a physical projected spin state.
 
@@ -107,7 +109,7 @@ Separate a durable trial/metadata manifest from computed summary tables. Generat
 
 ## 6. Gates, owner decisions and work decomposition
 
-**TODO(Lu) — Physical/mathematical:** choose model parameter/field points including whether to sample near the first-order transition and the spinodal; select QSL and polarized reference branches; determine valid initial-state measure `mu` and whether the symmetric-only subspace suffices; define equivalence under allowed gauge/symmetry transforms; define admissibility and target-branch oracle.
+**TODO(Lu) — Physical/mathematical:** choose model parameter/field points including whether to sample near the first-order transition and the spinodal; select QSL and polarized reference branches; define separate measures on `X_alg`, `X_sym` or `X_Gauss` and their actual certification routines; define the group action, allowable gauge/branch equivalences and independent three-way target/other/unknown oracle. **Wave 4 approval alone authorizes software infrastructure, not these scientific selections.**
 
 **TODO(Lu) — Computational:** approve which solver variants count as separate algorithms, comparable resource cap (iteration vs actual `Phi` work), residuals and numerical tolerances, mesh and precision, hyperparameter selection/tuning policy, warm-start handling, runtime platform and memory/time budget.
 
@@ -117,7 +119,7 @@ Separate a durable trial/metadata manifest from computed summary tables. Generat
 1. **W1 (this PR):** inspect source/legacy data; define events, measures and confounders; expose owner decisions. Deliver a draft protocol only.
 2. **W4 independent review:** try to falsify the design, especially branch oracle, sampling independence, fairness of JFNK cost, radius interpretation and plausible negative controls. Submit exact objections and required fixes.
 3. **Owner freeze:** select/approve actual numerical parameters and statistical decision thresholds. Only then assign/activate appropriate milestone and update `PROJECT_STATE.yaml` with `doc/MILESTONE_ROADMAP.md` atomically if its scope/tasks change.
-4. **W2 implementation:** implement pure trial-recording/paired-case generator separately from solver execution; add unit/integration tests; no fresh performance verdict from the implementation's own tests.
+4. **W2 infrastructure (separately authorized by Lu after W4 review):** implement paired-case identity and hashing, a three-way branch-classification interface, raw trial recording with actual costs, and descriptive/identified-bound analysis with synthetic unit tests. **Do not implement a physical perturbation sampler, branch oracle, numerical runner or confirmatory inference until the corresponding scientific contract is approved.**
 5. **Bounded exploratory pilot:** test reproducibility, logs, branch classes and resource accounting; keep its seed cohort separate from confirmatory samples. Repair mechanical bugs without retroactively loosening scientific criteria.
 6. **Confirmatory benchmark and W4:** run new approved paired cohort; report paired uncertainty and raw reproducibility; independently review and decide which claims are supported, unresolved or contradicted. Scientific approval and any publication handoff remain separate.
 
