@@ -415,7 +415,7 @@ def test_experiment_contract_is_immutable_and_complete() -> None:
     assert ExperimentContract(original.document_json).digest == original.digest
     with pytest.raises(ValueError, match="positive"):
         _contract(cap=0)
-    with pytest.raises(ValueError, match="canonical"):
+    with pytest.raises(ValueError, match="experiment"):
         ExperimentContract('{"model": 3}')
     with pytest.raises(ValueError, match="certified"):
         ExperimentContract.from_mapping(

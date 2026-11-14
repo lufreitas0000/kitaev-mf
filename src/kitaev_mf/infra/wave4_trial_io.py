@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.domain.wave4_contract import ExperimentContract
@@ -150,7 +151,7 @@ def _decode_case(document: dict[str, Any]) -> PairedCase:
     encoded_arrays = payload["arrays"]
     if not isinstance(encoded_arrays, dict) or set(encoded_arrays) != set(_ARRAY_NAMES):
         raise ValueError("missing or unexpected initial arrays")
-    arrays: dict[str, np.ndarray] = {}
+    arrays: dict[str, NDArray[np.float64]] = {}
     for name in _ARRAY_NAMES:
         item = encoded_arrays[name]
         if not isinstance(item, dict) or set(item) != {"dtype", "shape", "data_base64"}:

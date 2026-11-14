@@ -8,8 +8,9 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any
 
 
 def _object(value: Any, name: str) -> dict[str, Any]:
