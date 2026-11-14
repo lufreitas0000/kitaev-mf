@@ -8,7 +8,7 @@
 | §2.2 P1–P6 mass prefactor, mean-field analytic coefficient | BACKLOG IDEA-001, current claim/pilot evidence in `doc/rnd/`, Issue #6 | Open exploratory derivation; fit remains numerical |
 | §2.2 continuum exact PT prefactor and static denominator | BACKLOG IDEA-002; [Issue #12](https://github.com/lufreitas0000/kitaev-mf/issues/12) | Prerequisite sector/resolvent contract |
 | §2.2 L0 historical validity axes | Existing W2 pilot, K-019-A reviewed erratum and source hypotheses | Historical evidence review, not new sprint |
-| §2.2 L1 statistics and paired solver benchmark | [Issue #7](https://github.com/lufreitas0000/kitaev-mf/issues/7), [draft PR #13](https://github.com/lufreitas0000/kitaev-mf/pull/13) | Independently gated implementation; no invented trial/sample thresholds |
+| §2.2 L1 statistics and paired solver benchmark | [Issue #7](https://github.com/lufreitas0000/kitaev-mf/issues/7), [merged W1 design PR #16](https://github.com/lufreitas0000/kitaev-mf/pull/16) (documentation scope only; the superseded [draft PR #13](https://github.com/lufreitas0000/kitaev-mf/pull/13) was closed without merge) | Independently gated implementation; no invented trial/sample thresholds |
 | §2.2 L2 86/5 reduction, manifold, bound and T1–T7 | BACKLOG IDEA-003, IDEA-009; [Issue #8](https://github.com/lufreitas0000/kitaev-mf/issues/8) | No assumed D=5 closure or physics root count |
 | §2.2 L3 S0–S5 exact/scMFT vortex constraints | BACKLOG IDEA-010; [Issues #12](https://github.com/lufreitas0000/kitaev-mf/issues/12), [#15](https://github.com/lufreitas0000/kitaev-mf/issues/15); roadmap M2.2 | Owner-controlled R3, no simulator activation |
 | §2.2 L4 interval Newton and certified enumeration | BACKLOG IDEA-004 | Deferred pending compact domain and symmetry proof |
