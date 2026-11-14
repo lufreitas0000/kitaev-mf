@@ -55,13 +55,13 @@ class PairedCase:
         measure_ref: str,
         state: MeanFieldState,
     ) -> PairedCase:
-        for field_name, value in (
+        for field_name, field_value in (
             ("protocol_id", protocol_id),
             ("case_id", case_id),
             ("stratum_id", stratum_id),
             ("measure_ref", measure_ref),
         ):
-            _require_nonempty(value, field_name)
+            _require_nonempty(field_value, field_name)
         if cohort not in ("synthetic", "pilot", "confirmatory"):
             raise ValueError("invalid cohort")
 
