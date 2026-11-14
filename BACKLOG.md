@@ -126,7 +126,7 @@ Trigger: the owner selects Phase 3 and its benchmark scope.
 
 - M2.1–M2.4, M3.0–M3.5 and future model phases are already **roadmap milestones**; do not duplicate them as new Issues or active tasks here.
 - K-010/011/019/020 are **historical recorded claims/evidence** requiring source-aware correction if disputed, not permission to rewrite their original status.
-- L1 paired benchmark repair is tracked by existing Issue #7 and an unregistered protocol PR; L3 fixed vortex constraint by Issue #15. Retain stable source links rather than duplicating their executable task list.
+- L1 paired benchmark repair is tracked by existing Issue #7 and the [merged, unregistered W1 protocol PR #16](https://github.com/lufreitas0000/kitaev-mf/pull/16) (reviewed for documentary scope only); L3 fixed vortex constraint by Issue #15. Retain stable source links rather than duplicating their executable task list.
 - Multi-method ED, iPEPS, SDP, HTE and tensor-network implementation belongs primarily in the independently owned `kitaev-numerics` roadmap/backlog unless a concrete cross-project interface is requested.
 - Governance implementation waves, website and Lean/monograph work are owned by their respective repositories. The source-to-destination crosswalk for this migration is [doc/PLANNING_RECORDS_MIGRATION.md](doc/PLANNING_RECORDS_MIGRATION.md).
 
