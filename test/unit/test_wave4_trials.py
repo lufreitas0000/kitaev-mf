@@ -454,7 +454,7 @@ def test_final_diagnostics_distinguish_absent_and_zero() -> None:
     with pytest.raises(ValueError, match="final residual"):
         FinalDiagnostics(onsite=-1.0)
     with pytest.raises(ValueError, match="unverified"):
-        replace(record, map_evaluations_source="independently_verified")
+        replace(record, map_evaluations_source="independently_verified")  # type: ignore[arg-type]
 
 
 def test_paired_comparison_rejects_different_field_budget_or_solver_settings() -> None:
