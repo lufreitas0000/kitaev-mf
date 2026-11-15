@@ -172,7 +172,7 @@ def test_identical_snapshot_for_each_algorithm_and_caller_mutation() -> None:
         case_id="seed-1",
         stratum_id="test",
         cohort="synthetic",
-        measure_ref="test-measure",
+        measure_ref="synthetic-measure-only",
         state=source,
         experiment=CONTRACT,
         sample_seed=7,
@@ -269,7 +269,7 @@ def test_nonconverged_and_unproven_classification_rejected() -> None:
         replace(record, oracle_ref=None)
     with pytest.raises(ValueError, match="convergence"):
         replace(record, convergence_check_ref=None)
-    with pytest.raises(ValueError, match="certification"):
+    with pytest.raises(ValueError, match="population"):
         replace(record, population_id="gaussian_certified")
     with pytest.raises(ValueError, match="negative"):
         replace(record, map_evaluations=-1)
