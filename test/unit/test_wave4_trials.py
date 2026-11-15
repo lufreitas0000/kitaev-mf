@@ -461,10 +461,10 @@ def test_paired_comparison_rejects_different_field_budget_or_solver_settings() -
     base = _case("shared", 0.0)
     same_bytes_different_field = _case("shared", 0.0, _contract(field=(0.1, 0.0, 0.0)))
     assert base.initial_state_hash == same_bytes_different_field.initial_state_hash
-    with pytest.raises(ValueError, match="pairing"):
+    with pytest.raises(ValueError, match="mixes experiment contracts"):
         compare_paired_trials([_trial(base, "fp")], [_trial(same_bytes_different_field, "jfnk")])
     same_bytes_different_cap = _case("shared", 0.0, _contract(cap=201))
-    with pytest.raises(ValueError, match="pairing"):
+    with pytest.raises(ValueError, match="mixes experiment contracts"):
         compare_paired_trials([_trial(base, "fp")], [_trial(same_bytes_different_cap, "jfnk")])
     with pytest.raises(ValueError, match="configuration"):
         replace(_trial(base, "fp"), method="jfnk")
