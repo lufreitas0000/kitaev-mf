@@ -520,7 +520,8 @@ def test_paired_comparison_rejects_mixed_configurations_and_strata() -> None:
         }
     )
     left[1] = replace(
-        left[1], config_ref=alternative.digest,
+        left[1],
+        config_ref=alternative.digest,
         solver_configuration_json=alternative.document_json,
     )
     with pytest.raises(ValueError, match="mixed solver configurations"):
