@@ -441,6 +441,10 @@ def compare_paired_trials(
         raise ValueError("arms have different case sets")
     if len({r.method for r in arm_a}) != 1 or len({r.method for r in arm_b}) != 1:
         raise ValueError("each arm must contain one method")
+    if len({r.config_ref for r in arm_a}) != 1 or len({r.config_ref for r in arm_b}) != 1:
+        raise ValueError("paired arm contains mixed solver configurations")
+    if len({r.experiment_digest for r in (*arm_a, *arm_b)}) != 1:
+        raise ValueError("paired comparison mixes experiment contracts across cases")
     if arm_a[0].method == arm_b[0].method:
         raise ValueError("paired comparison requires distinct methods")
     pairs = [(a_by_id[k], b_by_id[k]) for k in sorted(a_by_id)]

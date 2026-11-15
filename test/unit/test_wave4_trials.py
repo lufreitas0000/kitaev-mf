@@ -505,3 +505,29 @@ def test_raw_trial_roundtrip_preserves_contract_and_null_diagnostics(tmp_path: P
     assert restored[0].experiment_json == case.experiment.document_json
     assert restored[0].sample_seed == 7
     assert restored[0].solver_configuration_json == _solver_settings("fp").document_json
+
+
+def test_paired_comparison_rejects_mixed_configurations_and_strata() -> None:
+    case_a = _case("a")
+    case_b = _case("b")
+    left = [_trial(case_a, "fp"), _trial(case_b, "fp")]
+    right = [_trial(case_a, "jfnk"), _trial(case_b, "jfnk")]
+    alternative = SolverConfiguration.from_mapping(
+        {
+            "method": "fp",
+            "implementation": "synthetic-test-fixture-only",
+            "parameters": {"synthetic_flag": False},
+        }
+    )
+    left[1] = replace(
+        left[1], config_ref=alternative.digest,
+        solver_configuration_json=alternative.document_json,
+    )
+    with pytest.raises(ValueError, match="mixed solver configurations"):
+        compare_paired_trials(left, right)
+
+    different = _case("b", contract=_contract(field=(0.2, 0.0, 0.0)))
+    left = [_trial(case_a, "fp"), _trial(different, "fp")]
+    right = [_trial(case_a, "jfnk"), _trial(different, "jfnk")]
+    with pytest.raises(ValueError, match="mixes experiment contracts"):
+        compare_paired_trials(left, right)
