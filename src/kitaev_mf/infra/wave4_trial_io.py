@@ -22,8 +22,17 @@ from kitaev_mf.domain.wave4_trials import PairedCase, TrialRecord
 SCHEMA_VERSION = 2
 _RECORD_FIELDS = {field.name for field in fields(TrialRecord)}
 _CASE_FIELDS = {
-    "protocol_id", "case_id", "stratum_id", "cohort", "measure_ref", "population_id",
-    "experiment_json", "experiment_digest", "sample_seed", "initial_state_hash", "arrays",
+    "protocol_id",
+    "case_id",
+    "stratum_id",
+    "cohort",
+    "measure_ref",
+    "population_id",
+    "experiment_json",
+    "experiment_digest",
+    "sample_seed",
+    "initial_state_hash",
+    "arrays",
 }
 _ARRAY_NAMES = ("U", "V", "lambdas")
 
@@ -195,9 +204,7 @@ def read_paired_cases(path: Path) -> list[PairedCase]:
 
 
 def _record_key(record: TrialRecord) -> tuple[str, str, str, str, str]:
-    return (
-        record.protocol_id, record.stratum_id, record.cohort, record.method, record.case_id
-    )
+    return (record.protocol_id, record.stratum_id, record.cohort, record.method, record.case_id)
 
 
 def _verify_case_links(records: Sequence[TrialRecord], cases: Sequence[PairedCase]) -> None:
@@ -220,16 +227,12 @@ def _verify_case_links(records: Sequence[TrialRecord], cases: Sequence[PairedCas
             raise ValueError("trial and persisted initial-state contract mismatch")
 
 
-def write_trial_records(
-    path: Path, records: Sequence[TrialRecord], *, cases_path: Path
-) -> None:
+def write_trial_records(path: Path, records: Sequence[TrialRecord], *, cases_path: Path) -> None:
     """Atomically create trial telemetry only after verifying saved initial states."""
     if len({_record_key(r) for r in records}) != len(records):
         raise ValueError("duplicate method/case trial identity")
     _verify_case_links(records, read_paired_cases(cases_path))
-    _create_jsonl(
-        path, [{"schema_version": SCHEMA_VERSION, "record": asdict(r)} for r in records]
-    )
+    _create_jsonl(path, [{"schema_version": SCHEMA_VERSION, "record": asdict(r)} for r in records])
 
 
 def _decode_record(document: dict[str, Any]) -> TrialRecord:
@@ -248,7 +251,9 @@ def _decode_record(document: dict[str, Any]) -> TrialRecord:
     if payload["sample_seed"] is not None and type(payload["sample_seed"]) is not int:
         raise ValueError("sample_seed must be an integer or null")
     for name in (
-        "wall_seconds", "final_correlator_residual", "final_onsite_residual",
+        "wall_seconds",
+        "final_correlator_residual",
+        "final_onsite_residual",
         "final_gauge_residual",
     ):
         if payload[name] is not None and type(payload[name]) not in (int, float):

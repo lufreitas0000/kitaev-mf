@@ -233,7 +233,10 @@ class TrialRecord:
             raise ValueError("experiment contract checksum mismatch")
         if self.source_commit != contract.source_commit:
             raise ValueError("source commit differs from experiment contract")
-        if self.population_id != contract.population_id or self.measure_ref != contract.measure_definition:
+        if (
+            self.population_id != contract.population_id
+            or self.measure_ref != contract.measure_definition
+        ):
             raise ValueError("population/measure differs from experiment contract")
         if self.method != config.method or self.config_ref != config.digest:
             raise ValueError("solver configuration mismatch")
@@ -246,7 +249,9 @@ class TrialRecord:
         if self.map_evaluations_source != "reported_unverified" or (
             self.convergence_source != "reported_unverified"
         ):
-            raise ValueError("numerical telemetry is reported/unverified until independently instrumented")
+            raise ValueError(
+                "numerical telemetry is reported/unverified until independently instrumented"
+            )
         FinalDiagnostics(
             correlator=self.final_correlator_residual,
             onsite=self.final_onsite_residual,
@@ -373,8 +378,16 @@ def summarize_trials(records: Sequence[TrialRecord]) -> DescriptiveSummary:
     if not records:
         raise ValueError("cannot summarize an empty cohort")
     keys = {
-        (r.protocol_id, r.stratum_id, r.cohort, r.measure_ref, r.population_id, r.method,
-         r.experiment_digest, r.config_ref)
+        (
+            r.protocol_id,
+            r.stratum_id,
+            r.cohort,
+            r.measure_ref,
+            r.population_id,
+            r.method,
+            r.experiment_digest,
+            r.config_ref,
+        )
         for r in records
     }
     if len(keys) != 1:

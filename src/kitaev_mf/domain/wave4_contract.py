@@ -81,12 +81,15 @@ def _validate_experiment(document: dict[str, Any]) -> None:
     )
     _text(numerics["precision"], "numerics.precision")
     _text(numerics["stopping_rule"], "numerics.stopping_rule")
-    _mapping_of_numbers(numerics["residual_tolerances"], "numerics.residual_tolerances", positive=True)
+    _mapping_of_numbers(
+        numerics["residual_tolerances"], "numerics.residual_tolerances", positive=True
+    )
     _positive_int(numerics["max_map_evaluations"], "numerics.max_map_evaluations")
 
     sampling = _object(document["sampling"], "sampling")
     _keys(
-        sampling, {"population_id", "generator", "version", "parameters", "measure_definition"},
+        sampling,
+        {"population_id", "generator", "version", "parameters", "measure_definition"},
         "sampling",
     )
     if sampling["population_id"] != "algebraic_unverified":
@@ -99,20 +102,34 @@ def _validate_experiment(document: dict[str, Any]) -> None:
     _keys(
         provenance,
         {
-            "git_sha", "git_dirty", "python_version", "numpy_version", "torch_version",
-            "platform", "hardware", "blas_backend", "threads",
+            "git_sha",
+            "git_dirty",
+            "python_version",
+            "numpy_version",
+            "torch_version",
+            "platform",
+            "hardware",
+            "blas_backend",
+            "threads",
         },
         "provenance",
     )
     git_sha = provenance["git_sha"]
-    if not isinstance(git_sha, str) or len(git_sha) != 40 or any(
-        c not in "0123456789abcdef" for c in git_sha
+    if (
+        not isinstance(git_sha, str)
+        or len(git_sha) != 40
+        or any(c not in "0123456789abcdef" for c in git_sha)
     ):
         raise ValueError("provenance.git_sha must be a full lower-case Git SHA")
     if type(provenance["git_dirty"]) is not bool:
         raise ValueError("provenance.git_dirty must be a boolean")
     for key in (
-        "python_version", "numpy_version", "torch_version", "platform", "hardware", "blas_backend"
+        "python_version",
+        "numpy_version",
+        "torch_version",
+        "platform",
+        "hardware",
+        "blas_backend",
     ):
         _text(provenance[key], f"provenance.{key}")
     _positive_int(provenance["threads"], "provenance.threads")

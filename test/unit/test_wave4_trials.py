@@ -31,10 +31,16 @@ from kitaev_mf.infra.wave4_trial_io import (
 SOURCE_SHA = "a" * 40
 
 
-def _contract(field: tuple[float, float, float] = (0.0, 0.0, 0.0), cap: int = 200) -> ExperimentContract:
+def _contract(
+    field: tuple[float, float, float] = (0.0, 0.0, 0.0), cap: int = 200
+) -> ExperimentContract:
     return ExperimentContract.from_mapping(
         {
-            "model": {"name": "synthetic-Kitaev", "couplings": {"K": -1.0}, "field_xyz": list(field)},
+            "model": {
+                "name": "synthetic-Kitaev",
+                "couplings": {"K": -1.0},
+                "field_xyz": list(field),
+            },
             "geometry": {
                 "cell": {
                     "sublattice_count": 2,
@@ -379,7 +385,9 @@ def test_durable_case_snapshot_roundtrip_and_tamper_detection(tmp_path: Path) ->
     assert len(reconstructed) == 1
     assert reconstructed[0].initial_state_hash == case.initial_state_hash
     assert reconstructed[0].experiment.document_json == case.experiment.document_json
-    np.testing.assert_array_equal(reconstructed[0].materialize_state().U, case.materialize_state().U)
+    np.testing.assert_array_equal(
+        reconstructed[0].materialize_state().U, case.materialize_state().U
+    )
     with pytest.raises(FileExistsError):
         write_paired_cases(cases_path, [case])
 
@@ -419,7 +427,13 @@ def test_experiment_contract_is_immutable_and_complete() -> None:
         ExperimentContract('{"model": 3}')
     with pytest.raises(ValueError, match="certified"):
         ExperimentContract.from_mapping(
-            {**original.document, "sampling": {**original.document["sampling"], "population_id": "gaussian_certified"}}
+            {
+                **original.document,
+                "sampling": {
+                    **original.document["sampling"],
+                    "population_id": "gaussian_certified",
+                },
+            }
         )
 
 
@@ -448,14 +462,10 @@ def test_paired_comparison_rejects_different_field_budget_or_solver_settings() -
     same_bytes_different_field = _case("shared", 0.0, _contract(field=(0.1, 0.0, 0.0)))
     assert base.initial_state_hash == same_bytes_different_field.initial_state_hash
     with pytest.raises(ValueError, match="pairing"):
-        compare_paired_trials(
-            [_trial(base, "fp")], [_trial(same_bytes_different_field, "jfnk")]
-        )
+        compare_paired_trials([_trial(base, "fp")], [_trial(same_bytes_different_field, "jfnk")])
     same_bytes_different_cap = _case("shared", 0.0, _contract(cap=201))
     with pytest.raises(ValueError, match="pairing"):
-        compare_paired_trials(
-            [_trial(base, "fp")], [_trial(same_bytes_different_cap, "jfnk")]
-        )
+        compare_paired_trials([_trial(base, "fp")], [_trial(same_bytes_different_cap, "jfnk")])
     with pytest.raises(ValueError, match="configuration"):
         replace(_trial(base, "fp"), method="jfnk")
     with pytest.raises(ValueError, match="checksum"):
