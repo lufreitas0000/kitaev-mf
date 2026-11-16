@@ -1,0 +1,7 @@
+Preserved active-state block at 770db3ead9d7834c75c9399efcb8e87a0a3451b6; complete source remains in Git.
+active_milestone:
+  id: M1.11
+  description: Phase 1 Certified Closure — Numerical Quantification of Pure FM Kitaev (K = -1.0) under [111] Field
+  status: completed
+  sprint_goal: Complete all Phase 1 solver benchmarks, hypothesis contracts (HC-P1-01..03), and Master Solver Resource Table; transition to Phase 2 physics production in the FM Kitaev [111] regime.
+  active_tasks: []

@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: 'Phase 1: Analytical Rigor & Domain Foundations (COMPLETED) -> Phase 2: FM Kitaev [111] Physics Production (IN PREPARATION)'
-current_milestone: M1.11 (Phase 1 Certified Closure)
+active_phase: Consolidation in waves (legacy compatibility field)
+current_milestone: RECON-20261116
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -180,11 +180,23 @@ milestone_history:
   - test/unit/test_real_space_and_purification.py
   - test/unit/test_post_spinodal_kkt_audit.py
 active_milestone:
-  id: M1.11
-  description: Phase 1 Certified Closure — Numerical Quantification of Pure FM Kitaev (K = -1.0) under [111] Field
-  status: completed
-  sprint_goal: Complete all Phase 1 solver benchmarks, hypothesis contracts (HC-P1-01..03), and Master Solver Resource Table; transition to Phase 2 physics production in the FM Kitaev [111] regime.
-  active_tasks: []
+  id: RECON-20261116
+  description: Foundation organization and provisional-history reconciliation
+  status: active
+  sprint_goal: Make assumptions, sources, evidence and acceptance boundaries discoverable before new physics
+  active_tasks:
+    - id: T1
+      title: Foundation information index and preservation inventory
+      status: completed
+      target_files:
+        - doc/reconciliation/README.md
+        - doc/reconciliation/PLAN.md
+        - doc/reconciliation/FOUNDATIONS.yaml
+        - doc/reconciliation/INVENTORY.json
+      validation:
+        - Pinned catalog coverage and Git blob identity; JSON/YAML and links; independent documentary review
+      evidence:
+        - doc/reconciliation/VERIFICATION.md
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)

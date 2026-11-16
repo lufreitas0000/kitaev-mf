@@ -1,4 +1,19 @@
-# Current sprint — research and execution brief
+# Current sprint — reconciliation
+
+**Owning wave: RECON-20261116.** Lu authorized organizational reconciliation on
+2026-11-16, including project-local PR/merge/branch administration. Active task
+status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml), not this prose.
+
+Current scope: [foundation index and preservation inventory](doc/reconciliation/README.md).
+[Concrete plan](doc/reconciliation/PLAN.md) defines each subsequent scope and gate.
+This organizational sprint changes no physical thresholds, hypotheses or model
+family. The next bounded outcome is governance compatibility. Physical execution
+awaits its explicit contracts and independent evidence. Historical Phase 4
+remains disapproved; newer Wave 4 solver-study work is distinct.
+
+## Retained previous handoff (superseded as current sprint; scientific prerequisites remain)
+
+### Previous research transition brief
 
 **Owning milestone: M1.11** (completed Phase 1 closure in the current `PROJECT_STATE.yaml`).  
 **Active execution sprint on `main`: none selected.** This is a truthful transition/handoff brief, not an authorization to begin Phase 2, reactivate M1.11 tasks, or change priority. The authoritative machine status is [PROJECT_STATE.yaml](PROJECT_STATE.yaml); accepted historical milestone summaries and the proposed next phases are in [the roadmap](doc/MILESTONE_ROADMAP.md).
