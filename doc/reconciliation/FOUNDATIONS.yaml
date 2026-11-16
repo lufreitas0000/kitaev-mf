@@ -1,0 +1,114 @@
+schema_version: 1
+scope: Initial foundation-family index, not an exhaustive claim audit or immutable
+  hypothesis registry
+status_semantics: Assessments describe source scope/open gates; registered historical
+  claims are not rewritten
+entries:
+- id: FND-STATE
+  question: Physical spin space and auxiliary projection
+  assumptions_to_keep_explicit:
+  - Majorana order; CAR; D definition; gauge and boundary convention
+  consequences_to_check:
+  - Physical trial energies require physical states; mean constraints do not establish
+    full projection
+  source_assessment: needs-convention-review
+  source: doc/rnd/phase_1/m1_1_t3_physical_projection_pauli_algebra.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/10
+  - https://github.com/lufreitas0000/kitaev-mf/issues/12
+  - https://github.com/lufreitas0000/kitaev-mf/issues/14
+  related_pr_links: []
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix
+- id: FND-UNITS
+  question: Hamiltonian/operator units and compared spectral observable
+  assumptions_to_keep_explicit:
+  - Pauli versus spin-half map; bond orientation; field components; matrix normalization
+  consequences_to_check:
+  - Positive quasiparticle energy, band separation and physical probe onset need separate
+    maps
+  source_assessment: needs-explicit-operator-map
+  source: doc/rnd/exact-perturbation-theory/notes/02_normalization_and_bloch_conventions.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/10
+  - https://github.com/lufreitas0000/kitaev-mf/issues/12
+  related_pr_links: []
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix
+- id: FND-RESOLVENT
+  question: Projector choice and second-order perturbation
+  assumptions_to_keep_explicit:
+  - Finite self-adjoint H0; ground P for sign theorem; inverse on Ran Q; reduced gap
+  consequences_to_check:
+  - PVP=0 does not eliminate second order; scalar gap does not evaluate a full operator
+    resolvent
+  source_assessment: erratum-established-within-stated-finite-scope
+  source: doc/rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/10
+  - https://github.com/lufreitas0000/kitaev-mf/issues/12
+  related_pr_links: []
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix
+- id: FND-GAUSSIAN
+  question: Gaussian admissibility and variational meaning
+  assumptions_to_keep_explicit:
+  - Covariance convention; global CAR positivity; purity/mixedness; physical projection
+  consequences_to_check:
+  - Pairwise positivity is insufficient for a global Gaussian state; auxiliary variational
+    minimum needs a physical comparison contract
+  source_assessment: needs-review-before-physical-interpretation
+  source: doc/rnd/phase_1/m1_4_5_t3_quasifree_manifolds_and_stability.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/8
+  related_pr_links:
+  - https://github.com/lufreitas0000/kitaev-mf/pull/20
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix
+- id: FND-ORACLE
+  question: Independent finite-spin comparisons
+  assumptions_to_keep_explicit:
+  - Same Hamiltonian, geometry, BC, physical state space, operator and units
+  consequences_to_check:
+  - Agreement supports the tested finite contract; no automatic thermodynamic theorem
+  source_assessment: independent-oracle-work-pending
+  source: CURRENT_SPRINT.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/14
+  related_pr_links: []
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix
+- id: FND-SAMPLING
+  question: Paired solver study and sampling population
+  assumptions_to_keep_explicit:
+  - Explicit population and law; matched initial states; branch oracle; resource cost;
+    uncertainty design
+  consequences_to_check:
+  - Synthetic infrastructure does not certify physical sampling or a basin radius
+  source_assessment: design-and-infrastructure-only
+  source: doc/rnd/phase_1/m1_6_t11_wave4_paired_solver_protocol_draft.md
+  source_ref: 770db3ead9d7834c75c9399efcb8e87a0a3451b6
+  open_issue_links:
+  - https://github.com/lufreitas0000/kitaev-mf/issues/7
+  - https://github.com/lufreitas0000/kitaev-mf/issues/8
+  related_pr_links:
+  - https://github.com/lufreitas0000/kitaev-mf/pull/20
+  dependency_gate: Review cited derivation and independent evidence before downstream
+    physical acceptance
+  book_destination: Logical foundation chapter with full proof/evidence in chronological
+    appendix

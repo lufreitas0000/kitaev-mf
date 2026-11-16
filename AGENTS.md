@@ -1,5 +1,7 @@
 # Agent and Contributor Protocol
 
+**Current reconciliation entry:** [Foundation/source index](doc/reconciliation/README.md) and [bounded plan](doc/reconciliation/PLAN.md). Lu authorized this organizational wave on 2026-11-16. Preserve historical statements below while resolving their current qualifications; they do not override the current user instructions or constitute renewed scientific acceptance.
+
 **Planning navigation (four-record pilot):** [CURRENT_SPRINT.md](CURRENT_SPRINT.md) is a readable execution brief; [doc/MILESTONE_ROADMAP.md](doc/MILESTONE_ROADMAP.md) is the ordered adaptive milestone roadmap; [BACKLOG.md](BACKLOG.md) retains unscheduled ideas; [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md) records scientific pivots. Existing [PROJECT_STATE.yaml](PROJECT_STATE.yaml) remains authoritative for active tasks. The [migration crosswalk](doc/PLANNING_RECORDS_MIGRATION.md) tracks the 2026-11-14 idea inventory. These documents do not change scientific priority or acceptance by themselves.
 
 This file is the repository entry point for human contributors and automated agents. It defines the operating sequence and points to the detailed policies; it is not a duplicate of those policies.
