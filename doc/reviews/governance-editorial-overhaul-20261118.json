@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "issue_ref": "RECON-20261116 / ADR-003 Governance & Editorial Overhaul",
+  "candidate_commit": "8bf236f016a635f3ff2935e17951ee488af0973e",
+  "author_agent": "antigravity-impl",
+  "reviewer_agent": "physics-referee",
+  "independent_context": "Dedicated read-only W4 physics-referee subagent session (2a700efb-e96e-4e27-9f74-2e0256230ab6) auditing commits 8803dc12af8243a3d41a0d31ce70ecb8d13c70df and 8bf236f016a635f3ff2935e17951ee488af0973e across two adversarial rounds.",
+  "risk": "R2",
+  "verdict": "accepted_for_scope",
+  "review_question": "Does the Stage 5 governance, LaTeX, CI/Pages, external-data provenance, and personal-website feed planning overhaul cleanly enforce ADR-003 linear single-main boundaries, SemVer 0.1.0/[Unreleased] hygiene, mathematical sign/notation consistency, honest IDEA-001 and K-019-A epistemic bounds, and Rule 03 website privacy compliance?",
+  "evidence": "Direct Round 1 & Round 2 full-file W4 audit on doc/governance-editorial-overhaul @ 8bf236f016a635f3ff2935e17951ee488af0973e (ADR-003, governance/profile.toml, PROJECT_STATE.yaml, CHANGELOG.md, AGENTS.md, README.md, CURRENT_SPRINT.md, doc/MILESTONE_ROADMAP.md, doc/HYPOTHESIS_CONTRACTS.md, doc/shared/NOTATION.md, doc/labbook/, doc/manuscript/, scripts/sync_external_data.py, scripts/build_blueprint.py, .github/workflows/{ci,docs}.yml, test/unit/{test_sync_external_data,test_post_spinodal_kkt_audit}.py, and doc/editorial/PERSONAL_SITE_FEED_PLAN.md). Verified locally on identical content prior to review commit: make labbook (78 pages) + make manuscript + make blueprint (NO_LATEX_WARNINGS_OR_ERRORS), check_index.py PASS, sync_external_data.py --verify PASS, planning_records.py check PASS, uow.py check --snapshot worktree --json mechanical_exit_code=0, and make verify PASS (216 passed in 192.78s, 94% coverage, ruff & mypy clean).",
+  "limitations": "The W4 physics-referee subagent operates read-only without shell execution, relying on caller execution and GitHub Actions CI for dynamic builds/tests. Non-blocking notes tracked for future Phase 2 sweeps: legacy untouched Lab Book chapters ch_m1_1b and ch_m1_2 retain pre-NOTATION.md -i correlator notation, ch_m1_11 H2 references planned compute_real_space_plaquette_fluxes alongside Stage 4 RealSpaceTorusCluster.compute_all_plaquette_pfaffian_fluxes, and PERSONAL_SITE_FEED_PLAN.md line 4 links local 03_editorial_rigor.md alongside personal-website 03_website_editorial_and_privacy.md.",
+  "checks": [
+    {
+      "question": "Are Eq. (m1_6_lehmann_hessian), finite-difference dual Hessian computation, SPD clamping/fallback attribution, and t10 provenance accurate in ch_m1_6?",
+      "method": "Re-derived H_{lambda lambda} = dg/dlambda from hamiltonian.py and correlators.py and compared ch_m1_6:365-373 against solver.py:37-87,175-186 and t10_lehmann_preconditioning_and_post_spinodal_kkt_audit.md.",
+      "finding": "Resolved and accepted [B1]: eq:m1_6_lehmann_hessian fixed to +(1/N_k) in G_tilde = iG, implementation split between finite-difference compute_lehmann_dual_hessian (eps=1e-5) and eigh SPD clamping/fallback in solve_self_consistent_mean_field accurately stated, and t10 path corrected."
+    },
+    {
+      "question": "Are D_i = +c^0 c^1 c^2 c^3, d_1/d_2, tau = 2T, V_s = +i<cc>, g = Tr(G V), and the odd-parity Kitaev map consistent across NOTATION.md, ch_m1_1, sec02, sec03, and ch_m1_6?",
+      "method": "Cross-checked algebraic signs on (c^0 c^1)(c^2 c^3), Casimir squares, C_{ij}, and sigma_K^alpha sigma_K^beta across NOTATION.md, sec02, sec03, ch_m1_1, ch_m1_6, and constants.py.",
+      "finding": "Resolved and accepted [B2]: all five documents align on D_i = +c^0 c^1 c^2 c^3 = -(-1)^{n_1+n_2}, V = +i<cc>, g = Tr(G V), explicit odd-parity Kitaev mapping (c_i^0, c_i^1, c_i^2, c_i^3) = (-c_i, b_i^x, b_i^y, b_i^z), corrected ch_m1_1 four-Majorana contraction and Casimir signs, and modulo-gauge commutator closure."
+    },
+    {
+      "question": "Do ch_m1_6, sec03, and fig_f11 honestly scope weak-field cubic gap fits, symmetry heuristics, IDEA-001, and K-019-A?",
+      "method": "Audited ch_m1_6:249-294, sec03:35-69, and fig_f11_majorana_gap_scaling.tex:21 against m1_10_t1_wave2_cubic_gap_evidence_pilot.md and m1_10_t1_k019a_second_order_erratum.md.",
+      "finding": "Resolved and accepted [B3]: cubic gap theorems demoted to symmetry heuristic propositions acknowledging open h_x+h_y+h_z representation analysis and IDEA-001, 12*sqrt(3)*kappa vs 6*sqrt(3)*kappa clarified, and regression scope explicitly restricted to the 24x24 mesh / 75-point path."
+    },
+    {
+      "question": "Do documentation, CHANGELOG.md, PROJECT_STATE.yaml, and HYPOTHESIS_CONTRACTS.md cite only live symbols and existing R&D/test paths?",
+      "method": "Verified symbols and paths across ch_m1_10, ch_m1_11, sec04, CHANGELOG.md, PROJECT_STATE.yaml, doc/HYPOTHESIS_CONTRACTS.md, real_space.py, and doc/rnd/phase_1/.",
+      "finding": "Resolved and accepted [B4]: RealSpaceTorusCluster.compute_plaquette_pfaffian_flux and compute_all_plaquette_pfaffian_fluxes (with s_perm=0), SolverConfig.precondition_dual / compute_lehmann_dual_hessian in H8, m1_3_t3, and m1_9_t2/t3/t4/t6 all match verified files on disk."
+    },
+    {
+      "question": "Do Stage 4 Pade/vortex docs, external-data verification, CI/Pages workflows, and unit tests avoid vacuous checks and binary PDF leaks?",
+      "method": "Inspected ch_m1_9, ch_m1_10, sec04, purification.py, .gitignore, Makefile, build_blueprint.py, ci.yml, docs.yml, sync_external_data.py, test_sync_external_data.py, and test_post_spinodal_kkt_audit.py.",
+      "finding": "Resolved and accepted [W1]-[W3]: Pade [3/2]_x=[2/2]_z / [2/1]_x=[1/1]_z and estimate_spectral_bound match purification.py, L=8 vs bulk gap & 10-step stability scoped, sync_external_data increments verified_active only on clean files, negative-path provenance tests cover all failure modes, and HC-P1-01 executes live solver/Bloch/benchmark checks."
+    },
+    {
+      "question": "Does doc/editorial/PERSONAL_SITE_FEED_PLAN.md conform to personal-website frontmatter schema, benchmark provenance, and Rule 03 privacy constraints?",
+      "method": "Inspected PERSONAL_SITE_FEED_PLAN.md:1-265 against personal-website Rules and 06-kitaev-mf.md plus data/processed/benchmarks/m1_6/ headers.",
+      "finding": "Resolved and accepted [W4]: schema matches 06-kitaev-mf.md, empirical fits and K-019-A erratum carry honest evidence_status labels, Rule 03 links and weak_field_solvers.dat / basin_sweep_111.dat norm_lam sources are corrected, and zero private tokens or fabricated citations exist."
+    }
+  ]
+}
