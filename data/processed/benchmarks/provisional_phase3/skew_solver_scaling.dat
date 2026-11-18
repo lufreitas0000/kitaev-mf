@@ -1,0 +1,10 @@
+# ACID Provenance Header: Task T3.W1.1 Scalable Skew Solver Benchmark
+# Author: Lu Freitas
+# Timestamp: 2026-11-07T14:47:43Z
+# Model: Pure FM Kitaev (K=1.0, kappa=0.1) on Honeycomb Torus
+# Columns: L num_sites t_schur_s ortho_err recon_err t_svd_ms t_loop_ms speedup
+   4       32      0.001214    4.6629e-15    7.1054e-15      0.4658      0.4238      0.91
+   6       72      0.003350    8.8818e-15    1.1990e-14      0.6077      1.6728      2.75
+   8      128      0.010553    9.5479e-15    1.1546e-14      1.4876      7.5317      5.06
+  10      200      0.028174    1.3323e-14    1.7319e-14      3.9176         nan       nan
+  12      288      0.072336    1.8874e-14    2.2649e-14     10.8499         nan       nan

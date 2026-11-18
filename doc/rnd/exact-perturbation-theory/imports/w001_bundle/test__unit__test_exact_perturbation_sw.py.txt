@@ -1,0 +1,36 @@
+"""Unit tests for exact 2nd- and 3rd-order Schrieffer-Wolff / Green's function perturbation theory."""
+
+from __future__ import annotations
+
+import numpy as np
+
+from kitaev_mf.services.exact_perturbation_sw import (
+    build_matter_A,
+    compute_torus_perturbation,
+)
+
+
+def test_c3_isotropy_and_positive_vison_gap_on_l4_torus() -> None:
+    """Verify exact C_3 bond symmetry and positive 2-vison threshold on L=4 PBC torus."""
+    res = compute_torus_perturbation(L=4, n_quad_2nd=16, n_quad_3rd=6)
+    assert np.isclose(res["Delta_v"], 0.34021810, atol=1e-6)
+    assert res["E2_bond_coeff"] < -3.0
+    assert res["eta_2_bond_renorm"] > 1.5
+    assert res["kappa_a_2f"] > 8.0
+    assert res["kappa_b_tadpole"] > 4.5
+    assert np.isclose(
+        res["kappa_eff_total"],
+        res["kappa_a_2f"] + res["kappa_b_tadpole"],
+        atol=1e-12,
+    )
+
+
+def test_bipartite_parity_preservation_for_single_bond_flips() -> None:
+    """Verify that flipping any single bond on L=4 PBC torus preserves even fermion parity."""
+    A0 = build_matter_A(4)
+    w0 = np.linalg.eigvalsh(1j * A0)
+    assert np.min(np.abs(w0)) > 0.5
+    for b_idx in (0, 1, 2):
+        Ab = build_matter_A(4, flipped_bonds=[(0, 0, b_idx)])
+        wb = np.linalg.eigvalsh(1j * Ab)
+        assert np.min(np.abs(wb)) > 0.1

@@ -1,0 +1,295 @@
+"""Exploratory unprojected Gaussian quadrature from the PI-supplied W001 bundle.
+
+This is an isolated research prototype, not a production service or an exact
+physical spin-space Schrieffer-Wolff implementation. Output coefficients retain
+the proposal's definitions; physical parity, operator matching, determinant
+branches and all-orders claims are not established by this numerical routine.
+Use successive quadrature orders and inspect conditioning before interpretation.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+
+import numpy as np
+from numpy.typing import NDArray
+
+RealArray = NDArray[np.float64]
+ComplexArray = NDArray[np.complex128]
+
+
+def build_matter_generator(
+    L: int, K: float = 1.0, flipped_bonds: list[tuple[int, int, int]] | None = None
+) -> RealArray:
+    """Assemble the proposal's frozen-gauge 2*L^2 x 2*L^2 real skew-symmetric matter Majorana generator A(u)."""
+    if L < 2 or not np.isfinite(K) or K <= 0:
+        raise ValueError("Require L >= 2 and finite K > 0")
+    N_cells = L * L
+    N_sites = 2 * N_cells
+    A = np.zeros((N_sites, N_sites), dtype=np.float64)
+    flipped = set(flipped_bonds) if flipped_bonds else set()
+    disp = [(0, 0), (0, -1), (-1, 0)]
+    for m2 in range(L):
+        for m1 in range(L):
+            sA = 2 * (m1 + L * m2)
+            for b_idx, (d1, d2) in enumerate(disp):
+                n1 = (m1 + d1) % L
+                n2 = (m2 + d2) % L
+                sB = 2 * (n1 + L * n2) + 1
+                sign = -1.0 if (m1, m2, b_idx) in flipped else 1.0
+                A[sA, sB] += -2.0 * K * sign
+                A[sB, sA] -= -2.0 * K * sign
+    return A
+
+
+def make_LR(w: RealArray, u: ComplexArray, tau: float) -> tuple[ComplexArray, ComplexArray]:
+    """Bounded left/right decomposition e^{tau W} = L(tau)^{-1} R(tau) with eigenvalues in [0, 1]."""
+    if not np.isfinite(tau) or tau < 0:
+        raise ValueError("Euclidean time must be finite and nonnegative")
+    exp_neg = np.exp(-tau * np.abs(w))
+    r_vals = np.where(w > 0, 1.0, exp_neg)
+    l_vals = np.where(w > 0, exp_neg, 1.0)
+    R = (u * r_vals) @ u.conj().T
+    L = (u * l_vals) @ u.conj().T
+    return L, R
+
+
+def pfaffian_skew(M: ComplexArray) -> complex:
+    """Exact Pfaffian of 2x2, 4x4, or 6x6 skew-symmetric matrix."""
+    n = M.shape[0]
+    if n == 2:
+        return complex(M[0, 1])
+    if n == 4:
+        return complex(M[0, 1] * M[2, 3] - M[0, 2] * M[1, 3] + M[0, 3] * M[1, 2])
+    if n == 6:
+        res = 0.0j
+        for j in range(1, 6):
+            idx = [k for k in range(1, 6) if k != j]
+            sub = M[np.ix_(idx, idx)]
+            pf4 = sub[0, 1] * sub[2, 3] - sub[0, 2] * sub[1, 3] + sub[0, 3] * sub[1, 2]
+            res += ((-1) ** (j - 1)) * M[0, j] * pf4
+        return complex(res)
+    raise ValueError(f"Unsupported Pfaffian dimension: {n}")
+
+
+def wick_general(
+    ops: list[tuple[int, int]], G_dict: dict[tuple[int, int], ComplexArray]
+) -> complex:
+    """Multi-time Wick contraction via Pfaffian of time-slice Green blocks."""
+    m = len(ops)
+    M = np.zeros((m, m), dtype=complex)
+    for p in range(m):
+        sp, ip = ops[p]
+        for q in range(p + 1, m):
+            sq, iq = ops[q]
+            M[p, q] = G_dict[(sp, sq)][ip, iq]
+            M[q, p] = -M[p, q]
+    return pfaffian_skew(M)
+
+
+def eval_comm_general(
+    mid_ops: list[tuple[int, int]], G_dict: dict[tuple[int, int], ComplexArray], a: int, b: int
+) -> complex:
+    """Graded commutator <gs0 | {c_b, [c_a, O]} | gs0> / (4 Z_E) isolating normal-ordered bilinear."""
+    return (
+        +wick_general([(0, b), (0, a)] + mid_ops, G_dict)
+        - wick_general([(0, b)] + mid_ops + [(2, a)], G_dict)
+        + wick_general([(0, a)] + mid_ops + [(2, b)], G_dict)
+        - wick_general(mid_ops + [(2, a), (2, b)], G_dict)
+    ) / 4.0
+
+
+def compute_unprojected_candidate(
+    L: int, n_quad_2nd: int = 24, n_quad_3rd: int = 10
+) -> dict[str, float]:
+    """Evaluate proposed unprojected second/third-order quadratures on L x L PBC torus."""
+    if L < 2 or n_quad_2nd < 4 or n_quad_3rd < 4:
+        raise ValueError("Require L >= 2 and quadrature orders >= 4")
+    b_z, b_x, b_y = (0, 0, 0), (0, 0, 1), (0, 0, 2)
+    s_l = 0
+    s_jz = 1
+    s_jx = 2 * (0 + L * (L - 1)) + 1
+    s_ky = 2 * ((L - 1) + L * 0) + 1
+
+    A0 = build_matter_generator(L)
+    Ax = build_matter_generator(L, flipped_bonds=[b_x])
+    Ay = build_matter_generator(L, flipped_bonds=[b_y])
+    Az = build_matter_generator(L, flipped_bonds=[b_z])
+
+    w0, u0 = np.linalg.eigh(1j * A0)
+    wx, ux = np.linalg.eigh(1j * Ax)
+    wy, uy = np.linalg.eigh(1j * Ay)
+    wz, uz = np.linalg.eigh(1j * Az)
+    if np.min(np.abs(w0)) <= 1e-10 * np.max(np.abs(w0)):
+        raise ValueError("Reference has zero modes; vacuum projector is ambiguous")
+    E0 = -0.5 * float(np.sum(w0[w0 > 0]))
+    dv = -0.5 * float(np.sum(wx[wx > 0])) - E0
+
+    if dv <= 0:
+        raise ValueError("Candidate vacuum energy difference must be positive")
+    P_cre = u0[:, w0 < 0] @ u0[:, w0 < 0].conj().T
+    P_ann = P_cre.T
+    S0_bond = float(np.real(1j * (2.0 * P_ann[s_l, s_jz])))
+    N = len(w0)
+    Z_zero = np.zeros((N, N), dtype=complex)
+    rhs_0 = np.vstack([2.0 * P_ann, Z_zero, Z_zero])
+
+    # 1. Candidate second-order integral on bond b_z = (s_l, s_jz)
+    P_cre_z = uz.conj().T @ P_cre @ uz
+    P_ann_z = uz.conj().T @ P_ann @ uz
+    uz_01 = uz[[s_l, s_jz], :]
+    rhs_01 = P_ann_z @ uz_01.conj().T
+
+    def integrand_2nd(tau: float) -> RealArray:
+        exp_neg = np.exp(-tau * np.abs(wz))
+        r_vals = np.where(wz > 0, 1.0, exp_neg)
+        l_vals = np.where(wz > 0, exp_neg, 1.0)
+        M_1 = P_cre_z * l_vals[None, :] + P_ann_z * r_vals[None, :]
+        if np.linalg.cond(M_1) > 1e12:
+            raise ValueError("Candidate overlap matrix is ill-conditioned")
+        phase, logdet = np.linalg.slogdet(M_1)
+        if abs(phase - 1) > 1e-7:
+            raise ValueError("Candidate determinant phase is unresolved")
+        Z_tau = float(np.exp(-tau * dv + 0.5 * np.real(logdet)))
+        sol = np.linalg.solve(M_1, rhs_01)
+        C_01 = 2.0 * (uz_01 * l_vals[None, :]) @ sol
+        c00 = float(np.real(C_01[0, 0]))
+        ic01 = float(np.real(1j * C_01[0, 1]))
+        return np.array([-Z_tau * c00, -Z_tau * ic01, Z_tau])
+
+    nodes2, weights2 = np.polynomial.legendre.leggauss(n_quad_2nd)
+    t2 = 0.5 * (nodes2 + 1.0)
+    tau2_pts = t2 / (1.0 - t2)
+    jac2 = 0.5 / ((1.0 - t2) ** 2)
+    acc2 = np.zeros(3)
+    for tau, wg, jg in zip(tau2_pts, weights2, jac2, strict=True):
+        acc2 += wg * jg * integrand_2nd(float(tau))
+    I_00, I_01, I_Z = float(acc2[0]), float(acc2[1]), float(acc2[2])
+
+    # 2. Candidate third-order double integral (Config a Class I, Class II+III, and Config b star tadpole)
+    def solve_pair_all6(
+        wA: RealArray, uA: ComplexArray, tau1: float, wB: RealArray, uB: ComplexArray, tau2: float
+    ) -> tuple[complex, dict[tuple[int, int], ComplexArray]]:
+        LA, RA = make_LR(wA, uA, tau1)
+        LB, RB = make_LR(wB, uB, tau2)
+        M_AB = np.block([[P_cre, Z_zero, P_ann], [-RB, LB, Z_zero], [Z_zero, -RA, LA]])
+        M_BA = np.block([[P_cre, Z_zero, P_ann], [-RA, LA, Z_zero], [Z_zero, -RB, LB]])
+        if max(np.linalg.cond(M_AB), np.linalg.cond(M_BA)) > 1e12:
+            raise ValueError("Candidate multi-slice matrix is ill-conditioned")
+        sign, logdet = np.linalg.slogdet(M_AB)
+        if abs(sign - 1) > 1e-7:
+            raise ValueError("Candidate square-root branch is unresolved")
+        Z_val = complex(np.exp(-(tau1 + tau2) * dv + 0.5 * logdet))
+        rhs_AB = np.hstack([rhs_0, np.vstack([Z_zero, Z_zero, -2.0 * RA])])
+        sol_AB = np.linalg.solve(M_AB, rhs_AB)
+        sol_BA = np.linalg.solve(M_BA, rhs_0)
+        return Z_val, {
+            (0, 0): sol_BA[2 * N :, :].conj().T,
+            (0, 1): sol_AB[:N, N:],
+            (0, 2): sol_AB[:N, :N],
+            (1, 1): sol_AB[N : 2 * N, N:],
+            (1, 2): sol_AB[N : 2 * N, :N],
+            (2, 2): sol_AB[2 * N :, :N],
+        }
+
+    sectors = {
+        "x": (wx, ux, s_jx),
+        "y": (wy, uy, s_ky),
+        "z": (wz, uz, s_jz),
+    }
+    perms = [
+        ("x", "y", "z", +1),
+        ("y", "z", "x", +1),
+        ("z", "x", "y", +1),
+        ("x", "z", "y", -1),
+        ("z", "y", "x", -1),
+        ("y", "x", "z", -1),
+    ]
+
+    def integrand_3rd(tau1: float, tau2: float) -> RealArray:
+        Z_xy, G_xy = solve_pair_all6(wy, uy, tau1, wx, ux, tau2)
+        val_I = 2.0 * float(
+            np.real(Z_xy * eval_comm_general([(0, s_jx), (2, s_ky)], G_xy, a=s_jx, b=s_ky))
+        )
+        Z_xz, G_xz = solve_pair_all6(wz, uz, tau1, wx, ux, tau2)
+        val_II = 2.0 * float(
+            np.real(
+                Z_xz
+                * eval_comm_general(
+                    [(0, s_jx), (1, s_ky), (1, s_l), (2, s_l)], G_xz, a=s_jx, b=s_ky
+                )
+            )
+        )
+        tot_star = 0.0
+        for kA, kB, kC, eps_s in perms:
+            wA, uA, sA = sectors[kA]
+            _, _, sB = sectors[kB]
+            wC, uC, sC = sectors[kC]
+            if kC == "z" and kA == "x":
+                Z_CA, G_CA = Z_xz, G_xz
+            elif kC == "y" and kA == "x":
+                Z_CA, G_CA = Z_xy, G_xy
+            else:
+                Z_CA, G_CA = solve_pair_all6(wC, uC, tau1, wA, uA, tau2)
+            c_val = eval_comm_general([(0, sA), (1, s_l), (1, sB), (2, sC)], G_CA, a=s_jx, b=s_ky)
+            tot_star += eps_s * float(np.imag(Z_CA * c_val))
+        return np.array([val_I, val_II, val_I + 2.0 * val_II, tot_star])
+
+    nodes3, weights3 = np.polynomial.legendre.leggauss(n_quad_3rd)
+    t3 = 0.5 * (nodes3 + 1.0)
+    tau3_pts = t3 / (1.0 - t3)
+    jac3 = 0.5 / ((1.0 - t3) ** 2)
+    acc3 = np.zeros(4)
+    for tau1, w1g, j1g in zip(tau3_pts, weights3, jac3, strict=True):
+        for tau2, w2g, j2g in zip(tau3_pts, weights3, jac3, strict=True):
+            acc3 += (w1g * j1g) * (w2g * j2g) * integrand_3rd(float(tau1), float(tau2))
+
+    kappa_I, kappa_II, kappa_a, kappa_b_tadpole = (
+        float(acc3[0]),
+        float(acc3[1]),
+        float(acc3[2]),
+        float(acc3[3]),
+    )
+    return {
+        "L": L,
+        "Delta_v": dv,
+        "S0_bond": S0_bond,
+        "I_00": I_00,
+        "I_01": I_01,
+        "I_Z": I_Z,
+        "E2_bond_coeff": 2.0 * (I_00 + I_01),
+        "eta_2_bond_renorm": -2.0 * I_01,
+        "eff_inv_gap_2nd": -I_01 / S0_bond,
+        "kappa_I": kappa_I,
+        "kappa_II": kappa_II,
+        "kappa_a_2f": kappa_a,
+        "kappa_b_tadpole": kappa_b_tadpole,
+        "kappa_eff_total": kappa_a + kappa_b_tadpole,
+        "kappa_static_1_over_dv2": 1.0 / (dv**2),
+    }
+
+
+def main() -> None:
+    """Print candidate results without external project imports or hardcoded writes."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--length", type=int, default=4)
+    parser.add_argument("--second-order", type=int, default=16)
+    parser.add_argument("--third-order", type=int, default=6)
+    args = parser.parse_args()
+    result = compute_unprojected_candidate(args.length, args.second_order, args.third_order)
+    print(
+        json.dumps(
+            {
+                "status": "unaccepted-unprojected-candidate",
+                "physical_parity_projected": False,
+                "quadrature_orders": [args.second_order, args.third_order],
+                "values": result,
+            },
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

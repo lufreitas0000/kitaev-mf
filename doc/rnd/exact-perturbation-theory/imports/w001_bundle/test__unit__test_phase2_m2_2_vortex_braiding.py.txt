@@ -1,0 +1,41 @@
+"""Unit tests for non-Abelian vortex braiding holonomy (Milestone M2.2 / W001-T3 Option B repair)."""
+
+from __future__ import annotations
+
+import numpy as np
+
+from kitaev_mf.services.phase_2.vortex_braiding import compute_vortex_braiding_holonomy
+
+
+def test_t2_2_3_enclosing_loop_pi_holonomy() -> None:
+    """Verify that transporting a vortex around a loop enclosing a static vortex yields pi holonomy."""
+    res = compute_vortex_braiding_holonomy(
+        L=10,
+        p_fixed=(4, 4),
+        loop_center=(4, 4),
+        loop_radius=1,
+        K=1.0,
+        kappa=0.12,
+        n_interp_steps=6,
+    )
+    assert res.enclosing is True
+    assert res.gauge_closure_error < 1e-12
+    assert np.allclose(res.holonomy_matrix, -np.eye(2), atol=1e-2)
+    assert np.isclose(res.berry_phase, np.pi, atol=1e-2)
+
+
+def test_t2_2_3_non_enclosing_loop_zero_holonomy() -> None:
+    """Verify that transporting a vortex around a loop NOT enclosing the static vortex yields 0 holonomy."""
+    res = compute_vortex_braiding_holonomy(
+        L=10,
+        p_fixed=(0, 0),
+        loop_center=(4, 4),
+        loop_radius=1,
+        K=1.0,
+        kappa=0.12,
+        n_interp_steps=6,
+    )
+    assert res.enclosing is False
+    assert res.gauge_closure_error < 1e-12
+    assert np.allclose(res.holonomy_matrix, np.eye(2), atol=1e-2)
+    assert np.isclose(res.berry_phase, 0.0, atol=1e-2)
