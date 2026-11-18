@@ -1,7 +1,7 @@
 ---
 id: t09_pfaffian_flux_vs_factored_wilson_loop
 title: Exact 12-Majorana Pfaffian W_p = Pf(Omega|_partial p) vs. Factored Plaquette Wilson Loop
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "How does the exact Gaussian expectation value of the 12-Majorana Wilson loop operator compare with the factored product of bond expectations W_p^fact = prod u_b?"
@@ -28,14 +28,15 @@ artifacts:
 
 On the honeycomb lattice, the hexagonal flux operator is defined by the 6-spin Wilson loop:
 $$\hat{W}_p = \sigma_1^x \sigma_2^y \sigma_3^z \sigma_4^x \sigma_5^y \sigma_6^z.$$
-In Kitaev's 4-Majorana representation ($\sigma_i^\gamma = \mathrm{i} c_i^0 c_i^\gamma$), the local gauge constraint $\mathcal{D}_i = -c_i^0 c_i^x c_i^y c_i^z = +1$ identifies $\hat{W}_p$ with the product of the 6 gauge-link operators along the boundary $\partial p$:
-$$\hat{W}_p = \prod_{k=1}^6 \hat{u}_{b_k}, \qquad \hat{u}_{\langle ij \rangle_\gamma} = -\mathrm{i} c_i^\gamma c_j^\gamma.$$
+In Kitaev's 4-Majorana representation ($\sigma_i^\gamma = \mathrm{i} c_i^0 c_i^\gamma$), the M1.1 physical parity constraint $\mathcal{D}_i = c_i^0 c_i^1 c_i^2 c_i^3 = +1$ identifies $\hat{W}_p$ (up to $\prod_{s\in\partial p}\mathcal{D}_s = +1$) with the product of the 6 directed $A \to B$ gauge-link operators along $\partial p$:
+$$\hat{W}_p = \prod_{k=1}^6 \hat{u}_{b_k}, \qquad \hat{u}_{\langle ij \rangle_\gamma} = +\mathrm{i} c_i^\gamma c_j^\gamma \quad (i \in A,\; j \in B),$$
+whose expectation in the code's $A \to B$ convention is $u_{b_k} = \mathrm{U}_{b_k}^{\gamma_k\gamma_k} = \langle \mathrm{i} c_{A_k}^{\gamma_k} c_{B_k}^{\gamma_k} \rangle = +1.0$ for the pure-Kitaev vacuum.
 
 In mean-field and standard lattice calculations, the plaquette flux has typically been evaluated via the **factored link product**:
 $$W_p^{\mathrm{fact}} \equiv \prod_{k=1}^6 u_{b_k} = \prod_{k=1}^6 \langle \hat{u}_{b_k} \rangle.$$
-However, the true many-body expectation value on a Gaussian quasi-free state $|\Psi_{\mathrm{MF}}\rangle$ with skew-symmetric Majorana covariance $\Omega_{ab} = \mathrm{i} \langle c_a c_b \rangle$ is given by Wick's theorem over all 12 gauge Majoranas:
-$$\mathcal{W}_p \equiv \langle \hat{W}_p \rangle_{\mathrm{G}} = \operatorname{Pf}(\Omega|_{\partial p}),$$
-where $\Omega|_{\partial p}$ is the $12 \times 12$ skew-symmetric submatrix restricted to the 12 gauge Majoranas $\{ c_i^{\gamma_b}, c_j^{\gamma_b} \}_{b \in \partial p}$.
+However, the unprojected many-body expectation value on a Gaussian quasi-free state $|\Psi_{\mathrm{MF}}\rangle$ with skew-symmetric Majorana covariance $\Omega_{ab} = \mathrm{i} \langle c_a c_b \rangle$ ($a \neq b$) is given by Wick's theorem over all 12 gauge Majoranas: defining $\hat{P}_{\partial p} \equiv \prod_{k=1}^6 c_{A_k}^{\gamma_k} c_{B_k}^{\gamma_k}$ in the sequential bond ordering $(A_1, B_1, \dots, A_6, B_6)$, one has $\hat{W}_p \prod_{s \in \partial p}\mathcal{D}_s = \prod_{k=1}^6 \hat{u}_{b_k} = -\hat{P}_{\partial p}$ and $\langle \hat{P}_{\partial p} \rangle_{\mathrm{G}} = -\operatorname{Pf}(\Omega|_{\partial p})$, so:
+$$\mathcal{W}_p \equiv \left\langle \prod_{k=1}^6 \hat{u}_{b_k} \right\rangle_{\mathrm{G}} = \operatorname{Pf}(\Omega|_{\partial p}),$$
+where $\Omega|_{\partial p}$ is the $12 \times 12$ skew-symmetric submatrix restricted to the 12 gauge Majoranas $\{ c_i^{\gamma_b}, c_j^{\gamma_b} \}_{b \in \partial p}$ (equal to $\langle P_G \hat{W}_p P_G\rangle / \langle P_G\rangle$ at $h=0$, though distinct from projected expectation at $h>0$).
 
 Contract `H2` predicts:
 1. At $h=0$, $\mathcal{W}_p = W_p^{\mathrm{fact}} = \pm 1.0$ exactly, because gauge Majoranas on distinct bonds are completely decoupled.

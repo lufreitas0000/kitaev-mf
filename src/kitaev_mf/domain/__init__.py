@@ -10,7 +10,7 @@ from kitaev_mf.domain.lattice import (
 )
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverConfig, SolverMetrics
-from kitaev_mf.domain.state import EnergyBreakdown, MeanFieldState
+from kitaev_mf.domain.state import EnergyBreakdown, InhomogeneousMeanFieldState, MeanFieldState
 
 __all__ = [
     "Bond",
@@ -21,6 +21,7 @@ __all__ = [
     "make_honeycomb_supercell",
     "ModelParameters",
     "EnergyBreakdown",
+    "InhomogeneousMeanFieldState",
     "MeanFieldState",
     "SolverConfig",
     "SolverMetrics",

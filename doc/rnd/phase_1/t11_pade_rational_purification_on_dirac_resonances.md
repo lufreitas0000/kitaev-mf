@@ -1,7 +1,7 @@
 ---
 id: t11_pade_rational_purification_on_dirac_resonances
 title: Padé [3/2] Rational Matrix Sign Purification on 3 | L Dirac Resonances
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "Why does polynomial Newton-Schulz iteration suffer precision lag and slow convergence (k_NS ~ 85-95 iterations) on near-zero Dirac resonances?"
@@ -43,7 +43,7 @@ Under fixed iteration depth (e.g. $k_{\mathrm{NS}} \le 20$), these resonant mode
 
 ### 2.1 The Kenney-Laub Family
 Let $Z = \mathrm{i} A$ be Hermitian. The matrix sign function satisfies $\operatorname{sgn}(Z) = Z (Z^2)^{-1/2}$.
-Using Padé approximants to $(1-z)^{-1/2}$ around $z=0$ (Kenney & Laub 1991, Higham 2008):
+Using Padé approximants in $z = 1 - x^2$ around $z = 0$ to $(1 - z)^{-1/2}$ (Kenney & Laub 1991, Higham 2008), these iterations correspond to the $[1/0]_z$, $[1/1]_z$, and $[2/2]_z$ Padé maps (polynomial degrees $[3/0]_x$, $[3/2]_x$, and $[5/4]_x$ in $x$, denoted by tags $[1/0]$, $[2/1]$, and $[3/2]$ below and `order="21"` / `"32"` in `purification.py`):
 - **Padé $[1/0]$ (Newton-Schulz):**
   $$f_{[1/0]}(x) = \frac{1}{2} x (3 - x^2), \qquad f'(0) = \frac{3}{2}, \quad p = 3.$$
 - **Padé $[2/1]$ (Halley's Method):**
@@ -62,7 +62,7 @@ $$x^2 \to -Y^2 \succeq 0, \qquad x^4 \to Y^4 \succeq 0.$$
 Therefore:
 $$N = 5 I - 10 Y^2 + Y^4 \succeq 5 I \succ 0,$$
 $$D = I - 10 Y^2 + 5 Y^4 \succeq I \succ 0.$$
-Because $Y^2 \preceq 0$, the denominator matrix $D$ is **strictly symmetric positive definite** with condition number bounded by $\kappa(D) \le 4$. It is never singular and admits stable, well-conditioned Cholesky or LU linear solves:
+Because $Y^2 \preceq 0$ and $\|Y_k\|_2 \le 1$, the denominator matrix $D$ is **strictly symmetric positive definite** with eigenvalues in $[1, 16]$ ($\kappa(D) \le 16$) for Padé $[3/2]$ (and eigenvalues in $[1, 4]$, $\kappa(D) \le 4$, for Halley $[2/1]$). It is never singular and admits stable, well-conditioned Cholesky or LU linear solves:
 $$Y_{k+1} = Y_k N D^{-1} = D^{-1} Y_k N.$$
 
 ---

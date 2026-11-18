@@ -1,7 +1,7 @@
 ---
 id: t05_inhomogeneous_state_and_local_extraction
 title: Inhomogeneous Real-Space Mean-Field State Representation and Non-Averaging Correlator Extraction
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "How to represent broken translation invariance in real space without sacrificing cache locality and BLAS alignment?"

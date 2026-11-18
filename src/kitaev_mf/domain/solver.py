@@ -17,12 +17,13 @@ class SolverConfig:
         lambda_step: Step length alpha_lambda for updating Lagrange multipliers from gauge residuals.
         diis_history_depth: Maximum number of historical iterations M retained for DIIS acceleration.
         diis_reg: Diagonal Tikhonov regularization epsilon parameter for the DIIS overlap matrix.
-        method: Fixed-point acceleration algorithm ('fp', 'picard', 'diis', 'broyden', 'jfnk').
+        method: Fixed-point acceleration algorithm ('fp', 'picard', 'diis', 'broyden', 'lbroyden', 'jfnk').
         broyden_alpha: Initial scaling / step parameter for Broyden inverse Jacobian update.
         jfnk_gmres_tol: Relative convergence tolerance for inner GMRES iterations in JFNK.
         jfnk_gmres_maxiter: Maximum number of inner Krylov subspace iterations per Newton step.
         jfnk_eps: Finite-difference directional perturbation scale for matrix-free Jacobian products.
         skew_mode: On-site skew-symmetry handling mode ('raw', 'symmetrize_output', 'retract_step', 'intrinsic').
+        precondition_dual: Whether to precondition gauge multiplier updates using the dual Hessian.
     """
 
     k_grid_shape: tuple[int, int] = (24, 24)
@@ -39,6 +40,7 @@ class SolverConfig:
     jfnk_gmres_maxiter: int = 15
     jfnk_eps: float = 1e-7
     skew_mode: Literal["raw", "symmetrize_output", "retract_step", "intrinsic"] = "retract_step"
+    precondition_dual: bool = False
 
     def __post_init__(self) -> None:
         if len(self.k_grid_shape) != 2 or any(n <= 0 for n in self.k_grid_shape):

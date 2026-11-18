@@ -1,7 +1,7 @@
 ---
 id: t07_vortex_modes_core_weight_and_gap_demarcation
 title: Converged h > 0 Vortex Bound Modes, Core Wavefunction Localization Weight, and Finite-Size vs Chiral Gap Demarcation
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "How to quantitatively distinguish the finite-size quantization gap on a finite torus (e.g. Delta_FS = 0.8284 |K| on L=8) from the true chiral Dirac mass gap Delta_K = c_MF h^3 opened by a [111] Zeeman field?"

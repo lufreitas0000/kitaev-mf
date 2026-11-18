@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "issue_ref": "RECON-20261116 / CODE_SALVAGE_QUEUE Track 1",
+  "candidate_commit": "57e39f5f110d886464e29702761c726d52386c8e",
+  "author_agent": "antigravity-impl",
+  "reviewer_agent": "physics-referee",
+  "independent_context": "Dedicated read-only W4 physics-referee subagent session (686787bb-dedc-4bf8-96b0-607fc2224cc6) auditing commits 019fe8d, a66b4ae, and 57e39f5 across three adversarial rounds.",
+  "risk": "R2",
+  "verdict": "accepted_for_scope",
+  "review_question": "Are the Stage 4 pure-scMFT Track-1 kernels (InhomogeneousMeanFieldState, Kenney-Laub Pade sign purification, Lehmann dual Hessian Newton preconditioning, 12-Majorana Parlett-Reid skew Pfaffian, and canonical_skew_schur) algebraically consistent, free of non-scMFT cross-contamination, and verified by non-vacuous tests?",
+  "evidence": "Direct full-file audit on feat/scmft-core-kernels HEAD 57e39f5f110d886464e29702761c726d52386c8e (src/kitaev_mf/domain/*, src/kitaev_mf/services/*, test/unit/*, doc/rnd/phase_1/{t09,t10,t11}_*.md, wave4_*); parent verification on a66b4ae (identical src/ and test/) passed make verify (210 passed in 96.47s, 94% coverage), ruff check/format, mypy strict on 97 files, and check_index.py (re-confirmed PASS on 57e39f5).",
+  "limitations": "The W4 physics-referee subagent is read-only without shell execution, relying on parent and GitHub Actions CI for dynamic execution. Scope caveats: compute_plaquette_pfaffian_flux evaluates unprojected Gaussian expectation <prod u_b>_G rather than Gutzwiller-projected <P_G W_p P_G>/<P_G> at h > 0, and _initialize_skew_iterate assumes callers supply valid covariances with ||Omega_0||_2 <= 1.",
+  "checks": [
+    {
+      "question": "Do InhomogeneousMeanFieldState, Omega = i sgn(i A), and assemble_skew_hamiltonian preserve skew-symmetry and apply bond_disorder consistently?",
+      "method": "Inspected domain/state.py and services/real_space.py (lines 117-280), verifying bond_disorder scaling across both hopping a_b and neighbor Hartree exchange fields and validating against test_bond_disorder_scales_hartree_and_hopping_with_nonzero_onsite_v.",
+      "finding": "Resolved and accepted: V^T = -V invariant, clean-limit parity, and uniform (1 + delta_b) scaling on both hopping and Hartree blocks match; homogeneous site_vacancies vs inhomogeneous neighbor-Hartree zeroing is documented."
+    },
+    {
+      "question": "Are Pade [3/2] and [2/1] rational sign iterations free of O(M^3) SVD overhead, strictly input-validated, and mathematically accurate in code and t11?",
+      "method": "Audited services/purification.py (O(M^2) triangle-inequality warm-start bound, order/max_iter validation, kappa(D)<=16 / <=4) and doc/rnd/phase_1/t11_pade_rational_purification_on_dirac_resonances.md.",
+      "finding": "Resolved and accepted: O(M^3) SVD removed, invalid order and max_iter rejected, z = 1 - x^2 Pade indexing ([1/0]_z, [1/1]_z, [2/2]_z) and x polynomial degrees ([3/0]_x, [3/2]_x, [5/4]_x) corrected in t11, and perturbed A2 warm-start tests verified."
+    },
+    {
+      "question": "Does Lehmann dual Hessian preconditioning safeguard against zero or indefinite finite-difference eigenvalues and agree with t10 derivations?",
+      "method": "Audited services/solver.py (eigvalsh/eigh floor >= 1e-8 and damped-gradient fallback below -1e-6), domain/solver.py docstring, tests including monkeypatched indefinite Hessian fallback, and t10 equations.",
+      "finding": "Resolved and accepted: SPD clamping/fallback verified against exact Plain FP parity on indefinite inputs, and t10 prefactor corrected to 1/N_k matching g_i = -4 dE_0/dlambda_i."
+    },
+    {
+      "question": "Are Parlett-Reid pivoting signs, Schur updates, plaquette perimeter ordering, and t09 conventions verified against independent oracles?",
+      "method": "Traced all complete-pivoting cases in compute_skew_pfaffian, audited _run_purification_loop equivalence, checked t09 parity/link definitions, and inspected test_compute_skew_pfaffian_pivoting_and_oracle.",
+      "finding": "Resolved and accepted: explicit 4x4 Leibniz formula with A[0,1]=0 forced swap, row-swap sign negation, and dense 12x12 Pf(A)^2 = det(A) checks cover all pivoting branches, and t09 explicitly defines P_{partial p} and unprojected scope."
+    },
+    {
+      "question": "Does canonical_skew_schur pair separated 1x1 Schur null columns cleanly and match Pfaffian orientation?",
+      "method": "Inspected services/canonical_skew.py (explicit 0.5*(A-A.T) Schur input, orthogonality assertion, scale-relative bound) and test/unit/test_canonical_skew.py.",
+      "finding": "Accepted: separated null blocks, identically zero matrices, 3 | L Dirac torus matrices, and positive/negative Pf(A) = det(Q) prod(energies) checks are verified."
+    },
+    {
+      "question": "Are wave4_* interfaces preserved and src/kitaev_mf/ kept strictly free of exact_matter, exact_perturbation, feshbach, Spin-ED, and SDP code?",
+      "method": "Read wave4_contract.py, wave4_trials.py, wave4_trial_io.py, test_wave4_trials.py, and all package __init__.py files under src/kitaev_mf/.",
+      "finding": "Accepted: wave4_* files remain decoupled and untouched; zero non-scMFT modules exist or are imported."
+    }
+  ]
+}
