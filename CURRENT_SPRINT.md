@@ -1,46 +1,26 @@
-# Current sprint — reconciliation
+# Current sprint — RECON-20261116 completion & owner gate
 
-**Owning wave: RECON-20261116.** Lu authorized organizational reconciliation on
-2026-11-16, including project-local PR/merge/branch administration. Active task
-status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml), not this prose.
+**Owning wave: RECON-20261116.** Active task status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml); this note explains current sprint scope.
 
-Current scope: [foundation index and preservation inventory](doc/reconciliation/README.md).
-[Concrete plan](doc/reconciliation/PLAN.md) defines each subsequent scope and gate.
-This organizational sprint changes no physical thresholds, hypotheses or model
-family. The next bounded outcome is governance compatibility. Physical execution
-awaits its explicit contracts and independent evidence. Historical Phase 4
-remains disapproved; newer Wave 4 solver-study work is distinct.
+## Reconciliation Status (Stages 0–5)
 
-## Retained previous handoff (superseded as current sprint; scientific prerequisites remain)
+- **Git Topology & Family Boundaries ([ADR-003](doc/adr/ADR-003-linear-main-and-family-boundaries.md)):** Single `main` branch, single local worktree, offline pre-reconciliation bundle verified outside the repository, and clean 5-repo separation (`kitaev-mf` pure `scMFT` vs. `kitaev-numerics`, `kitaev-walk-geometry`, `ksl-sc-bilayer`, `Julia/KitaevDerivation.jl`) with `data/external/<source_repo>/` verified by `scripts/sync_external_data.py --verify`.
+- **Merged Deliverables:** Wave 4 sampling/symmetry design (`PR #20`), R&D and W001 foundation absorption (`PR #22`), audited Track 1 pure-`scMFT` core kernels (`PR #23`, W4 reviewed), and PG-10 `native-v2` / LaTeX / CI-Pages overhaul (`governance/profile.toml`, `.github/workflows/docs.yml`, zero tracked PDFs).
 
-### Previous research transition brief
+## Active execution sprint on `main`: pending owner selection
 
-**Owning milestone: M1.11** (completed Phase 1 closure in the current `PROJECT_STATE.yaml`).  
-**Active execution sprint on `main`: none selected.** This is a truthful transition/handoff brief, not an authorization to begin Phase 2, reactivate M1.11 tasks, or change priority. The authoritative machine status is [PROJECT_STATE.yaml](PROJECT_STATE.yaml); accepted historical milestone summaries and the proposed next phases are in [the roadmap](doc/MILESTONE_ROADMAP.md).
+Reconciliation changes no physical thresholds, hypotheses, or model scope. No Phase 2 physics campaign is running until Lu selects the next milestone and registers quantitative claims under [`doc/hypotheses/`](doc/hypotheses/README.md).
 
-## Baseline and current choice
+## Open Scientific Prerequisites (Human-Gated)
 
-The project state lists M1.11 as `completed` with no active tasks; the roadmap labels Phase 2 *active preparation*. A preparatory research question, open Issue, or draft PR must not be misreported as an approved sprint.
+- Local Majorana representation and projector sign conventions: [K-019-A Issue #10](https://github.com/lufreitas0000/kitaev-mf/issues/10) (`m1_10_t1_k019a_second_order_erratum.md` resolves $PVP=0 \not\implies H_{\mathrm{eff}}^{(2)}=0$, leaving full-$Q$ resolvent and physical projection open).
+- Exact finite-torus gauge/parity, flux-sector thresholds, and resolvent: [Issue #12](https://github.com/lufreitas0000/kitaev-mf/issues/12) (coordinate external resolvents with `kitaev-walk-geometry`).
+- Analytical evaluation of the empirical `scMFT` cubic gap and linear counter-field regressions ($2.5921 \pm 0.0034$ and $\sqrt{5} h$): open [`IDEA-001`](BACKLOG.md).
+- Independent finite-cluster spin-ED / 2-RDM SDP references (`H1`, `H3`): [validation Issue #14](https://github.com/lufreitas0000/kitaev-mf/issues/14) and [kitaev-numerics Issue #1](https://github.com/lufreitas0000/kitaev-mf/issues/1), imported strictly via `data/external/kitaev_numerics/`.
+- Statistical design and geometry/KKT/vortex scoping: [Issue #7](https://github.com/lufreitas0000/kitaev-mf/issues/7), [Issue #8](https://github.com/lufreitas0000/kitaev-mf/issues/8), and [Issue #15](https://github.com/lufreitas0000/kitaev-mf/issues/15).
 
-The natural next **candidate** is Phase 2 / M2.1 (bulk physical observables and predictive comparisons) under the same isotropic ferromagnetic Pauli-spin Kitaev model in a [111] field. **TODO(Lu):** confirm the selected milestone, its bounded first task and the exact experimental/physical acceptance criteria. The choice of a roadmap candidate here changes no status.
-
-## Prerequisites and non-goals
-
-- Local Majorana representation and projector sign inconsistencies: [K-019-A Issue #10](https://github.com/lufreitas0000/kitaev-mf/issues/10). The merged erratum on second-order Feshbach inference does *not* resolve every physical convention.
-- Exact finite-torus gauge/parity, flux-sector thresholds and resolvent: [Issue #12](https://github.com/lufreitas0000/kitaev-mf/issues/12).
-- Independent physical-spin finite-cluster references: [validation Issue #14](https://github.com/lufreitas0000/kitaev-mf/issues/14) and [kitaev-numerics Issue #1](https://github.com/lufreitas0000/kitaev-numerics/issues/1). Its competing Sprint 1A candidates require independent approval.
-- Statistical experimental design: existing [Issue #7](https://github.com/lufreitas0000/kitaev-mf/issues/7) and [merged W1 design PR #16](https://github.com/lufreitas0000/kitaev-mf/pull/16) (documentation scope only; the superseded [draft PR #13](https://github.com/lufreitas0000/kitaev-mf/pull/13) was closed without merge); fit estimates and Wilson intervals are not analytical/physical guarantees.
-- Geometry/KKT-reduction derivation: existing [Issue #8](https://github.com/lufreitas0000/kitaev-mf/issues/8).
-- Vortex-seeded finite-field computations remain separately owner-gated: [Issue #15](https://github.com/lufreitas0000/kitaev-mf/issues/15).
-
-**Non-goals:** no Phase 2 solver campaign, no new success tolerance, no registered-HC change, no numerical value assumed exact, no user-selected roadmap priority inferred from document creation.
-
-## Proposed first bounded work, only after milestone selection
-
-Prepare a reviewable theory specification of one spin-Hilbert observable and its Gaussian-MF counterpart on the *same* finite torus. Fix the operator ordering, Pauli/field units, BC/twist, physical projection, variational meaning and independent ED oracle before interpreting discrepancies. Link any future T1/T2 tasks in `PROJECT_STATE.yaml` instead of copying statuses here.
-
-**Validation currently claimed:** only a planning-document source inspection, not a new physics or solver run. Normal software tests, independent W4 scientific review, explicit scope approval and Rule 06 atomic state/roadmap updates remain conditions of a subsequent implementation.
+**Non-goals:** no unapproved Phase 2 solver campaign, no silent `HC-*.yaml` edits, and no promotion of empirical fits to analytical theorems.
 
 ## Next decision / stop conditions
 
-Ask Lu to select the next milestone and observable. Stop before activating physical calculations whenever the projector/sector definitions or statistical success criteria remain unresolved. The [idea backlog](BACKLOG.md) contains longer-horizon candidates; the [research journal](LOG_DISCOVERY_AND_PIVOTS.md) records obstructions and rationale without replacing registered evidence.
+Ask Lu to confirm whether the immediate post-reconciliation sprint targets (a) `IDEA-001` / `K-019-A` theoretical closure or (b) registering the first `doc/hypotheses/HC-01.yaml` contract for matched `scMFT` vs. `kitaev-numerics` finite-torus comparison. Longer-horizon items live in [BACKLOG.md](BACKLOG.md); obstructions and pivots live in [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md).

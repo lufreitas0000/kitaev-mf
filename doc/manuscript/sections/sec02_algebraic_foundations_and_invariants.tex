@@ -8,7 +8,7 @@ At each physical site $i$, the physical spin-$1/2$ algebra $\mathbf{S}_i = \frac
 \label{eq:car_algebra}
 \{c_i^\mu, c_j^\nu\} = 2 \delta_{ij} \delta^{\mu\nu} \mathbf{1}.
 \end{equation}
-The 6 bilinear skew-symmetric generators span the orthogonal Lie algebra $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$. In the canonical spinor basis, physical spin Pauli operators $\sigma_i^\alpha = 2 S_i^\alpha$ and gauge Pauli generators $\tau_i^\gamma = 2 G_i^\gamma$ decouple into two mutually commuting $\mathfrak{su}(2)$ subalgebras:
+The 6 bilinear skew-symmetric generators span the orthogonal Lie algebra $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$. In the canonical spinor basis (\texttt{constants.py}), physical spin Pauli operators $\sigma_i^\alpha = 2 S_i^\alpha$ and gauge Pauli operators $\tau_i^\gamma = 2 T_i^\gamma$ decouple into two mutually commuting $\mathfrak{su}(2)$ subalgebras:
 \begin{align}
 \sigma_i^\alpha &= \frac{\ii}{4} \mathbf{c}_i^T M^\alpha \mathbf{c}_i = \frac{\ii}{2} \left( c_i^0 c_i^\alpha - \frac{1}{2} \epsilon^{\alpha\beta\gamma} c_i^\beta c_i^\gamma \right), \label{eq:spin_algebra} \\
 \tau_i^\gamma &= \frac{\ii}{4} \mathbf{c}_i^T G^\gamma \mathbf{c}_i = \frac{\ii}{2} \left( c_i^0 c_i^\gamma + \frac{1}{2} \epsilon^{\gamma\alpha\beta} c_i^\alpha c_i^\beta \right), \label{eq:gauge_algebra}
@@ -17,16 +17,17 @@ satisfying $[\sigma_i^\alpha, \sigma_i^\beta] = 2\ii \epsilon^{\alpha\beta\gamma
 
 \begin{proposition}[Physical Subspace Parity and Gauge Neutrality]
 \label{prop:parity_projector}
-In terms of canonical Dirac fermions $d_{1, i} = \frac{1}{2}(c_i^0 + \ii c_i^1)$ and $d_{2, i} = \frac{1}{2}(c_i^2 + \ii c_i^3)$, the 4-dimensional Fock space $\mathcal{F}_i$ decomposes into an unphysical even-fermion gauge doublet ($\bm{\sigma}_i^2 = 0, \bm{\tau}_i^2 = 3\mathbf{1}$) and the physical odd-fermion spin-$1/2$ doublet ($\bm{\sigma}_i^2 = 3\mathbf{1}, \bm{\tau}_i^2 = 0$).
-The physical subspace $\mathcal{H}_{\mathrm{phys}, i} = \ker(\mathcal{D}_i - \mathbf{1}) = \bigcap_\gamma \ker \tau_i^\gamma$ is selected by the local fermion parity operator:
+In terms of canonical Dirac fermions $d_{1, i} = \frac{1}{2}(c_i^0 + \ii c_i^1)$ and $d_{2, i} = \frac{1}{2}(c_i^2 + \ii c_i^3)$ (with $n_{a,i} = d_{a,i}^\dagger d_{a,i}$), the 4-dimensional Fock space $\mathcal{F}_i$ decomposes into an unphysical even-fermion gauge doublet ($\bm{\sigma}_i^2 = 0, \bm{\tau}_i^2 = 3\mathbf{1}$) and the physical odd-fermion spin-$1/2$ doublet ($\bm{\sigma}_i^2 = 3\mathbf{1}, \bm{\tau}_i^2 = 0$).
+The physical subspace $\mathcal{H}_{\mathrm{phys}, i} = \ker(\mathcal{D}_i - \mathbf{1}) = \bigcap_\gamma \ker \tau_i^\gamma$ is selected by the constraint $\mathcal{D}_i = +1$, where the local Klein parity operator $\mathcal{D}_i$ is defined by ($c_i^0 c_i^1 = \ii(1 - 2n_{1,i})$, $c_i^2 c_i^3 = \ii(1 - 2n_{2,i})$):
 \begin{equation}
 \label{eq:parity_projector}
-\mathcal{D}_i \equiv - c_i^0 c_i^1 c_i^2 c_i^3 = \frac{1}{3} \left( \bm{\sigma}_i^2 - \bm{\tau}_i^2 \right) = \mathbf{1} - \frac{2}{3} \bm{\tau}_i^2 = +1.
+\mathcal{D}_i \equiv + c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_{1,i} + n_{2,i}} = \frac{1}{3} \left( \bm{\sigma}_i^2 - \bm{\tau}_i^2 \right) = \mathbf{1} - \frac{2}{3} \bm{\tau}_i^2.
 \end{equation}
-In self-consistent mean-field theory, states are unprojected Gaussian states in $\mathcal{F}$; exact physical state projection is approximated by enforcing the local gauge constraint on average:
+Mapping to Kitaev's standard ordering $(b_i^x, b_i^y, b_i^z, c_i)$ requires an odd-parity sign identification such as $(c_i^0, c_i^1, c_i^2, c_i^3) = (-c_i, b_i^x, b_i^y, b_i^z)$ (or $(+c_i, -b_i^x, -b_i^y, -b_i^z)$), under which both the projected spin $\sigma_{K,i}^\alpha \equiv +\ii c_i^0 c_i^\alpha = +\ii b_i^\alpha c_i$ and the parity condition $\mathcal{D}_i = (-c_i) b_i^x b_i^y b_i^z = +b_i^x b_i^y b_i^z c_i = D_i^{\mathrm{Kitaev}} = +1$ agree identically.
+In self-consistent mean-field theory with real skew-symmetric covariance $V_i^{\mu\nu} = +\ii \langle c_i^\mu c_i^\nu \rangle$, states are unprojected Gaussian states in $\mathcal{F}$; exact physical state projection is approximated by enforcing the local gauge constraint on average:
 \begin{equation}
 \label{eq:average_gauge_condition}
-\langle \bm{\tau}_i \rangle = \mathbf{0} \iff g_i^\gamma \equiv -\frac{1}{4}\operatorname{Tr}(G^\gamma V_i) = 0.
+\langle \tau_i^\gamma \rangle = -\frac{1}{4}\operatorname{Tr}(G^\gamma V_i) = 0 \iff g_i^\gamma \equiv \operatorname{Tr}(G^\gamma V_i) = 0.
 \end{equation}
 \end{proposition}
 

@@ -1,0 +1,12 @@
+schema_version = 1
+project_id = "kitaev-mf"
+policy_version = "PG-10/1"
+profile = "native-v2"
+state = "PROJECT_STATE.yaml"
+roadmap = "doc/MILESTONE_ROADMAP.md"
+sprint = "CURRENT_SPRINT.md"
+ideas = "BACKLOG.md"
+journal = "LOG_DISCOVERY_AND_PIVOTS.md"
+protected_paths = ["doc/hypotheses/HC-*.yaml"]
+events_store = "governance/events"
+event_entities = ["observation", "uow"]

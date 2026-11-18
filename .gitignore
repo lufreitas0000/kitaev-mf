@@ -74,13 +74,12 @@ doc/reference/thesis/*.out
 doc/reference/thesis/*.toc
 doc/reference/thesis/*.synctex.gz
 *.pdf
-!doc/labbook/labbook_kitaev_mf.pdf
-!doc/manuscript/scipost_kitaev_mf.pdf
 *.jpeg
 *.jpg
 *.png
 
 
-# Ephemeral AI context snapshots
+# Ephemeral AI context snapshots and CI build receipts
 REPO_SNAPSHOT.md
 repo_snapshot.txt
+book-build.json

@@ -40,5 +40,5 @@ pdf:
 
 clean:
 	@printf "$(CLR_YEL)==> Cleaning labbook build artifacts...$(CLR_RST)\n"
-	@rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz build.log
-	@rm -f chapters/*.aux
+	@rm -f $(MAIN).pdf *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz build.log
+	@rm -f chapters/*.aux appendices/*.aux

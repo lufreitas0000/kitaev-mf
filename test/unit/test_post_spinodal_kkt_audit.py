@@ -9,6 +9,7 @@ Verifies:
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 import numpy as np
 
@@ -27,21 +28,45 @@ from kitaev_mf.services.solver import (
     solve_self_consistent_mean_field,
 )
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
 
 def test_hc_p1_01_perturbative_gap_reconciliation_identities() -> None:
-    """Verify exact quantitative ratios comparing c_MF = 2.5921 and static vison perturbation scale."""
-    u_bar = 0.5248657458506
-    two_delta_gauge = 2.0 * u_bar
-    two_vison_static = 0.2640
-    denom_ratio_sq = (two_delta_gauge / two_vison_static) ** 2
-    assert np.isclose(denom_ratio_sq, 15.8106, atol=1e-3)
+    """Verify Bloch-vs-canonical 4x gauge scale and empirical regression from saved benchmark data."""
+    backend = TorchBackend(device="cpu")
+    cell = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0, h=(0.0, 0.0, 0.0))
+    state_final, metrics = solve_self_consistent_mean_field(
+        cell,
+        params,
+        make_qsl_seed(cell),
+        SolverConfig(k_grid_shape=(24, 24), tol_correlator=1e-10, tol_gauge=1e-10),
+        backend=backend,
+    )
+    assert metrics.converged
+    u_bar = float(np.mean([abs(state_final.U[b, 0, 0]) for b in range(3)]))
 
-    c_mf_bloch = 2.5921
-    c_mf_canonical = 4.0 * c_mf_bloch
-    assert np.isclose(c_mf_canonical, 10.3684, atol=1e-4)
+    k_single = np.array([[0.125, 0.125]], dtype=np.float64)
+    h_b = build_bloch_hamiltonian(k_single, cell, params, state_final, backend)
+    eigs = np.linalg.eigvalsh(h_b[0].detach().cpu().numpy())
+    # Flat gauge bands sit at +-E_gauge with E_gauge = |K| * u_bar / 2 in Bloch normalization;
+    # inspect positive eigenvalues at k=(0.125, 0.125) to isolate the 3-fold degenerate gauge level.
+    flat_gauge_eigs = eigs[(eigs > 0.20) & (eigs < 0.35)]
+    assert flat_gauge_eigs.shape == (3,)
+    flat_pos = float(np.mean(flat_gauge_eigs))
+    assert np.isclose(flat_pos, 0.5 * u_bar, atol=1e-4)
+    # Canonical factor 4 yields two-particle gauge gap 2 * Delta_gauge = 4 * flat_pos = 2 * u_bar.
+    delta_canonical_gauge = 4.0 * flat_pos
+    assert np.isclose(delta_canonical_gauge, 2.0 * u_bar, atol=1e-4)
+    assert np.isclose((delta_canonical_gauge / 0.2640) ** 2, 15.81, atol=0.1)
 
-    c_static_vison = 4.0 / (two_vison_static**2)
-    assert np.isclose(c_static_vison, 57.3921, atol=1e-3)
+    gap_dat = REPO_ROOT / "data/processed/benchmarks/m1_6/majorana_gap_scaling.dat"
+    rows = np.loadtxt(gap_dat, comments="#", usecols=(0, 1))
+    mask = (rows[:, 0] >= 0.005) & (rows[:, 0] <= 0.150)
+    slope, intercept = np.polyfit(np.log(rows[mask, 0]), np.log(rows[mask, 1]), 1)
+    prefactor = float(np.exp(intercept))
+    assert np.isclose(slope, 3.0, atol=0.05)
+    assert np.isclose(4.0 * prefactor, 4.0 * 2.5921, atol=0.05)
 
 
 def test_hc_p1_02_post_spinodal_kkt_admissibility_at_h0450() -> None:

@@ -41,7 +41,7 @@ In particular, every Majorana generator squares to the identity: $(c^\mu)^2 = \I
 To construct the explicit Hilbert space representation, we group the four Majorana operators into two canonical complex Dirac fermions:
 \begin{equation}
 \label{eq:m1_1_dirac_fermions}
-d_1 = \frac{1}{2}(c^0 + \ii c^3), \qquad d_2 = \frac{\ii}{2}(c^1 + \ii c^2).
+d_1 = \frac{1}{2}(c^0 + \ii c^1), \qquad d_2 = \frac{1}{2}(c^2 + \ii c^3).
 \end{equation}
 By direct evaluation using Eq.~\eqref{eq:m1_1_car_anticommutator}, $d_a$ satisfy the canonical Fermi-Dirac algebra:
 \begin{equation}
@@ -51,9 +51,9 @@ By direct evaluation using Eq.~\eqref{eq:m1_1_car_anticommutator}, $d_a$ satisfy
 The corresponding particle number operators $n_1 = d_1^\dagger d_1$ and $n_2 = d_2^\dagger d_2$ evaluate in terms of Majorana pairs as:
 \begin{equation}
 \label{eq:m1_1_number_operators_majorana}
-n_1 = \frac{1}{2}(\Id + \ii c^0 c^3), \qquad n_2 = \frac{1}{2}(\Id + \ii c^1 c^2).
+n_1 = \frac{1}{2}(\Id + \ii c^0 c^1), \qquad n_2 = \frac{1}{2}(\Id + \ii c^2 c^3).
 \end{equation}
-Inverting these expressions yields $\ii c^0 c^3 = 2n_1 - \Id$ and $\ii c^1 c^2 = 2n_2 - \Id$.
+Inverting these expressions yields $c^0 c^1 = \ii(\Id - 2n_1)$ and $c^2 c^3 = \ii(\Id - 2n_2)$.
 
 The local unprojected Fock space $\mathcal{F} \cong \mathbb{C}^4$ is spanned by the occupation basis:
 \begin{equation}
@@ -64,17 +64,12 @@ The dimension of the local Fock space is $\dim \mathcal{F} = 2^{4/2} = 4 = 2 \ti
 
 \begin{definition}[Fermion Parity Operator]
 \label{def:m1_1_fermion_parity}
-The local fermion parity operator $\mathcal{D}$ on $\mathcal{F}$ is defined by the total Dirac fermion number modulo 2:
+In the canonical \texttt{kitaev-mf} ordering $(c^0, c^1, c^2, c^3)$ (\texttt{constants.py}, \texttt{m1\_1\_t2}), the local Klein parity operator $\mathcal{D}$ on $\mathcal{F}$ is defined both by Dirac occupation parity and as the quartic Majorana product:
 \begin{equation}
 \label{eq:m1_1_parity_def}
-\mathcal{D} \equiv (-1)^{n_1 + n_2} = (-1)^{n_1}(-1)^{n_2} = (1 - 2n_1)(1 - 2n_2).
+\mathcal{D} \equiv +c^0 c^1 c^2 c^3 = [\ii(\Id - 2n_1)][\ii(\Id - 2n_2)] = -(1 - 2n_1)(1 - 2n_2) = -(-1)^{n_1 + n_2},
 \end{equation}
-Substituting the Majorana expressions from Eq.~\eqref{eq:m1_1_number_operators_majorana}, the fermion parity operator evaluates to the quartic Majorana product:
-\begin{equation}
-\label{eq:m1_1_parity_majorana}
-\mathcal{D} = (-\ii c^0 c^3)(-\ii c^1 c^2) = -c^0 c^3 c^1 c^2 = -c^0 c^1 c^2 c^3.
-\end{equation}
-Because $(c^\mu)^\dagger = c^\mu$ and $\{c^\mu, c^\nu\} = 0$ for $\mu \neq \nu$, $\mathcal{D}$ is manifestly Hermitian and involutory:
+selecting the odd-fermion physical spin doublet $\mathcal{F}_+ = \operatorname{span}\{|10\rangle, |01\rangle\}$ at $\mathcal{D} = +1$ (related to Kitaev's standard ordering $(b^x, b^y, b^z, c)$ via the odd-parity map $(c^0, c^1, c^2, c^3) = (-c, b^x, b^y, b^z)$, under which $\mathcal{D} = (-c) b^x b^y b^z = +b^x b^y b^z c = D^{\mathrm{Kitaev}}$). Because $(c^\mu)^\dagger = c^\mu$ and $\{c^\mu, c^\nu\} = 0$ for $\mu \neq \nu$, $\mathcal{D}$ is manifestly Hermitian and involutory:
 \begin{equation}
 \label{eq:m1_1_parity_properties}
 \mathcal{D}^\dagger = \mathcal{D}, \qquad \mathcal{D}^2 = \Id.
@@ -92,7 +87,7 @@ while anticommuting with single Majorana operators: $\{\mathcal{D}, c^\mu\} = 0$
 Let $c^0, c^1, c^2, c^3$ be four generators of $\mathcal{A}_{\mathrm{CAR}}(V)$. The product of any four Majorana operators on the site expands identically as:
 \begin{equation}
 \label{eq:m1_1_four_majorana_contraction}
-c^\mu c^\nu c^\rho c^\lambda = (\delta^{\mu\nu}\delta^{\rho\lambda} - \delta^{\mu\rho}\delta^{\nu\lambda} + \delta^{\mu\lambda}\delta^{\nu\rho})\Id - \epsilon^{\mu\nu\rho\lambda}\mathcal{D} + \mathcal{A}^{\mu\nu\rho\lambda},
+c^\mu c^\nu c^\rho c^\lambda = (\delta^{\mu\nu}\delta^{\rho\lambda} - \delta^{\mu\rho}\delta^{\nu\lambda} + \delta^{\mu\lambda}\delta^{\nu\rho})\Id + \epsilon^{\mu\nu\rho\lambda}\mathcal{D} + \mathcal{A}^{\mu\nu\rho\lambda},
 \end{equation}
 where $\epsilon^{\mu\nu\rho\lambda}$ is the totally antisymmetric Levi-Civita symbol ($\epsilon^{0123} = +1$), and $\mathcal{A}^{\mu\nu\rho\lambda}$ is an antisymmetric linear combination of quadratic Majorana bilinears:
 \begin{equation}
@@ -101,7 +96,7 @@ where $\epsilon^{\mu\nu\rho\lambda}$ is the totally antisymmetric Levi-Civita sy
 \end{equation}
 \end{theorem}
 \begin{proof}
-If all four indices $\mu, \nu, \rho, \lambda$ are mutually distinct, they form an even or odd permutation of $(0, 1, 2, 3)$. The Kronecker delta terms in Eq.~\eqref{eq:m1_1_four_majorana_contraction} and $\mathcal{A}^{\mu\nu\rho\lambda}$ vanish identically, leaving $c^\mu c^\nu c^\rho c^\lambda = \epsilon^{\mu\nu\rho\lambda} c^0 c^1 c^2 c^3 = -\epsilon^{\mu\nu\rho\lambda}\mathcal{D}$. If two or more indices coincide, repeatedly anticommuting $c^\mu c^\nu = 2\delta^{\mu\nu}\Id - c^\nu c^\mu$ reduces the product to pairs of quadratic bilinears and scalar identity terms matching Eq.~\eqref{eq:m1_1_A_bilinears_explicit}.
+If all four indices $\mu, \nu, \rho, \lambda$ are mutually distinct, they form an even or odd permutation of $(0, 1, 2, 3)$. The Kronecker delta terms in Eq.~\eqref{eq:m1_1_four_majorana_contraction} and $\mathcal{A}^{\mu\nu\rho\lambda}$ vanish identically, leaving $c^\mu c^\nu c^\rho c^\lambda = \epsilon^{\mu\nu\rho\lambda} c^0 c^1 c^2 c^3 = +\epsilon^{\mu\nu\rho\lambda}\mathcal{D}$. If two or more indices coincide, repeatedly anticommuting $c^\mu c^\nu = 2\delta^{\mu\nu}\Id - c^\nu c^\mu$ reduces the product to pairs of quadratic bilinears and scalar identity terms matching Eq.~\eqref{eq:m1_1_A_bilinears_explicit}.
 \end{proof}
 
 \begin{remark}[Physical Utility of the Contraction Identity]
@@ -313,11 +308,11 @@ Applying the homomorphism Theorem~\ref{thm:m1_1_lie_homomorphism} to Eq.~\eqref{
 \end{proposition}
 \begin{remark}[Physical Significance of the Gauge Minus Sign]
 \label{rem:m1_1_gauge_minus_sign}
-The relative minus sign in $[\tau^\alpha, \tau^\beta] = -2\ii\epsilon^{\alpha\beta\gamma}\tau^\gamma$ is not an arbitrary convention; it has direct physical consequences in the projective construction of the physical spin. Specifically, when we define the single-pair Kitaev spin operator $\sigma_K^\gamma = -\ii c^0 c^\gamma = \sigma^\gamma - \tau^\gamma$, computing its commutator yields:
+The relative minus sign in $[\tau^\alpha, \tau^\beta] = -2\ii\epsilon^{\alpha\beta\gamma}\tau^\gamma$ is not an arbitrary convention; it governs closure of the Kitaev spin channel $\sigma_K^\gamma \equiv +\ii c^0 c^\gamma = \sigma_{\mathrm{so4}}^\gamma + \tau^\gamma$ (realized via $\mathrm{N}^\gamma = \frac{1}{2}(\mathrm{M}^\gamma + \mathrm{G}^\gamma)$ in \texttt{constants.py}) modulo the gauge sector. Computing its commutator yields:
 \begin{equation}
-[\sigma_K^\alpha, \sigma_K^\beta] = [\sigma^\alpha - \tau^\alpha, \sigma^\beta - \tau^\beta] = [\sigma^\alpha, \sigma^\beta] + [\tau^\alpha, \tau^\beta] = 2\ii\epsilon^{\alpha\beta\gamma}(\sigma^\gamma - \tau^\gamma) = 2\ii\epsilon^{\alpha\beta\gamma}\sigma_K^\gamma.
+[\sigma_K^\alpha, \sigma_K^\beta] = [\sigma_{\mathrm{so4}}^\alpha + \tau^\alpha, \sigma_{\mathrm{so4}}^\beta + \tau^\beta] = [\sigma_{\mathrm{so4}}^\alpha, \sigma_{\mathrm{so4}}^\beta] + [\tau^\alpha, \tau^\beta] = 2\ii\epsilon^{\alpha\beta\gamma}(\sigma_{\mathrm{so4}}^\gamma - \tau^\gamma) = 2\ii\epsilon^{\alpha\beta\gamma}(\sigma_K^\gamma - 2\tau^\gamma).
 \end{equation}
-Notice that the cross terms $[\sigma^\alpha, \tau^\beta]$ vanish identically. Crucially, the $+[\tau^\alpha, \tau^\beta]$ term contributes with a minus sign $(-2\ii\epsilon^{\alpha\beta\gamma}\tau^\gamma)$, which exactly combines with $2\ii\epsilon^{\alpha\beta\gamma}\sigma^\gamma$ into the physical spin operator! If $\tau^\gamma$ satisfied a standard right-handed algebra, the gauge generators would add rather than subtract, and $\sigma_K^\gamma$ would fail to close into an $\mathfrak{su}(2)$ algebra on the unprojected Fock space.
+Notice that the cross terms $[\sigma_{\mathrm{so4}}^\alpha, \tau^\beta]$ vanish identically, while $[\tau^\alpha, \tau^\beta] = -2\ii\epsilon^{\alpha\beta\gamma}\tau^\gamma$ reduces strictly to $\sigma_K^\gamma - 2\tau^\gamma$, closing back to $+2\ii\epsilon^{\alpha\beta\gamma}\sigma_K^\gamma$ on the gauge-singlet subspace $\ker \tau^\gamma$ ($\mathcal{D}=+1$).
 \end{remark}
 
 % EDITORIAL QUESTION: How do the spin and gauge quadratic Casimirs relate to the local fermion parity operator, and how is the physical subspace projected?
@@ -343,9 +338,9 @@ Directly evaluate $(\tau^1)^2$ using $\tau^1 = \frac{\ii}{2}(c^0 c^1 + c^2 c^3)$
 \begin{equation}
 (\tau^1)^2 = -\frac{1}{4}\left( (c^0 c^1)^2 + (c^2 c^3)^2 + c^0 c^1 c^2 c^3 + c^2 c^3 c^0 c^1 \right).
 \end{equation}
-Since $(c^0 c^1)^2 = -(c^0)^2 (c^1)^2 = -\Id$, and $c^2 c^3 c^0 c^1 = c^0 c^1 c^2 c^3 = -\mathcal{D}$:
+Since $(c^0 c^1)^2 = -(c^0)^2 (c^1)^2 = -\Id$, and $c^2 c^3 c^0 c^1 = +c^0 c^1 c^2 c^3 = +\mathcal{D}$:
 \begin{equation}
-(\tau^1)^2 = -\frac{1}{4}(-\Id - \Id - 2\mathcal{D}) = \frac{1}{2}(\Id - \mathcal{D}).
+(\tau^1)^2 = -\frac{1}{4}(-\Id - \Id + 2\mathcal{D}) = \frac{1}{2}(\Id - \mathcal{D}).
 \end{equation}
 By cyclic symmetry of $(1, 2, 3)$, Eq.~\eqref{eq:m1_1_single_generator_parity} holds for all $\gamma \in \{1, 2, 3\}$, and summing over $\gamma$ gives $\bm{\tau}^2 = \frac{3}{2}(\Id - \mathcal{D})$. For $\sigma^1 = \frac{\ii}{2}(c^0 c^1 - c^2 c^3)$, the cross-term enters with the opposite sign, yielding $(\sigma^1)^2 = \frac{1}{2}(\Id + \mathcal{D})$ and $\bm{\sigma}^2 = \frac{3}{2}(\Id + \mathcal{D})$.
 \end{proof}
@@ -364,14 +359,14 @@ P_G = \frac{\Id + \mathcal{D}}{2}.
 % EDITORIAL QUESTION: How does physical projection eliminate gauge leakage to recover the standard SU(2) Pauli algebra?
 \section{Physical Kitaev Spin Operators and the Pauli Algebra Modulo Gauge}
 \label{sec:m1_1_pauli_algebra}
-In the Kitaev Majorana formulation, the physical spin operator is represented in terms of a single bilinear connecting the itinerant matter Majorana $c^0$ and the gauge Majorana $c^\gamma$:
+In the Kitaev Majorana formulation (\texttt{constants.py} $\mathrm{N}^\gamma$), the single-pair physical spin operator is represented as:
 \begin{equation}
 \label{eq:m1_1_pauli_def}
-\sigma^\gamma \equiv -\ii c^0 c^\gamma.
+\sigma_K^\gamma \equiv +\ii c^0 c^\gamma = \sigma^\gamma + \tau^\gamma.
 \end{equation}
 \begin{remark}[Notation Standardization for Spin Operators]
 \label{rem:m1_1_notation_spin_operators}
-Henceforth, we denote the single-pair operator $-\ii c^0 c^\gamma$ simply by $\sigma^\gamma$ (dropping the subscript $K$), reserving $\bm{\sigma}$ exclusively for this physical spin representation and $\bm{\tau}$ for the gauge generators. On the physical subspace $\mathcal{F}_+$, $\sigma^\gamma$ acts identically to the chiral spin operator, while outside $\mathcal{F}_+$ it differs by gauge leakage terms proportional to $\tau^\gamma$.
+Henceforth, outside \texttt{SO(4)} Casimir derivations we denote this single-pair operator $+\ii c^0 c^\gamma$ simply by $\sigma^\gamma$ (dropping the subscript $K$), reserving $\bm{\sigma}_{\mathrm{so4}}$ (or context) for $\frac{\ii}{4}c^T \mathrm{M}^\gamma c$ and $\bm{\tau}$ for the gauge generators. Under the odd-parity Kitaev map $(c^0, c^1, c^2, c^3) = (-c, b^x, b^y, b^z)$, $\sigma_K^\gamma = +\ii b^\gamma c$ agrees identically with Kitaev's convention on $\mathcal{F}_+$ ($\tau^\gamma = 0$), while outside $\mathcal{F}_+$ it differs from $\sigma_{\mathrm{so4}}^\gamma$ by $+\tau^\gamma$.
 \end{remark}
 
 \begin{proposition}[Pauli Algebra Modulo Gauge]
@@ -379,22 +374,22 @@ Henceforth, we denote the single-pair operator $-\ii c^0 c^\gamma$ simply by $\s
 For cyclic indices $(\alpha, \beta, \gamma)$:
 \begin{equation}
 \label{eq:m1_1_pauli_cyclic}
-\sigma^\alpha \sigma^\beta = \ii \sigma^\gamma - 2\ii \tau^\gamma.
+\sigma_K^\alpha \sigma_K^\beta = \ii \sigma_K^\gamma - 2\ii \tau^\gamma.
 \end{equation}
 For general $\alpha, \beta \in \{1, 2, 3\}$, the operator product on the full local Fock space $\mathcal{F}$ expands as:
 \begin{equation}
 \label{eq:m1_1_pauli_general}
-\sigma^\alpha \sigma^\beta = \delta^{\alpha\beta}\Id + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma}(\sigma^\gamma - 2 \tau^\gamma).
+\sigma_K^\alpha \sigma_K^\beta = \delta^{\alpha\beta}\Id + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma}(\sigma_K^\gamma - 2 \tau^\gamma).
 \end{equation}
 \end{proposition}
 \begin{proof}
-For $\alpha \neq \beta$, $\sigma^\alpha \sigma^\beta = (-\ii c^0 c^\alpha)(-\ii c^0 c^\beta) = c^\alpha c^\beta$. Using Eq.~\eqref{eq:m1_1_G_contraction}, $c^\alpha c^\beta = -\ii \tau^\gamma - c^0 c^\gamma = -2\ii \tau^\gamma + \ii \sigma^\gamma$. For $\alpha = \beta$, $(\sigma^\alpha)^2 = -(c^0 c^\alpha)^2 = \Id$.
+For cyclic $(\alpha, \beta, \gamma)$, $\sigma_K^\alpha \sigma_K^\beta = (+\ii c^0 c^\alpha)(+\ii c^0 c^\beta) = +c^\alpha c^\beta$. From Eq.~\eqref{eq:m1_1_G_contraction} and Eq.~\eqref{eq:m1_1_M_contraction}, $\tau^\gamma - \sigma_{\mathrm{so4}}^\gamma = +\ii c^\alpha c^\beta$, so $+c^\alpha c^\beta = \ii(\sigma_{\mathrm{so4}}^\gamma - \tau^\gamma) = \ii(\sigma_K^\gamma - 2\tau^\gamma)$. For $\alpha = \beta$, $(\sigma_K^\alpha)^2 = -(c^0 c^\alpha)^2 = \Id$.
 \end{proof}
 
 Sandwiching Eq.~\eqref{eq:m1_1_pauli_general} with the Gutzwiller projector $P_G$ and utilizing $\tau^\gamma P_G = 0$:
 \begin{equation}
 \label{eq:m1_1_projected_pauli}
-P_G \sigma^\alpha \sigma^\beta P_G = \delta^{\alpha\beta} P_G + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma} P_G \sigma^\gamma P_G.
+P_G \sigma_K^\alpha \sigma_K^\beta P_G = \delta^{\alpha\beta} P_G + \ii \sum_{\gamma=1}^3 \epsilon^{\alpha\beta\gamma} P_G \sigma_K^\gamma P_G.
 \end{equation}
 Thus, on the physical subspace $\Ran P_G \cong \mathcal{H}_{\mathrm{phys}}$, the operators $\sigma_{\mathrm{phys}}^\gamma \equiv P_G \sigma^\gamma P_G$ satisfy the exact $\mathrm{SU}(2)$ Pauli spin algebra with zero gauge leakage.
 

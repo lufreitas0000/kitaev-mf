@@ -38,7 +38,7 @@ milestone_history:
     benchmark.
   evidence:
   - doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md
-  - doc/rnd/phase_1/m1_3_t2_k006_quadrature_provenance.md
+  - doc/rnd/phase_1/m1_3_t3_k006_quadrature_provenance.md
   - src/kitaev_mf/services/quadrature.py
   - scripts/k006_quadrature.py
   - test/unit/test_correlators.py
@@ -140,18 +140,17 @@ milestone_history:
 - id: M1.9
   name: Publication Overhaul, 3-Agent Adversarial Peer Review & Hypothesis Contracts
   status: completed
-  acceptance: Rewrote manuscript to SciPost standards (scipost_kitaev_mf.tex); passed 3-round simulated peer review (referees + editor) with full acceptance; established formal Hypothesis Contracts registry (doc/HYPOTHESIS_CONTRACTS.md and Lab Book Chapter 11) and Front-1 theory notes m1_9_t1..t6.
+  acceptance: Overhauled technical manuscript (manuscript_kitaev_mf.tex); passed 3-round simulated peer review; established Hypothesis Contracts registry (doc/HYPOTHESIS_CONTRACTS.md and Lab Book Chapter 11) and Front-1 theory notes m1_9_t1..t6.
   evidence:
-  - doc/manuscript/scipost_kitaev_mf.tex
-  - doc/manuscript/scipost_kitaev_mf.pdf
+  - doc/manuscript/manuscript_kitaev_mf.tex
   - doc/labbook/chapters/ch_m1_11_hypothesis_contracts.tex
   - doc/HYPOTHESIS_CONTRACTS.md
   - doc/rnd/phase_1/m1_9_t1_self_consistent_purification_warm_starts.md
-  - doc/rnd/phase_1/m1_9_t2_disordered_real_space_purification.md
-  - doc/rnd/phase_1/m1_9_t3_damped_lbroyden_real_space_scaling.md
-  - doc/rnd/phase_1/m1_9_t4_finite_temperature_fermi_dirac_covariance.md
+  - doc/rnd/phase_1/m1_9_t2_disordered_solver_scaling.md
+  - doc/rnd/phase_1/m1_9_t3_lbroyden_damping_and_multisecant_reconciliation.md
+  - doc/rnd/phase_1/m1_9_t4_small_gap_and_zero_mode_purification.md
   - doc/rnd/phase_1/m1_9_t5_spinodal_domain_wall_coexistence.md
-  - doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening_defect_clouds.md
+  - doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening.md
   - doc/rnd/peer_review/
 - id: M1.10
   name: Real-Space Vortices, Vison Pairs, and In-Gap Majorana Bound States
@@ -181,9 +180,13 @@ milestone_history:
   - test/unit/test_post_spinodal_kkt_audit.py
 active_milestone:
   id: RECON-20261116
-  description: Foundation organization and provisional-history reconciliation
-  status: active
-  sprint_goal: Make assumptions, sources, evidence and acceptance boundaries discoverable before new physics
+  description: Foundation organization, linear-main reconciliation, pure-scMFT consolidation, and PG-10/editorial alignment
+  status: completed
+  sprint_goal: Reconcile kitaev-mf into a single-main linear topology with explicit 5-repo boundaries, audited scMFT kernels, external-data provenance gates, and synchronized LaTeX/CI/Pages sources
+  next_action:
+    authorized: true
+    description: Owner selects next bounded post-reconciliation sprint (IDEA-001 / K-019-A theory closure or Phase 2 finite-cluster scMFT vs kitaev-numerics comparison registered under doc/hypotheses/HC-*.yaml)
+    authority: CURRENT_SPRINT.md
   active_tasks:
     - id: T1
       title: Foundation information index and preservation inventory
@@ -197,6 +200,51 @@ active_milestone:
         - Pinned catalog coverage and Git blob identity; JSON/YAML and links; independent documentary review
       evidence:
         - doc/reconciliation/VERIFICATION.md
+        - doc/reconciliation/check_index.py
+    - id: T2
+      title: "Wave 4 sampling/symmetry design and R&D/W001 historical absorption (PR #20, PR #22)"
+      status: completed
+      target_files:
+        - doc/reconciliation/CODE_SALVAGE_QUEUE.md
+        - doc/audits/w001_acceptance.yaml
+        - LOG_DISCOVERY_AND_PIVOTS.md
+      validation:
+        - "check_index.py, planning_records check, make blueprint, and make verify on PR #20 and PR #22"
+      evidence:
+        - doc/audits/w001_acceptance.yaml
+        - doc/reconciliation/check_index.py
+    - id: T3
+      title: "Track 1 pure-scMFT real-space, Padé, Lehmann Hessian, and Pfaffian kernels (PR #23)"
+      status: completed
+      target_files:
+        - src/kitaev_mf/domain/state.py
+        - src/kitaev_mf/domain/solver.py
+        - src/kitaev_mf/services/solver.py
+        - src/kitaev_mf/services/purification.py
+        - src/kitaev_mf/services/real_space.py
+        - src/kitaev_mf/services/canonical_skew.py
+      validation:
+        - make verify and independent W4 physics-referee audit
+      evidence:
+        - doc/reviews/scmft-core-kernels-20261118.json
+        - test/unit/test_canonical_skew.py
+        - test/unit/test_real_space_vortices.py
+    - id: T4
+      title: Linear-main ADR-003, PG-10 native-v2 profile, external-data contract, LaTeX/CI-Pages overhaul, and feed plan
+      status: completed
+      target_files:
+        - doc/adr/ADR-003-linear-main-and-family-boundaries.md
+        - governance/profile.toml
+        - doc/hypotheses/README.md
+        - scripts/sync_external_data.py
+        - doc/labbook/appendices/app_architecture_and_foundations.tex
+        - doc/editorial/PERSONAL_SITE_FEED_PLAN.md
+      validation:
+        - make labbook, make manuscript, make blueprint, make verify, sync_external_data.py --verify, planning_records check, and uow.py check
+      evidence:
+        - test/unit/test_sync_external_data.py
+        - .github/workflows/docs.yml
+        - .github/workflows/ci.yml
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -287,8 +335,8 @@ verified_physics_invariants:
     test: test/unit/test_production_energetics.py
 - id: K-008
   name: Linear weak-field gauge Lagrange multiplier counter-field scaling
-  equation: '||lambda^*(h)||_2 approx sqrt(5) * h (power-law exponent p = 1.005 pm 0.002)'
-  status: verified_analytical_and_pytest
+  equation: '||lambda^*(h)||_2 approx sqrt(5) * h (empirical power-law exponent p = 1.005 pm 0.002; closed-form derivation open under IDEA-001)'
+  status: numerical_power_law_fit_with_finite_mesh_regression
   provenance:
     analytical: doc/rnd/phase_1/m1_6_t3_solver_seed_convergence.md
     test: test/integration/test_multistability_basins.py
@@ -426,12 +474,13 @@ verified_physics_invariants:
     covariance_parity: 4.01e-15
     energy_difference: 2.842e-13
 - id: K-019
-  name: Exact pure-Kitaev spin perturbation operator mapping and mean-field gap reconciliation
-  equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical^MF = 4 Delta_K^MF = 10.3684 h^3; Delta_static = (4 / Delta_flux^2) h^3 = 57.3921 h^3
-  status: verified_operator_derivation
+  name: Pure-Kitaev spin perturbation operator mapping and scMFT channel comparison (see K-019-A erratum)
+  equation: P (sigma_j^alpha sigma_k^gamma sigma_l^beta) P = epsilon^{alpha beta gamma} (i c_j c_l); Delta_canonical^MF = 4 Delta_K^MF approx 10.3684 h^3 (empirical fit, IDEA-001 open); Delta_static = (4 / Delta_flux^2) h^3 = 57.3921 h^3 (K-019-A full-Q resolvent open)
+  status: verified_operator_mapping_with_erratum
   provenance:
     analytical: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
-    cross_branch: research/pure-kitaev-exact-perturbation-20261102
+    erratum: doc/rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md
+    bundle_archive: /home/lucas/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle
   numerical_evidence:
     bloch_scaling_factor: 4.0
     bare_energy_denominator_ratio_squared: 15.8106
