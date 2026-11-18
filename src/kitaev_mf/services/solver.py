@@ -175,9 +175,15 @@ def solve_self_consistent_mean_field(
         if config.precondition_dual:
             h_ll = compute_lehmann_dual_hessian(cell, params, state_in, k_grid, backend)
             g_flat = g_res.ravel()
-            eye_dim = np.eye(len(g_flat), dtype=np.float64)
-            dlam = np.linalg.solve(h_ll + 1e-10 * eye_dim, g_flat)
-            lam_out = state_in.lambdas - dlam.reshape(state_in.lambdas.shape)
+            eigvals, eigvecs = np.linalg.eigh(h_ll)
+            # Fall back to safe gradient descent if finite-difference Hessian is strongly indefinite;
+            # clamp tiny near-zero/numerical-noise modes to +1e-8 so the inverse step stays bounded and SPD.
+            if float(np.min(eigvals)) < -1e-6:
+                lam_out = state_in.lambdas - config.lambda_step * g_res
+            else:
+                floored = np.maximum(eigvals, 1e-8)
+                dlam = eigvecs @ ((eigvecs.T @ g_flat) / floored)
+                lam_out = state_in.lambdas - dlam.reshape(state_in.lambdas.shape)
         else:
             lam_out = state_in.lambdas - config.lambda_step * g_res
         return u_out, v_out, lam_out, p_k

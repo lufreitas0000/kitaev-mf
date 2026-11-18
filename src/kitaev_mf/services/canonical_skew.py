@@ -42,7 +42,8 @@ def canonical_skew_schur(A: np.ndarray, tol: float = 1e-12) -> ScalableSchurResu
     threshold = tol * scale
     if np.max(np.abs(A + A.T)) > threshold:
         raise ValueError("A must be skew-symmetric to the declared relative tolerance")
-    triangular, basis = schur(A, output="real")
+    A_skew = 0.5 * (A - A.T)
+    triangular, basis = schur(A_skew, output="real")
     pairs: list[tuple[float, int, int]] = []
     null_columns: list[int] = []
     index = 0
@@ -71,6 +72,8 @@ def canonical_skew_schur(A: np.ndarray, tol: float = 1e-12) -> ScalableSchurResu
         sigma[2 * i, 2 * i + 1] = energy
         sigma[2 * i + 1, 2 * i] = -energy
     orthogonality = float(np.max(np.abs(canonical.T @ canonical - np.eye(size))))
+    if orthogonality > max(1e-10, 100.0 * size * np.finfo(float).eps):
+        raise ValueError("Canonical Schur basis lost orthogonality beyond machine tolerance")
     reconstruction = float(np.max(np.abs(canonical @ sigma @ canonical.T - A)))
     # Allow accumulated backward error and the explicitly truncated tiny blocks.
     # A badly parsed Schur form must not be returned as a valid eigensystem.

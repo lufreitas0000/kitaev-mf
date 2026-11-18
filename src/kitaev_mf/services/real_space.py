@@ -125,7 +125,11 @@ class RealSpaceTorusCluster:
         """Assemble the exact real skew-symmetric M x M matrix A where H = (i/4) c^T A c.
 
         Supports both translationally invariant MeanFieldState and spatially resolved
-        InhomogeneousMeanFieldState without loss of defect localization.
+        InhomogeneousMeanFieldState without loss of defect localization. On active bonds,
+        ``bond_disorder`` scales both exchange hopping ``a_b`` and neighbor Hartree fields by
+        ``(1 + delta_b)``. Note: for ``site_vacancies``, ``InhomogeneousMeanFieldState`` zeroes
+        missing neighbor Hartree couplings explicitly, whereas homogeneous ``MeanFieldState``
+        retains uniform coordination in on-site ``B_s`` on non-vacant sites.
 
         Args:
             params: Exchange couplings and external field.
@@ -196,10 +200,18 @@ class RealSpaceTorusCluster:
 
                         for alpha in (1, 2, 3):
                             for beta in (1, 2, 3):
-                                c_A = j_mat[alpha - 1, beta - 1] * tr_v_n[s_B, beta - 1]
+                                c_A = (
+                                    disorder_factor
+                                    * j_mat[alpha - 1, beta - 1]
+                                    * tr_v_n[s_B, beta - 1]
+                                )
                                 if c_A != 0.0:
                                     A[sl_A, sl_A] += c_A * N_MATRICES[alpha]
-                                c_B = j_mat[beta - 1, alpha - 1] * tr_v_n[s_A, beta - 1]
+                                c_B = (
+                                    disorder_factor
+                                    * j_mat[beta - 1, alpha - 1]
+                                    * tr_v_n[s_A, beta - 1]
+                                )
                                 if c_B != 0.0:
                                     A[sl_B, sl_B] += c_B * N_MATRICES[alpha]
                                 j_ab = j_mat[alpha - 1, beta - 1]
@@ -218,6 +230,13 @@ class RealSpaceTorusCluster:
         b_mat = build_on_site_matrices(cell2, params, state, device).cpu().numpy()
         a_mat = build_bond_hopping_matrices(cell2, params, state, device).cpu().numpy()
 
+        # Precompute uniform spin expectations tr(V_sub^T N^beta) for bond-disorder Hartree shifts
+        tr_v_n_homo = np.zeros((cell2.num_sublattices, 3), dtype=np.float64)
+        if disorder_map and np.any(state.V != 0.0):
+            for sub in range(cell2.num_sublattices):
+                for beta in (1, 2, 3):
+                    tr_v_n_homo[sub, beta - 1] = float(np.trace(state.V[sub].T @ N_MATRICES[beta]))
+
         # 1. On-site skew-symmetric blocks
         for s in range(self.num_sites):
             if s in vacancies_set:
@@ -226,13 +245,13 @@ class RealSpaceTorusCluster:
             sl = self.majorana_slice(s)
             A[sl, sl] = b_mat[sub]
 
-        # 2. Directed bond hopping blocks
+        # 2. Directed bond hopping blocks (plus Hartree modulation delta_b on disordered bonds)
         for m2 in range(self.L):
             for m1 in range(self.L):
                 s_A = self.site_index(m1, m2, 0)
                 sl_A = self.majorana_slice(s_A)
 
-                for b_idx, (d1, d2, _) in enumerate(disp):
+                for b_idx, (d1, d2, gamma) in enumerate(disp):
                     s_B = self.site_index(m1 + d1, m2 + d2, 1)
                     sl_B = self.majorana_slice(s_B)
 
@@ -241,7 +260,19 @@ class RealSpaceTorusCluster:
 
                     bond_key = (m1, m2, b_idx)
                     sign = -1.0 if bond_key in flipped_set else 1.0
-                    disorder_factor = 1.0 + disorder_map.get(bond_key, 0.0)
+                    delta = disorder_map.get(bond_key, 0.0)
+                    disorder_factor = 1.0 + delta
+
+                    if delta != 0.0 and np.any(tr_v_n_homo != 0.0):
+                        j_mat = params.exchange_matrix(gamma)
+                        for alpha in (1, 2, 3):
+                            for beta in (1, 2, 3):
+                                c_A = delta * j_mat[alpha - 1, beta - 1] * tr_v_n_homo[1, beta - 1]
+                                if c_A != 0.0:
+                                    A[sl_A, sl_A] += c_A * N_MATRICES[alpha]
+                                c_B = delta * j_mat[beta - 1, alpha - 1] * tr_v_n_homo[0, beta - 1]
+                                if c_B != 0.0:
+                                    A[sl_B, sl_B] += c_B * N_MATRICES[alpha]
 
                     A[sl_A, sl_B] += sign * disorder_factor * a_mat[b_idx]
                     A[sl_B, sl_A] -= sign * disorder_factor * a_mat[b_idx].T
@@ -699,6 +730,11 @@ class RealSpaceTorusCluster:
         site_vacancies: set[int] | None,
     ) -> tuple[np.ndarray, _StateT, dict[str, Any]]:
         """Shared outer fixed-point purification loop for homogeneous and inhomogeneous states."""
+        if max_iter < 1:
+            raise ValueError(f"max_iter must be >= 1, got {max_iter}")
+        if accelerator not in ("picard", "diis", "lbroyden"):
+            raise ValueError(f"Unknown accelerator: {accelerator!r}")
+
         curr_state = initial_state
         prev_omega: np.ndarray | None = None
         total_gemm = 0

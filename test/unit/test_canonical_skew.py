@@ -8,7 +8,7 @@ import pytest
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.state import InhomogeneousMeanFieldState
 from kitaev_mf.services.canonical_skew import ScalableSchurResult, canonical_skew_schur
-from kitaev_mf.services.real_space import RealSpaceTorusCluster
+from kitaev_mf.services.real_space import RealSpaceTorusCluster, compute_skew_pfaffian
 
 
 def _build_sigma(energies: np.ndarray) -> np.ndarray:
@@ -38,6 +38,22 @@ def test_canonical_skew_nonsingular_reconstruction_and_orthogonality() -> None:
     assert np.isclose(abs(res.det_Q), 1.0, atol=1e-12)
     assert np.allclose(res.Q.T @ res.Q, np.eye(8), atol=1e-12)
     assert np.allclose(res.Q @ _build_sigma(res.energies) @ res.Q.T, A, atol=1e-11)
+    assert np.isclose(
+        compute_skew_pfaffian(A),
+        res.det_Q * float(np.prod(res.energies)),
+        atol=1e-11,
+    )
+
+    # Swapping two basis columns flips Pfaffian sign and det_Q consistently
+    swap = [1, 0] + list(range(2, 8))
+    A_neg = A[np.ix_(swap, swap)]
+    res_neg = canonical_skew_schur(A_neg)
+    assert res_neg.det_Q == -res.det_Q
+    assert np.isclose(
+        compute_skew_pfaffian(A_neg),
+        res_neg.det_Q * float(np.prod(res_neg.energies)),
+        atol=1e-11,
+    )
 
 
 def test_canonical_skew_interleaved_separated_null_blocks() -> None:

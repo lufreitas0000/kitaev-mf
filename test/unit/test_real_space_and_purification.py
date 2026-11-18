@@ -4,7 +4,7 @@ import numpy as np
 
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
-from kitaev_mf.domain.state import InhomogeneousMeanFieldState
+from kitaev_mf.domain.state import InhomogeneousMeanFieldState, MeanFieldState
 from kitaev_mf.services.purification import purify_newton_schulz, purify_pade_sign
 from kitaev_mf.services.real_space import RealSpaceTorusCluster
 from kitaev_mf.services.seeds import make_qsl_seed
@@ -289,3 +289,37 @@ def test_pade_32_vs_newton_schulz_acceleration_on_dirac_resonance() -> None:
     assert met_ns.iterations >= 30, (
         f"Expected Newton-Schulz iterations >= 30, got {met_ns.iterations}"
     )
+
+
+def test_bond_disorder_scales_hartree_and_hopping_with_nonzero_onsite_v() -> None:
+    """Verify bond_disorder scales Hartree and hopping blocks identically when V != 0."""
+    L = 3
+    cluster = RealSpaceTorusCluster(L=L)
+    cell2 = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0, h=(0.05, 0.05, 0.05))
+    pol_state = MeanFieldState.from_polarized(cell2)
+    inhomo_state = InhomogeneousMeanFieldState.from_homogeneous(pol_state, cluster.num_cells)
+
+    bond_disorder = {(0, 0, 0): 0.25, (1, 2, 1): -0.15}
+
+    A_homo = cluster.assemble_skew_hamiltonian(params, pol_state, bond_disorder=bond_disorder)
+    A_inhomo = cluster.assemble_skew_hamiltonian(params, inhomo_state, bond_disorder=bond_disorder)
+    assert np.allclose(A_homo, A_inhomo, atol=1e-14)
+
+    # Uniform doubling (delta_b = 1.0 -> factor 2.0) scales the V-dependent Hartree exchange
+    # contribution by 2.0 on the diagonal 4x4 site blocks (isolated at h = 0).
+    params_zero_h = ModelParameters(K=-1.0, h=(0.0, 0.0, 0.0))
+    A_clean_h0 = cluster.assemble_skew_hamiltonian(params_zero_h, pol_state)
+    double_disorder = {
+        (m1, m2, b_idx): 1.0 for m2 in range(L) for m1 in range(L) for b_idx in range(3)
+    }
+    A_double_h0 = cluster.assemble_skew_hamiltonian(
+        params_zero_h, pol_state, bond_disorder=double_disorder
+    )
+    assert np.allclose(A_double_h0, 2.0 * A_clean_h0, atol=1e-14)
+
+    # Under InhomogeneousMeanFieldState, removing site 1 zeros its neighbor Hartree field on site 0.
+    A_inh_vac = cluster.assemble_skew_hamiltonian(params_zero_h, inhomo_state, site_vacancies={1})
+    assert np.allclose(A_inh_vac[4:8, :], 0.0, atol=1e-15)
+    # Site 0 loses the z-bond (gamma=3) Hartree contribution from vacant site 1, unlike A_clean_h0.
+    assert not np.allclose(A_inh_vac[0:4, 0:4], A_clean_h0[0:4, 0:4], atol=1e-6)

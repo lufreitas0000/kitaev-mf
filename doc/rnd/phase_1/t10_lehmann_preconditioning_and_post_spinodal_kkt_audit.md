@@ -34,8 +34,8 @@ $$\boldsymbol{\lambda}^{(k+1)} = \boldsymbol{\lambda}^{(k)} - \alpha_\lambda \ma
 Because $\alpha_\lambda$ is isotropic and scalar, it cannot account for the disparate curvatures between matter-gauge and gauge-gauge transitions. Near the forward spinodal $h_{c2}^+ \approx 0.400$, the dual response slows down dramatically ($\mu_{\mathrm{tail}} \to 1^-$), leading to severe critical slowing down.
 
 `Contract H8` predicts that preconditioning the dual multiplier update with the inverse of the exact $6 \times 6$ Lehmann dual Hessian:
-$$\mathbf{H}_{\lambda\lambda} = \frac{\partial \mathbf{g}}{\partial \boldsymbol{\lambda}} = \frac{\partial^2 E_0}{\partial \boldsymbol{\lambda}^2}, \qquad \Delta \boldsymbol{\lambda} = -\mathbf{H}_{\lambda\lambda}^{-1} \mathbf{g},$$
-eliminates this timescale mismatch and achieves super-linear reduction of gauge residuals.
+$$\mathbf{H}_{\lambda\lambda} = \frac{\partial \mathbf{g}}{\partial \boldsymbol{\lambda}} = -4\,\frac{\partial^2 E_0}{\partial \boldsymbol{\lambda}^2} \succeq 0, \qquad \Delta \boldsymbol{\lambda} = -\mathbf{H}_{\lambda\lambda}^{-1} \mathbf{g},$$
+(since $E_0(\boldsymbol{\lambda})$ is concave in $\boldsymbol{\lambda}$ and $g_i = -4\,\partial E_0/\partial \lambda_i$), eliminates this timescale mismatch and achieves super-linear reduction of gauge residuals.
 
 ### 1.2 Post-Spinodal KKT Saddle Excursions (Contract H7 & K-023)
 In earlier simulations of the critical region $h \in [0.400, 0.455]$ (e.g. Chapter 7 of the Living Lab Book), the forward continuation curve exhibited jagged downward energy serrations and unphysical magnetizations ($E < -1.15 |K|, m_{111} > 1.1$).
@@ -51,12 +51,12 @@ Because the mean-field Lagrangian $\mathcal{L}(\Omega, \boldsymbol{\lambda})$ is
 The local gauge residual vector on the two-sublattice unit cell is:
 $$\mathbf{g} = (g_A^x, g_A^y, g_A^z, g_B^x, g_B^y, g_B^z)^T \in \mathbb{R}^6.$$
 The Lehmann dual Hessian $\mathbf{H}_{\lambda\lambda} \in \mathbb{R}^{6 \times 6}$ is:
-$$(\mathbf{H}_{\lambda\lambda})_{ij} = \frac{\partial g_i}{\partial \lambda_j} = \frac{\partial^2 E_0}{\partial \lambda_i \partial \lambda_j}.$$
+$$(\mathbf{H}_{\lambda\lambda})_{ij} = \frac{\partial g_i}{\partial \lambda_j} = -4\,\frac{\partial^2 E_0}{\partial \lambda_i \partial \lambda_j}.$$
 
-Under a multiplier variation $\delta \lambda_j$, the Bloch Hamiltonian varies as $\delta H(\mathbf{k}) = \frac{\mathrm{i}}{4} G_j$. By first-order spectral perturbation:
-$$\delta P^-(\mathbf{k}) = - \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{|v_n\rangle \langle v_n| \delta H(\mathbf{k}) |v_m\rangle \langle v_m| + \text{h.c.}}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})}.$$
-Integrating over the Brillouin zone yields the symmetric positive-definite matrix:
-$$\mathbf{H}_{\lambda\lambda} = \frac{1}{N_k} \sum_{\mathbf{k}} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{2 \operatorname{Re}\left( \langle v_n| G_i |v_m\rangle \langle v_m| G_j |v_n\rangle \right)}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})}.$$
+Under a multiplier variation $\delta \lambda_j$, the Bloch Hamiltonian varies as $\delta H(\mathbf{k}) = \frac{\mathrm{i}}{4} G_j$. Using Hermitian generators $\tilde{G}_j \equiv \mathrm{i} G_j$ ($\tilde{G}_j^\dagger = \tilde{G}_j$), first-order spectral perturbation yields:
+$$\delta P^-(\mathbf{k}) = -\frac{1}{4} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{|v_n\rangle \langle v_n| \tilde{G}_j |v_m\rangle \langle v_m| + \text{h.c.}}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})}.$$
+Integrating over the Brillouin zone yields the symmetric positive-semidefinite (and generically positive-definite at finite gap) matrix:
+$$\mathbf{H}_{\lambda\lambda} = \frac{1}{2 N_k} \sum_{\mathbf{k}} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{\operatorname{Re}\left( \langle v_n| \tilde{G}_i |v_m\rangle \langle v_m| \tilde{G}_j |v_n\rangle \right)}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})} \succeq 0.$$
 
 In production, `compute_lehmann_dual_hessian` evaluates $\mathbf{H}_{\lambda\lambda}$ via symmetric central finite differences with machine-level symmetry:
 $$\mathbf{H}_{\lambda\lambda}^{\mathrm{sym}} = \frac{1}{2} (\mathbf{H}_{\lambda\lambda} + \mathbf{H}_{\lambda\lambda}^T) \succ 0.$$

@@ -44,16 +44,20 @@ def _initialize_skew_iterate(
     if warm_start is not None and warm_start.shape == (M, M):
         # Warm start: refine previous projector with the new Hamiltonian A.
         # Direct Y_0 = warm_start freezes because Omega^2 = -I is a fixed point.
-        # Injecting the first-order commutator gradient (A + Omega_0 A Omega_0)
-        # rotates the occupied-virtual eigenbasis toward A.
+        # Injecting grad_comm = A + omega_0 A omega_0 rotates the occupied-virtual eigenbasis.
+        # For any valid Majorana covariance (-I <= omega_0^2 <= 0), ||omega_0||_2 <= 1 even when
+        # zero modes exist (3 | L or vacancies). By the triangle inequality,
+        # ||Y_init||_2 <= 1 + tau ||grad_comm||_2 <= 1 + delta_bound, so dividing by
+        # (1 + delta_bound) * 1.02 guarantees ||Y_0||_2 < 1 in O(M^2) without any O(M^3) SVD.
         omega_0 = 0.5 * (warm_start - warm_start.T)
         grad_comm = A + omega_0 @ A @ omega_0
-        tau = 0.5 / max(alpha, 1e-12)
+        tau = 0.25 / max(alpha, 1e-12)
         Y_init = omega_0 - tau * grad_comm
-        norm_y = float(np.linalg.norm(Y_init, ord=2))
-        if norm_y >= 0.98:
-            Y_init = (0.95 / norm_y) * Y_init
-        return 0.5 * (Y_init - Y_init.T), 2
+        delta_inf = float(np.max(np.sum(np.abs(grad_comm), axis=1)))
+        delta_fro = float(np.linalg.norm(grad_comm))
+        delta_bound = tau * min(delta_inf, delta_fro)
+        scale = (1.0 + delta_bound) * 1.02
+        return 0.5 * (Y_init - Y_init.T) / scale, 2
 
     # Cold start: scale Hamiltonian so spectral radius is strictly < 1
     # Since H = (i/4) c^T A c, the ground-state covariance satisfies Omega = i sgn(i A) = -A / |A|.
@@ -75,14 +79,19 @@ def purify_newton_schulz(
 
     Parameters:
         A: Real skew-symmetric Hamiltonian matrix of shape (M, M).
-        warm_start: Optional previous covariance matrix Omega_{prev} for warm start.
+        warm_start: Optional previous covariance matrix Omega_{prev} for one first-order
+            commutator-gradient basis rotation step (note: subsequent polynomial iterations
+            commute with Y_0, so outer SCF loops should keep ``warm_start=False`` with
+            outer DIIS/L-Broyden acceleration for exact fixed-point evaluations).
         tol: Convergence tolerance on relative Cauchy difference ||Y_{k+1} - Y_k||_F / sqrt(M).
-        max_iter: Maximum purification iterations.
+        max_iter: Maximum purification iterations (must be >= 1).
 
     Returns:
         Tuple of (Omega, metrics). Note ``metrics.final_idempotency_error`` records the
         terminal relative Cauchy increment from the stopping criterion.
     """
+    if max_iter < 1:
+        raise ValueError(f"max_iter must be >= 1, got {max_iter}")
     M = A.shape[0]
     t0 = time.perf_counter()
     I_mat = np.eye(M, dtype=np.float64)
@@ -158,13 +167,17 @@ def purify_pade_sign(
         A: Real skew-symmetric Hamiltonian matrix of shape (M, M).
         warm_start: Optional previous covariance matrix Omega_{prev}.
         tol: Convergence tolerance on relative Cauchy difference ||Y_{k+1} - Y_k||_F / sqrt(M).
-        max_iter: Maximum purification iterations.
+        max_iter: Maximum purification iterations (must be >= 1).
         order: Pade order, either "32" (default, Pade [3/2]) or "21" (Pade [2/1] / Halley).
 
     Returns:
         Tuple of (Omega, metrics). Note ``metrics.final_idempotency_error`` records the
         terminal relative Cauchy increment from the stopping criterion.
     """
+    if max_iter < 1:
+        raise ValueError(f"max_iter must be >= 1, got {max_iter}")
+    if order not in ("32", "21"):
+        raise ValueError(f"order must be '32' or '21', got {order!r}")
     M = A.shape[0]
     t0 = time.perf_counter()
     I_mat = np.eye(M, dtype=np.float64)
