@@ -129,3 +129,14 @@ Ask only for the scientific choices above or genuinely missing information.
 First-task completion is organizational. The next task is governance compatibility;
 it does not start a physical solver campaign. Later steps are ordered outcomes,
 not preallocated implementation task IDs or calendar promises.
+
+---
+
+## Execution Outcome (2026-11-18, `ADR-003` Supersession of Two-Branch Draft)
+
+- **Linear Topology Adoption ([`ADR-003`](../adr/ADR-003-linear-main-and-family-boundaries.md)):** Following owner guidance on 2026-11-18, Step 2 was simplified from retaining two long-lived branches to **one permanent `main` branch and one worktree**, with offline bundle preservation (`/home/lucas/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle`) and Spin-ED / 2-RDM SDP handoff (`/home/lucas/Projects/archive/kitaev-numerics-handoff/`).
+- **Executed Integrations:**
+  - `PR #20`: Rebased and merged Wave 4 statistical sampling/symmetry design (`research/wave4-p1-sampling-symmetry-design-20261114`).
+  - `PR #22`: Rebased and absorbed W001 audits, Phase 1–4 R&D notes, `doc/rnd/exact-perturbation-theory/`, and `data/external/` scaffolding.
+  - `PR #23`: Squash-merged audited Track 1 pure-`scMFT` core kernels (`InhomogeneousMeanFieldState`, `purify_pade_sign`, `canonical_skew_schur`, SPD-floored Lehmann dual Hessian, Parlett–Reid 12-Majorana Pfaffian) with independent W4 review (`doc/reviews/scmft-core-kernels-20261118.json`).
+  - Stage 5 (`doc/governance-editorial-overhaul`): Installed `PG-10/1` `native-v2` profile (`governance/profile.toml`), `scripts/sync_external_data.py`, SemVer `CHANGELOG.md` `[Unreleased]` cleanup, unified LaTeX/Pages/release workflow (`.github/workflows/docs.yml`), LaTeX harmonization across Lab Book and `manuscript_kitaev_mf.tex`, and `doc/editorial/PERSONAL_SITE_FEED_PLAN.md`.

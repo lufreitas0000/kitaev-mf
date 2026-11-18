@@ -172,14 +172,14 @@ def generate_blueprint(root: Path, output_dir: Path) -> None:
 
     # Copy compiled PDFs and Hypothesis Contracts to output_dir so they are hosted directly on GitHub Pages
     labbook_src = root / "doc/labbook/labbook_kitaev_mf.pdf"
-    manuscript_src = root / "doc/manuscript/scipost_kitaev_mf.pdf"
+    manuscript_src = root / "doc/manuscript/manuscript_kitaev_mf.pdf"
     contracts_src = root / "doc/HYPOTHESIS_CONTRACTS.md"
     if labbook_src.is_file():
         shutil.copy2(labbook_src, output_dir / "kitaev-mf-labbook.pdf")
         shutil.copy2(labbook_src, output_dir / "labbook_kitaev_mf.pdf")
     if manuscript_src.is_file():
         shutil.copy2(manuscript_src, output_dir / "kitaev-mf-manuscript.pdf")
-        shutil.copy2(manuscript_src, output_dir / "scipost_kitaev_mf.pdf")
+        shutil.copy2(manuscript_src, output_dir / "manuscript_kitaev_mf.pdf")
     if contracts_src.is_file():
         shutil.copy2(contracts_src, output_dir / "HYPOTHESIS_CONTRACTS.md")
 
@@ -291,20 +291,20 @@ def generate_blueprint(root: Path, output_dir: Path) -> None:
   <div class="pdf-cards">
     <div class="pdf-card">
       <h3>Living Lab Book Monograph (PDF)</h3>
-      <p>Comprehensive <strong>74-page</strong> R&amp;D monograph (11 chapters, full proofs, Grassmannian schematics, and PGFPlots benchmarks).</p>
+      <p>Comprehensive R&amp;D monograph (11 chapters + architecture appendix, analytical derivations, Grassmannian schematics, and PGFPlots benchmarks).</p>
       <a class="btn" href="kitaev-mf-labbook.pdf" target="_blank">View / Download PDF (GitHub Pages)</a>
-      <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-labbook.pdf" target="_blank">Release PDF</a>
+      <a class="btn btn-secondary" href="book-build.json" target="_blank">Build Receipt (JSON)</a>
     </div>
     <div class="pdf-card">
-      <h3>SciPost Executive Monograph (PDF)</h3>
-      <p>Publication-grade <strong>9-page</strong> executive paper synthesizing the core analytical and numerical breakthroughs of Phase 1.</p>
+      <h3>Technical Manuscript (PDF)</h3>
+      <p>Executive technical manuscript synthesizing Phase 1 <code>scMFT</code> formulations, Grassmannian/purification solvers, and empirical benchmarks.</p>
       <a class="btn" href="kitaev-mf-manuscript.pdf" target="_blank">View / Download PDF (GitHub Pages)</a>
-      <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf/releases/download/latest/kitaev-mf-manuscript.pdf" target="_blank">Release PDF</a>
+      <a class="btn btn-secondary" href="book-build.json" target="_blank">Build Receipt (JSON)</a>
     </div>
     <div class="pdf-card">
       <h3>Hypothesis Contracts &amp; Repository</h3>
-      <p>Centralized registry of all <strong>22 Hypothesis Contracts</strong> (passed, refuted, and Phase 2 gates) and source code.</p>
-      <a class="btn" href="https://github.com/lufreitas0000/kitaev-mf/blob/main/doc/HYPOTHESIS_CONTRACTS.md" target="_blank">Hypothesis Contracts</a>
+      <p>Phase 1 Hypothesis Contracts archive, PG-10 YAML governance (<code>doc/hypotheses/</code>), and pure-<code>scMFT</code> source code.</p>
+      <a class="btn" href="HYPOTHESIS_CONTRACTS.md" target="_blank">Hypothesis Contracts (Pages)</a>
       <a class="btn btn-secondary" href="https://github.com/lufreitas0000/kitaev-mf" target="_blank">GitHub Repository</a>
     </div>
   </div>

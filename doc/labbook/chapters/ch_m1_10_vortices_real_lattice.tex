@@ -155,3 +155,20 @@ Across 10 unconstrained self-consistent iterations:
 \end{itemize}
 
 This proves that sufficiently separated vortex pairs ($R \ge 3$) form \textbf{self-consistent, metastable topological solitons} in the multi-flavor mean-field landscape. They do not spontaneously annihilate, establishing that real-space Majorana mean-field theory is fully capable of capturing non-Abelian defect sectors and anyon bound states without artificial pinning constraints.
+
+% EDITORIAL QUESTION: How is gauge-invariant plaquette flux extracted beyond factored bond products, and what open perturbative caveats govern weak-field vortex comparisons?
+\section{12-Majorana Parlett--Reid Pfaffian Fluxes and \texttt{K-019-A} Erratum Caveat}
+\label{sec:vortex_pfaffian_and_erratum}
+% SOURCE [STATUS]: src/kitaev_mf/services/real_space.py::compute_skew_pfaffian [VERIFIED]; doc/rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md [VERIFIED]; doc/rnd/phase_1/t09_pfaffian_flux_vs_factored_wilson_loop.md [VERIFIED]
+
+Beyond the six-bond Wick-factored product $W_p = \prod_{b \in \partial p} u_b$ (which agrees identically with the exact flux only on the gauge-rigid vacuum), a Gaussian real-space state $\Omega \in \mathbb{R}^{4N \times 4N}$ admits an exact multi-Majorana Gaussian expectation value for the 12-Majorana plaquette operator $\hat{W}_p = \prod_{\langle ij\rangle_\gamma \in \partial p} (\ii c_i^\gamma c_j^\gamma)$ via Wick's theorem on the $12 \times 12$ skew-symmetric submatrix $\Omega|_{\partial p}$:
+\begin{equation}
+\label{eq:plaquette_pfaffian_12m}
+\mathcal{W}_p(\Omega) = (-1)^{s_{\mathrm{perm}}} \operatorname{Pf}\!\left(\Omega|_{\partial p}\right),
+\end{equation}
+where $s_{\mathrm{perm}}$ accounts for reordering the canonical vertex-majorana pairs around $\partial p$ under the $\hat{u}_b^\gamma = +\ii c_A^\gamma c_B^\gamma$ convention on $\mathcal{D}_i = +1$. Implemented via \texttt{compute\_skew\_pfaffian} using complete-pivoting Parlett--Reid $L T L^T$ elimination and \texttt{compute\_inhomogeneous\_plaquette\_fluxes\_pfaffian}, this diagnostic vanishes ($\mathcal{W}_p \to 0$) toward the field-polarized limit even while partial bond hybridization persists.
+
+\begin{remark}[Second-Order Feshbach--Schur Erratum (\texttt{K-019-A})]
+\label{rem:m1_10_k019a_erratum}
+When comparing \texttt{scMFT} weak-field vortex gaps or bulk cubic gap scales against exact pure-Kitaev perturbation theory, note erratum \texttt{K-019-A} (\texttt{doc/rnd/phase\_1/m1\_10\_t1\_k019a\_second\_order\_erratum.md}): a vanishing first-order diagonal projection $PVP = 0$ cancels only $H_{\mathrm{eff}}^{(1)}$ and does \emph{not} vanish $H_{\mathrm{eff}}^{(2)} = PV Q(E_0 - Q H_0 Q)^{-1} Q VP$, which acts non-trivially across intermediate two-vison channels. Exact evaluation of the full-$Q$ resolvent and physical fermion-parity constraints remains open (tracked under repository Issues \texttt{\#10} and \texttt{\#12} and cross-checked externally via \texttt{kitaev-walk-geometry}).
+\end{remark}

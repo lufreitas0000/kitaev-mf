@@ -2,13 +2,14 @@ name: CI
 
 on:
   push:
-    branches: ["main", "dev", "develop/**", "feat/**", "fix/**", "doc/**"]
+    branches: ["main"]
   pull_request:
-    branches: ["main", "develop/**"]
+    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   verify:
-    name: Lockfile, Lint, Typecheck & Unit Tests
+    name: Lockfile, Lint, Typecheck, Tests & Provenance
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -34,13 +35,18 @@ jobs:
 
       - name: Run Ruff linter and format check
         run: |
-          ruff check src test
-          ruff format --check src test
+          ruff check src test scripts
+          ruff format --check src test scripts
 
       - name: Run Mypy strict static type checking
         run: |
-          mypy src test
+          mypy src test scripts
 
       - name: Run Pytest suite with coverage
         run: |
           pytest --cov=kitaev_mf --cov-report=term-missing test/
+
+      - name: Verify reconciliation catalog and external data provenance
+        run: |
+          python -B doc/reconciliation/check_index.py
+          python -B scripts/sync_external_data.py --verify

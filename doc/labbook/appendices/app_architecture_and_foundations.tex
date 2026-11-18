@@ -1,0 +1,33 @@
+% APPENDIX A: Repository Architecture, Cross-Repo Boundaries & Foundation Audits
+% EDITORIAL QUESTION: How are mathematical, numerical, and cross-repository responsibilities enforced across kitaev-mf and the wider Kitaev ecosystem?
+% SOURCE [STATUS]: doc/adr/ADR-003-linear-main-and-family-boundaries.md [VERIFIED]; doc/audits/w001_acceptance.yaml [VERIFIED]; scripts/sync_external_data.py [VERIFIED]
+
+\chapter{Repository Architecture, Family Boundaries, and Foundation Audits}
+\label{app:architecture_foundations}
+
+\section{Pure-\texttt{scMFT} Domain Boundary and Five-Repository Ecosystem (\texttt{ADR-003})}
+\label{sec:app_family_boundaries}
+
+Under Architecture Decision Record \texttt{ADR-003} (adopted during reconciliation wave \texttt{RECON-20261116}), \texttt{kitaev-mf} maintains a strictly linear single-\texttt{main} Git history, one local working tree, and a single scientific responsibility: \textbf{4-Majorana Gaussian self-consistent mean-field theory (\texttt{scMFT})}. Non-Gaussian and complementary layers live in dedicated sibling repositories:
+\begin{itemize}
+\item \textbf{\texttt{kitaev-mf}:} Local $\mathfrak{so}(4)$ parton algebra (\texttt{domain/}), reciprocal and real-space fixed-point solvers, Kenney--Laub Pad\'e rational sign purification, SPD-floored Lehmann dual Hessian preconditioning, Parlett--Reid 12-Majorana plaquette Pfaffians (\texttt{services/}), and array/profiling backends (\texttt{infra/}).
+\item \textbf{\texttt{kitaev-numerics}:} Exact spin-1/2 diagonalization (ED), Lanczos/KPM, OFTLM, 2-RDM semidefinite programming lower bounds, high-temperature expansions (HTE), and \texttt{iPEPS}/tensor networks.
+\item \textbf{\texttt{kitaev-walk-geometry}:} Exact Majorana lattice walks, lattice Green's functions/resolvents, and full-$Q$ Feshbach--Schur perturbation expansions.
+\item \textbf{\texttt{ksl-sc-bilayer}:} Kitaev spin liquid--superconductor heterostructures and proximity/Kondo bilayer couplings.
+\item \textbf{\texttt{Julia/KitaevDerivation.jl}:} Symbolic Clifford/CAR and Schrieffer--Wolff operator algebra CAS.
+\end{itemize}
+
+\section{Cross-Repository Data Provenance Gate}
+\label{sec:app_external_data_gate}
+
+External comparison datasets (\texttt{H1} spin-ED gaps, \texttt{H3} 2-RDM SDP bounds, exact lattice resolvents) enter \texttt{kitaev-mf} exclusively as immutable tables under \texttt{data/external/<source\_repo>/<dataset>.dat} paired with a JSON sidecar \texttt{<dataset>.meta.json} specifying \texttt{source\_repo}, a 40-character lowercase \texttt{git\_sha}, matching \texttt{sha256}, \texttt{unit\_convention}, \texttt{geometry}, and \texttt{parameters}. Both local verification and GitHub Actions CI run \texttt{python3 -B scripts/sync\_external\_data.py --verify}. Unverified historical tables predating \texttt{ADR-003} remain isolated inside \texttt{data/external/historical\_unverified/}.
+
+\section{W001 Foundation Audits and Track 1 Code Consolidation}
+\label{sec:app_w001_track1}
+
+Wave \texttt{RECON-20261116} absorbed all prior audit findings (\texttt{doc/audits/w001\_acceptance.yaml}) alongside three technical safeguards directly reflected in this Lab Book:
+\begin{enumerate}
+\item \textbf{Local Parity \& Representation Conventions (\texttt{W001-FND-01..06}):} In the \texttt{kitaev-mf} basis $(c_i^0, c_i^1, c_i^2, c_i^3)$ with $M^\alpha, G^\gamma$ of \texttt{src/kitaev\_mf/domain/constants.py}, physical gauge neutrality corresponds to $\mathcal{D}_i = +c_i^0 c_i^1 c_i^2 c_i^3 = +1$; comparisons with Kitaev's $(b^x,b^y,b^z,c)$ orientation must explicitly track sign permutations and hopping link conventions.
+\item \textbf{Feshbach--Schur Erratum (\texttt{K-019-A}):} Second-order effective Hamiltonians $H_{\mathrm{eff}}^{(2)} = PV Q(E_0 - Q H_0 Q)^{-1} Q VP$ cannot be discarded merely from $PVP = 0$; quantitative exact-vs-MF gaps await full-$Q$ evaluation and closed-form Brillouin-zone integration (\texttt{IDEA-001}).
+\item \textbf{Build \& Governance Determinism (\texttt{PG-10/1}):} Compiled PDFs and \texttt{book-build.json} SHA-256 receipts are built in CI (\texttt{.github/workflows/docs.yml}) and deployed atomically to GitHub Pages rather than stored as binary blobs in Git, while active milestones are audited against \texttt{governance/profile.toml} (\texttt{native-v2}).
+\end{enumerate}

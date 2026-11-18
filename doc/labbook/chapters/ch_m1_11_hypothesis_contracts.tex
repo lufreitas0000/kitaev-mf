@@ -163,17 +163,16 @@ The boundary between the gapless QSL and the zigzag state is marked by a non-zer
 \textbf{Audit Target:} Milestone M2.3; \texttt{scripts/m2/sweep\_jk\_gamma\_supercells.py}.
 \end{contract}
 
-\begin{contract}[H6: Exact Analytical Derivation of the Cubic Dirac Gap Prefactor]
+\begin{contract}[H6: Open Analytical Evaluation of the Cubic Dirac Gap Prefactor (\texttt{IDEA-001} / \texttt{K-019-A})]
 \label{con:h6_analytical_cubic_prefactor}
-\textbf{Context:} Theorem~\ref{thm:m1_6_cubic_gap} proves $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3 + \mathcal{O}(h^5)$ by symmetry selection rules, and Proposition~\ref{prop:m1_6_cubic_gap_fit} extracts $c_{\mathrm{MF}} = 2.5921 \pm 0.0034$ numerically.
-\textbf{Hypothesis Statement:} Expanding the KKT stationarity condition $[\mathcal{H}(\mathbf{k}; \Xi), \Pi^-(\mathbf{k})] = 0$ perturbatively to third order in $h$ around the exact pure-Kitaev fixed point ($\mathrm{U}_b^{00} = -\bar{U} = -\frac{1}{3}W_3(1)$, $\Delta_{\mathrm{gauge}} = |K|\bar{U}$):
+\textbf{Context:} Theorem~\ref{thm:m1_6_cubic_gap} proves $\Delta_K(h) = c_{\mathrm{MF}} (h/|K|)^3 + \mathcal{O}(h^5)$ by symmetry selection rules, and Proposition~\ref{prop:m1_6_cubic_gap_fit} extracts $c_{\mathrm{MF}} = 2.5921 \pm 0.0034$ as a finite-mesh numerical regression.
+\textbf{Target Hypothesis Statement:} Expanding the KKT stationarity condition $[\mathcal{H}(\mathbf{k}; \Xi), \Pi^-(\mathbf{k})] = 0$ perturbatively to third order in $h$ around the exact pure-Kitaev fixed point ($\mathrm{U}_b^{00} = -\bar{U} = -\frac{1}{3}W_3(1)$, $\Delta_{\mathrm{gauge}} = |K|\bar{U}$) should isolate an analytical Brillouin-zone convolution expression matching the finite-mesh regression:
 \begin{equation}
 \label{eq:con_h6_analytic_c}
-c_{\mathrm{MF}} = \frac{8}{3\sqrt{3} \bar{U}^2} \cdot \mathcal{J}_{\mathrm{BZ}},
+c_{\mathrm{MF}} \stackrel{?}{=} \frac{8}{3\sqrt{3} \bar{U}^2} \cdot \mathcal{J}_{\mathrm{BZ}} \approx 2.5921 \pm 0.0034.
 \end{equation}
-where $\mathcal{J}_{\mathrm{BZ}}$ is a dimensionless BZ convolution integral over the unperturbed Dirac Green's function. The analytical prefactor evaluates to $c_{\mathrm{MF}} = 2.59214...$, in exact agreement with the $N_k \to \infty$ Richardson extrapolation.
-\textbf{Acceptance Metric:} Closed-form derivation of Eq.~\eqref{eq:con_h6_analytic_c} and operator-level reconciliation between canonical mean-field scaling ($4 c_{\mathrm{MF}} = 10.3684$) and third-order vison perturbation theory ($57.50 h^3/|K|^2$) via the squared gauge-band denominator ratio $(2\Delta_{\mathrm{gauge}}/\Delta_{\mathrm{flux}})^2 = 15.8106$ and linear KKT counter-field screening ($2.8510\times$).
-\textbf{Audit Target:} \texttt{doc/rnd/phase\_1/m1\_10\_t1\_exact\_perturbation\_and\_normalization\_reconciliation.md} (Validated in Milestone M1.10, \texttt{K-019}).
+\textbf{Current Status:} While Milestone M1.10 (\texttt{K-019}) established the operator-level channel mapping between canonical mean-field scaling ($4 c_{\mathrm{MF}} \approx 10.3684$) and static two-vison perturbation theory ($57.40\, h^3/|K|^2$) via the gauge-denominator scale $(2\Delta_{\mathrm{gauge}}/\Delta_{\mathrm{flux}})^2 = 15.8106$ and linear KKT counter-field dressing ($\|\boldsymbol{\lambda}^*\|_2 \approx \sqrt{5}\,h$), \textbf{closed-form analytical evaluation of $\mathcal{J}_{\mathrm{BZ}}$ remains an open target (\texttt{IDEA-001})}. Furthermore, per erratum \texttt{K-019-A}, exact third-order spin perturbation comparisons require the full-$Q$ resolvent and physical parity projector rather than $PVP=0$ second-order shortcuts (Issues \texttt{\#10}, \texttt{\#12}).
+\textbf{Audit Target:} \texttt{doc/rnd/phase\_1/m1\_10\_t1\_exact\_perturbation\_and\_normalization\_reconciliation.md} and \texttt{doc/rnd/phase\_1/m1\_10\_t1\_k019a\_second\_order\_erratum.md} (\texttt{K-019} channel map verified; \texttt{IDEA-001} and full-$Q$ resolvent open).
 \end{contract}
 
 \begin{contract}[H7: Unconverged KKT Saddle Excursions in Post-Spinodal Trajectories]
@@ -259,7 +258,7 @@ The 11 advanced hypothesis contracts establish an unbroken, audit-proof scientif
 \textbf{H3} & Global 2-RDM Semidefinite Bounds & Supercell SDP & Duality Gap $\Delta_{\mathrm{SDP}} \le 8\%$ & Phase 2 Gate 1 \\
 \textbf{H4} & $\mathrm{N}^a$ vs. Chiral $\mathrm{M}^a$ Decoupling & Bipartite Lattice & Projected Energy Minima $\eta^*$ & Phase 2 Gate 2 \\
 \textbf{H5} & $J$--$K$--$\Gamma$ Competing Orders & $n_c \in \{8, 16, 32\}$ & Nematicity $N_{\mathrm{nem}}$, Klein Dual & Phase 4 Gate \\
-\textbf{H6} & Perturbative vs. MF Cubic Prefactor & Dirac Cones $K, K'$ & $4c_{\mathrm{MF}} = 10.368$ (KKT Dressing) & \textbf{Passed (K-019)} \\
+\textbf{H6} & Perturbative vs. MF Cubic Prefactor & Dirac Cones $K, K'$ & $4c_{\mathrm{MF}} \approx 10.368$ (fit) & \textbf{Channel Map (\texttt{K-019}); \texttt{IDEA-001} Open} \\
 \textbf{H7} & Post-Spinodal KKT Saddle Excursions & Critical Region & Stabilized $E = -h-0.5$, $m=1.0$ & \textbf{Passed (K-023)} \\
 \textbf{H8} & Lehmann Dual Preconditioned DIIS & Gauge Dual Space & Iteration Count at $h_{c2}^+$ & Phase 2 Gate 1 \\
 \textbf{H9} & Damped Multi-Secant L-Broyden & Real-Space Torus & $\alpha=0.5$ expands $R_{90}$ $>20\times$ & \textbf{Passed (K-021)} \\
@@ -269,4 +268,4 @@ The 11 advanced hypothesis contracts establish an unbroken, audit-proof scientif
 \end{tabular}
 \end{table}
 
-This formal registry guarantees that Phase 2 will execute with mathematical rigor, unambiguous acceptance thresholds, and zero epistemic drift.
+Starting in Phase~2 and following \texttt{RECON-20261116} / \texttt{PG-10}, all new quantitative scaling claims and cross-repository comparisons (including \texttt{H1}--\texttt{H4} and closure of \texttt{IDEA-001}) must be pre-registered as immutable YAML contracts under \texttt{doc/hypotheses/HC-XX.yaml} (\texttt{doc/hypotheses/README.md}) prior to benchmark promotion.

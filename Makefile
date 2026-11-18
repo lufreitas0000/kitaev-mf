@@ -18,7 +18,7 @@ help:
 	@echo "  make test-verbose  - Run pytest suite with full per-test verbosity"
 	@echo "  make benchmark     - Generate and export reproducible .dat benchmark tables"
 	@echo "  make labbook       - Compile concise Living Lab Book (doc/labbook/labbook_kitaev_mf.pdf)"
-	@echo "  make manuscript    - Compile publication manuscript (doc/manuscript/scipost_kitaev_mf.pdf)"
+	@echo "  make manuscript    - Compile technical manuscript (doc/manuscript/manuscript_kitaev_mf.pdf)"
 	@echo "  make blueprint     - Build static R&D Epistemic Blueprint portal (build/blueprint/)"
 	@echo "  make format        - Automatically fix lint, format code, and sanitize whitespace"
 	@echo "  make lint          - Run Ruff check, format verification, and strict Mypy"
@@ -64,12 +64,12 @@ labbook:
 	@$(MAKE) --no-print-directory -C doc/labbook pdf
 
 manuscript:
-	@echo "[manuscript] Compiling doc/manuscript/scipost_kitaev_mf.pdf..."
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
-	@cd doc/manuscript && bibtex scipost_kitaev_mf > /dev/null 2>&1 || true
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
-	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode scipost_kitaev_mf.tex > /dev/null
-	@echo "[manuscript] Generated doc/manuscript/scipost_kitaev_mf.pdf"
+	@echo "[manuscript] Compiling doc/manuscript/manuscript_kitaev_mf.pdf..."
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode manuscript_kitaev_mf.tex > /dev/null
+	@cd doc/manuscript && bibtex manuscript_kitaev_mf > /dev/null 2>&1 || true
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode manuscript_kitaev_mf.tex > /dev/null
+	@cd doc/manuscript && pdflatex -halt-on-error -interaction=nonstopmode manuscript_kitaev_mf.tex > /dev/null
+	@echo "[manuscript] Generated doc/manuscript/manuscript_kitaev_mf.pdf"
 
 blueprint:
 	@echo "[blueprint] Generating R&D Epistemic Blueprint portal..."
@@ -120,9 +120,9 @@ snapshot:
 	@$(PYTHON) scripts/make_snapshot.py --mode active --role rnd
 
 clean-build:
-	@rm -rf build/ $(SNAPSHOT_FILE) repo_snapshot.txt
+	@rm -rf build/ $(SNAPSHOT_FILE) repo_snapshot.txt book-build.json
 	@$(MAKE) --no-print-directory -C doc/labbook clean || true
-	@rm -f doc/manuscript/*.aux doc/manuscript/*.log doc/manuscript/*.out doc/manuscript/*.toc doc/manuscript/*.pdf
+	@rm -f doc/manuscript/*.aux doc/manuscript/*.bbl doc/manuscript/*.blg doc/manuscript/*.fls doc/manuscript/*.fdb_latexmk doc/manuscript/*.log doc/manuscript/*.out doc/manuscript/*.synctex.gz doc/manuscript/*.toc doc/manuscript/*.pdf
 
 clean: clean-build
 	@rm -rf dist/ *.egg-info .pytest_cache/ .coverage .mypy_cache/ .ruff_cache/

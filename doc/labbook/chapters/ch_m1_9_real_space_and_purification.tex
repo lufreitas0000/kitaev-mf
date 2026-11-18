@@ -144,6 +144,18 @@ When translation symmetry is broken by bond disorder $\delta K_{ij} \in [-\delta
 \item \textbf{Inhomogeneous Gauge Screening:} Unlike a uniform bulk shift $\boldsymbol{\lambda}_s = \boldsymbol{\lambda}$ (which acts purely on the flat gauge bands by Corollary~\ref{cor:m1_3_flat_neutrality}), spatially varying multipliers $\nabla_i \boldsymbol{\lambda}_i \neq \mathbf{0}$ near a defect core fail to commute with the hopping matrix and hybridize localized gauge modes with itinerant matter Majoranas, forming an exponential screening cloud of decay length $\xi_{\mathrm{gauge}} \approx 1.1\, a$.
 \end{enumerate}
 
+\subsection{Track 1 Pure-\texttt{scMFT} Extensions: Rational Pad\'e Purification and Canonical Skew Schur}
+% SOURCE [STATUS]: src/kitaev_mf/services/purification.py::purify_pade_sign [VERIFIED]; src/kitaev_mf/services/canonical_skew.py::canonical_skew_schur [VERIFIED]; src/kitaev_mf/domain/state.py::InhomogeneousMeanFieldState [VERIFIED]
+To harden real-space `scMFT` near small Dirac gaps and support large inhomogeneous vortex cells (\texttt{InhomogeneousMeanFieldState}), Stage~4 of \texttt{RECON-20261116} integrated three pure-\texttt{scMFT} numerical kernels:
+\begin{enumerate}
+\item \textbf{Shared Gershgorin Spectral Initialization \& Kenney--Laub Pad\'e Sign Filter (\texttt{purify\_pade\_sign}):} Starting from the same $\mathcal{O}(M^2)$ triangle-inequality spectral radius bound $\alpha = \|\mathbf{A}\|_\infty$ shared with \texttt{purify\_newton\_schulz}, we implement diagonal and near-diagonal Kenney--Laub rational approximants $[p/q]_z$ (Orders~1--3; default $[3/2]_z$ giving quintic convergence):
+\begin{equation}
+\mathbf{Y}_{n+1} = \mathbf{Y}_n \left( 5\mathbf{I} - 10\mathbf{Y}_n^2 + \mathbf{Y}_n^4 \right)\left( \mathbf{I} - 10\mathbf{Y}_n^2 + 5\mathbf{Y}_n^4 \right)^{-1},
+\end{equation}
+which avoids matrix square roots while achieving machine-precision idempotency on ill-conditioned vacancy and Dirac spectra in substantially fewer iterations than cubic Newton--Schulz.
+\item \textbf{Canonical Real Skew-Symmetric Schur Form (\texttt{canonical\_skew\_schur}):} Computing \texttt{ScalableSchurResult} yields an orthogonal basis $Q \in \mathrm{O}(M)$ and a real block-diagonal canonical form $T = Q^T \mathbf{A} Q = \bigoplus_{k=1}^{M/2} \begin{pmatrix} 0 & \epsilon_k \\ -\epsilon_k & 0 \end{pmatrix}$ with strictly nonnegative mode pairs $\epsilon_k \ge 0$, avoiding $M \times M$ complex Hermitian inflation in Bogoliubov-de Gennes quasiparticle extraction and topological core-weight diagnostics.
+\end{enumerate}
+
 \subsection{Phase 1 Master Solver Selection and Hardware Resource Table}
 Combining all reciprocal-space (\texttt{M1.3}--\texttt{M1.7}) and real-space (\texttt{M1.8}--\texttt{M1.10}) benchmarks on our reference workstation (\texttt{Intel Core i5-13500}, 64 GB DDR5 RAM, sustained \texttt{dgemm} peak $171.3\text{ GFLOP/s}$, sustained \texttt{eigh} peak $23.1\text{ GFLOP/s}$), Table~\ref{tab:m1_9_master_solver_selection} establishes the certified solver selection rules for Phase 2 production runs.
 
