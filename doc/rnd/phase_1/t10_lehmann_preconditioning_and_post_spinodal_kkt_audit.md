@@ -53,19 +53,18 @@ $$\mathbf{g} = (g_A^x, g_A^y, g_A^z, g_B^x, g_B^y, g_B^z)^T \in \mathbb{R}^6.$$
 The Lehmann dual Hessian $\mathbf{H}_{\lambda\lambda} \in \mathbb{R}^{6 \times 6}$ is:
 $$(\mathbf{H}_{\lambda\lambda})_{ij} = \frac{\partial g_i}{\partial \lambda_j} = -4\,\frac{\partial^2 E_0}{\partial \lambda_i \partial \lambda_j}.$$
 
-Under a multiplier variation $\delta \lambda_j$, the Bloch Hamiltonian varies as $\delta H(\mathbf{k}) = \frac{\mathrm{i}}{4} G_j$. Using Hermitian generators $\tilde{G}_j \equiv \mathrm{i} G_j$ ($\tilde{G}_j^\dagger = \tilde{G}_j$), first-order spectral perturbation yields:
+Under a multiplier variation $\delta \lambda_j$, the Bloch Hamiltonian varies as $\delta H(\mathbf{k}) = \frac{\mathrm{i}}{4} G_j = \frac{1}{4}\tilde{G}_j$ using Hermitian generators $\tilde{G}_j \equiv \mathrm{i} G_j$ ($\tilde{G}_j^\dagger = \tilde{G}_j$). Since $P(\mathbf{k}) = 2 P^-(\mathbf{k})$ and $g_i = -\frac{2}{N_k}\sum_{\mathbf{k}}\operatorname{Tr}(\tilde{G}_i P^-(\mathbf{k}))$, first-order spectral perturbation gives:
 $$\delta P^-(\mathbf{k}) = -\frac{1}{4} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{|v_n\rangle \langle v_n| \tilde{G}_j |v_m\rangle \langle v_m| + \text{h.c.}}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})}.$$
 Integrating over the Brillouin zone yields the symmetric positive-semidefinite (and generically positive-definite at finite gap) matrix:
-$$\mathbf{H}_{\lambda\lambda} = \frac{1}{2 N_k} \sum_{\mathbf{k}} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{\operatorname{Re}\left( \langle v_n| \tilde{G}_i |v_m\rangle \langle v_m| \tilde{G}_j |v_n\rangle \right)}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})} \succeq 0.$$
+$$\mathbf{H}_{\lambda\lambda} = \frac{1}{N_k} \sum_{\mathbf{k}} \sum_{\varepsilon_n < 0} \sum_{\varepsilon_m > 0} \frac{\operatorname{Re}\left( \langle v_n| \tilde{G}_i |v_m\rangle \langle v_m| \tilde{G}_j |v_n\rangle \right)}{\varepsilon_m(\mathbf{k}) - \varepsilon_n(\mathbf{k})} \succeq 0.$$
 
-In production, `compute_lehmann_dual_hessian` evaluates $\mathbf{H}_{\lambda\lambda}$ via symmetric central finite differences with machine-level symmetry:
-$$\mathbf{H}_{\lambda\lambda}^{\mathrm{sym}} = \frac{1}{2} (\mathbf{H}_{\lambda\lambda} + \mathbf{H}_{\lambda\lambda}^T) \succ 0.$$
+In production, `compute_lehmann_dual_hessian` evaluates $\mathbf{H}_{\lambda\lambda}$ via symmetric central finite differences with explicit symmetrization $\mathbf{H}_{\lambda\lambda}^{\mathrm{sym}} = \frac{1}{2} (\mathbf{H}_{\lambda\lambda} + \mathbf{H}_{\lambda\lambda}^T)$.
 
 ### 2.2 Preconditioned Newton Update
 In `solve_self_consistent_mean_field`:
-When `config.precondition_dual = True`, the dual update takes the exact Newton step:
-$$\Delta \boldsymbol{\lambda} = - (\mathbf{H}_{\lambda\lambda} + \epsilon_{\mathrm{reg}} I)^{-1} \mathbf{g}.$$
-Because $\mathbf{H}_{\lambda\lambda}$ is only $6 \times 6$, solving this linear system costs $< 1\ \mu\mathrm{s}$.
+When `config.precondition_dual = True`, `evaluate_phi` computes the eigendecomposition $\mathbf{H}_{\lambda\lambda}^{\mathrm{sym}} = V \operatorname{diag}(\mu_a) V^T$. If $\min_a \mu_a < -10^{-6}$ (indicating a strongly indefinite finite-difference Hessian across a zero-mode crossing), it falls back safely to the damped gradient step $\Delta \boldsymbol{\lambda} = -\alpha_\lambda \mathbf{g}$; otherwise eigenvalues are floored at $\tilde{\mu}_a = \max(\mu_a, 10^{-8})$ for the bounded Newton step:
+$$\Delta \boldsymbol{\lambda} = - V \operatorname{diag}(\tilde{\mu}_a^{-1}) V^T \mathbf{g}.$$
+Because $\mathbf{H}_{\lambda\lambda}$ is only $6 \times 6$, this eigendecomposition costs $< 10\ \mu\mathrm{s}$.
 
 ---
 

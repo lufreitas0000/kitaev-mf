@@ -43,7 +43,7 @@ Under fixed iteration depth (e.g. $k_{\mathrm{NS}} \le 20$), these resonant mode
 
 ### 2.1 The Kenney-Laub Family
 Let $Z = \mathrm{i} A$ be Hermitian. The matrix sign function satisfies $\operatorname{sgn}(Z) = Z (Z^2)^{-1/2}$.
-Using Padé approximants in $z = 1 - x^2$ around $z=0$ to $(1-z)^{-1/2}$ (Kenney & Laub 1991, Higham 2008; termed $[1/0]$, $[2/1]$, $[3/2]$ by polynomial degree in $x$, corresponding to diagonal $[0/0]$, $[1/1]$, $[2/2]$ rational maps in $z$):
+Using Padé approximants in $z = 1 - x^2$ around $z = 0$ to $(1 - z)^{-1/2}$ (Kenney & Laub 1991, Higham 2008), these iterations correspond to the $[1/0]_z$, $[1/1]_z$, and $[2/2]_z$ Padé maps (polynomial degrees $[3/0]_x$, $[3/2]_x$, and $[5/4]_x$ in $x$, denoted by tags $[1/0]$, $[2/1]$, and $[3/2]$ below and `order="21"` / `"32"` in `purification.py`):
 - **Padé $[1/0]$ (Newton-Schulz):**
   $$f_{[1/0]}(x) = \frac{1}{2} x (3 - x^2), \qquad f'(0) = \frac{3}{2}, \quad p = 3.$$
 - **Padé $[2/1]$ (Halley's Method):**
