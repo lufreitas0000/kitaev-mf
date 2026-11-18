@@ -7,6 +7,7 @@ in pure real arithmetic using high-performance matrix multiplications (dgemm).
 
 import time
 from dataclasses import dataclass
+from typing import Literal
 
 import numpy as np
 
@@ -33,6 +34,32 @@ def estimate_spectral_bound(A: np.ndarray) -> float:
     return max(bound, 1e-12)
 
 
+def _initialize_skew_iterate(
+    A: np.ndarray,
+    warm_start: np.ndarray | None,
+    alpha: float,
+) -> tuple[np.ndarray, int]:
+    """Initialize skew-symmetric iterate Y_0 with spectral norm strictly below 1."""
+    M = A.shape[0]
+    if warm_start is not None and warm_start.shape == (M, M):
+        # Warm start: refine previous projector with the new Hamiltonian A.
+        # Direct Y_0 = warm_start freezes because Omega^2 = -I is a fixed point.
+        # Injecting the first-order commutator gradient (A + Omega_0 A Omega_0)
+        # rotates the occupied-virtual eigenbasis toward A.
+        omega_0 = 0.5 * (warm_start - warm_start.T)
+        grad_comm = A + omega_0 @ A @ omega_0
+        tau = 0.5 / max(alpha, 1e-12)
+        Y_init = omega_0 - tau * grad_comm
+        norm_y = float(np.linalg.norm(Y_init, ord=2))
+        if norm_y >= 0.98:
+            Y_init = (0.95 / norm_y) * Y_init
+        return 0.5 * (Y_init - Y_init.T), 2
+
+    # Cold start: scale Hamiltonian so spectral radius is strictly < 1
+    # Since H = (i/4) c^T A c, the ground-state covariance satisfies Omega = i sgn(i A) = -A / |A|.
+    return -(A / alpha), 0
+
+
 def purify_newton_schulz(
     A: np.ndarray,
     warm_start: np.ndarray | None = None,
@@ -49,40 +76,19 @@ def purify_newton_schulz(
     Parameters:
         A: Real skew-symmetric Hamiltonian matrix of shape (M, M).
         warm_start: Optional previous covariance matrix Omega_{prev} for warm start.
-        tol: Convergence tolerance on relative idempotency error ||Y^2 + I||_F / sqrt(M).
+        tol: Convergence tolerance on relative Cauchy difference ||Y_{k+1} - Y_k||_F / sqrt(M).
         max_iter: Maximum purification iterations.
 
     Returns:
-        Tuple of (Omega, metrics).
+        Tuple of (Omega, metrics). Note ``metrics.final_idempotency_error`` records the
+        terminal relative Cauchy increment from the stopping criterion.
     """
     M = A.shape[0]
     t0 = time.perf_counter()
     I_mat = np.eye(M, dtype=np.float64)
-    gemm_count = 0
 
     alpha = estimate_spectral_bound(A)
-
-    if warm_start is not None and warm_start.shape == (M, M):
-        # Warm start: refine previous projector with the new Hamiltonian A.
-        # Direct Y_0 = warm_start freezes because Omega^2 = -I is an exact root of f(Y) = Y.
-        # To rotate the eigenbasis toward A, we inject the first-order commutator gradient:
-        # delta Y = -tau * (A + Omega_0 @ A @ Omega_0)
-        # where (A + Omega_0 A Omega_0) is the off-diagonal generator between occupied and virtual bands.
-        omega_0 = 0.5 * (warm_start - warm_start.T)
-        grad_comm = A + omega_0 @ A @ omega_0
-        gemm_count += 2
-        tau = 0.5 / max(alpha, 1e-12)
-        Y_init = omega_0 - tau * grad_comm
-        # Ensure initial spectral radius is strictly < 1
-        norm_y = float(np.linalg.norm(Y_init, ord=2))
-        if norm_y >= 0.98:
-            Y_init = (0.95 / norm_y) * Y_init
-        Y = 0.5 * (Y_init - Y_init.T)
-    else:
-        # Cold start: scale Hamiltonian so spectral radius is strictly < 1
-        # Invert sign convention: since H = (i/4) c^T A c, the ground state covariance
-        # satisfies Omega = i sgn(i A) = - A / |A|
-        Y = -(A / alpha)
+    Y, gemm_count = _initialize_skew_iterate(A, warm_start, alpha)
 
     final_err = 1.0
     iter_count = 0
@@ -101,6 +107,96 @@ def purify_newton_schulz(
         Y_next = 0.5 * (Y_next - Y_next.T)
 
         # Cauchy increment: ||Y_{k+1} - Y_k||_F / sqrt(M)
+        cauchy_diff = float(np.linalg.norm(Y_next - Y)) / np.sqrt(M)
+        final_err = cauchy_diff
+        Y = Y_next
+        iter_count = k + 1
+
+        if cauchy_diff < tol:
+            break
+
+    wall_ms = (time.perf_counter() - t0) * 1000.0
+
+    # Ensure final skew-symmetry
+    Omega = 0.5 * (Y - Y.T)
+
+    # Ground-state energy: E = 0.25 * sum_{ij} A_{ij} Omega_{ij}
+    gs_energy = 0.25 * float(np.sum(A * Omega))
+
+    metrics = PurificationMetrics(
+        iterations=iter_count,
+        wall_time_ms=wall_ms,
+        gemm_calls=gemm_count,
+        final_idempotency_error=final_err,
+        ground_state_energy=gs_energy,
+    )
+
+    return Omega, metrics
+
+
+def purify_pade_sign(
+    A: np.ndarray,
+    warm_start: np.ndarray | None = None,
+    tol: float = 1e-10,
+    max_iter: int = 35,
+    order: Literal["32", "21"] = "32",
+) -> tuple[np.ndarray, PurificationMetrics]:
+    """Compute Omega = i * sgn(i * A) via Kenney-Laub rational Pade purification.
+
+    Uses the Pade [3/2] or [2/1] rational approximation to the matrix sign function:
+    - Pade [3/2] (order="32"):
+        Y_{k+1} = Y_k @ (5 * I - 10 * Y_k^2 + Y_k^4) @ (I - 10 * Y_k^2 + 5 * Y_k^4)^{-1}
+      Local convergence rate is quintic (p=5), with origin slope f'(0) = 5.
+    - Pade [2/1] (order="21", Halley's method):
+        Y_{k+1} = Y_k @ (3 * I - Y_k^2) @ (I - 3 * Y_k^2)^{-1}
+      Local convergence rate is cubic (p=3), with origin slope f'(0) = 3.
+
+    For real skew-symmetric A with ||Y_k||_2 <= 1, Y_k remains strictly real skew-symmetric
+    and the SPD denominator D satisfies cond(D) <= 16 for [3/2] and cond(D) <= 4 for [2/1].
+
+    Parameters:
+        A: Real skew-symmetric Hamiltonian matrix of shape (M, M).
+        warm_start: Optional previous covariance matrix Omega_{prev}.
+        tol: Convergence tolerance on relative Cauchy difference ||Y_{k+1} - Y_k||_F / sqrt(M).
+        max_iter: Maximum purification iterations.
+        order: Pade order, either "32" (default, Pade [3/2]) or "21" (Pade [2/1] / Halley).
+
+    Returns:
+        Tuple of (Omega, metrics). Note ``metrics.final_idempotency_error`` records the
+        terminal relative Cauchy increment from the stopping criterion.
+    """
+    M = A.shape[0]
+    t0 = time.perf_counter()
+    I_mat = np.eye(M, dtype=np.float64)
+
+    alpha = estimate_spectral_bound(A)
+    Y, gemm_count = _initialize_skew_iterate(A, warm_start, alpha)
+
+    final_err = 1.0
+    iter_count = 0
+
+    for k in range(max_iter):
+        Y2 = Y @ Y  # symmetric negative semidefinite (Y2 <= 0)
+        gemm_count += 1
+
+        if order == "32":
+            # Pade [3/2]: N = 5 I - 10 Y^2 + Y^4, D = I - 10 Y^2 + 5 Y^4
+            Y4 = Y2 @ Y2  # Y4 >= 0
+            gemm_count += 1
+            N_mat = 5.0 * I_mat - 10.0 * Y2 + Y4
+            D_mat = I_mat - 10.0 * Y2 + 5.0 * Y4
+        else:
+            # Pade [2/1] (Halley): N = 3 I - Y^2, D = I - 3 Y^2
+            N_mat = 3.0 * I_mat - Y2
+            D_mat = I_mat - 3.0 * Y2
+
+        Y_step = Y @ N_mat
+        gemm_count += 1
+        Y_next = np.linalg.solve(D_mat, Y_step.T).T
+
+        # Maintain exact skew-symmetry
+        Y_next = 0.5 * (Y_next - Y_next.T)
+
         cauchy_diff = float(np.linalg.norm(Y_next - Y)) / np.sqrt(M)
         final_err = cauchy_diff
         Y = Y_next

@@ -1,7 +1,7 @@
 ---
 id: t11_pade_rational_purification_on_dirac_resonances
 title: Padé [3/2] Rational Matrix Sign Purification on 3 | L Dirac Resonances
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "Why does polynomial Newton-Schulz iteration suffer precision lag and slow convergence (k_NS ~ 85-95 iterations) on near-zero Dirac resonances?"

@@ -1,7 +1,7 @@
 ---
 id: t09_pfaffian_flux_vs_factored_wilson_loop
 title: Exact 12-Majorana Pfaffian W_p = Pf(Omega|_partial p) vs. Factored Plaquette Wilson Loop
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "How does the exact Gaussian expectation value of the 12-Majorana Wilson loop operator compare with the factored product of bond expectations W_p^fact = prod u_b?"

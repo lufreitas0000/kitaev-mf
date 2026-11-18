@@ -15,11 +15,17 @@ import numpy as np
 from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.solver import SolverConfig
+from kitaev_mf.domain.state import MeanFieldState
 from kitaev_mf.infra.linalg_backend import TorchBackend
+from kitaev_mf.services.correlators import compute_correlators_from_bloch, compute_gauge_residuals
 from kitaev_mf.services.energetics import compute_gaussian_energy
+from kitaev_mf.services.hamiltonian import build_bloch_hamiltonian
 from kitaev_mf.services.observables import compute_sublattice_magnetizations
-from kitaev_mf.services.seeds import make_polarized_seed
-from kitaev_mf.services.solver import solve_self_consistent_mean_field
+from kitaev_mf.services.seeds import make_polarized_seed, make_qsl_seed
+from kitaev_mf.services.solver import (
+    compute_lehmann_dual_hessian,
+    solve_self_consistent_mean_field,
+)
 
 
 def test_hc_p1_01_perturbative_gap_reconciliation_identities() -> None:
@@ -83,3 +89,72 @@ def test_hc_p1_03_master_solver_table_and_audit_data_exist() -> None:
     with open(master_path, encoding="utf-8") as f:
         m_lines = [ln.strip() for ln in f if ln.strip() and not ln.startswith("#")]
     assert len(m_lines) >= 6  # Header + 6 solver regimes
+
+
+def test_lehmann_dual_hessian_preconditioned_newton_step() -> None:
+    """Contract H8: Preconditioning dual multiplier update with Lehmann dual Hessian yields > 1000x residual drop."""
+    backend = TorchBackend(device="cpu")
+    cell = make_honeycomb_2site()
+    params = ModelParameters(K=-1.0, h=(0.02, 0.02, 0.02))
+    seed = make_qsl_seed(cell)
+    k_grid = cell.make_k_grid(8, 8)
+
+    # Initial gauge residual
+    h_b0 = build_bloch_hamiltonian(k_grid, cell, params, seed, backend)
+    _, v_out0 = compute_correlators_from_bloch(h_b0, cell, k_grid, backend=backend)
+    g0 = compute_gauge_residuals(v_out0).ravel()
+    res_norm_before = float(np.linalg.norm(g0))
+    assert res_norm_before > 0.01
+
+    # 1 Lehmann Newton step: Delta lambda = - H_ll^{-1} g0
+    h_ll = compute_lehmann_dual_hessian(cell, params, seed, k_grid, backend)
+    assert h_ll.shape == (6, 6)
+    assert np.all(np.linalg.eigvalsh(h_ll) > 0.0)  # Positive definite
+
+    dlam = np.linalg.solve(h_ll, g0)
+    lam_new = seed.lambdas - dlam.reshape(seed.lambdas.shape)
+    state_new = MeanFieldState(U=seed.U.copy(), V=seed.V.copy(), lambdas=lam_new)
+
+    h_b1 = build_bloch_hamiltonian(k_grid, cell, params, state_new, backend)
+    _, v_out1 = compute_correlators_from_bloch(h_b1, cell, k_grid, backend=backend)
+    g1 = compute_gauge_residuals(v_out1).ravel()
+    res_norm_after = float(np.linalg.norm(g1))
+
+    reduction_factor = res_norm_before / res_norm_after
+    assert reduction_factor > 1000.0, f"Expected > 1000x drop, got {reduction_factor:.1f}x"
+
+
+def test_post_spinodal_monotonicity_across_hysteresis_window() -> None:
+    """Contract H7, K-023: Strict KKT tolerance guarantees monotonic energy without downward serrations."""
+    backend = TorchBackend(device="cpu")
+    cell = make_honeycomb_2site()
+    config = SolverConfig(
+        k_grid_shape=(8, 8),
+        max_iterations=60,
+        tol_correlator=1e-9,
+        tol_gauge=1e-9,
+        method="diis",
+    )
+    pol_seed = make_polarized_seed(cell, axis="111")
+
+    h_points = [0.410, 0.430, 0.450]
+    energies: list[float] = []
+
+    for h_val in h_points:
+        h_vec = (h_val / np.sqrt(3.0), h_val / np.sqrt(3.0), h_val / np.sqrt(3.0))
+        params = ModelParameters(K=-1.0, h=h_vec)
+        st, met = solve_self_consistent_mean_field(cell, params, pol_seed, config, backend)
+        assert met.converged
+        assert met.final_gauge_residual < 1e-9
+
+        eb = compute_gaussian_energy(st, cell, params)
+        e_site = float(eb.per_site)
+        energies.append(e_site)
+
+        # Must strictly match the physical polarized ground state E = -h - 0.5
+        assert np.isclose(e_site, -h_val - 0.5, atol=1e-5), (
+            f"At h={h_val}, expected E = {-h_val - 0.5:.5f}, got {e_site:.5f}"
+        )
+
+    # Strictly monotonic energy decrease across the post-spinodal window: E(0.450) < E(0.430) < E(0.410)
+    assert energies[0] > energies[1] > energies[2], f"Non-monotonic energy sequence: {energies}"

@@ -1,7 +1,7 @@
 ---
 id: t06_unpinned_vortex_self_consistency_and_relaxation
 title: Unpinned Vortex Self-Consistency, Topological Trapping vs Healing, and Inhomogeneous Disorder Relaxation
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "Does a two-vortex branch cut in the inhomogeneous state relax stably without an artificial post-seed flipped_bonds pinning mask (topological trapping vs dynamical healing)?"

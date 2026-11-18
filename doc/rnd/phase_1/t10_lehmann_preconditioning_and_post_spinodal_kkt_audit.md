@@ -1,7 +1,7 @@
 ---
 id: t10_lehmann_preconditioning_and_post_spinodal_kkt_audit
 title: Lehmann Dual Hessian Preconditioning and Post-Spinodal KKT Saddle Excursion Audit
-status: active
+status: completed
 date: 2026-11-07
 questions:
   - "How does preconditioning the dual multiplier update with the exact 6x6 Lehmann dual Hessian H_lambda_lambda = dg/dlambda eliminate timescale separation and accelerate convergence near the spinodal?"
