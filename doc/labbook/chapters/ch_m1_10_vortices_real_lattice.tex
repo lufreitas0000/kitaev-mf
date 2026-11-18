@@ -100,15 +100,11 @@ On torus geometries where $3 \mid L$ (such as $L = 6, 12$), the discrete momentu
 
 When an external Zeeman field $\mathbf{h} = \frac{h}{\sqrt{3}}(1, 1, 1)^T$ is applied, the local flux conservation is broken ($[W_p, H] \ne 0$) because the field dynamically couples gauge Majoranas $c_i^\gamma$ to itinerant matter Majoranas $c_i^0$. 
 
-Simultaneously, the bulk matter spectrum opens a topological Dirac mass gap $\Delta_{\mathrm{bulk}}(h) \approx 2.592 h^3$ characterized by Chern number $\mathcal{C} = \pm 1$. By the bulk-boundary correspondence and the index theorem for $\mathbb{Z}_2$ vortices in class $D$ topological superconductors/spin liquids (Kitaev 2006, Read \& Green 2000), \textbf{each isolated vortex traps an exact in-gap Majorana zero mode at its core}:
-\begin{equation}
-\label{eq:majorana_zero_mode}
-\gamma^\dagger = \gamma, \qquad \gamma^2 = \mathbf{1}, \qquad \epsilon_0 \longrightarrow 0 \quad (R \to \infty).
-\end{equation}
+Simultaneously, in the thermodynamic limit, the bulk matter spectrum opens a topological Dirac mass gap ($\Delta_K^{\mathrm{MF}}(h) \approx 2.592 h^3/|K|^2$ in weak-field numerical regressions, distinct from the $L=8$ finite-size momentum-quantization gap $0.8284|K|$ at $h=0$) characterized by Chern number $\mathcal{C} = \pm 1$. By the bulk-boundary correspondence and the index theorem for $\mathbb{Z}_2$ vortices in class $D$ topological superconductors/spin liquids (Kitaev 2006, Read \& Green 2000), isolated vortices bind in-gap Majorana modes exponentially localized at their cores ($\epsilon_0 \to 0$ as $R \to \infty$).
 
 \begin{table}[h]
 \centering
-\caption{Evolution of the bulk vacuum gap $\Delta_{\mathrm{bulk}}(h)$, two-vison defect energy $\Delta E(h)$, and localized in-gap bound mode $\epsilon_1(h)$ across magnetic fields $h \in [0.0, 0.10]$ at separation $R = 4$ on an $L = 8$ cluster.}
+\caption{Evolution of the finite-size $L=8$ ($3 \nmid L$ non-resonant) vacuum gap $\Delta_{\mathrm{bulk}}^{(L=8)}(h)$, two-vison defect energy $\Delta E(h)$, and localized in-gap bound mode $\epsilon_1(h)$ across magnetic fields $h \in [0.0, 0.10]$ at separation $R = 4$.}
 \label{tab:vortex_field_scaling}
 \vspace{2mm}
 \begin{tabular}{ccccc}
@@ -154,7 +150,7 @@ Across 10 unconstrained self-consistent iterations:
 \item The defect creation energy remains completely stationary at $\Delta E = 0.167911 |K|$.
 \end{itemize}
 
-This proves that sufficiently separated vortex pairs ($R \ge 3$) form \textbf{self-consistent, metastable topological solitons} in the multi-flavor mean-field landscape. They do not spontaneously annihilate, establishing that real-space Majorana mean-field theory is fully capable of capturing non-Abelian defect sectors and anyon bound states without artificial pinning constraints.
+This finite-cluster numerical test indicates that separated vortex pairs ($R \ge 3$ on $L=8$ at $h=0$) act as \textbf{self-consistent, metastable defect sectors} over the tested 10-iteration trajectory without collapsing to the uniform flux-free vacuum (systematic finite-size and $h>0$ vortex sweeps remain gated in Phase~2 under \texttt{HC-P2-03} and Issue~\texttt{\#15}).
 
 % EDITORIAL QUESTION: How is gauge-invariant plaquette flux extracted beyond factored bond products, and what open perturbative caveats govern weak-field vortex comparisons?
 \section{12-Majorana Parlett--Reid Pfaffian Fluxes and \texttt{K-019-A} Erratum Caveat}
@@ -164,9 +160,9 @@ This proves that sufficiently separated vortex pairs ($R \ge 3$) form \textbf{se
 Beyond the six-bond Wick-factored product $W_p = \prod_{b \in \partial p} u_b$ (which agrees identically with the exact flux only on the gauge-rigid vacuum), a Gaussian real-space state $\Omega \in \mathbb{R}^{4N \times 4N}$ admits an exact multi-Majorana Gaussian expectation value for the 12-Majorana plaquette operator $\hat{W}_p = \prod_{\langle ij\rangle_\gamma \in \partial p} (\ii c_i^\gamma c_j^\gamma)$ via Wick's theorem on the $12 \times 12$ skew-symmetric submatrix $\Omega|_{\partial p}$:
 \begin{equation}
 \label{eq:plaquette_pfaffian_12m}
-\mathcal{W}_p(\Omega) = (-1)^{s_{\mathrm{perm}}} \operatorname{Pf}\!\left(\Omega|_{\partial p}\right),
+\mathcal{W}_p(\Omega) = +\operatorname{Pf}\!\left(\Omega|_{\partial p}\right),
 \end{equation}
-where $s_{\mathrm{perm}}$ accounts for reordering the canonical vertex-majorana pairs around $\partial p$ under the $\hat{u}_b^\gamma = +\ii c_A^\gamma c_B^\gamma$ convention on $\mathcal{D}_i = +1$. Implemented via \texttt{compute\_skew\_pfaffian} using complete-pivoting Parlett--Reid $L T L^T$ elimination and \texttt{compute\_inhomogeneous\_plaquette\_fluxes\_pfaffian}, this diagnostic vanishes ($\mathcal{W}_p \to 0$) toward the field-polarized limit even while partial bond hybridization persists.
+because \texttt{RealSpaceTorusCluster.compute\_plaquette\_gauge\_majoranas} orders the twelve indices directly in directed bond pairs $(A_k, B_k)$ around $\partial p$ under the $\hat{u}_b^\gamma = +\ii c_A^\gamma c_B^\gamma$ convention on $\mathcal{D}_i = +1$ (so the permutation parity factor is $s_{\mathrm{perm}} = 0$). Implemented via \texttt{compute\_skew\_pfaffian} using complete-pivoting Parlett--Reid $L T L^T$ elimination together with \texttt{RealSpaceTorusCluster.compute\_plaquette\_pfaffian\_flux} and \texttt{compute\_all\_plaquette\_pfaffian\_fluxes}, this Gaussian invariant vanishes ($\mathcal{W}_p \to 0$) toward the field-polarized limit even while partial bond hybridization persists.
 
 \begin{remark}[Second-Order Feshbach--Schur Erratum (\texttt{K-019-A})]
 \label{rem:m1_10_k019a_erratum}

@@ -1,7 +1,7 @@
 # Personal Website Feed Publishing Plan (`kitaev-mf`)
 
 - **Owner:** Lu Freitas (`lufreitas0000`)
-- **Governance & Editorial Compliance:** [`project-governance` Rule 03](../.agents/rules/03_website_editorial_and_privacy.md) and [`personal-website` Rule 03](/home/lucas/Projects/personal-website/.agents/rules/03_website_editorial_and_privacy.md)
+- **Governance & Editorial Compliance:** [`project-governance` Rule 03](../../.agents/rules/03_editorial_rigor.md) and [`personal-website` Rule 03](/home/lucas/Projects/personal-website/.agents/rules/03_website_editorial_and_privacy.md)
 - **Target Destination (External Repo — Read-Only Reference Here):** `/home/lucas/Projects/personal-website/site/content/feed/` (complementing the existing project overview post `06-kitaev-mf.md`, `order: 50`)
 
 > [!IMPORTANT]
@@ -92,7 +92,7 @@ summary: "How the local so(4) = su(2)_spin + su(2)_gauge Casimir identity select
 - **Source Provenance (`kitaev-mf`):** [`sec02_algebraic_foundations_and_invariants.tex`](../manuscript/sections/sec02_algebraic_foundations_and_invariants.tex), [`ch_m1_1_foundations_algebra.tex`](../labbook/chapters/ch_m1_1_foundations_algebra.tex), [`data/processed/benchmarks/k006_quadrature.dat`](../../data/processed/benchmarks/k006_quadrature.dat), `K-001`–`K-006`.
 - **Figure Spec (`kitaev-mf-pearson-walk-scaling.svg`):** Log-log comparison from `k006_quadrature.dat` showing $\|\mathbf{g}_s(N_k)\|_\infty$ vs. $\sqrt{3\pi/(8N_k)} \propto N_k^{-1/2}$ alongside inset showing $\mathcal{D}_i = +c_i^0 c_i^1 c_i^2 c_i^3 = \mathbf{1} - \frac{2}{3}\bm{\tau}_i^2$.
 - **Core Equations & Narrative Beats:**
-  1. Four Majoranas double $\mathbb{C}^2 \hookrightarrow \mathbb{C}^4$; $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$ decouples $\sigma_i^\alpha$ and $\tau_i^\gamma$ (`prop:parity_projector`), with $\mathcal{D}_i = +c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_{1,i}+n_{2,i}} = +1$ (explicitly noting orientation vs. Kitaev's $b_i^x b_i^y b_i^z c_i$).
+  1. Four Majoranas double $\mathbb{C}^2 \hookrightarrow \mathbb{C}^4$; $\mathfrak{so}(4) \cong \mathfrak{su}(2)_{\mathrm{spin}} \oplus \mathfrak{su}(2)_{\mathrm{gauge}}$ decouples $\sigma_i^\alpha$ and $\tau_i^\gamma$ (`prop:parity_projector`), with $\mathcal{D}_i = +c_i^0 c_i^1 c_i^2 c_i^3 = -(-1)^{n_{1,i}+n_{2,i}} = +1$ (explicitly noting the odd-parity map $(c_i^0, c_i^1, c_i^2, c_i^3) = (-c_i, b_i^x, b_i^y, b_i^z)$ to Kitaev's $D_i^{\mathrm{Kitaev}} = b_i^x b_i^y b_i^z c_i = +1$).
   2. At $\mathbf{h}=\mathbf{0}$, six localized gauge bands sit flat at $E = \pm 1$; $\mathcal{T}$ and $\mathcal{C}$ force $\langle c_s^0 c_s^\gamma \rangle = \langle c_s^\alpha c_s^\beta \rangle = 0$ so KKT stationarity holds at $\boldsymbol{\lambda}^* \equiv \mathbf{0}$ (Flat-Band Gauge Neutrality).
   3. Exact thermodynamic-limit matter bond $\bar{U} = \frac{1}{3} W_3(1) \approx 0.5248657$ (`Borwein2012`) vs. discrete $N_k$ quadrature floor $\epsilon_{\mathrm{gauge}} \propto N_k^{-1/2}$.
 
@@ -131,8 +131,8 @@ summary: "Disentangling exact spin perturbation channels from 4-Majorana self-co
 ---
 ```
 
-- **Source Provenance (`kitaev-mf`):** [`sec03_field_response_and_multistability.tex`](../manuscript/sections/sec03_field_response_and_multistability.tex), [`m1_10_t1_exact_perturbation_and_normalization_reconciliation.md`](../rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md), [`m1_10_t1_k019a_second_order_erratum.md`](../rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md), `data/processed/benchmarks/m1_6/majorana_gap_scaling.dat`.
-- **Figure Spec (`kitaev-mf-cubic-gap-channels.svg`):** Two-panel plot from `majorana_gap_scaling.dat`: (left) log-log $\Delta_K^{\mathrm{MF}}(h) \approx (2.5921 \pm 0.0034) h^3$ and linear $\|\boldsymbol{\lambda}^*\|_2 \approx \sqrt{5} h$; (right) diagrammatic comparison of spin-space two-vison intermediates ($\Delta_{\mathrm{flux}} \approx 0.264|K|$) vs. HFB gauge-band ($2\Delta_{\mathrm{gauge}} \approx 1.050|K|$) + $\lambda_s^\gamma G^\gamma$ mixing vertices.
+- **Source Provenance (`kitaev-mf`):** [`sec03_field_response_and_multistability.tex`](../manuscript/sections/sec03_field_response_and_multistability.tex), [`m1_10_t1_exact_perturbation_and_normalization_reconciliation.md`](../rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md), [`m1_10_t1_k019a_second_order_erratum.md`](../rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md), `data/processed/benchmarks/m1_6/majorana_gap_scaling.dat`, and `data/processed/benchmarks/m1_6/weak_field_solvers.dat` (`norm_lam` column).
+- **Figure Spec (`kitaev-mf-cubic-gap-channels.svg`):** Two-panel plot using `majorana_gap_scaling.dat` ($\Delta_K^{\mathrm{MF}}(h) \approx (2.5921 \pm 0.0034) h^3$) and `weak_field_solvers.dat` / `basin_sweep_111.dat` ($\|\boldsymbol{\lambda}^*\|_2 \approx \sqrt{5} h$ from `norm_lam`), paired with a diagrammatic comparison of spin-space two-vison intermediates ($\Delta_{\mathrm{flux}} \approx 0.264|K|$) vs. HFB gauge-band ($2\Delta_{\mathrm{gauge}} \approx 1.050|K|$) + $\lambda_s^\gamma G^\gamma$ mixing vertices.
 - **Core Equations & Honest Epistemic Beats:**
   1. Why naive plugging of $2\Delta_{\mathrm{gauge}}$ into $4h^3/\Delta E^2$ fails: $N^\gamma$ couples only $c^0 \leftrightarrow c^\gamma$; the $\mathcal{O}(h)$ KKT multiplier $\lambda_s^\gamma G^\gamma$ supplies the $c^\alpha \leftrightarrow c^\beta$ vertex.
   2. Empirical vs. Analytical boundary: report $\Delta_K^{\mathrm{MF}} = (2.5921 \pm 0.0034)(h/|K|)^{2.9936\pm 0.0006}$ and $\|\boldsymbol{\lambda}^*\|_2 \approx \sqrt{5} h$ explicitly as finite-mesh regressions with closed-form BZ evaluation open (`IDEA-001`).

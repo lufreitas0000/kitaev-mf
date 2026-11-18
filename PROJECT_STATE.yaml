@@ -38,7 +38,7 @@ milestone_history:
     benchmark.
   evidence:
   - doc/rnd/phase_1/m1_3_t1_spectral_projector_and_diis_solver.md
-  - doc/rnd/phase_1/m1_3_t2_k006_quadrature_provenance.md
+  - doc/rnd/phase_1/m1_3_t3_k006_quadrature_provenance.md
   - src/kitaev_mf/services/quadrature.py
   - scripts/k006_quadrature.py
   - test/unit/test_correlators.py
@@ -146,11 +146,11 @@ milestone_history:
   - doc/labbook/chapters/ch_m1_11_hypothesis_contracts.tex
   - doc/HYPOTHESIS_CONTRACTS.md
   - doc/rnd/phase_1/m1_9_t1_self_consistent_purification_warm_starts.md
-  - doc/rnd/phase_1/m1_9_t2_disordered_real_space_purification.md
-  - doc/rnd/phase_1/m1_9_t3_damped_lbroyden_real_space_scaling.md
-  - doc/rnd/phase_1/m1_9_t4_finite_temperature_fermi_dirac_covariance.md
+  - doc/rnd/phase_1/m1_9_t2_disordered_solver_scaling.md
+  - doc/rnd/phase_1/m1_9_t3_lbroyden_damping_and_multisecant_reconciliation.md
+  - doc/rnd/phase_1/m1_9_t4_small_gap_and_zero_mode_purification.md
   - doc/rnd/phase_1/m1_9_t5_spinodal_domain_wall_coexistence.md
-  - doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening_defect_clouds.md
+  - doc/rnd/phase_1/m1_9_t6_inhomogeneous_gauge_screening.md
   - doc/rnd/peer_review/
 - id: M1.10
   name: Real-Space Vortices, Vison Pairs, and In-Gap Majorana Bound States

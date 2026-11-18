@@ -101,6 +101,7 @@ def verify_external_data(root: Path) -> tuple[bool, list[str], int, int]:
     verified_active = 0
     for dat_path in active_dats:
         rel_dat = dat_path.relative_to(ext_root)
+        errors_before = len(errors)
         if len(rel_dat.parts) < 2:
             errors.append(
                 f"External .dat must reside in data/external/<source_repo>/: data/external/{rel_dat}"
@@ -175,7 +176,8 @@ def verify_external_data(root: Path) -> tuple[bool, list[str], int, int]:
         if not isinstance(raw_meta["parameters"], dict):
             errors.append(f"parameters must be a JSON object in {meta_path.relative_to(root)}")
 
-        verified_active += 1
+        if len(errors) == errors_before:
+            verified_active += 1
 
     return len(errors) == 0, errors, verified_active, quarantined_count
 

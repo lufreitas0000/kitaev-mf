@@ -146,9 +146,9 @@ When translation symmetry is broken by bond disorder $\delta K_{ij} \in [-\delta
 
 \subsection{Track 1 Pure-\texttt{scMFT} Extensions: Rational Pad\'e Purification and Canonical Skew Schur}
 % SOURCE [STATUS]: src/kitaev_mf/services/purification.py::purify_pade_sign [VERIFIED]; src/kitaev_mf/services/canonical_skew.py::canonical_skew_schur [VERIFIED]; src/kitaev_mf/domain/state.py::InhomogeneousMeanFieldState [VERIFIED]
-To harden real-space `scMFT` near small Dirac gaps and support large inhomogeneous vortex cells (\texttt{InhomogeneousMeanFieldState}), Stage~4 of \texttt{RECON-20261116} integrated three pure-\texttt{scMFT} numerical kernels:
+To harden real-space \texttt{scMFT} near small Dirac gaps and support large inhomogeneous vortex cells (\texttt{InhomogeneousMeanFieldState}), Stage~4 of \texttt{RECON-20261116} integrated three pure-\texttt{scMFT} numerical kernels:
 \begin{enumerate}
-\item \textbf{Shared Gershgorin Spectral Initialization \& Kenney--Laub Pad\'e Sign Filter (\texttt{purify\_pade\_sign}):} Starting from the same $\mathcal{O}(M^2)$ triangle-inequality spectral radius bound $\alpha = \|\mathbf{A}\|_\infty$ shared with \texttt{purify\_newton\_schulz}, we implement diagonal and near-diagonal Kenney--Laub rational approximants $[p/q]_z$ (Orders~1--3; default $[3/2]_z$ giving quintic convergence):
+\item \textbf{Shared Gershgorin Spectral Initialization \& Kenney--Laub Pad\'e Sign Filter (\texttt{purify\_pade\_sign}):} Starting from the same $\mathcal{O}(M^2)$ bound $\alpha = \max\!\bigl(\min(\|\mathbf{A}\|_\infty, \|\mathbf{A}\|_F) \times 1.05,\, 10^{-12}\bigr)$ shared with \texttt{purify\_newton\_schulz} (\texttt{estimate\_spectral\_bound}), we implement rational Pad\'e approximants indexed by numerator/denominator $x$-degrees \texttt{order="32"} ($[3/2]_x \equiv [2/2]_z$ in $z = 1 - x^2$, default, quintic $p=5$) and \texttt{order="21"} ($[2/1]_x \equiv [1/1]_z$, Halley cubic $p=3$):
 \begin{equation}
 \mathbf{Y}_{n+1} = \mathbf{Y}_n \left( 5\mathbf{I} - 10\mathbf{Y}_n^2 + \mathbf{Y}_n^4 \right)\left( \mathbf{I} - 10\mathbf{Y}_n^2 + 5\mathbf{Y}_n^4 \right)^{-1},
 \end{equation}

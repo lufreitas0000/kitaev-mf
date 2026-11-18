@@ -193,8 +193,8 @@ c_{\mathrm{MF}} \stackrel{?}{=} \frac{8}{3\sqrt{3} \bar{U}^2} \cdot \mathcal{J}_
 \Delta \boldsymbol{\lambda} = -\mathbf{H}_{\lambda\lambda}^{-1} \mathbf{g},
 \end{equation}
 removes the timescale mismatch between fast fermionic relaxation and slow multiplier ascent, eliminating critical slowing down and reducing DIIS iterations near $h_{c2}^+$ by $> 50\%$.
-\textbf{Acceptance Metric:} Implementation of \texttt{LehmannPreconditionedDIIS} in \texttt{services/solver.py}; benchmark demonstrating $2\times$ reduction in iteration count at $h = 0.395$.
-\textbf{Audit Target:} Backlog item \textbf{BL-05}; \texttt{test/unit/test\_preconditioned\_diis.py}.
+\textbf{Acceptance Metric:} Implementation of \texttt{SolverConfig.precondition\_dual} and \texttt{compute\_lehmann\_dual\_hessian} in \texttt{src/kitaev\_mf/services/solver.py}; benchmark demonstrating $2\times$ reduction in iteration count near $h = 0.395$ in Phase~2 production.
+\textbf{Audit Target:} \texttt{doc/rnd/phase\_1/t10\_lehmann\_preconditioning\_and\_post\_spinodal\_kkt\_audit.md} and \texttt{test/unit/test\_advanced\_solver\_features\_and\_purification.py} (kernel implemented in Stage~4; $h \approx 0.395$ critical iteration benchmark gated to Phase~2).
 \end{contract}
 
 \begin{contract}[H9: Multi-Secant Type-II Damped L-Broyden Stabilization]
