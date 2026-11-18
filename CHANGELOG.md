@@ -10,6 +10,14 @@ for the SemVer policy and tag-based release procedure.
 
 *(Pre-`1.0.0` development tracking under package version `0.1.0` per Rule 04; formal releases will be tagged `v*.*.*` after scientific milestone closure.)*
 
+### [2026-11-18] [RECON-20261116-T5] [Actor: antigravity-impl] — Enforce `pipefail` in `Makefile` `verify` gate
+#### Ideas & Contracts Evolved
+- None (build-harness reliability fix; closes the `pytest | grep ... || true` exit-code masking caveat noted at `RECON-20261116` closure).
+
+#### Code & Artifacts Changed
+- Updated `Makefile` (`SHELL := /bin/bash -o pipefail`, dropped `|| true` from step `[4/4]`) so any `pytest` failure fails `make verify` cleanly.
+- Added UoW `Goal`/`Scope`/`Definition of Done (DoD)`/`Next Steps` markers to `README.md` and `Owning milestone: RECON-20261116` to `CURRENT_SPRINT.md` so `scripts/uow.py check` passes cleanly.
+
 ### Added (`RECON-20261116` Consolidation & Pure-`scMFT` Core Kernels)
 - **Linear Git Topology & 5-Repo Family Boundaries (`ADR-003`):** Formalized one permanent `main` branch and one worktree workflow, documented repository boundaries across `kitaev-mf` (pure `scMFT`), `kitaev-numerics`, `kitaev-walk-geometry`, `ksl-sc-bilayer`, and `Julia/KitaevDerivation.jl`, and added PG-10 `native-v2` profile (`governance/profile.toml`) plus `doc/hypotheses/README.md`.
 - **Cross-Repository External Data Contract (`scripts/sync_external_data.py`):** Implemented CLI `--ingest` / `--verify` checks requiring sibling `.meta.json` sidecars (`source_repo`, 40-hex `git_sha`, matching `sha256`, `unit_convention`, `geometry`, `parameters`) for active datasets under `data/external/<source_repo>/`, while quarantining legacy comparison tables in `data/external/historical_unverified/`.

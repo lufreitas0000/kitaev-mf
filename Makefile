@@ -1,4 +1,4 @@
-SHELL := /bin/bash
+SHELL := /bin/bash -o pipefail
 VENV := .venv
 PYTHON := $(if $(wildcard $(VENV)/bin/python3),$(VENV)/bin/python3,$(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3))
 PIP := $(VENV)/bin/pip
@@ -113,7 +113,7 @@ verify:
 		exit 1; \
 	fi; \
 	printf '[4/4] Coverage summary:\n'; \
-	$(PYTEST) -q --cov=kitaev_mf --cov-report=term:skip-covered test/ | grep -E "(TOTAL|TOTAL.*%|===)" || true; \
+	$(PYTEST) -q --cov=kitaev_mf --cov-report=term:skip-covered test/ | grep -E "(TOTAL|TOTAL.*%|===)"; \
 	printf '\nVerification completed successfully.\n'
 
 snapshot:

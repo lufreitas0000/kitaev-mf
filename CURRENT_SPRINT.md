@@ -1,5 +1,6 @@
 # Current sprint — RECON-20261116 completion & owner gate
 
+Owning milestone: RECON-20261116
 **Owning wave: RECON-20261116.** Active task status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml); this note explains current sprint scope.
 
 ## Reconciliation Status (Stages 0–5)

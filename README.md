@@ -14,6 +14,11 @@
 
 `kitaev-mf` is a computational and analytical research library dedicated strictly to **4-Majorana Gaussian self-consistent mean-field theory (`scMFT`)** for Kitaev quantum magnets on honeycomb lattices, formulated on the orthogonal Grassmannian manifold bundle $\mathrm{Gr}_{\mathbb{C}}(2N_{\mathrm{sub}}, 4N_{\mathrm{sub}})$ and managed under a linear single-`main` Git workflow ([`ADR-003`](doc/adr/ADR-003-linear-main-and-family-boundaries.md)).
 
+**Goal:** Deliver a self-contained, algebraically verified, and numerically audited 4-Majorana Gaussian `scMFT` solver, Living Lab Book, and publication manuscript for extended Kitaev spin liquids, cleanly decoupled from exact many-body and walk-resolvent sibling repositories (`ADR-003`).
+**Scope:** Owns pure-`scMFT` core theory/code (`src/kitaev_mf/`), benchmark tables (`data/processed/benchmarks/`), `doc/labbook/`, `doc/manuscript/`, `doc/rnd/`, and SHA-256 external data ingestion (`scripts/sync_external_data.py`); excludes Spin-ED, 2-RDM SDP (`kitaev-numerics`), and full-$Q$ resolvents (`kitaev-walk-geometry`).
+**Definition of Done (DoD):** Direct `pytest` (`make verify` with `pipefail`), `ruff`, `mypy`, `check_index.py`, `sync_external_data.py --verify`, `planning_records.py check`, `uow.py check`, `make labbook`, `make manuscript`, and CI/Pages builds pass with zero unmasked failures and independent W4 review receipts.
+**Next Steps:** See [`CURRENT_SPRINT.md`](CURRENT_SPRINT.md) for human-gated `IDEA-001` / `K-019-A` closure or `doc/hypotheses/HC-01.yaml` Phase 2 registration.
+
 ---
 
 ## Compiled Monographs & Key Deliverables
