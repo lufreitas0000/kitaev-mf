@@ -134,7 +134,7 @@ not preallocated implementation task IDs or calendar promises.
 
 ## Execution Outcome (2026-11-18, `ADR-003` Supersession of Two-Branch Draft)
 
-- **Linear Topology Adoption ([`ADR-003`](../adr/ADR-003-linear-main-and-family-boundaries.md)):** Following owner guidance on 2026-11-18, Step 2 was simplified from retaining two long-lived branches to **one permanent `main` branch and one worktree**, with offline bundle preservation (`/home/lucas/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle`) and Spin-ED / 2-RDM SDP handoff (`/home/lucas/Projects/archive/kitaev-numerics-handoff/`).
+- **Linear Topology Adoption ([`ADR-003`](../adr/ADR-003-linear-main-and-family-boundaries.md)):** Following owner guidance on 2026-11-18, Step 2 was simplified from retaining two long-lived branches to **one permanent `main` branch and one worktree**, with offline bundle preservation (`/home/lu/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle`) and Spin-ED / 2-RDM SDP handoff (`/home/lu/Projects/archive/kitaev-numerics-handoff/`).
 - **Executed Integrations:**
   - `PR #20`: Rebased and merged Wave 4 statistical sampling/symmetry design (`research/wave4-p1-sampling-symmetry-design-20261114`).
   - `PR #22`: Rebased and absorbed W001 audits, Phase 1–4 R&D notes, `doc/rnd/exact-perturbation-theory/`, and `data/external/` scaffolding.

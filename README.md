@@ -49,7 +49,7 @@ To prevent scope creep and keep `kitaev-mf` auditable as a pure 4-Majorana Gauss
 | **`kitaev-numerics`** | Exact Spin-ED, Lanczos/KPM, OFTLM, 2-RDM SDP lower bounds, HTE, `iPEPS`/tensor networks | `data/external/kitaev_numerics/*.dat` + `.meta.json` |
 | **`kitaev-walk-geometry`** | Exact Majorana lattice walks, lattice Green's functions/resolvents, full-$Q$ Feshbach–Schur perturbation theory | `data/external/kitaev_walk_geometry/*.dat` + `.meta.json` |
 | **`ksl-sc-bilayer`** | Kitaev spin liquid–superconductor heterostructures and proximity/Kondo bilayer couplings | Independent repository |
-| **`Julia/KitaevDerivation.jl`** | Symbolic Clifford/CAR and Schrieffer–Wolff operator algebra CAS | Referenced derivations |
+| **`kitaev-derivation`** | Pure-Python `SymPy` Clifford/CAR & Schrieffer–Wolff projector CAS + 66-state sparse Fock oracle (`lufreitas0000/kitaev-derivation`, replacing archived `KitaevDerivation.jl`) | Referenced symbolic derivations & Wave 3 ring exchange |
 
 Cross-repository comparison datasets are verified in CI via `python3 -B scripts/sync_external_data.py --verify`; unverified historical tables remain quarantined under [`data/external/historical_unverified/`](data/external/historical_unverified/README.md).
 

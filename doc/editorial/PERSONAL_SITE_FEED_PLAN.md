@@ -1,8 +1,8 @@
 # Personal Website Feed Publishing Plan (`kitaev-mf`)
 
 - **Owner:** Lu Freitas (`lufreitas0000`)
-- **Governance & Editorial Compliance:** [`project-governance` Rule 03](../../.agents/rules/03_editorial_rigor.md) and [`personal-website` Rule 03](/home/lucas/Projects/personal-website/.agents/rules/03_website_editorial_and_privacy.md)
-- **Target Destination (External Repo — Read-Only Reference Here):** `/home/lucas/Projects/personal-website/site/content/feed/` (complementing the existing project overview post `06-kitaev-mf.md`, `order: 50`)
+- **Governance & Editorial Compliance:** [`project-governance` Rule 03](../../.agents/rules/03_editorial_rigor.md) and [`personal-website` Rule 03](../../../personal-website/.agents/rules/03_website_editorial_and_privacy.md)
+- **Target Destination (External Repo — Read-Only Reference Here):** `../../../personal-website/site/content/feed/` (complementing the existing project overview post `06-kitaev-mf.md`, `order: 50`)
 
 > [!IMPORTANT]
 > **Privacy & Attribution Policy:** Every post drafted from this plan uses public author identity **Lu Freitas** (citing prior published papers as **L. R. D. Freitas** / **Lucas R. D. Freitas** with public contact footer `lu.rdf@icloud.com` only), excludes all private emails/identifiers/local paths, and never invents DOIs, arXiv IDs, or unverified claims.
@@ -51,7 +51,7 @@ To keep plots crisp in both light and dark modes on the personal website and str
 
 ## 3. Five Ready-to-Author Feed Post Blueprints
 
-All five notes complement [`06-kitaev-mf.md`](/home/lucas/Projects/personal-website/site/content/feed/06-kitaev-mf.md) (`order: 50`, `kind: "project"`) using identical YAML frontmatter schema (`kind: "note"`, `order: 51..55`).
+All five notes complement [`06-kitaev-mf.md`](../../../personal-website/site/content/feed/06-kitaev-mf.md) (`order: 50`, `kind: "project"`) using identical YAML frontmatter schema (`kind: "note"`, `order: 51..55`).
 
 ---
 

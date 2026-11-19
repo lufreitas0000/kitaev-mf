@@ -1,6 +1,6 @@
 # Post-Reorganization Code Salvage Queue (`kitaev-mf`)
 
-During the 2026-11-18 linear consolidation, all historical branches and auxiliary worktrees were backed up offline in `/home/lucas/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle` (4.83 MiB, 45 refs) so `kitaev-mf` maintains **one linear `main` branch**.
+During the 2026-11-18 linear consolidation, all historical branches and auxiliary worktrees were backed up offline in `/home/lu/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle` (4.83 MiB, 45 refs) so `kitaev-mf` maintains **one linear `main` branch**.
 Non-`main` software modules are queued below for bounded, reviewed `feat/*` PRs rather than bulk merging unreviewed prototypes.
 
 | Track | Source Ref in Offline Bundle | Target `kitaev-mf` Scope | Prerequisite Gate | Status |
@@ -13,4 +13,4 @@ Non-`main` software modules are queued below for bounded, reviewed `feat/*` PRs 
 
 ## Delegated Out of `kitaev-mf` (`ADR-003`)
 
-- **Spin-Space Exact Diagonalization (`exact_diagonalization.py`) & 2-RDM SDP (`variational_bounds.py`):** Exported to `/home/lucas/Projects/archive/kitaev-numerics-handoff/` as unreviewed reference prototypes for `lufreitas0000/kitaev-numerics`. Future `kitaev-mf` comparisons consume certified `.dat` + `.meta.json` outputs through `data/external/kitaev_numerics/`.
+- **Spin-Space Exact Diagonalization (`exact_diagonalization.py`) & 2-RDM SDP (`variational_bounds.py`):** Exported to `/home/lu/Projects/archive/kitaev-numerics-handoff/` as unreviewed reference prototypes for `lufreitas0000/kitaev-numerics`. Future `kitaev-mf` comparisons consume certified `.dat` + `.meta.json` outputs through `data/external/kitaev_numerics/`.

@@ -97,7 +97,7 @@ milestone_history:
     and discovery log.
   evidence:
   - doc/rnd/phase_1/
-  - doc/labbook/main.pdf
+  - doc/labbook/labbook_kitaev_mf.tex
   - doc/labbook/chapters/
   - doc/shared/
   - doc/manuscript/
@@ -480,7 +480,7 @@ verified_physics_invariants:
   provenance:
     analytical: doc/rnd/phase_1/m1_10_t1_exact_perturbation_and_normalization_reconciliation.md
     erratum: doc/rnd/phase_1/m1_10_t1_k019a_second_order_erratum.md
-    bundle_archive: /home/lucas/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle
+    bundle_archive: /home/lu/Projects/archive/kitaev-mf_backups/pre-reconciliation-20261118.bundle
   numerical_evidence:
     bloch_scaling_factor: 4.0
     bare_energy_denominator_ratio_squared: 15.8106

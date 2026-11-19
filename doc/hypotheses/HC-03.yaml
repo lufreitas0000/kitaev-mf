@@ -1,0 +1,31 @@
+id: HC-03
+title: Self-Consistent Two-Vison Interaction V(R) and MZM Hybridization Scaling on Non-Resonant vs Resonant Tori
+stream: real-space-defects
+wave: Wave-1
+status: draft
+version: '1.0'
+statement: 'Under self-consistent 4-Majorana purification + DIIS/L-Broyden across torus sizes L in {8, 12, 16, 20}, an isolated vortex pair (W_p1 = W_p2 = -1) exhibits an attractive potential V(R) saturating to the isolated-vison creation plateau while its hybridized Majorana mode splitting decays exponentially with core separation xi_M ~ v_F / |Delta_bulk(kappa)| above the bulk two-vison continuum.'
+assumptions:
+  - Strictly nonzero chiral perturbation kappa != 0 opening bulk gap Delta_bulk = 6 sqrt(3) |kappa|
+  - Dual triangular branch-cut construction preserving torus Z2 Gauss law prod_p W_p = +1
+  - Gauge drift residual eps_gauge < 1e-12 across self-consistent cycles
+parameter_domain:
+  L_values: "[8, 10, 12, 16, 20]"
+  kappa_over_K: "[0.05, 0.10, 0.20]"
+  separations: "R in [1, L/2]"
+observables:
+  - Vortex-pair excitation energy V(R, L) = E_2v(R, L) - E_0(L)
+  - Subgap Majorana splitting omega_MZM(R, L)
+  - Gauge-invariant plaquette Pfaffian flux drift
+metrology:
+  method: Multi-L finite-size scaling comparison (exponential exp(-R/xi_M) vs power-law R^{-alpha}) with Delta_BIC > 10 and two-sided leave-L_min / leave-L_max holdout checks
+  support_if: "TODO(owner): Lock Delta_BIC > 10 preference, two-sided holdout R^2/residual bounds, and max allowed flux drift"
+  refute_if: "TODO(owner): Lock refutation bound for subgap decay failure or topological flux instability under self-consistency"
+dependencies:
+  - K-020
+  - K-021
+  - kitaev-walk-geometry:HC-11
+history:
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Staged Wave 1 draft contract linking kitaev-mf self-consistent real-space defect scaling to kitaev-walk-geometry HC-11."

@@ -10,6 +10,14 @@ for the SemVer policy and tag-based release procedure.
 
 *(Pre-`1.0.0` development tracking under package version `0.1.0` per Rule 04; formal releases will be tagged `v*.*.*` after scientific milestone closure.)*
 
+### [2026-11-19] [UOW-20261119-01] [Actor: antigravity] — Add HORIZON.md, rename thesis entrypoint, unify uv venv, and stage Wave 1 HC-01..03.yaml
+#### Ideas & Contracts Evolved
+- Staged `doc/hypotheses/HC-01.yaml`–`HC-03.yaml` (`status: draft`, `TODO(owner)` thresholds preserved) linking `IDEA-001` / `K-019-A`, `kitaev-numerics` ED/Clarabel SDP sandwich comparison, and `kitaev-walk-geometry:HC-11` two-vison FSS scaling ahead of Wave 1 sweeps.
+- Authored `HORIZON.md` and updated sibling table from archived `KitaevDerivation.jl` to pure-Python `kitaev-derivation`.
+
+#### Code & Artifacts Changed
+- Renamed `doc/reference/thesis/main.tex` to `doc/reference/thesis/thesis_kitaev_mf_ref.tex`, switched `Makefile` `venv`/`lock`/`sync` targets to `uv`, and updated `PROJECT_STATE.yaml` (`doc/labbook/labbook_kitaev_mf.tex`) and stale `/home/lucas/Projects/` documentation references.
+
 ### [2026-11-18] [RECON-20261116-T5] [Actor: antigravity-impl] — Enforce `pipefail` in `Makefile` `verify` gate
 #### Ideas & Contracts Evolved
 - None (build-harness reliability fix; closes the `pytest | grep ... || true` exit-code masking caveat noted at `RECON-20261116` closure).

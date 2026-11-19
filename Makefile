@@ -27,18 +27,19 @@ help:
 
 venv:
 	@if [ ! -d "$(VENV)" ]; then \
-		echo "Creating virtual environment..."; \
-		python3 -m venv $(VENV); \
+		echo "Creating uv virtual environment..."; \
+		uv venv $(VENV); \
 	fi
-	@$(PIP) install --upgrade pip setuptools wheel pip-tools
+	@uv pip install --python $(PYTHON) -r requirements.txt -r requirements-dev.txt
+	@uv pip install --python $(PYTHON) -e . --no-deps
 
 lock: venv
-	@$(PIP_COMPILE) --resolver=backtracking -o requirements.txt requirements.in
-	@$(PIP_COMPILE) --resolver=backtracking -o requirements-dev.txt requirements-dev.in
+	@uv pip compile -o requirements.txt requirements.in
+	@uv pip compile -o requirements-dev.txt requirements-dev.in
 
 sync: venv
-	@$(PIP_SYNC) requirements.txt requirements-dev.txt
-	@$(PIP) install -e . --no-deps
+	@uv pip sync --python $(PYTHON) requirements.txt requirements-dev.txt
+	@uv pip install --python $(PYTHON) -e . --no-deps
 
 install: venv lock sync
 

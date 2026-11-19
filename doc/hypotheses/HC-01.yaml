@@ -1,0 +1,29 @@
+id: HC-01
+title: Cubic Dirac Gap Prefactor Reconciliation Against Full-Q Feshbach-Schur Perturbation
+stream: perturbation
+wave: Wave-1
+status: draft
+version: '1.0'
+statement: 'With canonical 4-flavor scMFT normalization (Delta_can = 4 Delta_K^MF ~ 10.368 h^3 at h in [0.005, 0.05]), the residual ratio relative to pure-Kitaev perturbation theory is accounted for jointly by the self-consistent KKT counter-field ||lambda*||_2 ~ sqrt(5) h and full-Q Feshbach-Schur resolvent intermediate-flux weighting (K-019-A / IDEA-001).'
+assumptions:
+  - Pure ferromagnetic Kitaev model (K = -1.0 in +K Pauli code convention) in [111] field
+  - Uniform zero-flux sector below first-order spinodal transition h_c* ~ 0.3325
+  - Independent full-Q resolvent coefficients imported with .meta.json provenance from kitaev-walk-geometry
+parameter_domain:
+  h_range: "[0.005, 0.05]"
+  k_mesh: "[24x24, 36x36, 48x48]"
+observables:
+  - Cubic gap prefactor c_MF(N_k)
+  - Gauge counter-field norm ||lambda*(h)||_2
+  - Full-Q vs bare-2-vison perturbative denominator ratio
+metrology:
+  method: Continuum k-mesh extrapolation (N_k^{-1}) vs exact symbolic K-019-A perturbation coefficients
+  support_if: "TODO(owner): Lock maximum allowable relative residual |Delta_scMFT(h) - Delta_dressed_PT(h)| / Delta_dressed_PT(h) and N_k convergence bound"
+  refute_if: "TODO(owner): Lock discrepancy threshold indicating non-perturbative multi-vison vertex breakdown below h = 0.05"
+dependencies:
+  - kitaev-walk-geometry:HC-09
+  - IDEA-001
+history:
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Staged Wave 1 draft contract awaiting PI TODO(owner) threshold lock."

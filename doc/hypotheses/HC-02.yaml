@@ -1,0 +1,28 @@
+id: HC-02
+title: Variational scMFT vs Unbiased ED and Clarabel 2-RDM SDP Sandwich Bounds Across [111] Transition
+stream: solver-energetics
+wave: Wave-1
+status: draft
+version: '1.0'
+statement: 'At every magnetic field h in [0, 0.6], the Gutzwiller-projected scMFT energy per site E_proj(h) bounds the unbiased thermodynamic/finite-torus exact energy E_0(h) from above while Clarabel spin 2-RDM SDP E_SDP^(2)(h) bounds it from below (E_SDP^(2)(h) <= E_0(h) <= E_proj(h)), quantifying precisely how much gauge fluctuations shift the transition from mean-field h_c* ~ 0.3325 toward exact h_c,FM.'
+assumptions:
+  - Identical Pauli [111] normalization (H = -sum sigma^gamma sigma^gamma - (h/sqrt(3)) sum (sigma^x+sigma^y+sigma^z))
+  - External ED and Clarabel 2-RDM SDP data ingested strictly via data/external/kitaev_numerics/ with verified .meta.json SHA-256
+parameter_domain:
+  h_grid: "[0.0, 0.02, 0.0485, 0.10, 0.25, 0.3325, 0.40, 0.50]"
+observables:
+  - Energy density E_site(h) (variational vs unprojected vs ED vs SDP)
+  - Uniform magnetization m_111(h)
+  - Plaquette expectation <W_p(h)>
+metrology:
+  method: Deterministic convex/variational sandwich inequality plus BCa bootstrap CIs (B >= 1000) where Gutzwiller VMC sampling is used
+  support_if: "TODO(owner): Lock maximum variational sandwich gap (E_proj - E_SDP^(2)) and Gutzwiller VMC statistical tolerance"
+  refute_if: "TODO(owner): Trigger discovery log immediately if any verified KKT-admissible E_proj(h) violates E_SDP^(2)(h) <= E_proj(h) or Hellmann-Feynman consistency"
+dependencies:
+  - K-011
+  - K-023
+  - kitaev-numerics:M1.1
+history:
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Staged Wave 1 draft contract for cross-repo ED/SDP vs scMFT sandwich benchmark."
