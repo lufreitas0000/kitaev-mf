@@ -1,0 +1,26 @@
+{
+  "dataset": "hc01_cubic_gap_reconciliation",
+  "geometry": "Honeycomb 2-site BZ grid Nk x Nk",
+  "git_sha": "44692e54e8baf400e6b20ea3c2e0f064b607c9c0",
+  "parameters": {
+    "c_mf_by_nk": {
+      "24": 10.654136846753206,
+      "36": 10.644855227644001,
+      "48": 10.642437618431241,
+      "72": 10.641100174228033
+    },
+    "c_mf_continuum": 10.64166578085026,
+    "exponent_fit": 2.9996935815202477,
+    "lambda_over_h_continuum": 2.2378144789821794,
+    "nk_grid": [
+      24,
+      36,
+      48,
+      72
+    ]
+  },
+  "schema_version": 1,
+  "sha256": "7d8a7557787d55909e3284b25cb7387a171fb5ea454512e23052cf82feced767",
+  "source_repo": "kitaev-mf",
+  "unit_convention": "pauli_k_minus_one_canonical_4HB"
+}

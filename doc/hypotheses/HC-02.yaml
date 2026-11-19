@@ -40,7 +40,13 @@ learning_log:
   - date: "2026-11-19"
     stream: "solver-energetics"
     entry: "Staged Wave 1 draft contract for cross-repo ED/SDP vs scMFT sandwich benchmark."
+  - date: "2026-11-19"
+    stream: "solver-energetics"
+    entry: "Wave 1 execution (@ 44692e5): 24/24 rows across N in {8, 12, 18} and h in [0, 0.50] satisfy E_SDP_cert <= E_ED <= E_proj (with N=2 Fock check <=3.84e-16). Even-parity sectors recover Zero-Variance exact N=12 h=0 ground state (-0.8166902250, e_loc_std=3.08e-16) and N=18 VMC (-0.7939723679, e_loc_std=3.09e-16); 50-chain VMC BCa 95% CIs + tau_int reported."
 history:
   - date: "2026-11-19"
     actor: antigravity
     note: "Staged Wave 1 draft contract for cross-repo ED/SDP vs scMFT sandwich benchmark."
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Recorded Wave 1 exact + 50-chain BCa VMC sandwich results (hc02_ed_sdp_scmft_sandwich.dat)."

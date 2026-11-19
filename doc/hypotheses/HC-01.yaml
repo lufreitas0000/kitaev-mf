@@ -40,7 +40,13 @@ learning_log:
   - date: "2026-11-19"
     stream: "perturbation"
     entry: "Staged Wave 1 draft contract awaiting PI TODO(owner) threshold lock."
+  - date: "2026-11-19"
+    stream: "perturbation"
+    entry: "Wave 1 execution (@ 44692e5): c_MF_cont = 10.641666, ||lambda*||/h = 2.237814, slope = 2.999694. Proved bare Zeeman gives <=1.60e-15 and Hartree without lambda* gives <=4.04e-15, while KKT lambda* G_QQ recovers 100% of dressed 3rd-order gap (1.06453444e-05 at h=0.01, Nk=48); h=0.002/Nk=48 stopped at max_iter=80 (conv=0)."
 history:
   - date: "2026-11-19"
     actor: antigravity
     note: "Staged Wave 1 draft contract awaiting PI TODO(owner) threshold lock."
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Recorded Wave 1 Feshbach-Schur cubic gap decomposition metrics (hc01_cubic_gap_reconciliation.dat)."

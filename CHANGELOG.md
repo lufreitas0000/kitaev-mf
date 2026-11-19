@@ -10,6 +10,15 @@ for the SemVer policy and tag-based release procedure.
 
 *(Pre-`1.0.0` development tracking under package version `0.1.0` per Rule 04; formal releases will be tagged `v*.*.*` after scientific milestone closure.)*
 
+### [2026-11-19] [M2.1-WAVE1] [Actor: antigravity] — Wave 1 `HC-01..03` sweeps, Gutzwiller sandwich, and stratified two-vison bridge
+#### Ideas & Contracts Evolved
+- Quantified `HC-01` Feshbach–Schur cubic Dirac gap (`c_MF_cont = 10.641666`, `p = 2.999694`), isolating KKT $\lambda^{*,\gamma} G^\gamma$ inside $Q$-space (`<= 4.04e-15` without $\lambda^*$) alongside 95% Hartree $PQ$-screening.
+- Verified `HC-02` `24/24` $E_{\mathrm{SDP}}^{\mathrm{cert}} \le E_0^{\mathrm{ED}} \le E_{\mathrm{proj}}$ sandwich bounds across $N \in \{8, 12, 18\}$ with Zero-Variance $N=12$ $h=0$ exact projection (`-0.8166902250`, $e_{\mathrm{loc}}\text{-std} = 3.08 \times 10^{-16}$) and 50-chain $\mathrm{BC}_a$ 95% CIs.
+- Reconciled `HC-03` normalization (`kappa_static = kappa_KWG / 2` matching `kitaev-walk-geometry` to `< 4.4e-9`) across 94 chiral runs ($L \in \{8..20\}$), discovering period-3 intervalley $\cos(\mathbf{K}\cdot\mathbf{R})$ modulation (`Delta_BIC in [2.39, 4.68]` for raw monotone fits vs $\xi_M \approx \{3.03, 1.36, 0.76\}$ on fixed-phase $R=3 \to 6$).
+
+#### Code & Artifacts Changed
+- Added `src/kitaev_mf/services/{cubic_gap_perturbation,gutzwiller_projection,vortex_pair_scaling}.py`, `scripts/wave1/run_hc0{1,2,3}_*.py`, unit suites `test/unit/test_wave1_*.py`, external sync under `data/external/{kitaev_numerics,kitaev_walk_geometry}/`, Front-1 notes `doc/rnd/phase_2/wave1_hc0*.md`, Wave 1 `.dat`/`.meta.json` tables, and `learning_log` updates in `doc/hypotheses/HC-01..03.yaml`.
+
 ### [2026-11-19] [UOW-20261119-01] [Actor: antigravity] — Add HORIZON.md, rename thesis entrypoint, unify uv venv, and stage Wave 1 HC-01..03.yaml
 #### Ideas & Contracts Evolved
 - Staged `doc/hypotheses/HC-01.yaml`–`HC-03.yaml` (`status: draft`, `TODO(owner)` thresholds preserved) linking `IDEA-001` / `K-019-A`, `kitaev-numerics` ED/Clarabel SDP sandwich comparison, and `kitaev-walk-geometry:HC-11` two-vison FSS scaling ahead of Wave 1 sweeps.

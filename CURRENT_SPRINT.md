@@ -1,27 +1,20 @@
-# Current sprint — RECON-20261116 completion & owner gate
+# Current sprint — M2.1 Wave 1 (`HC-01..03`) Execution Complete
 
-Owning milestone: RECON-20261116
-**Owning wave: RECON-20261116.** Active task status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml); this note explains current sprint scope.
+Owning milestone: M2.1
+**Owning wave: Wave 1 (`HC-01`–`HC-03`).** Active task status is owned by [PROJECT_STATE.yaml](PROJECT_STATE.yaml); this note explains current sprint scope.
 
-## Reconciliation Status (Stages 0–5)
+## Completed Wave 1 Deliverables (`44692e5`)
 
-- **Git Topology & Family Boundaries ([ADR-003](doc/adr/ADR-003-linear-main-and-family-boundaries.md)):** Single `main` branch, single local worktree, offline pre-reconciliation bundle verified outside the repository, and clean 5-repo separation (`kitaev-mf` pure `scMFT` vs. `kitaev-numerics`, `kitaev-walk-geometry`, `ksl-sc-bilayer`, `Julia/KitaevDerivation.jl`) with `data/external/<source_repo>/` verified by `scripts/sync_external_data.py --verify`.
-- **Merged Deliverables:** Wave 4 sampling/symmetry design (`PR #20`), R&D and W001 foundation absorption (`PR #22`), audited Track 1 pure-`scMFT` core kernels (`PR #23`, W4 reviewed), and PG-10 `native-v2` / LaTeX / CI-Pages overhaul (`governance/profile.toml`, `.github/workflows/docs.yml`, zero tracked PDFs).
-
-## Active execution sprint on `main`: pending owner selection
-
-Reconciliation changes no physical thresholds, hypotheses, or model scope. No Phase 2 physics campaign is running until Lu selects the next milestone and registers quantitative claims under [`doc/hypotheses/`](doc/hypotheses/README.md).
+- **External Data Ingestion (`ADR-003`):** Verified 3 active upstream datasets under `data/external/` (`kitaev_numerics` Lanczos ED + `Clarabel` Pauli SOS SDP, and `kitaev_walk_geometry` chiral vison $T$-matrix) alongside 4 quarantined legacy datasets.
+- **`HC-01` Feshbach–Schur Cubic Gap (`K-024`):** Proved continuum $c_{\mathrm{MF}}^{\mathrm{cont}} = 10.641666$, $\|\boldsymbol{\lambda}^*\|/h \to 2.237814$, slope $2.999694$, and established that 100% of the $Q$-space $O(h)$ gap-opening vertex comes from $\lambda^{*,\gamma} G^\gamma$ (`delta_bare_zeeman <= 1.60e-15`, `delta_no_lambda <= 4.04e-15`).
+- **`HC-02` Certified ED / SDP / Gutzwiller Sandwich (`K-025`):** Reconciled $\mathcal{D}_s = -Z_{2s}Z_{2s+1}=+1$ (`<3.84e-16` on $N=2$ Fock space), verified even-parity Zero-Variance Principle on $N=12$ (`-0.8166902250`, $e_{\mathrm{loc}}\text{-std}=3.08 \times 10^{-16}$) and $N=18$ (`-0.7939723679`), and confirmed `24/24` sandwich inequalities with 50-chain $\mathrm{BC}_a$ 95% CIs across $h \in [0, 0.50]$.
+- **`HC-03` Multi-$L$ Vison Scaling & KWG Bridge (`K-026`):** Reconciled $\kappa_{\mathrm{static}} = \kappa_{\mathrm{KWG}}/2$ (`<4.4e-9` match to `kitaev-walk-geometry`), converged 94 chiral two-vison points across $L \in \{8, 10, 12, 15, 16, 18, 20\}$, and uncovered period-3 intervalley $\cos(\mathbf{K}\cdot\mathbf{R})$ modulation (`Delta_BIC` in `[2.39, 4.68]` for raw monotone fit vs crisp $\xi_M \approx \{3.03, 1.36, 0.76\}$ on fixed-phase $R=3 \to 6$).
 
 ## Open Scientific Prerequisites (Human-Gated)
 
-- Local Majorana representation and projector sign conventions: [K-019-A Issue #10](https://github.com/lufreitas0000/kitaev-mf/issues/10) (`m1_10_t1_k019a_second_order_erratum.md` resolves $PVP=0 \not\implies H_{\mathrm{eff}}^{(2)}=0$, leaving full-$Q$ resolvent and physical projection open).
-- Exact finite-torus gauge/parity, flux-sector thresholds, and resolvent: [Issue #12](https://github.com/lufreitas0000/kitaev-mf/issues/12) (coordinate external resolvents with `kitaev-walk-geometry`).
-- Analytical evaluation of the empirical `scMFT` cubic gap and linear counter-field regressions ($2.5921 \pm 0.0034$ and $\sqrt{5} h$): open [`IDEA-001`](BACKLOG.md).
-- Independent finite-cluster spin-ED / 2-RDM SDP references (`H1`, `H3`): [validation Issue #14](https://github.com/lufreitas0000/kitaev-mf/issues/14) and [kitaev-numerics Issue #1](https://github.com/lufreitas0000/kitaev-mf/issues/1), imported strictly via `data/external/kitaev_numerics/`.
-- Statistical design and geometry/KKT/vortex scoping: [Issue #7](https://github.com/lufreitas0000/kitaev-mf/issues/7), [Issue #8](https://github.com/lufreitas0000/kitaev-mf/issues/8), and [Issue #15](https://github.com/lufreitas0000/kitaev-mf/issues/15).
-
-**Non-goals:** no unapproved Phase 2 solver campaign, no silent `HC-*.yaml` edits, and no promotion of empirical fits to analytical theorems.
+- Present Wave 1 numerical results for PI `TODO(owner)` threshold locking on `doc/hypotheses/HC-01.yaml`–`HC-03.yaml` (including replacing the monotone null in `HC-03.yaml` with the oscillatory intervalley envelope or $R \bmod 3$ stratification).
+- Analytical closed-form BZ evaluation of `IDEA-001` (`c_MF = 10.641666`, `sqrt(5)`) remains open.
 
 ## Next decision / stop conditions
 
-Ask Lu to confirm whether the immediate post-reconciliation sprint targets (a) `IDEA-001` / `K-019-A` theoretical closure or (b) registering the first `doc/hypotheses/HC-01.yaml` contract for matched `scMFT` vs. `kitaev-numerics` finite-torus comparison. Longer-horizon items live in [BACKLOG.md](BACKLOG.md); obstructions and pivots live in [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md).
+Await PI lock on `HC-01..03.yaml` thresholds and authorization for Wave 2 finite-temperature thermodynamics ($C_v(T)/T$, $S(T)$ across $T_L, T_H$). Longer-horizon items live in [BACKLOG.md](BACKLOG.md) and [HORIZON.md](HORIZON.md); obstructions live in [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md).

@@ -1,0 +1,24 @@
+{
+  "dataset": "hc02_ed_sdp_scmft_sandwich",
+  "geometry": "Honeycomb tori 2x2 (N=8), 2x3 (N=12), 3x3 (N=18)",
+  "git_sha": "44692e54e8baf400e6b20ea3c2e0f064b607c9c0",
+  "parameters": {
+    "bootstrap_method": "BCa 95% CI (B=2000)",
+    "field_grid": [
+      0.0,
+      0.02,
+      0.0485,
+      0.1,
+      0.25,
+      0.3325,
+      0.4,
+      0.5
+    ],
+    "samples_per_chain": 50,
+    "vmc_chains": 50
+  },
+  "schema_version": 1,
+  "sha256": "94e99ef5f0e9af1a9f66670f907ead83c2015455a84c726304e218c9ae52c150",
+  "source_repo": "kitaev-mf",
+  "unit_convention": "pauli_k_minus_one_field_111"
+}

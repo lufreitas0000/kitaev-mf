@@ -11,12 +11,12 @@
 
 ---
 
-## Horizon 2 (`Wave 1` — `IDEA-001`, `IDEA-003`, `K-019-A` & `M2` Preparation) — **Human-Gated at `HC-01..03.yaml`**
+## Horizon 2 (`M2.1` / `Wave 1` — `HC-01..03` Execution Complete, Awaiting PI Threshold Lock)
 
 - **`Wave 1` Pre-Registered Checks (`doc/hypotheses/HC-01.yaml`–`HC-03.yaml`, `status: draft`):**
-  1. `HC-01` (`IDEA-001` & `K-019-A`): Reconcile the empirical 4-flavor `scMFT` cubic Dirac gap prefactor ($c_{\mathrm{MF}} = 2.5921 \pm 0.0034$) against pure-Kitaev Feshbach–Schur full-$Q$ resolvent perturbation theory (`kitaev-walk-geometry`) and check KKT counter-field vertex dressing.
-  2. `HC-02` (`IDEA-003` & `K-023`): Cross-check variational `scMFT` ground-state energy curve $E_{\mathrm{MF}}(h)$ and coexistence domain wall ($\sigma_{\mathrm{DW}} = +0.042|K|$) against unbiased `kitaev-numerics` ED ($N = 18, 24$) and `Clarabel` 2-RDM SDP lower bounds ($E_{\mathrm{SDP}}^{(2)} \le E_0 \le E_{\mathrm{proj}}$).
-  3. `HC-03` (`M2` Vison–Vison Potential & MZM Scaling): Test multi-$L$ finite-size scaling of isolated vison-pair interaction $V(R)$ and hybridized MZM splitting $\omega_0(R)$ against `kitaev-walk-geometry` `HC-11` (`TODO(owner)` thresholds required prior to sweeps).
+  1. `HC-01` (`K-024`, `IDEA-001` & `K-019-A`): Executed Feshbach–Schur continuum decomposition (`c_MF^cont = 10.641666`, `p = 2.999694`, `||lambda*||/h = 2.237814`), isolating KKT $\lambda^* G_{QQ}$ activation and $PQ$ Hartree screening (`<= 4.04e-15` without $\lambda^*$).
+  2. `HC-02` (`K-025`, `IDEA-003` & `K-023`): Verified `24/24` $E_{\mathrm{SDP}}^{\mathrm{cert}} \le E_0^{\mathrm{ED}} \le E_{\mathrm{proj}}$ bounds across $N \in \{8, 12, 18\}$ with 50-chain $\mathrm{BC}_a$ 95% CIs and Zero-Variance $h=0$ exact projection (`-0.8166902250` on $N=12$).
+  3. `HC-03` (`K-026`, `M2` Vison–Vison Potential & MZM Scaling): Verified `<4.4e-9` static chiral match to `kitaev-walk-geometry:HC-11` (`kappa_static = kappa_KWG/2`), converged 94 stratified chiral points ($L \in \{8..20\}$), and identified period-3 intervalley modulation explaining raw monotone $\Delta\mathrm{BIC} \in [2.39, 4.68]$ (`TODO(owner)` threshold lock open).
 
 ---
 

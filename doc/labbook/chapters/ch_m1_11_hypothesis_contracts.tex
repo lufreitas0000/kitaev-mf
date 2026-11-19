@@ -269,3 +269,15 @@ The 11 advanced hypothesis contracts establish an unbroken, audit-proof scientif
 \end{table}
 
 Starting in Phase~2 and following \texttt{RECON-20261116} / \texttt{PG-10}, all new quantitative scaling claims and cross-repository comparisons (including \texttt{H1}--\texttt{H4} and closure of \texttt{IDEA-001}) must be pre-registered as immutable YAML contracts under \texttt{doc/hypotheses/HC-XX.yaml} (\texttt{doc/hypotheses/README.md}) prior to benchmark promotion.
+
+% EDITORIAL QUESTION: What did Wave 1 execution of HC-01, HC-02, and HC-03 establish quantitatively?
+\section{Wave 1 Cross-Repository Execution Results (\texttt{M2.1})}
+\label{sec:wave1_hc01_03_results}
+
+% SOURCE [EXECUTED]: scripts/wave1/run_hc01_cubic_gap.py; run_hc02_variational_sandwich.py; run_hc03_multi_l_visons.py (@ 44692e5)
+Under Milestone~\texttt{M2.1}, the three staged Wave~1 contracts (\texttt{HC-01}--\texttt{HC-03}) were executed against verified external benchmarks from \texttt{kitaev-numerics} and \texttt{kitaev-walk-geometry} while preserving human-owned \texttt{TODO(owner)} threshold locks:
+\begin{enumerate}
+\item \textbf{\texttt{HC-01} (\texttt{K-024}, Feshbach--Schur Cubic Gap):} Continuum Richardson extrapolation gives $c_{\mathrm{MF}}^{\mathrm{cont}} = 10.641666$, $\|\boldsymbol{\lambda}^*\|/h \to 2.237814$, and fitted exponent $p = 2.999694$. Both bare Zeeman ($Q\mathbf{V}_Z Q \equiv 0$, $\le 1.60\times 10^{-15}$) and Hartree shifts with $\boldsymbol{\lambda}^*=0$ ($\le 4.04\times 10^{-15}$) produce zero cubic gap, whereas $\lambda^{*,\gamma}\mathrm{G}^\gamma$ inside $Q$-space activates 100\% of the dressed third-order Feshbach--Schur gap alongside 95\% Hartree $PQ$-screening.
+\item \textbf{\texttt{HC-02} (\texttt{K-025}, Exact \& VMC Gutzwiller Sandwich):} Harmonizing the physical parity projection $\mathcal{D}_s = -Z_{2s}Z_{2s+1}=+1$ ($\le 3.84\times 10^{-16}$ against $N=2$ full Fock space) and selecting even-parity antiperiodic sectors recovers the Zero-Variance Principle at $h=0$ ($E_{\mathrm{proj}} = E_0^{\mathrm{ED}} = -0.8166902250$ on $N=12$, $e_{\mathrm{loc}}\text{-std} = 3.08\times 10^{-16}$). All $24/24$ points across $N \in \{8, 12, 18\}$ satisfy $E_{\mathrm{SDP}}^{\mathrm{cert}} \le E_0^{\mathrm{ED}} \le E_{\mathrm{proj}}$ with 50-chain $\mathrm{BC}_a$ 95\% CIs.
+\item \textbf{\texttt{HC-03} (\texttt{K-026}, Stratified Two-Vison Scaling \& Intervalley Interference):} Disambiguating $\kappa_{\mathrm{static}} = \kappa_{\mathrm{KWG}}/2$ reproduces \texttt{kitaev-walk-geometry} $E_0/\Delta_K$ to $< 4.4\times 10^{-9}$ across $L=12, 18$. Across 94 converged chiral tori ($L \in \{8..20\}$, $\mathrm{defs}=2$), period-3 intervalley $\cos(\mathbf{K}\cdot\mathbf{R})$ oscillations render a naive monotone exponential model inconclusive ($\Delta\mathrm{BIC} \in [2.39, 4.68]$), whereas fixed-phase comparison ($R=3\to 6$) recovers $\xi_M \approx \{3.03, 1.36, 0.76\}$ scaling inversely with $\kappa$.
+\end{enumerate}

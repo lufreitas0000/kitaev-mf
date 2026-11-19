@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: Consolidation in waves (legacy compatibility field)
-current_milestone: RECON-20261116
+active_phase: Phase 2 Wave 1 (HC-01..03 physics sweeps & cross-repo bounds)
+current_milestone: M2.1
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -178,73 +178,62 @@ milestone_history:
   - data/processed/benchmarks/m1_9/master_solver_resource_table.dat
   - test/unit/test_real_space_and_purification.py
   - test/unit/test_post_spinodal_kkt_audit.py
-active_milestone:
-  id: RECON-20261116
-  description: Foundation organization, linear-main reconciliation, pure-scMFT consolidation, and PG-10/editorial alignment
+- id: RECON-20261116
+  name: Foundation organization, linear-main reconciliation, pure-scMFT consolidation,
+    and PG-10/editorial alignment
   status: completed
-  sprint_goal: Reconcile kitaev-mf into a single-main linear topology with explicit 5-repo boundaries, audited scMFT kernels, external-data provenance gates, and synchronized LaTeX/CI/Pages sources
+  acceptance: Reconciled kitaev-mf onto single linear main with 5-repo ADR-003 separation,
+    audited Track 1 scMFT kernels, external-data verification, and TeX/CI-Pages sync.
+  evidence:
+  - doc/adr/ADR-003-linear-main-and-family-boundaries.md
+  - doc/reconciliation/VERIFICATION.md
+  - doc/reviews/scmft-core-kernels-20261118.json
+active_milestone:
+  id: M2.1
+  description: Wave 1 HC-01..03 Feshbach-Schur cubic gap, certified ED/SDP/Gutzwiller sandwich, and stratified two-vison scaling
+  status: completed
+  sprint_goal: Execute Wave 1 cross-repo benchmarks (HC-01..03) using SHA-256 verified kitaev-numerics and kitaev-walk-geometry imports without modifying immutable human hypothesis locks
   next_action:
     authorized: true
-    description: Owner selects next bounded post-reconciliation sprint (IDEA-001 / K-019-A theory closure or Phase 2 finite-cluster scMFT vs kitaev-numerics comparison registered under doc/hypotheses/HC-*.yaml)
+    description: Present Wave 1 quantitative outcomes to PI for HC-01..03 TODO(owner) threshold lock (including intervalley oscillation update to HC-03) and launch Wave 2 finite-T thermodynamics
     authority: CURRENT_SPRINT.md
   active_tasks:
     - id: T1
-      title: Foundation information index and preservation inventory
+      title: "HC-01 Feshbach-Schur cubic gap decomposition and continuum c_MF = 10.641666 extrapolation"
       status: completed
       target_files:
-        - doc/reconciliation/README.md
-        - doc/reconciliation/PLAN.md
-        - doc/reconciliation/FOUNDATIONS.yaml
-        - doc/reconciliation/INVENTORY.json
+        - src/kitaev_mf/services/cubic_gap_perturbation.py
+        - scripts/wave1/run_hc01_cubic_gap.py
+        - doc/rnd/phase_2/wave1_hc01_cubic_gap_kkt_reconciliation.md
       validation:
-        - Pinned catalog coverage and Git blob identity; JSON/YAML and links; independent documentary review
+        - make verify, continuum 1/Nk extrapolation, and delta_3rd_qq_lambda_only vs delta_3rd_zeeman_uv_no_lambda
       evidence:
-        - doc/reconciliation/VERIFICATION.md
-        - doc/reconciliation/check_index.py
+        - data/processed/benchmarks/wave1/hc01_cubic_gap_reconciliation.dat
+        - test/unit/test_wave1_cubic_and_gutzwiller.py
     - id: T2
-      title: "Wave 4 sampling/symmetry design and R&D/W001 historical absorption (PR #20, PR #22)"
+      title: "HC-02 exact/VMC Gutzwiller projection vs ED and Clarabel SOS SDP sandwich across N=8,12,18"
       status: completed
       target_files:
-        - doc/reconciliation/CODE_SALVAGE_QUEUE.md
-        - doc/audits/w001_acceptance.yaml
-        - LOG_DISCOVERY_AND_PIVOTS.md
+        - src/kitaev_mf/services/gutzwiller_projection.py
+        - scripts/wave1/run_hc02_variational_sandwich.py
+        - doc/rnd/phase_2/wave1_hc02_ed_sdp_gutzwiller_sandwich.md
       validation:
-        - "check_index.py, planning_records check, make blueprint, and make verify on PR #20 and PR #22"
+        - make verify, N=2 Fock equivalence (<4e-16), and 24/24 sandwich inequalities with BCa 95% CIs
       evidence:
-        - doc/audits/w001_acceptance.yaml
-        - doc/reconciliation/check_index.py
+        - data/processed/benchmarks/wave1/hc02_ed_sdp_scmft_sandwich.dat
+        - test/unit/test_wave1_cubic_and_gutzwiller.py
     - id: T3
-      title: "Track 1 pure-scMFT real-space, Padé, Lehmann Hessian, and Pfaffian kernels (PR #23)"
+      title: "HC-03 stratified multi-L vison scaling, KWG bridge match, and period-3 intervalley discovery"
       status: completed
       target_files:
-        - src/kitaev_mf/domain/state.py
-        - src/kitaev_mf/domain/solver.py
-        - src/kitaev_mf/services/solver.py
-        - src/kitaev_mf/services/purification.py
-        - src/kitaev_mf/services/real_space.py
-        - src/kitaev_mf/services/canonical_skew.py
+        - src/kitaev_mf/services/vortex_pair_scaling.py
+        - scripts/wave1/run_hc03_multi_l_visons.py
+        - doc/rnd/phase_2/wave1_hc03_multi_l_vison_scaling.md
       validation:
-        - make verify and independent W4 physics-referee audit
+        - make verify, <4.4e-9 KWG static bridge match, purify vs eigh (<7e-12), and AICc/BIC + holdout check
       evidence:
-        - doc/reviews/scmft-core-kernels-20261118.json
-        - test/unit/test_canonical_skew.py
-        - test/unit/test_real_space_vortices.py
-    - id: T4
-      title: Linear-main ADR-003, PG-10 native-v2 profile, external-data contract, LaTeX/CI-Pages overhaul, and feed plan
-      status: completed
-      target_files:
-        - doc/adr/ADR-003-linear-main-and-family-boundaries.md
-        - governance/profile.toml
-        - doc/hypotheses/README.md
-        - scripts/sync_external_data.py
-        - doc/labbook/appendices/app_architecture_and_foundations.tex
-        - doc/editorial/PERSONAL_SITE_FEED_PLAN.md
-      validation:
-        - make labbook, make manuscript, make blueprint, make verify, sync_external_data.py --verify, planning_records check, and uow.py check
-      evidence:
-        - test/unit/test_sync_external_data.py
-        - .github/workflows/docs.yml
-        - .github/workflows/ci.yml
+        - data/processed/benchmarks/wave1/hc03_multi_l_vison_scaling.dat
+        - test/unit/test_wave1_visons.py
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -544,4 +533,43 @@ verified_physics_invariants:
     stabilized_polarized_energy_h0450: -0.9500000000
     stabilized_gauge_residual_max: 5.55e-15
     domain_wall_surface_tension: 0.042
+- id: K-024
+  name: Feshbach-Schur cubic Dirac gap activation via KKT counter-field and Hartree PQ screening (HC-01)
+  equation: Delta_can^MF(h) = 10.641666 h^3 (p=2.999694); delta_bare_Zeeman <= 1.60e-15; delta_Hartree_no_lambda <= 4.04e-15; Q-space lambda* G recovers 100% of dressed 3rd-order gap
+  status: verified_wave1_feshbach_schur
+  provenance:
+    analytical: doc/rnd/phase_2/wave1_hc01_cubic_gap_kkt_reconciliation.md
+    benchmark: data/processed/benchmarks/wave1/hc01_cubic_gap_reconciliation.dat
+    script: scripts/wave1/run_hc01_cubic_gap.py
+    test: test/unit/test_wave1_cubic_and_gutzwiller.py
+  numerical_evidence:
+    c_mf_continuum: 10.641666
+    lambda_over_h_continuum: 2.237814
+    exponent_fit: 2.999694
+- id: K-025
+  name: Exact Fock-equivalent Gutzwiller projection and ED/Clarabel SOS SDP variational sandwich (HC-02)
+  equation: D_s = -Z_{2s}Z_{2s+1} = +1 (<3.84e-16 on N=2 Fock); 24/24 points across N in {8,12,18} satisfy E_SDP_cert <= E_ED <= E_proj with Zero-Variance exact N=12 h=0 match (-0.8166902250, std=3.08e-16)
+  status: verified_wave1_sandwich_and_vmc
+  provenance:
+    analytical: doc/rnd/phase_2/wave1_hc02_ed_sdp_gutzwiller_sandwich.md
+    benchmark: data/processed/benchmarks/wave1/hc02_ed_sdp_scmft_sandwich.dat
+    script: scripts/wave1/run_hc02_variational_sandwich.py
+    test: test/unit/test_wave1_cubic_and_gutzwiller.py
+  numerical_evidence:
+    n2_fock_max_diff: 3.84e-16
+    n12_h0_ed_and_proj: -0.8166902250
+    sandwich_valid_rows: "24/24"
+- id: K-026
+  name: Stratified multi-L two-vison trapping, KWG chiral bridge, and period-3 intervalley MZM oscillation (HC-03)
+  equation: kappa_static = kappa_KWG/2 matches KWG E0/Delta_K (<4.4e-9 on L=12,18); monotone exp vs pow yields inconclusive Delta_BIC in [2.39, 4.68] due to period-3 cos(K.R) modulation, whereas fixed-phase R=3->6 recovers xi_M ~ {3.03, 1.36, 0.76}
+  status: verified_wave1_discovery_and_bridge
+  provenance:
+    analytical: doc/rnd/phase_2/wave1_hc03_multi_l_vison_scaling.md
+    benchmark: data/processed/benchmarks/wave1/hc03_multi_l_vison_scaling.dat
+    script: scripts/wave1/run_hc03_multi_l_visons.py
+    test: test/unit/test_wave1_visons.py
+  numerical_evidence:
+    kwg_bridge_max_diff: 4.37e-9
+    purify_vs_eigh_diff_h020: 6.46e-12
+    chiral_converged_rows: "94/94"
 open_blockers: []

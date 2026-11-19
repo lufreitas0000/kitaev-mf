@@ -51,7 +51,7 @@ def _valid_meta(dat_path: Path, source_repo: str = "kitaev-numerics") -> dict[st
 def test_live_repo_external_data_passes() -> None:
     ok, errors, active_count, quarantined_count = verify_external_data(REPO_ROOT)
     assert ok, errors
-    assert active_count == 0
+    assert active_count >= 3
     assert quarantined_count >= 1
 
 

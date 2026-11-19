@@ -43,7 +43,13 @@ learning_log:
   - date: "2026-11-19"
     stream: "real-space-defects"
     entry: "Staged Wave 1 draft contract linking kitaev-mf self-consistent real-space defect scaling to kitaev-walk-geometry HC-11 and disambiguating 12 sqrt(3) |kappa_static| vs 6 sqrt(3) |kappa_KWG| normalization."
+  - date: "2026-11-19"
+    stream: "real-space-defects"
+    entry: "Wave 1 execution (@ 44692e5): disambiguated factor-2 conversion kappa_static = kappa_KWG / 2 (reproducing KWG chiral_vison_tmatrix_scaling.dat E0/Delta_K to <4.4e-9 on L=12,18 vs /6 arithmetic slip in draft assumption). All 94 chiral runs across L in {8..20} converge (defs=2, |W_p^Pf|=1.0); raw monotone exp vs pow gives inconclusive Delta_BIC in [2.39, 4.68] (<10) because intervalley cos(K.R) modulation causes period-3 bumps (R=3,6), whereas fixed-phase R=3->6 recovers xi_M ~ {3.03, 1.36, 0.76} scaling inversely with kappa."
 history:
   - date: "2026-11-19"
     actor: antigravity
     note: "Staged Wave 1 draft contract linking kitaev-mf self-consistent real-space defect scaling to kitaev-walk-geometry HC-11."
+  - date: "2026-11-19"
+    actor: antigravity
+    note: "Recorded Wave 1 stratified vison scaling, KWG bridge match, and period-3 intervalley refinement discovery (hc03_multi_l_vison_scaling.dat)."
