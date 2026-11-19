@@ -1,5 +1,5 @@
 # generator: scripts/export_wave1_benchmarks.py (pauli_sos_sdp via Clarabel)
-# git_sha: df236bf9ea17ccaec8b087af28d2f5fda06e8adb
+# git_sha: dcbdce317385e433e07fadc58a6162330e1a28fa
 # unit_convention: pauli_k_minus_one_field_111
 # certificate: c0 - b.z - 2M * max(0,-lambda_min(Z)) - ||q + A^T z||_1 <= E_0(h)
 N_sites nx ny div3 h basis_size n_orbits status primal_energy_per_site dual_energy_per_site certified_lower_bound_per_site dual_min_eig_slack dual_eq_l1_residual nn_bond_correlator magnetization_111 plaquette_flux ed_energy_per_site ed_minus_sdp_gap

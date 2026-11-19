@@ -3,7 +3,9 @@
   "git_sha": "81a8b9fa11006f5c6030401f73615c7f661fcdb6",
   "parameters": {
     "kappa_values": [
+      0.04,
       0.05,
+      0.08,
       0.12
     ]
   },

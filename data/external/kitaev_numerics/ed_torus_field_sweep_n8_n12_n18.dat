@@ -1,5 +1,5 @@
 # generator: scripts/export_wave1_benchmarks.py (ed_lanczos)
-# git_sha: df236bf9ea17ccaec8b087af28d2f5fda06e8adb
+# git_sha: dcbdce317385e433e07fadc58a6162330e1a28fa
 # unit_convention: pauli_k_minus_one_field_111
 # hamiltonian: -sum sigma_i^g sigma_j^g - (h/sqrt(3)) sum (sigma_x+sigma_y+sigma_z)
 N_sites nx ny div3 h energy_per_site magnetization_111 plaquette_flux nn_bond_correlator residual_norm hellmann_feynman_err
