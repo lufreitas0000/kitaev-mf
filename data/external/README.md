@@ -6,6 +6,7 @@ Producer–Consumer boundary contract under `ADR-003` separating independent phy
 | :--- | :--- | :--- |
 | `kitaev_numerics/` | [`kitaev-numerics`](https://github.com/lufreitas0000/kitaev-numerics) | Spin-space ED ($N \le 32$), KPM/OFTLM thermodynamics, Clarabel 2-RDM SDP lower bounds, HTE, and iPEPS/VUMPS curves |
 | `kitaev_walk_geometry/` | [`kitaev-walk-geometry`](https://github.com/lufreitas0000/kitaev-walk-geometry) | Exact Majorana random-walk moments, Cauchy PV resolvents, and single-defect LDOS tables |
+| `kitaev_derivation/` | [`kitaev-derivation`](https://github.com/lufreitas0000/kitaev-derivation) | Idealized Hubbard–Kanamori–SOC 2nd+4th-order BDL couplings & 924-state Kramers hexagon Peierls ring exchange (`extended_kitaev_material_couplings.dat`) |
 | `historical_unverified/` | Legacy pre-split pilot runs (2026-11-07) | Unverified Spin-ED and 2-RDM SDP pilot `.dat` files retained until replaced by `kitaev-numerics` Sprint 1 exports |
 
 ## Mandatory Companion Metadata (`<stem>.meta.json`)

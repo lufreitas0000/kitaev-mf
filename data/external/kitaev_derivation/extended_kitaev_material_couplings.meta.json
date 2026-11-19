@@ -1,0 +1,10 @@
+{
+  "geometry": "z_bond_66_fock_and_6_site_924_kramers_hexagon",
+  "git_sha": "b8d2aa7652b433f2cb4c4f6b802a122d6ceb3a27",
+  "parameters": {
+    "code_git_sha": "98d813a7ac0a202776c4b7b645df38e0974ce593"
+  },
+  "sha256": "063db9a3ca3b61d4f1a05dcb234cc735b8293d7fba55f6ee4555ac2c6c74e457",
+  "source_repo": "kitaev-derivation",
+  "unit_convention": "spin_12_J2_Gp_Pauli_Wp_ring"
+}
