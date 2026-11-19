@@ -4,27 +4,45 @@ stream: real-space-defects
 wave: Wave-1
 status: draft
 version: '1.0'
-statement: 'Under self-consistent 4-Majorana purification + DIIS/L-Broyden across torus sizes L in {8, 12, 16, 20}, an isolated vortex pair (W_p1 = W_p2 = -1) exhibits an attractive potential V(R) saturating to the isolated-vison creation plateau while its hybridized Majorana mode splitting decays exponentially with core separation xi_M ~ v_F / |Delta_bulk(kappa)| above the bulk two-vison continuum.'
+statement: 'Under self-consistent 4-Majorana purification + DIIS/L-Broyden across torus sizes L in {8, 12, 16, 20}, an isolated vortex pair (W_p1 = W_p2 = -1) exhibits an attractive potential V(R) saturating to the isolated-vison creation plateau while its hybridized Majorana mode splitting decays exponentially with core separation xi_M ~ v_F / |Delta_can^MF(kappa_static)| above the bulk two-vison continuum.'
+claim: 'Under self-consistent 4-Majorana purification + DIIS/L-Broyden across torus sizes L in {8, 12, 16, 20}, an isolated vortex pair (W_p1 = W_p2 = -1) exhibits an attractive potential V(R) saturating to the isolated-vison creation plateau while its hybridized Majorana mode splitting decays exponentially with core separation xi_M ~ v_F / |Delta_can^MF(kappa_static)| above the bulk two-vison continuum.'
+model: 'Self-consistent 4-Majorana finite-torus purification with DIIS/L-Broyden fixed point'
 assumptions:
-  - Strictly nonzero chiral perturbation kappa != 0 opening bulk gap Delta_bulk = 6 sqrt(3) |kappa|
+  - Strictly nonzero chiral perturbation kappa_static = h_x h_y h_z / Delta_E^2 != 0 (matching kitaev-mf H(k) = (i/4) M(k), so canonical excitation gap Delta_can^MF = 4 Delta_K^MF = 12 sqrt(3) |kappa_static|, corresponding to kappa_static = kappa_KWG / 6 relative to kitaev-walk-geometry HC-11's full gap Delta_K^KWG = 6 sqrt(3) |kappa_KWG| = 12 sqrt(3) |kappa_KWG/6| at fixed h/K)
   - Dual triangular branch-cut construction preserving torus Z2 Gauss law prod_p W_p = +1
   - Gauge drift residual eps_gauge < 1e-12 across self-consistent cycles
 parameter_domain:
   L_values: "[8, 10, 12, 16, 20]"
   kappa_over_K: "[0.05, 0.10, 0.20]"
   separations: "R in [1, L/2]"
+observable: 'Vortex-pair excitation energy V(R, L), subgap Majorana splitting omega_MZM(R, L), and gauge-invariant plaquette Pfaffian flux drift'
 observables:
   - Vortex-pair excitation energy V(R, L) = E_2v(R, L) - E_0(L)
   - Subgap Majorana splitting omega_MZM(R, L)
   - Gauge-invariant plaquette Pfaffian flux drift
 metrology:
+  estimator: 'Multi-L finite-size scaling fit of omega_MZM(R, L) and V(R, L) across L in {8, 10, 12, 16, 20}'
+  uncertainty_quantifier: 'Two-sided leave-L_min and leave-L_max finite-size scaling holdout residuals plus gauge-constraint tolerance eps_gauge < 1e-12'
+  bayesian_criterion: 'Delta_BIC > 10 comparing exponential exp(-R/xi_M) vs power-law R^{-alpha} across multi-L finite-size scaling with two-sided leave-L_min and leave-L_max holdout checks'
   method: Multi-L finite-size scaling comparison (exponential exp(-R/xi_M) vs power-law R^{-alpha}) with Delta_BIC > 10 and two-sided leave-L_min / leave-L_max holdout checks
   support_if: "TODO(owner): Lock Delta_BIC > 10 preference, two-sided holdout R^2/residual bounds, and max allowed flux drift"
   refute_if: "TODO(owner): Lock refutation bound for subgap decay failure or topological flux instability under self-consistency"
+design:
+  cluster_geometry: 'Periodic L x L honeycomb torus with dual-lattice branch cut'
+  system_sizes: '[8, 10, 12, 16, 20]'
+  seeds_per_point: 1
+depends_on:
+  - K-020
+  - K-021
+  - kitaev-walk-geometry:HC-11
 dependencies:
   - K-020
   - K-021
   - kitaev-walk-geometry:HC-11
+learning_log:
+  - date: "2026-11-19"
+    stream: "real-space-defects"
+    entry: "Staged Wave 1 draft contract linking kitaev-mf self-consistent real-space defect scaling to kitaev-walk-geometry HC-11 and disambiguating 12 sqrt(3) |kappa_static| vs 6 sqrt(3) |kappa_KWG| normalization."
 history:
   - date: "2026-11-19"
     actor: antigravity
