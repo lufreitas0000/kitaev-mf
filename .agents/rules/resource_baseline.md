@@ -1,3 +1,8 @@
+---
+trigger: model_decision
+description: Compute telemetry ledgers, admission caps, and empirical yield reporting.
+---
+<!-- @CANONICAL-RULE: DO NOT EDIT DIRECTLY. MANAGED BY project-governance -->
 # Workspace Resource Baseline, Quotas & Allocation Directives
 
 This document establishes the canonical theoretical resource breakdown, daily admission ceilings, and adaptive delegation directives across the workspace. All agent instances, automated pipelines (`agentctl`), and human-in-the-loop operators must adhere to these baselines.
@@ -56,14 +61,12 @@ To maintain an empirical baseline of development velocity across nonlinear resea
    * Verification outcomes across all gates (`commit_guards`, `ingest_validate`, `verify_commands`).
 
 2. **Automated Yield Reporting:**
-   * Running `make yield-report` compiles `runs.jsonl`, `.agentctl/ledger/jules_sessions.json`, and git commits into [`orchestrator/benchmarks/YIELD_REPORT.md`](file:///home/lucas/Projects/orchestrator/benchmarks/YIELD_REPORT.md).
+   * Running `make yield-report` compiles `runs.jsonl`, `.agentctl/ledger/jules_sessions.json`, and git commits into [`orchestrator/benchmarks/YIELD_REPORT.md`](file:///home/lu/Projects/orchestrator/benchmarks/YIELD_REPORT.md).
    * Yield metrics tracked include:
      $$\text{Yield}_{\text{theorems}} = \frac{\text{Theorems Proved}}{\text{Total Tokens (M)}}, \quad \text{Yield}_{\text{cost}} = \frac{\text{Proved Theorems}}{\text{Total USD Spent}}, \quad \text{Yield}_{\text{Jules}} = \frac{\text{Accepted Chapters}}{\text{Sessions Completed}}$$
 
 3. **Obstruction & Discovery Journaling:**
    * When an unexpected tactic bottleneck, model capability limit, or architectural obstruction occurs, record the event in the active repository's `LOG_DISCOVERY_AND_PIVOTS.md` before altering interfaces or switching models.
-
----
 
 ## 4. Subscription Telemetry Provenance & Jules Sunset Update (November 2026)
 

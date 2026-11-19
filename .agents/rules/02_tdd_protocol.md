@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: Kitaev-MF TDD verification contracts and pure-Kitaev analytical benchmarks.
+---
+<!-- @LOCAL-OVERRIDE: repo-specific customization -->
 # Rule 02: Testing and Numerical Verification
 
 ## 1. Test-driven development

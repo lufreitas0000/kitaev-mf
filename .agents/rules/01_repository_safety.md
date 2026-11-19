@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: Git branch safety, Four-Tier data provenance, credential boundaries, and GH007 noreply identity.
+---
+<!-- @CANONICAL-RULE: DO NOT EDIT DIRECTLY. MANAGED BY project-governance -->
 # Rule 01: Repository Safety, Version Control, and Four-Tier Data Integrity
 
 ## 1. Git branches and history
@@ -35,3 +40,36 @@ Every repository separates source, compact benchmarks, heavy binary tensors, eph
 3. Do not commit credentials, access tokens, private keys, personal data, `.env` files, or unreviewed machine-specific configuration.
 4. Review staged changes with `git diff --cached` before committing.
 5. Do not use generated output as the sole source of truth when the underlying inputs and reproducible procedure can be preserved.
+
+## 4. Personal information in designated private administrative repositories
+
+**Default:** Do not commit personal information to ordinary research or software repositories. The exception below applies only to repositories explicitly designated by their owner for private personal-administrative work; private visibility alone does not grant the exception.
+
+### 4.1 Data classes
+
+| Class | Examples | Permitted storage |
+| :--- | :--- | :--- |
+| **P0 — Public academic information** | Public publications, advertised vacancies, public researcher profiles and research topics | Git, subject to ordinary source and licensing rules |
+| **P1 — Owner-approved professional information** | Academic qualifications and dates, approved CV and research-statement sources, application decisions and drafts | Git **only in a designated private repository**, and only for owner-approved categories and files |
+| **P2 — Confidential personal originals** | Scans of diplomas, identity/passport/visa records, confidential correspondence and third-party recommendation letters | Separate encrypted local storage; Git may contain non-sensitive opaque references |
+| **P3 — Authentication secrets** | Passwords, tokens, private keys, passkeys and recovery codes | Dedicated password manager or secrets store; **never** in Git |
+
+Classification is based on content, not filename or extension. If a nominally P1 document contains P2/P3 material, the sensitive content must be removed or stored outside Git.
+
+### 4.2 Conditions for the P1 exception
+
+1. The owner must explicitly authorize the repository's private-administrative purpose and the professional-data categories permitted there.
+2. The repository must document the accepted categories, excluded data, access model and retention expectations in a repository-local data policy; an agent cannot self-authorize a broader exception.
+3. The repository stays **private**, with restricted collaborator, GitHub App, automation and integration access. Public Pages, releases, artifacts, and other exports must not expose P1 data.
+4. Autonomous agents receive only the information needed for an authorized task. They may propose changes to P1 records within explicit path allowlists, but human review is required before promoting changes to accepted academic records or personal decisions.
+5. Credentials, recovery materials, confidential originals, and third-party recommendation letters remain excluded regardless of repository visibility. Do not commit secret-bearing configuration, private correspondence, or local vault paths that reveal confidential information.
+6. Publication, visibility changes, sharing outside the approved audience, or repository export requires a separate privacy review and explicit owner approval.
+7. Git history and replicas may retain data after deletion. Treat accidental sensitive-data commits as security incidents; removing a file in a later commit is not sufficient erasure.
+
+This narrow exception does not alter branch/PR review, provenance, or other repository-safety rules. Decision rationale: [ADR-001](../doc/adr/ADR-001-private-professional-data.md).
+
+## 5. Forbidden Destructive Commands, Credential Files, and GH007 Privacy Identity
+
+1. **Forbidden commands without explicit authorization:** Never execute `dvc gc`, `dvc destroy`, `git reset --hard`, `git clean -fd`, `git push --force`, or `git branch -D`.
+2. **Credential & secret files (never read, print, modify, or stage):** `.dvc/config.local`, `.env`, `.env.*` (except `.env.example`), `credentials.*`, `*.pem`, `*.key`.
+3. **GitHub Privacy Identity (GH007):** All commits across every repository MUST use `user.name = "lufreitas0000"` and `user.email = "220090559+lufreitas0000@users.noreply.github.com"`. Never commit personal email addresses.

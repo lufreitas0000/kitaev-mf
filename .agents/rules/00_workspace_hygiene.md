@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: Kitaev-MF repository layout, four-layer architecture, and branch hygiene.
+---
+<!-- @LOCAL-OVERRIDE: repo-specific customization -->
 # Rule 00: Workspace Hygiene and Repository Layout
 
 ## 1. Working-tree hygiene

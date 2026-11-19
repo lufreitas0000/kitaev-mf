@@ -1,3 +1,8 @@
+---
+trigger: model_decision
+description: Milestone task numbering (T1..TN), evidence verification, and sprint closure gates.
+---
+<!-- @CANONICAL-RULE: DO NOT EDIT DIRECTLY. MANAGED BY project-governance -->
 # Rule 06: Milestone Progress and Commit-Level Handover
 
 The planning hierarchy and task lifecycle are defined by Rule 05: Project Management. This rule specifies how milestone state is maintained on development branches.
@@ -40,3 +45,10 @@ At the end of a substantial milestone task, report:
 - completed task IDs and evidence;
 - commands run and outcomes, including skipped checks;
 - blockers, assumptions requiring review, and the exact next task.
+
+## PG-10 compatibility
+
+[PG-10](10_atomic_unit_of_work.md) adds lawful transition and repository-first
+resumption obligations. Native records retain authority; structured events require
+separate adoption. The reference toolkit reports mechanical findings, not scientific
+acceptance. No child migration or universal file renaming follows from this rule.

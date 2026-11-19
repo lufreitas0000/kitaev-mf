@@ -1,16 +1,70 @@
+---
+trigger: model_decision
+description: Three-Front R&D architecture (doc/rnd, doc/labbook, doc/manuscript), citation verification, and claim rigor.
+---
+<!-- @CANONICAL-RULE: DO NOT EDIT DIRECTLY. MANAGED BY project-governance -->
 # Rule 03: Three-Front R&D Architecture, Editorial Rigor, and Provenance
 
 Apply these standards to research notes, living labbooks, architecture records, code documentation, and publication-facing manuscripts.
 
+## Governing principle — three interconnected fronts
+
+The three fronts name **accountabilities and deliverables**, not mutually exclusive
+epistemic stages, job titles, or disjoint sets of repositories.
+
+- **Front 1 — Theory and research:** formulate questions, review literature,
+  identify assumptions, derive relations, propose hypotheses, and state possible
+  falsification or proof strategies.
+- **Front 2 — Laboratory and verification:** carry out analytical and numerical
+  experiments, implement methods, test claims, report discrepancies, and record
+  independently inspectable evidence.
+- **Front 3 — Scientific publishing:** construct self-contained explanations,
+  figures, educational demonstrations, manuscripts, and other public deliverables
+  whose claims and provenance can be evaluated by readers.
+
+**There is no strict boundary between the contexts of discovery and
+justification.** Exposition can expose an unrecognized assumption; a failed
+numerical experiment can revise a hypothesis; and a proof can change which
+experiment ought to be performed. Work may move **in either direction** between
+the fronts. Publication is not an infallible endpoint, and laboratory agreement
+does not automatically justify an underlying physical approximation.
+
+One person, agent, file, or repository may contribute to several fronts.
+Assign ownership to a **bounded deliverable**, not permanently to a person,
+scientific topic, language, or directory. The division of a broad research
+program into projects is partly an organizational, editorial, and historical
+choice: related repositories may share theory and literature while retaining
+distinct objectives and their own authoritative records.
+
+Cross-front and cross-repository requests should name the needed result,
+its owner, assumptions, evidence standard, source links, and outstanding
+decisions. An Issue can request a handoff; a reviewed PR integrates an artifact.
+Neither an Issue nor an automated check certifies a scientific result by itself.
+Preserve independent review, explicit uncertainty, provenance, and the owner's
+authority over hypotheses and scientific acceptance criteria.
+
+Roadmaps are **adaptive plans**, not predictions of discovery. Update priorities,
+milestones, and dependencies as evidence changes while preserving decisions and
+the rationale for changes; Rule 05 governs the concrete milestone/task lifecycle.
+
 ## 1. The Three-Front R&D Document Architecture
 
-Scientific software and theoretical physics repositories organize documentation across three distinct fronts, separating machine-first discovery from human-first justification and external exposition:
+Scientific software and theoretical physics repositories may organize documentation
+around the three fronts using the artifact-specific conventions below. This table
+describes **documentary emphasis**, not a rigid workflow or epistemic partition:
 
 | Front | Canonical Path | Epistemic Role | Audience & Format |
 | :--- | :--- | :--- | :--- |
 | **Front 1: Agentic R&D Front** | `doc/rnd/phase_<N>/` & `doc/rnd/exploratory/` | **Context of Discovery:** Derivations, conventions, idealization boundaries, algorithmic edge cases, numerical experiments, and failed approaches. | Machine- and developer-first Markdown (`m<P>_<M>_t<T>_<slug>.md`) with mandatory YAML frontmatter, paired with `LOG_DISCOVERY_AND_PIVOTS.md`. |
 | **Front 2: Living Lab Book** | `doc/labbook/` | **Context of Justification:** Cumulative pedagogical synthesis integrating the motivating questions and dead ends from Front 1 with complete derivations, verified invariants, and reproducible `.dat` plots. | Human-first `memoir` LaTeX book (`doc/labbook/main.tex`) using the shared warm parchment theme (`#FAF6EE` background, `#2B2B2B` text) and `pgfplotstable`. |
 | **Front 3: Publication Manuscript** | `doc/manuscript/` (or `doc/report/`) | **Context of Exposition:** Self-contained journal paper or monograph narrative stripped of internal project scaffolding. | External referees and readers (`revtex4-2`, `article`, or `memoir` with white print toggle `\warmthemefalse`). Must never depend on unpublished `doc/rnd/` scratch notes. |
+
+The traditional labels *context of discovery*, *context of justification*,
+and *context of exposition* describe the usual emphasis of these documents.
+They are not exclusive philosophical categories. In particular, Front 2 also
+includes source code, calculation notebooks, test suites, and raw experimental
+records outside `doc/labbook/`; Front 3 can be a website note or other
+standalone published artifact outside `doc/manuscript/`.
 
 ### 1.1 Front 1 (`doc/rnd/`) YAML Frontmatter Contract
 

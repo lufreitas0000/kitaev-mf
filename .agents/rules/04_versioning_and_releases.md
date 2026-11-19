@@ -1,3 +1,8 @@
+---
+trigger: model_decision
+description: Semantic versioning, release tagging, and reproducible build/DVC artifact binding.
+---
+<!-- @CANONICAL-RULE: DO NOT EDIT DIRECTLY. MANAGED BY project-governance -->
 # Rule 04: Versioning, Changelog, and Releases
 
 This rule governs releases of the installable `kitaev-mf` Python package. It does not version research milestones, R&D notes, benchmark identifiers, or persistent scientific claim IDs.
