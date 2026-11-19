@@ -1,0 +1,10 @@
+{
+  "geometry": "periodic_honeycomb_tori_2x2_2x3_3x3_N8_N12_N18",
+  "git_sha": "6d5fb63f911bdf22b1f11f8eeead68a29f8a57da",
+  "parameters": {
+    "code_git_sha": "df236bf9ea17ccaec8b087af28d2f5fda06e8adb"
+  },
+  "sha256": "68ce8fb5e7f39e8571597c8ddd2234d567b0ae9f099adc7c2513891c472d31f2",
+  "source_repo": "kitaev-numerics",
+  "unit_convention": "pauli_k_minus_one_field_111"
+}

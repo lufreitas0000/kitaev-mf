@@ -1,0 +1,13 @@
+{
+  "geometry": "periodic_honeycomb_torus_LxL_L12_18_24",
+  "git_sha": "81a8b9fa11006f5c6030401f73615c7f661fcdb6",
+  "parameters": {
+    "kappa_values": [
+      0.05,
+      0.12
+    ]
+  },
+  "sha256": "eb9abf50dd32c449304e97ef7ed8b29f4bbe8e52455fd0a4c9bda97307763650",
+  "source_repo": "kitaev-walk-geometry",
+  "unit_convention": "J=1_majorana_hop_2iJ_DeltaK_6sqrt3_kappa"
+}
