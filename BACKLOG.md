@@ -122,6 +122,16 @@ Evidence now: method choices, **not** completed M3 physics.
 First feasibility test: precise finite-volume operator and frequency-Fourier normalization plus a spin-ED sum-rule check.  
 Trigger: the owner selects Phase 3 and its benchmark scope.
 
+## IDEA-013 — Multi-parameter continuation holonomy and real-space fixed-point relaxation visualization
+
+Status: deferred  
+Domain: continuation geometry / real-space fixed-point diagnostics  
+Source: legacy harvest chats [`47bd81c0-b1ab-4562-be97-4944fb2ab1a4`](conversation://47bd81c0-b1ab-4562-be97-4944fb2ab1a4) (Prompt 6) and [`13459723-61fc-426c-b7ea-41c031eccff3`](conversation://13459723-61fc-426c-b7ea-41c031eccff3) (Prompt 3).  
+Question: (1) Does closed-loop multi-parameter continuation around spinodal cusps or a finite-$T$ critical end point $(h_{\mathrm{CEP}}, T_{\mathrm{CEP}})$ (e.g., tilted field angles $(\theta, \phi)$ or $(J, K, \Gamma, h)$) exhibit branch-switching holonomy beyond 1D $\mathbf{h} \parallel [111]$ forward/backward hysteresis? (2) Can real-space fixed-point map iteration visualizer movies on $L=32$ clusters (encoding diagonal bond amplitudes $U_b$ in edge width/color, plaquette fluxes $W_p \in [-1,+1]$ in hexagon shading, and comparing $L \bmod 2$ vs $L \bmod 3$) diagnose domain-wall vs metastable convergence basins?  
+Evidence now: exploratory proposal only; no holomorphic/cusp continuation theorem or certified M2.3 dataset exists yet.  
+First feasibility test: trace one small closed loop in $(h, \theta)$ on $L=6$ / $L=12$ using existing fixed-point/Newton solvers and prototype a static $L=32$ relaxation frame series.  
+Trigger: M2.3 spinodal/CEP extension or Phase 5 / `NP-007` visualizer milestone.
+
 ## Non-IDEA items retained in their authoritative records
 
 - M2.1–M2.4, M3.0–M3.5 and future model phases are already **roadmap milestones**; do not duplicate them as new Issues or active tasks here.
