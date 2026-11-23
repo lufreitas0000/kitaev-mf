@@ -1,0 +1,31 @@
+# @CANONICAL-WORKFLOW: MANAGED BY project-governance (v3.1)
+name: Governance Gate (Modularity Ratchet, Conflict Guard & W5 Main Readiness)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  governance-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository with history for no-regression ratchet
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12 (stdlib-only, zero pip install)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run standalone Governance v3.1 gate
+        env:
+          GOVERNANCE_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
+          GITHUB_BASE_REF: ${{ github.base_ref || '' }}
+          GITHUB_PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: python3 -B .agents/scripts/repo_governance_gate.py --canonical-branch "main"
