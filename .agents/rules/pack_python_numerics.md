@@ -61,3 +61,29 @@ Extrapolations to the thermodynamic limit ($L \to \infty$) must pass two-sided h
    - Verify that the physical scales ($\xi, \sigma_{\mathrm{str}}, \Delta$) inferred when holding out $L_{\max}$ fall within the 95% confidence interval of the full-dataset extrapolation.
 3. **Exact Diagonalization (ED) Oracle Calibration:**
    - Validate mean-field or variational predictions against exact diagonalization or DMRG benchmarks on small clusters before scaling up.
+
+---
+
+## 5. Real Majorana Linear Algebra, SCF Convergence & Provenance Guards
+
+1. **Real `float64` Skew-Symmetric Solvers (Avoid Unnecessary `complex128` Lifting):**
+   - For real skew-symmetric Majorana matrices $A \in \mathbb{R}^{M\times M}$ ($A^T = -A$, $\mathcal{H} = \mathrm{i}A$), do not lift to `complex128` merely to call Hermitian `eigh` when pure real solvers suffice.
+   - Prefer real `float64` singular-value decomposition $A = U \Sigma V^T$ (`svdvals(A)` for spectra, `svd(A, full_matrices=False)` for covariance), which yields $E_0 = -\tfrac{1}{4}\sum_k \sigma_k$ and $\Omega = -U\,\mathrm{diag}(\mathbf{1}_{\sigma_k > \tau})\,V^T$ (or block-real Schur `scipy.linalg.schur(A, output="real")`) at $2\times$ smaller memory footprint and without squaring condition numbers (validating `< 1e-12` parity against `eigh(1j * A)`).
+2. **Matrix-Level SCF Convergence, Basin Priority & NumPy View-Alias Guard:**
+   - Never accept self-consistent convergence from order-parameter amplitudes alone ($\max|\Delta|\zeta_j||$) when phase/pseudo-Goldstone modes can drift; gate acceptance on full matrix residuals (`final_diff`) and explicitly report `converged` and `final_diff` across *all* compared defect sectors in `.dat` tables and captions (exposing critical slowing down and phase unwinding rather than stopping at transient iterations).
+   - Prioritize strictly converged basins over unconverged lower-energy transients when comparing competing initializations.
+   - In Augmented Lagrangian (`use_alm=True`) or iterative fixed-point loops, never rebind a backing array variable (`omega_work = target`) while holding slice/reshape views (`om_wview`), which detaches subsequent updates; assign in-place (`omega_work[...] = target`) and cover multi-outer-iteration ALM with regression unit tests.
+3. **Complete Parameter Hashing & Zero Stdout-Only Claims:**
+   - Persist every diagnostic quantity quoted in notes or manuscripts (harmonic locking scans, cross-check tables) to ACID `.dat` + `.meta.json` files instead of printing stdout-only summaries, and include all physical, lattice, and solver tolerances in `config_sha256`.
+
+---
+
+## 6. Modular Reuse, Clone Prevention (`R_clone`) & Fast Surrogate Pre-Filtering (STOKE Pattern)
+
+1. **Strict `domain/ -> services/ -> infra/` Reuse & `900`-LOC No-Regression Ratchet:**
+   - Never clone shared numerical primitives (Jordan–Wigner/Fock bitmasks, sparse Lanczos `eigsh` wrappers, BIC/AICc model selectors, `.dat` provenance writers, real-SVD Majorana kernels) across per-wave scripts. Extend shared modules in `domain/`, `services/`, and `infra/` instead.
+   - `uow.py check` enforces a **`900`-LOC no-regression ratchet** on both newly added and expanded `src/**/*.py` files (net-compressive edits on grandfathered monoliths remain allowed).
+2. **Passive Compression Telemetry (`compression_audit.py`):**
+   - Track comment/docstring/`import`-stripped surface tokens $\operatorname{Tok}(L)$ and `lzma` cross-file clone redundancy $R_{\mathrm{clone}}$ passively across UoWs (`governance/info_telemetry.jsonl`) so Red-Team consolidation cycles target the highest-redundancy solver clones via atomic multi-file refactors.
+3. **STOKE Fast Surrogate Pre-Filtering:**
+   - Screen physical conjectures, candidate symmetries, and finite-size identities via fast Python/SymPy oracles (ED, randomized Schwartz–Zippel hitting sets, exact small-cluster checks) *before* committing expensive Lean 4 formalization or multi-hour numerical sweeps.
