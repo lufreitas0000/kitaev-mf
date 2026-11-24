@@ -10,6 +10,16 @@ for the SemVer policy and tag-based release procedure.
 
 *(Pre-`1.0.0` development tracking under package version `0.1.0` per Rule 04; formal releases will be tagged `v*.*.*` after scientific milestone closure.)*
 
+### [2026-11-24] [M2.2-WAVE2A / UOW-01] [Actor: blue-lead] — Cross-QSL `(L^a, R^a)` / `W_p` / `(u_ij, v_ij)` convention bridge port & exact Fock parity tests (`kitaev-mf#25`)
+#### Ideas & Contracts Evolved
+- Codified the opt-in cross-QSL `conventions-v2.0` boundary contract (`CONVENTIONS.md`, `KNOWLEDGE_MAP.md`) preserving `kitaev-mf`'s locked internal `(-c_j, b_j^x, b_j^y, b_j^z)` basis while proving exact lossless equivalence to `ksl-sc-bilayer` (`(+c_j, b_j^x, b_j^y, b_j^z)`), `kitaev-numerics`, and `kitaev-walk-geometry` via the parity involution `P_0 = diag(-1, 1, 1, 1)` (`P_0 L^a P_0 = R^a`, `+0.5 M^a = R^a`, `-0.5 G^a = L^a`, `lambda_v2 = -2 lambda_kmf`, and sign flip on off-diagonal matter–gauge blocks `U_b^{0,a}`).
+- Verified on the exact 16-state two-site Fock space (`< 1e-13`) and the exact 4096-state 6-site sparse Fock hexagon space (`< 1e-13`) that `P_+ W_p^{spin} P_+ = +P_+ prod_{b in partial p} (i b_{A_b}^{alpha_b} b_{B_b}^{alpha_b}) P_+` and that directed pure-Kitaev bond scalars `(u_ij^alpha, v_ij^alpha)` are `P_0`-invariant.
+
+#### Code & Artifacts Changed
+- Added `src/kitaev_mf/domain/qsl_bridge.py` (`SO4_L`, `SO4_R`, `P0_PARITY_BRIDGE`, `DefaultQSLConventionBridge`, state/Lagrange/coupling/chiral-`kappa` adapters, and `(u_ij, v_ij)`/`W_p` extractors), added `QSLConventionBridgePort` to `src/kitaev_mf/domain/ports.py`, and re-exported public bridge symbols from `src/kitaev_mf/domain/__init__.py`.
+- Added independent exact 16-state & 4096-state Fock unit tests in `test/unit/test_qsl_convention_bridge.py`.
+- Added root `CONVENTIONS.md`, living `KNOWLEDGE_MAP.md`, and passive Pre-/Post-UoW observatory entry in `governance/info_telemetry.jsonl`.
+
 ### [2026-11-19] [M2.1-WAVE1] [Actor: antigravity] — Wave 1 `HC-01..03` sweeps, Gutzwiller sandwich, and stratified two-vison bridge
 #### Ideas & Contracts Evolved
 - Quantified `HC-01` Feshbach–Schur cubic Dirac gap (`c_MF_cont = 10.641666`, `p = 2.999694`), isolating KKT $\lambda^{*,\gamma} G^\gamma$ inside $Q$-space (`<= 4.04e-15` without $\lambda^*$) alongside 95% Hartree $PQ$-screening.
