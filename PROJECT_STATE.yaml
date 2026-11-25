@@ -194,8 +194,8 @@ active_milestone:
   status: completed
   sprint_goal: Execute Wave 1 cross-repo benchmarks (HC-01..03) using SHA-256 verified kitaev-numerics and kitaev-walk-geometry imports without modifying immutable human hypothesis locks
   next_action:
-    authorized: true
-    description: Present Wave 1 quantitative outcomes to PI for HC-01..03 TODO(owner) threshold lock (including intervalley oscillation update to HC-03) and launch Wave 2 finite-T thermodynamics
+    authorized: false
+    description: Review proposed foundational gauge and notation prerequisite (issues 25 and 27) before locking affected HC-01..03 thresholds or launching physical finite-T Wave 2
     authority: CURRENT_SPRINT.md
   active_tasks:
     - id: T1
@@ -572,4 +572,5 @@ verified_physics_invariants:
     kwg_bridge_max_diff: 4.37e-9
     purify_vs_eigh_diff_h020: 6.46e-12
     chiral_converged_rows: "94/94"
-open_blockers: []
+open_blockers:
+- 'Foundational pre-Wave-2 gate: common bilayer notation (#25) and gauge projection / Gaussian representability audit (#27); independent verification and owner release decision pending. See doc/rnd/phase_2/gauge_foundation_and_notation_review.md.'

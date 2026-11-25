@@ -48,6 +48,8 @@ Phase 1 established the mathematical foundations, verified algebraic invariants 
 
 ## Phase 2: Pure Ferromagnetic Kitaev ($K = -1.0$) in $[111]$ Field — Low-Energy Physics, Phase Diagram, Vortices, Thermodynamics & Static Correlations (ACTIVE PREPARATION)
 
+**Proposed foundational prerequisite (2026-11-25; independent verification and owner release pending):** Before advancing from Wave 1 to physical finite-temperature work, resolve [#25](https://github.com/lufreitas0000/kitaev-mf/issues/25) (common bilayer notation) and [#27](https://github.com/lufreitas0000/kitaev-mf/issues/27) (gauge Casimir, Gaussian obstruction, projected methodology). See [research decision record](rnd/phase_2/gauge_foundation_and_notation_review.md) and [bilayer #17](https://github.com/lufreitas0000/ksl-sc-bilayer/issues/17). Preserve completed historical evidence and distinguish auxiliary predictions from physical validation; defer activation of later physical milestones until a reviewed migration decision.
+
 Phase 2 is the direct physical continuation of Phase 1 in the **identical model regime** ($K = -1.0$, $\mathbf{h} \parallel [111]$). Deploying the certified optimal solvers from Phase 1 (**Newton–Schulz purification + damped L-Broyden $\alpha=0.5$** for large real-space clusters, with **Joint DIIS** on reciprocal-space Bloch cells used for comparison and reality checks), Phase 2 focuses entirely on extracting the low-energy physics, vortex bound states, thermodynamics, and static observables (`HC-P2-01` through `HC-P2-04`):
 
 - **M2.1: $T = 0$ Bulk Ground-State Phase Diagram, Complete Observable Atlas & Variational Bounds (`HC-P2-01`, `HC-P2-02`)**
