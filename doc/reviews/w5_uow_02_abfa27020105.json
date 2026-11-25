@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "review_kind": "W5_red_team",
+  "review_scope": "inner_dev",
+  "red_team_mode": "audit",
+  "uow_id": "UOW-02",
+  "issue": "lufreitas0000/kitaev-mf#25",
+  "candidate_commit": "abfa2702010573e4cf83f62c82060c3d67d4325c",
+  "candidate_sha": "abfa2702010573e4cf83f62c82060c3d67d4325c",
+  "author_agent": "blue-lead",
+  "author_lineage": "gemini-pro-orchestrator-neon",
+  "reviewer_agent": "red-lead",
+  "reviewer_lineage": "gemini-4-carbon-high",
+  "verdict": "APPROVE",
+  "compression_verdict": "KEEP_BRIDGE_SCHEDULE_SLEEP_CONSOLIDATION",
+  "mental_image_assessed": true,
+  "disposition_note": "APPROVE UOW-01 candidate abfa27020105 and advance district kitaev-mf-wave2 to Blue UOW-03. All cross-QSL conventions-v2.0 algebraic, Fock-space, Lagrange-multiplier, plaquette-flux, and chiral-kappa contracts hold to machine precision (<1e-14); W4 W3 is resolved as an exact Fourier-convention match (6.66e-16), while F1-F5 record Lakatosian SU(2)_R / odd-N parity guardrails for UOW-03/05 and pre-RC hardening/compression targets.",
+  "prior_art_sources": [
+    "Kitaev, Ann. Phys. 321, 2-111 (2006) [library/references-transcripts/.worktrees/red-audit/kitaev_2006_anyons_honeycomb/{03_representing_spins_majorana,07_phase_b_acquires_gap}.md: sigma^alpha = i b^alpha c, physical subspace D_j = b^x b^y b^z c = +1, directed Z_2 link u_jk = i b_j^alpha b_k^alpha, and 3rd-order chiral Haldane mass Delta = 6 sqrt(3) kappa]",
+    "Fu, Knolle & Perkins, PRB 97, 115142 (2018) [library/arxiv-harvest/transcripts/Fu-Knolle-etal_2018_Majorana-representations-of-spin-and-an-alternative-solution-of-the-Kitaev-h.md, Secs. II-III, Eqs. (8)-(16): exact relationship between Kitaev bilinear i eta^t eta^alpha, chirality projector P_L = (1+D)/2, and SO(4) = SU(2)_spin x SU(2)_gauge chiral representation]",
+    "Pedrocchi, Chesi & Loss, PRB 84, 165414 (2011) [library/arxiv-harvest/transcripts/Pedrocchi-Chesi-etal_2011_Physical-solutions-of-the-Kitaev-honeycomb-model.md, Sec. III, Eqs. (6)-(10): physical projector P = S P_0 and torus fermion-parity constraint det(Q^u) (-1)^theta prod u_ij]",
+    "You, Kimchi & Vishwanath, PRB 86, 085145 (2012) [library/arxiv-harvest/transcripts/You-Kimchi-etal_2011_Doping-a-spin-orbit-Mott-Insulator-Topological-Superconductivity-from-the-K.md, Sec. II.2-II.4, Eqs. (3)-(13), Table 1: SU(2)_spin x SU(2)_gauge Schwinger/Majorana PSG and breakdown of continuous SU(2)_gauge -> Z_2 in the Kitaev ansatz]",
+    "Knolle, Bhattacharjee & Moessner, PRB 97, 134432 (2018) & Zhang, Halasz, Zhu & Batista, PRB 104, 014411 (2021) [library/arxiv-harvest/transcripts/{Knolle-Bhattacharjee-etal_2018,Zhang-Halasz-etal_2021_Variational-study}*.md: parton MFT bond channels vs projected Z_2 vison-pair excitations]",
+    "Sibling QSL Contracts & Source Modules: research/qsl/contracts/qsl_conventions.json, research/qsl/contracts/qsl_metrology_guidelines.md, ksl-sc-bilayer CONVENTIONS.md & src/ksl_sc/domain/so4_algebra.py, and kitaev-mf W4 record w4_uow_01_abfa27020105.json"
+  ],
+  "compression_assessment": "Deterministic parameter-free audit at abfa27020105 (`compression_audit.py audit` & `trajectory`): `no_lean`, `py_prod_files = 69`, `py_prod_loc = 14,212`, `Py Tok = 86,726` (`+3,164` Tok in UOW-01), `|C_lzma| = 602,368 bits` (`75,296 B`, `+17,728` bits in UOW-01), `N_univ = 26`, `Orphans = 0`, passive observatory `b(t) = 23,168.0 bits/univ` (`observatory_only: true`), `R_clone = 37.12%` (`3,157` AST clone nodes). Standalone `repo_governance_gate.py` passes (`[OK]`, 0 errors; 1 grandfathered warning on `src/kitaev_mf/services/real_space.py` at `940 <= 940` LOC); `src/kitaev_mf/domain/qsl_bridge.py` (`542` LOC) and `ports.py` (`101` LOC) sit comfortably inside the 900-LOC modularity ratchet, Ruff lint/format and strict Mypy (`32` source files) pass with 0 issues, 227/227 pytest tests pass from repo root, and all 4 active external datasets pass `sync_external_data.py --verify`. Disposition: **KEEP** `qsl_bridge.py` and `QSLConventionBridgePort` as the clean hexagonal cross-QSL boundary; **COMPRESS** in a future Sleep cycle by consolidating the `26` duplicated `.dat` writer scripts in `scripts/m1_*` (`py_boilerplate_clones['dat_writer'] = 26`), unifying the duplicate Parlett-Reid Pfaffian kernels (`real_space.py:compute_skew_pfaffian` vs `gutzwiller_projection.py:complex_pfaffian`) and repeated `G_MATRICES`/`N_MATRICES` trace loops, and splitting grandfathered `real_space.py` (`940` LOC -> `<600` LOC torus graph/assembly + `<400` LOC purification driver).",
+  "mental_image_assessment": "`CONVENTIONS.md` and `KNOWLEDGE_MAP.md` articulate a crisp, geometrically faithful Mental Image: each honeycomb spin-1/2 fractionalizes into a 4-Majorana quartet carrying commuting `[SU(2)_L x SU(2)_R]/Z_2` physical-spin and parton-gauge algebras on the odd-Dirac-parity subspace `D_j = +c_j^0 c_j^1 c_j^2 c_j^3 = +b_j^x b_j^y b_j^z c_j = +1`, while the cross-QSL bridge `c_j = P_0 gamma_j` (`P_0 = diag(-1,1,1,1)`, `det P_0 = -1`) is an improper `O(4)` reflection that swaps anti-self-dual `SO4_L` (`Pf = +1/4`) with self-dual `SO4_R` (`Pf = -1/4`) without altering any physical spin observable. Epistemic tiers (`Exact Proof` vs `Verified scMFT` vs `Wave-1 Discovery` with open `TODO(owner)` locks) are cleanly separated in `KNOWLEDGE_MAP.md` §3. Two physical refinements sharpen this mental image for Wave-2B/2C (`UOW-03..06`): (1) `det P_0 = -1` induces an exact `(-1)^N` Pfaffian parity factor across `N` sites (`<D_s>_G = -Pf(V_s^kmf) = +Pf(V_s^v2)` on 1 site; global Pfaffian invariant on even-`N` tori, negated on odd-active-site single-vacancy clusters); and (2) while the physical projector `P_Gutz` is invariant under the full continuous local `SU(2)_R` gauge group (`O A O^T`), `kitaev-mf`'s unprojected `N^alpha = R^alpha - L^alpha` mean-field decoupling explicitly breaks `SU(2)_R -> Z_2`.",
+  "independent_checks": [
+    {
+      "id": "R1",
+      "check": "Exact cross-repo `SO4_L` / `SO4_R` / `P_0` / Lagrange / `SU(2)` expectation parity against `contracts/qsl_conventions.json` and `ksl-sc-bilayer` (`src/ksl_sc/domain/so4_algebra.py`)",
+      "result": "PASS: bit-for-bit `np.array_equal` match on `SO4_L`/`SO4_R`; `P_0 (sum lam_kmf^a G^a) P_0 == ksl_so4.build_gauge_lagrange_block(-2*lam_kmf)` to `< 1e-15`; `extract_site_su2_expectations` matches `ksl_so4.compute_site_su2_expectations` on 8x8 padded site covariances to `< 1e-15`"
+    },
+    {
+      "id": "R2",
+      "check": "Improper `O(4)` Pfaffian parity law `Pf(P_0^{oplus N} A P_0^{oplus N}) = (-1)^N Pf(A)` and 1-site fermionic positivity diamond `||V_s||_2 == 2(||<S_s>|| + ||<G_s>||) <= 1`",
+      "result": "PASS: verified `Pf(A_v2)/Pf(A_kmf) == (-1)^N` to `< 1e-12` across `N = 1..5`; unit polarized state gives `Pf(V_kmf) = -1.0`, `Pf(V_v2) = +1.0` (`<D_s>_G = +1`); spectral norm equals `2(||<S>|| + ||<G>||)` across 10 random states to `< 1e-14`"
+    },
+    {
+      "id": "R3",
+      "check": "Unitary Bloch-vs-torus Fourier transform test on anisotropic `L=3` `K-J-Gamma-Gamma'-h` cluster (`W4 W3` adjudication)",
+      "result": "PASS (W4 W3 resolved): `c_{k,s} = L^{-1} sum_R exp(-i k.R) c_{R,s}` (`conventions-v2.0` standard) diagonalizes `RealSpaceTorusCluster` into `build_bloch_hamiltonian` (`exp(+i k.delta)` in `H_AB(k)`) with max error `6.661e-16` (vs `1.228` for opposite Fourier sign) — zero cross-repo Fourier sign discrepancy"
+    },
+    {
+      "id": "R4",
+      "check": "Lakatosian boundary probes on `QSLMeanFieldPortState` (`NaN`/version `W1`) and reversed-orientation 4-site custom `UnitCell` (`W2`)",
+      "result": "CONFIRMED NON-BLOCKING (`W1`, `W2`): IEEE-754 `NaN` in `V_v2` and arbitrary `conventions_version` bypass `__post_init__`; reversing bond 0 (`B -> A`, `u_0 = -1` in physical zero-flux) on a custom 4-site cell flips `compute_plaquette_wilson_loops_from_u` from `[+1, +1]` to `[-1, -1]` without an `A -> B` assertion"
+    },
+    {
+      "id": "R5",
+      "check": "Forward-looking `UOW-03` 8-site (`2^8 = 256`-dim) Gutzwiller projection probe under random inhomogeneous & `pi`-angle `SU(2)_R` gauge rotations vs `N^alpha`-decoupled state re-assembly",
+      "result": "CRITICAL GUARDRAIL FOR UOW-03: direct quadratic gauge conjugation `O A O^T` (`O_s = exp(theta_s . SO4_L)`) preserves exact Gutzwiller state (`|1 - fid| = 2.22e-16`, `cond = 2.621` including `pi`-rotations around `x,y,z`), and pure-spin `SO4_R` hopping is `SU(2)_R`-covariant (`5.55e-17`), whereas feeding `(O_A U O_B^T, O_s V O_s^T)` into `N^alpha`-decoupled `assemble_torus_majorana_matrix` breaks `SU(2)_R -> Z_2` (`fid = 0.697311`)"
+    },
+    {
+      "id": "R6",
+      "check": "Read-only test, type, lint, external-data, and worktree cleanliness audit (`red-audit` & `dev-wave2`)",
+      "result": "PASS: 227/227 pytest from repo root (5 CWD-relative benchmark tests fail only when invoked outside repo root), Ruff check/format clean, strict Mypy clean (`32` source files), `sync_external_data.py --verify` PASS (4 active datasets), `git status` clean on both worktrees"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "non-blocking",
+      "category": "LAKATOSIAN_GUARDRAIL_UOW03",
+      "location": "src/kitaev_mf/services/{gutzwiller_projection.py:162-265,hamiltonian.py:85-115} -> Blue UOW-03",
+      "observation": "Forward guardrail for `UOW-03` (`Gutzwiller D_j=+1 VMC projection stability check across staggered SU(2)_R / flux sectors`): because `G_j^{v2} P_+ = 0`, any site-dependent `SU(2)_R` gauge rotation `O_s = exp(theta_s . SO4_L)` in `(-c, b)` basis leaves `P_Gutz |Psi_MF(O A O^T)>` invariant up to a global phase (verified on 8-site torus: `|1 - fid| = 2.22e-16`, `cond = 2.621` including worst-case `exp(pi SO4_L^{x,y,z})`). However, `kitaev-mf`'s unprojected Kitaev decoupling `build_bond_hopping_matrices` (`2 J_b^{ab} N^a U_b N^b` with `N^a = R^a - L^a`) satisfies `[L^b, N^a] = +eps_{abc} L^c != 0`, breaking continuous `SU(2)_R -> Z_2` (sublattice-staggered `O_A U O_B^T` drops Gutzwiller overlap to `0.697311`, whereas pure-spin `R^a U R^b` decoupling is `SU(2)_R`-covariant to `5.55e-17`). In `UOW-03`, test staggered `SU(2)_R` invariance via direct quadratic conjugation `A -> O A O^T` (probing `build_thouless_data` reference conditioning & VMC sampling variance) rather than feeding `SU(2)_R`-rotated `(U, V)` into `N^a` hopping, and note that `gutzwiller_projection.py:torus_bonds` uses `(+1,0)`/`(0,+1)` `kitaev-numerics` offsets when adding `flipped_bonds` / vison-sector support."
+    },
+    {
+      "id": "F2",
+      "severity": "non-blocking",
+      "category": "GENERALIZE",
+      "location": "src/kitaev_mf/domain/qsl_bridge.py:169-177,333-372 & CONVENTIONS.md:30-46",
+      "observation": "Improper `O(4)` Pfaffian parity law & site positivity diamond: because `det(P_0) = -1`, `Pf(P_0^{oplus N} A P_0^{oplus N}) = (-1)^N Pf(A)` (verified for `N = 1..5`). Thus single-site Gaussian parity satisfies `<D_s>_G = -Pf(V_s^{kmf}) = +Pf(V_s^{v2})`, even-`N` periodic tori preserve global Pfaffian sign (`(-1)^{2 L^2} = +1`), and odd-active-site vacancy clusters (`N_active = 2 L^2 - n_vac` odd in `UOW-05` disorder runs) negate active-subspace Pfaffians across `P_0`. Additionally, every physical 1-site covariance obeys the exact spectral norm identity `||V_s||_2 = 2*(||<S_s>|| + ||<G_s^{v2}>||) <= 1` (`< 1e-14`), which can be exposed as a parameter-free physicality check on `SiteSU2Decomposition`."
+    },
+    {
+      "id": "F3",
+      "severity": "non-blocking",
+      "category": "W4_ADJUDICATION",
+      "location": "CONVENTIONS.md:56-63 & src/kitaev_mf/domain/qsl_bridge.py:212-256,345,439-466",
+      "observation": "Adjudication of W4 notes `W1`-`W3`: (a) **`W3` Resolved (No Sign Mismatch):** Direct unitary Fourier transformation on an `L=3` anisotropic `K-J-Gamma-Gamma'-h` torus proves that the `conventions-v2.0` convention `c_{k,s} = N_cells^{-1/2} sum_R exp(-i k.R) c_{R,s}` produces `+0.25j A_b exp(+i k.delta)` in `H_{AB}(k)`, matching `kitaev-mf/services/hamiltonian.py:178-185` to `6.661e-16` (vs `1.228` for `exp(+i k.R)`). Both repos share the identical Bloch Fourier convention. (b) **`W1` & `W2` Confirmed for Pre-RC Hardening:** `QSLMeanFieldPortState`/`QSLInhomogeneousPortState`/`extract_site_su2_expectations` currently allow `NaN` (`NaN > 1e-12` is `False`) and unvalidated `conventions_version` tags, and `compute_plaquette_wilson_loops_from_u` assumes canonical `A -> B` bond direction (flipping `W_p` to `-1` if a custom cell reverses a bond). Harden both before `UOW-06` `v0.3.0` RC."
+    },
+    {
+      "id": "F4",
+      "severity": "non-blocking",
+      "category": "COMPRESS",
+      "location": "scripts/m1_*/*.py (26 `.dat` writers), src/kitaev_mf/services/{real_space.py,gutzwiller_projection.py,energetics.py,vortex_pair_scaling.py}",
+      "observation": "Parameter-free compression roadmap (`KEEP` / `COMPRESS`): KEEP `qsl_bridge.py` (`542` LOC) and `QSLConventionBridgePort`. Elevated repo `R_clone = 37.12%` (`Py Tok = 86,726` across `69` files) is dominated by `26` boilerplate `.dat` export scripts in `scripts/`, duplicated Parlett-Reid Pfaffian routines (`real_space.py:31` vs `gutzwiller_projection.py:101`), repeated `G_MATRICES`/`N_MATRICES` trace contractions across 4 service modules, and grandfathered `real_space.py` (`940` LOC > `900` LOC ratchet). Propose a bounded Sleep/consolidation cluster move after Wave-2 discovery splitting `real_space.py` (`<600` + `<400` LOC) and extracting a shared ACID `.dat` provenance writer + real/complex Pfaffian utility."
+    },
+    {
+      "id": "F5",
+      "severity": "non-blocking",
+      "category": "HYGIENE",
+      "location": "test/unit/{test_benchmark_exports.py,test_post_spinodal_kkt_audit.py:105-108}",
+      "observation": "5 legacy benchmark-file existence assertions use bare CWD-relative strings (`'data/processed/benchmarks/...'`) instead of `REPO_ROOT / ...`, failing when `pytest` is invoked from the parent `research/qsl` directory while passing 227/227 from `kitaev-mf/` root. Anchor those paths to `Path(__file__).resolve().parents[2]` during `UOW-03` or `UOW-05`."
+    }
+  ]
+}

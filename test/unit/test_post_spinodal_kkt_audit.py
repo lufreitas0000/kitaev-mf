@@ -8,7 +8,6 @@ Verifies:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import numpy as np
@@ -102,10 +101,10 @@ def test_hc_p1_02_post_spinodal_kkt_admissibility_at_h0450() -> None:
 
 def test_hc_p1_03_master_solver_table_and_audit_data_exist() -> None:
     """Verify that the post-spinodal KKT audit table and master solver selection table are present and non-empty."""
-    audit_path = "data/processed/benchmarks/m1_9/post_spinodal_kkt_audit.dat"
-    master_path = "data/processed/benchmarks/m1_9/master_solver_resource_table.dat"
-    assert os.path.isfile(audit_path)
-    assert os.path.isfile(master_path)
+    audit_path = REPO_ROOT / "data/processed/benchmarks/m1_9/post_spinodal_kkt_audit.dat"
+    master_path = REPO_ROOT / "data/processed/benchmarks/m1_9/master_solver_resource_table.dat"
+    assert audit_path.is_file()
+    assert master_path.is_file()
 
     with open(audit_path, encoding="utf-8") as f:
         lines = [ln.strip() for ln in f if ln.strip() and not ln.startswith("#")]

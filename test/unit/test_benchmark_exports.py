@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-BENCHMARK_DIR = Path("data/processed/benchmarks")
+BENCHMARK_DIR = Path(__file__).resolve().parents[2] / "data" / "processed" / "benchmarks"
 
 EXPECTED_BENCHMARKS = [
     "k006_quadrature.dat",

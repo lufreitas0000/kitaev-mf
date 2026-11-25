@@ -1,0 +1,34 @@
+{
+  "dataset": "hc02_gutzwiller_su2_flux_stability",
+  "geometry": "Honeycomb tori 2x2 (N=8), 2x3 (N=12), 3x3 (N=18)",
+  "git_sha": "abfa2702010573e4cf83f62c82060c3d67d4325c",
+  "parameters": {
+    "autocorrelation_estimators": [
+      "Sokal_g",
+      "Wolff_tau_int=g/2",
+      "Geyer_IPS_grand_mean",
+      "Split_Rhat"
+    ],
+    "bootstrap_method": "BCa 95% CI (B=2000)",
+    "burn_in_sweeps": 15,
+    "flux_sectors_h0": [
+      "zero_flux",
+      "two_vison",
+      "pi_flux"
+    ],
+    "samples_per_chain": 50,
+    "su2_r_patterns_h025": [
+      "identity",
+      "sublattice_staggered",
+      "pi_flips_xyz",
+      "z2_2pi_staggered",
+      "random_inhomogeneous"
+    ],
+    "uow_id": "UOW-03",
+    "vmc_chains": 50
+  },
+  "schema_version": 1,
+  "sha256": "15060c2e41fc8c1803bfaf5ac202747a51d50c01c556fcc5a88a44d04d8ae87a",
+  "source_repo": "kitaev-mf",
+  "unit_convention": "pauli_k_minus_one_field_111"
+}

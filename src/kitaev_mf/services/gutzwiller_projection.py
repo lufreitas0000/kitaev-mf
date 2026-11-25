@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from math import sqrt
 
@@ -63,6 +64,10 @@ def bca_confidence_interval(
 ) -> tuple[float, float]:
     """Compute non-parametric BCa confidence interval with degenerate-array guard."""
     arr = np.asarray(values, dtype=np.float64)
+    if arr.size == 0 or not np.all(np.isfinite(arr)):
+        raise ValueError("bca_confidence_interval requires non-empty finite values.")
+    if n_boot < 1:
+        raise ValueError(f"n_boot must be >= 1, got {n_boot}")
     n = arr.size
     if n < 2 or float(np.ptp(arr)) <= 1e-13 * max(1.0, float(np.abs(np.mean(arr)))):
         m = float(np.mean(arr))
@@ -165,8 +170,22 @@ def assemble_torus_majorana_matrix(
     params: ModelParameters,
     state: MeanFieldState,
     bc_twist: tuple[int, int] = (-1, -1),
+    *,
+    flipped_bonds: Sequence[tuple[int, int, str]] | None = None,
 ) -> NDArray[np.float64]:
-    """Assemble real skew-symmetric 4N x 4N matrix `A` (H = (i/4) c^T A c) on `(nx, ny)`."""
+    """Assemble real skew-symmetric 4N x 4N matrix `A` (H = (i/4) c^T A c) on `(nx, ny)`.
+
+    Optional `flipped_bonds` specifies `(x, y, axis)` directed bonds (matching `torus_bonds`
+    `(+1, 0)` / `(0, +1)` offsets with `axis in {'x', 'y', 'z'}`) whose 4x4 hopping block `A_b`
+    is negated to flip both the gauge link `u_b -> -u_b` and matter Peierls sign simultaneously.
+    """
+    flipped_set: set[tuple[int, int, str]] = set()
+    if flipped_bonds is not None:
+        for bx, by, ax in flipped_bonds:
+            if ax not in {"x", "y", "z"}:
+                raise ValueError(f"Unsupported bond axis {ax!r}; expected 'x', 'y', or 'z'.")
+            flipped_set.add((bx % nx, by % ny, ax))
+
     cell = make_honeycomb_2site()
     b_mat = build_on_site_matrices(cell, params, state, torch.device("cpu")).numpy()
     a_mat = build_bond_hopping_matrices(cell, params, state, torch.device("cpu")).numpy()
@@ -180,15 +199,20 @@ def assemble_torus_majorana_matrix(
                 mat[4 * s : 4 * s + 4, 4 * s : 4 * s + 4] = b_mat[sub]
             sa = torus_site(nx, ny, x, y, 0)
             sz = torus_site(nx, ny, x, y, 1)
-            mat[4 * sa : 4 * sa + 4, 4 * sz : 4 * sz + 4] += a_mat[0]
-            mat[4 * sz : 4 * sz + 4, 4 * sa : 4 * sa + 4] -= a_mat[0].T
+            sgn_z = -1.0 if (x, y, "z") in flipped_set else 1.0
+            mat[4 * sa : 4 * sa + 4, 4 * sz : 4 * sz + 4] += sgn_z * a_mat[0]
+            mat[4 * sz : 4 * sz + 4, 4 * sa : 4 * sa + 4] -= sgn_z * a_mat[0].T
 
-            sgn_x = float(bc_twist[0]) if x == nx - 1 else 1.0
+            sgn_x = (float(bc_twist[0]) if x == nx - 1 else 1.0) * (
+                -1.0 if (x, y, "x") in flipped_set else 1.0
+            )
             sx = torus_site(nx, ny, x + 1, y, 1)
             mat[4 * sa : 4 * sa + 4, 4 * sx : 4 * sx + 4] += sgn_x * a_mat[1]
             mat[4 * sx : 4 * sx + 4, 4 * sa : 4 * sa + 4] -= sgn_x * a_mat[1].T
 
-            sgn_y = float(bc_twist[1]) if y == ny - 1 else 1.0
+            sgn_y = (float(bc_twist[1]) if y == ny - 1 else 1.0) * (
+                -1.0 if (x, y, "y") in flipped_set else 1.0
+            )
             sy = torus_site(nx, ny, x, y + 1, 1)
             mat[4 * sa : 4 * sa + 4, 4 * sy : 4 * sy + 4] += sgn_y * a_mat[2]
             mat[4 * sy : 4 * sy + 4, 4 * sa : 4 * sa + 4] -= sgn_y * a_mat[2].T
@@ -196,13 +220,47 @@ def assemble_torus_majorana_matrix(
     return np.asarray(0.5 * (mat - mat.T), dtype=np.float64)
 
 
+def _build_physical_ref_bdg_transform(ref: NDArray[np.int8]) -> NDArray[np.complex128]:
+    """Build 4N x 4N complex Majorana-to-Dirac transform anchored on physical reference `ref`."""
+    n_sites = ref.size
+    n_jw = 2 * n_sites
+    t_cf = np.zeros((2 * n_jw, 2 * n_jw), dtype=np.complex128)
+    for s in range(n_sites):
+        m0, m1 = 2 * s, 2 * s + 1
+        if ref[s] == 0:
+            t_cf[2 * m0, m0] = 1.0
+            t_cf[2 * m0, n_jw + m0] = 1.0
+            t_cf[2 * m0 + 1, m0] = -1.0j
+            t_cf[2 * m0 + 1, n_jw + m0] = 1.0j
+            t_cf[2 * m1, m1] = 1.0
+            t_cf[2 * m1, n_jw + m1] = 1.0
+            t_cf[2 * m1 + 1, m1] = 1.0j
+            t_cf[2 * m1 + 1, n_jw + m1] = -1.0j
+        else:
+            t_cf[2 * m0, m0] = 1.0
+            t_cf[2 * m0, n_jw + m0] = 1.0
+            t_cf[2 * m0 + 1, m0] = 1.0j
+            t_cf[2 * m0 + 1, n_jw + m0] = -1.0j
+            t_cf[2 * m1, m1] = 1.0
+            t_cf[2 * m1, n_jw + m1] = 1.0
+            t_cf[2 * m1 + 1, m1] = -1.0j
+            t_cf[2 * m1 + 1, n_jw + m1] = 1.0j
+    return t_cf
+
+
 def build_thouless_data(
     a_mat: NDArray[np.float64],
     n_sites: int,
     *,
     seed: int = 42,
+    excite_lowest_qp: bool = False,
 ) -> tuple[NDArray[np.int8], NDArray[np.complex128], float] | None:
-    """Build skew-symmetric Thouless matrix Z_eff and canonical reference configuration."""
+    """Build skew-symmetric Thouless matrix Z_eff and canonical reference configuration.
+
+    When `excite_lowest_qp=True`, replaces the lowest positive Bogoliubov mode `v_+` with its
+    exact particle-hole conjugate `v_- = Xi v_+` to flip global fermion parity from odd to even
+    (resolving Pedrocchi-Chesi-Loss parity obstructions such as 2x3 pi-flux tori).
+    """
     n_jw = 2 * n_sites
     rng = np.random.default_rng(seed)
     best_cond = float("inf")
@@ -215,39 +273,30 @@ def build_thouless_data(
             if trial == 0
             else rng.integers(0, 2, size=n_sites, dtype=np.int8)
         )
-        t_cf = np.zeros((2 * n_jw, 2 * n_jw), dtype=np.complex128)
-        for s in range(n_sites):
-            m0, m1 = 2 * s, 2 * s + 1
-            if ref[s] == 0:
-                t_cf[2 * m0, m0] = 1.0
-                t_cf[2 * m0, n_jw + m0] = 1.0
-                t_cf[2 * m0 + 1, m0] = -1.0j
-                t_cf[2 * m0 + 1, n_jw + m0] = 1.0j
-                t_cf[2 * m1, m1] = 1.0
-                t_cf[2 * m1, n_jw + m1] = 1.0
-                t_cf[2 * m1 + 1, m1] = 1.0j
-                t_cf[2 * m1 + 1, n_jw + m1] = -1.0j
-            else:
-                t_cf[2 * m0, m0] = 1.0
-                t_cf[2 * m0, n_jw + m0] = 1.0
-                t_cf[2 * m0 + 1, m0] = 1.0j
-                t_cf[2 * m0 + 1, n_jw + m0] = -1.0j
-                t_cf[2 * m1, m1] = 1.0
-                t_cf[2 * m1, n_jw + m1] = 1.0
-                t_cf[2 * m1 + 1, m1] = -1.0j
-                t_cf[2 * m1 + 1, n_jw + m1] = 1.0j
+        t_cf = _build_physical_ref_bdg_transform(ref)
         h_bdg = 0.5j * (t_cf.conj().T @ a_mat @ t_cf)
         evals, evecs = np.linalg.eigh(h_bdg)
-        pos_idx = np.where(evals > 0.0)[0]
+        pos_idx = np.where(evals > 1e-12)[0]
         if pos_idx.size != n_jw:
             continue
-        row_mat = evecs[:, pos_idx].conj().T
+        if excite_lowest_qp:
+            v_pos = evecs[:, pos_idx[0]]
+            v_neg_ph = np.concatenate([v_pos[n_jw:].conj(), v_pos[:n_jw].conj()])
+            row_mat = np.column_stack([v_neg_ph, evecs[:, pos_idx[1:]]]).conj().T
+        else:
+            row_mat = evecs[:, pos_idx].conj().T
         a_blk = row_mat[:, :n_jw]
         cond = float(np.linalg.cond(a_blk))
+        if not np.isfinite(cond) or cond > 1e8:
+            continue
+        z_cand = -np.linalg.solve(a_blk, row_mat[:, n_jw:])
+        z_scale = max(1.0, float(np.max(np.abs(z_cand))))
+        if float(np.max(np.abs(z_cand + z_cand.T))) > 1e-7 * z_scale:
+            continue
         if cond < best_cond:
             best_cond = cond
             best_ref = ref
-            best_z = -np.linalg.solve(a_blk, row_mat[:, n_jw:])
+            best_z = z_cand
             if cond < 50.0:
                 break
 
@@ -262,6 +311,26 @@ def build_thouless_data(
             perm[2 * s], perm[2 * s + 1] = perm[2 * s + 1], perm[2 * s]
     z_eff = z_skew[np.ix_(perm, perm)]
     return best_ref, np.asarray(0.5 * (z_eff - z_eff.T), dtype=np.complex128), best_cond
+
+
+def exact_wavefunction_from_thouless(
+    ref: NDArray[np.int8],
+    z_eff: NDArray[np.complex128],
+) -> NDArray[np.complex128] | None:
+    """Contract normalized 2^N exact Gutzwiller spin state from Thouless data `(ref, z_eff)`."""
+    n_sites = ref.size
+    if n_sites > 14:
+        raise ValueError("Exact 2^N contraction bounded to N <= 14; use VMC for N >= 16.")
+    psi = np.empty(1 << n_sites, dtype=np.complex128)
+    for tau in range(1 << n_sites):
+        j_idx = [
+            m for s in range(n_sites) if ((tau >> s) & 1) != int(ref[s]) for m in (2 * s, 2 * s + 1)
+        ]
+        psi[tau] = complex_pfaffian(z_eff[np.ix_(j_idx, j_idx)])
+    norm_val = float(np.linalg.norm(psi))
+    if norm_val < 1e-12:
+        return None
+    return np.asarray(psi / norm_val, dtype=np.complex128)
 
 
 def evaluate_exact_fock_equivalence(a_mat: NDArray[np.float64], n_sites: int = 2) -> float:
@@ -408,19 +477,9 @@ def evaluate_exact_gutzwiller(
         if tdata is None:
             continue
         ref, z_eff, cond = tdata
-        psi = np.empty(1 << n_sites, dtype=np.complex128)
-        for tau in range(1 << n_sites):
-            j_idx = [
-                m
-                for s in range(n_sites)
-                if ((tau >> s) & 1) != int(ref[s])
-                for m in (2 * s, 2 * s + 1)
-            ]
-            psi[tau] = complex_pfaffian(z_eff[np.ix_(j_idx, j_idx)])
-        norm_val = float(np.linalg.norm(psi))
-        if norm_val < 1e-12:
+        psi = exact_wavefunction_from_thouless(ref, z_eff)
+        if psi is None:
             continue
-        psi /= norm_val
         e_site, m111, wp, nn_bond = _exact_spin_observables(nx, ny, h, psi)
         cand = ExactGutzwillerResult(
             nx=nx,
@@ -582,29 +641,44 @@ def select_admissible_twist(
     raise RuntimeError(f"No parity-admissible topological twist found on ({nx},{ny}) at h={h}.")
 
 
-def evaluate_vmc_gutzwiller(
+@dataclass(frozen=True, slots=True)
+class VMCRawSampleBatch:
+    """Raw multi-chain VMC observables and Metropolis acceptance statistics."""
+
+    chain_e_means: NDArray[np.float64]
+    chain_m_means: NDArray[np.float64]
+    all_e_samples: NDArray[np.float64]
+    all_m_samples: NDArray[np.float64]
+    acc_rate_1flip: float
+    acc_rate_2flip: float
+
+
+def _run_vmc_from_thouless(
     nx: int,
     ny: int,
     h: float,
-    state: MeanFieldState,
+    ref: NDArray[np.int8],
+    z_eff: NDArray[np.complex128],
     *,
     n_chains: int = 50,
     burn_in_sweeps: int = 12,
     samples_per_chain: int = 40,
     seed_base: int = 900,
-    preferred_bc: tuple[int, int] | None = None,
-) -> VMCGutzwillerResult:
-    """Run `n_chains` independent Metropolis-Hastings Gutzwiller VMC chains with BCa 95% CIs."""
+) -> VMCRawSampleBatch:
+    """Run `n_chains` Metropolis-Hastings VMC chains directly from Thouless `(ref, z_eff)`."""
     n_sites = 2 * nx * ny
     comp = h / sqrt(3.0)
-    bc, ref, z_eff, _ = select_admissible_twist(nx, ny, h, state, preferred_bc=preferred_bc)
     evaluator = _ThoulessStateEvaluator(ref, z_eff)
     bonds = torus_bonds(nx, ny)
 
     chain_e_means = np.empty(n_chains, dtype=np.float64)
     chain_m_means = np.empty(n_chains, dtype=np.float64)
     all_e_samples = np.empty((n_chains, samples_per_chain), dtype=np.float64)
-    taus: list[float] = []
+    all_m_samples = np.empty((n_chains, samples_per_chain), dtype=np.float64)
+    prop_1 = 0
+    acc_1 = 0
+    prop_2 = 0
+    acc_2 = 0
 
     for cid in range(n_chains):
         rng = np.random.default_rng(seed_base + cid)
@@ -616,7 +690,6 @@ def evaluate_vmc_gutzwiller(
             cand_tau[s_try] = 1 - cand_tau[s_try]
             if abs(evaluator.amplitude(cand_tau)) > 1e-6:
                 tau = cand_tau
-        pf_curr = evaluator.amplitude(tau)
 
         def _sync_state(
             curr_tau: NDArray[np.int8],
@@ -638,24 +711,32 @@ def evaluate_vmc_gutzwiller(
             for _step in range(n_sites):
                 if rng.random() < 0.4:
                     # Two-spin bond move keeps VMC ergodic inside fixed spin-parity sectors at h=0
+                    prop_2 += 1
                     bu, bv, _ = bonds[int(rng.integers(0, len(bonds)))]
                     r2 = evaluator.two_flip_ratio_with_inv(
                         active, pos_map, j_idx, z_inv, pf_curr, bu, bv
                     )
                     prob2 = float(abs(r2) ** 2)
-                    if prob2 >= 1.0 or rng.random() < prob2:
+                    if (
+                        np.isfinite(prob2)
+                        and prob2 > 0.0
+                        and (prob2 >= 1.0 or rng.random() < prob2)
+                    ):
                         tau[bu] = 1 - tau[bu]
                         tau[bv] = 1 - tau[bv]
                         active, pos_map, j_idx, z_inv, pf_curr = _sync_state(tau)
+                        acc_2 += 1
                 else:
+                    prop_1 += 1
                     s_flip = int(rng.integers(0, n_sites))
                     ratio = evaluator.flip_ratio_with_inv(
                         tau, active, pos_map, j_idx, z_inv, pf_curr, s_flip
                     )
                     prob = float(abs(ratio) ** 2)
-                    if prob >= 1.0 or rng.random() < prob:
+                    if np.isfinite(prob) and prob > 0.0 and (prob >= 1.0 or rng.random() < prob):
                         tau[s_flip] = 1 - tau[s_flip]
                         active, pos_map, j_idx, z_inv, pf_curr = _sync_state(tau)
+                        acc_1 += 1
 
             if sw >= burn_in_sweeps:
                 m_idx = sw - burn_in_sweeps
@@ -694,10 +775,47 @@ def evaluate_vmc_gutzwiller(
         chain_e_means[cid] = float(np.mean(e_series))
         chain_m_means[cid] = float(np.mean(m_series))
         all_e_samples[cid, :] = e_series
-        taus.append(_integrated_autocorr(e_series))
+        all_m_samples[cid, :] = m_series
 
-    e_lo, e_hi = bca_confidence_interval(chain_e_means, seed=seed_base)
-    m_lo, m_hi = bca_confidence_interval(chain_m_means, seed=seed_base + 1)
+    return VMCRawSampleBatch(
+        chain_e_means=chain_e_means,
+        chain_m_means=chain_m_means,
+        all_e_samples=all_e_samples,
+        all_m_samples=all_m_samples,
+        acc_rate_1flip=float(acc_1) / float(max(1, prop_1)),
+        acc_rate_2flip=float(acc_2) / float(max(1, prop_2)),
+    )
+
+
+def evaluate_vmc_gutzwiller(
+    nx: int,
+    ny: int,
+    h: float,
+    state: MeanFieldState,
+    *,
+    n_chains: int = 50,
+    burn_in_sweeps: int = 12,
+    samples_per_chain: int = 40,
+    seed_base: int = 900,
+    preferred_bc: tuple[int, int] | None = None,
+) -> VMCGutzwillerResult:
+    """Run `n_chains` independent Metropolis-Hastings Gutzwiller VMC chains with BCa 95% CIs."""
+    n_sites = 2 * nx * ny
+    bc, ref, z_eff, _ = select_admissible_twist(nx, ny, h, state, preferred_bc=preferred_bc)
+    batch = _run_vmc_from_thouless(
+        nx,
+        ny,
+        h,
+        ref,
+        z_eff,
+        n_chains=n_chains,
+        burn_in_sweeps=burn_in_sweeps,
+        samples_per_chain=samples_per_chain,
+        seed_base=seed_base,
+    )
+    taus = [_integrated_autocorr(batch.all_e_samples[cid]) for cid in range(n_chains)]
+    e_lo, e_hi = bca_confidence_interval(batch.chain_e_means, seed=seed_base)
+    m_lo, m_hi = bca_confidence_interval(batch.chain_m_means, seed=seed_base + 1)
     tau_mean = float(np.mean(taus))
     n_eff = float(n_chains * samples_per_chain) / tau_mean
 
@@ -709,13 +827,13 @@ def evaluate_vmc_gutzwiller(
         bc_twist=bc,
         n_chains=n_chains,
         samples_per_chain=samples_per_chain,
-        e_proj_mean=float(np.mean(chain_e_means)),
+        e_proj_mean=float(np.mean(batch.chain_e_means)),
         e_proj_ci_low=e_lo,
         e_proj_ci_high=e_hi,
-        e_loc_std=float(np.std(all_e_samples)),
+        e_loc_std=float(np.std(batch.all_e_samples)),
         tau_int_energy=tau_mean,
         n_eff_total=n_eff,
-        magnetization_111_mean=float(np.mean(chain_m_means)),
+        magnetization_111_mean=float(np.mean(batch.chain_m_means)),
         magnetization_111_ci_low=m_lo,
         magnetization_111_ci_high=m_hi,
     )
