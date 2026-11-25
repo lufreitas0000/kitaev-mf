@@ -18,6 +18,7 @@ Implements:
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from math import cos, sin, sqrt
 from typing import Literal
@@ -649,6 +650,55 @@ def evaluate_n_decoupling_su2_breaking(
     )
 
 
+def holonomy_matched_ref(
+    nx: int,
+    ny: int,
+    bc_twist: tuple[int, int],
+    flipped_bonds: Sequence[tuple[int, int, str]] | None = None,
+) -> NDArray[np.int8]:
+    """Construct exact 1D ``yz``-loop holonomy-matched reference bitstring at ``h = 0``.
+
+    On ``D_s = +1``, ``sigma_s^x = -i b_s^y b_s^z``, so each vertical ``yz``-cycle ``C_x`` obeys
+    the exact superselection law ``S_x = prod_{s in C_x} sigma_s^x = -bc_y prod_{b in C_x} u_b^{y,z}``.
+    Setting ``ref[(x, 0, A)] = 1`` whenever ``S_x = -1`` eliminates the ``2^{-n_x}`` random-reference
+    node wall at ``L >= 4`` in a single deterministic step.
+    """
+    fl = (
+        {(bx % nx, by % ny, ax) for bx, by, ax in flipped_bonds}
+        if flipped_bonds is not None
+        else set()
+    )
+    ref = np.zeros(2 * nx * ny, dtype=np.int8)
+    for x in range(nx):
+        prod_u = 1
+        for y in range(ny):
+            if (x, y, "z") in fl:
+                prod_u = -prod_u
+            if (x, y, "y") in fl:
+                prod_u = -prod_u
+        if -int(bc_twist[1]) * prod_u == -1:
+            ref[torus_site(nx, ny, x, 0, 0)] = 1
+    return ref
+
+
+def _exact_h0_eloc_at_ref(
+    nx: int, ny: int, ref: NDArray[np.int8], z_eff: NDArray[np.complex128]
+) -> float:
+    """Evaluate exact Zero-Variance ``h = 0`` Kitaev spin energy per site at reference bitstring ``ref``."""
+    n_sites = 2 * nx * ny
+    ev = _ThoulessStateEvaluator(ref, z_eff)
+    sx = np.where(ref == 1, 1.0, -1.0)
+    ph_y = np.where(ref == 1, 1.0j, -1.0j)
+    e_k = 0.0
+    for u, v, ax in torus_bonds(nx, ny):
+        if ax == "x":
+            e_k -= float(sx[u] * sx[v])
+        else:
+            r2 = ev.two_flip_ratio_with_inv([], {}, [], None, 1.0 + 0.0j, u, v)
+            e_k -= float(r2.real if ax == "z" else (ph_y[u] * ph_y[v] * r2).real)
+    return e_k / float(n_sites)
+
+
 def evaluate_flux_sector_gutzwiller(
     nx: int,
     ny: int,
@@ -661,6 +711,7 @@ def evaluate_flux_sector_gutzwiller(
     samples_per_chain: int = 40,
     seed_base: int = 4200,
     twists: tuple[tuple[int, int], ...] = ((-1, -1), (-1, 1), (1, -1), (1, 1)),
+    allow_zero_mode: bool = False,
 ) -> FluxSectorStabilityResult:
     """Evaluate exact & VMC Gutzwiller projection in a static Z_2 flux sector with 1-QP parity repair."""
     n_sites = 2 * nx * ny
@@ -688,7 +739,14 @@ def evaluate_flux_sector_gutzwiller(
             a_mat = assemble_torus_majorana_matrix(
                 nx, ny, params, state, bc_twist=bc, flipped_bonds=flipped
             )
-            tdata = build_thouless_data(a_mat, n_sites, excite_lowest_qp=excite_qp)
+            det_ref = holonomy_matched_ref(nx, ny, bc, flipped)
+            tdata = build_thouless_data(
+                a_mat,
+                n_sites,
+                excite_lowest_qp=excite_qp,
+                candidate_refs=(det_ref,),
+                allow_zero_mode=allow_zero_mode,
+            )
             if tdata is None:
                 continue
             ref, z_eff, cond = tdata
@@ -700,6 +758,14 @@ def evaluate_flux_sector_gutzwiller(
                 e_var = exact_energy_variance(nx, ny, h, psi)
                 if best_exact is None or e_site < best_exact[0]:
                     best_exact = (e_site, bc, ref, z_eff, cond, excite_qp, e_var, wp, m111)
+            elif h == 0.0:
+                e_site = _exact_h0_eloc_at_ref(nx, ny, ref, z_eff)
+                if (
+                    best_exact is None
+                    or e_site < best_exact[0] - 1e-12
+                    or (abs(e_site - best_exact[0]) <= 1e-12 and cond < best_exact[4])
+                ):
+                    best_exact = (e_site, bc, ref, z_eff, cond, excite_qp, None, None, None)
             else:
                 if best_exact is None or cond < best_exact[4]:
                     best_exact = (0.0, bc, ref, z_eff, cond, excite_qp, None, None, None)
@@ -767,6 +833,7 @@ __all__ = [
     "evaluate_n_decoupling_su2_breaking",
     "evaluate_su2_gauge_stability",
     "exact_energy_variance",
+    "holonomy_matched_ref",
     "make_staggered_su2_patterns",
     "verify_thouless_su2_block_diagonality",
 ]

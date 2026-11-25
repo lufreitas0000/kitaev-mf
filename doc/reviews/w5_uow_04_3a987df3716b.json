@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "review_kind": "W5_red_team",
+  "review_scope": "inner_dev",
+  "red_team_mode": "audit",
+  "uow_id": "UOW-04",
+  "issue": "lufreitas0000/kitaev-mf#25",
+  "candidate_commit": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "candidate_sha": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "author_agent": "blue-lead",
+  "author_lineage": "gemini-pro-orchestrator-neon",
+  "reviewer_agent": "red-lead",
+  "reviewer_lineage": "gemini-4-carbon-high",
+  "verdict": "APPROVE",
+  "compression_verdict": "KEEP_WAVE2B_SCHEDULE_SLEEP_CONSOLIDATION",
+  "mental_image_assessed": true,
+  "disposition_note": "APPROVE UOW-03 candidate 3a987df3716b and advance district kitaev-mf-wave2 to Blue UOW-05. Exact Thouless SU(2)^N block-diagonality, bitstring Pfaffian invariance (|Delta E_loc| <= 1.82e-14 up to N=18), Zero-Variance flux-sector ED recovery (N=8 pi-flux -sqrt(3)/2, 1-QP N=12 pi-flux -0.7267138527, N=18 zero_flux/two_vison), and Sokal/Wolff/Geyer-IPS/split-Rhat/BCa diagnostics all verify cleanly (233/233 pytest, 0 lint/type/governance issues). Findings F1-F5 record an exact 1D yz-loop holonomy theorem resolving a 2^{-n_x} random-ref node wall at L>=4 for UOW-05, adjudicate W4 W1-W3, and queue pre-RC hardening + Sleep compression targets.",
+  "prior_art_sources": [
+    "Pedrocchi, Chesi & Loss, PRB 84, 165414 (2011) [library/arxiv-harvest/transcripts/Pedrocchi-Chesi-etal_2011_Physical-solutions-of-the-Kitaev-honeycomb-model.md, Secs. III-IV, Eqs. (7)-(10), (18), (20): physical projector P = S P_0, torus fermion-parity sign (-1)^theta det(Q^u) pi prod u_ij, zero-mode parity degeneracy when eps_0 = 0, and persistent finite-size two-vortex parity oscillations]",
+    "Lieb, PRL 73, 2158-2161 (1994) [library/arxiv-harvest/transcripts/Lieb_1994_The-Flux-Phase-of-the-Half-Filled-Band.md, Theorem 1: optimal pi-flux per length-4 circuit vs 0-flux per length-6 hexagon on reflection-symmetric bipartite graphs, explaining why 2x2 torus wrapping 4-cycles lowers pi-flux (-sqrt(3)/2) below zero-flux (-0.809017)]",
+    "Robledo, PRC 79, 021302(R) (2009) [library/references-transcripts/robledo_2009_sign_overlap_hfb/robledo_2009_sign_overlap_hfb.md: Thouless HFB representation |phi> = exp(1/2 M a^+ a^+)|0>, Pfaffian sign resolution Pf(P^T R P) = det(P) Pf(R), and reference-vacuum pole/zero shifts when <0|phi> = 0]",
+    "Zhang, Halasz, Zhu & Batista, PRB 104, 014411 (2021) [library/arxiv-harvest/transcripts/Zhang-Halasz-etal_2021_Variational-study-of-the-Kitaev-Heisenberg-Gamma-model.md, Sec. II.3-II.4, Eqs. (6)-(21): odd-parity bare flux pairs vs bosonic flux-pair + 1-matter-fermion bound states and generalized Wick Pfaffian overlaps]",
+    "Kitaev, Ann. Phys. 321, 2-111 (2006) & Fu, Knolle & Perkins, PRB 97, 115142 (2018) [library/references-transcripts/kitaev_2006_anyons_honeycomb/ & library/arxiv-harvest/transcripts/Fu-Knolle-etal_2018_Majorana-representations-of-spin-and-an-alternative-solution-of-the-Kitaev-h.md: sigma^a = i b^a c, physical subspace D_j = b^x b^y b^z c = +1 implying sigma^x = -i b^y b^z on D_j = +1, and SO(4) = [SU(2)_L x SU(2)_R]/Z_2]",
+    "MCMC & Bootstrap Metrology Standards: Sokal (1997) Cargese Lectures (g = 1 + 2 sum rho_k), Wolff, CPC 156, 143 (2004) (tau_int = g/2), Geyer, Stat. Sci. 7, 473 (1992) (Initial Positive Sequence), Gelman et al. BDA3 / Vehtari et al. Bayesian Anal. 16, 667 (2021) (split-Rhat), Efron, JASA 82, 171 (1987) (BCa), and research/qsl/contracts/qsl_metrology_guidelines.md"
+  ],
+  "compression_assessment": "Deterministic parameter-free audit at 3a987df3716b (`compression_audit.py audit` & `trajectory`): `no_lean`, `Py Tok = 94,247` (`+7,521` Tok in UOW-03), `|C_lzma| = 646,528 bits` (`80,816 B`, `+44,160` bits in UOW-03), `N_univ = 26`, `Orphans = 0`, `R_clone = 37.3%`, passive observatory `b(t) = 24,866.5 bits/univ` (`observatory_only: true, never_optimize_locally: true`; expected temporary upward drift during `explore_expand` per Rule 09 §8). Standalone `repo_governance_gate.py` (`[OK]`, 1 grandfathered warning on `real_space.py` at `940 <= 940` LOC) and hub `uow.py check` (`[PASS]`) succeed; `gutzwiller_projection.py` (`839` LOC), `gutzwiller_stability.py` (`772` LOC), and `gutzwiller_benchmark.py` (`212` LOC) sit inside the 900-LOC modularity ratchet; Ruff check/format (`113` files), strict Mypy (`78` files), `sync_external_data.py --verify` (`4` active datasets), and `233/233` pytest pass cleanly. Disposition: **KEEP** the Thouless `SU(2)^N` block-diagonality, 1-QP parity-repaired flux evaluator, and Geyer-IPS/Wolff/split-Rhat diagnostics; **COMPRESS** in a post-Wave-2 Sleep cluster move by (1) extracting a single 20-LOC `_apply_kitaev_zeeman_spin_hamiltonian(nx, ny, h, psi)` helper unifying the 3 duplicated `2^N` Pauli bond/Zeeman action loops (`gutzwiller_projection.py:_exact_spin_observables`, `gutzwiller_stability.py:exact_energy_variance`, `test_wave2_gutzwiller_stability.py:_exact_spin_ed_sector_ground_energy`), (2) unifying the 27 ACID `.dat`/`.meta.json` provenance writers (`scripts/m1_*` + `gutzwiller_benchmark.py`) and duplicate Parlett-Reid Pfaffians (`real_space.py` vs `gutzwiller_projection.py`), and (3) splitting grandfathered `real_space.py` (`940` LOC).",
+  "mental_image_assessment": "`KNOWLEDGE_MAP.md` §1 & §3 (`W2B-GUTZWILLER`) maintain a crisp separation between exact algebraic theorems, verified scMFT/ED benchmarks, and open `TODO(owner)` `HC-01..03` thresholds. Physically, UOW-03 illuminates why local continuous `SU(2)_R` gauge freedom never destabilizes Thouless Pfaffian VMC: in the `|01>, |10>` physical basis, `O_s = exp(theta_s . SO4_L)` embeds diagonally as `u_s oplus u_s^*` (`u_s in SU(2)`, `det u_s = +1`) with zero particle-hole mixing, preserving the full singular-value spectrum of `A_blk` and every bitstring Pfaffian amplitude, whereas `kitaev-mf`'s `N^a = R^a - L^a` bond decoupling breaks `SU(2)_R -> Z_2`. Red-Team Pillar-1/2 analysis adds a sharp topological complement to this mental image for Wave-2C (`UOW-05`): on `D_s = +1`, `sigma_s^x = -i b_s^y b_s^z` is purely a `yz`-gauge bilinear, so the `n_x` vertical `yz`-cycles `C_x` obey the exact loop-holonomy superselection rule `S_x = prod_{s in C_x} sigma_s^x = -bc_y prod_{b in C_x} u_b^{y,z}`. At `h = 0`, this confines `|Psi_proj>` to a `2^{-n_x}` submanifold of `{0,1}^N` (where `y,z`-bond 2-spin flips are 100% ergodic while 1-spin and `x`-bond flips have 0% acceptance) and allows deterministic 1-step reference bitstring construction at arbitrary `L`.",
+  "independent_checks": [
+    {
+      "id": "R1",
+      "check": "Exact 1D `yz`-loop holonomy theorem `S_x = prod_{s in C_x} sigma_s^x = -bc_y prod_{b in C_x} u_b` & full Markov support-graph ergodicity at `h = 0` (`2x2`, `2x3`)",
+      "result": "PASS + STRUCTURAL DISCOVERY: verified `n_col_parities == 1` across all 6 `N=8,12` (`zero_flux`, `two_vison`, `pi_flux`) states; `x`-bond and 1-spin Metropolis proposals have identically `0` acceptance (`73.3%` dead proposals at `h=0`), while `y,z` 2-spin bond moves connect `100%` of the non-zero bitstring support (`48/48`, `64/64` on `2x2`; `800/800`, `1024/1024` on `2x3`) with Zero-Variance `e_loc_std <= 4.98e-16`"
+    },
+    {
+      "id": "R2",
+      "check": "Lakatosian `L >= 4` scaling probe of `build_thouless_data` random `ref` search (`two_vison` on `L = 4, 6, 8`) & constructive 1-step holonomy-matched `ref` proof",
+      "result": "CRITICAL GUARDRAIL FOR UOW-05 (`F1`): because `S_x = eta_x` imposes `n_x = L` independent `Z_2` constraints (`P(random ref admissible) <= 2^{-L}`, measured `2/64 = 0.031` at `L=4` and `3/64 = 0.047` at `L=6`), `build_thouless_data` (16 trials) returns `0/4` twists (`RuntimeError`) on `L = 4, 6, 8` `two_vison`! Setting `ref[torus_site(L,L,x,0,0)] = 1` whenever `eta_x = -bc_y prod_{C_x} u_b == -1` recovers `4/4` twists in 1 deterministic trial (`cond = 6.1..15.3`, finding the `L=4` `0-QP` ground twist `bc=(1,1)` at `E/N = -0.7836309302`)"
+    },
+    {
+      "id": "R3",
+      "check": "Adjudication of W4 `W1` (`3x3` & `6x6` `bc=(1,1)` zero-mode MZM parity degeneracy & `N > 12` `cond` vs energy twist ranking) and `W2` (`b`-gauge mode contamination in `excite_lowest_qp=True`)",
+      "result": "CONFIRMED (`F1`, `F2`): on resonant `3 | L` (`L=3,6`) `two_vison` at `bc=(1,1)`, `min_eps = 0.0` (`n_zero = 1` complex MZM mode), so `n_0 in {0,1}` are degenerate with opposite parity and survive `P_0` at `E_0^ED/N = -0.7621342368` (`3x3`), below the gapped `bc=(1,-1)` 1-QP variational upper bound `-0.7509143409`; ranking `N > 12` twists by `cond` instead of energy mis-orders `L=4` `bc_y=-1` twists (`-0.756332` at `cond=6.10` vs `-0.771905` at `cond=7.30`). On `2x2` `zero_flux` `bc=(1,1)` (`2*eps_c0 = 2.0 > 2|v_ij| = 1.0496`), `excite_lowest_qp=True` excites a `0%`-matter `b`-bond mode and contaminates `W_p` from `+1.0` to `0.0` (`E = -0.625`)"
+    },
+    {
+      "id": "R4",
+      "check": "High-statistics `N = 18` (`3x3`) `h = 0.25` VMC cross-check (120 chains x 80 samples = 9,600 samples) against `.dat` `su2_r` rows 25-27",
+      "result": "PASS: independent 9,600-sample `bc=(-1,-1)` VMC yields `E = -0.881397 +/- 0.000479`, consistent with exported 2,500-sample rows (`identity = -0.881643`, `sublattice_staggered = -0.882506`, `pi_flips_xyz = -0.883936`) while bitstring `|Delta E_loc| <= 1.044e-14`"
+    },
+    {
+      "id": "R5",
+      "check": "MCMC autocorrelation & `BCa` metrology stress probes (`VMCGutzwillerResult` vs `AutocorrelationDiagnostics`, `AR(1)` `phi=0.95`, invalid `confidence`, discrete-tie reflection)",
+      "result": "CONFIRMED NON-BLOCKING (`F3`): `VMCGutzwillerResult.tau_int_energy` stores `g_sokal = 2 * tau_int_wolff` (exact ratio `2.000000` vs `AutocorrelationDiagnostics.tau_int_wolff`); `AR(1)` `phi=0.95` (`exact g = 39.0`) confirms `_integrated_autocorr` `max_lag=25` cap (`g_sokal = 24.74` vs uncapped `g_ips_geyer = 39.81`, zero impact on UOW-03 where `g <= 2.01`); `bca_confidence_interval` accepts `confidence <= 0` (`confidence=-0.5 -> (5.1, 3.8)`) and shows `5.998e-2` reflection asymmetry on `49x0 + 1x1` ties under strict `<`"
+    },
+    {
+      "id": "R6",
+      "check": "Read-only repository verification, ACID `.dat`/`.meta.json` SHA-256 check, and worktree cleanliness (`red-audit` & `dev-wave2`)",
+      "result": "PASS: `233/233` pytest pass on `red-audit` (including CWD-anchored benchmark tests from parent dir), Ruff check/format clean (`113` files), strict Mypy clean (`78` source/test files), `sync_external_data.py --verify` PASS, `repo_governance_gate.py` `[OK]`, `uow.py check` `[PASS]`, `.meta.json` `sha256 == 15060c2e...ae87a` verified, and `git status` 100% clean on both worktrees"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "non-blocking",
+      "category": "LAKATOSIAN_GUARDRAIL_UOW05",
+      "location": "src/kitaev_mf/services/{gutzwiller_projection.py:270-305,gutzwiller_stability.py:686-708} -> Blue UOW-05",
+      "observation": "Exact 1D `yz`-loop holonomy law, `2^{-n_x}` random-ref node wall at `L >= 4`, & `3 | L` zero-mode / twist-energy selection for `UOW-05` (`Wave-2C: Isolated two-vison binding V(R,L)`): (a) On `D_s = +1`, `sigma_s^x = -i b_s^y b_s^z`, so each of the `n_x` vertical `yz`-loops `C_x` obeys `S_x = prod_{s in C_x} sigma_s^x = -bc_y prod_{b in C_x} u_b^{y,z}` at `h = 0`. Consequently, random `ref` bitstrings in `build_thouless_data` (`16` trials) succeed with probability `<= 2^{-n_x}`, failing `0/4` twists (`RuntimeError`) on `L = 4, 6, 8` `two_vison` whenever `eta_x == -1` (`ref=0` invalid). Constructing `ref` deterministically via `ref[torus_site(nx,ny,x,0,0)] = 1` whenever `-bc_y prod_{C_x} u_b == -1` (or pivoted QR column selection at `h > 0`) recovers `4/4` twists in 1 step (`cond = 6.1..15.3` on `L=4,6,8`, uncovering the `L=4` `0-QP` ground twist `bc=(1,1)` at `E/N = -0.7836309302`). (b) Adjudicating W4 `W1` via Pedrocchi-Chesi-Loss (PRB 84, 165414 (2011), Sec. IV): on Dirac-resonant `3 | L` (`L=3,6`) `two_vison` at `bc=(1,1)`, `min_eps = 0` (`1` zero-energy complex MZM mode), so `n_0 in {0,1}` are degenerate with opposite parity and survive `P_0` at zero energy cost (`E_0^ED/N = -0.7621342368` on `3x3` vs `bc=(1,-1)` 1-QP variational bound `-0.7509143409`). Also rank `N > 12` twists by energy rather than `cond` (`L=4` `bc_y=-1` `cond=6.10` gives `-0.756332` vs `-0.771905` at `cond=7.30`), stratify `3 | L` vs `3 nmid L` in `UOW-05` `V(R,L)` fits (noting Pedrocchi et al. Fig. 4 finite-size parity oscillations), and preserve the UOW-02 `F2` `(-1)^{N_act}` Pfaffian parity factor across `P_0` on odd-active-site vacancy clusters."
+    },
+    {
+      "id": "F2",
+      "severity": "non-blocking",
+      "category": "W4_ADJUDICATION",
+      "location": "src/kitaev_mf/services/gutzwiller_projection.py:282-286",
+      "observation": "Adjudication of W4 `W2` (matter-mode filtering in `excite_lowest_qp=True`): when `2*eps_min^{c0} > 2|v_ij| = 1.049605` (verified on `2x2` `zero_flux` `bc=(1,1)` where `2*eps_min^{c0} = 2.0`, and in gapped anisotropic Toric-Code `A`-phase regimes), `pos_idx[0]` is a `0%`-matter localized `b`-bond gauge mode whose excitation flips `u_b -> -u_b` and contaminates the flux sector (`W_p` drops from `+1.0` to `0.0`, `E = -0.625`). Filter `pos_idx` by nonzero `c^0` matter weight (`sum_s |v[2*m0(s)]|^2 + ... > 0.1` in Majorana `4*s` coordinates) when performing 1-QP parity repair."
+    },
+    {
+      "id": "F3",
+      "severity": "non-blocking",
+      "category": "METROLOGY",
+      "location": "src/kitaev_mf/services/{gutzwiller_projection.py:58-104,594-611,816-835,gutzwiller_stability.py:157-244} & CHANGELOG.md:22",
+      "observation": "Autocorrelation convention unification & `BCa` guards (extending W4 `W3`): (a) While `AutocorrelationDiagnostics` properly distinguishes `g_sokal = 2 * tau_int_wolff` from `tau_int_wolff`, legacy `evaluate_vmc_gutzwiller` (`gutzwiller_projection.py:819-835`) still stores `_integrated_autocorr` (`== g_sokal >= 1.0`, exact ratio `2.000000` vs `tau_int_wolff`) in `VMCGutzwillerResult.tau_int_energy`; align or document clearly so callers applying `n_eff = N / (2 * tau_int)` (`qsl_metrology_guidelines.md` §V) never halve `n_eff` twice. (b) `_integrated_autocorr` caps `max_lag = min(n // 4, 25)` (`AR(1)` `phi=0.95` gives `g_sokal = 24.74` vs uncapped `g_ips_geyer = 39.81`, zero effect on UOW-03 where `g <= 2.01`). (c) Add `if not (0.0 < confidence < 1.0): raise ValueError(...)` and optional Mid-P tie handling (`mean(boot < theta) + 0.5 * mean(boot == theta)`) in `bca_confidence_interval` (`confidence=-0.5` currently returns inverted `(5.1, 3.8)` without raising), and note `CHANGELOG.md:22` lists `770` vs actual `772` LOC for `gutzwiller_stability.py`."
+    },
+    {
+      "id": "F4",
+      "severity": "non-blocking",
+      "category": "PROVENANCE",
+      "location": "src/kitaev_mf/services/gutzwiller_benchmark.py:62-75,184-190 & data/processed/benchmarks/wave2/hc02_gutzwiller_su2_flux_stability.{dat,meta.json}",
+      "observation": "ACID pre-commit `HEAD` provenance tag: `hc02_gutzwiller_su2_flux_stability.{dat,meta.json}` has verified SHA-256 (`15060c2e...ae87a`) and exact values, while `git_sha` records parent `abfa27020105...` (`UOW-01`, the pre-commit `HEAD` when the exporter ran on the uncommitted `UOW-03` worktree) without recording `git_dirty` (cf. Rule 08 §2.4 `# git_dirty: ...`). Include `git_dirty` (and/or `base_git_sha`) in Wave-2C `UOW-05` benchmark exports so pre-commit generation on a dirty worktree is explicitly distinguished from a clean committed checkout."
+    },
+    {
+      "id": "F5",
+      "severity": "non-blocking",
+      "category": "COMPRESS",
+      "location": "src/kitaev_mf/services/{gutzwiller_projection.py,gutzwiller_stability.py,gutzwiller_benchmark.py,real_space.py} & src/kitaev_mf/domain/qsl_bridge.py",
+      "observation": "Parameter-free compression & pre-RC checklist (`KEEP` / `COMPRESS`): KEEP the Wave-2B `SU(2)^N` Thouless, flux-sector, and Geyer-IPS/Wolff/split-Rhat modules (`839`, `772`, `212 <= 900` LOC). Queue for the post-Wave-2 Sleep consolidation cluster move: (1) unify the 3 duplicated `2^N` spin-Pauli action loops (`_exact_spin_observables`, `exact_energy_variance`, `_exact_spin_ed_sector_ground_energy`) behind one shared operator helper; (2) unify the 27 ACID `.dat`/`.meta.json` writers and duplicate Parlett-Reid Pfaffian kernels (`real_space.py` vs `gutzwiller_projection.py`); (3) split grandfathered `real_space.py` (`940` LOC); and (4) complete UOW-02 `F3` (`QSLMeanFieldPortState` `NaN`/`conventions_version` & `A -> B` bond-orientation guards) ahead of `UOW-06` `v0.3.0` RC."
+    }
+  ]
+}

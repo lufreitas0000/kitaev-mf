@@ -1,0 +1,38 @@
+{
+  "base_git_sha": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "dataset": "q_l2_1_disorder_vacancy_stability",
+  "geometry": "Periodic LxL honeycomb tori L in {4, 6, 8, 10} with quenched bond disorder and non-magnetic vacancies",
+  "git_dirty": true,
+  "git_sha": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "parameters": {
+    "kao_knolle_thermo_reference_e_bind": -0.0268,
+    "n_bond_2v_rows": 10,
+    "n_vac_bind_rows": 3,
+    "n_vacancy_rows": 15,
+    "uow_id": "UOW-05",
+    "vacancy_flux_binding_by_L": {
+      "10": {
+        "cut_length": 4,
+        "e_bind_per_vacancy": -0.017340506789039978,
+        "max_gauge_residual": 0.0,
+        "resonance_class": "3!|L"
+      },
+      "6": {
+        "cut_length": 2,
+        "e_bind_per_vacancy": -0.08604565871569392,
+        "max_gauge_residual": 0.0,
+        "resonance_class": "3|L"
+      },
+      "8": {
+        "cut_length": 3,
+        "e_bind_per_vacancy": -0.02273993964237775,
+        "max_gauge_residual": 0.0,
+        "resonance_class": "3!|L"
+      }
+    }
+  },
+  "schema_version": 1,
+  "sha256": "424c7dc44e6516de88c5c300b873a5f08af82aff75a06c3b2864dc88c4aef666",
+  "source_repo": "kitaev-mf",
+  "unit_convention": "pauli_k_minus_one_inhomogeneous_D_80L2"
+}

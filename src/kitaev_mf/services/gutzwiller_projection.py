@@ -35,7 +35,11 @@ class ExactGutzwillerResult:
 
 @dataclass(frozen=True, slots=True)
 class VMCGutzwillerResult:
-    """50-chain Metropolis-Hastings Gutzwiller VMC result with BCa CIs and n_eff."""
+    """50-chain Metropolis-Hastings Gutzwiller VMC result with BCa CIs and n_eff.
+
+    Note: ``tau_int_energy`` stores Sokal's statistical inefficiency ``g_sokal = 2 * tau_int_wolff >= 1``
+    so ``n_eff_total = (n_chains * samples_per_chain) / tau_int_energy`` (do not double-halve).
+    """
 
     nx: int
     ny: int
@@ -61,11 +65,14 @@ def bca_confidence_interval(
     confidence: float = 0.95,
     n_boot: int = 2000,
     seed: int = 12345,
+    mid_p: bool = False,
 ) -> tuple[float, float]:
-    """Compute non-parametric BCa confidence interval with degenerate-array guard."""
+    """Compute non-parametric BCa confidence interval with degenerate-array and range guards."""
     arr = np.asarray(values, dtype=np.float64)
     if arr.size == 0 or not np.all(np.isfinite(arr)):
         raise ValueError("bca_confidence_interval requires non-empty finite values.")
+    if not (0.0 < confidence < 1.0):
+        raise ValueError(f"confidence must lie strictly in (0, 1), got {confidence}")
     if n_boot < 1:
         raise ValueError(f"n_boot must be >= 1, got {n_boot}")
     n = arr.size
@@ -79,7 +86,11 @@ def bca_confidence_interval(
     idx = rng.integers(0, n, size=(n_boot, n))
     boot_means = np.mean(arr[idx], axis=1)
 
-    prop_less = float(np.mean(boot_means < theta_hat))
+    prop_less = (
+        float(np.mean(boot_means < theta_hat) + 0.5 * np.mean(boot_means == theta_hat))
+        if mid_p
+        else float(np.mean(boot_means < theta_hat))
+    )
     prop_less = min(max(prop_less, 0.5 / n_boot), 1.0 - 0.5 / n_boot)
     z0 = float(ndtri(prop_less))
 
@@ -227,25 +238,35 @@ def _build_physical_ref_bdg_transform(ref: NDArray[np.int8]) -> NDArray[np.compl
     t_cf = np.zeros((2 * n_jw, 2 * n_jw), dtype=np.complex128)
     for s in range(n_sites):
         m0, m1 = 2 * s, 2 * s + 1
-        if ref[s] == 0:
-            t_cf[2 * m0, m0] = 1.0
-            t_cf[2 * m0, n_jw + m0] = 1.0
-            t_cf[2 * m0 + 1, m0] = -1.0j
-            t_cf[2 * m0 + 1, n_jw + m0] = 1.0j
-            t_cf[2 * m1, m1] = 1.0
-            t_cf[2 * m1, n_jw + m1] = 1.0
-            t_cf[2 * m1 + 1, m1] = 1.0j
-            t_cf[2 * m1 + 1, n_jw + m1] = -1.0j
-        else:
-            t_cf[2 * m0, m0] = 1.0
-            t_cf[2 * m0, n_jw + m0] = 1.0
-            t_cf[2 * m0 + 1, m0] = 1.0j
-            t_cf[2 * m0 + 1, n_jw + m0] = -1.0j
-            t_cf[2 * m1, m1] = 1.0
-            t_cf[2 * m1, n_jw + m1] = 1.0
-            t_cf[2 * m1 + 1, m1] = -1.0j
-            t_cf[2 * m1 + 1, n_jw + m1] = 1.0j
+        sgn = -1.0j if ref[s] == 0 else 1.0j
+        t_cf[2 * m0, m0] = t_cf[2 * m0, n_jw + m0] = 1.0
+        t_cf[2 * m0 + 1, m0], t_cf[2 * m0 + 1, n_jw + m0] = sgn, -sgn
+        t_cf[2 * m1, m1] = t_cf[2 * m1, n_jw + m1] = 1.0
+        t_cf[2 * m1 + 1, m1], t_cf[2 * m1 + 1, n_jw + m1] = -sgn, sgn
     return t_cf
+
+
+def _canonical_zero_mode_pair(
+    zero_vecs: NDArray[np.complex128], n_jw: int
+) -> tuple[NDArray[np.complex128], NDArray[np.complex128]]:
+    """Split a 2D PH-invariant zero-energy subspace into conjugate Dirac modes ``(v0, Xi v0)``."""
+
+    def _xi(v: NDArray[np.complex128]) -> NDArray[np.complex128]:
+        return np.concatenate([v[n_jw:].conj(), v[:n_jw].conj()])
+
+    u1 = zero_vecs[:, 0]
+    g1 = (
+        u1 + _xi(u1) if float(np.linalg.norm(u1 + _xi(u1))) >= 1e-10 else 1.0j * u1 + _xi(1.0j * u1)
+    )
+    g1 = g1 / float(np.linalg.norm(g1))
+    u2 = zero_vecs[:, 1] - np.vdot(g1, zero_vecs[:, 1]) * g1
+    g2 = (
+        u2 + _xi(u2) if float(np.linalg.norm(u2 + _xi(u2))) >= 1e-10 else 1.0j * u2 + _xi(1.0j * u2)
+    )
+    g2 = g2 - float(np.vdot(g1, g2).real) * g1
+    g2 = g2 / float(np.linalg.norm(g2))
+    v0 = (g1 + 1.0j * g2) / sqrt(2.0)
+    return v0, _xi(v0)
 
 
 def build_thouless_data(
@@ -254,12 +275,16 @@ def build_thouless_data(
     *,
     seed: int = 42,
     excite_lowest_qp: bool = False,
+    candidate_refs: Sequence[NDArray[np.int8]] | None = None,
+    allow_zero_mode: bool = False,
 ) -> tuple[NDArray[np.int8], NDArray[np.complex128], float] | None:
     """Build skew-symmetric Thouless matrix Z_eff and canonical reference configuration.
 
-    When `excite_lowest_qp=True`, replaces the lowest positive Bogoliubov mode `v_+` with its
-    exact particle-hole conjugate `v_- = Xi v_+` to flip global fermion parity from odd to even
-    (resolving Pedrocchi-Chesi-Loss parity obstructions such as 2x3 pi-flux tori).
+    When ``excite_lowest_qp=True``, replaces the lowest positive matter-overlapping Bogoliubov
+    mode ``v_+`` with its exact particle-hole conjugate ``v_- = Xi v_+`` to flip global fermion
+    parity without contaminating static ``b``-bond gauge fluxes. When ``allow_zero_mode=True``
+    and an exact 2D zero-energy MZM subspace exists (e.g. ``3 | L`` ``two_vison`` ``bc=(1,1)``),
+    selects the even-parity zero-mode occupation branch at zero energy cost.
     """
     n_jw = 2 * n_sites
     rng = np.random.default_rng(seed)
@@ -267,38 +292,66 @@ def build_thouless_data(
     best_ref: NDArray[np.int8] | None = None
     best_z: NDArray[np.complex128] | None = None
 
-    for trial in range(16):
-        ref = (
-            np.zeros(n_sites, dtype=np.int8)
-            if trial == 0
-            else rng.integers(0, 2, size=n_sites, dtype=np.int8)
-        )
-        t_cf = _build_physical_ref_bdg_transform(ref)
-        h_bdg = 0.5j * (t_cf.conj().T @ a_mat @ t_cf)
-        evals, evecs = np.linalg.eigh(h_bdg)
-        pos_idx = np.where(evals > 1e-12)[0]
-        if pos_idx.size != n_jw:
-            continue
+    # Diagonalize once in the ref=0 basis; switching ref[s]=1 is an exact column swap
+    # (2s, 2s+1) <-> (n_jw+2s, n_jw+2s+1) that commutes with particle-hole conjugation Xi.
+    t_cf0 = _build_physical_ref_bdg_transform(np.zeros(n_sites, dtype=np.int8))
+    h_bdg0 = 0.5j * (t_cf0.conj().T @ a_mat @ t_cf0)
+    evals, evecs = np.linalg.eigh(h_bdg0)
+    pos_idx = np.where(evals > 1e-12)[0]
+    zero_idx = np.where(np.abs(evals) <= 1e-12)[0]
+
+    row_candidates0: list[NDArray[np.complex128]] = []
+    if pos_idx.size == n_jw and zero_idx.size == 0:
         if excite_lowest_qp:
-            v_pos = evecs[:, pos_idx[0]]
+            pick = 0
+            for k_i, col_i in enumerate(pos_idx):
+                v_maj = (t_cf0 @ evecs[:, col_i]) / sqrt(2.0)
+                if float(np.sum(np.abs(v_maj[0::4]) ** 2)) > 0.1:
+                    pick = k_i
+                    break
+            v_pos = evecs[:, pos_idx[pick]]
             v_neg_ph = np.concatenate([v_pos[n_jw:].conj(), v_pos[:n_jw].conj()])
-            row_mat = np.column_stack([v_neg_ph, evecs[:, pos_idx[1:]]]).conj().T
+            rest = [pos_idx[k] for k in range(pos_idx.size) if k != pick]
+            row_candidates0.append(np.column_stack([v_neg_ph, evecs[:, rest]]).conj().T)
         else:
-            row_mat = evecs[:, pos_idx].conj().T
-        a_blk = row_mat[:, :n_jw]
-        cond = float(np.linalg.cond(a_blk))
-        if not np.isfinite(cond) or cond > 1e8:
-            continue
-        z_cand = -np.linalg.solve(a_blk, row_mat[:, n_jw:])
-        z_scale = max(1.0, float(np.max(np.abs(z_cand))))
-        if float(np.max(np.abs(z_cand + z_cand.T))) > 1e-7 * z_scale:
-            continue
-        if cond < best_cond:
-            best_cond = cond
-            best_ref = ref
-            best_z = z_cand
-            if cond < 50.0:
-                break
+            row_candidates0.append(evecs[:, pos_idx].conj().T)
+    elif (
+        allow_zero_mode and not excite_lowest_qp and zero_idx.size == 2 and pos_idx.size == n_jw - 1
+    ):
+        v0, v0_bar = _canonical_zero_mode_pair(evecs[:, zero_idx], n_jw)
+        row_candidates0.append(np.column_stack([v0, evecs[:, pos_idx]]).conj().T)
+        row_candidates0.append(np.column_stack([v0_bar, evecs[:, pos_idx]]).conj().T)
+    else:
+        return None
+
+    trial_refs: list[NDArray[np.int8]] = []
+    if candidate_refs is not None:
+        trial_refs.extend(np.asarray(r, dtype=np.int8).copy() for r in candidate_refs)
+    trial_refs.append(np.zeros(n_sites, dtype=np.int8))
+    trial_refs.extend(rng.integers(0, 2, size=n_sites, dtype=np.int8) for _ in range(15))
+
+    for ref in trial_refs:
+        col_perm = np.arange(2 * n_jw, dtype=np.intp)
+        for s in range(n_sites):
+            if ref[s] == 1:
+                for m in (2 * s, 2 * s + 1):
+                    col_perm[m], col_perm[n_jw + m] = n_jw + m, m
+        for row_mat0 in row_candidates0:
+            row_mat = row_mat0[:, col_perm]
+            a_blk = row_mat[:, :n_jw]
+            cond = float(np.linalg.cond(a_blk))
+            if not np.isfinite(cond) or cond > 1e8:
+                continue
+            z_cand = -np.linalg.solve(a_blk, row_mat[:, n_jw:])
+            z_scale = max(1.0, float(np.max(np.abs(z_cand))))
+            if float(np.max(np.abs(z_cand + z_cand.T))) > 1e-7 * z_scale:
+                continue
+            if cond < best_cond:
+                best_cond = cond
+                best_ref = ref
+                best_z = z_cand
+        if best_cond < 50.0:
+            break
 
     if best_ref is None or best_z is None or best_cond > 1e8:
         return None
@@ -591,8 +644,8 @@ class _ThoulessStateEvaluator:
         return (-complex(w)) * complex(schur2[0, 1])
 
 
-def _integrated_autocorr(series: NDArray[np.float64]) -> float:
-    """Positive initial-sequence estimate of integrated autocorrelation time tau_int."""
+def _integrated_autocorr(series: NDArray[np.float64], *, max_lag: int | None = None) -> float:
+    """Positive initial-sequence Sokal inefficiency g = 1 + 2 sum rho_k = 2 * tau_int_wolff."""
     n = series.size
     if n < 8:
         return 1.0
@@ -600,9 +653,9 @@ def _integrated_autocorr(series: NDArray[np.float64]) -> float:
     if var <= 1e-24:
         return 1.0
     centered = series - float(np.mean(series))
-    max_lag = min(n // 4, 25)
+    lag_cap = max(1, n // 4) if max_lag is None else min(n - 1, max(1, max_lag))
     tau_int = 1.0
-    for lag in range(1, max_lag + 1):
+    for lag in range(1, lag_cap + 1):
         rho = float(np.dot(centered[:-lag], centered[lag:]) / ((n - lag) * var))
         if rho <= 0.0:
             break

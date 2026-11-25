@@ -1,0 +1,87 @@
+{
+  "base_git_sha": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "dataset": "q_l2_1_two_vison_binding_projection",
+  "geometry": "Periodic LxL honeycomb tori L in {4..8} (exact Gutzwiller) and L in {8..15} (chiral scMFT)",
+  "git_dirty": true,
+  "git_sha": "3a987df3716bf7d995c2fa41871d12a40ae518a7",
+  "parameters": {
+    "deconfinement_proj_L8": {
+      "bayes_factor_10": 5531.136315722019,
+      "delta_bic_deconf_over_conf": 17.236297110910435,
+      "delta_v_extracted": 0.14166780230425147,
+      "delta_v_rel_err_vs_kitaev": 0.07768357874836276,
+      "sigma_eff_unconstrained": 0.016890935944405782,
+      "v_inf_plateau": 0.28333560460850293
+    },
+    "deconfinement_proj_nonresonant_L5_L7_L8": {
+      "delta_bic_deconf_over_conf": 21.688068998919643,
+      "delta_v_extracted": 0.12912197481321877,
+      "n_points": 9,
+      "sigma_eff_unconstrained": 0.019525971262767693,
+      "v_inf_plateau": 0.25824394962643754
+    },
+    "n_chiral_rows": 81,
+    "n_proj_rows": 14,
+    "oscillatory_mzm_by_kappa": {
+      "0.04": {
+        "alpha_osc_log": 2.048933473141956,
+        "delta_aicc_osc_exp_vs_mono_exp": 18.77289888818848,
+        "delta_aicc_osc_exp_vs_osc_pow_log": 5.151353395006012,
+        "delta_bic_osc_exp_vs_mono_exp": 18.701464277967432,
+        "delta_bic_osc_exp_vs_osc_pow_log": 5.151353395006012,
+        "leave_lmax_rel_err_mono": 0.5303235251393477,
+        "leave_lmax_rel_err_osc": 0.4213726100330084,
+        "leave_lmin_rel_err_mono": 0.5117103838149432,
+        "leave_lmin_rel_err_osc": 0.2993866466614072,
+        "n_points": 22.0,
+        "phi_osc_linear": 0.16755160819145562,
+        "v_bind_r1_lmax": -0.10042178922827816,
+        "v_plateau_lmax": 0.3944315691164775,
+        "v_r1_lmax": 0.2940097798881993,
+        "xi_osc_linear": 2.112328767123288,
+        "xi_osc_log": 1.9215236397954039
+      },
+      "0.06": {
+        "alpha_osc_log": 2.5903610045621495,
+        "delta_aicc_osc_exp_vs_mono_exp": 41.516479613185325,
+        "delta_aicc_osc_exp_vs_osc_pow_log": 7.49025622798483,
+        "delta_bic_osc_exp_vs_mono_exp": 41.44504500296425,
+        "delta_bic_osc_exp_vs_osc_pow_log": 7.49025622798483,
+        "leave_lmax_rel_err_mono": 0.41352605550380567,
+        "leave_lmax_rel_err_osc": 0.12189067719377793,
+        "leave_lmin_rel_err_mono": 0.47490814745095167,
+        "leave_lmin_rel_err_osc": 0.18416992712752508,
+        "n_points": 22.0,
+        "phi_osc_linear": 0.23387411976724018,
+        "v_bind_r1_lmax": -0.12405968273537837,
+        "v_plateau_lmax": 0.44529800765383243,
+        "v_r1_lmax": 0.32123832491845405,
+        "xi_osc_linear": 1.6604109589041098,
+        "xi_osc_log": 1.5452614139009975
+      },
+      "0.10": {
+        "alpha_osc_log": 3.19254016099575,
+        "delta_aicc_osc_exp_vs_mono_exp": 64.3141515484345,
+        "delta_aicc_osc_exp_vs_osc_pow_log": 8.867618529198342,
+        "delta_bic_osc_exp_vs_mono_exp": 64.24271693821339,
+        "delta_bic_osc_exp_vs_osc_pow_log": 8.867618529198342,
+        "leave_lmax_rel_err_mono": 0.5698633425061443,
+        "leave_lmax_rel_err_osc": 0.06515850799405883,
+        "leave_lmin_rel_err_mono": 0.6115710599808524,
+        "leave_lmin_rel_err_osc": 0.30126163966343633,
+        "n_points": 22.0,
+        "phi_osc_linear": 0.40491638646268446,
+        "v_bind_r1_lmax": -0.15218856829449123,
+        "v_plateau_lmax": 0.5347993390662964,
+        "v_r1_lmax": 0.38261077077180516,
+        "xi_osc_linear": 1.276917808219178,
+        "xi_osc_log": 1.1985497592651073
+      }
+    },
+    "uow_id": "UOW-05"
+  },
+  "schema_version": 1,
+  "sha256": "08441023304713bfb1c59de00ee4abebf0f3155830e557f1a7a6dd842d8b46a8",
+  "source_repo": "kitaev-mf",
+  "unit_convention": "pauli_k_minus_one_canonical_4HB_Delta_12sqrt3_kappa_static"
+}
