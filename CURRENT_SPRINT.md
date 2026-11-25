@@ -15,6 +15,10 @@ Owning milestone: M2.1
 - Present Wave 1 numerical results for PI `TODO(owner)` threshold locking on `doc/hypotheses/HC-01.yaml`–`HC-03.yaml` (including replacing the monotone null in `HC-03.yaml` with the oscillatory intervalley envelope or $R \bmod 3$ stratification).
 - Analytical closed-form BZ evaluation of `IDEA-001` (`c_MF = 10.641666`, `sqrt(5)`) remains open.
 
+## Foundational prerequisite — gauge projection and notation (2026-11-25)
+
+Proposed pre-Wave-2 gate: [#25 — common bilayer notation](https://github.com/lufreitas0000/kitaev-mf/issues/25) and [#27 — projected methodology](https://github.com/lufreitas0000/kitaev-mf/issues/27), with [bilayer #17](https://github.com/lufreitas0000/ksl-sc-bilayer/issues/17). See [dated derivation and provenance](doc/rnd/phase_2/gauge_foundation_and_notation_review.md). First validate the coordinate bridge and Gaussian obstruction; then compare projected candidates and review physical interpretations. Historical Wave 1 execution evidence is retained, not renewed scientific acceptance. Do not advance physical finite-T claims or lock affected thresholds until the owner and independent reviewer resolve the prerequisite. Full checklists live in the issues.
+
 ## Next decision / stop conditions
 
-Await PI lock on `HC-01..03.yaml` thresholds and authorization for Wave 2 finite-temperature thermodynamics ($C_v(T)/T$, $S(T)$ across $T_L, T_H$). Longer-horizon items live in [BACKLOG.md](BACKLOG.md) and [HORIZON.md](HORIZON.md); obstructions live in [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md).
+Subject to the foundational prerequisite above, await PI lock on `HC-01..03.yaml` thresholds and authorization for Wave 2 finite-temperature thermodynamics ($C_v(T)/T$, $S(T)$ across $T_L, T_H$). Longer-horizon items live in [BACKLOG.md](BACKLOG.md) and [HORIZON.md](HORIZON.md); obstructions live in [LOG_DISCOVERY_AND_PIVOTS.md](LOG_DISCOVERY_AND_PIVOTS.md).
