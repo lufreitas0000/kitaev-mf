@@ -210,6 +210,11 @@ class QSLMeanFieldPortState:
     conventions_version: str = CONVENTIONS_VERSION
 
     def __post_init__(self) -> None:
+        if self.conventions_version != CONVENTIONS_VERSION:
+            raise ValueError(
+                f"Unsupported conventions_version {self.conventions_version!r}; "
+                f"expected {CONVENTIONS_VERSION!r}"
+            )
         if self.U_v2.ndim != 3 or self.U_v2.shape[1:] != (4, 4):
             raise ValueError(f"U_v2 must have shape (num_bonds, 4, 4), got {self.U_v2.shape}")
         if self.V_v2.ndim != 3 or self.V_v2.shape[1:] != (4, 4):
@@ -222,6 +227,12 @@ class QSLMeanFieldPortState:
             raise ValueError(
                 f"Sublattice mismatch: V_v2 ({self.V_v2.shape[0]}) != lambdas_v2 ({self.lambdas_v2.shape[0]})"
             )
+        if not np.all(np.isfinite(self.U_v2)):
+            raise ValueError("U_v2 must contain only finite values")
+        if not np.all(np.isfinite(self.V_v2)):
+            raise ValueError("V_v2 must contain only finite values")
+        if not np.all(np.isfinite(self.lambdas_v2)):
+            raise ValueError("lambdas_v2 must contain only finite values")
         skew_err = float(np.max(np.abs(self.V_v2 + np.swapaxes(self.V_v2, -1, -2))))
         if skew_err > 1e-12:
             raise ValueError(f"V_v2 must be skew-symmetric, max error: {skew_err}")
@@ -237,6 +248,11 @@ class QSLInhomogeneousPortState:
     conventions_version: str = CONVENTIONS_VERSION
 
     def __post_init__(self) -> None:
+        if self.conventions_version != CONVENTIONS_VERSION:
+            raise ValueError(
+                f"Unsupported conventions_version {self.conventions_version!r}; "
+                f"expected {CONVENTIONS_VERSION!r}"
+            )
         if self.U_v2.ndim != 4 or self.U_v2.shape[1:] != (3, 4, 4):
             raise ValueError(f"U_v2 must have shape (num_cells, 3, 4, 4), got {self.U_v2.shape}")
         if self.V_v2.ndim != 4 or self.V_v2.shape[1:] != (2, 4, 4):
@@ -251,6 +267,12 @@ class QSLInhomogeneousPortState:
                 f"Cell count mismatch: U_v2 ({num_cells}), V_v2 ({self.V_v2.shape[0]}), "
                 f"lambdas_v2 ({self.lambdas_v2.shape[0]})"
             )
+        if not np.all(np.isfinite(self.U_v2)):
+            raise ValueError("U_v2 must contain only finite values")
+        if not np.all(np.isfinite(self.V_v2)):
+            raise ValueError("V_v2 must contain only finite values")
+        if not np.all(np.isfinite(self.lambdas_v2)):
+            raise ValueError("lambdas_v2 must contain only finite values")
         skew_err = float(np.max(np.abs(self.V_v2 + np.swapaxes(self.V_v2, -1, -2))))
         if skew_err > 1e-12:
             raise ValueError(f"V_v2 must be skew-symmetric, max error: {skew_err}")
@@ -342,6 +364,8 @@ def extract_site_su2_expectations(
     v_arr = np.asarray(v_site, dtype=np.float64)
     if v_arr.shape != (4, 4):
         raise ValueError(f"Expected 4x4 on-site covariance matrix, got shape {v_arr.shape}")
+    if not np.all(np.isfinite(v_arr)):
+        raise ValueError("On-site covariance matrix must contain only finite values")
     skew_err = float(np.max(np.abs(v_arr + v_arr.T)))
     if skew_err > 1e-12:
         raise ValueError(f"On-site covariance matrix must be skew-symmetric, max error: {skew_err}")
@@ -427,6 +451,8 @@ def reconstruct_pure_kitaev_bond_tensors(
         raise ValueError(
             f"Expected 1D arrays of length {num_bonds}, got u={u_arr.shape}, v={v_arr.shape}"
         )
+    if not np.all(np.isfinite(u_arr)) or not np.all(np.isfinite(v_arr)):
+        raise ValueError("u_gauge and v_matter must contain only finite values")
 
     out = np.zeros((num_bonds, 4, 4), dtype=np.float64)
     for b_idx, bond in enumerate(cell.bonds):
@@ -445,20 +471,36 @@ def compute_plaquette_wilson_loops_from_u(
     Matches the exact 6-site projected spin plaquette identity
     ``P_+ W_p^{spin} P_+ = P_+ (prod_{b in partial p} i b_{A_b}^{alpha_b} b_{B_b}^{alpha_b}) P_+``
     with positive sign because the three ``A -> B`` and three ``B -> A`` hexagon steps yield
-    ``(-i)^3 (+i)^3 = +1``.
+    ``(-i)^3 (+i)^3 = +1``. Enforces canonical ``A -> B`` (even -> odd sublattice) bond orientation
+    and balanced plaquette step orientations so reversed custom-cell bonds cannot silently flip ``W_p``.
     """
     u_arr = np.asarray(u_gauge, dtype=np.float64)
     num_bonds = len(cell.bonds)
     if u_arr.shape != (num_bonds,):
         raise ValueError(f"Expected u_gauge shape ({num_bonds},), got {u_arr.shape}")
+    if not np.all(np.isfinite(u_arr)):
+        raise ValueError("u_gauge must contain only finite values")
+
+    for b_idx, bond in enumerate(cell.bonds):
+        if bond.sublattice_i % 2 != 0 or bond.sublattice_j % 2 != 1:
+            raise ValueError(
+                "compute_plaquette_wilson_loops_from_u requires canonical A -> B bond orientation "
+                f"(even sublattice_i -> odd sublattice_j); bond {b_idx} has "
+                f"{bond.sublattice_i} -> {bond.sublattice_j}"
+            )
 
     fluxes = np.ones(len(cell.plaquettes), dtype=np.float64)
     for p_idx, plaq in enumerate(cell.plaquettes):
-        b_indices = (
-            [b_idx for b_idx, _ in plaq.oriented_bonds]
-            if plaq.oriented_bonds
-            else list(plaq.bond_indices)
-        )
+        if plaq.oriented_bonds:
+            orientations = [ori for _, ori in plaq.oriented_bonds]
+            if any(ori not in (-1, 1) for ori in orientations) or sum(orientations) != 0:
+                raise ValueError(
+                    f"Plaquette {plaq.name!r} oriented_bonds must balance +1 (A->B) and -1 (B->A) "
+                    f"steps, got orientations {orientations}"
+                )
+            b_indices = [b_idx for b_idx, _ in plaq.oriented_bonds]
+        else:
+            b_indices = list(plaq.bond_indices)
         prod_val = 1.0
         for b_idx in b_indices:
             prod_val *= float(u_arr[b_idx])

@@ -12,6 +12,9 @@ from scipy import sparse
 
 from kitaev_mf.domain.constants import G_MATRICES, M_MATRICES, N_MATRICES
 from kitaev_mf.domain.lattice import (
+    Bond,
+    Plaquette,
+    UnitCell,
     make_honeycomb_2site,
     make_honeycomb_4site_rectangular,
     make_honeycomb_supercell,
@@ -560,4 +563,115 @@ def test_state_port_roundtrip_bond_scalars_and_qsl_coupling_contracts() -> None:
     with pytest.raises(ValueError):
         extract_pure_kitaev_bond_scalars(
             MeanFieldState.from_pure_kitaev(make_honeycomb_2site()), cell
+        )
+
+
+def test_port_state_finiteness_version_and_canonical_ab_bond_guards() -> None:
+    """Verify UOW-07 F4(1) finiteness, conventions_version, and canonical A->B bond guards."""
+    u_ok = np.zeros((3, 4, 4), dtype=np.float64)
+    v_ok = np.zeros((2, 4, 4), dtype=np.float64)
+    lam_ok = np.zeros((2, 3), dtype=np.float64)
+
+    # Reject non-canonical conventions_version on both port states
+    with pytest.raises(ValueError, match="conventions_version"):
+        QSLMeanFieldPortState(
+            U_v2=u_ok, V_v2=v_ok, lambdas_v2=lam_ok, conventions_version="conventions-v1.0"
+        )
+    u_inh = np.zeros((4, 3, 4, 4), dtype=np.float64)
+    v_inh = np.zeros((4, 2, 4, 4), dtype=np.float64)
+    lam_inh = np.zeros((4, 2, 3), dtype=np.float64)
+    with pytest.raises(ValueError, match="conventions_version"):
+        QSLInhomogeneousPortState(
+            U_v2=u_inh, V_v2=v_inh, lambdas_v2=lam_inh, conventions_version="legacy-v0"
+        )
+
+    # Reject NaN / inf in U_v2, V_v2, lambdas_v2 (previously NaN > 1e-12 evaluated to False)
+    for bad_val in (float("nan"), float("inf"), float("-inf")):
+        u_bad = u_ok.copy()
+        u_bad[0, 0, 0] = bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLMeanFieldPortState(U_v2=u_bad, V_v2=v_ok, lambdas_v2=lam_ok)
+
+        v_bad = v_ok.copy()
+        v_bad[0, 0, 1] = bad_val
+        v_bad[0, 1, 0] = -bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLMeanFieldPortState(U_v2=u_ok, V_v2=v_bad, lambdas_v2=lam_ok)
+
+        lam_bad = lam_ok.copy()
+        lam_bad[0, 0] = bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLMeanFieldPortState(U_v2=u_ok, V_v2=v_ok, lambdas_v2=lam_bad)
+
+        ui_bad = u_inh.copy()
+        ui_bad[0, 0, 0, 0] = bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLInhomogeneousPortState(U_v2=ui_bad, V_v2=v_inh, lambdas_v2=lam_inh)
+
+        vi_bad = v_inh.copy()
+        vi_bad[0, 0, 0, 1] = bad_val
+        vi_bad[0, 0, 1, 0] = -bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLInhomogeneousPortState(U_v2=u_inh, V_v2=vi_bad, lambdas_v2=lam_inh)
+
+        li_bad = lam_inh.copy()
+        li_bad[0, 0, 0] = bad_val
+        with pytest.raises(ValueError, match="finite"):
+            QSLInhomogeneousPortState(U_v2=u_inh, V_v2=v_inh, lambdas_v2=li_bad)
+
+        v_site_bad = np.zeros((4, 4), dtype=np.float64)
+        v_site_bad[0, 1] = bad_val
+        v_site_bad[1, 0] = -bad_val
+        with pytest.raises(ValueError, match="finite"):
+            extract_site_su2_expectations(v_site_bad)
+
+    # Reject non-finite u_gauge and reversed B->A bond orientation (UOW-02 R4 Lakatosian probe)
+    cell4 = make_honeycomb_4site_rectangular()
+    u_nan = np.ones(len(cell4.bonds), dtype=np.float64)
+    u_nan[0] = float("nan")
+    with pytest.raises(ValueError, match="finite"):
+        compute_plaquette_wilson_loops_from_u(u_nan, cell4)
+
+    b0 = cell4.bonds[0]
+    reversed_bonds = (
+        Bond(
+            sublattice_i=b0.sublattice_j,
+            sublattice_j=b0.sublattice_i,
+            cell_offset=(-b0.cell_offset[0], -b0.cell_offset[1]),
+            bond_type=b0.bond_type,
+        ),
+        *cell4.bonds[1:],
+    )
+    reversed_cell = UnitCell(
+        name="reversed_bond0_4site",
+        num_sublattices=cell4.num_sublattices,
+        a1=cell4.a1,
+        a2=cell4.a2,
+        basis_positions=cell4.basis_positions,
+        bonds=reversed_bonds,
+        plaquettes=cell4.plaquettes,
+    )
+    with pytest.raises(ValueError, match="A -> B"):
+        compute_plaquette_wilson_loops_from_u(
+            np.ones(len(cell4.bonds), dtype=np.float64), reversed_cell
+        )
+
+    # Reject unbalanced plaquette oriented_bonds
+    bad_plaq = Plaquette(
+        name="p_unbalanced",
+        bond_indices=cell4.plaquettes[0].bond_indices,
+        oriented_bonds=((0, 1), (3, 1), (1, 1), (2, -1), (4, 1), (5, -1)),
+    )
+    unbalanced_cell = UnitCell(
+        name="unbalanced_plaq_4site",
+        num_sublattices=cell4.num_sublattices,
+        a1=cell4.a1,
+        a2=cell4.a2,
+        basis_positions=cell4.basis_positions,
+        bonds=cell4.bonds,
+        plaquettes=(bad_plaq,),
+    )
+    with pytest.raises(ValueError, match="oriented_bonds"):
+        compute_plaquette_wilson_loops_from_u(
+            np.ones(len(cell4.bonds), dtype=np.float64), unbalanced_cell
         )

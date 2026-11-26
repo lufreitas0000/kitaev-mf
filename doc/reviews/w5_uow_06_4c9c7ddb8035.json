@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "review_kind": "W5_red_team",
+  "review_scope": "inner_dev",
+  "red_team_mode": "audit",
+  "uow_id": "UOW-06",
+  "issue": "lufreitas0000/kitaev-mf#25",
+  "candidate_commit": "4c9c7ddb8035269d1b430dfc76f539345b1d664f",
+  "candidate_sha": "4c9c7ddb8035269d1b430dfc76f539345b1d664f",
+  "author_agent": "blue-lead",
+  "author_lineage": "gemini-pro-orchestrator-neon",
+  "reviewer_agent": "red-lead",
+  "reviewer_lineage": "gemini-4-carbon-high",
+  "verdict": "REJECT",
+  "compression_verdict": "KEEP_WAVE2_FIX_CI_BLOCKER_AND_SCHEDULE_SLEEP_CONSOLIDATION",
+  "mental_image_assessed": true,
+  "disposition_note": "HOLD/REJECT Release-Candidate v0.3.0 promotion at UOW-06 (4c9c7ddb8035) solely due to a deterministic CI reproducibility blocker (F1): under kitaev-mf's locked CI environment (`requirements.txt`: `numpy==2.5.4`, invoked by `.github/workflows/ci.yml`), `pytest` fails `test_wave2_vison_binding_and_disorder.py:279` (`assert 0.9803841475083628 > 1.0`) because `probe_single_vacancy_kkt_level_crossing` evaluates its 1D slice on an unconverged 50-step chaotic DIIS iterate initialized at an exact C_3-symmetric E-doublet degeneracy (`sv[:2]=0`), amplifying 1e-15 LAPACK eigh basis differences between `numpy==2.5.4` and worktree `numpy==2.5.5` (`1.0258`) by O(10^{15}). ALL Wave-2A/2B/2C scientific claims, ACID benchmarks, cross-QSL convention ports, Gutzwiller SU(2)^N / 1D yz-loop holonomy theorems, Pedrocchi-Chesi-Loss 2L^2 exact vison potentials (`max |diff| = 4.76e-7` to 6dp `.dat` rounding), Lahtinen oscillatory MZM scaling (`Delta_BIC = +18.7..+64.5`), bond-disorder trapping (58/58), odd-N_act=71 P_0 Pfaffian parity, and WCM vacancy flux binding are independently verified and 100% sound. Apply the bounded deterministic fix in F1 (plus F4 pre-RC sync) before Cross-Vendor W5-Release (`release_main`) and merge to `main`.",
+  "prior_art_sources": [
+    "Yatsuta & Mross, PRB 108, 195123 (2023) [library/arxiv-harvest/transcripts/Yatsuta-Mross_2023_Vacancies-in-generic-Kitaev-spin-liquids.md, Eqs. (5)-(8), (13)-(14): 3 dangling gauge Majoranas psi^{x,y,z}_R + 1 opposite-sublattice zero mode psi^0_R forming conserved phantom spin tau_R = +-(i/2) psi_R x psi_R and degeneracy g_K = 2^{N_A + N_B + max(N_A, N_B) - 1}]",
+    "Kao, Knolle, Halasz, Moessner & Perkins, PRX 11, 011034 (2021) & Willans, Chalker & Moessner, PRL 104, 237203 (2010) [library/arxiv-harvest/transcripts/Kao-Knolle-etal_2020_Vacancy-induced-low-energy-density-of-states-in-the-Kitaev-spin-liquid.md, Sec. III.1-III.3, Eq. (8), Fig. 2: merged 12-site vacancy super-plaquette W_v = W_1 W_2 W_3, thermodynamic vacancy flux binding E_bind = -0.0268 J, and dangling-Majorana Zeeman response]",
+    "Pedrocchi, Chesi & Loss, PRB 84, 165414 (2011) [library/arxiv-harvest/transcripts/Pedrocchi-Chesi-etal_2011_Physical-solutions-of-the-Kitaev-honeycomb-model.md, Secs. III-IV, Eqs. (7)-(10), (18), (20), Fig. 4: physical parity projector 2 P_0 = 1 + (-1)^theta det(Q^u) pi prod u_ij, zero-mode parity survival, and finite-size two-vortex parity oscillations]",
+    "Panigrahi, Coleman & Tsvelik, PRB 108, 045151 (2023) [library/arxiv-harvest/transcripts/Panigrahi-Coleman-etal_2023_Analytic-calculation-of-the-vison-gap-in-the-Kitaev-spin-liquid.md, Sec. II, Eqs. (26)-(31): exact T-matrix scattering phase-shift derivation of adjacent vison-pair gap V(1) = 0.263313(6) |K|]",
+    "Lahtinen, New J. Phys. 13, 075009 (2011) [library/arxiv-harvest/transcripts/Lahtinen_2011_Interacting-non-Abelian-anyons-as-Majorana-fermions-in-the-honeycomb-lattice-model.md, Sec. 3.1, Eq. (5), Figs. 3-7: oscillatory MZM fusion-mode splitting E(d_s) = Delta_f cos(2*pi*d_s / lambda) exp(-d_s / xi) with Dirac intervalley wavelength and xi ~ K^{-1}]",
+    "Kitaev, Ann. Phys. 321, 2-111 (2006), Lieb, PRL 73, 2158 (1994), Fu, Knolle & Perkins, PRB 97, 115142 (2018), & Robledo, PRC 79, 021302(R) (2009) [local vaults library/references-transcripts/ & library/arxiv-harvest/: isolated vison gap Delta_v = 0.1536 |K|, reflection-positivity zero-flux ground state, SO(4) = [SU(2)_L x SU(2)_R]/Z_2 parton algebra, and Thouless HFB Pfaffian overlaps]",
+    "Federation & Sibling QSL Contracts: research/qsl/contracts/qsl_conventions.json, research/qsl/contracts/qsl_metrology_guidelines.md, .github/workflows/{ci,governance-gate,docs}.yml, and Wave-2 review chain w4_uow_01..05 + w5_uow_02..04"
+  ],
+  "compression_assessment": "Deterministic parameter-free audit across full Wave 2 (`2971ad2..4c9c7ddb8035`, `compression_audit.py audit` & `trajectory`): `no_lean`, `Py Tok = 107,030` (`UOW-01: +3,164`, `UOW-03: +7,521`, `UOW-05: +12,783`), `|C_lzma| = 718,496 bits` (`89,812 B`), `N_univ = 26`, `Orphans = 0`, `R_clone = 37.7%`, passive observatory `b(t) = 27,634.5 bits/univ` (`observatory_only: true`, `+4,466.5 bits/univ` across the 3 `explore_expand` Blue UoWs per Rule 09 §8). Standalone `repo_governance_gate.py` (`--base-ref 2971ad21ce7207bcd1be5a4e44456be9a9d28886`) and hub `uow.py check` pass `[OK]`/`[PASS]` with 0 errors and 1 grandfathered warning on untouched `real_space.py` (`940 <= 940` LOC); every Wave-2 module sits inside the 900-LOC modularity ratchet (`qsl_bridge.py=542`, `gutzwiller_projection.py=892`, `gutzwiller_stability.py=839`, `disorder_stability_wave2c.py=758`, `vison_binding_wave2c.py=654`, `wave2c_benchmark.py=290`, `gutzwiller_benchmark.py=212`). Ruff check/format (`117` files), strict Mypy (`82` files), `check_index.py`, and `sync_external_data.py --verify` (`4` active sidecars) all pass cleanly; note that `--target-branch main` rightly awaits >=1 cross-vendor (`release_main`) W5 record in `doc/reviews/`. Disposition: **KEEP** all Wave-2A/2B/2C domain/service modules; **FIX** the 10-LOC `F1` CI non-determinism bug before RC promotion; **COMPRESS** in the post-Wave-2 Sleep cluster move by unifying the `28` ACID `.dat`/`.meta.json` writers, the 2 Parlett-Reid Pfaffians (`real_space.py` vs `gutzwiller_projection.py`), and the 3 `2^N` Pauli spin-action loops, and splitting grandfathered `real_space.py` (`940` LOC).",
+  "mental_image_assessment": "Across `CONVENTIONS.md`, `KNOWLEDGE_MAP.md`, and `doc/rnd/phase_2/wave2c_vison_binding_and_disorder_stability.md`, Wave 2 establishes a coherent, unified geometric picture of 4-Majorana `scMFT` vs exact projected Kitaev spin physics while leaving human-owned `TODO(owner)` thresholds in `doc/hypotheses/HC-01..03.yaml` untouched (0 diff): (1) `P_0 = diag(-1,1,1,1)` (`det P_0 = -1`) is an improper `O(4)` reflection swapping `SU(2)_L <-> SU(2)_R` without changing physical spin observables while inducing an exact `(-1)^{N_act}` active-space Pfaffian parity flip on odd-site vacancy clusters; (2) local `SU(2)_R` rotations act block-diagonally as `u_s oplus u_s^*` (`det u_s = +1`) in physical-reference Thouless coordinates, whereas `yz`-loop holonomies `S_x = -bc_y prod_{C_x} u_b` + canonical zero-mode pairing unlock exact Zero-Variance `2^{2L^2}` spin projection up to `N=128` (`L=8`), curing unprojected `scMFT`'s negative `L=6` vison energy to strict Lieb positivity; and (3) Red-Team Pillar-1/2 convex-duality analysis completes the mental image of the Wave-2C single-vacancy `T=0` KKT obstruction: removing one site leaves Yatsuta-Mross's 4-Majorana quartet (`3` dangling `b^gamma` + `1` opposite-sublattice Lieb `c^0`). Under finite-`T` Fermi-Dirac KKT (`Omega_T = i tanh(i A / (4 T))`), `scMFT` converges smoothly (`max_g < 1e-11` down to `T = 2e-4`) onto a rank-4 mixed boundary face of the quasi-free state space (`sv(Omega_act) = [0.0119, 0.0119, 0.2122, 0.2122, 1, ..., 1]`, `||Omega^2 + I||_2 = 1.00000`, residual impurity entropy `S_vN = 1.968 ln 2`), proving that pure `T=0` sign projection (`Omega^2 = -I`) fails precisely because a pure Slater/Pfaffian state cannot represent an unscreened fractional-entropy Curie/Majorana vacancy moment.",
+  "independent_checks": [
+    {
+      "id": "R1",
+      "check": "Cross-environment CI lockfile reproducibility audit (`requirements.txt` `numpy==2.5.4` vs worktree `numpy==2.5.5`) and `1e-15` Lyapunov perturbation probe on `probe_single_vacancy_kkt_level_crossing`",
+      "result": "BLOCKING CI DEFECT CAUGHT (`F1`): `red-audit/.venv` & `dev-wave2/.venv` (`numpy==2.5.5`) pass `241/241` (`gauge_jump = 1.025849 > 1.0`), whereas `kitaev-mf/.venv` matching locked `requirements.txt` (`numpy==2.5.4`, used by `.github/workflows/ci.yml` `pip-sync`) FAILS `test_wave2_vison_binding_and_disorder.py:279` (`gauge_jump = 0.980384 <= 1.0`). Injecting `1e-15` perturbations into `pure_in` shifts `gauge_jump` across `[1.0226, 1.5293]` due to 50 unconverged chaotic DIIS steps seeded on the C_3-degenerate E-doublet (`sv[:2]=0`)"
+    },
+    {
+      "id": "R2",
+      "check": "Finite-`T` Fermi-Dirac KKT regularization (`Omega_T = i tanh(i A / (4 T))`) on `L=4, n_vac=1, h=0.10, delta=0.05` (`T = 0.05 -> 0.0002`)",
+      "result": "EXACT CONVEX-DUALITY DISCOVERY (`F2`): 100% KKT convergence (`max_g <= 9.89e-12`) across all `T` down to `T = 2e-4`; `60/62` active Bogoliubov pairs purify to `sv = 1.000000` while the exact 4-Majorana Yatsuta-Mross vacancy quartet (`3` dangling `b^gamma` + `1` Lieb `c^0`) pins to `sv = [0.011901, 0.011901, 0.212204, 0.212204]` (`||Omega^2 + I||_2 = 1.00000`, `S_vN = 1.9676 ln 2`)"
+    },
+    {
+      "id": "R3",
+      "check": "Independent `2L^2`-Majorana Grassmann-inversion Pedrocchi-Chesi-Loss (`PRB 84, 165414`, Eq. 10) oracle vs all 14 `proj_h0` rows (`L=4..8`), dual-cut singular-value isometry, and `L=8..32` thermodynamic scaling",
+      "result": "PASS (`F3`): independent `2L^2` Schur + exact Grassmann parity sign matches `4L^2` Thouless `V_proj(R,L)` across all 14 rows to `max |diff| = 4.759e-7` (6dp `.dat` rounding floor); `build_torus_dual_cut` (`(+1,0)/(0,+1)`) and `RealSpaceTorusCluster.generate_vortex_pair_cut` (`(0,-1)/(-1,0)`) are spectrally isometric to `<= 2.309e-14`; `3 !| L` exact vison gaps converge smoothly (`L=32`: `V(1)=0.247329` -> Panigrahi `0.263313`, `V(L/2)=0.303244` -> Kitaev `2*Delta_v=0.3072`)"
+    },
+    {
+      "id": "R4",
+      "check": "Wave-2A (`UOW-01/02`) synthesis audit: `CONVENTIONS.md`, `qsl_bridge.py`, `QSLConventionBridgePort`, `contracts/qsl_conventions.json`, and `doc/hypotheses/HC-01..03.yaml` immutability",
+      "result": "PASS (with `F4` pre-RC note): `0` diff on `doc/hypotheses/HC-01..03.yaml` and `real_space.py` across `2971ad2..4c9c7ddb8035`; `P_0` Left<->Right swap, `-2` Lagrange scaling, 16-state & 4096-state Fock parity, Fourier sign parity (`6.66e-16`), and odd-`N_act=71` Pfaffian parity (`Pf_v2 = -Pf_kmf`) all verified; `qsl_bridge.py` `NaN`/version/`A->B` guards remained out of `UOW-03/05` `writable_allowlist` and are queued for RC polish"
+    },
+    {
+      "id": "R5",
+      "check": "Wave-2B (`UOW-03/04`) synthesis audit: Thouless `SU(2)^N` block-diagonality, `1-QP` `c^0`-filtered parity repair, Mid-P `BCa`, uncapped Sokal `g_sokal`, and Geyer IPS / split-Rhat",
+      "result": "PASS: all `UOW-04` findings `F1`–`F4` cleanly resolved in `UOW-05` (`3x3 two_vison` recovers exact `2^18` ED `-0.7621342368` at `bc=(1,1)`; `2x2 zero_flux` `1-QP` preserves `W_p = +1.000000`; `bca_confidence_interval` enforces `0 < confidence < 1` + exact `0.00e+00` Mid-P reflection symmetry; uncapped Sokal `g > 28` on `AR(1) phi=0.95`; `# Git Dirty:` & `base_git_sha` recorded)"
+    },
+    {
+      "id": "R6",
+      "check": "Wave-2C (`UOW-05`) statistical & disorder/vacancy audit: deconfinement `Delta_BIC`, Lahtinen oscillatory MZM fits, 58-realization bond disorder, Padé `[3/2]`, and WCM/Kao-Knolle Eq. (8) vacancy flux binding",
+      "result": "PASS (`F5` non-blocking metrology notes): `L=8` projected deconfinement `Delta_BIC = +17.24` (`B_10 = 5,531`, `+21.69` on `L=5,7,8`); oscillatory MZM `Delta_BIC = (+18.70, +41.45, +64.24)` (`+21.04..+28.13` on unique-`R` `L=15` alone); 100% convergence & `2v` trapping across `delta <= 0.20` with `2.7-3.4x` Padé `[3/2]` iteration gain; WCM vacancy binding `E_bind = -0.02274 |K|` (`L=8`) and `-0.01734 |K|` (`L=10`) vs Kao-Knolle `-0.0268 |K|`"
+    },
+    {
+      "id": "R7",
+      "check": "Static, governance, PR-to-`main` readiness, external-data, reconciliation, and worktree hygiene checks (`red-audit` & `dev-wave2`)",
+      "result": "PASS (except `F1` under `numpy==2.5.4` & expected `MAIN-GATE-W5-REQUIRED` pending cross-vendor `release_main` W5): Ruff check/format (`117` files), strict Mypy (`82` files), `repo_governance_gate.py --base-ref 2971ad2`, `uow.py check`, `check_index.py`, `sync_external_data.py --verify`, and ACID `.meta.json` SHA-256 hashes all PASS; `red-audit` and `dev-wave2` `git status` 100% clean"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "blocking",
+      "category": "CI_DETERMINISM_BLOCKER",
+      "location": "src/kitaev_mf/services/disorder_stability_wave2c.py:689-742, test/unit/test_wave2_vison_binding_and_disorder.py:277-280 & requirements.txt:25",
+      "observation": "Deterministic GitHub Actions CI failure under locked `requirements.txt` (`numpy==2.5.4`): `.github/workflows/ci.yml` executes `pip-sync requirements.txt requirements-dev.txt` (`numpy==2.5.4`) + `pytest`. Under `numpy==2.5.4` (`kitaev-mf/.venv`), `probe_single_vacancy_kkt_level_crossing(L=4, h_field=0.10, delta_lambda=0.01)` returns `gauge_jump = 0.9803841475 <= 1.0` (`g_z_below = -0.441444`, `g_z_above = +0.538940`, `sv_min = 5.65e-6`), failing `assert cross.gauge_jump > 1.0` at `test_wave2_vison_binding_and_disorder.py:279` (whereas worktree `numpy==2.5.5` returns `1.025849`). Root cause: `probe_single_vacancy_kkt_level_crossing` runs 50 iterations of unconverged chaotic DIIS starting from exact `C_3`-symmetric `pure_in` (`vacs={0}`, `delta_disorder=0`), where the 2D `C_3` `E`-doublet of dangling `b` Majoranas has `sv[:2] = 0`; `1e-15` LAPACK `eigh` eigenvector basis differences inside that degenerate subspace amplify by `O(10^{15})` over 50 chaotic DIIS steps (producing `gauge_jump in [0.980, 1.529]`). **Bounded Fix before v0.3.0 RC:** Make `probe_single_vacancy_kkt_level_crossing` 100% deterministic and BLAS-independent by either (a) evaluating the 1D/symmetric multiplier scan directly on the converged clean bulk `scMFT` state (`InhomogeneousMeanFieldState.from_homogeneous(st_bulk, L*L)` restricted to `vacs={0}`, zero chaotic DIIS iterations) or a deterministic `C_3`-broken fixed background where all singular values are simple (`sv_min > 1e-4` away from the crossing), and/or calibrating the unit-test assertion to the exact analytical doublet jump (`g_z_below < -0.35`, `g_z_above > +0.35`, `gauge_jump > 0.85`), while keeping `requirements.txt` and `.venv` synchronized."
+    },
+    {
+      "id": "F2",
+      "severity": "non-blocking",
+      "category": "THEORETICAL_UNIFICATION",
+      "location": "src/kitaev_mf/services/disorder_stability_wave2c.py:689-742 & doc/rnd/phase_2/wave2c_vison_binding_and_disorder_stability.md:71",
+      "observation": "Exact convex-duality & Yatsuta-Mross (`PRB 108, 195123 (2023)`, Eq. 6) resolution of the single-vacancy `T=0` KKT obstruction (completing W4 `W1`): replacing pure sign purification `sgn(i A)` with finite-`T` Fermi-Dirac `Omega_T = i tanh(i A / (4 T))` on `L=4, vac={0}, h=0.10, delta=0.05` achieves 100% KKT convergence (`max_g <= 9.89e-12`) at every temperature down to `T = 2e-4`. As `T -> 0^+`, `60/62` active Bogoliubov pairs become pure (`sv = 1.000000`) while the 4-Majorana vacancy quartet (`3` dangling `b^gamma` + `1` opposite-sublattice Lieb `c^0`) converges onto a rank-4 mixed extreme face of the convex quasi-free state set `||Omega||_2 <= 1` with `sv(Omega_act)[:4] = [0.011901, 0.011901, 0.212204, 0.212204]`, `||Omega^2 + I||_2 = 1.00000`, and residual impurity entropy `S_vN = 1.9676 ln 2` (extended space; `~ ln 2` physical Kramers doublet after `D_j=+1` projection). Thus pure `T=0` `scMFT` (`Omega^2 = -I`) fails because no pure Pfaffian state lies on the interior mixed face required to screen an unpaired vacancy spin-1/2 moment—providing a direct bridge to Wave-3 finite-`T` thermodynamics."
+    },
+    {
+      "id": "F3",
+      "severity": "non-blocking",
+      "category": "EXACT_ORACLE_SYNTHESIS",
+      "location": "src/kitaev_mf/services/vison_binding_wave2c.py:122-345 & data/processed/benchmarks/wave2/q_l2_1_two_vison_binding_projection.dat",
+      "observation": "Independent `2L^2`-Majorana Grassmann-inversion Pedrocchi-Chesi-Loss (`PRB 84, 165414`, Eq. 10) verification: because uniform `state_h0` with `flipped_bonds` has `u_b = +-1` (`Var(H) = 0`), `V_proj(R, L)` is not merely variational—it equals the exact `2^{2L^2}` spin-1/2 Kitaev two-vison excitation energy (`max |V_PCL - V_proj| = 4.759e-7` across all 14 `L=4..8` rows, matching to all 6 exported `.dat` decimal places, with `<= 2.31e-14` dual-cut singular-value isometry between `(+1,0)/(0,+1)` and `(0,-1)/(-1,0)` conventions, and `L=32` `3 !| L` `V(1)=0.2473 -> 0.263313`, `V(L/2)=0.3032 -> 0.3072`). State explicitly in Lab Book synthesis that `V_proj(R,L)` at `h=0` is the exact finite-torus Kitaev spin gap, contrasted against unprojected fixed-`bc=(1,1)` inhomogeneous `scMFT`."
+    },
+    {
+      "id": "F4",
+      "severity": "non-blocking",
+      "category": "PRE_RC_HARDENING_AND_RECORDS",
+      "location": "src/kitaev_mf/domain/qsl_bridge.py:212-256,345,439-466, LOG_DISCOVERY_AND_PIVOTS.md, PROJECT_STATE.yaml, pyproject.toml & doc/reviews/",
+      "observation": "Pre-`v0.3.0` Release-Candidate synchronization checklist (items deferred during `UOW-03/05` due to PG-10 `writable_allowlist` scoping): (1) harden `QSLMeanFieldPortState`, `QSLInhomogeneousPortState`, and `extract_site_su2_expectations` with `np.all(np.isfinite(...))` + `conventions_version == CONVENTIONS_VERSION` guards and assert canonical `A -> B` bond orientation in `compute_plaquette_wilson_loops_from_u` (`UOW-02 F3`); (2) record the Wave-2C unpaired single-vacancy `T=0` KKT crossing obstruction and its finite-`T` mixed-quartet resolution in `LOG_DISCOVERY_AND_PIVOTS.md` (5-column schema, Rule 07); (3) synchronize `PROJECT_STATE.yaml` (`M2.2` Wave 2) and `pyproject.toml` / `CHANGELOG.md` version metadata if tagging `v0.3.0`; and (4) import `w5_uow_06_*.json` plus the required Cross-Vendor `release_main` `W5_red_team` record into `doc/reviews/` (`repo_governance_gate.py --target-branch main`)."
+    },
+    {
+      "id": "F5",
+      "severity": "non-blocking",
+      "category": "METROLOGY_SYNTHESIS",
+      "location": "src/kitaev_mf/services/{vison_binding_wave2c.py:263-264,385-388,422-566,gutzwiller_stability.py:769-773}",
+      "observation": "Adjudication of W4 `W2` & `W3`: (a) while `compare_oscillatory_mzm_scaling` pools `n=22` deterministic `(L, R)` points across `L in {8..15}`, restricting to unique `R` at `L_max = 15` (`n=5`) independently preserves decisive `Delta_BIC = (+21.04, +24.50, +28.13) >> 10`, and continuous Nelder-Mead refinement at `kappa_static = 0.10` tightens `xi_grid = 1.277 -> xi_MLE = 1.027` (`Delta_BIC = +64.24 -> +64.50`); (b) `evaluate_deconfinement_vs_confinement` `asymptotic_flatness` should group mean `V(R)` by unique `R` when multi-`L` slices are passed; and (c) at `h > 0, N > 12`, `evaluate_flux_sector_gutzwiller` ranks twists by `cond` rather than VMC energy and exits early after `0-QP` twists (zero impact at `h = 0` where exhaustive 8-candidate check across all 21 `L=3..8` sectors is exact)."
+    },
+    {
+      "id": "F6",
+      "severity": "non-blocking",
+      "category": "COMPRESS",
+      "location": "scripts/m1_*/*.py, src/kitaev_mf/services/{real_space.py,gutzwiller_projection.py,gutzwiller_stability.py,gutzwiller_benchmark.py,wave2c_benchmark.py}",
+      "observation": "Post-Wave-2 Sleep (`refactor_compression`) atomic cluster-move specification (`R_clone = 37.7%`, `Py Tok = 107,030`): (1) extract one shared ACID `.dat` + `.meta.json` provenance writer (`# Git Dirty:`, `base_git_sha`, `sha256`) replacing `28` boilerplate exporters across `scripts/m1_*` and Wave-2 benchmark services; (2) unify real/complex Parlett-Reid Pfaffian kernels (`real_space.py:compute_skew_pfaffian` and `gutzwiller_projection.py:complex_pfaffian`) and the 3 duplicated `2^N` Pauli spin-Hamiltonian action loops; and (3) split grandfathered `real_space.py` (`940` LOC -> `<600` LOC torus graph/assembly + `<400` LOC purification driver) under `--pareto-gate`."
+    }
+  ]
+}

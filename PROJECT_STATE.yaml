@@ -1,7 +1,7 @@
 schema_version: 1
 project_name: kitaev-mf
-active_phase: Phase 2 Wave 1 (HC-01..03 physics sweeps & cross-repo bounds)
-current_milestone: M2.1
+active_phase: Phase 2 Wave 2 (Cross-QSL conventions-v2.0 port, Gutzwiller VMC stability, two-vison binding & disorder — v0.3.0 RC)
+current_milestone: M2.2
 milestone_history:
 - id: M1.1
   name: Local Majorana algebra, representation, physical projection, and exact quartic
@@ -188,52 +188,94 @@ milestone_history:
   - doc/adr/ADR-003-linear-main-and-family-boundaries.md
   - doc/reconciliation/VERIFICATION.md
   - doc/reviews/scmft-core-kernels-20261118.json
-active_milestone:
-  id: M2.1
-  description: Wave 1 HC-01..03 Feshbach-Schur cubic gap, certified ED/SDP/Gutzwiller sandwich, and stratified two-vison scaling
+- id: M2.1
+  name: Wave 1 HC-01..03 Feshbach-Schur cubic gap, certified ED/SDP/Gutzwiller sandwich,
+    and stratified two-vison scaling
   status: completed
-  sprint_goal: Execute Wave 1 cross-repo benchmarks (HC-01..03) using SHA-256 verified kitaev-numerics and kitaev-walk-geometry imports without modifying immutable human hypothesis locks
+  acceptance: Executed Wave 1 cross-repo benchmarks (HC-01..03) using SHA-256 verified
+    kitaev-numerics and kitaev-walk-geometry imports without modifying immutable human
+    hypothesis locks.
+  evidence:
+  - src/kitaev_mf/services/cubic_gap_perturbation.py
+  - src/kitaev_mf/services/gutzwiller_projection.py
+  - src/kitaev_mf/services/vortex_pair_scaling.py
+  - data/processed/benchmarks/wave1/hc01_cubic_gap_reconciliation.dat
+  - data/processed/benchmarks/wave1/hc02_ed_sdp_scmft_sandwich.dat
+  - data/processed/benchmarks/wave1/hc03_multi_l_vison_scaling.dat
+  - doc/rnd/phase_2/wave1_hc01_cubic_gap_kkt_reconciliation.md
+  - doc/rnd/phase_2/wave1_hc02_ed_sdp_gutzwiller_sandwich.md
+  - doc/rnd/phase_2/wave1_hc03_multi_l_vison_scaling.md
+  - test/unit/test_wave1_cubic_and_gutzwiller.py
+  - test/unit/test_wave1_visons.py
+  validation: user_reported_local_wsl_pass
+active_milestone:
+  id: M2.2
+  description: Wave 2 cross-QSL conventions-v2.0 port, Gutzwiller SU(2)_R & flux-sector VMC stability, exact projected two-vison binding V(R,L), disorder/vacancy KKT stability, and v0.3.0 RC preparation
+  status: in_progress
+  sprint_goal: Deliver W5-verified Wave-2A/2B/2C cross-QSL ports, Gutzwiller stability, and two-vison/disorder benchmarks with deterministic CI and v0.3.0 RC metadata without touching immutable CONVENTIONS.md or HC-01..03.yaml locks
   next_action:
     authorized: true
-    description: Present Wave 1 quantitative outcomes to PI for HC-01..03 TODO(owner) threshold lock (including intervalley oscillation update to HC-03) and launch Wave 2 finite-T thermodynamics
-    authority: CURRENT_SPRINT.md
+    description: Complete UOW-08 W5-Inner Red audit of UOW-07, then pause for Cross-Vendor W5-Release and PI v0.3.0 merge to main
+    authority: research/qsl/contracts/qsl_federation_gate.py
   active_tasks:
     - id: T1
-      title: "HC-01 Feshbach-Schur cubic gap decomposition and continuum c_MF = 10.641666 extrapolation"
+      title: "Wave-2A (UOW-01/02): Cross-QSL conventions-v2.0 bridge port, P_0 swap & exact 16/4096-state Fock parity"
       status: completed
       target_files:
-        - src/kitaev_mf/services/cubic_gap_perturbation.py
-        - scripts/wave1/run_hc01_cubic_gap.py
-        - doc/rnd/phase_2/wave1_hc01_cubic_gap_kkt_reconciliation.md
+        - src/kitaev_mf/domain/qsl_bridge.py
+        - src/kitaev_mf/domain/ports.py
+        - CONVENTIONS.md
       validation:
-        - make verify, continuum 1/Nk extrapolation, and delta_3rd_qq_lambda_only vs delta_3rd_zeeman_uv_no_lambda
+        - W5-02 APPROVE (abfa27020105), 16-state & 4096-state Fock parity (<1e-13), Fourier sign match (6.66e-16)
       evidence:
-        - data/processed/benchmarks/wave1/hc01_cubic_gap_reconciliation.dat
-        - test/unit/test_wave1_cubic_and_gutzwiller.py
+        - test/unit/test_qsl_convention_bridge.py
+        - doc/reviews/w5_uow_02_abfa27020105.json
     - id: T2
-      title: "HC-02 exact/VMC Gutzwiller projection vs ED and Clarabel SOS SDP sandwich across N=8,12,18"
+      title: "Wave-2B (UOW-03/04): Gutzwiller D_j=+1 VMC stability across staggered SU(2)_R gauges & Z_2 flux sectors (HC-02)"
       status: completed
       target_files:
         - src/kitaev_mf/services/gutzwiller_projection.py
-        - scripts/wave1/run_hc02_variational_sandwich.py
-        - doc/rnd/phase_2/wave1_hc02_ed_sdp_gutzwiller_sandwich.md
+        - src/kitaev_mf/services/gutzwiller_stability.py
+        - src/kitaev_mf/services/gutzwiller_benchmark.py
       validation:
-        - make verify, N=2 Fock equivalence (<4e-16), and 24/24 sandwich inequalities with BCa 95% CIs
+        - W5-04 APPROVE (3a987df3716b), SU(2)^N block-diagonality (<1e-14), N=8/12/18 exact flux ED & 50-chain VMC
       evidence:
-        - data/processed/benchmarks/wave1/hc02_ed_sdp_scmft_sandwich.dat
-        - test/unit/test_wave1_cubic_and_gutzwiller.py
+        - data/processed/benchmarks/wave2/hc02_gutzwiller_su2_flux_stability.dat
+        - test/unit/test_wave2_gutzwiller_stability.py
+        - doc/reviews/w5_uow_04_3a987df3716b.json
     - id: T3
-      title: "HC-03 stratified multi-L vison scaling, KWG bridge match, and period-3 intervalley discovery"
+      title: "Wave-2C (UOW-05/06): Exact projected V(R,L) up to N=128, oscillatory MZM envelope, bond-disorder & vacancy KKT stability (Q-L2-1)"
       status: completed
       target_files:
-        - src/kitaev_mf/services/vortex_pair_scaling.py
-        - scripts/wave1/run_hc03_multi_l_visons.py
-        - doc/rnd/phase_2/wave1_hc03_multi_l_vison_scaling.md
+        - src/kitaev_mf/services/vison_binding_wave2c.py
+        - src/kitaev_mf/services/disorder_stability_wave2c.py
+        - src/kitaev_mf/services/wave2c_benchmark.py
+        - doc/rnd/phase_2/wave2c_vison_binding_and_disorder_stability.md
       validation:
-        - make verify, <4.4e-9 KWG static bridge match, purify vs eigh (<7e-12), and AICc/BIC + holdout check
+        - W5-06 science verified (2L^2 PCL oracle <4.8e-7, deconfinement Delta_BIC=+17.24, oscillatory Delta_BIC=+18.7..+64.2, 58/58 disorder trapping); F1 CI blocker isolated for UOW-07
       evidence:
-        - data/processed/benchmarks/wave1/hc03_multi_l_vison_scaling.dat
-        - test/unit/test_wave1_visons.py
+        - data/processed/benchmarks/wave2/q_l2_1_two_vison_binding_projection.dat
+        - data/processed/benchmarks/wave2/q_l2_1_disorder_vacancy_stability.dat
+        - test/unit/test_wave2_vison_binding_and_disorder.py
+        - doc/reviews/w5_uow_06_4c9c7ddb8035.json
+    - id: T4
+      title: "Wave-2 RC Prep (UOW-07): Deterministic numpy==2.5.4/2.5.5 KKT crossing (F1), qsl_bridge guards, pivot log & v0.3.0 metadata (F4)"
+      status: completed
+      target_files:
+        - src/kitaev_mf/services/disorder_stability_wave2c.py
+        - src/kitaev_mf/domain/qsl_bridge.py
+        - LOG_DISCOVERY_AND_PIVOTS.md
+        - PROJECT_STATE.yaml
+        - pyproject.toml
+        - CHANGELOG.md
+        - KNOWLEDGE_MAP.md
+        - doc/reviews/w5_uow_06_4c9c7ddb8035.json
+      validation:
+        - pytest under locked numpy==2.5.4 & dev numpy==2.5.5, ruff check/format, mypy --strict, governance gate & W4 review
+      evidence:
+        - test/unit/test_wave2_vison_binding_and_disorder.py
+        - test/unit/test_qsl_convention_bridge.py
+        - doc/reviews/w5_uow_06_4c9c7ddb8035.json
 hardware_targets:
   local:
     cpu: Intel Core i5-13500 (14 cores, 20 threads)
@@ -572,4 +614,47 @@ verified_physics_invariants:
     kwg_bridge_max_diff: 4.37e-9
     purify_vs_eigh_diff_h020: 6.46e-12
     chiral_converged_rows: "94/94"
+- id: K-027
+  name: Cross-QSL conventions-v2.0 P_0 parity bridge, Lagrange scaling, and 6-site projected W_p sign law (Wave-2A)
+  equation: 'P_0 = diag(-1,1,1,1), P_0 L^a P_0 = R^a, lambda_v2 = -2 lambda_kmf, Pf(P_0^{oplus N} Omega P_0^{oplus N}) = (-1)^N Pf(Omega), P_+ W_p^{spin} P_+ = +P_+ prod_{b in partial p} (i b_A b_B) P_+'
+  status: verified_w5_and_fock_pytest
+  provenance:
+    code: src/kitaev_mf/domain/qsl_bridge.py
+    test: test/unit/test_qsl_convention_bridge.py
+    review: doc/reviews/w5_uow_02_abfa27020105.json
+  numerical_evidence:
+    fock_parity_tol: 1.0e-13
+    fourier_sign_parity_err: 6.66e-16
+    odd_n71_pfaffian_flip: -1.0
+- id: K-028
+  name: Physical-reference Thouless SU(2)^N block-diagonality and 1-QP Gutzwiller flux-sector projection (Wave-2B)
+  equation: 'U_cf^dagger O U_cf = diag(U_O, U_O^*) with det(u_s) = +1 => cond(A_blk) & bitstring Pf invariant; N=8 pi-flux exact ED = -sqrt(3)/2; 2x3 pi-flux 1-QP = -0.7267138527'
+  status: verified_w5_and_pytest
+  provenance:
+    code: src/kitaev_mf/services/gutzwiller_stability.py
+    benchmark: data/processed/benchmarks/wave2/hc02_gutzwiller_su2_flux_stability.dat
+    test: test/unit/test_wave2_gutzwiller_stability.py
+    review: doc/reviews/w5_uow_04_3a987df3716b.json
+  numerical_evidence:
+    su2_probe_max_delta_eloc: 1.82e-14
+    n8_piflux_std: 2.12e-16
+    vmc_max_split_rhat: 1.016
+- id: K-029
+  name: Exact projected two-vison deconfinement V_proj(R,L), oscillatory MZM envelope, disorder trapping & single-vacancy KKT boundary (Wave-2C)
+  equation: 'L=8 V_proj deconfinement Delta_BIC = +17.24 (B_10 = 5531); Lahtinen osc MZM Delta_BIC in [+18.70, +64.24]; 58/58 bond-disordered 2v trapping (delta <= 0.20); single-vacancy bulk C_3 KKT jump Delta<G_1^z> = +0.9748 (resolved at finite T as rank-4 mixed quartet S_vN = 1.968 ln 2)'
+  status: verified_w5_science_and_rc_prep
+  provenance:
+    analytical: doc/rnd/phase_2/wave2c_vison_binding_and_disorder_stability.md
+    code: src/kitaev_mf/services/vison_binding_wave2c.py
+    disorder_code: src/kitaev_mf/services/disorder_stability_wave2c.py
+    benchmarks:
+    - data/processed/benchmarks/wave2/q_l2_1_two_vison_binding_projection.dat
+    - data/processed/benchmarks/wave2/q_l2_1_disorder_vacancy_stability.dat
+    test: test/unit/test_wave2_vison_binding_and_disorder.py
+    review: doc/reviews/w5_uow_06_4c9c7ddb8035.json
+  numerical_evidence:
+    pcl_2l2_oracle_max_diff: 4.76e-7
+    l8_deconfinement_delta_bic: 17.24
+    oscillatory_mzm_delta_bic_range: [18.70, 64.24]
+    single_vacancy_bulk_jump: 0.9748
 open_blockers: []

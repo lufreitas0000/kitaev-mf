@@ -26,13 +26,17 @@ from typing import Literal
 import numpy as np
 
 from kitaev_mf.domain.constants import G_MATRICES
+from kitaev_mf.domain.lattice import make_honeycomb_2site
 from kitaev_mf.domain.parameters import ModelParameters
 from kitaev_mf.domain.qsl_bridge import P0_PARITY_BRIDGE, extract_site_su2_expectations
+from kitaev_mf.domain.solver import SolverConfig
 from kitaev_mf.domain.state import InhomogeneousMeanFieldState
 from kitaev_mf.services.fixed_point import JointAndersonSolver
 from kitaev_mf.services.gutzwiller_projection import bca_confidence_interval
 from kitaev_mf.services.purification import purify_newton_schulz, purify_pade_sign
 from kitaev_mf.services.real_space import RealSpaceTorusCluster, compute_skew_pfaffian
+from kitaev_mf.services.seeds import make_qsl_seed
+from kitaev_mf.services.solver import solve_self_consistent_mean_field
 from kitaev_mf.services.vison_binding_wave2c import compute_inhomogeneous_disordered_energy
 from kitaev_mf.services.vortex_pair_scaling import (
     bond_signs_from_state_gauge,
@@ -691,38 +695,48 @@ def probe_single_vacancy_kkt_level_crossing(
     h_field: float = 0.10,
     delta_lambda: float = 0.01,
 ) -> SingleVacancyCrossingDiagnostic:
-    """Demonstrate pure-state T=0 KKT discontinuity across ``lambda_z ~ 2 h / sqrt(3)`` on a single vacancy.
+    """Demonstrate pure-state T=0 KKT discontinuity across ``lambda_gamma ~ 2 h / sqrt(3)`` on a single vacancy.
 
-    Removing a single A-site ``s = 0`` leaves a dangling ``b^z`` Majorana on neighbor site ``1``
-    coupled to ``c^0`` with coefficient ``lambda_z - 2 h_z + Hartree``. On gapped non-resonant
-    (``3 !| L``) or C_3-broken disordered clusters at ``h > 0``, ``<G_1^z>(lambda_z)`` exhibits a
-    discontinuous sign jump (> 1.0) bracketing zero, so no pure ``T = 0`` Gaussian state
-    (``Omega^2 = -I``) satisfies ``<G_1^z> = 0``.
+    Evaluates a deterministic, BLAS-independent C_3-symmetric 3-neighbor multiplier scan directly
+    on the converged translationally invariant bulk ``scMFT`` state replicated onto an ``L x L``
+    torus with single A-site vacancy ``s = 0`` (zero unconverged DIIS iterations, avoiding chaotic
+    amplification of ``C_3``-degenerate ``sv = 0`` eigenspace perturbations). Removing ``s = 0``
+    leaves three dangling neighbor gauge Majoranas ``(b_1^z, b_{x}^x, b_{y}^y)`` coupled to the
+    localized Lieb ``c^0`` mode near ``lambda_{j_gamma}^gamma = 2 h_gamma + delta_Hartree``. On
+    gapped non-resonant (``3 !| L``) clusters at ``h > 0``, ``<G_1^z>(lambda)`` jumps discontinuously
+    across zero (``-0.378 -> +0.597``, jump ``+0.975`` at ``L=4, h=0.10``), forbidding any pure
+    ``T = 0`` Gaussian KKT solution (``Omega^2 = -I``) without finite-``T`` mixed-quartet occupation.
     """
+    if L < 2:
+        raise ValueError(f"L must be >= 2 for single-vacancy crossing probe, got {L}")
+    if delta_lambda <= 0.0:
+        raise ValueError(f"delta_lambda must be strictly positive, got {delta_lambda}")
+
     cluster = RealSpaceTorusCluster(L)
-    pure_in = InhomogeneousMeanFieldState.from_pure_kitaev(cluster.num_cells)
     comp = h_field / sqrt(3.0)
     params = ModelParameters(K=-1.0, h=(comp, comp, comp))
+    cell = make_honeycomb_2site()
+    cfg = SolverConfig(k_grid_shape=(24, 24), tol_correlator=1e-12, tol_gauge=1e-12)
+    st_bulk, met = solve_self_consistent_mean_field(cell, params, make_qsl_seed(cell), cfg)
+    if not met.converged:
+        raise RuntimeError(
+            f"Clean bulk scMFT failed to converge at h={h_field} "
+            f"(correlator_residual={met.final_correlator_residual:.3e})"
+        )
+    st_bulk_inhom = InhomogeneousMeanFieldState.from_homogeneous(st_bulk, cluster.num_cells)
+
     vacs = {0}
-    res = solve_inhomogeneous_sc_general(
-        cluster,
-        params,
-        pure_in,
-        reference_clean_state=pure_in,
-        solver_mode="eigh",
-        site_vacancies=vacs,
-        max_iter=50,
-        tol=1e-10,
-        mixing_alpha=0.5,
-        lambda_step=0.2,
-    )
     lam_crit = 2.0 * comp
     act_idx = [4 * s + mu for s in range(1, cluster.num_sites) for mu in range(4)]
 
-    def _eval_at(lam_z: float) -> tuple[float, float]:
-        lam_try = res.state.lambdas.copy()
-        lam_try[0, 1, 2] = lam_z
-        st_try = InhomogeneousMeanFieldState(U=res.state.U, V=res.state.V, lambdas=lam_try)
+    def _eval_at(lam_val: float) -> tuple[float, float]:
+        lam_try = st_bulk_inhom.lambdas.copy()
+        # C_3-symmetric scan on the three B-sublattice neighbors of removed A-site (0, 0):
+        # z-bond -> cell (0, 0), x-bond -> cell (0, L - 1), y-bond -> cell (L - 1, 0).
+        lam_try[0, 1, 2] = lam_val
+        lam_try[(L - 1) * L, 1, 0] = lam_val
+        lam_try[L - 1, 1, 1] = lam_val
+        st_try = InhomogeneousMeanFieldState(U=st_bulk_inhom.U, V=st_bulk_inhom.V, lambdas=lam_try)
         a_mat = cluster.assemble_skew_hamiltonian(params, st_try, site_vacancies=vacs)
         om, _ = cluster.solve_covariance_complex_eigh(a_mat)
         g_z = float(np.sum(G_MATRICES[3] * om[4:8, 4:8].T))

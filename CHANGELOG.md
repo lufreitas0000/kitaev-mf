@@ -2,13 +2,23 @@
 
 All notable user-visible changes to `kitaev-mf` are documented here.
 
-The package version (`0.1.0`) is maintained in `pyproject.toml`. See
+The package version (`0.3.0`) is maintained in `pyproject.toml`. See
 [Rule 04: Versioning, Changelog, and Releases](.agents/rules/04_versioning_and_releases.md)
 for the SemVer policy and tag-based release procedure.
 
 ## [Unreleased]
 
-*(Pre-`1.0.0` development tracking under package version `0.1.0` per Rule 04; formal releases will be tagged `v*.*.*` after scientific milestone closure.)*
+*(Release candidate `v0.3.0` metadata synchronized in `pyproject.toml` per Rule 04; formal Git tag `v0.3.0` and GitHub release will be cut on `main` only after `UOW-08` W5-Inner, Cross-Vendor W5-Release, and PI merge.)*
+
+### [2026-11-26] [M2.2-WAVE2-RC / UOW-07] [Actor: blue-lead] — Release-Prep & CI Blocker Fix (`W5-06 F1+F4`) toward `v0.3.0`
+#### Ideas & Contracts Evolved
+- **Resolved `W5-06 F1` (CI `numpy==2.5.4` determinism blocker):** Replaced the 50-step chaotic DIIS loop seeded on $C_3$-degenerate `pure_in` (`sv[:2]=0`) inside `probe_single_vacancy_kkt_level_crossing` with a deterministic zero-DIIS $C_3$-symmetric 3-neighbor scan directly on the converged clean bulk `scMFT` state (`g_z: -0.3779 -> +0.5968`, `gauge_jump = +0.9748`, `min_active_sv = 1.89e-5`, Lyapunov spread `1.0e-14`), yielding bit-identical (`< 1e-15`) verification across both locked `requirements.txt` (`numpy==2.5.4`) and `dev-wave2/.venv` (`numpy==2.5.5`).
+- **Resolved `W5-06 F4(1–4)` (pre-`v0.3.0` RC hardening & record sync):** Hardened `QSLMeanFieldPortState`, `QSLInhomogeneousPortState`, `extract_site_su2_expectations`, `reconstruct_pure_kitaev_bond_tensors`, and `compute_plaquette_wilson_loops_from_u` with strict `np.all(np.isfinite(...))`, `conventions_version == CONVENTIONS_VERSION`, canonical `A -> B` (`even -> odd`) bond-orientation, and balanced `oriented_bonds` guards (`UOW-02 F3`); logged the Wave-2C unpaired single-vacancy $T=0$ KKT crossing obstruction and Yatsuta–Mross finite-$T$ mixed-quartet resolution (`W5-06 F2`) in `LOG_DISCOVERY_AND_PIVOTS.md`; synchronized `PROJECT_STATE.yaml` (`M2.2` Wave 2), `pyproject.toml` (`0.3.0`), `CHANGELOG.md`, `KNOWLEDGE_MAP.md`, passive `governance/info_telemetry.jsonl`, and imported `doc/reviews/w5_uow_06_4c9c7ddb8035.json`. Left `CONVENTIONS.md` and `doc/hypotheses/HC-01..03.yaml` untouched.
+
+#### Code & Artifacts Changed
+- Updated `src/kitaev_mf/services/disorder_stability_wave2c.py` (`probe_single_vacancy_kkt_level_crossing`) and `src/kitaev_mf/domain/qsl_bridge.py` (port-state finiteness, `conventions_version`, and canonical `A -> B` Wilson-loop orientation guards).
+- Updated `test/unit/test_wave2_vison_binding_and_disorder.py` and added `test_port_state_finiteness_version_and_canonical_ab_bond_guards` in `test/unit/test_qsl_convention_bridge.py`.
+- Synchronized `LOG_DISCOVERY_AND_PIVOTS.md`, `PROJECT_STATE.yaml`, `pyproject.toml` (`0.3.0`), `CHANGELOG.md`, `KNOWLEDGE_MAP.md`, `governance/info_telemetry.jsonl`, and imported `doc/reviews/w5_uow_06_4c9c7ddb8035.json`.
 
 ### [2026-11-25] [M2.2-WAVE2C / UOW-05] [Actor: blue-lead] — Isolated two-vison binding `V(R, L)`, exact Gutzwiller projection & disorder/vacancy stability (`Q-L2-1`)
 #### Ideas & Contracts Evolved

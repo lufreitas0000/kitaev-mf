@@ -273,11 +273,15 @@ def test_vacancy_p0_pfaffian_parity_positivity_diamond_and_wcm_flux_binding() ->
     assert v_odd.p0_pfaffian_parity_ok
     assert v_odd.max_positivity_diamond_err < 1e-13
 
-    # 3. Lakatosian counterexample: gapped L=4 unpaired single vacancy hits a T=0 KKT level crossing at lam_z ~ 2h_z
+    # 3. Lakatosian counterexample: deterministic bulk-state C_3 scan shows T=0 KKT crossing at lam ~ 2h_gamma
     cross = probe_single_vacancy_kkt_level_crossing(L=4, h_field=0.10, delta_lambda=0.01)
-    assert cross.g_z_below < -0.4 and cross.g_z_above > 0.4
-    assert cross.gauge_jump > 1.0
-    assert cross.min_active_sv < 1e-4
+    assert cross.g_z_below < -0.35 and cross.g_z_above > 0.35
+    assert cross.gauge_jump > 0.85
+    assert 1e-6 < cross.min_active_sv < 1e-4
+    cross_rep = probe_single_vacancy_kkt_level_crossing(L=4, h_field=0.10, delta_lambda=0.01)
+    assert cross_rep.g_z_below == pytest.approx(cross.g_z_below, abs=1e-14)
+    assert cross_rep.g_z_above == pytest.approx(cross.g_z_above, abs=1e-14)
+    assert cross_rep.gauge_jump == pytest.approx(cross.gauge_jump, abs=1e-14)
 
     # 4. Willans-Chalker-Moessner / Kao-Knolle Eq. (8) A-B vacancy-pair bound-flux energy < 0
     bind_l8 = evaluate_vacancy_pair_flux_binding(8)

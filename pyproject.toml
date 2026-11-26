@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitaev-mf"
-version = "0.1.0"
+version = "0.3.0"
 description = "Majorana parton mean-field solver for extended Kitaev models on honeycomb lattices"
 authors = [
     { name = "Lu Freitas" },
